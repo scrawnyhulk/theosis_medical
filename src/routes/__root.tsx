@@ -22,6 +22,19 @@ export const Route = createRootRoute({
           "Theosis Medical is a locum tenens physician assistant practice providing coverage to hospitals and clinics in Wisconsin.",
       },
       { name: "theme-color", content: "#080d14" },
+      { property: "og:title", content: APP_NAME },
+      {
+        property: "og:description",
+        content:
+          "Theosis Medical is a locum tenens physician assistant practice providing coverage to hospitals and clinics in Wisconsin.",
+      },
+      { property: "og:image", content: "/og.jpg" },
+      { property: "og:image:width", content: "1200" },
+      { property: "og:image:height", content: "630" },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: APP_NAME },
+      { name: "twitter:image", content: "/og.jpg" },
     ],
     links: [
       { rel: "icon", type: "image/svg+xml", href: "/favicon.svg" },

@@ -5,7 +5,7 @@ import { a as Mail, i as Menu, o as Check, r as Phone, s as ArrowRight, t as X }
 import { i as string, r as object } from "../_libs/zod.mjs";
 import { n as clsx, t as cva } from "../_libs/class-variance-authority+clsx.mjs";
 import { t as twMerge } from "../_libs/tailwind-merge.mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/routes-ChfY60Et.js
+//#region node_modules/.nitro/vite/services/ssr/assets/routes-BIfLSnNL.js
 var import_react = /* @__PURE__ */ __toESM(require_react());
 var import_jsx_runtime = require_jsx_runtime();
 function cn(...inputs) {
@@ -656,7 +656,7 @@ function WhyTheosis() {
 				className: "mt-6 space-y-5 text-lg leading-relaxed text-muted",
 				children: [
 					/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { children: "I believe that healing extends beyond treating symptoms — it involves recognizing the full dignity of every person who walks through the door. At Theosis Medical, this conviction shapes how I approach every patient encounter." }),
-					/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { children: "The name Theosis draws from an ancient Christian concept describing the lifelong process of personal growth and transformation — becoming more fully who I was created to be through humility, compassion, wisdom, and service to others. At its heart, it reflects the idea of participating in something greater than myself: a continual journey toward excellence, integrity, and deeper connection with those around me." }),
+					/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { children: "The name Theosis draws from an ancient Eastern Orthodox Christian concept describing the lifelong process of personal growth and transformation — our humanity working in perfect cooperation with divine grace to become more fully who we were created to be. This comes through humility, compassion, wisdom, and service to others. At its heart, it reflects the idea of participating in something greater than ourselves: a continual journey toward perfection, integrity, and deeper connection with those around us, and ultimately God." }),
 					/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { children: "While this understanding is rooted in my faith, it is not something I expect of my patients. People come from many different backgrounds, beliefs, and life experiences, and that diversity is respected here. The principles behind the name are standards I set for myself as a clinician — not requirements for those I serve. Every individual who entrusts me with their care will receive the same high-quality treatment, compassion, and respect, regardless of background." }),
 					/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { children: "In the fast-paced world of emergency and hospital medicine, I often meet people on some of their hardest days — amid pain, fear, uncertainty, or loss. I strive to meet those moments with patience, attentiveness, and genuine human connection. I view each patient not merely as a diagnosis or a chart, but as a person of inherent worth deserving of clear communication, thoughtful care, and dignity." }),
 					/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { children: "As an independent locum tenens practice, Theosis Medical allows me to go where the need is greatest, providing experienced coverage to hospitals and communities across Wisconsin and Illinois. I approach this work as both a professional responsibility and a personal calling: to deliver excellent medicine while continuing to grow as a more compassionate, reliable, and effective clinician." }),
