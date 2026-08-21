@@ -1,0 +1,36 @@
+{
+  "url": "http://127.0.0.1:8080/",
+  "viewports": {
+    "desktop": {
+      "width": 1280,
+      "height": 800,
+      "status": 200,
+      "title": "Theosis Medical",
+      "hasCanvas": false,
+      "bodyTextLen": 7748,
+      "bodyTextHash": "899cac05bfad406e946d9eb93691724df6152e7bdf2bd73ddc793310b199c8c2",
+      "bodyTextPrefix": "Skip to content THEOSIS MEDICAL ABOUT WHY THEOSIS CONTACT FUTURE",
+      "horizontalOverflow": false,
+      "consoleErrors": [],
+      "pageErrors": [],
+      "screenshot": "/workspace/screenshots/app-builder-preview.png"
+    },
+    "mobile": {
+      "width": 390,
+      "height": 844,
+      "status": 200,
+      "title": "Theosis Medical",
+      "hasCanvas": false,
+      "bodyTextLen": 7709,
+      "bodyTextHash": "87c76212a3f1a440e312032c1e0ac4926b195e7b53116750e35beb43d4be3606",
+      "bodyTextPrefix": "Skip to content THEOSIS MEDICAL NICK HOLWEY, PA-C · EMERGENCY ME",
+      "horizontalOverflow": false,
+      "consoleErrors": [],
+      "pageErrors": [],
+      "screenshot": "/workspace/screenshots/app-builder-preview-mobile.png"
+    }
+  },
+  "brandWarnings": [],
+  "authWarnings": [],
+  "verdictFile": "/workspace/screenshots/app-builder-preview.json"
+}

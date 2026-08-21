@@ -1,0 +1,135 @@
+@import "tailwindcss";
+
+@theme {
+  --color-bg: color-mix(in oklab, #080d14 76%, transparent);
+  --color-surface: color-mix(in oklab, #101820 86%, transparent);
+  --color-fg: #e7edf5;
+  --color-muted: #8e9aab;
+  --color-accent: #2a7ae0;
+  --color-accent-fg: #f4f8ff;
+  --color-ink: color-mix(in oklab, #05080d 78%, transparent);
+  --color-ink-fg: #e7edf5;
+  --color-ink-muted: #9aa6b8;
+  --color-steel: #cfd6e0;
+  --color-danger: #e07070;
+  --color-border: color-mix(in oklab, var(--color-fg) 12%, transparent);
+  --color-border-strong: color-mix(in oklab, var(--color-fg) 22%, transparent);
+
+  --font-display: "Barlow Condensed", "Segoe UI", system-ui, sans-serif;
+  --font-sans: "Barlow", "Segoe UI", system-ui, sans-serif;
+
+  --radius-xs: 4px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
+
+  --shadow-border: 0 0 0 1px rgba(231, 237, 245, 0.1);
+
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  html,
+  body,
+  #app {
+    min-height: 100%;
+  }
+
+  html {
+    background-color: #05080d;
+  }
+
+  body {
+    background-color: #05080d;
+    background-image:
+      radial-gradient(
+        ellipse 90% 70% at 50% 32%,
+        rgb(16 34 52 / 0.5),
+        transparent 64%
+      ),
+      url("/images/navy-grain.jpg");
+    background-repeat: no-repeat, repeat;
+    background-size: auto, 420px;
+    background-attachment: scroll;
+    color: var(--color-fg);
+    font-family: var(--font-sans);
+    line-height: 1.55;
+  }
+
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  img {
+    outline: 1px solid rgba(231, 237, 245, 0.1);
+    outline-offset: -1px;
+  }
+
+  img.no-outline {
+    outline: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .stagger-in,
+  .stagger-in > * {
+    animation: none !important;
+    opacity: 1 !important;
+    filter: none !important;
+    transform: none !important;
+  }
+}
+
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+    filter: blur(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+.stagger-in > * {
+  animation: rise-in 500ms var(--ease-out) both;
+}
+
+.stagger-in > *:nth-child(1) {
+  animation-delay: 40ms;
+}
+.stagger-in > *:nth-child(2) {
+  animation-delay: 120ms;
+}
+.stagger-in > *:nth-child(3) {
+  animation-delay: 200ms;
+}
+.stagger-in > *:nth-child(4) {
+  animation-delay: 280ms;
+}
+.stagger-in > *:nth-child(5) {
+  animation-delay: 360ms;
+}
