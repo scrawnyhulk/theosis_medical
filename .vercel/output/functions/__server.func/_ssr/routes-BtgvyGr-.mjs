@@ -5,7 +5,7 @@ import { a as Mail, i as Menu, o as Check, r as Phone, s as ArrowRight, t as X }
 import { i as string, r as object } from "../_libs/zod.mjs";
 import { n as clsx, t as cva } from "../_libs/class-variance-authority+clsx.mjs";
 import { t as twMerge } from "../_libs/tailwind-merge.mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/routes-BIfLSnNL.js
+//#region node_modules/.nitro/vite/services/ssr/assets/routes-BtgvyGr-.js
 var import_react = /* @__PURE__ */ __toESM(require_react());
 var import_jsx_runtime = require_jsx_runtime();
 function cn(...inputs) {
@@ -548,6 +548,32 @@ var PLANS = [
 		body: "Convenient virtual evaluation for appropriate acute medical concerns—the sore throat, rash, minor illness, or other problem that needs medical attention but may not need an emergency department."
 	}
 ];
+var CREDENTIALS = [
+	{
+		title: "Certifications",
+		items: [
+			"NCCPA-certified (PA-C)",
+			"CAQ in Emergency Medicine",
+			"ACLS · PALS · BLS · ATLS",
+			"Emergency medicine bedside ultrasound"
+		]
+	},
+	{
+		title: "Licensure",
+		items: ["Illinois · Wisconsin · Indiana · Michigan", "DEA with X-waiver"]
+	},
+	{
+		title: "Procedures",
+		items: [
+			"Critical care stabilization",
+			"Bedside ultrasound",
+			"Fracture and joint reductions",
+			"Laceration repair",
+			"Lumbar puncture · arthrocentesis · paracentesis",
+			"Local and regional anesthesia"
+		]
+	}
+];
 function Home() {
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 		id: "top",
@@ -619,27 +645,53 @@ function About() {
 		id: "about",
 		className: "scroll-mt-20",
 		children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-			className: "mx-auto grid max-w-6xl items-start gap-10 px-5 py-16 sm:px-8 lg:grid-cols-2 lg:gap-16 lg:py-24",
-			children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-				className: "overflow-hidden rounded-xl",
-				children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("img", {
-					src: "/images/nick.jpg",
-					alt: "Nick Holwey, PA-C, physician assistant and founder of Theosis Medical.",
-					className: "aspect-4/5 w-full object-cover object-center"
+			className: "mx-auto grid max-w-6xl items-start gap-10 px-5 py-16 sm:px-8 lg:grid-cols-3 lg:gap-12 lg:py-24",
+			children: [
+				/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+					className: "overflow-hidden rounded-xl",
+					children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("img", {
+						src: "/images/nick.jpg",
+						alt: "Nick Holwey, PA-C, physician assistant and founder of Theosis Medical.",
+						className: "aspect-4/5 w-full object-cover object-center"
+					})
+				}),
+				/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h1", {
+					className: "font-display text-4xl font-semibold tracking-wide sm:text-5xl",
+					children: "About Me"
+				}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+					className: "mt-6 space-y-5 text-lg leading-relaxed text-muted",
+					children: [
+						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { children: "My name is Nick Holwey, and I am an Emergency Medicine Physician Assistant with more than 13 years of clinical experience and the founder and owner of Theosis Medical. I earned my Master of Physician Assistant Studies from Wichita State University after completing my undergraduate degree in Food Science and Human Nutrition at the University of Illinois." }),
+						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { children: "That nutrition background never left the work. Alongside emergency medicine, I have a growing passion for lifestyle medicine, nutrition, and exercise physiology—the practical, evidence-based side of getting leaner, stronger, and more resilient. It is the same approach I have used in my own life, and it is the direction I want Theosis Medical to grow." }),
+						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { children: "Emergency medicine has been the foundation of my career, from Level I trauma and high-acuity care to community and rural emergency departments, as well as urgent care, telemedicine, hospital medicine, and prehospital emergency care." }),
+						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { children: "Today, I practice primarily as an independent contractor in emergency medicine through Theosis Medical, providing care in rural and community emergency departments where adaptability, sound clinical judgment, and the ability to work effectively with limited resources are especially important." }),
+						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { children: "While my experience and training shape me as a clinician, my faith and family shape who I am as a person. As a husband and father, I'm continually reminded that every patient is someone's loved one. My faith likewise calls me toward service, humility, compassion, and continual growth—principles that influence both the way I practice medicine and the kind of company I want Theosis Medical to be." }),
+						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { children: "After more than a decade in emergency medicine, my approach remains straightforward: practice excellent medicine, be dependable when people need you, and treat every patient with the dignity and compassion I would want shown to my own family." })
+					]
+				})] }),
+				/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("aside", {
+					className: "rounded-xl bg-surface p-6 shadow-border lg:sticky lg:top-24",
+					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+						className: "text-xs font-medium tracking-widest text-muted uppercase",
+						children: "At a glance"
+					}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+						className: "mt-5 space-y-6",
+						children: CREDENTIALS.map((group) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h2", {
+							className: "font-display text-lg font-semibold tracking-wide text-fg",
+							children: group.title
+						}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("ul", {
+							className: "mt-2 space-y-1.5 text-sm leading-relaxed text-muted",
+							children: group.items.map((item) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("li", {
+								className: "flex gap-2",
+								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+									"aria-hidden": "true",
+									className: "mt-2 size-1 shrink-0 rounded-full bg-accent"
+								}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: item })]
+							}, item))
+						})] }, group.title))
+					})]
 				})
-			}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h1", {
-				className: "font-display text-4xl font-semibold tracking-wide sm:text-5xl",
-				children: "About Me"
-			}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-				className: "mt-6 space-y-5 text-lg leading-relaxed text-muted",
-				children: [
-					/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { children: "My name is Nick Holwey, and I am an Emergency Medicine Physician Assistant with more than 13 years of clinical experience and the founder and owner of Theosis Medical. I earned my Master of Physician Assistant Studies from Wichita State University after completing my undergraduate degree in Food Science and Human Nutrition at the University of Illinois." }),
-					/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { children: "Emergency medicine has been the foundation of my career, though my experience has spanned Level I trauma centers and high-acuity emergency care to community and rural emergency departments, as well as urgent care, telemedicine, hospital medicine, and prehospital emergency care. Over the years, I've developed a broad clinical and procedural skill set, including critical care stabilization, bedside ultrasound, fracture and joint reductions, laceration repair, and numerous other emergency procedures. I am NCCPA-certified, hold the Certificate of Added Qualifications in Emergency Medicine (CAQ-EM), and maintain licensure across multiple states." }),
-					/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { children: "Today, I practice primarily as an independent contractor in emergency medicine through Theosis Medical, providing care in rural and community emergency departments where adaptability, sound clinical judgment, and the ability to work effectively with limited resources are especially important." }),
-					/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { children: "While my experience and training shape me as a clinician, my faith and family shape who I am as a person. As a husband and father, I'm continually reminded that every patient is someone's loved one. My faith likewise calls me toward service, humility, compassion, and continual growth—principles that influence both the way I practice medicine and the kind of company I want Theosis Medical to be." }),
-					/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { children: "After more than a decade in emergency medicine, my approach remains straightforward: practice excellent medicine, be dependable when people need you, and treat every patient with the dignity and compassion I would want shown to my own family." })
-				]
-			})] })]
+			]
 		})
 	});
 }
@@ -784,7 +836,7 @@ function Contact() {
 				}),
 				/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
 					className: "mt-4 text-sm text-ink-muted",
-					children: "Theosis Medical, LLC · Illinois-based · Wisconsin locums"
+					children: "Theosis Medical, LLC · Illinois-based · multi-state licensed"
 				})
 			] }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(InquiryForm, {})]
 		})
@@ -799,7 +851,7 @@ function SiteFooter() {
 				className: "flex flex-col gap-3",
 				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(BrandLockup, {}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
 					className: "text-sm text-ink-muted",
-					children: "Nick Holwey, PA-C · Illinois · Wisconsin"
+					children: "Nick Holwey, PA-C · Illinois-based · multi-state licensed"
 				})]
 			}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 				className: "flex flex-col gap-2 text-sm text-ink-muted md:items-end",

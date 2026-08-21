@@ -30,6 +30,66 @@ const PLANS = [
   },
 ];
 
+const CREDENTIALS = [
+  {
+    title: "Education",
+    items: [
+      "Master of Physician Assistant Studies (MPAS) — Wichita State University",
+      "B.S., Food Science & Human Nutrition — University of Illinois Urbana-Champaign",
+    ],
+  },
+  {
+    title: "Credentials & Certifications",
+    items: [
+      "NCCPA-Certified Physician Assistant (PA-C)",
+      "Certificate of Added Qualifications — Emergency Medicine (CAQ-EM)",
+      "Advanced Cardiovascular Life Support (ACLS)",
+      "Pediatric Advanced Life Support (PALS)",
+      "Advanced Trauma Life Support (ATLS)",
+      "Neonatal Resuscitation Program (NRP)",
+      "Basic Life Support (BLS)",
+      "Point-of-Care Ultrasound Credentialed",
+      "DEA Registered",
+    ],
+  },
+  {
+    title: "State Licensure",
+    items: ["Illinois", "Wisconsin", "Michigan", "Indiana"],
+  },
+  {
+    title: "Clinical Experience",
+    items: [
+      "Emergency Medicine",
+      "Level I Trauma & High-Acuity Emergency Care",
+      "Rural & Community Emergency Medicine",
+      "Urgent Care",
+      "Telemedicine",
+      "Hospital & Observation Medicine",
+      "Prehospital Emergency Medicine",
+    ],
+  },
+  {
+    title: "Procedural Skills",
+    items: [
+      "Point-of-Care Ultrasound (POCUS)",
+      "Endotracheal Intubation & Airway Management",
+      "Central Venous Catheter Placement",
+      "Procedural Sedation",
+      "Fracture & Joint Reduction",
+      "Laceration Repair",
+      "Incision & Drainage",
+      "Lumbar Puncture",
+      "Arthrocentesis",
+      "Paracentesis",
+      "Foreign Body Removal",
+      "Local & Regional Anesthesia",
+      "Slit-Lamp Examination",
+      "Ultrasound-Guided Procedures",
+      "Trauma Stabilization & Resuscitation",
+    ],
+  },
+];
+
 function Home() {
   return (
     <div id="top" className="min-h-svh bg-bg text-fg">
@@ -89,12 +149,39 @@ function About() {
   return (
     <section id="about" className="scroll-mt-20">
       <div className="mx-auto grid max-w-6xl items-start gap-10 px-5 py-16 sm:px-8 lg:grid-cols-2 lg:gap-16 lg:py-24">
-        <div className="overflow-hidden rounded-xl">
-          <img
-            src="/images/nick.jpg"
-            alt="Nick Holwey, PA-C, physician assistant and founder of Theosis Medical."
-            className="aspect-4/5 w-full object-cover object-center"
-          />
+        <div className="flex flex-col gap-6">
+          <div className="overflow-hidden rounded-xl">
+            <img
+              src="/images/nick.jpg"
+              alt="Nick Holwey, PA-C, physician assistant and founder of Theosis Medical."
+              className="aspect-4/5 w-full object-cover object-center"
+            />
+          </div>
+          <aside className="rounded-xl bg-surface p-6 shadow-border sm:p-8">
+            <p className="text-xs font-medium tracking-widest text-muted uppercase">
+              At a glance
+            </p>
+            <div className="mt-5 space-y-5">
+              {CREDENTIALS.map((group) => (
+                <div key={group.title}>
+                  <h2 className="font-display text-lg font-semibold tracking-wide text-fg">
+                    {group.title}
+                  </h2>
+                  <ul className="mt-2 space-y-1 text-sm leading-relaxed text-muted">
+                    {group.items.map((item) => (
+                      <li key={item} className="flex gap-2">
+                        <span
+                          aria-hidden="true"
+                          className="mt-2 size-1 shrink-0 rounded-full bg-accent"
+                        />
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+          </aside>
         </div>
         <div>
           <h1 className="font-display text-4xl font-semibold tracking-wide sm:text-5xl">
@@ -110,17 +197,13 @@ function About() {
               Nutrition at the University of Illinois.
             </p>
             <p>
-              Emergency medicine has been the foundation of my career, though
-              my experience has spanned Level I trauma centers and high-acuity
+              Emergency medicine has been the foundation of my career, with
+              experience spanning Level I trauma centers and high-acuity
               emergency care to community and rural emergency departments, as
               well as urgent care, telemedicine, hospital medicine, and
-              prehospital emergency care. Over the years, I've developed a
-              broad clinical and procedural skill set, including critical care
-              stabilization, bedside ultrasound, fracture and joint reductions,
-              laceration repair, and numerous other emergency procedures. I am
-              NCCPA-certified, hold the Certificate of Added Qualifications in
-              Emergency Medicine (CAQ-EM), and maintain licensure across
-              multiple states.
+              prehospital emergency care. I am NCCPA-certified, hold the
+              Certificate of Added Qualifications in Emergency Medicine
+              (CAQ-EM), and maintain licensure across multiple states.
             </p>
             <p>
               Today, I practice primarily as an independent contractor in
@@ -128,6 +211,21 @@ function About() {
               rural and community emergency departments where adaptability,
               sound clinical judgment, and the ability to work effectively with
               limited resources are especially important.
+            </p>
+            <p>
+              Beyond emergency medicine, I have maintained a longstanding
+              interest in lifestyle medicine, nutritional biochemistry, and
+              exercise physiology. My degree in nutrition has continued to
+              influence the way I think about health and disease, and I
+              regularly follow the evolving literature in these areas with a
+              particular interest in how evidence-based nutrition, exercise, and
+              lifestyle interventions can both improve but also prevent
+              long-term health problems and disease. I incorporate these
+              principles into my practice when possible, but time is typically
+              limited in my emergency medicine, and so my hope is to eventually
+              develop a more dedicated space within Theosis Medical to help
+              patients translate that evidence into practical, sustainable
+              changes that fit real life.
             </p>
             <p>
               While my experience and training shape me as a clinician, my
@@ -364,7 +462,7 @@ function Contact() {
             </li>
           </ul>
           <p className="mt-4 text-sm text-ink-muted">
-            Theosis Medical, LLC · Illinois-based · Wisconsin locums
+            Theosis Medical, LLC · Illinois-based · multi-state licensed
           </p>
         </div>
         <InquiryForm />
@@ -380,7 +478,7 @@ function SiteFooter() {
         <div className="flex flex-col gap-3">
           <BrandLockup />
           <p className="text-sm text-ink-muted">
-            Nick Holwey, PA-C · Illinois · Wisconsin
+            Nick Holwey, PA-C · Illinois-based · multi-state licensed
           </p>
         </div>
         <div className="flex flex-col gap-2 text-sm text-ink-muted md:items-end">
