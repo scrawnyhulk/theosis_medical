@@ -30,7 +30,7 @@ const PLANS = [
   },
 ];
 
-const CREDENTIALS = [
+const CREDENTIALS: { title: string; items: string[]; wide?: boolean }[] = [
   {
     title: "Education",
     items: [
@@ -70,6 +70,7 @@ const CREDENTIALS = [
   },
   {
     title: "Procedural Skills",
+    wide: true,
     items: [
       "Point-of-Care Ultrasound (POCUS)",
       "Endotracheal Intubation & Airway Management",
@@ -148,42 +149,15 @@ function Hero() {
 function About() {
   return (
     <section id="about" className="scroll-mt-20">
-      <div className="mx-auto grid max-w-6xl items-start gap-10 px-5 py-16 sm:px-8 lg:grid-cols-2 lg:gap-16 lg:py-24">
-        <div className="flex flex-col gap-6">
-          <div className="overflow-hidden rounded-xl">
+      <div className="mx-auto max-w-6xl px-5 py-16 sm:px-8 lg:py-24">
+        <div>
+          <div className="mb-8 overflow-hidden rounded-xl lg:float-left lg:mb-6 lg:mr-12 lg:w-5/12">
             <img
               src="/images/nick.jpg"
               alt="Nick Holwey, PA-C, physician assistant and founder of Theosis Medical."
               className="aspect-4/5 w-full object-cover object-center"
             />
           </div>
-          <aside className="rounded-xl bg-surface p-6 shadow-border sm:p-8">
-            <p className="text-xs font-medium tracking-widest text-muted uppercase">
-              At a glance
-            </p>
-            <div className="mt-5 space-y-5">
-              {CREDENTIALS.map((group) => (
-                <div key={group.title}>
-                  <h2 className="font-display text-lg font-semibold tracking-wide text-fg">
-                    {group.title}
-                  </h2>
-                  <ul className="mt-2 space-y-1 text-sm leading-relaxed text-muted">
-                    {group.items.map((item) => (
-                      <li key={item} className="flex gap-2">
-                        <span
-                          aria-hidden="true"
-                          className="mt-2 size-1 shrink-0 rounded-full bg-accent"
-                        />
-                        <span>{item}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              ))}
-            </div>
-          </aside>
-        </div>
-        <div>
           <h1 className="font-display text-4xl font-semibold tracking-wide sm:text-5xl">
             About Me
           </h1>
@@ -191,7 +165,7 @@ function About() {
             <p>
               My name is Nick Holwey, and I am an Emergency Medicine Physician
               Assistant with more than 13 years of clinical experience and the
-              founder and owner of Theosis Medical. I earned my Master of
+              founder of Theosis Medical. I earned my Master of
               Physician Assistant Studies from Wichita State University after
               completing my undergraduate degree in Food Science and Human
               Nutrition at the University of Illinois.
@@ -243,7 +217,43 @@ function About() {
               dignity and compassion I would want shown to my own family.
             </p>
           </div>
+          <div className="clear-both" />
         </div>
+
+        <aside className="mt-12 rounded-xl bg-surface p-6 shadow-border sm:p-8 lg:mt-16">
+          <p className="text-xs font-medium tracking-widest text-muted uppercase">
+            At a glance
+          </p>
+          <div className="mt-6 grid gap-8 sm:grid-cols-2">
+            {CREDENTIALS.map((group) => (
+              <div
+                key={group.title}
+                className={group.wide ? "sm:col-span-2" : undefined}
+              >
+                <h2 className="font-display text-lg font-semibold tracking-wide text-fg">
+                  {group.title}
+                </h2>
+                <ul
+                  className={
+                    group.wide
+                      ? "mt-2 grid gap-x-8 gap-y-1 text-sm leading-relaxed text-muted sm:grid-cols-2"
+                      : "mt-2 space-y-1 text-sm leading-relaxed text-muted"
+                  }
+                >
+                  {group.items.map((item) => (
+                    <li key={item} className="flex gap-2">
+                      <span
+                        aria-hidden="true"
+                        className="mt-2 size-1 shrink-0 rounded-full bg-accent"
+                      />
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        </aside>
       </div>
     </section>
   );
