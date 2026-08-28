@@ -20,6 +20,8 @@ import { Route as ProviderIdRouteImport } from './routes/provider/$id'
 import { Route as VisitsIndexRouteImport } from './routes/visits/index'
 import { Route as VisitsKindRouteImport } from './routes/visits/$kind'
 import { Route as VisitsAtlasRouteImport } from './routes/visits/atlas'
+import { Route as HacksNerdOutIndexRouteImport } from './routes/hacks/nerd-out.index'
+import { Route as HacksNerdOutTopicRouteImport } from './routes/hacks/nerd-out.$topic'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -76,11 +78,21 @@ const VisitsAtlasRoute = VisitsAtlasRouteImport.update({
   path: '/visits/atlas',
   getParentRoute: () => rootRouteImport,
 } as any)
+const HacksNerdOutIndexRoute = HacksNerdOutIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => HacksNerdOutRoute,
+} as any)
+const HacksNerdOutTopicRoute = HacksNerdOutTopicRouteImport.update({
+  id: '/$topic',
+  path: '/$topic',
+  getParentRoute: () => HacksNerdOutRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/hacks/$slug': typeof HacksSlugRoute
-  '/hacks/nerd-out': typeof HacksNerdOutRoute
+  '/hacks/nerd-out': typeof HacksNerdOutRouteWithChildren
   '/minutes/$slug': typeof MinutesSlugRoute
   '/provider/$id': typeof ProviderIdRoute
   '/visits/$kind': typeof VisitsKindRoute
@@ -89,11 +101,12 @@ export interface FileRoutesByFullPath {
   '/minutes/': typeof MinutesIndexRoute
   '/provider/': typeof ProviderIndexRoute
   '/visits/': typeof VisitsIndexRoute
+  '/hacks/nerd-out/$topic': typeof HacksNerdOutTopicRoute
+  '/hacks/nerd-out/': typeof HacksNerdOutIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/hacks/$slug': typeof HacksSlugRoute
-  '/hacks/nerd-out': typeof HacksNerdOutRoute
   '/minutes/$slug': typeof MinutesSlugRoute
   '/provider/$id': typeof ProviderIdRoute
   '/visits/$kind': typeof VisitsKindRoute
@@ -102,12 +115,14 @@ export interface FileRoutesByTo {
   '/minutes': typeof MinutesIndexRoute
   '/provider': typeof ProviderIndexRoute
   '/visits': typeof VisitsIndexRoute
+  '/hacks/nerd-out/$topic': typeof HacksNerdOutTopicRoute
+  '/hacks/nerd-out': typeof HacksNerdOutIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/hacks/$slug': typeof HacksSlugRoute
-  '/hacks/nerd-out': typeof HacksNerdOutRoute
+  '/hacks/nerd-out': typeof HacksNerdOutRouteWithChildren
   '/minutes/$slug': typeof MinutesSlugRoute
   '/provider/$id': typeof ProviderIdRoute
   '/visits/$kind': typeof VisitsKindRoute
@@ -116,6 +131,8 @@ export interface FileRoutesById {
   '/minutes/': typeof MinutesIndexRoute
   '/provider/': typeof ProviderIndexRoute
   '/visits/': typeof VisitsIndexRoute
+  '/hacks/nerd-out/$topic': typeof HacksNerdOutTopicRoute
+  '/hacks/nerd-out/': typeof HacksNerdOutIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -131,11 +148,12 @@ export interface FileRouteTypes {
     | '/minutes/'
     | '/provider/'
     | '/visits/'
+    | '/hacks/nerd-out/$topic'
+    | '/hacks/nerd-out/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/hacks/$slug'
-    | '/hacks/nerd-out'
     | '/minutes/$slug'
     | '/provider/$id'
     | '/visits/$kind'
@@ -144,6 +162,8 @@ export interface FileRouteTypes {
     | '/minutes'
     | '/provider'
     | '/visits'
+    | '/hacks/nerd-out/$topic'
+    | '/hacks/nerd-out'
   id:
     | '__root__'
     | '/'
@@ -157,12 +177,14 @@ export interface FileRouteTypes {
     | '/minutes/'
     | '/provider/'
     | '/visits/'
+    | '/hacks/nerd-out/$topic'
+    | '/hacks/nerd-out/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   HacksSlugRoute: typeof HacksSlugRoute
-  HacksNerdOutRoute: typeof HacksNerdOutRoute
+  HacksNerdOutRoute: typeof HacksNerdOutRouteWithChildren
   MinutesSlugRoute: typeof MinutesSlugRoute
   ProviderIdRoute: typeof ProviderIdRoute
   VisitsKindRoute: typeof VisitsKindRoute
@@ -252,13 +274,41 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof VisitsAtlasRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/hacks/nerd-out/': {
+      id: '/hacks/nerd-out/'
+      path: '/'
+      fullPath: '/hacks/nerd-out/'
+      preLoaderRoute: typeof HacksNerdOutIndexRouteImport
+      parentRoute: typeof HacksNerdOutRoute
+    }
+    '/hacks/nerd-out/$topic': {
+      id: '/hacks/nerd-out/$topic'
+      path: '/$topic'
+      fullPath: '/hacks/nerd-out/$topic'
+      preLoaderRoute: typeof HacksNerdOutTopicRouteImport
+      parentRoute: typeof HacksNerdOutRoute
+    }
   }
 }
+
+interface HacksNerdOutRouteChildren {
+  HacksNerdOutTopicRoute: typeof HacksNerdOutTopicRoute
+  HacksNerdOutIndexRoute: typeof HacksNerdOutIndexRoute
+}
+
+const HacksNerdOutRouteChildren: HacksNerdOutRouteChildren = {
+  HacksNerdOutTopicRoute: HacksNerdOutTopicRoute,
+  HacksNerdOutIndexRoute: HacksNerdOutIndexRoute,
+}
+
+const HacksNerdOutRouteWithChildren = HacksNerdOutRoute._addFileChildren(
+  HacksNerdOutRouteChildren,
+)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   HacksSlugRoute: HacksSlugRoute,
-  HacksNerdOutRoute: HacksNerdOutRoute,
+  HacksNerdOutRoute: HacksNerdOutRouteWithChildren,
   MinutesSlugRoute: MinutesSlugRoute,
   ProviderIdRoute: ProviderIdRoute,
   VisitsKindRoute: VisitsKindRoute,

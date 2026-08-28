@@ -47,7 +47,7 @@ export const hacks: Hack[] = [
     lede: "Yes, I stole this from a business YouTuber. He stole it from the data. And he’s jacked.",
     stolenFrom: "Alex Hormozi",
     jokeSteal: true,
-    paragraphs: [
+paragraphs: [
       "I admit… I stole it. It was me. In the library. With the candlestick. However, when I find easy-to-digest information that simplifies a subject overcomplicated by so many others — I’m using it. Plus, he clearly knows what he’s talking about because he’s jacked. Just kidding — but seriously.",
       "In truth he summarizes the data beautifully, and simplifies it in a way that even a tired, overstimulated mother of six — awake with the baby at 2 a.m., who just wants a few hours of shut-eye and a vacation — could easily understand. Watch the video. Figure out your goals.",
       "Need to drop fat quick? Use the bottom number on the spectrum. Want to stay the course? Hold your ground in the mid-range. You can shift the goalposts whatever way you want based on your goals at the time.",
@@ -59,7 +59,7 @@ export const hacks: Hack[] = [
     n: "02",
     title: "Don't Drink Calories",
     lede: "If it has calories and you can sip it, skip it. Hunger does not count a drink as a meal.",
-    paragraphs: [
+paragraphs: [
       "Liquid calories do not fill you up the way food does. You can drink 400 calories and still be hungry enough to eat dinner like you never had them. That is why this is near the top of the list.",
       "Water. Sparkling water. Black coffee. Unsweetened tea. Diet soda. Zero-calorie flavored drinks. That is the drink list.",
       "We do not fear fake sweeteners as of the data to date. The human trial data does not support the internet panic. The scary headlines usually come from petri dishes and mega-doses, not from people drinking Diet Coke.",
@@ -72,7 +72,7 @@ export const hacks: Hack[] = [
     title: "One Gram Per Pound",
     lede: "Eat about 1 gram of protein per pound of body weight. If you have a lot to lose, using a goal weight is reasonable.",
     stolenFrom: "Alex Hormozi, Dr. Ted Naiman, and the protein-first crowd",
-    paragraphs: [
+paragraphs: [
       "If you weigh 180 pounds, aim for about 180 grams of protein across the day. Not in one sitting. Spread it out so you are not trying to choke down a Costco chicken at 9 p.m.",
       "If you are carrying a lot of extra weight, using a goal or “ideal” weight for that gram-per-pound number is a reasonable way to start. The point is a high-protein floor, not a contest.",
       "Why this works: protein is filling, it protects muscle, and it makes “eat less junk” a lot easier without a spreadsheet diet. Control protein and calories first. Then let carbs and fat be whatever is easiest to maintain.",
@@ -86,7 +86,7 @@ export const hacks: Hack[] = [
     lede: "The front of the bag is advertising. Two numbers on the back tell you if it is actually a good option.",
     stolenFrom: "Dr. Ted Naiman",
     jokeSteal: true,
-    paragraphs: [
+paragraphs: [
       "Food companies are not trying to make grocery shopping easy. They are trying to win the shelf. “Protein.” “Healthy.” “Organic.” “Made with whole grains.” That is the advertising major working for Kraft trying to one-up last quarter’s campaign. The label is designed to confuse you. The nutrition facts are the only part that has to tell the truth — and even then, you have to know which two numbers to trust.",
       "This one is not mine. It is Dr. Ted Naiman’s, and I use it every time I turn a bag over. The graphic below is his. I am showing it here so you can steal it the same way I did.",
       "Find protein grams per serving. Multiply by 10 — or just add a zero. Compare that number to calories per serving. If protein × 10 meets or beats the calories, the food is at least 40% protein. That is the ideal.",
@@ -99,7 +99,7 @@ export const hacks: Hack[] = [
     n: "05",
     title: "Fast Food Hacks",
     lede: "Let’s be honest, you are going to eat out. The frequency in which you do is directly correlated to the number of children under your care. Trust me, it’s science.",
-    paragraphs: [
+paragraphs: [
       "I judge not. Plenty a meal has been enjoyed under the golden arches of calorically dense shame. A busy work week, a road trip, scrambling after the kid’s practice, or just no energy to cook — this is where you can survive derailment. The move is not “never drive through.” The move is to pick the highest protein-to-energy version of whatever joint you are already in.",
       "I went looking at published nutrition facts — official pages where they exist, and common tracker listings (MyFitnessPal / Carb Manager / FatSecret) for the no-bun and extra-meat versions. Menus move. Portioning is sloppy. If the numbers are on the screen, run × 10 yourself.",
       "The list is not exhaustive. We focused on the low-hanging fruit — of the foods far from the health status of fruit — to hack our way to health in the drive-through. Lose the buns, find it in your soul to somehow ignore the fries, double the meat, grab a Coke Zero, and voilà… you’ve won fast food.",
@@ -110,7 +110,7 @@ export const hacks: Hack[] = [
     n: "06",
     title: "Regular Food Hacks",
     lede: "Keep these in the house so the right choice is an easy choice.",
-    paragraphs: [
+paragraphs: [
       "When I’m on the wagon and not being a hypocrite — doing the 80% of things that keep my overall health under control — these are the staples I’m rotating through.",
       "Between these foods and the periodic “healthy-adjacent” [[takeout]], I’m able to stay sane while getting through a busy day to day. Diets fail when the healthier options require a 12-step recipe and the fatty liver with a side of fries option is a drive-through away. The move is to make the high-protein thing the thing you can grab while you are tired and hangry.",
       "This is not a meal plan. It is a fridge that does not fight you. Hitting the × 10 rule is the ideal. Close still counts.",
@@ -122,7 +122,7 @@ export const hacks: Hack[] = [
     n: "07",
     title: "Exercise Hacks",
     lede: "The 20% of exercise most of us will actually do.",
-    paragraphs: [
+paragraphs: [
       "I’m rarely motivated to work out and I definitely don’t have the time. Not to beat a dead horse, but I think focusing on 20% of the exercises that give you 80% of the benefits is the best starting point. I’m not saying these are the most ideal and extensive methods of exercise. I’m saying they are the most realistic.",
       "If you enjoy romantic 10-mile runs on the beach and two hours of CrossFit six days a week… God bless you and your joints. You probably already know what you’re doing and have already watched all of the YouTubes.",
       "I’m preaching to the same choir as I have everywhere else on this site. Busy, tired, unmotivated, confused, and disenfranchised by prior failure to stick with some program.",
@@ -133,8 +133,8 @@ export const hacks: Hack[] = [
     slug: "nerd-out",
     n: "08",
     title: "Nerd Out",
-    lede: "Mechanisms. How stuff actually works. Optional reading. Compulsory if you are me.",
-    paragraphs: [
+    lede: "Mechanisms. How stuff actually works. Pick a topic — no need to scroll for days. Compulsory if you are me.",
+paragraphs: [
       "Herein lies a rabbit hole of nutritional and physiologic nerditude. The “why” behind so many things related to our health and how to navigate through it all.",
       "Why won’t I shut up about protein? What do I mean by [[energy]]? What actually [[diabetes]], and [[reverse]]",
       "[[grow]] Don’t care about growing muscle? [[whymuscle]]. (No, I’m not saying you have to be jacked and tan.) Muscle serves countless beneficial purposes, and we should at least get it some flowers and let it know we care every once in a while.",
@@ -146,7 +146,7 @@ export const hacks: Hack[] = [
     n: "09",
     title: "Helpful Videos",
     lede: "The YouTube I am actually using as references. Same clips also live on the pages they belong to.",
-    paragraphs: [
+paragraphs: [
       "This is not a channel. It is a pile of short videos behind the hacks — Hormozi for the starting math, Norton for sweeteners, Naiman for what actually causes type 2 diabetes.",
       "I will add to this as I steal more. Watch them here, or stay on the hack and watch them there.",
     ],
@@ -156,7 +156,7 @@ export const hacks: Hack[] = [
     n: "10",
     title: "Reading List, Stolen With Love",
     lede: "Two books from Dr. Ted Naiman. I am the middleman, not the author.",
-    paragraphs: [
+paragraphs: [
       "If a hack on this page helped, these are a big part of why. I am not affiliated. I just keep learning from him, then translating it into something I can actually do on a work week.",
     ],
   },
@@ -360,6 +360,7 @@ export const nerdTopics = [
   {
     id: "protein",
     title: "What’s special about protein",
+    lede: "Protein is not a gym-bro religion. It is the building material. Fuel is carbs and fat. You cannot make muscle out of pasta.",
     stolenFrom: "Simpson and Raubenheimer, Dr. Ted Naiman, and a pile of unglamorous physiology",
     paragraphs: [
       "This is not a gym-bro religion. Protein is not the macronutrient we picked because it photographs well. It has a special place at the top because things fall apart without it. Proteins are building materials — muscle, enzymes, skin, and bone — the actual structure of you. Carbs and fat are fuel, but you cannot make muscle out of pasta. Protein is crucial to take in every day, but even more so when trying to lose weight.",
@@ -378,6 +379,7 @@ export const nerdTopics = [
   {
     id: "muscle",
     title: "How do we grow muscle?",
+    lede: "Train, fuel, recover. One set to failure is the version I will actually do.",
     paragraphs: [],
     image: "/images/muscle-growth.png",
     imageAlt:
@@ -388,6 +390,7 @@ export const nerdTopics = [
   {
     id: "why-muscle",
     title: "Why should we care about muscle growth?",
+    lede: "Muscle is more than strength — blood sugar, bones, falls, independence, heart, longevity.",
     paragraphs: [],
     image: "/images/why-muscle.png",
     imageAlt:
@@ -397,6 +400,7 @@ export const nerdTopics = [
   {
     id: "energy",
     title: "What do we mean by “energy”?",
+    lede: "The body is a machine made of protein parts, running on carb and fat fuel.",
     paragraphs: [],
     image: "/images/naiman-energy-machine.png",
     imageAlt:
@@ -406,6 +410,7 @@ export const nerdTopics = [
   {
     id: "burning-fat",
     title: "How does my body decide which fuel?",
+    lede: "You are almost always burning fat. The mix shifts all day. A moment of fat-burn is not the same as losing body fat.",
     paragraphs: [
       "The freshman fifteen that so commonly occurs that first year of college is attributable to many concepts below. As we are fasting overnight we are mostly using fat stores for fuel, since insulin is low and we are very inactive.",
       "If this night of sleep occurred in a tent in the Rockies and we were woken up by a bear and suddenly running for our lives, the fuel of choice would shift to glycogen (stored glucose).",
@@ -424,6 +429,7 @@ export const nerdTopics = [
   {
     id: "carbon",
     title: "Everything is carbon. You’re carbon. I’m carbon. It’s all carbon.",
+    lede: "Follow one carbon atom from the air to a plant to you, then out the lungs as CO2.",
     paragraphs: [],
     image: "/images/carbon.png",
     imageAlt:
@@ -432,8 +438,20 @@ export const nerdTopics = [
       "As explained by Dr. Andy Galpin on Huberman Lab and Dr. Ted Naiman in The P:E Diet.",
   },
   {
+    id: "how-much",
+    title: "How much you eat matters more than what you eat",
+    lede: "Excess body fat is the biggest lever. How much you eat often matters more than eating perfectly.",
+    stolenFrom: "Open Evidence",
+    paragraphs: [],
+    image: "/images/excess-body-fat.png",
+    imageAlt:
+      "Infographic: excess body fat is the biggest lever for metabolic health. How much you eat often matters more than eating perfectly. Visceral and ectopic fat raise risk. A surplus of healthy food can worsen risk; a deficit even with imperfect food often improves markers. The best answer is both high-protein food and the right total calories.",
+    imageCredit: "Credit / reference: Open Evidence — openevidence.com",
+  },
+  {
     id: "personal-fat-threshold",
     title: "What actually causes type 2 diabetes",
+    lede: "Type 2 is usually the fuel tank overflowing past your personal fat threshold — not a life sentence.",
     stolenFrom: "Dr. Ted Naiman — Personal Fat Threshold; Open Evidence",
     paragraphs: [
       "As discussed above: the body is a machine. It is made of parts, and it runs on fuel. The parts are protein. The fuel is carbs and fats. Type 2 diabetes is what happens when the fuel tank overflows.",
@@ -457,6 +475,7 @@ export const nerdTopics = [
   {
     id: "a1c",
     title: "What is hemoglobin A1c?",
+    lede: "A1c is the three-month average of blood sugar — the percent of red cells with sugar stuck to them.",
     paragraphs: [],
     image: "/images/open-evidence-a1c.png",
     imageAlt:
@@ -466,6 +485,7 @@ export const nerdTopics = [
   {
     id: "reverse-diabetes",
     title: "How to reverse type 2 diabetes (for most)",
+    lede: "For most people with type 2, emptying the extra fuel — especially fat in the liver and pancreas — can bring blood sugar back.",
     stolenFrom: "Open Evidence; Dr. Ted Naiman — Personal Fat Threshold",
     paragraphs: [
       "For most people with type 2 diabetes, this is reversible to some extent. Remission means normal blood sugar without diabetes medications. Lose the fat inside the liver and pancreas, and the organs can start working again.",
@@ -490,8 +510,37 @@ export const nerdTopics = [
     },
   },
   {
+    id: "cholesterol",
+    title: "Understanding Cholesterol",
+    lede: "Cholesterol is essential. The danger is too many ApoB-containing particles circulating for too long.",
+    stolenFrom: "Open Evidence; 2026 ACC/AHA Dyslipidemia Guideline",
+    paragraphs: [
+      "Cholesterol is cargo. Lipoproteins are the trucks. ApoB is the ID tag on every atherogenic particle — each VLDL, remnant, and LDL carries one. LDL-C is how much cholesterol is inside LDL. ApoB is how many of those particles you have. Non-HDL-C is the cholesterol inside all ApoB particles.",
+      "More ApoB particles for more years means more chances to enter the artery wall, get stuck, and build plaque. High HDL does not cancel high LDL or ApoB.",
+      "Energy surplus past your personal fat threshold, saturated fat, genetics, and inactivity all push the numbers. If extra fat is stored, a sustained calorie deficit is often the highest-leverage move — even about 5% weight loss can improve the pattern.",
+      "Levers that work: swap butter and processed fats for olive oil, avocado, nuts, and fish; add oats, barley, beans, and plant sterols; get below your personal fat threshold; and exercise. Low-carb, low-fat, and fasting each change the labs differently. Recheck lipids after a major diet or weight change.",
+      "Lifestyle is first. Medication is not a personal failure — genetics can overpower an excellent lifestyle. Treatment goals depend on total cardiovascular risk, not one isolated number. Do not stop prescribed lipid medication without speaking with your clinician.",
+    ],
+    image: "/images/nerd-cholesterol.png",
+    imageAlt:
+      "Infographic: cholesterol as cargo, lipoproteins as carriers, ApoB as the particle count that drives plaque. Energy surplus, diet, exercise, fasting, genetics, and medication all change the numbers. High HDL does not cancel high LDL or ApoB.",
+    imageCredit:
+      "Educational only. Source synthesis: OpenEvidence.com · 2026 ACC/AHA Dyslipidemia Guideline · American Heart Association Dietary Guidance · NIH Endotext. Not a substitute for your clinician. Do not stop prescribed lipid medication without speaking with them.",
+    tldrImage: "/images/nerd-cholesterol-simplified.png",
+    tldrImageAlt:
+      "TL;DR infographic: Cholesterol, Simplified. Cargo versus carriers, how plaque starts, the energy-surplus pathway, what raises LDL, the five moves that work, and the four lab numbers that matter.",
+    tldrImageCredit:
+      "TL;DR version. Quick-read summary — see the full infographic for details. Educational only. Sources: OpenEvidence.com · 2026 ACC/AHA · American Heart Association · NIH Endotext.",
+    seeAlso: {
+      hash: "personal-fat-threshold",
+      label: "What actually causes type 2 diabetes",
+      note: "The same overflow story, from a blood-sugar angle.",
+    },
+  },
+  {
     id: "you-are-what-you-eat",
     title: "You are what you eat",
+    lede: "Every meal is molecules the body builds, stores, burns, or eliminates.",
     paragraphs: [],
     image: "/images/you-are-what-you-eat.png",
     imageAlt:
@@ -501,6 +550,7 @@ export const nerdTopics = [
   {
     id: "stardust",
     title: "You are made of stardust",
+    lede: "The atoms in you have a history older than Earth.",
     paragraphs: [],
     image: "/images/stardust.png",
     imageAlt:
@@ -554,4 +604,8 @@ export const readingList = [
 
 export function getHack(slug: string): Hack | undefined {
   return hacks.find((h) => h.slug === slug);
+}
+
+export function getNerdTopic(id: string) {
+  return nerdTopics.find((topic) => topic.id === id);
 }

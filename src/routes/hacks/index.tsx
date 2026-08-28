@@ -39,9 +39,8 @@ function HacksHub() {
           <p className="mt-6 max-w-3xl text-sm text-muted">{hacksIntro.disclaimer}</p>
           <p className="mt-6 text-lg">
             <Link
-              to="/hacks/$slug"
-              params={{ slug: "nerd-out" }}
-              hash="protein"
+              to="/hacks/nerd-out/$topic"
+              params={{ topic: "protein" }}
               className="font-medium text-accent hover:text-fg"
             >
               Why do we care about protein?

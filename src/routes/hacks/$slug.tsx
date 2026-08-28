@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { EnlargeableImage } from "@/components/hacks/enlargeable-image";
+import { NerdParagraph } from "@/components/hacks/nerd-paragraph";
 import { ProteinLabelTool } from "@/components/hacks/protein-label-tool";
 import { StartCalculator } from "@/components/hacks/start-calculator";
 import { VideoCard } from "@/components/hacks/video-card";
@@ -14,7 +15,6 @@ import {
   getHack,
   hacks,
   hacksIntro,
-  nerdTopics,
   peRatio,
   peTone,
   proteinPercent,
@@ -220,9 +220,8 @@ function HackExtras({ slug }: { slug: HackSlug }) {
           P:E is protein grams divided by carb grams plus fat grams. Green is more parts than fuel. Red is the
           opposite.{" "}
           <Link
-            to="/hacks/$slug"
-            params={{ slug: "nerd-out" }}
-            hash="energy"
+            to="/hacks/nerd-out/$topic"
+            params={{ topic: "energy" }}
             className="font-medium text-accent hover:text-fg"
           >
             What do we mean by “energy”?
@@ -345,52 +344,7 @@ function HackExtras({ slug }: { slug: HackSlug }) {
   }
 
   if (slug === "nerd-out") {
-    return (
-      <div className="mt-10 space-y-12">
-        {nerdTopics.map((topic) => (
-          <section key={topic.id} id={topic.id} className="scroll-mt-24">
-            <h2 className="font-display text-3xl font-semibold tracking-wide">{topic.title}</h2>
-            {"stolenFrom" in topic && topic.stolenFrom ? (
-              <p className="mt-2 text-xs font-medium tracking-widest text-accent uppercase">
-                {creditKicker(
-                  topic.stolenFrom,
-                  "jokeSteal" in topic ? Boolean(topic.jokeSteal) : false,
-                )}
-              </p>
-            ) : null}
-            {topic.paragraphs.length > 0 ? (
-              <div className="mt-5 space-y-4 text-lg leading-relaxed text-muted">
-                {topic.paragraphs.map((p) => (
-                  <NerdParagraph key={p.slice(0, 36)} text={p} />
-                ))}
-              </div>
-            ) : null}
-            {"seeAlso" in topic && topic.seeAlso && !("image" in topic && topic.image) ? (
-              <SeeAlsoLink label={topic.seeAlso.label} hash={topic.seeAlso.hash} note={topic.seeAlso.note} />
-            ) : null}
-            {"image" in topic && topic.image ? (
-              <figure className={topic.paragraphs.length > 0 ? "mt-8" : "mt-5"}>
-                <EnlargeableImage src={topic.image} alt={topic.imageAlt} />
-                <figcaption className="mt-3 text-sm leading-relaxed text-muted">{topic.imageCredit}</figcaption>
-              </figure>
-            ) : null}
-            {"seeAlso" in topic && topic.seeAlso && "image" in topic && topic.image ? (
-              <SeeAlsoLink label={topic.seeAlso.label} hash={topic.seeAlso.hash} note={topic.seeAlso.note} />
-            ) : null}
-            {"videoId" in topic && topic.videoId ? (
-              <div className="mt-6">
-                <VideoCard
-                  videoId={topic.videoId}
-                  title={topic.videoTitle}
-                  credit={topic.videoCredit}
-                  summary={topic.videoSummary}
-                />
-              </div>
-            ) : null}
-          </section>
-        ))}
-      </div>
-    );
+    return null;
   }
 
   if (slug === "helpful-videos") {
@@ -407,14 +361,24 @@ function HackExtras({ slug }: { slug: HackSlug }) {
             />
             <p className="mt-3 text-sm text-muted">
               Also on{" "}
-              <Link
-                to="/hacks/$slug"
-                params={{ slug: video.usedOn.slug }}
-                hash={"hash" in video.usedOn ? video.usedOn.hash : undefined}
-                className="font-medium text-accent hover:text-fg"
-              >
-                {video.usedOn.label}
-              </Link>
+              {video.usedOn.slug === "nerd-out" && "hash" in video.usedOn && video.usedOn.hash ? (
+                <Link
+                  to="/hacks/nerd-out/$topic"
+                  params={{ topic: video.usedOn.hash }}
+                  className="font-medium text-accent hover:text-fg"
+                >
+                  {video.usedOn.label}
+                </Link>
+              ) : (
+                <Link
+                  to="/hacks/$slug"
+                  params={{ slug: video.usedOn.slug }}
+                  hash={"hash" in video.usedOn ? video.usedOn.hash : undefined}
+                  className="font-medium text-accent hover:text-fg"
+                >
+                  {video.usedOn.label}
+                </Link>
+              )}
             </p>
           </div>
         ))}
@@ -444,81 +408,12 @@ function HackExtras({ slug }: { slug: HackSlug }) {
   return null;
 }
 
-function NerdParagraph({ text }: { text: string }) {
-  const tokens: Record<
-    string,
-    { slug: "where-to-start" | "nerd-out" | "fast-food"; hash?: string; label: string }
-  > = {
-    hormozi: { slug: "where-to-start", hash: "hormozi", label: "Go back here" },
-    a1c: { slug: "nerd-out", hash: "a1c", label: "hemoglobin A1c" },
-    takeout: { slug: "fast-food", label: "takeout splurges" },
-    energy: { slug: "nerd-out", hash: "energy", label: "energy" },
-    diabetes: { slug: "nerd-out", hash: "personal-fat-threshold", label: "causes type 2 diabetes" },
-    reverse: { slug: "nerd-out", hash: "reverse-diabetes", label: "can I reverse it?" },
-    grow: { slug: "nerd-out", hash: "muscle", label: "How do we grow muscle?" },
-    whymuscle: {
-      slug: "nerd-out",
-      hash: "why-muscle",
-      label: "Why you should care about growing muscle",
-    },
-  };
-
-  const pieces = text.split(/(\[\[\w+\]\])/);
-  if (pieces.length === 1) return <p>{text}</p>;
-
-  return (
-    <p>
-      {pieces.map((piece, i) => {
-        const key = piece.match(/^\[\[(\w+)\]\]$/)?.[1];
-        const token = key ? tokens[key] : undefined;
-        if (!token) return <span key={i}>{piece}</span>;
-        return (
-          <Link
-            key={i}
-            to="/hacks/$slug"
-            params={{ slug: token.slug }}
-            hash={token.hash}
-            className="font-medium text-accent hover:text-fg"
-          >
-            {token.label}
-          </Link>
-        );
-      })}
-    </p>
-  );
-}
-
-function SeeAlsoLink({
-  label,
-  hash,
-  note,
-}: {
-  label: string;
-  hash: string;
-  note?: string;
-}) {
-  return (
-    <p className="mt-6 text-lg">
-      <Link
-        to="/hacks/$slug"
-        params={{ slug: "nerd-out" }}
-        hash={hash}
-        className="font-medium text-accent hover:text-fg"
-      >
-        {label}
-      </Link>
-      {note ? <span className="text-muted"> {note}</span> : null}
-    </p>
-  );
-}
-
 function WhyProteinLink() {
   return (
     <p className="mt-8 text-lg">
       <Link
-        to="/hacks/$slug"
-        params={{ slug: "nerd-out" }}
-        hash="protein"
+        to="/hacks/nerd-out/$topic"
+        params={{ topic: "protein" }}
         className="font-medium text-accent hover:text-fg"
       >
         Why do we care about protein?
@@ -532,9 +427,8 @@ function WhyEnergyLink() {
   return (
     <p className="mt-4 text-lg">
       <Link
-        to="/hacks/$slug"
-        params={{ slug: "nerd-out" }}
-        hash="energy"
+        to="/hacks/nerd-out/$topic"
+        params={{ topic: "energy" }}
         className="font-medium text-accent hover:text-fg"
       >
         What do we mean by “energy”?
