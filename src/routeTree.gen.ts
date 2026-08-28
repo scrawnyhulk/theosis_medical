@@ -10,33 +10,167 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as HacksIndexRouteImport } from './routes/hacks/index'
+import { Route as HacksSlugRouteImport } from './routes/hacks/$slug'
+import { Route as HacksNerdOutRouteImport } from './routes/hacks/nerd-out'
+import { Route as MinutesIndexRouteImport } from './routes/minutes/index'
+import { Route as MinutesSlugRouteImport } from './routes/minutes/$slug'
+import { Route as ProviderIndexRouteImport } from './routes/provider/index'
+import { Route as ProviderIdRouteImport } from './routes/provider/$id'
+import { Route as VisitsIndexRouteImport } from './routes/visits/index'
+import { Route as VisitsKindRouteImport } from './routes/visits/$kind'
+import { Route as VisitsAtlasRouteImport } from './routes/visits/atlas'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const HacksIndexRoute = HacksIndexRouteImport.update({
+  id: '/hacks/',
+  path: '/hacks/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HacksSlugRoute = HacksSlugRouteImport.update({
+  id: '/hacks/$slug',
+  path: '/hacks/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HacksNerdOutRoute = HacksNerdOutRouteImport.update({
+  id: '/hacks/nerd-out',
+  path: '/hacks/nerd-out',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MinutesIndexRoute = MinutesIndexRouteImport.update({
+  id: '/minutes/',
+  path: '/minutes/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MinutesSlugRoute = MinutesSlugRouteImport.update({
+  id: '/minutes/$slug',
+  path: '/minutes/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProviderIndexRoute = ProviderIndexRouteImport.update({
+  id: '/provider/',
+  path: '/provider/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProviderIdRoute = ProviderIdRouteImport.update({
+  id: '/provider/$id',
+  path: '/provider/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const VisitsIndexRoute = VisitsIndexRouteImport.update({
+  id: '/visits/',
+  path: '/visits/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const VisitsKindRoute = VisitsKindRouteImport.update({
+  id: '/visits/$kind',
+  path: '/visits/$kind',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const VisitsAtlasRoute = VisitsAtlasRouteImport.update({
+  id: '/visits/atlas',
+  path: '/visits/atlas',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/hacks/$slug': typeof HacksSlugRoute
+  '/hacks/nerd-out': typeof HacksNerdOutRoute
+  '/minutes/$slug': typeof MinutesSlugRoute
+  '/provider/$id': typeof ProviderIdRoute
+  '/visits/$kind': typeof VisitsKindRoute
+  '/visits/atlas': typeof VisitsAtlasRoute
+  '/hacks/': typeof HacksIndexRoute
+  '/minutes/': typeof MinutesIndexRoute
+  '/provider/': typeof ProviderIndexRoute
+  '/visits/': typeof VisitsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/hacks/$slug': typeof HacksSlugRoute
+  '/hacks/nerd-out': typeof HacksNerdOutRoute
+  '/minutes/$slug': typeof MinutesSlugRoute
+  '/provider/$id': typeof ProviderIdRoute
+  '/visits/$kind': typeof VisitsKindRoute
+  '/visits/atlas': typeof VisitsAtlasRoute
+  '/hacks': typeof HacksIndexRoute
+  '/minutes': typeof MinutesIndexRoute
+  '/provider': typeof ProviderIndexRoute
+  '/visits': typeof VisitsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/hacks/$slug': typeof HacksSlugRoute
+  '/hacks/nerd-out': typeof HacksNerdOutRoute
+  '/minutes/$slug': typeof MinutesSlugRoute
+  '/provider/$id': typeof ProviderIdRoute
+  '/visits/$kind': typeof VisitsKindRoute
+  '/visits/atlas': typeof VisitsAtlasRoute
+  '/hacks/': typeof HacksIndexRoute
+  '/minutes/': typeof MinutesIndexRoute
+  '/provider/': typeof ProviderIndexRoute
+  '/visits/': typeof VisitsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/hacks/$slug'
+    | '/hacks/nerd-out'
+    | '/minutes/$slug'
+    | '/provider/$id'
+    | '/visits/$kind'
+    | '/visits/atlas'
+    | '/hacks/'
+    | '/minutes/'
+    | '/provider/'
+    | '/visits/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/hacks/$slug'
+    | '/hacks/nerd-out'
+    | '/minutes/$slug'
+    | '/provider/$id'
+    | '/visits/$kind'
+    | '/visits/atlas'
+    | '/hacks'
+    | '/minutes'
+    | '/provider'
+    | '/visits'
+  id:
+    | '__root__'
+    | '/'
+    | '/hacks/$slug'
+    | '/hacks/nerd-out'
+    | '/minutes/$slug'
+    | '/provider/$id'
+    | '/visits/$kind'
+    | '/visits/atlas'
+    | '/hacks/'
+    | '/minutes/'
+    | '/provider/'
+    | '/visits/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  HacksSlugRoute: typeof HacksSlugRoute
+  HacksNerdOutRoute: typeof HacksNerdOutRoute
+  MinutesSlugRoute: typeof MinutesSlugRoute
+  ProviderIdRoute: typeof ProviderIdRoute
+  VisitsKindRoute: typeof VisitsKindRoute
+  VisitsAtlasRoute: typeof VisitsAtlasRoute
+  HacksIndexRoute: typeof HacksIndexRoute
+  MinutesIndexRoute: typeof MinutesIndexRoute
+  ProviderIndexRoute: typeof ProviderIndexRoute
+  VisitsIndexRoute: typeof VisitsIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +182,91 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/hacks/': {
+      id: '/hacks/'
+      path: '/hacks'
+      fullPath: '/hacks/'
+      preLoaderRoute: typeof HacksIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/hacks/$slug': {
+      id: '/hacks/$slug'
+      path: '/hacks/$slug'
+      fullPath: '/hacks/$slug'
+      preLoaderRoute: typeof HacksSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/hacks/nerd-out': {
+      id: '/hacks/nerd-out'
+      path: '/hacks/nerd-out'
+      fullPath: '/hacks/nerd-out'
+      preLoaderRoute: typeof HacksNerdOutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/minutes/': {
+      id: '/minutes/'
+      path: '/minutes'
+      fullPath: '/minutes/'
+      preLoaderRoute: typeof MinutesIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/minutes/$slug': {
+      id: '/minutes/$slug'
+      path: '/minutes/$slug'
+      fullPath: '/minutes/$slug'
+      preLoaderRoute: typeof MinutesSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/provider/': {
+      id: '/provider/'
+      path: '/provider'
+      fullPath: '/provider/'
+      preLoaderRoute: typeof ProviderIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/provider/$id': {
+      id: '/provider/$id'
+      path: '/provider/$id'
+      fullPath: '/provider/$id'
+      preLoaderRoute: typeof ProviderIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/visits/': {
+      id: '/visits/'
+      path: '/visits'
+      fullPath: '/visits/'
+      preLoaderRoute: typeof VisitsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/visits/$kind': {
+      id: '/visits/$kind'
+      path: '/visits/$kind'
+      fullPath: '/visits/$kind'
+      preLoaderRoute: typeof VisitsKindRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/visits/atlas': {
+      id: '/visits/atlas'
+      path: '/visits/atlas'
+      fullPath: '/visits/atlas'
+      preLoaderRoute: typeof VisitsAtlasRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  HacksSlugRoute: HacksSlugRoute,
+  HacksNerdOutRoute: HacksNerdOutRoute,
+  MinutesSlugRoute: MinutesSlugRoute,
+  ProviderIdRoute: ProviderIdRoute,
+  VisitsKindRoute: VisitsKindRoute,
+  VisitsAtlasRoute: VisitsAtlasRoute,
+  HacksIndexRoute: HacksIndexRoute,
+  MinutesIndexRoute: MinutesIndexRoute,
+  ProviderIndexRoute: ProviderIndexRoute,
+  VisitsIndexRoute: VisitsIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

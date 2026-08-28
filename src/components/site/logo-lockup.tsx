@@ -1,6 +1,6 @@
 import { cn } from "@/lib/utils";
 
-export function BrandLockup({ className }: { className?: string }) {
+export function LogoLockup({ className }: { className?: string }) {
   return (
     <img
       src="/images/header-lockup.png"

@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /visits
+Disallow: /provider
+
+Sitemap: https://theosismedical.com/sitemap.xml

@@ -10,13 +10,10 @@ const buttonVariants = cva(
       variant: {
         default: "bg-accent text-accent-fg hover:bg-accent/90",
         invert: "bg-steel text-ink hover:bg-steel/90",
-        outline:
-          "bg-transparent text-fg shadow-[var(--shadow-border)] hover:bg-fg/5",
+        outline: "bg-transparent text-fg shadow-border hover:bg-fg/5",
         ghost: "bg-transparent text-fg hover:bg-fg/8",
-        onInk:
-          "bg-steel text-ink hover:bg-steel/90",
-        onInkOutline:
-          "bg-transparent text-ink-fg shadow-[0_0_0_1px_color-mix(in_oklab,var(--color-ink-fg)_28%,transparent)] hover:bg-ink-fg/8",
+        onInk: "bg-steel text-ink hover:bg-steel/90",
+        onInkOutline: "bg-transparent text-ink-fg shadow-ink-ring hover:bg-ink-fg/8",
       },
       size: {
         default: "h-11 rounded-sm px-5",
@@ -32,11 +29,10 @@ const buttonVariants = cva(
   },
 );
 
-export interface ButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
-    VariantProps<typeof buttonVariants> {
-  asChild?: boolean;
-}
+type ButtonProps = React.ComponentProps<"button"> &
+  VariantProps<typeof buttonVariants> & {
+    asChild?: boolean;
+  };
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant, size, asChild = false, ...props }, ref) => {

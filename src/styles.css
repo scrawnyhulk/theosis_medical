@@ -1,22 +1,25 @@
 @import "tailwindcss";
 
 @theme {
-  --color-bg: color-mix(in oklab, #080d14 76%, transparent);
-  --color-surface: color-mix(in oklab, #101820 86%, transparent);
+  --font-sans: "Barlow", "Segoe UI", system-ui, sans-serif;
+  --font-display: "Barlow Condensed", "Segoe UI", system-ui, sans-serif;
+
+  --color-bg: rgb(8 13 20 / 0.76);
+  --color-surface: rgb(16 24 32 / 0.86);
   --color-fg: #e7edf5;
   --color-muted: #8e9aab;
   --color-accent: #2a7ae0;
   --color-accent-fg: #f4f8ff;
-  --color-ink: color-mix(in oklab, #05080d 78%, transparent);
+  --color-ink: rgb(5 8 13 / 0.78);
   --color-ink-fg: #e7edf5;
   --color-ink-muted: #9aa6b8;
   --color-steel: #cfd6e0;
   --color-danger: #e07070;
+  --color-ok: #3d9a6a;
+  --color-ok-fg: #e8fff4;
+  --color-warn: #d4a056;
   --color-border: color-mix(in oklab, var(--color-fg) 12%, transparent);
   --color-border-strong: color-mix(in oklab, var(--color-fg) 22%, transparent);
-
-  --font-display: "Barlow Condensed", "Segoe UI", system-ui, sans-serif;
-  --font-sans: "Barlow", "Segoe UI", system-ui, sans-serif;
 
   --radius-xs: 4px;
   --radius-sm: 8px;
@@ -24,15 +27,24 @@
   --radius-lg: 20px;
   --radius-xl: 28px;
 
-  --shadow-border: 0 0 0 1px rgba(231, 237, 245, 0.1);
+  --shadow-border: 0 0 0 1px color-mix(in oklab, var(--color-fg) 10%, transparent);
+  --shadow-ink-ring: 0 0 0 1px color-mix(in oklab, var(--color-ink-fg) 28%, transparent);
 
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 @layer base {
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+
   html {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    background-color: #05080d;
+    color-scheme: dark;
+    scroll-behavior: smooth;
   }
 
   html,
@@ -41,30 +53,17 @@
     min-height: 100%;
   }
 
-  html {
-    background-color: #05080d;
-  }
-
   body {
+    color: var(--color-fg);
+    font-family: var(--font-sans);
     background-color: #05080d;
     background-image:
-      radial-gradient(
-        ellipse 90% 70% at 50% 32%,
-        rgb(16 34 52 / 0.5),
-        transparent 64%
-      ),
-      url("/images/navy-grain.jpg");
+      radial-gradient(90% 70% at 50% 32%, #10223480, #0000 64%),
+      url(/images/navy-grain.jpg);
     background-repeat: no-repeat, repeat;
     background-size: auto, 420px;
     background-attachment: scroll;
-    color: var(--color-fg);
-    font-family: var(--font-sans);
     line-height: 1.55;
-  }
-
-  button:not(:disabled),
-  [role="button"]:not(:disabled) {
-    cursor: pointer;
   }
 
   h1,
@@ -78,12 +77,64 @@
   }
 
   img {
-    outline: 1px solid rgba(231, 237, 245, 0.1);
+    outline: 1px solid color-mix(in oklab, var(--color-fg) 10%, transparent);
     outline-offset: -1px;
   }
 
   img.no-outline {
     outline: none;
+  }
+
+  .hh-metal {
+    background-image: linear-gradient(
+      180deg,
+      #f3f6fa 0%,
+      #c5ced8 38%,
+      #9aa6b4 52%,
+      #d7dde6 72%,
+      #7b8694 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 1px 0 rgb(255 255 255 / 0.35)) drop-shadow(0 2px 0 rgb(0 0 0 / 0.55));
+  }
+
+  .hh-metal-blue {
+    background-image: linear-gradient(180deg, #79b4f6 0%, #2a7ae0 42%, #163e7a 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 1px 0 rgb(180 210 255 / 0.4)) drop-shadow(0 2px 0 rgb(0 0 0 / 0.55));
+  }
+
+  .group:hover .hh-metal,
+  .group:hover .hh-metal-blue,
+  .group:focus-visible .hh-metal,
+  .group:focus-visible .hh-metal-blue {
+    background-image: none;
+    color: var(--color-accent-fg);
+    -webkit-text-fill-color: var(--color-accent-fg);
+    filter: none;
+  }
+}
+
+.hero-phone {
+  display: block;
+}
+
+.hero-desktop {
+  display: none;
+}
+
+@media (min-width: 1024px) and (orientation: landscape) {
+  .hero-phone {
+    display: none;
+  }
+  .hero-desktop {
+    display: block;
   }
 }
 
@@ -94,42 +145,46 @@
 
   .stagger-in,
   .stagger-in > * {
-    animation: none !important;
     opacity: 1 !important;
     filter: none !important;
+    animation: none !important;
     transform: none !important;
   }
 }
 
 @keyframes rise-in {
-  from {
+  0% {
     opacity: 0;
-    transform: translateY(12px);
     filter: blur(4px);
+    transform: translateY(12px);
   }
   to {
     opacity: 1;
-    transform: translateY(0);
     filter: blur(0);
+    transform: translateY(0);
   }
 }
 
 .stagger-in > * {
-  animation: rise-in 500ms var(--ease-out) both;
+  animation: rise-in 0.5s var(--ease-out) both;
 }
 
-.stagger-in > *:nth-child(1) {
+.stagger-in > :first-child {
   animation-delay: 40ms;
 }
-.stagger-in > *:nth-child(2) {
-  animation-delay: 120ms;
+
+.stagger-in > :nth-child(2) {
+  animation-delay: 0.12s;
 }
-.stagger-in > *:nth-child(3) {
-  animation-delay: 200ms;
+
+.stagger-in > :nth-child(3) {
+  animation-delay: 0.2s;
 }
-.stagger-in > *:nth-child(4) {
-  animation-delay: 280ms;
+
+.stagger-in > :nth-child(4) {
+  animation-delay: 0.28s;
 }
-.stagger-in > *:nth-child(5) {
-  animation-delay: 360ms;
+
+.stagger-in > :nth-child(5) {
+  animation-delay: 0.36s;
 }
