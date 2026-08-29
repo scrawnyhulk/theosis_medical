@@ -1,8 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { NerdParagraph } from "@/components/hacks/nerd-paragraph";
+import { HacksPlaque } from "@/components/site/holwey-hacks-mark";
 import { SiteShell } from "@/components/site/site-shell";
-import { getHack, hacks, hacksIntro, nerdTopics } from "@/lib/hacks";
+import { getHack, hacks, hacksIntro, nerdGroups, nerdTopics } from "@/lib/hacks";
 
 export const Route = createFileRoute("/hacks/nerd-out/")({
   component: NerdOutHub,
@@ -45,26 +46,52 @@ function NerdOutHub() {
         </div>
 
         <p className="mt-12 text-xs font-medium tracking-widest text-muted uppercase">Pick a topic</p>
-        <div className="mt-8 grid gap-4 md:grid-cols-2">
-          {nerdTopics.map((topic, i) => (
-            <Link
-              key={topic.id}
-              to="/hacks/nerd-out/$topic"
-              params={{ topic: topic.id }}
-              className="group flex flex-col rounded-xl bg-surface p-6 shadow-border transition-colors duration-150 hover:bg-fg/5 sm:p-8"
+        <nav className="mt-5 flex flex-wrap gap-x-5 gap-y-2" aria-label="Nerd Out groups">
+          {nerdGroups.map((group) => (
+            <a
+              key={group.id}
+              href={`#${group.id}`}
+              className="text-sm font-medium text-accent hover:text-fg"
             >
-              <p className="font-display text-3xl font-semibold text-accent">
-                {String(i + 1).padStart(2, "0")}
-              </p>
-              <h2 className="mt-4 font-display text-3xl font-semibold tracking-wide uppercase">
-                {topic.title}
+              {group.title}
+            </a>
+          ))}
+        </nav>
+
+        <div className="mt-10 space-y-16">
+          {nerdGroups.map((group) => (
+            <section key={group.id} id={group.id} className="scroll-mt-24">
+              <h2>
+                <HacksPlaque line1={group.mark[0]} line2={group.mark[1]} />
+                <span className="sr-only">{group.title}</span>
               </h2>
-              <p className="mt-3 flex-1 leading-relaxed text-muted">{topic.lede}</p>
-              <span className="mt-6 inline-flex min-h-11 items-center gap-2 text-sm font-medium text-accent">
-                Open this topic
-                <ArrowRight className="size-4 transition-transform duration-150 group-hover:translate-x-0.5" />
-              </span>
-            </Link>
+              <p className="mt-4 max-w-3xl text-lg leading-relaxed text-muted">{group.lede}</p>
+              <div className="mt-8 grid gap-4 md:grid-cols-2">
+                {group.topicIds.map((id) => {
+                  const topic = nerdTopics.find((t) => t.id === id);
+                  if (!topic) return null;
+                  const n = String(nerdTopics.findIndex((t) => t.id === id) + 1).padStart(2, "0");
+                  return (
+                    <Link
+                      key={topic.id}
+                      to="/hacks/nerd-out/$topic"
+                      params={{ topic: topic.id }}
+                      className="group flex flex-col rounded-xl bg-surface p-6 shadow-border transition-colors duration-150 hover:bg-fg/5 sm:p-8"
+                    >
+                      <p className="font-display text-3xl font-semibold text-accent">{n}</p>
+                      <h3 className="mt-4 font-display text-3xl font-semibold tracking-wide uppercase">
+                        {topic.title}
+                      </h3>
+                      <p className="mt-3 flex-1 leading-relaxed text-muted">{topic.lede}</p>
+                      <span className="mt-6 inline-flex min-h-11 items-center gap-2 text-sm font-medium text-accent">
+                        Open this topic
+                        <ArrowRight className="size-4 transition-transform duration-150 group-hover:translate-x-0.5" />
+                      </span>
+                    </Link>
+                  );
+                })}
+              </div>
+            </section>
           ))}
         </div>
 

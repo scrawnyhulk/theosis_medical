@@ -341,13 +341,6 @@ function HackExtras({ slug }: { slug: HackSlug }) {
             alt="Staples of good foods: protein you can grab, drinks that do not count, produce, PB2, sweet-tooth options, and low-carb bread hacks."
           />
         </figure>
-        <VideoCard
-          videoId="hGX_z5rXRlU"
-          title="The Alex Hormozi Cookbook [REVEALED]"
-          credit="Alex Hormozi"
-          summary="Zero-prep high-protein assemblies. The recipes below are the grocery-aisle version of that video."
-          anchor="hormozi-cookbook"
-        />
         <div>
           <h2 className="font-display text-3xl font-semibold tracking-wide sm:text-4xl">
             Holwey stolen Hormozi High Protein Hacks
@@ -356,6 +349,13 @@ function HackExtras({ slug }: { slug: HackSlug }) {
             Yup...I once again stole from business bro. He has hacked his health heavily...you can too! See below...
           </p>
         </div>
+        <VideoCard
+          videoId="hGX_z5rXRlU"
+          title="The Alex Hormozi Cookbook [REVEALED]"
+          credit="Alex Hormozi"
+          summary="Zero-prep high-protein assemblies. The recipes below are the grocery-aisle version of that video."
+          anchor="hormozi-cookbook"
+        />
         <div className="space-y-4">
           {hormoziRecipes.map((recipe, i) => {
             const pct = Math.round(proteinPercent(recipe));
@@ -374,6 +374,9 @@ function HackExtras({ slug }: { slug: HackSlug }) {
                     </li>
                   ))}
                 </ul>
+                {recipe.swap ? (
+                  <p className="mt-4 leading-relaxed text-muted">{recipe.swap}</p>
+                ) : null}
                 <dl className="mt-5 grid grid-cols-2 gap-3 text-sm sm:grid-cols-4">
                   <div className="rounded-md bg-ink px-3 py-2">
                     <dt className="text-xs tracking-widest text-ink-muted uppercase">Calories</dt>

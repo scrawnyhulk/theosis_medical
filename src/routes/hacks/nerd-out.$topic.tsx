@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { EnlargeableImage } from "@/components/hacks/enlargeable-image";
+import { FatBurnCalculator } from "@/components/hacks/fat-burn-calculator";
 import { NerdParagraph } from "@/components/hacks/nerd-paragraph";
 import { VideoCard } from "@/components/hacks/video-card";
 import { SiteShell } from "@/components/site/site-shell";
@@ -105,6 +106,8 @@ function NerdTopicPage() {
             </figcaption>
           </figure>
         ) : null}
+
+        {topic.id === "fat-burn-limit" ? <FatBurnCalculator /> : null}
 
         {"seeAlso" in topic && topic.seeAlso ? (
           <p className="mt-8 text-lg">

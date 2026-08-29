@@ -435,6 +435,29 @@ export const nerdTopics = [
     imageCredit: "References: Open Evidence — openevidence.com",
   },
   {
+    id: "fat-burn-limit",
+    title: "Your body has a fat-burning speed limit",
+    lede: "Stored fat can only release energy so fast. Push the deficit past that ceiling and muscle starts paying the bill.",
+    stolenFrom: "Klein et al., Gastroenterology (2002); Arner et al., Nature Medicine (2019)",
+    paragraphs: [
+      "You can only pull energy out of stored fat so quickly. A useful research-based rule of thumb is about 31 calories per day for every pound of body fat you are carrying. That is a ceiling, not a promise, and not an exact limit for every person.",
+      "The more fat you have, the higher that potential rate. Roughly: 20 lb of fat ≈ 620 calories a day. 50 lb ≈ 1,550. 80 lb ≈ 2,480. As you get leaner, the ceiling falls. That is why the last 10 pounds feel slower than the first 30, and why a deficit that was fine at a higher weight starts chewing on muscle when you are already pretty lean.",
+      "Do not confuse the rate with the tank. About 31 calories per pound per day is how fast stored fat may supply energy. About 3,500 calories per pound is the approximate energy stored in one pound of fat. One is speed. The other is capacity.",
+      "If your daily deficit is bigger than that ceiling, fat may not cover the full gap. The rest tends to come from lean tissue — especially if protein is low and you are not lifting. Aggressive dieting is how people “lose weight” and still look softer.",
+      "The leaner you get, the slower you should cut. Smaller deficit. Enough protein. Resistance training. Same three moves as everywhere else on this site — they just matter more when the fat warehouse is running low.",
+    ],
+    image: "/images/nerd-fat-burn-limit.png",
+    imageAlt:
+      "Infographic: stored fat can only release energy so fast. About 31 calories per day per pound of body fat is a research-based ceiling. A deficit past that ceiling raises the risk of losing muscle. Rate is not the same as the 3,500 calories stored in a pound of fat.",
+    imageCredit:
+      "Research-based estimate, not an exact personal limit. Klein et al., Gastroenterology (2002); Arner et al., Nature Medicine (2019). Individual physiology varies.",
+    seeAlso: {
+      hash: "protein",
+      label: "Why we keep protein high in a deficit",
+      note: "So the gap does not get taken from muscle.",
+    },
+  },
+  {
     id: "carbon",
     title: "Everything is carbon. You’re carbon. I’m carbon. It’s all carbon.",
     lede: "Follow one carbon atom from the air to a plant to you, then out the lungs as CO2.",
@@ -567,10 +590,42 @@ export const nerdTopics = [
   },
 ] as const;
 
+export const nerdGroups = [
+  {
+    id: "machine",
+    title: "Build and repair",
+    mark: ["Build and", "repair"] as const,
+    lede: "Protein first. Muscle is the point. Energy is what the parts run on.",
+    topicIds: ["protein", "muscle", "why-muscle", "energy"],
+  },
+  {
+    id: "fuel",
+    title: "Fat and fuel",
+    mark: ["Fat and", "fuel"] as const,
+    lede: "What the body burns, where carbon goes, and why the total still wins.",
+    topicIds: ["burning-fat", "fat-burn-limit", "carbon", "how-much"],
+  },
+  {
+    id: "overflow",
+    title: "When it goes wrong",
+    mark: ["When it", "goes wrong"] as const,
+    lede: "Overflow past your personal fat threshold — blood sugar, A1c, and cholesterol.",
+    topicIds: ["personal-fat-threshold", "a1c", "reverse-diabetes", "cholesterol"],
+  },
+  {
+    id: "bigger",
+    title: "The bigger picture",
+    mark: ["The bigger", "picture"] as const,
+    lede: "Food becomes you. The atoms were stars first.",
+    topicIds: ["you-are-what-you-eat", "stardust"],
+  },
+] as const;
+
 export type StapleRecipe = {
   name: string;
   how: string;
   ingredients: string[];
+  swap?: string;
   calories: number;
   protein: number;
   carbs: number;
@@ -584,8 +639,9 @@ export const hormoziRecipes: StapleRecipe[] = [
     ingredients: [
       "Fage 0% Greek yogurt, ~32 oz tub",
       "1 packet Crystal Light (fruit punch / berry)",
-      "½–1 cup Fruity Pebbles on top",
+      "½–1 cup Fruity Pebbles on top — or a high-protein cereal",
     ],
+    swap: "Ghost protein cereal is a good swap here. About 17–18 g of protein per serving versus about 1 g in Fruity Pebbles, similar crunch if you keep it on top. Premier Protein cereal lives in the same neighborhood. Macros below are for the Fruity Pebbles version.",
     calories: 550,
     protein: 83,
     carbs: 54,
@@ -595,9 +651,10 @@ export const hormoziRecipes: StapleRecipe[] = [
     name: "Premier Protein cereal + Fairlife",
     how: "Cereal in a bowl. High-protein milk on it. That is the whole recipe.",
     ingredients: [
-      "Premier Protein cereal, 3 cups",
+      "Premier Protein cereal, 3 cups — or Ghost protein cereal",
       "Fairlife ultra-filtered milk or Core Power, ~16 oz",
     ],
+    swap: "Ghost works here too. Slightly less protein per cup than Premier, still a real protein cereal instead of dessert with a crunch.",
     calories: 700,
     protein: 90,
     carbs: 80,
@@ -652,12 +709,13 @@ export const hormoziRecipes: StapleRecipe[] = [
     fat: 4,
   },
   {
-    name: "Tuna yogurt mustard bowl",
-    how: "Drain the tuna. Stir in 0% yogurt and yellow mustard until it looks like tuna salad.",
+    name: "Tuna yogurt bowl",
+    how: "Drain the tuna. Stir in 0% yogurt until it looks like tuna salad. Mustard is optional. Low-calorie mayo or Miracle Whip if you want it creamier.",
     ingredients: [
       "Chunk light tuna in water, enough for ~66 g protein (about 3 cans / 15 oz drained)",
       "Fage 0% yogurt, ~¾ cup",
-      "Yellow mustard",
+      "Yellow mustard — optional",
+      "Or low-calorie mayo / Miracle Whip if you want it creamier",
     ],
     calories: 380,
     protein: 84,
@@ -668,10 +726,11 @@ export const hormoziRecipes: StapleRecipe[] = [
     name: "Ezekiel lox toast",
     how: "Toast the bread. Fat-free cream cheese. Mash the salmon on top. Three open-face slices is his sitting.",
     ingredients: [
-      "Ezekiel 4:9 bread, 3 slices, toasted",
+      "Ezekiel 4:9 bread, 3 slices, toasted — or any high-protein / keto bread",
       "Fat-free cream cheese",
       "Smoked salmon / lox, ~8 oz",
     ],
+    swap: "Hero, Carbonaut, Aldi’s keto loaf, or whatever high-protein bread is on the shelf this week. Same job. Macros below are for Ezekiel.",
     calories: 620,
     protein: 72,
     carbs: 48,
