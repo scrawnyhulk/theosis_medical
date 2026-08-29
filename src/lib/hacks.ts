@@ -148,11 +148,8 @@ paragraphs: [
     slug: "helpful-videos",
     n: "09",
     title: "Helpful Videos",
-    lede: "The YouTube I am actually using as references. Same clips also live on the pages they belong to.",
-paragraphs: [
-      "This is not a channel. It is a pile of short videos behind the hacks — Hormozi for the starting math and the grocery-aisle recipes, Norton for sweeteners, Naiman for what actually causes type 2 diabetes.",
-      "I will add to this as I steal more. Watch them here, or stay on the hack and watch them there.",
-    ],
+    lede: "Here is a repository for the videos I think are helpful for being successful in health education and management. I may have used them elsewhere already but will consolidate them all here if I can.",
+    paragraphs: [],
   },
   {
     slug: "reading-list",
@@ -396,6 +393,26 @@ export const nerdTopics = [
       "Train, fuel, recover, grow. One set to failure is the version I will actually do. References are on the poster.",
   },
   {
+    id: "muscle-speed",
+    title: "How fast can you build muscle?",
+    lede: "Muscle grows slowly — one protein at a time. The pump is not new muscle.",
+    paragraphs: [
+      "After you lift, the fiber is under tension, sensors turn that force into a growth signal, blood delivers amino acids from the protein you ate, and ribosomes assemble those amino acids into more contractile protein. Synthesis stays up for roughly 24–48 hours. Repeat that enough times and the fibers get thicker. That is hypertrophy. It is not a overnight remodel.",
+      "The honest timeline: the pump right after a session is mostly fluid. Strength in the first 1–4 weeks is often skill and nervous-system coordination. Measurable size can start around 6–8 weeks. Visible change is more like 8–12+ weeks. The body you actually want is months to years of small cycles stacked on each other.",
+      "You do not have to destroy the muscle to build it. Soreness can happen. It is not the goal. Mechanical tension plus repeated protein synthesis is the goal.",
+      "Stack the odds the same way as everywhere else on this site: progressive resistance, hard sets near failure, train consistently, a gram of protein per pound of body weight, enough calories, sleep. Newer lifters grow faster. A deficit, older age, and inconsistent training all slow it down. Individual responses vary. Nobody is a monthly transformation except the ads.",
+    ],
+    image: "/images/nerd-muscle-speed.png",
+    imageAlt:
+      "Infographic: how fast you can build muscle. Tension, signal, deliver, build, repeat. Honest timeline from the pump to months of real growth. You do not have to destroy muscle to build it.",
+    imageCredit: "Muscle grows slowly — one protein at a time. Individual responses vary widely.",
+    seeAlso: {
+      hash: "muscle",
+      label: "How do we grow muscle?",
+      note: "The minimum-effective-dose version I will actually do.",
+    },
+  },
+  {
     id: "why-muscle",
     title: "Why should we care about muscle growth?",
     lede: "Muscle is more than strength — blood sugar, bones, falls, independence, heart, longevity.",
@@ -594,29 +611,21 @@ export const nerdGroups = [
   {
     id: "machine",
     title: "Build and repair",
-    mark: ["Build and", "repair"] as const,
-    lede: "Protein first. Muscle is the point. Energy is what the parts run on.",
-    topicIds: ["protein", "muscle", "why-muscle", "energy"],
+    topicIds: ["protein", "muscle", "muscle-speed", "why-muscle"],
   },
   {
     id: "fuel",
     title: "Fat and fuel",
-    mark: ["Fat and", "fuel"] as const,
-    lede: "What the body burns, where carbon goes, and why the total still wins.",
-    topicIds: ["burning-fat", "fat-burn-limit", "carbon", "how-much"],
+    topicIds: ["energy", "burning-fat", "fat-burn-limit", "carbon", "how-much"],
   },
   {
     id: "overflow",
     title: "When it goes wrong",
-    mark: ["When it", "goes wrong"] as const,
-    lede: "Overflow past your personal fat threshold — blood sugar, A1c, and cholesterol.",
     topicIds: ["personal-fat-threshold", "a1c", "reverse-diabetes", "cholesterol"],
   },
   {
     id: "bigger",
     title: "The bigger picture",
-    mark: ["The bigger", "picture"] as const,
-    lede: "Food becomes you. The atoms were stars first.",
     topicIds: ["you-are-what-you-eat", "stardust"],
   },
 ] as const;

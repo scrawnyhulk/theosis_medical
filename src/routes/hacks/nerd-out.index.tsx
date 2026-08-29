@@ -62,10 +62,8 @@ function NerdOutHub() {
           {nerdGroups.map((group) => (
             <section key={group.id} id={group.id} className="scroll-mt-24">
               <h2>
-                <HacksPlaque line1={group.mark[0]} line2={group.mark[1]} />
-                <span className="sr-only">{group.title}</span>
+                <HacksPlaque title={group.title} />
               </h2>
-              <p className="mt-4 max-w-3xl text-lg leading-relaxed text-muted">{group.lede}</p>
               <div className="mt-8 grid gap-4 md:grid-cols-2">
                 {group.topicIds.map((id) => {
                   const topic = nerdTopics.find((t) => t.id === id);

@@ -1,4 +1,10 @@
-export type MinuteSlug = "eustachian-tube" | "low-back-pain" | "fever" | "cough" | "sprain-strain";
+export type MinuteSlug =
+  | "eustachian-tube"
+  | "low-back-pain"
+  | "fever"
+  | "cough"
+  | "sprain-strain"
+  | "ct";
 
 export type Minute = {
   slug: MinuteSlug;
@@ -97,6 +103,21 @@ export const minutes: Minute[] = [
     image: "/images/minutes-sprain.png",
     imageAlt:
       "Infographic: sprain versus strain. Muscle strain, tendon strain, and ligament sprain, why collagen healing takes weeks, what actually helps, and red flags that need an exam.",
+  },
+  {
+    slug: "ct",
+    n: "06",
+    title: "Why We Don't CT Everyone",
+    lede: "A powerful, sometimes lifesaving tool — used thoughtfully.",
+    paragraphs: [
+      "A CT takes many X-rays from different angles and builds a detailed picture. Those X-rays are ionizing radiation — enough energy to alter atoms. That is not the same kind of radiation as Wi-Fi or a cell phone. One scan is a small added risk, not zero. Dose, repeats, age, sex, body area, and technique all matter.",
+      "Most of the time the DNA damage is repaired. Sometimes the cell dies. Very rarely a repair mistake remains and may contribute to cancer years later. Children and younger adults have more years ahead. Women have a somewhat higher risk for some radiation-linked cancers. Typical dose in perspective: a chest X-ray is about a few days of natural background. A head CT is months. An abdomen and pelvis CT can be a few years of background in one sitting.",
+      "“Just to look” can backfire. Radiation adds up. Harmless spots trigger more tests. We find things that never would have caused harm. A clean scan does not rule out every future problem, and whole-body CT screening is not recommended for healthy people without symptoms.",
+      "The best scan is the one that changes care. Scan when the answer could change diagnosis or treatment. Pause when it will not. Ask for ultrasound or MRI when they can answer the question without ionizing radiation. Right test, right patient, lowest reasonable dose. If the benefit outweighs the small risk, CT is often absolutely worth it.",
+    ],
+    image: "/images/minutes-ct.png",
+    imageAlt:
+      "Infographic: why we don’t CT everyone. What a CT does, ionizing radiation and DNA, dose in perspective, who needs extra care, why scanning just to look can backfire, and when CT is worth it.",
   },
 ];
 

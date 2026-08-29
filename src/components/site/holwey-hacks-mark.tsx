@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils";
 
 const plaqueShell =
-  "relative inline-flex -rotate-2 flex-col items-start justify-center overflow-hidden rounded-[3px] border border-white/10 leading-none shadow-[2px_3px_0_0_rgb(0_0_0_/_0.55),inset_0_1px_0_rgb(255_255_255_/_0.16)]";
+  "relative inline-flex items-center overflow-hidden rounded-[3px] border border-white/10 leading-none shadow-[2px_3px_0_0_rgb(0_0_0_/_0.55),inset_0_1px_0_rgb(255_255_255_/_0.16)]";
 
 const plaqueBg = {
   backgroundColor: "rgb(8 13 20 / 0.72)",
@@ -14,7 +14,7 @@ export function HolweyHacksMark({ className }: { className?: string }) {
     <span
       className={cn(
         plaqueShell,
-        "px-2.5 py-1.5 transition-[transform,box-shadow,background-color,border-color] duration-150",
+        "-rotate-2 flex-col items-start justify-center px-2.5 py-1.5 transition-[transform,box-shadow,background-color,border-color] duration-150",
         "group-hover:rotate-0 group-hover:border-accent group-hover:bg-accent group-hover:shadow-[2px_3px_0_0_rgb(0_0_0_/_0.3)]",
         className,
       )}
@@ -36,29 +36,17 @@ export function HolweyHacksMark({ className }: { className?: string }) {
   );
 }
 
-export function HacksPlaque({
-  line1,
-  line2,
-  className,
-}: {
-  line1: string;
-  line2?: string;
-  className?: string;
-}) {
+export function HacksPlaque({ title, className }: { title: string; className?: string }) {
   return (
-    <span
-      className={cn(plaqueShell, "-rotate-1 px-4 py-3 sm:px-5 sm:py-3.5", className)}
-      style={plaqueBg}
-    >
-      <span className="relative font-display text-[28px] font-semibold tracking-[0.12em] uppercase sm:text-[36px]">
-        <span className="hh-metal-blue">{line1.slice(0, 1)}</span>
-        <span className="hh-metal">{line1.slice(1)}</span>
-      </span>
-      {line2 ? (
-        <span className="hh-metal relative mt-1 font-display text-[28px] font-semibold tracking-[0.12em] uppercase sm:text-[36px]">
-          {line2}
+    <span className={cn("flex w-full items-center gap-4", className)}>
+      <span className={cn(plaqueShell, "gap-3 px-4 py-2.5 sm:px-5 sm:py-3")} style={plaqueBg}>
+        <span className="h-6 w-[3px] shrink-0 rounded-full bg-accent sm:h-8" aria-hidden />
+        <span className="relative whitespace-nowrap font-display text-[22px] font-semibold tracking-[0.16em] uppercase sm:text-[32px] lg:text-[36px]">
+          <span className="hh-metal-blue">{title.slice(0, 1)}</span>
+          <span className="hh-metal">{title.slice(1)}</span>
         </span>
-      ) : null}
+      </span>
+      <span className="hidden h-px min-w-8 flex-1 bg-border sm:block" aria-hidden />
     </span>
   );
 }
