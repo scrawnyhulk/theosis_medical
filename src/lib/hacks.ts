@@ -110,11 +110,14 @@ paragraphs: [
     n: "06",
     title: "Regular Food Hacks",
     lede: "Keep these in the house so the right choice is an easy choice.",
+    stolenFrom: "Alex Hormozi",
+    jokeSteal: true,
 paragraphs: [
       "When I’m on the wagon and not being a hypocrite — doing the 80% of things that keep my overall health under control — these are the staples I’m rotating through.",
       "Between these foods and the periodic “healthy-adjacent” [[takeout]], I’m able to stay sane while getting through a busy day to day. Diets fail when the healthier options require a 12-step recipe and the fatty liver with a side of fries option is a drive-through away. The move is to make the high-protein thing the thing you can grab while you are tired and hangry.",
       "This is not a meal plan. It is a fridge that does not fight you. Hitting the × 10 rule is the ideal. Close still counts.",
       "If a sweet tooth shows up: a Legendary pastry with fat-free Reddi-wip takes the cake… literally and figuratively. Like it’s really, really good.",
+      "And then I stole the grocery-aisle recipes from the same jacked business YouTuber as Where to Start. Zero prep. High protein. His versions often land around 80–100 g of protein in one sitting — scale them to your number. The macros below are from the video plus typical labels. Brands move. If the numbers are on the package, trust those.",
     ],
   },
   {
@@ -147,7 +150,7 @@ paragraphs: [
     title: "Helpful Videos",
     lede: "The YouTube I am actually using as references. Same clips also live on the pages they belong to.",
 paragraphs: [
-      "This is not a channel. It is a pile of short videos behind the hacks — Hormozi for the starting math, Norton for sweeteners, Naiman for what actually causes type 2 diabetes.",
+      "This is not a channel. It is a pile of short videos behind the hacks — Hormozi for the starting math and the grocery-aisle recipes, Norton for sweeteners, Naiman for what actually causes type 2 diabetes.",
       "I will add to this as I steal more. Watch them here, or stay on the hack and watch them there.",
     ],
   },
@@ -185,7 +188,7 @@ export type FastFoodChain = {
   items: FastFoodItem[];
 };
 
-export function proteinPercent(item: FastFoodItem): number {
+export function proteinPercent(item: { calories: number; protein: number }): number {
   if (item.calories <= 0) return 0;
   return (item.protein * 4 * 100) / item.calories;
 }
@@ -370,6 +373,11 @@ export const nerdTopics = [
       "The protein leverage hypothesis in brief says: animals — including people — appear to eat until they hit a protein quota for the day. If the food around you is diluted with carbs and fat (a low P:E ratio, if you will), you keep eating to get enough protein, and the extra calories come along for the ride. Raise the protein density and calorie intake often falls without a heroic act of willpower. Fix the protein, and the overeating loses steam.",
       "One more quiet nerd fact: digesting protein costs more energy than digesting carbs or fats. Roughly 20–30% of the protein calories get used in the processing. So 400 calories of protein when all is said and done is really 300 calories, and so on and so forth.",
     ],
+    image: "/images/nerd-protein.png",
+    imageAlt:
+      "Infographic: why protein is different. Builder first, fuel when needed, a reluctant route to body fat. No protein warehouse, high thermic effect, ×10 protein check, and the protein-leverage idea.",
+    imageCredit:
+      "Count protein early — not as an afterthought. Educational only. ×10 is a screening tool, not a score of whether a food is good or bad.",
     seeAlso: {
       hash: "muscle",
       label: "How do we grow muscle?",
@@ -559,6 +567,150 @@ export const nerdTopics = [
   },
 ] as const;
 
+export type StapleRecipe = {
+  name: string;
+  how: string;
+  ingredients: string[];
+  calories: number;
+  protein: number;
+  carbs: number;
+  fat: number;
+};
+
+export const hormoziRecipes: StapleRecipe[] = [
+  {
+    name: "Fruity Pebbles yogurt bowl",
+    how: "Stir Crystal Light into 0% Greek yogurt. Keep the cereal on top so it stays crunchy. Do not mix it in.",
+    ingredients: [
+      "Fage 0% Greek yogurt, ~32 oz tub",
+      "1 packet Crystal Light (fruit punch / berry)",
+      "½–1 cup Fruity Pebbles on top",
+    ],
+    calories: 550,
+    protein: 83,
+    carbs: 54,
+    fat: 2,
+  },
+  {
+    name: "Premier Protein cereal + Fairlife",
+    how: "Cereal in a bowl. High-protein milk on it. That is the whole recipe.",
+    ingredients: [
+      "Premier Protein cereal, 3 cups",
+      "Fairlife ultra-filtered milk or Core Power, ~16 oz",
+    ],
+    calories: 700,
+    protein: 90,
+    carbs: 80,
+    fat: 12,
+  },
+  {
+    name: "Chocolate egg whites",
+    how: "Liquid egg whites + zero-sugar Hershey’s syrup. Drink it, or microwave it until it puffs.",
+    ingredients: [
+      "Liquid egg whites, ~3 cups (about a carton and a half)",
+      "Zero-sugar Hershey’s syrup, 1–2 tbsp",
+    ],
+    calories: 270,
+    protein: 54,
+    carbs: 8,
+    fat: 0,
+  },
+  {
+    name: "Microwave egg-white salsa bowl",
+    how: "Microwave the whites until they set. Spoon salsa on top. Looks like a sad souffle. Hits like protein.",
+    ingredients: ["Liquid egg whites, ~3 cups", "Zero-calorie or low-calorie salsa"],
+    calories: 260,
+    protein: 54,
+    carbs: 8,
+    fat: 0,
+  },
+  {
+    name: "Fairlife as the meal",
+    how: "Open the bottle. That is the prep. Two Core Power Elite shakes is the version from the video.",
+    ingredients: ["Fairlife Core Power Elite 42 g, two bottles"],
+    calories: 460,
+    protein: 84,
+    carbs: 16,
+    fat: 3,
+  },
+  {
+    name: "Jerky + light string cheese",
+    how: "The travel combo. Keep both in the bag. No fridge required for a work day.",
+    ingredients: ["Original beef jerky, ~1 bag as sold", "Light string cheese, 4 sticks"],
+    calories: 680,
+    protein: 84,
+    carbs: 24,
+    fat: 18,
+  },
+  {
+    name: "Shrimp cocktail",
+    how: "Thaw the pre-cooked shrimp. Dip in cocktail sauce. Zero cooking.",
+    ingredients: ["Pre-cooked shrimp, ~12 oz", "Cocktail sauce, ~¼ cup"],
+    calories: 400,
+    protein: 72,
+    carbs: 16,
+    fat: 4,
+  },
+  {
+    name: "Tuna yogurt mustard bowl",
+    how: "Drain the tuna. Stir in 0% yogurt and yellow mustard until it looks like tuna salad.",
+    ingredients: [
+      "Chunk light tuna in water, enough for ~66 g protein (about 3 cans / 15 oz drained)",
+      "Fage 0% yogurt, ~¾ cup",
+      "Yellow mustard",
+    ],
+    calories: 380,
+    protein: 84,
+    carbs: 10,
+    fat: 4,
+  },
+  {
+    name: "Ezekiel lox toast",
+    how: "Toast the bread. Fat-free cream cheese. Mash the salmon on top. Three open-face slices is his sitting.",
+    ingredients: [
+      "Ezekiel 4:9 bread, 3 slices, toasted",
+      "Fat-free cream cheese",
+      "Smoked salmon / lox, ~8 oz",
+    ],
+    calories: 620,
+    protein: 72,
+    carbs: 48,
+    fat: 12,
+  },
+  {
+    name: "Lean beef + riced cauliflower",
+    how: "Microwave a bag of riced cauliflower. Brown extra-lean beef or turkey. Sauce: light mayo, sriracha, a packet of stevia if you want it sweet-heat.",
+    ingredients: [
+      "93/7 or 96/4 ground beef or ground turkey, ~8 oz cooked",
+      "Steam-bag riced cauliflower",
+      "Light mayo + sriracha (+ optional stevia)",
+    ],
+    calories: 520,
+    protein: 52,
+    carbs: 14,
+    fat: 24,
+  },
+  {
+    name: "Bro nachos",
+    how: "Quest chips on a plate. Warm Hormel chili (no beans). Greek yogurt and salsa on top instead of sour cream.",
+    ingredients: [
+      "Quest Cool Ranch chips, 2 bags",
+      "Hormel chili, no beans, 1 can",
+      "Fage 0% yogurt + salsa",
+    ],
+    calories: 890,
+    protein: 100,
+    carbs: 52,
+    fat: 28,
+  },
+];
+
+export const hormoziRecipeNotes = [
+  "Stolen from Alex Hormozi’s cookbook video. I did not invent these. I am the middleman.",
+  "His plates are often a full meal at 80–100 g of protein. Cut everything in half if that is more than you need in one sitting.",
+  "Calories, protein, carbs, and fat are rounded from the video plus typical labels. Brands reformulate. If the package disagrees, the package wins.",
+] as const;
+
 export const referenceVideos = [
   {
     videoId: "fxyhIXZ6Yog",
@@ -568,6 +720,15 @@ export const referenceVideos = [
       "Five minutes. Calories from body weight and your goal, a gram of protein per pound, leftover calories spent however you want.",
     anchor: "hormozi",
     usedOn: { slug: "where-to-start" as const, label: "Where to Start" },
+  },
+  {
+    videoId: "hGX_z5rXRlU",
+    title: "The Alex Hormozi Cookbook [REVEALED]",
+    credit: "Alex Hormozi",
+    summary:
+      "Twelve zero-prep high-protein assemblies. Yogurt and cereal, lox on Ezekiel, tuna-yogurt, shrimp, cauliflower beef, bro nachos, egg whites. I stole the list and put the recipes on Regular Food Hacks.",
+    anchor: "hormozi-cookbook",
+    usedOn: { slug: "staples" as const, label: "Regular Food Hacks" },
   },
   {
     videoId: "HmXDu897fic",

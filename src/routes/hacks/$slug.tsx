@@ -15,6 +15,8 @@ import {
   getHack,
   hacks,
   hacksIntro,
+  hormoziRecipeNotes,
+  hormoziRecipes,
   peRatio,
   peTone,
   proteinPercent,
@@ -332,13 +334,81 @@ function HackExtras({ slug }: { slug: HackSlug }) {
 
   if (slug === "staples") {
     return (
-      <div className="mt-10">
+      <div className="mt-10 space-y-8">
         <figure>
           <EnlargeableImage
             src="/images/staples-poster.png"
             alt="Staples of good foods: protein you can grab, drinks that do not count, produce, PB2, sweet-tooth options, and low-carb bread hacks."
           />
         </figure>
+        <VideoCard
+          videoId="hGX_z5rXRlU"
+          title="The Alex Hormozi Cookbook [REVEALED]"
+          credit="Alex Hormozi"
+          summary="Zero-prep high-protein assemblies. The recipes below are the grocery-aisle version of that video."
+          anchor="hormozi-cookbook"
+        />
+        <div>
+          <h2 className="font-display text-3xl font-semibold tracking-wide sm:text-4xl">
+            Holwey stolen Hormozi High Protein Hacks
+          </h2>
+          <p className="mt-4 max-w-3xl text-lg leading-relaxed text-muted">
+            Yup...I once again stole from business bro. He has hacked his health heavily...you can too! See below...
+          </p>
+        </div>
+        <div className="space-y-4">
+          {hormoziRecipes.map((recipe, i) => {
+            const pct = Math.round(proteinPercent(recipe));
+            return (
+              <article key={recipe.name} className="rounded-xl bg-surface p-6 shadow-border sm:p-8">
+                <p className="font-display text-2xl font-semibold text-accent">
+                  {String(i + 1).padStart(2, "0")}
+                </p>
+                <h3 className="mt-2 font-display text-3xl font-semibold tracking-wide">{recipe.name}</h3>
+                <p className="mt-3 leading-relaxed text-muted">{recipe.how}</p>
+                <ul className="mt-4 space-y-2 text-fg">
+                  {recipe.ingredients.map((item) => (
+                    <li key={item} className="flex gap-2">
+                      <span aria-hidden="true" className="mt-2 size-1 shrink-0 rounded-full bg-accent" />
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+                <dl className="mt-5 grid grid-cols-2 gap-3 text-sm sm:grid-cols-4">
+                  <div className="rounded-md bg-ink px-3 py-2">
+                    <dt className="text-xs tracking-widest text-ink-muted uppercase">Calories</dt>
+                    <dd className="mt-1 font-medium tabular-nums text-ink-fg">{recipe.calories}</dd>
+                  </div>
+                  <div className="rounded-md bg-ink px-3 py-2">
+                    <dt className="text-xs tracking-widest text-ink-muted uppercase">Protein</dt>
+                    <dd className="mt-1 font-medium tabular-nums text-ink-fg">{recipe.protein} g</dd>
+                  </div>
+                  <div className="rounded-md bg-ink px-3 py-2">
+                    <dt className="text-xs tracking-widest text-ink-muted uppercase">Carbs / Fat</dt>
+                    <dd className="mt-1 font-medium tabular-nums text-ink-fg">
+                      {recipe.carbs} g / {recipe.fat} g
+                    </dd>
+                  </div>
+                  <div className="rounded-md bg-ink px-3 py-2">
+                    <dt className="text-xs tracking-widest text-ink-muted uppercase">% protein</dt>
+                    <dd className="mt-1 font-medium tabular-nums text-ink-fg">{pct}%</dd>
+                  </div>
+                </dl>
+              </article>
+            );
+          })}
+        </div>
+        <div className="rounded-xl bg-ink p-6 text-ink-fg shadow-border sm:p-8">
+          <h2 className="font-display text-xl font-semibold tracking-wide">Fine print</h2>
+          <ul className="mt-4 space-y-3 text-ink-muted">
+            {hormoziRecipeNotes.map((note) => (
+              <li key={note} className="flex gap-2">
+                <span aria-hidden="true" className="mt-2 size-1 shrink-0 rounded-full bg-accent" />
+                <span>{note}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
     );
   }
