@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
 import { SiteShell } from "@/components/site/site-shell";
-import { creditKicker, hacks, hacksIntro } from "@/lib/hacks";
+import { creditKicker, hackCovers, hacks, hacksIntro, type Hack } from "@/lib/hacks";
 
 export const Route = createFileRoute("/hacks/")({
   component: HacksHub,
@@ -16,6 +16,56 @@ export const Route = createFileRoute("/hacks/")({
     ],
   }),
 });
+
+function HackCoverCard({
+  hack,
+  featured,
+}: {
+  hack: Hack;
+  featured?: boolean;
+}) {
+  const cover = hackCovers[hack.slug];
+  if (!cover) return null;
+  return (
+    <Link
+      to="/hacks/$slug"
+      params={{ slug: hack.slug }}
+      className={`group block overflow-hidden rounded-xl bg-ink shadow-border ${featured ? "mt-8" : ""}`}
+    >
+      <span className="relative block aspect-[3/2] overflow-hidden rounded-xl">
+        <img
+          src={cover.src}
+          alt={cover.alt}
+          className="absolute inset-0 size-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
+        />
+        <span className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/35 to-black/10" />
+        <span className={`relative z-10 flex h-full min-h-11 flex-col justify-end p-6 sm:p-8 ${featured ? "sm:p-10" : ""}`}>
+          {featured ? (
+            <span className="text-xs font-medium tracking-widest text-accent uppercase">Start here</span>
+          ) : null}
+          <span className={`font-display font-semibold text-accent ${featured ? "mt-3 text-4xl sm:text-5xl" : "text-3xl"}`}>
+            {hack.n}
+          </span>
+          <span
+            className={`mt-2 font-display font-semibold tracking-wide text-white uppercase ${featured ? "text-4xl sm:text-5xl" : "text-3xl"}`}
+          >
+            {hack.title}
+          </span>
+          {hack.stolenFrom && hack.slug !== "where-to-start" ? (
+            <span className="mt-3 block text-xs font-medium tracking-widest text-accent uppercase">
+              {creditKicker(hack.stolenFrom, hack.jokeSteal)}
+            </span>
+          ) : null}
+          {hack.slug !== "where-to-start" ? (
+            <span className={`mt-2 block leading-relaxed text-white/85 ${featured ? "max-w-2xl text-lg" : "text-sm sm:text-base"}`}>
+              {hack.lede}
+            </span>
+          ) : null}
+        </span>
+      </span>
+    </Link>
+  );
+}
 
 function HacksHub() {
   const featured = hacks.find((h) => h.featured);
@@ -52,7 +102,9 @@ function HacksHub() {
 
       <section className="mx-auto max-w-6xl px-5 py-16 sm:px-8 lg:py-24">
         <p className="text-xs font-medium tracking-widest text-muted uppercase">Pick a hack</p>
-        {featured ? (
+        {featured && hackCovers[featured.slug] ? (
+          <HackCoverCard hack={featured} featured />
+        ) : featured ? (
           <Link
             to="/hacks/$slug"
             params={{ slug: featured.slug }}
@@ -79,29 +131,34 @@ function HacksHub() {
         ) : null}
 
         <div className="mt-4 grid gap-4 md:grid-cols-2">
-          {rest.map((hack) => (
-            <Link
-              key={hack.slug}
-              to="/hacks/$slug"
-              params={{ slug: hack.slug }}
-              className="group flex flex-col rounded-xl bg-surface p-6 shadow-border transition-colors duration-150 hover:bg-fg/5 sm:p-8"
-            >
-              <p className="font-display text-3xl font-semibold text-accent">{hack.n}</p>
-              <h2 className="mt-4 font-display text-3xl font-semibold tracking-wide uppercase">
-                {hack.title}
-              </h2>
-              {hack.stolenFrom ? (
-                <p className="mt-2 text-xs font-medium tracking-widest text-muted uppercase">
-                  {creditKicker(hack.stolenFrom, hack.jokeSteal)}
-                </p>
-              ) : null}
-              <p className="mt-3 flex-1 leading-relaxed text-muted">{hack.lede}</p>
-              <span className="mt-6 inline-flex min-h-11 items-center gap-2 text-sm font-medium text-accent">
-                Open this hack
-                <ArrowRight className="size-4 transition-transform duration-150 group-hover:translate-x-0.5" />
-              </span>
-            </Link>
-          ))}
+          {rest.map((hack) => {
+            if (hackCovers[hack.slug]) {
+              return <HackCoverCard key={hack.slug} hack={hack} />;
+            }
+            return (
+              <Link
+                key={hack.slug}
+                to="/hacks/$slug"
+                params={{ slug: hack.slug }}
+                className="group flex flex-col rounded-xl bg-surface p-6 shadow-border transition-colors duration-150 hover:bg-fg/5 sm:p-8"
+              >
+                <p className="font-display text-3xl font-semibold text-accent">{hack.n}</p>
+                <h2 className="mt-4 font-display text-3xl font-semibold tracking-wide uppercase">
+                  {hack.title}
+                </h2>
+                {hack.stolenFrom ? (
+                  <p className="mt-2 text-xs font-medium tracking-widest text-muted uppercase">
+                    {creditKicker(hack.stolenFrom, hack.jokeSteal)}
+                  </p>
+                ) : null}
+                <p className="mt-3 flex-1 leading-relaxed text-muted">{hack.lede}</p>
+                <span className="mt-6 inline-flex min-h-11 items-center gap-2 text-sm font-medium text-accent">
+                  Open this hack
+                  <ArrowRight className="size-4 transition-transform duration-150 group-hover:translate-x-0.5" />
+                </span>
+              </Link>
+            );
+          })}
         </div>
       </section>
     </SiteShell>

@@ -75,7 +75,13 @@ function NerdTopicPage() {
             )}
           </p>
         ) : null}
-        {topic.lede ? <p className="mt-5 text-xl leading-relaxed text-fg">{topic.lede}</p> : null}
+        {topic.lede ? (
+          <div className="mt-5 space-y-5 text-xl leading-relaxed text-fg">
+            {topic.lede.split("\n\n").map((p) => (
+              <p key={p.slice(0, 32)}>{p}</p>
+            ))}
+          </div>
+        ) : null}
 
         {"tldrImage" in topic && topic.tldrImage ? (
           <figure className="mt-8">

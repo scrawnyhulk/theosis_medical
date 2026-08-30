@@ -25,6 +25,33 @@ export function creditKicker(source: string, jokeSteal?: boolean) {
   return jokeSteal ? `Stolen from ${source}` : `Reference: ${source}`;
 }
 
+export const hackCovers: Partial<Record<HackSlug, { src: string; alt: string }>> = {
+  "where-to-start": {
+    src: "/images/hack-start-cover.jpg",
+    alt: "A path forward: pick a calorie target, eat protein first, spend the rest, keep walking.",
+  },
+  "dont-drink-calories": {
+    src: "/images/hack-drinks-cover.jpg",
+    alt: "Calorie drinks on one side, water, coffee, and tea on the other.",
+  },
+  "protein-per-pound": {
+    src: "/images/hack-protein-per-pound-cover.jpg",
+    alt: "A gram of protein per pound: protein foods circling a person on the scale.",
+  },
+  "protein-label": {
+    src: "/images/protein-x10-cover.jpg",
+    alt: "The protein × 10 trick: ten protein units on one side of the scale versus the calories on the other.",
+  },
+  "fast-food": {
+    src: "/images/hack-fast-food-cover.jpg",
+    alt: "Drive-through hack: extra meat, no bun, skip the fries, diet drink.",
+  },
+  exercise: {
+    src: "/images/hack-exercise-cover.jpg",
+    alt: "Simple training that actually happens: push, pull, squat, walk, and a hill.",
+  },
+};
+
 export const hacksIntro = {
   kicker: "Lifestyle medicine — the 20%",
   title: "Holwey’s Handy Health Hacks",
@@ -598,7 +625,7 @@ export const nerdTopics = [
   {
     id: "stardust",
     title: "You are made of stardust",
-    lede: "The atoms in you have a history older than Earth.",
+    lede: "This is just a fun one. It hurts my brain every once in a while to think about the fact that the atoms I am touching on my arm were floating around in space,...lightyears away...after stars exploded.\n\nAll of us...have been to space.",
     paragraphs: [],
     image: "/images/stardust.png",
     imageAlt:
