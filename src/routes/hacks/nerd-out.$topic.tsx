@@ -98,7 +98,7 @@ function NerdTopicPage() {
         {"image" in topic && topic.image ? (
           <figure className={topic.paragraphs.length > 0 || ("tldrImage" in topic && topic.tldrImage) ? "mt-10" : "mt-8"}>
             {"tldrImage" in topic && topic.tldrImage ? (
-              <p className="mb-3 font-display text-2xl font-semibold tracking-wide">The full version</p>
+              <p className="mb-3 font-display text-2xl font-semibold tracking-wide">The full nerdy nerd version for nerds like me</p>
             ) : null}
             <EnlargeableImage src={topic.image} alt={topic.imageAlt} />
             <figcaption className="mt-3 text-sm leading-relaxed text-muted">

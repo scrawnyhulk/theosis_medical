@@ -630,6 +630,69 @@ export const nerdGroups = [
   },
 ] as const;
 
+export const nerdCovers: Partial<Record<(typeof nerdTopics)[number]["id"], { src: string; alt: string }>> = {
+  protein: {
+    src: "/images/nerd-covers/protein.jpg",
+    alt: "Protein foods becoming amino acids, then muscle fibers.",
+  },
+  muscle: {
+    src: "/images/nerd-covers/muscle.jpg",
+    alt: "Lifting with muscle fibers under tension — train, then the tissue rebuilds.",
+  },
+  "muscle-speed": {
+    src: "/images/nerd-covers/muscle-speed.jpg",
+    alt: "Amino acids falling through an hourglass into muscle fiber — growth takes time.",
+  },
+  "why-muscle": {
+    src: "/images/nerd-covers/why-muscle.jpg",
+    alt: "An older hiker with heart, muscle, and bone shown — independence, not just size.",
+  },
+  energy: {
+    src: "/images/nerd-covers/energy.jpg",
+    alt: "Protein builds the machine. Carb and fat fill the tanks.",
+  },
+  "burning-fat": {
+    src: "/images/nerd-covers/burning-fat.jpg",
+    alt: "Walking on fat, sprinting on glycogen — the fuel mix shifts with the work.",
+  },
+  "fat-burn-limit": {
+    src: "/images/nerd-covers/fat-burn-limit.jpg",
+    alt: "Fat flowing through a limited valve into mitochondria — a speed limit on fat burn.",
+  },
+  carbon: {
+    src: "/images/nerd-covers/carbon.jpg",
+    alt: "A carbon atom cycling from air to a plant to food to a breath of CO2.",
+  },
+  "how-much": {
+    src: "/images/nerd-covers/how-much.jpg",
+    alt: "A scale: a pile of whole food versus a burger and fries, with the body in the middle.",
+  },
+  "personal-fat-threshold": {
+    src: "/images/nerd-covers/personal-fat-threshold.jpg",
+    alt: "Fat overflowing into the liver and pancreas — the personal fat threshold.",
+  },
+  a1c: {
+    src: "/images/nerd-covers/a1c.jpg",
+    alt: "A red blood cell opened to show hemoglobin with sugar attached.",
+  },
+  "reverse-diabetes": {
+    src: "/images/nerd-covers/reverse-diabetes.jpg",
+    alt: "Emptying extra fat so the liver and pancreas can work — type 2 can reverse.",
+  },
+  cholesterol: {
+    src: "/images/nerd-covers/cholesterol.jpg",
+    alt: "An artery wall with cholesterol particles and plaque building up.",
+  },
+  "you-are-what-you-eat": {
+    src: "/images/nerd-covers/you-are-what-you-eat.jpg",
+    alt: "A meal becoming molecules, then muscle, fat, and the rest of you.",
+  },
+  stardust: {
+    src: "/images/nerd-covers/stardust.jpg",
+    alt: "A figure made of stars, with Earth and a galaxy behind them.",
+  },
+};
+
 export type StapleRecipe = {
   name: string;
   how: string;

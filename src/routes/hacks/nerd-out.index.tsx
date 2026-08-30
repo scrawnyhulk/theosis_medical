@@ -3,7 +3,7 @@ import { ArrowLeft, ArrowRight } from "lucide-react";
 import { NerdParagraph } from "@/components/hacks/nerd-paragraph";
 import { HacksPlaque } from "@/components/site/holwey-hacks-mark";
 import { SiteShell } from "@/components/site/site-shell";
-import { getHack, hacks, hacksIntro, nerdGroups, nerdTopics } from "@/lib/hacks";
+import { getHack, hacks, hacksIntro, nerdCovers, nerdGroups, nerdTopics } from "@/lib/hacks";
 
 export const Route = createFileRoute("/hacks/nerd-out/")({
   component: NerdOutHub,
@@ -69,22 +69,38 @@ function NerdOutHub() {
                   const topic = nerdTopics.find((t) => t.id === id);
                   if (!topic) return null;
                   const n = String(nerdTopics.findIndex((t) => t.id === id) + 1).padStart(2, "0");
+                  const cover = nerdCovers[topic.id];
                   return (
                     <Link
                       key={topic.id}
                       to="/hacks/nerd-out/$topic"
                       params={{ topic: topic.id }}
-                      className="group flex flex-col rounded-xl bg-surface p-6 shadow-border transition-colors duration-150 hover:bg-fg/5 sm:p-8"
+                      className="group relative isolate block min-h-11 overflow-hidden rounded-xl bg-ink shadow-border"
                     >
-                      <p className="font-display text-3xl font-semibold text-accent">{n}</p>
-                      <h3 className="mt-4 font-display text-3xl font-semibold tracking-wide uppercase">
-                        {topic.title}
-                      </h3>
-                      <p className="mt-3 flex-1 leading-relaxed text-muted">{topic.lede}</p>
-                      <span className="mt-6 inline-flex min-h-11 items-center gap-2 text-sm font-medium text-accent">
-                        Open this topic
-                        <ArrowRight className="size-4 transition-transform duration-150 group-hover:translate-x-0.5" />
-                      </span>
+                      {cover ? (
+                        <img
+                          src={cover.src}
+                          alt={cover.alt}
+                          className="absolute inset-0 size-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                        />
+                      ) : (
+                        <div
+                          className="absolute inset-0"
+                          style={{
+                            backgroundColor: "rgb(8 13 20)",
+                            backgroundImage: "url(/images/navy-grain.jpg)",
+                            backgroundSize: "420px",
+                          }}
+                          aria-hidden
+                        />
+                      )}
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/35 to-black/10" />
+                      <div className="relative flex aspect-[16/10] flex-col justify-end p-6 sm:p-8">
+                        <p className="font-display text-3xl font-semibold text-accent">{n}</p>
+                        <h3 className="mt-2 font-display text-3xl font-semibold tracking-wide text-white uppercase">
+                          {topic.title}
+                        </h3>
+                      </div>
                     </Link>
                   );
                 })}
