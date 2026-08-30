@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ZoomIn, ZoomOut } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -14,6 +14,15 @@ export function EnlargeableImage({
   className?: string;
 }) {
   const [open, setOpen] = useState(false);
+  const scrollerRef = useRef<HTMLDivElement>(null);
+  const dragRef = useRef({
+    id: -1,
+    moved: false,
+    x: 0,
+    y: 0,
+    sl: 0,
+    st: 0,
+  });
 
   useEffect(() => {
     if (!open) return;
@@ -26,6 +35,51 @@ export function EnlargeableImage({
     return () => {
       document.removeEventListener("keydown", onKey);
       document.body.style.overflow = prev;
+    };
+  }, [open]);
+
+  useEffect(() => {
+    if (!open) return;
+    const scroller = scrollerRef.current;
+    if (!scroller) return;
+    const drag = dragRef.current;
+
+    const down = (event: PointerEvent) => {
+      if (event.pointerType === "touch") return;
+      if (event.button !== 0) return;
+      drag.id = event.pointerId;
+      drag.moved = false;
+      drag.x = event.clientX;
+      drag.y = event.clientY;
+      drag.sl = scroller.scrollLeft;
+      drag.st = scroller.scrollTop;
+      scroller.setPointerCapture(event.pointerId);
+    };
+
+    const move = (event: PointerEvent) => {
+      if (event.pointerId !== drag.id) return;
+      const dx = event.clientX - drag.x;
+      const dy = event.clientY - drag.y;
+      if (!drag.moved && Math.abs(dx) + Math.abs(dy) < 8) return;
+      drag.moved = true;
+      scroller.scrollLeft = drag.sl - dx;
+      scroller.scrollTop = drag.st - dy;
+    };
+
+    const up = (event: PointerEvent) => {
+      if (event.pointerId !== drag.id) return;
+      drag.id = -1;
+    };
+
+    scroller.addEventListener("pointerdown", down);
+    scroller.addEventListener("pointermove", move);
+    scroller.addEventListener("pointerup", up);
+    scroller.addEventListener("pointercancel", up);
+    return () => {
+      scroller.removeEventListener("pointerdown", down);
+      scroller.removeEventListener("pointermove", move);
+      scroller.removeEventListener("pointerup", up);
+      scroller.removeEventListener("pointercancel", up);
     };
   }, [open]);
 
@@ -44,14 +98,23 @@ export function EnlargeableImage({
       </button>
       {open ? (
         <div
-          className="fixed inset-0 z-[80] overflow-y-auto bg-black/85 p-3 sm:p-6"
-          onClick={() => setOpen(false)}
+          ref={scrollerRef}
+          className="fixed inset-0 z-[80] cursor-grab overflow-auto bg-black/85 p-3 select-none sm:p-6 active:cursor-grabbing"
+          onClick={() => {
+            if (dragRef.current.moved) return;
+            setOpen(false);
+          }}
           role="dialog"
           aria-modal="true"
           aria-label={alt}
         >
-          <div className="mx-auto my-12 max-w-5xl cursor-zoom-out sm:my-16">
-            <img src={src} alt={alt} className="w-full rounded-sm bg-steel" />
+          <div className="mx-auto my-8 w-fit max-w-none">
+            <img
+              src={src}
+              alt={alt}
+              draggable={false}
+              className="pointer-events-none block h-auto w-auto max-w-none rounded-sm bg-steel"
+            />
           </div>
           <span className="pointer-events-none fixed right-4 bottom-6 flex size-11 items-center justify-center rounded-sm bg-ink text-ink-fg shadow-ink-ring">
             <ZoomOut className="size-5" />

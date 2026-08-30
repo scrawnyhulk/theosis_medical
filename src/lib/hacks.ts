@@ -467,21 +467,69 @@ export const nerdTopics = [
   },
   {
     id: "energy",
-    title: "What do we mean by “energy”?",
+    title: "What do we mean by “energy”? Part 1",
     lede: "The body is a machine made of protein parts, running on carb and fat fuel.",
     paragraphs: [],
     image: "/images/naiman-energy-machine.png",
     imageAlt:
       "Infographic: the body as a machine made of protein parts, running on carb and fat fuel, with glycogen and fat storage and the protein-to-energy ratio.",
     imageCredit: "Credit / reference: Dr. Ted Naiman — The P:E Diet",
+    midParagraphs: [
+      "Carbs and fat get burned to make ATP (adenosine triphosphate) — that’s the molecule that powers everything in the body.  In muscles, it powers every contraction.  When ATP does work, it drops a phosphate and becomes ADP (adenosine diphosphate), which has to be recharged back to ATP before it can work again.",
+    ],
+    midImage: "/images/nerd-glucose-fat-atp.png",
+    midImageAlt:
+      "Infographic: how muscle turns glucose and fat into ATP. Two fuels, different entrances, one currency. Glycolysis, Krebs, electron transport, beta-oxidation, ketones, creatine refill, and lactate when demand outruns mitochondria.",
+    midImageCredit: "Two fuels. Different entrances. One usable energy currency. Educational only.",
     extraParagraphs: [
-      "Carbs and fat get burned to make ATP — that’s the battery the muscle actually drains. When ATP does work, it drops a phosphate and becomes ADP, which has to be charged back to ATP before it can work again.",
       "Creatine does that recharge STAT. Phosphocreatine hands a phosphate to ADP so ATP comes back in a blink. Not extra calories. A few more seconds of maximal effort — a lift, a sprint, a jump.",
     ],
     extraImage: "/images/nerd-creatine.png",
     extraImageAlt:
       "Infographic: creatine kinase, the muscle’s ATP recharge system. ATP powers contraction, phosphocreatine donates a phosphate, creatine kinase rebuilds ATP. Creatine supplements can increase muscle phosphocreatine stores.",
     extraImageCredit: "The first few seconds. Educational only.",
+    seeAlso: {
+      hash: "fuel-biochem",
+      label: "Part 2",
+      note: "How a bagel and a stick of butter both become ATP.",
+    },
+  },
+  {
+    id: "fuel-biochem",
+    title: "What do we mean by “energy”? Part 2",
+    lede: "This is the super nerdy biochemistry of how your body literally makes the energy to contract muscle, send nerve signals, fight infection...you name it. ATP is the actual currency of energy that makes things happen. It is the final destination of the fuel you eat in your diet.\n\nBelow is the biochemistry of how fat and carbs turn into ATP...and then some. So buckle up!",
+    paragraphs: [
+      "Say you are sprinting and you need fuel fast, glycolysis below is how you can quickly make ATP, but it doesn't make a lot.",
+    ],
+    image: "/images/nerd-glycolysis.png",
+    imageAlt:
+      "Infographic: glycolysis, the cell’s rapid sugar-splitting line. One glucose is split into two pyruvates. Net 2 ATP plus 2 NADH. Oxygen not required. Pyruvate can go to mitochondria or to lactate.",
+    imageCredit: "The fast first cut. Small ATP profit. Educational only.",
+    extraParagraphs: [
+      "You're sprinting pretty fast, you're starting to feel a burn, you're not getting enough oxygen to your muscle...now you're making lactic acid...",
+    ],
+    extraImage: "/images/nerd-lactate.png",
+    extraImageAlt:
+      "Infographic: lactate production, the high-speed NAD+ recycling loop. Pyruvate plus NADH become lactate plus NAD+ so glycolysis can keep making ATP. Lactate is not metabolic trash — it can be burned as fuel or recycled into glucose.",
+    extraImageCredit: "Often called lactic acid — at body pH it is mostly lactate. Educational only.",
+    moreBlocks: [
+      {
+        paragraphs: [
+          "Ok, now you've stopped sprinting and are finally able to rest. You go home, take a shower and then put a movie on. Now we have plenty of oxygen available to burn our fat stores for fuel. This is more efficient and will give way more ATP bang for our buck.",
+        ],
+        image: "/images/nerd-beta-oxidation.png",
+        imageAlt:
+          "Infographic: beta-oxidation. Mitochondria dismantle fatty acids two carbons at a time through the carnitine shuttle, the oxidation spiral, Krebs, and the electron transport chain.",
+        imageCredit: "The repeating two-carbon chop. Educational only.",
+      },
+      {
+        kicker: "The nerd out within the nerd out…",
+        image: "/images/nerd-krebs.png",
+        imageAlt:
+          "Infographic: the Krebs cycle, the mitochondrial carbon refinery. Acetyl-CoA enters, NADH, FADH2, GTP, and CO2 come out. Carbs and fat both arrive as acetyl-CoA.",
+        imageCredit: "The cycle’s main job is loading electron carriers for the ETC. Educational only.",
+      },
+    ],
   },
   {
     id: "burning-fat",
@@ -560,6 +608,10 @@ export const nerdTopics = [
       "My biggest pet peeve is that most patients are never told how reversible type 2 diabetes is. If you can understand the process by which you became diabetic, if we reverse your steps, we can largely revert you back to the way you were before. There are aspects that never quite return back to 100% normal, but you can get pretty close. Still, people get handed a lifetime prescription and a shrug, and I feel that we can do better.",
       "Now just to clarify, this is NOT type 1 diabetes. Type 1 is an entirely different beast — an autoimmune failure to make insulin — and a whole other discussion.",
     ],
+    image: "/images/nerd-personal-fat-threshold.png",
+    imageAlt:
+      "Infographic: when your personal fat threshold is crossed. Safe storage, the tipping zone, then spillover into muscle, liver, and pancreas. Early type 2 can sometimes move back below this point.",
+    imageCredit: "The tipping point from safe storage to metabolic spillover. Educational only.",
     seeAlso: {
       hash: "reverse-diabetes",
       label: "How to reverse type 2 diabetes (for most)",
@@ -666,8 +718,8 @@ export const nerdGroups = [
   },
   {
     id: "fuel",
-    title: "Fat and fuel",
-    topicIds: ["energy", "burning-fat", "fat-burn-limit", "carbon", "how-much"],
+    title: "Fuel and energy",
+    topicIds: ["energy", "fuel-biochem", "burning-fat", "fat-burn-limit", "carbon", "how-much"],
   },
   {
     id: "overflow",
@@ -701,6 +753,10 @@ export const nerdCovers: Partial<Record<(typeof nerdTopics)[number]["id"], { src
   energy: {
     src: "/images/nerd-covers/energy.jpg",
     alt: "Protein builds the machine. Carb and fat fill the tanks.",
+  },
+  "fuel-biochem": {
+    src: "/images/nerd-covers/fuel-biochem.jpg",
+    alt: "A mitochondrion burning carbs and fat into ATP.",
   },
   "burning-fat": {
     src: "/images/nerd-covers/burning-fat.jpg",

@@ -113,6 +113,23 @@ function NerdTopicPage() {
           </figure>
         ) : null}
 
+        {"midParagraphs" in topic && topic.midParagraphs && topic.midParagraphs.length > 0 ? (
+          <div className="mt-10 space-y-5 text-lg leading-relaxed text-muted">
+            {topic.midParagraphs.map((p) => (
+              <NerdParagraph key={p.slice(0, 36)} text={p} />
+            ))}
+          </div>
+        ) : null}
+
+        {"midImage" in topic && topic.midImage ? (
+          <figure className="mt-8">
+            <EnlargeableImage src={topic.midImage} alt={topic.midImageAlt} />
+            <figcaption className="mt-3 text-sm leading-relaxed text-muted">
+              {topic.midImageCredit}
+            </figcaption>
+          </figure>
+        ) : null}
+
         {"extraParagraphs" in topic && topic.extraParagraphs && topic.extraParagraphs.length > 0 ? (
           <div className="mt-10 space-y-5 text-lg leading-relaxed text-muted">
             {topic.extraParagraphs.map((p) => (
@@ -129,6 +146,31 @@ function NerdTopicPage() {
             </figcaption>
           </figure>
         ) : null}
+
+        {"moreBlocks" in topic && topic.moreBlocks
+          ? topic.moreBlocks.map((block) => (
+              <div key={block.image}>
+                {"kicker" in block && block.kicker ? (
+                  <p className="mt-12 font-display text-2xl font-semibold tracking-wide text-fg sm:text-3xl">
+                    {block.kicker}
+                  </p>
+                ) : null}
+                {"paragraphs" in block && block.paragraphs && block.paragraphs.length > 0 ? (
+                  <div className="mt-10 space-y-5 text-lg leading-relaxed text-muted">
+                    {block.paragraphs.map((p) => (
+                      <NerdParagraph key={p.slice(0, 36)} text={p} />
+                    ))}
+                  </div>
+                ) : null}
+                <figure className="mt-8">
+                  <EnlargeableImage src={block.image} alt={block.imageAlt} />
+                  <figcaption className="mt-3 text-sm leading-relaxed text-muted">
+                    {block.imageCredit}
+                  </figcaption>
+                </figure>
+              </div>
+            ))
+          : null}
 
         {topic.id === "fat-burn-limit" ? <FatBurnCalculator /> : null}
 
