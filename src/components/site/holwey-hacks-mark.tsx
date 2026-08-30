@@ -36,16 +36,35 @@ export function HolweyHacksMark({ className }: { className?: string }) {
   );
 }
 
-export function HacksPlaque({ title, className }: { title: string; className?: string }) {
-  return (
-    <span className={cn("flex w-full items-center gap-4", className)}>
-      <span className={cn(plaqueShell, "gap-3 px-4 py-2.5 sm:px-5 sm:py-3")} style={plaqueBg}>
-        <span className="h-6 w-[3px] shrink-0 rounded-full bg-accent sm:h-8" aria-hidden />
-        <span className="relative whitespace-nowrap font-display text-[22px] font-semibold tracking-[0.16em] uppercase sm:text-[32px] lg:text-[36px]">
-          <span className="hh-metal-blue">{title.slice(0, 1)}</span>
-          <span className="hh-metal">{title.slice(1)}</span>
-        </span>
+export function HacksPlaque({
+  title,
+  className,
+  compact,
+  inline,
+}: {
+  title: string;
+  className?: string;
+  compact?: boolean;
+  inline?: boolean;
+}) {
+  const mark = (
+    <span className={cn(plaqueShell, compact ? "gap-2 px-3 py-1.5 sm:px-3.5 sm:py-2" : "gap-3 px-4 py-2.5 sm:px-5 sm:py-3", className)} style={plaqueBg}>
+      <span className={cn("shrink-0 rounded-full bg-accent", compact ? "h-4 w-[2px] sm:h-5" : "h-6 w-[3px] sm:h-8")} aria-hidden />
+      <span
+        className={cn(
+          "relative whitespace-nowrap font-display font-semibold tracking-[0.16em] uppercase",
+          compact ? "text-[15px] sm:text-[18px]" : "text-[22px] sm:text-[32px] lg:text-[36px]",
+        )}
+      >
+        <span className="hh-metal-blue">{title.slice(0, 1)}</span>
+        <span className="hh-metal">{title.slice(1)}</span>
       </span>
+    </span>
+  );
+  if (compact || inline) return mark;
+  return (
+    <span className="flex w-full items-center gap-4">
+      {mark}
       <span className="hidden h-px min-w-8 flex-1 bg-border sm:block" aria-hidden />
     </span>
   );

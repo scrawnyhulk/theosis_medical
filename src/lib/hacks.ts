@@ -46,9 +46,25 @@ export const hackCovers: Partial<Record<HackSlug, { src: string; alt: string }>>
     src: "/images/hack-fast-food-cover.jpg",
     alt: "Drive-through hack: extra meat, no bun, skip the fries, diet drink.",
   },
+  staples: {
+    src: "/images/hack-staples-cover.jpg",
+    alt: "Protein staples on the counter — what is in the house becomes what you eat.",
+  },
   exercise: {
     src: "/images/hack-exercise-cover.jpg",
     alt: "Simple training that actually happens: push, pull, squat, walk, and a hill.",
+  },
+  "nerd-out": {
+    src: "/images/hack-nerd-out-cover.jpg",
+    alt: "Looking closer: organs, muscle, mitochondria, molecules.",
+  },
+  "helpful-videos": {
+    src: "/images/hack-helpful-videos-cover.jpg",
+    alt: "A tablet opening into the videos worth watching.",
+  },
+  "reading-list": {
+    src: "/images/hack-reading-list-cover.jpg",
+    alt: "Books opening into the science behind how we eat, move, and live.",
   },
 };
 
@@ -458,6 +474,14 @@ export const nerdTopics = [
     imageAlt:
       "Infographic: the body as a machine made of protein parts, running on carb and fat fuel, with glycogen and fat storage and the protein-to-energy ratio.",
     imageCredit: "Credit / reference: Dr. Ted Naiman — The P:E Diet",
+    extraParagraphs: [
+      "Carbs and fat get burned to make ATP — that’s the battery the muscle actually drains. When ATP does work, it drops a phosphate and becomes ADP, which has to be charged back to ATP before it can work again.",
+      "Creatine does that recharge STAT. Phosphocreatine hands a phosphate to ADP so ATP comes back in a blink. Not extra calories. A few more seconds of maximal effort — a lift, a sprint, a jump.",
+    ],
+    extraImage: "/images/nerd-creatine.png",
+    extraImageAlt:
+      "Infographic: creatine kinase, the muscle’s ATP recharge system. ATP powers contraction, phosphocreatine donates a phosphate, creatine kinase rebuilds ATP. Creatine supplements can increase muscle phosphocreatine stores.",
+    extraImageCredit: "The first few seconds. Educational only.",
   },
   {
     id: "burning-fat",

@@ -113,6 +113,23 @@ function NerdTopicPage() {
           </figure>
         ) : null}
 
+        {"extraParagraphs" in topic && topic.extraParagraphs && topic.extraParagraphs.length > 0 ? (
+          <div className="mt-10 space-y-5 text-lg leading-relaxed text-muted">
+            {topic.extraParagraphs.map((p) => (
+              <NerdParagraph key={p.slice(0, 36)} text={p} />
+            ))}
+          </div>
+        ) : null}
+
+        {"extraImage" in topic && topic.extraImage ? (
+          <figure className="mt-8">
+            <EnlargeableImage src={topic.extraImage} alt={topic.extraImageAlt} />
+            <figcaption className="mt-3 text-sm leading-relaxed text-muted">
+              {topic.extraImageCredit}
+            </figcaption>
+          </figure>
+        ) : null}
+
         {topic.id === "fat-burn-limit" ? <FatBurnCalculator /> : null}
 
         {"seeAlso" in topic && topic.seeAlso ? (

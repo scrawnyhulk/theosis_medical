@@ -43,7 +43,6 @@ export function NerdOutCarousel() {
     if (!scroller) return;
 
     const onScroll = () => {
-      if (scrollingRef.current) return;
       const center = scroller.scrollLeft + scroller.clientWidth / 2;
       let best = 0;
       let bestDist = Infinity;
@@ -90,16 +89,19 @@ export function NerdOutCarousel() {
       drag.x = event.clientX;
       drag.scroll = scroller.scrollLeft;
       drag.moved = false;
-      scroller.setPointerCapture(event.pointerId);
     };
 
     const move = (event: PointerEvent) => {
       if (event.pointerId !== drag.id) return;
       const dx = event.clientX - drag.x;
-      if (!drag.moved && Math.abs(dx) < 8) return;
-      drag.moved = true;
-      draggedRef.current = true;
-      scroller.style.scrollSnapType = "none";
+      if (!drag.moved && Math.abs(dx) < 12) return;
+      if (!drag.moved) {
+        drag.moved = true;
+        draggedRef.current = true;
+        scroller.setPointerCapture(event.pointerId);
+        scroller.style.scrollSnapType = "none";
+      }
+      event.preventDefault();
       scroller.scrollLeft = drag.scroll - dx;
     };
 
@@ -148,48 +150,52 @@ export function NerdOutCarousel() {
 
   return (
     <div className="mt-10">
-      <p className="text-xs font-medium tracking-widest text-muted uppercase">Pick a topic</p>
-      <nav className="mt-5 flex flex-wrap gap-x-5 gap-y-2" aria-label="Nerd Out groups">
-        {nerdGroups.map((group) => {
-          const first = slides.findIndex((s) => s.group.id === group.id);
-          const active = current?.group.id === group.id;
-          return (
-            <button
-              key={group.id}
-              type="button"
-              onClick={() => goTo(first)}
-              className={`min-h-11 text-sm font-medium ${active ? "text-fg" : "text-accent hover:text-fg"}`}
-            >
-              {group.title}
-            </button>
-          );
-        })}
-      </nav>
-
-      <div className="mt-5">
-        {current ? (
-          <h2>
-            <HacksPlaque title={current.group.title} />
-          </h2>
-        ) : null}
-      </div>
-
       <div
-        className="relative mt-4 left-1/2 w-screen max-w-[100vw] -translate-x-1/2"
+        className="relative left-1/2 w-screen max-w-[100vw] -translate-x-1/2"
         style={
           {
-            "--card-h": "min(calc(92vw * 10 / 16), calc(100svh - 17.5rem))",
+            "--card-h": "min(calc(70vw * 10 / 16), calc(100svh - 22rem))",
             "--card-w": "calc(var(--card-h) * 16 / 10)",
+            "--card-inset": "max(0.75rem, calc((100% - var(--card-w)) / 2))",
           } as CSSProperties
         }
       >
+        <nav
+          className="mb-3 flex flex-wrap items-center gap-x-5 gap-y-2"
+          style={{ paddingInline: "var(--card-inset)" }}
+          aria-label="Nerd Out groups"
+        >
+          {nerdGroups.map((group) => {
+            const first = slides.findIndex((s) => s.group.id === group.id);
+            const active = current?.group.id === group.id;
+            if (active) {
+              return (
+                <h2 key={group.id} className="m-0">
+                  <HacksPlaque title={group.title} inline />
+                </h2>
+              );
+            }
+            return (
+              <button
+                key={group.id}
+                type="button"
+                onClick={() => goTo(first)}
+                className="min-h-11 font-display text-sm font-semibold tracking-[0.16em] text-muted uppercase hover:text-fg"
+              >
+                {group.title}
+              </button>
+            );
+          })}
+        </nav>
+
+        <div className="relative">
         <div
           ref={scrollerRef}
           className="flex cursor-grab snap-x snap-mandatory gap-4 overflow-x-auto pb-2 select-none [scrollbar-width:none] [&::-webkit-scrollbar]:hidden active:cursor-grabbing"
           style={{
             WebkitMaskImage: fadeMask,
             maskImage: fadeMask,
-            paddingInline: "max(0.75rem, calc((100% - var(--card-w)) / 2))",
+            paddingInline: "var(--card-inset)",
           }}
           aria-label="Nerd Out topics"
         >
@@ -224,9 +230,9 @@ export function NerdOutCarousel() {
                 />
               )}
               <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-black/10" />
-              <div className="relative flex h-full flex-col justify-end p-6 sm:p-8 lg:p-10">
+              <div className="relative flex h-full flex-col justify-end p-5 sm:p-7 lg:p-8">
                 <p className="font-display text-3xl font-semibold text-accent sm:text-4xl">{slide.n}</p>
-                <h3 className="mt-2 font-display text-3xl font-semibold tracking-wide text-white uppercase sm:text-4xl lg:text-5xl">
+                <h3 className="mt-1 font-display text-2xl font-semibold tracking-wide text-white uppercase sm:text-4xl">
                   {slide.topic.title}
                 </h3>
               </div>
@@ -252,6 +258,7 @@ export function NerdOutCarousel() {
         >
           <ChevronRight className="size-6" />
         </button>
+        </div>
       </div>
 
       <div className="mx-auto mt-4 max-w-xl px-2">
