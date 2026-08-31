@@ -163,7 +163,7 @@ export function NerdOutCarousel() {
         <nav
           className="mb-3 flex flex-wrap items-center gap-x-5 gap-y-2"
           style={{ paddingInline: "var(--card-inset)" }}
-          aria-label="Nerd Out groups"
+          aria-label="Nutritional Nerd Out groups"
         >
           {nerdGroups.map((group) => {
             const first = slides.findIndex((s) => s.group.id === group.id);
@@ -197,7 +197,7 @@ export function NerdOutCarousel() {
             maskImage: fadeMask,
             paddingInline: "var(--card-inset)",
           }}
-          aria-label="Nerd Out topics"
+          aria-label="Nutritional Nerd Out topics"
         >
           {slides.map((slide, i) => (
             <Link
@@ -263,7 +263,7 @@ export function NerdOutCarousel() {
 
       <div className="mx-auto mt-4 max-w-xl px-2">
         <label className="sr-only" htmlFor="nerd-out-slider">
-          Scrub through Nerd Out topics
+          Scrub through Nutritional Nerd Out topics
         </label>
         <input
           id="nerd-out-slider"

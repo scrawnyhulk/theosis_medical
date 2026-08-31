@@ -9,6 +9,7 @@ const tokens: Record<
   a1c: { kind: "nerd", topic: "a1c", label: "hemoglobin A1c" },
   takeout: { kind: "hack", slug: "fast-food", label: "takeout splurges" },
   energy: { kind: "nerd", topic: "energy", label: "energy" },
+  sweeteners: { kind: "nerd", topic: "sweeteners", label: "What are they, exactly?" },
   diabetes: { kind: "nerd", topic: "personal-fat-threshold", label: "causes type 2 diabetes" },
   reverse: { kind: "nerd", topic: "reverse-diabetes", label: "can I reverse it?" },
   grow: { kind: "nerd", topic: "muscle", label: "How do we grow muscle?" },

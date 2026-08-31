@@ -3,6 +3,7 @@ import { ArrowLeft, ArrowRight } from "lucide-react";
 import { EnlargeableImage } from "@/components/hacks/enlargeable-image";
 import { FatBurnCalculator } from "@/components/hacks/fat-burn-calculator";
 import { NerdParagraph } from "@/components/hacks/nerd-paragraph";
+import { NerdStepper } from "@/components/hacks/nerd-stepper";
 import { VideoCard } from "@/components/hacks/video-card";
 import { SiteShell } from "@/components/site/site-shell";
 import { Button } from "@/components/ui/button";
@@ -16,8 +17,8 @@ export const Route = createFileRoute("/hacks/nerd-out/$topic")({
       meta: [
         {
           title: topic
-            ? `${topic.title} — Nerd Out`
-            : "Nerd Out — Holwey’s Handy Health Hacks",
+            ? `${topic.title} — Nutritional Nerd Out`
+            : "Nutritional Nerd Out — Holwey’s Handy Health Hacks",
         },
         {
           name: "description",
@@ -45,7 +46,7 @@ function NerdTopicPage() {
           <Button asChild className="mt-8">
             <Link to="/hacks/nerd-out">
               <ArrowLeft />
-              All Nerd Out topics
+              All Nutritional Nerd Out topics
             </Link>
           </Button>
         </div>
@@ -61,7 +62,7 @@ function NerdTopicPage() {
           className="inline-flex min-h-11 items-center gap-2 text-sm font-medium text-muted hover:text-fg"
         >
           <ArrowLeft className="size-4" />
-          All Nerd Out topics
+          All Nutritional Nerd Out topics
         </Link>
         <p className="mt-8 font-display text-3xl font-semibold text-accent">{n}</p>
         <h1 className="mt-2 font-display text-4xl font-semibold tracking-wide sm:text-5xl">
@@ -83,54 +84,52 @@ function NerdTopicPage() {
           </div>
         ) : null}
 
-        {"tldrImage" in topic && topic.tldrImage ? (
-          <figure className="mt-8">
-            <p className="mb-3 font-display text-2xl font-semibold tracking-wide">TL;DR version</p>
-            <EnlargeableImage src={topic.tldrImage} alt={topic.tldrImageAlt} />
-            <figcaption className="mt-3 text-sm leading-relaxed text-muted">
-              {topic.tldrImageCredit}
-            </figcaption>
-          </figure>
-        ) : null}
-
-        {topic.paragraphs.length > 0 ? (
-          <div className="mt-8 space-y-5 text-lg leading-relaxed text-muted">
-            {topic.paragraphs.map((p) => (
-              <NerdParagraph key={p.slice(0, 36)} text={p} />
-            ))}
-          </div>
-        ) : null}
-
-        {"image" in topic && topic.image ? (
-          <figure className={topic.paragraphs.length > 0 || ("tldrImage" in topic && topic.tldrImage) ? "mt-10" : "mt-8"}>
-            {"tldrImage" in topic && topic.tldrImage ? (
-              <p className="mb-3 font-display text-2xl font-semibold tracking-wide">The full nerdy nerd version for nerds like me</p>
+        {"steps" in topic && Array.isArray(topic.steps) && topic.steps.length > 0 ? (
+          <>
+            {topic.paragraphs.length > 0 ? (
+              <div className="mt-8 space-y-5 text-lg leading-relaxed text-muted">
+                {topic.paragraphs.map((p) => (
+                  <NerdParagraph key={p.slice(0, 36)} text={p} />
+                ))}
+              </div>
             ) : null}
-            <EnlargeableImage src={topic.image} alt={topic.imageAlt} />
-            <figcaption className="mt-3 text-sm leading-relaxed text-muted">
-              {topic.imageCredit}
-            </figcaption>
-          </figure>
-        ) : null}
+            <NerdStepper steps={topic.steps} topicId={topic.id} />
+          </>
+        ) : (
+          <>
+            {"tldrImage" in topic && topic.tldrImage ? (
+              <figure className="mt-8">
+                <p className="mb-3 font-display text-2xl font-semibold tracking-wide">TL;DR version</p>
+                <EnlargeableImage src={topic.tldrImage} alt={topic.tldrImageAlt} />
+                <figcaption className="mt-3 text-sm leading-relaxed text-muted">
+                  {topic.tldrImageCredit}
+                </figcaption>
+              </figure>
+            ) : null}
 
-        {"midParagraphs" in topic && topic.midParagraphs && topic.midParagraphs.length > 0 ? (
-          <div className="mt-10 space-y-5 text-lg leading-relaxed text-muted">
-            {topic.midParagraphs.map((p) => (
-              <NerdParagraph key={p.slice(0, 36)} text={p} />
-            ))}
-          </div>
-        ) : null}
+            {topic.paragraphs.length > 0 ? (
+              <div className="mt-8 space-y-5 text-lg leading-relaxed text-muted">
+                {topic.paragraphs.map((p) => (
+                  <NerdParagraph key={p.slice(0, 36)} text={p} />
+                ))}
+              </div>
+            ) : null}
 
-        {"midImage" in topic && topic.midImage ? (
-          <figure className="mt-8">
-            <EnlargeableImage src={topic.midImage} alt={topic.midImageAlt} />
-            <figcaption className="mt-3 text-sm leading-relaxed text-muted">
-              {topic.midImageCredit}
-            </figcaption>
-          </figure>
-        ) : null}
+            {"image" in topic && topic.image ? (
+              <figure className={topic.paragraphs.length > 0 || ("tldrImage" in topic && topic.tldrImage) ? "mt-10" : "mt-8"}>
+                {"tldrImage" in topic && topic.tldrImage ? (
+                  <p className="mb-3 font-display text-2xl font-semibold tracking-wide">The full nerdy nerd version for nerds like me</p>
+                ) : null}
+                <EnlargeableImage src={topic.image} alt={topic.imageAlt} />
+                <figcaption className="mt-3 text-sm leading-relaxed text-muted">
+                  {topic.imageCredit}
+                </figcaption>
+              </figure>
+            ) : null}
+          </>
+        )}
 
-        {"extraParagraphs" in topic && topic.extraParagraphs && topic.extraParagraphs.length > 0 ? (
+        {"extraParagraphs" in topic && Array.isArray(topic.extraParagraphs) && topic.extraParagraphs.length > 0 ? (
           <div className="mt-10 space-y-5 text-lg leading-relaxed text-muted">
             {topic.extraParagraphs.map((p) => (
               <NerdParagraph key={p.slice(0, 36)} text={p} />
@@ -138,37 +137,23 @@ function NerdTopicPage() {
           </div>
         ) : null}
 
-        {"extraImage" in topic && topic.extraImage ? (
+        {"extraImage" in topic && typeof topic.extraImage === "string" ? (
           <figure className="mt-8">
-            <EnlargeableImage src={topic.extraImage} alt={topic.extraImageAlt} />
+            <EnlargeableImage src={topic.extraImage} alt={"extraImageAlt" in topic ? String(topic.extraImageAlt) : ""} />
             <figcaption className="mt-3 text-sm leading-relaxed text-muted">
-              {topic.extraImageCredit}
+              {"extraImageCredit" in topic ? String(topic.extraImageCredit) : ""}
             </figcaption>
           </figure>
         ) : null}
 
-        {"moreBlocks" in topic && topic.moreBlocks
-          ? topic.moreBlocks.map((block) => (
-              <div key={block.image}>
-                {"kicker" in block && block.kicker ? (
-                  <p className="mt-12 font-display text-2xl font-semibold tracking-wide text-fg sm:text-3xl">
-                    {block.kicker}
-                  </p>
-                ) : null}
-                {"paragraphs" in block && block.paragraphs && block.paragraphs.length > 0 ? (
-                  <div className="mt-10 space-y-5 text-lg leading-relaxed text-muted">
-                    {block.paragraphs.map((p) => (
-                      <NerdParagraph key={p.slice(0, 36)} text={p} />
-                    ))}
-                  </div>
-                ) : null}
-                <figure className="mt-8">
-                  <EnlargeableImage src={block.image} alt={block.imageAlt} />
-                  <figcaption className="mt-3 text-sm leading-relaxed text-muted">
-                    {block.imageCredit}
-                  </figcaption>
-                </figure>
-              </div>
+        {"extraImages" in topic && Array.isArray(topic.extraImages)
+          ? topic.extraImages.map((img) => (
+              <figure key={img.src} className="mt-8">
+                <EnlargeableImage src={img.src} alt={img.alt} />
+                <figcaption className="mt-3 text-sm leading-relaxed text-muted">
+                  {img.credit}
+                </figcaption>
+              </figure>
             ))
           : null}
 

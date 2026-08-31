@@ -105,7 +105,7 @@ paragraphs: [
 paragraphs: [
       "Liquid calories do not fill you up the way food does. You can drink 400 calories and still be hungry enough to eat dinner like you never had them. That is why this is near the top of the list.",
       "Water. Sparkling water. Black coffee. Unsweetened tea. Diet soda. Zero-calorie flavored drinks. That is the drink list.",
-      "We do not fear fake sweeteners as of the data to date. The human trial data does not support the internet panic. The scary headlines usually come from petri dishes and mega-doses, not from people drinking Diet Coke.",
+      "We do not fear fake sweeteners as of the data to date. The human trial data does not support the internet panic. The scary headlines usually come from petri dishes and mega-doses, not from people drinking Diet Coke. [[sweeteners]]",
       "Juice is fruit with the useful parts removed. Regular soda is dessert. The sweet coffee drink is a milkshake in a paper cup. Sports drinks are for people actually sweating through a long session — not for sitting at a desk.",
     ],
   },
@@ -119,7 +119,8 @@ paragraphs: [
       "If you weigh 180 pounds, aim for about 180 grams of protein across the day. Not in one sitting. Spread it out so you are not trying to choke down a Costco chicken at 9 p.m.",
       "If you are carrying a lot of extra weight, using a goal or “ideal” weight for that gram-per-pound number is a reasonable way to start. The point is a high-protein floor, not a contest.",
       "Why this works: protein is filling, it protects muscle, and it makes “eat less junk” a lot easier without a spreadsheet diet. Control protein and calories first. Then let carbs and fat be whatever is easiest to maintain.",
-      "This is a target, not a religion. If you have kidney disease or another condition your clinician is managing, this is not your plan. Ask them.",
+      "This is a target, not a religion. If you have kidney disease or another condition your clinician is managing where you have been told to restrict or monitor protein, this is not your plan. Ask them.",
+      "And if you still are listening to the person regurgitating myths from the 80's, read/watch below:",
     ],
   },
   {
@@ -178,7 +179,7 @@ paragraphs: [
   {
     slug: "nerd-out",
     n: "08",
-    title: "Nerd Out",
+    title: "Nutritional Nerd Out",
     lede: "Mechanisms. How stuff actually works. Pick a topic — no need to scroll for days. Compulsory if you are me.",
 paragraphs: [
       "Herein lies a rabbit hole of nutritional and physiologic nerditude. The “why” behind so many things related to our health and how to navigate through it all.",
@@ -253,7 +254,10 @@ export const fastFoodChains: FastFoodChain[] = [
     items: [
       { name: "8-ct grilled nuggets", how: "No sauce, or Buffalo / mustard if you need one.", calories: 130, protein: 25, carbs: 1, fat: 3, source: "official" },
       { name: "12-ct grilled nuggets", how: "Same bird, more of it.", calories: 200, protein: 38, carbs: 2, fat: 5, source: "official" },
+      { name: "30-ct grilled nuggets", how: "The whole bag. Split it, or don’t.", calories: 500, protein: 95, carbs: 5, fat: 13, source: "built" },
       { name: "Grilled chicken, no bun", how: "Filet in a tray or on lettuce.", calories: 130, protein: 23, carbs: 4, fat: 4, source: "tracker" },
+      { name: "Spicy grilled filet, no bun", how: "Same move as the regular filet. Spice is free.", calories: 140, protein: 25, carbs: 3, fat: 4, source: "tracker" },
+      { name: "Egg White Grill, no muffin", how: "Breakfast. English muffin in the trash. Black coffee.", calories: 180, protein: 26, carbs: 5, fat: 7, source: "built" },
       { name: "Grilled chicken sandwich", how: "With the bun. Middle of the pack — still 29% protein.", calories: 390, protein: 28, carbs: 45, fat: 11, source: "official" },
     ],
   },
@@ -262,7 +266,9 @@ export const fastFoodChains: FastFoodChain[] = [
     blurb: "Double the chicken. Skip the rice, chips, queso, and the regular soda. Salsa and fajita vegetables are free real estate.",
     items: [
       { name: "High-protein chicken cup", how: "Side of Adobo chicken. Eat it as a snack or dump it on anything.", calories: 180, protein: 32, carbs: 0, fat: 7, source: "official" },
+      { name: "Triple chicken", how: "Three sides of chicken in a bowl. No rice. This is the actual meal.", calories: 540, protein: 96, carbs: 0, fat: 21, source: "built" },
       { name: "Steak (standard portion)", how: "Their listed steak serving. High P:E, a little less protein than chicken.", calories: 150, protein: 21, carbs: 1, fat: 6, source: "official" },
+      { name: "Barbacoa (standard portion)", how: "A little saucier than steak. Still a protein order.", calories: 170, protein: 24, carbs: 2, fat: 7, source: "official" },
       {
         name: "Double chicken bowl, no rice",
         how: "Chicken ×2, fajita veg, tomato salsa, lettuce. No rice, no cheese, no chips, no sour cream.",
@@ -270,6 +276,24 @@ export const fastFoodChains: FastFoodChain[] = [
         protein: 64,
         carbs: 12,
         fat: 16,
+        source: "built",
+      },
+      {
+        name: "Double steak bowl, no rice",
+        how: "Steak ×2, fajita veg, tomato salsa, lettuce. Same rules as chicken.",
+        calories: 350,
+        protein: 44,
+        carbs: 13,
+        fat: 13,
+        source: "built",
+      },
+      {
+        name: "Chicken salad, no dressing",
+        how: "Lettuce, chicken, fajita veg, salsa. Skip the vinaigrette if you want the ratio to stay honest.",
+        calories: 240,
+        protein: 34,
+        carbs: 10,
+        fat: 8,
         source: "built",
       },
     ],
@@ -280,17 +304,22 @@ export const fastFoodChains: FastFoodChain[] = [
     items: [
       { name: "Grilled chicken, no bun", how: "Ask for no bun. The bird is the meal.", calories: 160, protein: 34, carbs: 0, fat: 2, source: "tracker" },
       { name: "Grilled chicken sandwich", how: "Even with the bun this clears 40% protein.", calories: 390, protein: 41, carbs: 40, fat: 8, source: "tracker" },
+      { name: "Grilled chicken club, no bun", how: "Bacon and cheese if they fit leftover calories. Mustard, not mayo.", calories: 250, protein: 38, carbs: 2, fat: 10, source: "tracker" },
+      { name: "Pot roast, no bun", how: "The Midwest stew, minus the bread. Skip gravy if it is a sugar bomb.", calories: 220, protein: 28, carbs: 4, fat: 10, source: "tracker" },
+      { name: "Double ButterBurger, no bun", how: "Two beef patties. Fattier than the chicken. Still a protein order.", calories: 400, protein: 34, carbs: 2, fat: 28, source: "tracker" },
     ],
   },
   {
     place: "McDonald’s",
     blurb: "Grilled chicken if they have it — no bun. Extra beef if they don’t. Breakfast: keep the egg, lose the muffin. Skip juice.",
     items: [
-      { name: "Grilled chicken, no bun", how: "Ask for no bun. Mustard, not mayo. Diet drink.", calories: 140, protein: 29, carbs: 2, fat: 2, source: "tracker" },
+      { name: "Grilled chicken, no bun", how: "Ask for no bun. Mustard, not mayo. Diet drink. Not at every McDonald’s anymore.", calories: 140, protein: 29, carbs: 2, fat: 2, source: "tracker" },
       { name: "Two hamburger patties", how: "No bun, no ketchup. Just the meat.", calories: 180, protein: 16, carbs: 0, fat: 14, source: "tracker" },
       { name: "Egg McMuffin, no muffin", how: "Canadian bacon, egg, cheese in a tray. Black coffee.", calories: 160, protein: 12, carbs: 2, fat: 12, source: "tracker" },
+      { name: "Bacon, egg & cheese, no muffin", how: "Same breakfast move. Tray. Black coffee.", calories: 190, protein: 14, carbs: 3, fat: 14, source: "built" },
       { name: "McDouble, no bun", how: "Plain as you like. Ketchup and mustard are fine. Diet drink.", calories: 240, protein: 17, carbs: 5, fat: 16, source: "tracker" },
       { name: "Quarter Pounder, no bun", how: "The bigger patty. Cheese if it fits leftover calories.", calories: 370, protein: 25, carbs: 14, fat: 24, source: "tracker" },
+      { name: "Double Quarter Pounder, no bun", how: "Hungry. No bun. Diet drink. Skip the fries even harder.", calories: 540, protein: 48, carbs: 10, fat: 36, source: "built" },
     ],
   },
   {
@@ -300,15 +329,20 @@ export const fastFoodChains: FastFoodChain[] = [
       { name: "Grilled chicken, no bun", how: "Ask for no bun. Mustard, not mayo. Route 44 diet.", calories: 290, protein: 26, carbs: 10, fat: 15, source: "tracker" },
       { name: "Grilled chicken sandwich", how: "Even with the bun this still clears 25%. Skip mayo if you can.", calories: 440, protein: 31, carbs: 38, fat: 17, source: "tracker" },
       { name: "SuperSONIC Double, no bun", how: "Two patties, cheese, no bun. Fattier. Still a protein order.", calories: 540, protein: 35, carbs: 3, fat: 43, source: "tracker" },
+      { name: "Jr. burger, no bun", how: "Smaller beef order when you are not that hungry. Mustard.", calories: 180, protein: 13, carbs: 2, fat: 14, source: "tracker" },
+      { name: "Egg & cheese, no toast", how: "Breakfast. Skip the toaster bread. Black coffee.", calories: 200, protein: 14, carbs: 4, fat: 14, source: "tracker" },
     ],
   },
   {
     place: "Wendy’s",
     blurb: "Chili is the easy order. Grilled chicken is the better P:E if you skip the mayo.",
     items: [
+      { name: "Grilled chicken, no bun", how: "Mustard or nothing. Side salad instead of fries.", calories: 180, protein: 31, carbs: 3, fat: 4, source: "tracker" },
       { name: "Grilled chicken sandwich", how: "Mustard or nothing. Side salad instead of fries.", calories: 350, protein: 33, carbs: 35, fat: 8, source: "tracker" },
       { name: "Small chili", how: "Works as a side or a small meal.", calories: 280, protein: 19, carbs: 22, fat: 11, source: "official" },
       { name: "Large chili", how: "More of the same.", calories: 370, protein: 25, carbs: 29, fat: 15, source: "official" },
+      { name: "Dave’s Single, no bun", how: "The bigger beef patty, no bun. Cheese if it fits leftover calories.", calories: 330, protein: 25, carbs: 4, fat: 24, source: "built" },
+      { name: "Double Stack, no bun", how: "Two smaller patties. Still skip the bun and the fries.", calories: 250, protein: 20, carbs: 5, fat: 16, source: "built" },
     ],
   },
   {
@@ -316,17 +350,23 @@ export const fastFoodChains: FastFoodChain[] = [
     blurb: "Chicken, extra chicken, skip the rice and the cinnamon twists. Diet Baja Blast is fine.",
     items: [
       { name: "Extra chicken (add-on)", how: "Order it as a side or dump it on whatever you already got.", calories: 70, protein: 11, carbs: 1, fat: 3, source: "tracker" },
+      { name: "Chicken ×3, as a plate", how: "Three extra-chicken add-ons. Diet Baja Blast. That is the meal.", calories: 210, protein: 33, carbs: 3, fat: 9, source: "built" },
       { name: "Power Menu Bowl, chicken, no rice", how: "Chicken, lettuce, pico, salsa. No rice, no sour cream, no chips.", calories: 310, protein: 24, carbs: 12, fat: 18, source: "tracker" },
+      { name: "Power Menu Bowl, steak, no rice", how: "Same bowl, steak instead. Still no rice, no sour cream.", calories: 300, protein: 22, carbs: 11, fat: 17, source: "tracker" },
       { name: "Cantina chicken bowl, extra chicken, no rice", how: "Customize in the app. No sour cream, no chips.", calories: 390, protein: 31, carbs: 19, fat: 22, source: "tracker" },
       { name: "Chicken soft taco, Fresco", how: "Fresco swaps the sauce for pico. Middle of the pack — still clears 25%.", calories: 150, protein: 11, carbs: 15, fat: 5, source: "tracker" },
+      { name: "Cantina chicken taco", how: "The fancier taco. Still chicken-first. Skip creamy sauce if you can.", calories: 170, protein: 13, carbs: 13, fat: 7, source: "tracker" },
     ],
   },
   {
     place: "Arby’s",
     blurb: "Roast beef without the bun is the move. With the bun you are sitting on the 25% line.",
     items: [
+      { name: "Classic roast beef, no bun", how: "Single stack of beef in a tray. Horsey sauce if it fits leftover calories.", calories: 210, protein: 20, carbs: 2, fat: 12, source: "built" },
       { name: "Double roast beef, no bun", how: "Meat in a tray or lettuce. Horsey sauce if it fits leftover calories.", calories: 310, protein: 31, carbs: 2, fat: 20, source: "tracker" },
+      { name: "Half-pound roast beef, no bun", how: "Hungry. No bun. Diet drink.", calories: 480, protein: 46, carbs: 4, fat: 30, source: "tracker" },
       { name: "Classic roast beef sandwich", how: "With the bun. Barely clears 25% protein.", calories: 360, protein: 23, carbs: 37, fat: 14, source: "official" },
+      { name: "Grand Turkey Club, no bun", how: "Turkey, bacon, no bun. Skip the mayo if you want the ratio to stay honest.", calories: 350, protein: 32, carbs: 4, fat: 22, source: "tracker" },
     ],
   },
   {
@@ -334,7 +374,9 @@ export const fastFoodChains: FastFoodChain[] = [
     blurb: "Lose the bun. Diet drink. Grilled chicken if they have it. Extra beef if they don’t. Ignore the fries.",
     items: [
       { name: "Ham, egg & cheese, no croissant", how: "Breakfast. Tray or lettuce. Black coffee.", calories: 160, protein: 14, carbs: 2, fat: 11, source: "tracker" },
+      { name: "Egg & cheese, no muffin", how: "Even simpler breakfast. Black coffee.", calories: 150, protein: 12, carbs: 2, fat: 11, source: "tracker" },
       { name: "Double hamburger, no bun", how: "Two patties, no ketchup if you can. Mustard is fine.", calories: 220, protein: 20, carbs: 4, fat: 16, source: "built" },
+      { name: "Whopper Jr., no bun", how: "Smaller flame-grilled beef. Mustard, no mayo. Diet drink.", calories: 180, protein: 15, carbs: 4, fat: 12, source: "built" },
       { name: "Grilled chicken, no bun", how: "Ask for no bun. Mustard, not mayo. Not at every BK.", calories: 270, protein: 30, carbs: 1, fat: 16, source: "tracker" },
       { name: "Flame-grilled chicken sandwich", how: "Even with the bun this still clears 30% protein. Skip mayo if they put it on.", calories: 410, protein: 35, carbs: 43, fat: 15, source: "tracker" },
     ],
@@ -344,7 +386,9 @@ export const fastFoodChains: FastFoodChain[] = [
     blurb: "The protein bowl is the sandwich without the problem. Extra meat. Mustard. Vegetables.",
     items: [
       { name: "Turkey protein bowl", how: "No bread. All the vegetables. Mustard, not mayo.", calories: 160, protein: 25, carbs: 11, fat: 2, source: "tracker" },
+      { name: "Black forest ham protein bowl", how: "Same idea. Extra ham if you are actually hungry.", calories: 140, protein: 21, carbs: 10, fat: 3, source: "tracker" },
       { name: "Oven-roasted chicken protein bowl", how: "Same idea. Double meat if you are actually hungry.", calories: 200, protein: 26, carbs: 9, fat: 6, source: "tracker" },
+      { name: "Rotisserie-style chicken, extra meat", how: "Protein bowl, extra chicken, all the vegetables, mustard.", calories: 280, protein: 40, carbs: 10, fat: 8, source: "built" },
       { name: "Double chicken salad", how: "Salad bowl, extra chicken, no croutons, no creamy dressing.", calories: 220, protein: 36, carbs: 8, fat: 4, source: "tracker" },
       { name: "Sweet onion chicken teriyaki protein bowl", how: "The sauce costs you carbs. Protein still wins. 45% of calories from protein.", calories: 300, protein: 34, carbs: 33, fat: 5, source: "tracker" },
       { name: "6-inch turkey, double meat, no cheese, no mayo", how: "If you insist on bread. All the vegetables. Mustard.", calories: 360, protein: 34, carbs: 48, fat: 5, source: "built" },
@@ -354,10 +398,12 @@ export const fastFoodChains: FastFoodChain[] = [
     place: "Jimmy John’s",
     blurb: "The Unwich is lettuce instead of bread. Slims are meat and lettuce, period. Extra meat. That is the whole restaurant.",
     items: [
+      { name: "Slim 1 ham Unwich", how: "Ham and lettuce. No mayo, no cheese.", calories: 90, protein: 15, carbs: 2, fat: 2, source: "tracker" },
       { name: "Slim 4 turkey Unwich", how: "Turkey and lettuce. No mayo, no cheese. The cleanest order in the building.", calories: 80, protein: 16, carbs: 2, fat: 1, source: "tracker" },
       { name: "Slim 2 roast beef Unwich", how: "Roast beef, lettuce. Same idea.", calories: 100, protein: 16, carbs: 1, fat: 3, source: "tracker" },
       { name: "Turkey Unwich, extra meat", how: "Lettuce wrap. No mayo if you want the ratio to stay honest.", calories: 250, protein: 24, carbs: 4, fat: 16, source: "tracker" },
       { name: "Hunter’s Club Unwich", how: "Roast beef, turkey, lettuce. Skip the mayo. 42 g of protein.", calories: 480, protein: 42, carbs: 8, fat: 28, source: "tracker" },
+      { name: "Bootlegger Club Unwich", how: "Roast beef, turkey, ham, lettuce. Extra meat if you want. Skip the mayo.", calories: 420, protein: 38, carbs: 6, fat: 24, source: "tracker" },
     ],
   },
   {
@@ -365,13 +411,17 @@ export const fastFoodChains: FastFoodChain[] = [
     blurb: "The pizza is the problem. The wings are the hack. Plain or dry-rub, not the breaded boneless, not a side of ranch you drink.",
     items: [
       { name: "8-pc plain bone-in wings", how: "No sauce, or a dry rub. The crust is what you are not ordering.", calories: 390, protein: 34, carbs: 5, fat: 26, source: "tracker" },
+      { name: "16-pc plain bone-in wings", how: "Two people, or one very hungry person. Still skip the ranch vat.", calories: 780, protein: 68, carbs: 10, fat: 52, source: "built" },
+      { name: "8-pc hot buffalo bone-in", how: "Sauce is fine. Sugar-glaze BBQ is the one that starts to wander.", calories: 410, protein: 34, carbs: 8, fat: 26, source: "tracker" },
     ],
   },
   {
     place: "Pizza Hut",
     blurb: "Same rule as Domino’s. Naked traditional wings. The slice will not hit the ratio. The bird will.",
     items: [
+      { name: "6-pc naked traditional wings", how: "Smaller order. Bone-in, unsauced.", calories: 480, protein: 54, carbs: 0, fat: 27, source: "built" },
       { name: "8-pc naked traditional wings", how: "Bone-in, unsauced. 9 g protein a wing, no bun hiding in the breading.", calories: 640, protein: 72, carbs: 0, fat: 36, source: "tracker" },
+      { name: "12-pc naked traditional wings", how: "Share it or don’t. Diet drink. No breadsticks.", calories: 960, protein: 108, carbs: 0, fat: 54, source: "built" },
     ],
   },
   {
@@ -379,6 +429,8 @@ export const fastFoodChains: FastFoodChain[] = [
     blurb: "The rare pizza that is actually a protein food. Keto crust — whey, casein, cauliflower, flax, egg — not the cauliflower-rice crust, which is still a carb bomb. Extra chicken. Easy on the cheese.",
     items: [
       { name: "11\" keto crust, chicken, light cheese, veg", how: "Keto crust, extra chicken, go easy on the cheese, pile the vegetables. Skip the flour dough and the cauliflower crust that is pretending.", calories: 660, protein: 66, carbs: 20, fat: 31, source: "tracker" },
+      { name: "11\" keto crust, chicken ×2", how: "Second chicken. Light cheese. Vegetables. This is the pizza-shaped protein bowl.", calories: 760, protein: 84, carbs: 20, fat: 34, source: "built" },
+      { name: "Salad, extra chicken, light dressing", how: "If even keto crust feels like a stretch. Vinegar-based dressing, not ranch.", calories: 320, protein: 42, carbs: 10, fat: 12, source: "tracker" },
     ],
   },
   {
@@ -387,6 +439,9 @@ export const fastFoodChains: FastFoodChain[] = [
     items: [
       { name: "Egg white & red pepper bites", how: "The lighter bites. 28% protein.", calories: 170, protein: 12, carbs: 13, fat: 8, source: "official" },
       { name: "Bacon & Gruyère egg bites", how: "Just over 25% protein. More fat. Fine if it fits leftover calories.", calories: 300, protein: 19, carbs: 11, fat: 20, source: "official" },
+      { name: "Kale & mushroom egg bites", how: "The other bites. Still beats a muffin.", calories: 230, protein: 15, carbs: 11, fat: 14, source: "official" },
+      { name: "Turkey bacon, egg white & cheddar sandwich", how: "The sandwich that actually clears 25%. Skip the pastry case next to it.", calories: 230, protein: 17, carbs: 28, fat: 5, source: "official" },
+      { name: "Chicken & quinoa protein bowl", how: "When you need a real meal and not a pastry with a protein claim.", calories: 420, protein: 27, carbs: 42, fat: 16, source: "official" },
     ],
   },
 ];
@@ -427,13 +482,37 @@ export const nerdTopics = [
   {
     id: "muscle",
     title: "How do we grow muscle?",
-    lede: "Train, fuel, recover. One set to failure is the version I will actually do.",
+    lede: "Mechanical tension, enough hard sets, and recovery. Size and strength overlap — they are not the same program.",
     paragraphs: [],
-    image: "/images/muscle-growth.png",
+    image: "/images/nerd-hypertrophy.png",
     imageAlt:
-      "Infographic: muscle grows when you challenge it with resistance training, eat enough protein, and recover. A simple push, pull, and legs workout using one set to failure plus rest-pause.",
+      "Infographic: how to maximize muscle hypertrophy. Mechanical tension, enough hard sets, and recovery. Stimulus, dose, quality, progression, fuel, and feedback.",
     imageCredit:
-      "Train, fuel, recover, grow. One set to failure is the version I will actually do. References are on the poster.",
+      "The 80/20 hypertrophy formula. Training ranges are starting points. Adjust for experience, age, injuries, and recovery.",
+    steps: [
+      {
+        title: "Hypertrophy",
+        paragraphs: [
+          "The growth equation is mechanical tension × enough hard sets × recovery. The target is more contractile tissue — not a pump, not soreness, not scale weight.",
+        ],
+        image: "/images/nerd-hypertrophy.png",
+        imageAlt:
+          "Infographic: how to maximize muscle hypertrophy. Mechanical tension, enough hard sets, and recovery. Stimulus, dose, quality, progression, fuel, and feedback.",
+        imageCredit:
+          "The 80/20 hypertrophy formula. Training ranges are starting points. Adjust for experience, age, injuries, and recovery.",
+      },
+      {
+        title: "Strength",
+        paragraphs: [
+          "Strength is muscle size × neural skill × movement technique. Getting strong and getting big overlap. They are not the same program: specific + heavy + fresh versus volume + hard sets + recovery.",
+        ],
+        image: "/images/nerd-strength.png",
+        imageAlt:
+          "Infographic: how to maximize muscle strength. Strength is muscle size times neural skill times movement technique. Specific, heavy, and fresh versus volume for size.",
+        imageCredit:
+          "The 80/20 strength formula. To get strong: specific + heavy + fresh. To get big: volume + hard sets + recovery.",
+      },
+    ],
   },
   {
     id: "muscle-speed",
@@ -470,24 +549,35 @@ export const nerdTopics = [
     title: "What do we mean by “energy”? Part 1",
     lede: "The body is a machine made of protein parts, running on carb and fat fuel.",
     paragraphs: [],
-    image: "/images/naiman-energy-machine.png",
-    imageAlt:
-      "Infographic: the body as a machine made of protein parts, running on carb and fat fuel, with glycogen and fat storage and the protein-to-energy ratio.",
-    imageCredit: "Credit / reference: Dr. Ted Naiman — The P:E Diet",
-    midParagraphs: [
-      "Carbs and fat get burned to make ATP (adenosine triphosphate) — that’s the molecule that powers everything in the body.  In muscles, it powers every contraction.  When ATP does work, it drops a phosphate and becomes ADP (adenosine diphosphate), which has to be recharged back to ATP before it can work again.",
+    steps: [
+      {
+        title: "The machine",
+        image: "/images/naiman-energy-machine.png",
+        imageAlt:
+          "Infographic: the body as a machine made of protein parts, running on carb and fat fuel, with glycogen and fat storage and the protein-to-energy ratio.",
+        imageCredit: "Credit / reference: Dr. Ted Naiman — The P:E Diet",
+      },
+      {
+        title: "Carbs and fat become ATP",
+        paragraphs: [
+          "Carbs and fat get burned to make ATP (adenosine triphosphate) — that’s the molecule that powers everything in the body.  In muscles, it powers every contraction.  When ATP does work, it drops a phosphate and becomes ADP (adenosine diphosphate), which has to be recharged back to ATP before it can work again.",
+        ],
+        image: "/images/nerd-glucose-fat-atp.png",
+        imageAlt:
+          "Infographic: how muscle turns glucose and fat into ATP. Two fuels, different entrances, one currency. Glycolysis, Krebs, electron transport, beta-oxidation, ketones, creatine refill, and lactate when demand outruns mitochondria.",
+        imageCredit: "Two fuels. Different entrances. One usable energy currency. Educational only.",
+      },
+      {
+        title: "Creatine",
+        paragraphs: [
+          "Creatine does that recharge STAT. Phosphocreatine hands a phosphate to ADP so ATP comes back in a blink. Not extra calories. A few more seconds of maximal effort — a lift, a sprint, a jump.",
+        ],
+        image: "/images/nerd-creatine.png",
+        imageAlt:
+          "Infographic: creatine kinase, the muscle’s ATP recharge system. ATP powers contraction, phosphocreatine donates a phosphate, creatine kinase rebuilds ATP. Creatine supplements can increase muscle phosphocreatine stores.",
+        imageCredit: "The first few seconds. Educational only.",
+      },
     ],
-    midImage: "/images/nerd-glucose-fat-atp.png",
-    midImageAlt:
-      "Infographic: how muscle turns glucose and fat into ATP. Two fuels, different entrances, one currency. Glycolysis, Krebs, electron transport, beta-oxidation, ketones, creatine refill, and lactate when demand outruns mitochondria.",
-    midImageCredit: "Two fuels. Different entrances. One usable energy currency. Educational only.",
-    extraParagraphs: [
-      "Creatine does that recharge STAT. Phosphocreatine hands a phosphate to ADP so ATP comes back in a blink. Not extra calories. A few more seconds of maximal effort — a lift, a sprint, a jump.",
-    ],
-    extraImage: "/images/nerd-creatine.png",
-    extraImageAlt:
-      "Infographic: creatine kinase, the muscle’s ATP recharge system. ATP powers contraction, phosphocreatine donates a phosphate, creatine kinase rebuilds ATP. Creatine supplements can increase muscle phosphocreatine stores.",
-    extraImageCredit: "The first few seconds. Educational only.",
     seeAlso: {
       hash: "fuel-biochem",
       label: "Part 2",
@@ -498,22 +588,30 @@ export const nerdTopics = [
     id: "fuel-biochem",
     title: "What do we mean by “energy”? Part 2",
     lede: "This is the super nerdy biochemistry of how your body literally makes the energy to contract muscle, send nerve signals, fight infection...you name it. ATP is the actual currency of energy that makes things happen. It is the final destination of the fuel you eat in your diet.\n\nBelow is the biochemistry of how fat and carbs turn into ATP...and then some. So buckle up!",
-    paragraphs: [
-      "Say you are sprinting and you need fuel fast, glycolysis below is how you can quickly make ATP, but it doesn't make a lot.",
-    ],
-    image: "/images/nerd-glycolysis.png",
-    imageAlt:
-      "Infographic: glycolysis, the cell’s rapid sugar-splitting line. One glucose is split into two pyruvates. Net 2 ATP plus 2 NADH. Oxygen not required. Pyruvate can go to mitochondria or to lactate.",
-    imageCredit: "The fast first cut. Small ATP profit. Educational only.",
-    extraParagraphs: [
-      "You're sprinting pretty fast, you're starting to feel a burn, you're not getting enough oxygen to your muscle...now you're making lactic acid...",
-    ],
-    extraImage: "/images/nerd-lactate.png",
-    extraImageAlt:
-      "Infographic: lactate production, the high-speed NAD+ recycling loop. Pyruvate plus NADH become lactate plus NAD+ so glycolysis can keep making ATP. Lactate is not metabolic trash — it can be burned as fuel or recycled into glucose.",
-    extraImageCredit: "Often called lactic acid — at body pH it is mostly lactate. Educational only.",
-    moreBlocks: [
+    paragraphs: [],
+    steps: [
       {
+        title: "Glycolysis",
+        paragraphs: [
+          "Say you are sprinting and you need fuel fast, glycolysis below is how you can quickly make ATP, but it doesn't make a lot.",
+        ],
+        image: "/images/nerd-glycolysis.png",
+        imageAlt:
+          "Infographic: glycolysis, the cell’s rapid sugar-splitting line. One glucose is split into two pyruvates. Net 2 ATP plus 2 NADH. Oxygen not required. Pyruvate can go to mitochondria or to lactate.",
+        imageCredit: "The fast first cut. Small ATP profit. Educational only.",
+      },
+      {
+        title: "Lactate",
+        paragraphs: [
+          "You're sprinting pretty fast, you're starting to feel a burn, you're not getting enough oxygen to your muscle...now you're making lactic acid...",
+        ],
+        image: "/images/nerd-lactate.png",
+        imageAlt:
+          "Infographic: lactate production, the high-speed NAD+ recycling loop. Pyruvate plus NADH become lactate plus NAD+ so glycolysis can keep making ATP. Lactate is not metabolic trash — it can be burned as fuel or recycled into glucose.",
+        imageCredit: "Often called lactic acid — at body pH it is mostly lactate. Educational only.",
+      },
+      {
+        title: "Beta-oxidation",
         paragraphs: [
           "Ok, now you've stopped sprinting and are finally able to rest. You go home, take a shower and then put a movie on. Now we have plenty of oxygen available to burn our fat stores for fuel. This is more efficient and will give way more ATP bang for our buck.",
         ],
@@ -523,11 +621,19 @@ export const nerdTopics = [
         imageCredit: "The repeating two-carbon chop. Educational only.",
       },
       {
+        title: "Krebs cycle",
         kicker: "The nerd out within the nerd out…",
         image: "/images/nerd-krebs.png",
         imageAlt:
           "Infographic: the Krebs cycle, the mitochondrial carbon refinery. Acetyl-CoA enters, NADH, FADH2, GTP, and CO2 come out. Carbs and fat both arrive as acetyl-CoA.",
         imageCredit: "The cycle’s main job is loading electron carriers for the ETC. Educational only.",
+      },
+      {
+        title: "Electron transport chain",
+        image: "/images/nerd-etc.png",
+        imageAlt:
+          "Infographic: the electron transport chain, the mitochondrial hydroelectric plant. NADH and FADH2 deliver electrons, proton pumps fill the H+ reservoir, ATP synthase spins to recharge ATP. Oxygen is the final electron acceptor.",
+        imageCredit: "Most ATP from glucose is made here. Educational only.",
       },
     ],
   },
@@ -549,6 +655,36 @@ export const nerdTopics = [
     imageAlt:
       "Infographic: you are almost always burning fat. Fuel mix shifts all day. Fat burned in a moment is not the same as losing body fat over weeks. Trends in weight, waist, photos, and clothing fit matter more than ketones or a fat-burning zone on a watch.",
     imageCredit: "References: Open Evidence — openevidence.com",
+    steps: [
+      {
+        title: "The fuel mix",
+        image: "/images/burning-fat.png",
+        imageAlt:
+          "Infographic: you are almost always burning fat. Fuel mix shifts all day. Fat burned in a moment is not the same as losing body fat over weeks. Trends in weight, waist, photos, and clothing fit matter more than ketones or a fat-burning zone on a watch.",
+        imageCredit: "References: Open Evidence — openevidence.com",
+      },
+      {
+        title: "Mix, not a switch",
+        paragraphs: [
+          "Your body does not flip fuels on and off. It continuously changes the mix. Sprint and glycogen takes a bigger share. Sit and fat takes a bigger share. Both still contribute.",
+        ],
+        image: "/images/nerd-metabolic-flexibility.png",
+        imageAlt:
+          "Infographic: metabolic flexibility. Sprint is carbohydrate-dominant, rest is fat-dominant. The mix shifts with ATP demand, fuel availability, and hormones — not an on/off switch.",
+        imageCredit: "A metabolically flexible body matches the fuel mix to the moment. Educational only.",
+      },
+      {
+        title: "Alcohol",
+        paragraphs: [
+          "Alcohol is about 7 calories a gram, and the body cannot store it as ethanol. Clearing it jumps the front of the line — fat burning pauses, and some of the meal’s fat waits on the hips. That is the Irish-pub chapter of the story above.",
+        ],
+        image: "/images/nerd-alcohol.png",
+        imageAlt:
+          "Infographic: how alcohol becomes fuel. Ethanol to acetaldehyde to acetate to acetyl-CoA to ATP. About 7 kcal per gram. The liver clears it first, which temporarily rewires the fuel mix and suppresses fat burning.",
+        imageCredit:
+          "Alcohol supplies usable energy — but clearing it temporarily rewires the body’s fuel economy. Educational only. Not a drinking guide.",
+      },
+    ],
   },
   {
     id: "fat-burn-limit",
@@ -594,6 +730,25 @@ export const nerdTopics = [
     imageAlt:
       "Infographic: excess body fat is the biggest lever for metabolic health. How much you eat often matters more than eating perfectly. Visceral and ectopic fat raise risk. A surplus of healthy food can worsen risk; a deficit even with imperfect food often improves markers. The best answer is both high-protein food and the right total calories.",
     imageCredit: "Credit / reference: Open Evidence — openevidence.com",
+  },
+  {
+    id: "sweeteners",
+    title: "But it's fake! What are nonnutritive sweeteners exactly?",
+    lede: "Sugar is a sweet signal plus fuel. Nonnutritive sweeteners are the signal with almost no fuel. That is the whole trick.",
+    stolenFrom: "Dr. Layne Norton",
+    paragraphs: [
+      "Because they are hundreds to thousands of times sweeter than sugar, you only need a tiny amount. Typical diet-soda intake stays well below the amounts considered safe every day for a lifetime. Petri-dish headlines and mega-dose rat studies are not how people actually use Diet Coke.",
+      "They are useful for cutting sugar and calories. They are not required, and they are not a magic weight-loss tool. If you have PKU, avoid aspartame. “Sugar-free” still does not make a cookie a health food.",
+    ],
+    image: "/images/nerd-sweeteners.png",
+    imageAlt:
+      "Infographic: nonnutritive sweeteners are a sweet signal with almost no fuel. Metabolic passports for aspartame, sucralose, stevia, monk fruit and others. Little or no glucose or insulin rise when consumed alone. Approved use is considered safe at established intake limits.",
+    imageCredit: "Sweet signal. Almost no fuel. Educational only.",
+    videoId: "HmXDu897fic",
+    videoTitle: "Artificial Sweeteners are Toxic?",
+    videoCredit: "Dr. Layne Norton · Biolayne",
+    videoSummary:
+      "A short, evidence-first look at the scare headlines. Human trials do not show the harm that petri-dish and mega-dose animal studies get shared as.",
   },
   {
     id: "personal-fat-threshold",
@@ -719,7 +874,7 @@ export const nerdGroups = [
   {
     id: "fuel",
     title: "Fuel and energy",
-    topicIds: ["energy", "fuel-biochem", "burning-fat", "fat-burn-limit", "carbon", "how-much"],
+    topicIds: ["energy", "fuel-biochem", "burning-fat", "fat-burn-limit", "carbon", "how-much", "sweeteners"],
   },
   {
     id: "overflow",
@@ -773,6 +928,10 @@ export const nerdCovers: Partial<Record<(typeof nerdTopics)[number]["id"], { src
   "how-much": {
     src: "/images/nerd-covers/how-much.jpg",
     alt: "A scale: a pile of whole food versus a burger and fries, with the body in the middle.",
+  },
+  sweeteners: {
+    src: "/images/nerd-covers/sweeteners.jpg",
+    alt: "Sweet signal to the brain, almost no fuel — sugar crystals versus a diet drink.",
   },
   "personal-fat-threshold": {
     src: "/images/nerd-covers/personal-fat-threshold.jpg",
@@ -951,6 +1110,15 @@ export const hormoziRecipeNotes = [
 
 export const referenceVideos = [
   {
+    videoId: "-BcGPN2nXs0",
+    title: "How Much Protein Is Too Much for Your Kidneys?",
+    credit: "Dr. Layne Norton",
+    summary:
+      "Human trials: higher protein does not harm healthy kidneys. The 1980s myth does not match the data.",
+    anchor: "protein-kidneys",
+    usedOn: { slug: "protein-per-pound" as const, label: "One Gram Per Pound" },
+  },
+  {
     videoId: "fxyhIXZ6Yog",
     title: "The Alex Hormozi Diet (REVEALED)",
     credit: "Alex Hormozi",
@@ -984,7 +1152,7 @@ export const referenceVideos = [
     summary:
       "Why two people at different sizes can have completely different metabolic health, and why getting back under your own threshold reverses the overflow that shows up as type 2 diabetes.",
     anchor: "naiman",
-    usedOn: { slug: "nerd-out" as const, label: "Nerd Out", hash: "personal-fat-threshold" },
+    usedOn: { slug: "nerd-out" as const, label: "Nutritional Nerd Out", hash: "personal-fat-threshold" },
   },
 ] as const;
 

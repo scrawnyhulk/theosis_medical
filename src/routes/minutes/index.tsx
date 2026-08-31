@@ -63,7 +63,7 @@ function MinutesHub() {
             href="/#suggest"
             className="group flex flex-col rounded-xl border border-dashed border-border-strong bg-surface/60 p-6 shadow-border transition-colors duration-150 hover:bg-fg/5 sm:p-8"
           >
-            <p className="font-display text-3xl font-semibold text-muted">07+</p>
+            <p className="font-display text-3xl font-semibold text-muted">08+</p>
             <h2 className="mt-4 font-display text-3xl font-semibold tracking-wide uppercase">
               More to come
             </h2>

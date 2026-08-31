@@ -27,12 +27,11 @@ function pack(title: string, ...parts: Array<string | undefined | readonly strin
 
 function topicText(topic: (typeof nerdTopics)[number]): string {
   const extra: string[] = [];
-  if ("extraParagraphs" in topic && topic.extraParagraphs) extra.push(...topic.extraParagraphs);
-  if ("midParagraphs" in topic && topic.midParagraphs) extra.push(...topic.midParagraphs);
-  if ("moreBlocks" in topic && topic.moreBlocks) {
-    for (const block of topic.moreBlocks) {
-      if ("paragraphs" in block && block.paragraphs) extra.push(...block.paragraphs);
-      if ("kicker" in block && block.kicker) extra.push(block.kicker);
+  if ("steps" in topic && topic.steps) {
+    for (const step of topic.steps) {
+      extra.push(step.title);
+      if ("kicker" in step && typeof step.kicker === "string") extra.push(step.kicker);
+      if ("paragraphs" in step && Array.isArray(step.paragraphs)) extra.push(...step.paragraphs);
     }
   }
   return pack(topic.title, topic.lede, topic.paragraphs, extra);
@@ -57,7 +56,7 @@ const index: Indexed[] = [
     title: "Medical Minutes",
     blurb: "The ER talk, written down.",
     hrefKind: "minutes",
-    haystack: pack("medical minutes", "ear fever cough back sprain ct pneumonia"),
+    haystack: pack("medical minutes", "ear fever cough back sprain ct pneumonia sepsis"),
   },
   ...minutes.map((m) => ({
     id: `minute-${m.slug}`,
@@ -93,17 +92,17 @@ const index: Indexed[] = [
   ),
   {
     id: "nerd-hub",
-    section: "Nerd Out",
-    title: "Nerd Out",
+    section: "Nutritional Nerd Out",
+    title: "Nutritional Nerd Out",
     blurb: "Mechanisms. How stuff actually works.",
     hrefKind: "nerd-hub" as const,
-    haystack: pack("nerd out", "atp protein diabetes cholesterol"),
+    haystack: pack("nutritional nerd out", "nerd out", "atp protein diabetes cholesterol"),
   },
   ...nerdTopics.map((topic) => {
     const group = nerdGroups.find((g) => (g.topicIds as readonly string[]).includes(topic.id));
     return {
       id: `nerd-${topic.id}`,
-      section: group?.title ?? "Nerd Out",
+      section: group?.title ?? "Nutritional Nerd Out",
       title: topic.title,
       blurb: topic.lede.split("\n")[0],
       hrefKind: "nerd" as const,

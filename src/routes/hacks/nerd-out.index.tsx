@@ -9,7 +9,7 @@ export const Route = createFileRoute("/hacks/nerd-out/")({
   component: NerdOutHub,
   head: () => ({
     meta: [
-      { title: "Nerd Out — Holwey’s Handy Health Hacks" },
+      { title: "Nutritional Nerd Out — Holwey’s Handy Health Hacks" },
       {
         name: "description",
         content: "Mechanisms. How stuff actually works. Optional reading. Compulsory if you are me.",
@@ -36,7 +36,7 @@ function NerdOutHub() {
         </Link>
         <p className="mt-5 font-display text-3xl font-semibold text-accent">{hack?.n ?? "08"}</p>
         <h1 className="mt-2 font-display text-4xl font-semibold tracking-wide sm:text-5xl">
-          {hack?.title ?? "Nerd Out"}
+          {hack?.title ?? "Nutritional Nerd Out"}
         </h1>
         {hack?.lede ? <p className="mt-5 max-w-3xl text-xl leading-relaxed text-fg">{hack.lede}</p> : null}
         <div className="mt-8 max-w-3xl space-y-5 text-lg leading-relaxed text-muted">

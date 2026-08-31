@@ -1,7 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { EnlargeableImage } from "@/components/hacks/enlargeable-image";
+import { FastFoodStepper } from "@/components/hacks/fast-food-stepper";
 import { NerdParagraph } from "@/components/hacks/nerd-paragraph";
+import { NerdStepper } from "@/components/hacks/nerd-stepper";
 import { ProteinLabelTool } from "@/components/hacks/protein-label-tool";
 import { StartCalculator } from "@/components/hacks/start-calculator";
 import { VideoCard } from "@/components/hacks/video-card";
@@ -17,8 +19,6 @@ import {
   hacksIntro,
   hormoziRecipeNotes,
   hormoziRecipes,
-  peRatio,
-  peTone,
   proteinPercent,
   readingList,
   referenceVideos,
@@ -170,6 +170,26 @@ function HackExtras({ slug }: { slug: HackSlug }) {
     );
   }
 
+  if (slug === "protein-per-pound") {
+    return (
+      <div className="mt-10 space-y-8">
+        <VideoCard
+          videoId="-BcGPN2nXs0"
+          title="How Much Protein Is Too Much for Your Kidneys?"
+          credit="Dr. Layne Norton"
+          summary="Human trials: higher protein does not harm healthy kidneys. The 1980s myth does not match the data."
+          anchor="protein-kidneys"
+        />
+        <figure>
+          <EnlargeableImage
+            src="/images/protein-kidney.png"
+            alt="Infographic: high protein does not equal kidney damage when your kidneys are healthy. More filtration is adaptation, not injury. Established CKD is the exception — personalize protein with a clinician."
+          />
+        </figure>
+      </div>
+    );
+  }
+
   if (slug === "dont-drink-calories") {
     return (
       <div className="mt-10 space-y-8">
@@ -229,70 +249,7 @@ function HackExtras({ slug }: { slug: HackSlug }) {
             What do we mean by “energy”?
           </Link>
         </p>
-        {fastFoodChains.map((chain) => (
-          <article key={chain.place} className="rounded-xl bg-surface p-6 shadow-border sm:p-8">
-            <h2 className="font-display text-2xl font-semibold tracking-wide">{chain.place}</h2>
-            <p className="mt-3 leading-relaxed text-muted">{chain.blurb}</p>
-            <div className="mt-5 overflow-x-auto">
-              <table className="w-full min-w-[36rem] text-left text-sm">
-                <thead className="text-xs font-medium tracking-widest text-muted uppercase">
-                  <tr>
-                    <th className="py-2 pr-3 font-medium">Order</th>
-                    <th className="py-2 pr-3 font-medium">Cal</th>
-                    <th className="py-2 pr-3 font-medium">P / C / F</th>
-                    <th className="py-2 pr-3 font-medium">% protein</th>
-                    <th className="py-2 font-medium">P:E</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {[...chain.items]
-                    .sort((a, b) => peRatio(b) - peRatio(a))
-                    .map((item) => {
-                      const pe = peRatio(item);
-                      const tone = peTone(pe);
-                      const pct = Math.round(proteinPercent(item));
-                      const peLabel = Number.isFinite(pe) ? pe.toFixed(1) : "∞";
-                      return (
-                        <tr key={item.name} className="border-t border-border align-top">
-                          <td className="py-3 pr-3">
-                            <p className="text-fg">{item.name}</p>
-                            <p className="mt-1 text-muted">{item.how}</p>
-                            <p className="mt-1 text-xs tracking-wide text-muted uppercase">
-                              {item.source === "official"
-                                ? "Their nutrition page"
-                                : item.source === "built"
-                                  ? "Built from their ingredient numbers"
-                                  : "Common tracker listing"}
-                            </p>
-                          </td>
-                          <td className="py-3 pr-3 tabular-nums text-fg">{item.calories}</td>
-                          <td className="py-3 pr-3 tabular-nums text-muted">
-                            {item.protein} / {item.carbs} / {item.fat}
-                          </td>
-                          <td className="py-3 pr-3 tabular-nums text-fg">{pct}%</td>
-                          <td className="py-3">
-                            <span
-                              className={
-                                tone === "best"
-                                  ? "inline-block rounded-md bg-ok/20 px-2.5 py-1 font-medium tabular-nums text-ok"
-                                  : tone === "good"
-                                    ? "inline-block rounded-md bg-ok/10 px-2.5 py-1 font-medium tabular-nums text-ok"
-                                    : tone === "mid"
-                                      ? "inline-block rounded-md bg-warn/20 px-2.5 py-1 font-medium tabular-nums text-warn"
-                                      : "inline-block rounded-md bg-danger/20 px-2.5 py-1 font-medium tabular-nums text-danger"
-                              }
-                            >
-                              {peLabel}
-                            </span>
-                          </td>
-                        </tr>
-                      );
-                    })}
-                </tbody>
-              </table>
-            </div>
-          </article>
-        ))}
+        <FastFoodStepper chains={fastFoodChains} />
         <div className="rounded-xl bg-ink p-6 text-ink-fg shadow-border sm:p-8">
           <h2 className="font-display text-xl font-semibold tracking-wide">Fine print</h2>
           <ul className="mt-4 space-y-3 text-ink-muted">
@@ -309,26 +266,43 @@ function HackExtras({ slug }: { slug: HackSlug }) {
   }
   if (slug === "exercise") {
     return (
-      <div className="mt-10 space-y-10">
-        <figure>
-          <EnlargeableImage
-            src="/images/med-resistance.png"
-            alt="Infographic: minimum effective dose of resistance training. The 20% that delivers most of the results: two times a week, hard sets, compound lifts, full range, progress over time."
-          />
-        </figure>
-        <figure>
-          <EnlargeableImage
-            src="/images/med-cardio.png"
-            alt="Infographic: minimum effective dose of cardio. Low-volume HIIT about three times a week versus about 150 minutes of brisk walking. Similar fat-loss potential."
-          />
-        </figure>
-        <figure>
-          <EnlargeableImage
-            src="/images/muscle-growth.png"
-            alt="Infographic: muscle grows when you challenge it with resistance training, eat enough protein, and recover. A simple push, pull, and legs workout using one set to failure plus rest-pause."
-          />
-        </figure>
-      </div>
+      <NerdStepper
+        topicId="exercise"
+        steps={[
+          {
+            title: "Resistance",
+            image: "/images/med-resistance.png",
+            imageAlt:
+              "Infographic: minimum effective dose of resistance training. The 20% that delivers most of the results: two times a week, hard sets, compound lifts, full range, progress over time.",
+            imageCredit: "The 20% of lifting most of us will actually do. Educational only.",
+          },
+          {
+            title: "Cardio",
+            image: "/images/med-cardio.png",
+            imageAlt:
+              "Infographic: the minimum effective dose of cardio. Three lanes — HIIT, steady state, and walking. 80% of the return, 20% of the complexity. The best dose is the smallest one you will repeat.",
+            imageCredit: "The smallest dose you will actually repeat. Educational only.",
+          },
+          {
+            title: "The workout",
+            image: "/images/muscle-growth.png",
+            imageAlt:
+              "Infographic: muscle grows when you challenge it with resistance training, eat enough protein, and recover. A simple push, pull, and legs workout using one set to failure plus rest-pause.",
+            imageCredit: "One set to failure. Push, pull, legs. Educational only.",
+          },
+          {
+            title: "Sleep",
+            paragraphs: [
+              "Lift to create the signal. Eat to supply the material. Sleep to protect the result. You do not build muscle from sleep alone — but poor sleep can weaken the response to good training.",
+            ],
+            image: "/images/med-sleep.png",
+            imageAlt:
+              "Infographic: sleep builds what training starts. The overnight rebuild shift for muscle growth and recovery. Training, protein, and sleep are the three gears. Poor sleep can blunt adaptations and shift a deficit toward muscle loss.",
+            imageCredit:
+              "Sleep is part of the program. Educational only. AASM · Lamon et al. 2021 · Saner et al. 2020 · Nedeltcheva et al. 2010.",
+          },
+        ]}
+      />
     );
   }
 

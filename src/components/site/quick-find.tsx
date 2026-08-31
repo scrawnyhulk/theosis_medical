@@ -172,7 +172,7 @@ export function QuickFind() {
 
               <SectionBlock
                 open={section === "nerd"}
-                label="Nerd Out"
+                label="Nutritional Nerd Out"
                 onToggle={() => setSection((v) => (v === "nerd" ? null : "nerd"))}
               >
                 <Link
@@ -180,7 +180,7 @@ export function QuickFind() {
                   onClick={close}
                   className="flex min-h-11 items-center px-3 text-sm text-accent"
                 >
-                  All Nerd Out
+                  All Nutritional Nerd Out
                 </Link>
                 {nerdGroups.map((group) => (
                   <div key={group.id} className="mb-3">
