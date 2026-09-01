@@ -5,7 +5,8 @@ export type MinuteSlug =
   | "cough"
   | "sprain-strain"
   | "ct"
-  | "sepsis";
+  | "sepsis"
+  | "antibiotic-resistance";
 
 export type Minute = {
   slug: MinuteSlug;
@@ -21,7 +22,7 @@ export const minutesIntro = {
   kicker: "The ER talk, written down",
   title: "Medical Minutes",
   paragraphs: [
-    "Understanding complex medical conditions in a way lay people can actually use is the job. These are the explanations I give over and over in the emergency department — ear pressure, the cough that will not quit, why most fevers are not an emergency — so you can understand what is going on and when you actually need to be seen.",
+    "Understanding complex medical conditions in a way lay people can actually use is the job. These are the explanations I give over and over in the emergency department — ear pressure, the cough that will not quit, why most fevers are not an emergency, why leftover antibiotics are a bad idea — so you can understand what is going on and when you actually need to be seen.",
     "This is general education. It is not a diagnosis and it is not a substitute for an exam. If you are severely ill, go to the ER.",
   ],
   disclaimer:
@@ -134,6 +135,22 @@ export const minutes: Minute[] = [
     image: "/images/minutes-sepsis.png",
     imageAlt:
       "Infographic: sepsis is when the body’s defenses turn destructive. Local infection can become a body-wide emergency. Confusion, fast breathing, low urine, mottled skin, or looking seriously ill means seek emergency care now.",
+  },
+  {
+    slug: "antibiotic-resistance",
+    n: "08",
+    title: "What Is Antibiotic Resistance",
+    lede: "You don't become immune to the medicine. The bacteria do.",
+    paragraphs: [
+      "You do not become “immune” to antibiotics. The bacteria do. Resistance means a germ has picked up a trick — a pump that spits the drug out, an enzyme that cuts it apart, a lock that no longer fits the key — and that trick can be copied to other bacteria. The pill that used to work may not work the next time, for you or for someone else.",
+      "Most of the infections people want a Z-pack for in the ER are viruses: colds, most sinus pressure, most bronchitis, most sore throats. Antibiotics do not treat viruses. Using them anyway still hits the bacteria that live on you all the time, and those are the ones that learn. Leftover pills from last year, a leftover for a family member, and “just in case” prescriptions do the same thing.",
+      "This is not a reason to skip antibiotics when you actually need them. Bacterial pneumonia, a kidney infection, strep throat that has been confirmed, cellulitis, an abscess, sepsis — those are the cases where the drug is doing real work. Take them exactly as prescribed. Do not stop early because you feel better, and do not stretch a short course into a long one. How long you take them is a medical decision, not a feeling.",
+      "What actually helps: do not pressure for antibiotics when the diagnosis is a virus. Do not share or save leftovers. Vaccines, hand hygiene, and treating true bacterial infections promptly all reduce the problem. Watery diarrhea, fever, or severe belly pain during or after a course can be C. diff — call; do not treat that with leftover antibiotics.",
+      "Get seen for fever with shaking chills, a rapidly spreading red area or streaking, a wound that is getting worse, burning urination with back pain or vomiting, a stiff neck, confusion, or looking seriously unwell. Those are not “wait and see if the leftover pills work” problems.",
+    ],
+    image: "/images/minutes-resistance.png",
+    imageAlt:
+      "Infographic: antibiotic resistance. Bacteria become resistant, not your body. How resistance is selected, what changes inside the bacterium, how genes travel, why first-line drugs can fail, the one-health loop, and how we slow it down.",
   },
 ];
 

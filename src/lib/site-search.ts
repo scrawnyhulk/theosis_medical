@@ -56,7 +56,7 @@ const index: Indexed[] = [
     title: "Medical Minutes",
     blurb: "The ER talk, written down.",
     hrefKind: "minutes",
-    haystack: pack("medical minutes", "ear fever cough back sprain ct pneumonia sepsis"),
+    haystack: pack("medical minutes", "ear fever cough back sprain ct pneumonia sepsis antibiotic resistance"),
   },
   ...minutes.map((m) => ({
     id: `minute-${m.slug}`,

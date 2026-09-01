@@ -1,0 +1,36 @@
+{
+  "url": "http://127.0.0.1:8080/minutes/antibiotic-resistance",
+  "viewports": {
+    "desktop": {
+      "width": 1280,
+      "height": 800,
+      "status": 200,
+      "title": "What Is Antibiotic Resistance — Medical Minutes",
+      "hasCanvas": false,
+      "bodyTextLen": 2420,
+      "bodyTextHash": "10b1cc3af65bc25ad44d86fd3a97caea0acd0c195818907960b949fa53c9e800",
+      "bodyTextPrefix": "Skip to content ABOUT WHY THEOSIS CONTACT FUTURE PLANS MEDICAL M",
+      "horizontalOverflow": false,
+      "consoleErrors": [],
+      "pageErrors": [],
+      "screenshot": "/workspace/screenshots/minutes-resistance-graphic.png"
+    },
+    "mobile": {
+      "width": 390,
+      "height": 844,
+      "status": 200,
+      "title": "What Is Antibiotic Resistance — Medical Minutes",
+      "hasCanvas": false,
+      "bodyTextLen": 2319,
+      "bodyTextHash": "48a05b92c8604fb0e33f88dcf9753933a06315503957cc9413e84b9e7d05b2c8",
+      "bodyTextPrefix": "Skip to content All Medical Minutes 08 What Is Antibiotic Resist",
+      "horizontalOverflow": false,
+      "consoleErrors": [],
+      "pageErrors": [],
+      "screenshot": "/workspace/screenshots/minutes-resistance-graphic-mobile.png"
+    }
+  },
+  "brandWarnings": [],
+  "authWarnings": [],
+  "verdictFile": "/workspace/screenshots/minutes-resistance-graphic.json"
+}
