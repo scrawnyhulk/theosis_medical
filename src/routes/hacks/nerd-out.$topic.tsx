@@ -148,7 +148,10 @@ function NerdTopicPage() {
 
         {"extraImages" in topic && Array.isArray(topic.extraImages)
           ? topic.extraImages.map((img) => (
-              <figure key={img.src} className="mt-8">
+              <figure key={img.src} className="mt-10">
+                {"title" in img && img.title ? (
+                  <p className="mb-3 font-display text-2xl font-semibold tracking-wide">{img.title}</p>
+                ) : null}
                 <EnlargeableImage src={img.src} alt={img.alt} />
                 <figcaption className="mt-3 text-sm leading-relaxed text-muted">
                   {img.credit}

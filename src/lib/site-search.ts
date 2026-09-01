@@ -34,6 +34,12 @@ function topicText(topic: (typeof nerdTopics)[number]): string {
       if ("paragraphs" in step && Array.isArray(step.paragraphs)) extra.push(...step.paragraphs);
     }
   }
+  if ("extraImages" in topic && Array.isArray(topic.extraImages)) {
+    for (const img of topic.extraImages) {
+      if ("title" in img && typeof img.title === "string") extra.push(img.title);
+      if ("alt" in img && typeof img.alt === "string") extra.push(img.alt);
+    }
+  }
   return pack(topic.title, topic.lede, topic.paragraphs, extra);
 }
 

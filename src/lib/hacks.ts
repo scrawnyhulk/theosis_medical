@@ -781,10 +781,18 @@ export const nerdTopics = [
       "My biggest pet peeve is that most patients are never told how reversible type 2 diabetes is. If you can understand the process by which you became diabetic, if we reverse your steps, we can largely revert you back to the way you were before. There are aspects that never quite return back to 100% normal, but you can get pretty close. Still, people get handed a lifetime prescription and a shrug, and I feel that we can do better.",
       "Now just to clarify, this is NOT type 1 diabetes. Type 1 is an entirely different beast — an autoimmune failure to make insulin — and a whole other discussion.",
     ],
-    image: "/images/nerd-personal-fat-threshold.png",
+    image: "/images/nerd-pft.png",
     imageAlt:
-      "Infographic: when your personal fat threshold is crossed. Safe storage, the tipping zone, then spillover into muscle, liver, and pancreas. Early type 2 can sometimes move back below this point.",
-    imageCredit: "The tipping point from safe storage to metabolic spillover. Educational only.",
+      "Infographic: your personal fat threshold. Safe subcutaneous storage, the personal limit, visceral overflow, fatty liver, ectopic fat in pancreas and muscle, then circulating fuel overflow. Why two people at the same weight can differ, the metabolic dominoes, and how to move back below the threshold.",
+    imageCredit:
+      "Educational model. Individual fat distribution and disease progression vary. Never stop diabetes medication without clinician guidance. Personal Fat Threshold hypothesis · ReTUNE · DiRECT · Twin Cycle research · ADA Standards of Care.",
+    extraImages: [
+      {
+        src: "/images/nerd-personal-fat-threshold.png",
+        alt: "Infographic: when your personal fat threshold is crossed. Safe storage, the tipping zone, then spillover into muscle, liver, and pancreas. Early type 2 can sometimes move back below this point.",
+        credit: "The tipping point from safe storage to metabolic spillover. Educational only.",
+      },
+    ],
     seeAlso: {
       hash: "reverse-diabetes",
       label: "How to reverse type 2 diabetes (for most)",
@@ -855,6 +863,15 @@ export const nerdTopics = [
       "TL;DR infographic: Cholesterol, Simplified. Cargo versus carriers, how plaque starts, the energy-surplus pathway, what raises LDL, the five moves that work, and the four lab numbers that matter.",
     tldrImageCredit:
       "TL;DR version. Quick-read summary — see the full infographic for details. Educational only. Sources: OpenEvidence.com · 2026 ACC/AHA · American Heart Association · NIH Endotext.",
+    extraImages: [
+      {
+        title: "A deeper dive into HDL",
+        src: "/images/nerd-hdl.png",
+        alt: "Infographic: how HDL works. HDL is a particle that moves cholesterol to the liver — it does not scrub arteries clean. Reverse cholesterol transport, what else HDL can do, how HDL-C can rise, ways to raise the number that do not equal better health, and reading the lab in context.",
+        credit:
+          "Educational only. Lipid treatment should be based on total cardiovascular risk and individualized with a qualified clinician. Sources: NHLBI · American Heart Association · AIM-HIGH · HPS2-THRIVE · HDL efflux research.",
+      },
+    ],
     seeAlso: {
       hash: "personal-fat-threshold",
       label: "What actually causes type 2 diabetes",
