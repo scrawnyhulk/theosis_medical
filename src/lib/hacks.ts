@@ -551,7 +551,11 @@ export const nerdTopics = [
     paragraphs: [],
     steps: [
       {
-        title: "The machine",
+        title: "We are a machine",
+        paragraphs: [
+          "We are a machine. We are made of parts and we run on fuel.",
+          "Protein = parts (with some nuance). Carbs and fat = fuel (with some nuance).",
+        ],
         image: "/images/naiman-energy-machine.png",
         imageAlt:
           "Infographic: the body as a machine made of protein parts, running on carb and fat fuel, with glycogen and fat storage and the protein-to-energy ratio.",
@@ -576,6 +580,20 @@ export const nerdTopics = [
         imageAlt:
           "Infographic: creatine kinase, the muscle’s ATP recharge system. ATP powers contraction, phosphocreatine donates a phosphate, creatine kinase rebuilds ATP. Creatine supplements can increase muscle phosphocreatine stores.",
         imageCredit: "The first few seconds. Educational only.",
+        extraImage: "/images/nerd-creatine-recharger.png",
+        extraImageAlt:
+          "Infographic: creatine, the cell’s instant ATP recharger. Phosphocreatine donates a phosphate to ADP, restoring ATP in the first seconds of all-out work. Creatine does not make energy from nothing — it enlarges the reserve.",
+        extraImageCredit: "ATP’s rapid backup system. Educational only.",
+      },
+      {
+        title: "Ketones",
+        paragraphs: [
+          "When glucose is low and fat supply is high, the liver packages fat into a portable fuel it cannot use itself: ketones. Brain, heart, and muscle can burn them. Nutritional ketosis is not diabetic ketoacidosis.",
+        ],
+        image: "/images/nerd-ketones.png",
+        imageAlt:
+          "Infographic: ketone production, the liver’s portable fat-fuel factory. Fatty acids to acetyl-CoA to ketones. The liver exports ketones; other organs turn them into ATP. Nutritional ketosis is not diabetic ketoacidosis.",
+        imageCredit: "Ketones are portable fuel made from fat by the liver when glucose is limited. Educational only.",
       },
     ],
     seeAlso: {
@@ -791,7 +809,7 @@ export const nerdTopics = [
   {
     id: "reverse-diabetes",
     title: "How to reverse type 2 diabetes (for most)",
-    lede: "For most people with type 2, emptying the extra fuel — especially fat in the liver and pancreas — can bring blood sugar back.",
+    lede: "For most people with type 2 diabetes, emptying the extra fuel — especially fat in the liver and pancreas — can bring blood sugar back down.",
     stolenFrom: "Open Evidence; Dr. Ted Naiman — Personal Fat Threshold",
     paragraphs: [
       "For most people with type 2 diabetes, this is reversible to some extent. Remission means normal blood sugar without diabetes medications. Lose the fat inside the liver and pancreas, and the organs can start working again.",

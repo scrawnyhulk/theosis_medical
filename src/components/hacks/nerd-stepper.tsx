@@ -13,6 +13,9 @@ export type NerdStep = {
   image: string;
   imageAlt: string;
   imageCredit: string;
+  extraImage?: string;
+  extraImageAlt?: string;
+  extraImageCredit?: string;
 };
 
 export function NerdStepper({ steps, topicId }: { steps: readonly NerdStep[]; topicId: string }) {
@@ -95,6 +98,13 @@ export function NerdStepper({ steps, topicId }: { steps: readonly NerdStep[]; to
         <EnlargeableImage src={step.image} alt={step.imageAlt} />
         <figcaption className="mt-3 text-sm leading-relaxed text-muted">{step.imageCredit}</figcaption>
       </figure>
+
+      {step.extraImage ? (
+        <figure className="mt-8">
+          <EnlargeableImage src={step.extraImage} alt={step.extraImageAlt ?? ""} />
+          <figcaption className="mt-3 text-sm leading-relaxed text-muted">{step.extraImageCredit}</figcaption>
+        </figure>
+      ) : null}
 
       <ol className="mt-8 flex flex-wrap gap-2">
         {steps.map((item, i) => (
