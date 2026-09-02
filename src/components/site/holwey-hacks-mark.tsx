@@ -14,7 +14,7 @@ export function HolweyHacksMark({ className }: { className?: string }) {
     <span
       className={cn(
         plaqueShell,
-        "-rotate-2 flex-col items-start justify-center px-2.5 py-1.5 transition-[transform,box-shadow,background-color,border-color] duration-150",
+        "-rotate-2 items-center justify-center px-2.5 py-1.5 transition-[transform,box-shadow,background-color,border-color] duration-150",
         "group-hover:rotate-0 group-hover:border-accent group-hover:bg-accent group-hover:shadow-[2px_3px_0_0_rgb(0_0_0_/_0.3)]",
         className,
       )}
@@ -25,12 +25,9 @@ export function HolweyHacksMark({ className }: { className?: string }) {
         style={{ backgroundColor: "#2a7ae0" }}
         aria-hidden
       />
-      <span className="relative font-display text-[18px] font-semibold tracking-[0.12em] uppercase">
+      <span className="relative font-display text-[16px] font-semibold tracking-[0.16em] uppercase sm:text-[18px]">
         <span className="hh-metal-blue">H</span>
-        <span className="hh-metal">olwey</span>
-      </span>
-      <span className="hh-metal relative mt-[3px] font-display text-[10px] font-semibold tracking-[0.28em] uppercase">
-        Health Hacks
+        <span className="hh-metal">ealth Hacks</span>
       </span>
     </span>
   );

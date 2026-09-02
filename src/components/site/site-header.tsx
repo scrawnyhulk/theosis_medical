@@ -46,7 +46,7 @@ export function SiteHeader() {
               to="/hacks"
               className="group shrink-0"
               activeProps={{ className: "group" }}
-              aria-label="Holwey Health Hacks"
+              aria-label="Health Hacks"
             >
               <HolweyHacksMark />
             </Link>
