@@ -1553,7 +1553,7 @@ function createFormControl(props = {}) {
 					eventType: EVENTS.TRIGGER
 				});
 			}))).every(Boolean);
-			!(!validationResult && !_formState.isValid) && _setValid();
+			(validationResult || _formState.isValid) && _setValid();
 		} else validationResult = isValid = await executeBuiltInValidation({
 			fields: _fields,
 			name,

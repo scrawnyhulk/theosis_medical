@@ -8857,8 +8857,8 @@ var require_react_dom_server_legacy_node_production = /* @__PURE__ */ __commonJS
 			var prevResumableState = currentResumableState;
 			currentResumableState = request$jscomp$2.resumableState;
 			try {
-				var pingedTasks = request$jscomp$2.pingedTasks, i;
-				for (i = 0; i < pingedTasks.length; i++) {
+				var pingedTasks = request$jscomp$2.pingedTasks, i = 0;
+				for (; i < pingedTasks.length; i++) {
 					var task = pingedTasks[i], request = request$jscomp$2, segment = task.blockedSegment;
 					if (null === segment) {
 						var request$jscomp$0 = request;
@@ -12930,8 +12930,8 @@ var require_react_dom_server_node_production = /* @__PURE__ */ __commonJSMin(((e
 			var prevResumableState = currentResumableState;
 			currentResumableState = request$jscomp$2.resumableState;
 			try {
-				var pingedTasks = request$jscomp$2.pingedTasks, i;
-				for (i = 0; i < pingedTasks.length; i++) {
+				var pingedTasks = request$jscomp$2.pingedTasks, i = 0;
+				for (; i < pingedTasks.length; i++) {
 					var task = pingedTasks[i], request = request$jscomp$2, segment = task.blockedSegment;
 					if (null === segment) {
 						var request$jscomp$0 = request;
