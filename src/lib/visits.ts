@@ -1,12 +1,8 @@
 export const visitKinds = ["lifestyle", "acute"] as const;
 export type VisitKind = (typeof visitKinds)[number];
 
-export const licensedStates = [
-  { code: "IL", name: "Illinois" },
-  { code: "WI", name: "Wisconsin" },
-  { code: "MI", name: "Michigan" },
-  { code: "IN", name: "Indiana" },
-] as const;
+export const sessionPrice = 150;
+export const sessionMinutes = 45;
 
 export const visitMeta: Record<
   VisitKind,
@@ -14,48 +10,59 @@ export const visitMeta: Record<
 > = {
   lifestyle: {
     n: "01",
-    title: "Lifestyle consult",
-    time: "30–45 min",
-    lede: "",
-    body: "Evidence-based consult drawing on nutrition and emergency medicine. Minimum effective dose — the 20% that does 80% of the work. Not a 12-week program.",
+    title: "Lifestyle counseling",
+    time: "45 min · $150 cash",
+    lede: "Coaching, not a clinic. Habits, protein, walking, the 20% that actually fits a busy life.",
+    body: "A cash-pay video session for lifestyle counseling: food environment, protein, training you will actually do, hotel and shift defaults. Education and accountability — not a medical visit, not labs, not a prescription.",
   },
   acute: {
     n: "02",
     title: "Acute video visit",
     time: "15 min",
-    lede: "Sore throat, rash, sinus, the thing that needs a look and maybe not an ED.",
-    body: "Short virtual evaluation for appropriate acute concerns. If this belongs in an emergency department, the next screen will say so.",
+    lede: "Not in this playground.",
+    body: "Acute medical video visits are a different legal structure. This demo is lifestyle counseling only.",
   },
 };
 
 export const lifestyleGoals = [
   "Get leaner",
-  "Build muscle",
-  "Improve cholesterol",
-  "Type 2 diabetes / blood sugar",
-  "Overall health",
-  "How to be healthy in a busy life",
-  "Labs + a plan",
+  "Get stronger",
+  "Eat in a way that survives a 12-hour shift",
+  "Protein, walking, the 80/20",
+  "Hotel / locums / travel defaults",
   "Something else",
 ] as const;
 
-export const acuteConcerns = [
-  "Sore throat",
-  "Sinus / cold / cough",
-  "Rash or skin",
-  "Mild aches or pains",
-  "Urinary symptoms",
-  "Pink eye / ear",
-  "Something else that is not an emergency",
-] as const;
-
-export const redFlags = [
-  "Chest pain, pressure, or pain spreading to the jaw, neck, or arm",
-  "Trouble breathing, lips or face turning blue",
-  "Stroke signs — face droop, arm weakness, speech that is off",
-  "Severe allergic reaction, swelling of the mouth or throat",
-  "Uncontrolled bleeding, new seizure, or fainting you cannot explain",
-  "Thoughts of suicide or of harming yourself or someone else",
+export const coachingAgreement = [
+  {
+    id: "not-medical",
+    label:
+      "This is lifestyle counseling / coaching. It is not a medical visit, not a consult, not a diagnosis, not treatment, and not a lab review.",
+  },
+  {
+    id: "not-patient",
+    label:
+      "I am not becoming Nick’s patient. He is not my clinician for this session, and this does not create a medical relationship.",
+  },
+  {
+    id: "own-clinician",
+    label:
+      "This does not replace my own doctor, PA, or other clinician. I will not ask Nick to start, stop, or change a medication, or to interpret my labs.",
+  },
+  {
+    id: "emergency",
+    label:
+      "If I have an emergency, new concerning symptoms, or a medical question, I will contact my own clinician or call 911 / go to the emergency department — not this session.",
+  },
+  {
+    id: "cash",
+    label: "I understand this is cash-pay. No insurance will be billed. No superbill for medical care.",
+  },
+  {
+    id: "scope",
+    label:
+      "If the conversation turns medical, Nick will stop and send me back to my own clinician. That is a feature, not a failure.",
+  },
 ] as const;
 
 export const lifestyleSlots = [
@@ -65,6 +72,8 @@ export const lifestyleSlots = [
   { id: "t4", when: "Sat · 9:00 a.m.", note: "Weekend" },
 ] as const;
 
+export const redFlags = [] as const;
+
 export function isVisitKind(value: string): value is VisitKind {
   return value === "lifestyle" || value === "acute";
 }
@@ -72,15 +81,13 @@ export function isVisitKind(value: string): value is VisitKind {
 export type DemoChart = {
   kind: VisitKind;
   name: string;
+  email: string;
   state: string;
   reason: string;
   notes: string;
-  allergies: string;
-  meds: string;
-  pmh: string;
-  surgeries: string;
   slot: string;
   at: string;
+  paid: boolean;
 };
 
 const CHART_KEY = "theosis-demo-chart";
@@ -106,28 +113,12 @@ export const sampleCharts: DemoChart[] = [
   {
     kind: "lifestyle",
     name: "Jordan Hale",
-    state: "IL",
-    reason: "Improve cholesterol",
-    notes: "Wants a plan that survives a 12-hour shift. No chest pain.",
-    allergies: "NKDA",
-    meds: "Atorvastatin 20 mg nightly",
-    pmh: "Hyperlipidemia. No CAD.",
-    surgeries: "None",
+    email: "jordan@example.com",
+    state: "",
+    reason: "Eat in a way that survives a 12-hour shift",
+    notes: "Wants a plan that survives nights and a hotel breakfast. Not asking for labs.",
     slot: "Tue · 4:30 p.m. · After clinic",
     at: "demo",
-  },
-  {
-    kind: "acute",
-    name: "Sam Ortiz",
-    state: "WI",
-    reason: "Sore throat",
-    notes: "Three days. No drooling, no stridor, can drink.",
-    allergies: "Penicillin — rash",
-    meds: "None",
-    pmh: "Otherwise healthy",
-    surgeries: "Tonsils still in",
-    slot: "Next available · today 4:20 p.m.",
-    at: "demo",
+    paid: true,
   },
 ];
-

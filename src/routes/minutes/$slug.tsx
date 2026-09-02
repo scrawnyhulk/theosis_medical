@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowLeft } from "lucide-react";
 import { EnlargeableImage } from "@/components/hacks/enlargeable-image";
+import { NerdStepper } from "@/components/hacks/nerd-stepper";
 import { SiteShell } from "@/components/site/site-shell";
 import { Button } from "@/components/ui/button";
 import { getMinute, minutesIntro } from "@/lib/minutes";
@@ -66,9 +67,30 @@ function MinutePage() {
             <p key={p.slice(0, 36)}>{p}</p>
           ))}
         </div>
-        <figure className="mt-10">
-          <EnlargeableImage src={minute.image} alt={minute.imageAlt} />
-        </figure>
+        {minute.image ? (
+          <figure className="mt-10">
+            <EnlargeableImage src={minute.image} alt={minute.imageAlt ?? minute.title} />
+            {minute.imageCredit ? (
+              <figcaption className="mt-3 text-sm leading-relaxed text-muted">{minute.imageCredit}</figcaption>
+            ) : null}
+          </figure>
+        ) : null}
+        {minute.extraImages && minute.extraImages.length > 0
+          ? minute.extraImages.map((img) => (
+              <figure key={img.src} className="mt-10">
+                <EnlargeableImage src={img.src} alt={img.alt} />
+                <figcaption className="mt-3 text-sm leading-relaxed text-muted">{img.credit}</figcaption>
+              </figure>
+            ))
+          : null}
+        {minute.extraParagraphs && minute.extraParagraphs.length > 0 ? (
+          <div className="mt-10 space-y-5 text-lg leading-relaxed text-muted">
+            {minute.extraParagraphs.map((p) => (
+              <p key={p.slice(0, 36)}>{p}</p>
+            ))}
+          </div>
+        ) : null}
+        {minute.steps && minute.steps.length > 0 ? <NerdStepper steps={minute.steps} topicId={minute.slug} /> : null}
         <p className="mt-12 text-sm text-muted">{minutesIntro.disclaimer}</p>
       </article>
     </SiteShell>

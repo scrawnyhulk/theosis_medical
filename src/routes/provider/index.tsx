@@ -36,8 +36,8 @@ function ProviderHome() {
           Today’s board
         </h1>
         <p className="mt-4 max-w-2xl text-lg leading-relaxed text-muted">
-          This is your side. Patients never see this. Live, it would sit behind your login — not a
-          link in the public header.
+          This is your side. Clients never see this. Live, it would sit behind your login — a list
+          of counseling sessions, not a medical chart.
         </p>
 
         {!in_ ? (
@@ -61,12 +61,10 @@ function ProviderHome() {
               >
                 <div>
                   <p className="text-xs font-medium tracking-widest text-accent uppercase">
-                    {visit.kind === "lifestyle" ? "Lifestyle · 30–45 min" : "Acute · 15 min"}
+                    {visit.kind === "lifestyle" ? "Counseling · 45 min · cash" : "Not this playground"}
                   </p>
                   <p className="mt-2 font-display text-2xl font-semibold tracking-wide">{visit.name}</p>
-                  <p className="mt-1 text-muted">
-                    {visit.state} · {visit.reason}
-                  </p>
+                  <p className="mt-1 text-muted">{visit.reason}</p>
                 </div>
                 <p className="mt-4 text-sm text-muted sm:mt-0">{visit.slot}</p>
               </Link>

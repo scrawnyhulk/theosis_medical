@@ -6,8 +6,9 @@ import { SHOW_VISIT_DEMO } from "@/lib/demo";
 import { isVisitKind, visitMeta } from "@/lib/visits";
 
 export const Route = createFileRoute("/visits/$kind")({
-  beforeLoad: () => {
+  beforeLoad: ({ params }) => {
     if (!SHOW_VISIT_DEMO) throw redirect({ to: "/" });
+    if (params.kind === "acute") throw redirect({ to: "/visits/$kind", params: { kind: "lifestyle" } });
   },
   validateSearch: (search: Record<string, unknown>): { view?: "clinician"; who?: string } => ({
     ...(search.view === "clinician" ? { view: "clinician" as const } : {}),

@@ -63,15 +63,7 @@ export function FuturePlans() {
               {SHOW_VISIT_DEMO && card.n === "01" ? (
                 <Button asChild className="mt-3 w-fit" size="sm" variant="outline">
                   <Link to="/visits/$kind" params={{ kind: "lifestyle" }}>
-                    Demo a consult
-                    <ArrowRight />
-                  </Link>
-                </Button>
-              ) : null}
-              {SHOW_VISIT_DEMO && card.n === "03" ? (
-                <Button asChild className="mt-6 w-fit" size="sm" variant="outline">
-                  <Link to="/visits/$kind" params={{ kind: "acute" }}>
-                    Demo a video visit
+                    Demo a counseling session
                     <ArrowRight />
                   </Link>
                 </Button>

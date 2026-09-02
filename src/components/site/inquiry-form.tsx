@@ -133,7 +133,9 @@ export function InquiryForm() {
           <ArrowRight />
         </Button>
         {sendError ? <p className="text-sm text-danger">{sendError}</p> : null}
-        <p className="text-sm text-muted">No account required. Used only to answer this request.</p>
+        <p className="text-sm text-muted">
+          No account required. I will never spam you or sell your email.
+        </p>
       </div>
     </form>
   );

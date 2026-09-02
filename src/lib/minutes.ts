@@ -6,7 +6,16 @@ export type MinuteSlug =
   | "sprain-strain"
   | "ct"
   | "sepsis"
-  | "antibiotic-resistance";
+  | "antibiotic-resistance"
+  | "how-antibiotics-work";
+
+export type MinuteStep = {
+  title: string;
+  kicker?: string;
+  image: string;
+  imageAlt: string;
+  imageCredit: string;
+};
 
 export type Minute = {
   slug: MinuteSlug;
@@ -14,8 +23,12 @@ export type Minute = {
   title: string;
   lede: string;
   paragraphs: string[];
-  image: string;
-  imageAlt: string;
+  extraParagraphs?: string[];
+  image?: string;
+  imageAlt?: string;
+  imageCredit?: string;
+  extraImages?: { src: string; alt: string; credit: string }[];
+  steps?: MinuteStep[];
 };
 
 export const minutesIntro = {
@@ -138,7 +151,7 @@ export const minutes: Minute[] = [
   },
   {
     slug: "antibiotic-resistance",
-    n: "08",
+    n: "09",
     title: "What Is Antibiotic Resistance",
     lede: "You don't become immune to the medicine. The bacteria do.",
     paragraphs: [
@@ -151,6 +164,65 @@ export const minutes: Minute[] = [
     image: "/images/minutes-resistance.png",
     imageAlt:
       "Infographic: antibiotic resistance. Bacteria become resistant, not your body. How resistance is selected, what changes inside the bacterium, how genes travel, why first-line drugs can fail, the one-health loop, and how we slow it down.",
+  },
+  {
+    slug: "how-antibiotics-work",
+    n: "08",
+    title: "How Do Antibiotics Work",
+    lede: "Can't I just take some leftover amoxicillin when I get sick? That'll take care of it, right?",
+    paragraphs: [
+      "Not quite. Antibiotics are not a general “sick pill.” They work in different ways depending on the type of bacteria — and most of what makes you sick is not bacteria at all.",
+      "Before leftover amoxicillin is the right move, three things have to be true.",
+      "1. It is truly bacterial. Most of the time it isn’t. Colds, most bronchitis, most sore throats, most sinus pressure — viruses. Amoxicillin does nothing to a virus except wave as it drives by on its way to your colon to see if it’s in the mood for diarrhea.",
+      "2. If it is bacterial, we have to infer what kind. Strep is not E. coli is not MRSA is not an atypical pneumonia. The leftover amoxicillin in the cabinet was chosen for a different bug, in a different place, on a different day.",
+      "3. That bug has to actually be susceptible to the drug you are considering. Coverage, resistance, and whether the drug even reaches the infection all matter. A pill that stays in the gut will not treat a kidney. Some drugs never treat pneumonia, no matter what the bottle says.",
+      "That is why leftover antibiotics are a bad plan even when you mean well. Get examined when you need one. Here is the simple version of how these medicines actually work.",
+    ],
+    image: "/images/minutes-abx-how.png",
+    imageAlt:
+      "Infographic: how antibiotics stop bacteria. Some kill, some hold growth so the immune system can finish the job. Five attack points — cell wall, protein factory, DNA/RNA blueprint, folate recipe, and membrane — plus why they do not treat viruses and how resistance wins in the germs, not in you.",
+    imageCredit:
+      "Educational overview. Antibiotic choice depends on the suspected organism, infection site, allergies, resistance patterns, and patient factors.",
+    extraImages: [
+      {
+        src: "/images/minutes-abx-yeast-diarrhea.png",
+        alt: "Infographic: why antibiotics can cause yeast infections and diarrhea. Antibiotics disturb the microbiome, Candida can overgrow, the gut can lose its balance, and not all diarrhea is C. difficile — but don’t miss it. When to call and what helps.",
+        credit:
+          "Educational overview — not a diagnosis. Antibiotic effects vary by drug, duration, health conditions, and prior microbiome. Contact a healthcare professional for concerning symptoms.",
+      },
+    ],
+    extraParagraphs: [
+      "The three maps that follow are denser. They are more for medical professionals — or the committed Dr. Googlers — as a refresher on the coverage of each antibiotic: what it hits, what it misses, and where people get into trouble. They are not a home prescribing guide.",
+    ],
+    steps: [
+      {
+        title: "β-Lactams + cell wall",
+        kicker: "Master set 1 of 3 — class, key drugs, spectrum, signature miss",
+        image: "/images/minutes-abx-cell-wall.png",
+        imageAlt:
+          "Infographic: Antibiotics decoded, master set 1 of 3. β-lactams and cell-wall agents — penicillins, the cephalosporin ladder, carbapenems, monobactams, newer resistant Gram-negative β-lactams, vancomycin, daptomycin, and the major misses including MRSA, Pseudomonas, and atypicals.",
+        imageCredit:
+          "Simplified learning map — not a prescribing guide. Availability and approved indications vary. Current through 2026.",
+      },
+      {
+        title: "Non-β-lactams",
+        kicker: "Master set 2 of 3 — mechanism, key drugs, coverage, exam pearl",
+        image: "/images/minutes-abx-non-beta.png",
+        imageAlt:
+          "Infographic: Antibiotics decoded, master set 2 of 3. Non-β-lactams by mechanism — 30S and 50S protein synthesis, DNA/RNA agents, folate and cell damage, lower-UTI specialists, topical agents, and memory patterns for atypicals, MRSA, VRE, and anaerobes.",
+        imageCredit:
+          "Simplified learning map — not a prescribing guide. Spectrum and indications depend on organism, infection site, susceptibility, and local resistance. Current through 2026.",
+      },
+      {
+        title: "Coverage atlas",
+        kicker: "Master set 3 of 3 — Gram-positives, resistant Gram-negatives, site traps",
+        image: "/images/minutes-abx-atlas.png",
+        imageAlt:
+          "Infographic: Antibiotics decoded, master set 3 of 3. Coverage atlas — Gram-positive targets, resistant Gram-negatives, atypicals and anaerobes, mycobacteria, and site-of-infection traps. Never memorize coverage without the major misses.",
+        imageCredit:
+          "Simplified learning map — not a prescribing guide. Susceptibility, infection site, severity, patient factors, and local antibiograms determine real-world decisions. Current through 2026.",
+      },
+    ],
   },
 ];
 

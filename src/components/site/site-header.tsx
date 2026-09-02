@@ -56,7 +56,7 @@ export function SiteHeader() {
                 className="shrink-0 text-sm font-medium tracking-wide text-muted uppercase transition-colors duration-150 hover:text-fg"
                 activeProps={{ className: "text-fg" }}
               >
-                Visits
+                Counseling
                 <span className="ml-1 text-[9px] tracking-widest text-accent">Demo</span>
               </Link>
             ) : null}
@@ -122,7 +122,7 @@ export function SiteHeader() {
               className="flex min-h-12 items-center border-b border-border text-base font-medium text-fg"
               onClick={close}
             >
-              Visits
+              Counseling
               <span className="ml-2 text-[10px] tracking-widest text-accent uppercase">Demo</span>
             </Link>
           ) : null}

@@ -1,5 +1,8 @@
 [build]
-  command = "npm run build"
+  # Publish the already-built static export. Running `npm run build` on Netlify
+  # uses the Vercel/Nitro adapter and writes an empty index.html, which blanks
+  # the live site.
+  command = "true"
   publish = ".vercel/output/static"
 
 [build.environment]

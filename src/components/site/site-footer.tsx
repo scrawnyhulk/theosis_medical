@@ -20,7 +20,7 @@ export function SiteFooter() {
           </Link>
           {SHOW_VISIT_DEMO ? (
             <Link to="/visits" className="text-sm text-ink-muted hover:text-ink-fg">
-              Visits · playground
+              Counseling · playground
             </Link>
           ) : null}
         </div>

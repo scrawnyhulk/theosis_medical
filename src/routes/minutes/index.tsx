@@ -40,7 +40,9 @@ function MinutesHub() {
       <section className="mx-auto max-w-6xl px-5 py-16 sm:px-8 lg:py-24">
         <p className="text-xs font-medium tracking-widest text-muted uppercase">Minutes</p>
         <div className="mt-8 grid gap-4 md:grid-cols-2">
-          {minutes.map((minute) => (
+          {[...minutes]
+            .sort((a, b) => a.n.localeCompare(b.n))
+            .map((minute) => (
             <Link
               key={minute.slug}
               to="/minutes/$slug"
@@ -63,7 +65,7 @@ function MinutesHub() {
             href="/#suggest"
             className="group flex flex-col rounded-xl border border-dashed border-border-strong bg-surface/60 p-6 shadow-border transition-colors duration-150 hover:bg-fg/5 sm:p-8"
           >
-            <p className="font-display text-3xl font-semibold text-muted">09+</p>
+            <p className="font-display text-3xl font-semibold text-muted">10+</p>
             <h2 className="mt-4 font-display text-3xl font-semibold tracking-wide uppercase">
               More to come
             </h2>

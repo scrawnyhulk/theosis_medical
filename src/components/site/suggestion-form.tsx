@@ -126,7 +126,9 @@ export function SuggestionForm() {
           <ArrowRight />
         </Button>
         {sendError ? <p className="text-sm text-danger">{sendError}</p> : null}
-        <p className="text-sm text-muted">No account required. Used only to hear you and follow up.</p>
+        <p className="text-sm text-muted">
+          No account required. I will never spam you or sell your email.
+        </p>
       </div>
     </form>
   );
