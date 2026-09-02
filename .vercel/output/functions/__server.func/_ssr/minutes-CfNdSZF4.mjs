@@ -1,9 +1,9 @@
 import { _ as Link } from "../_libs/@tanstack/react-router+[...].mjs";
 import { i as require_jsx_runtime } from "../_libs/@radix-ui/react-label+[...].mjs";
 import { b as ArrowRight } from "../_libs/lucide-react.mjs";
-import { C as minutes, w as minutesIntro } from "./router-B-HKWIc8.mjs";
-import { r as SiteShell } from "./site-shell-ByYPgQOt.mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/minutes-DIG8XPIN.js
+import { C as minutes, w as minutesIntro } from "./router-SgJAeo7U.mjs";
+import { r as SiteShell } from "./site-shell-B3hLpsCC.mjs";
+//#region node_modules/.nitro/vite/services/ssr/assets/minutes-CfNdSZF4.js
 var import_jsx_runtime = require_jsx_runtime();
 function MinutesHub() {
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(SiteShell, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("section", {
@@ -36,7 +36,7 @@ function MinutesHub() {
 			children: "Minutes"
 		}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 			className: "mt-8 grid gap-4 md:grid-cols-2",
-			children: [minutes.map((minute) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Link, {
+			children: [[...minutes].sort((a, b) => a.n.localeCompare(b.n)).map((minute) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Link, {
 				to: "/minutes/$slug",
 				params: { slug: minute.slug },
 				className: "group flex flex-col rounded-xl bg-surface p-6 shadow-border transition-colors duration-150 hover:bg-fg/5 sm:p-8",
@@ -64,7 +64,7 @@ function MinutesHub() {
 				children: [
 					/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
 						className: "font-display text-3xl font-semibold text-muted",
-						children: "09+"
+						children: "10+"
 					}),
 					/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h2", {
 						className: "mt-4 font-display text-3xl font-semibold tracking-wide uppercase",

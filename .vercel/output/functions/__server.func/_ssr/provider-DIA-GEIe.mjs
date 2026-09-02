@@ -3,10 +3,10 @@ import { r as require_react } from "../_libs/@hookform/resolvers+[...].mjs";
 import { _ as Link } from "../_libs/@tanstack/react-router+[...].mjs";
 import { i as require_jsx_runtime } from "../_libs/@radix-ui/react-label+[...].mjs";
 import { b as ArrowRight } from "../_libs/lucide-react.mjs";
-import { G as sampleCharts, U as readDemoChart } from "./router-B-HKWIc8.mjs";
-import { r as SiteShell, t as Button } from "./site-shell-ByYPgQOt.mjs";
-import { t as PlaygroundBanner } from "./playground-banner-C-Ew33f2.mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/provider-B5lmJ_r_.js
+import { H as readDemoChart, U as sampleCharts } from "./router-SgJAeo7U.mjs";
+import { r as SiteShell, t as Button } from "./site-shell-B3hLpsCC.mjs";
+import { t as PlaygroundBanner } from "./playground-banner-BdkZ_4cb.mjs";
+//#region node_modules/.nitro/vite/services/ssr/assets/provider-DIA-GEIe.js
 var import_react = /* @__PURE__ */ __toESM(require_react());
 var import_jsx_runtime = require_jsx_runtime();
 function ProviderHome() {
@@ -26,7 +26,7 @@ function ProviderHome() {
 			}),
 			/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
 				className: "mt-4 max-w-2xl text-lg leading-relaxed text-muted",
-				children: "This is your side. Patients never see this. Live, it would sit behind your login — not a link in the public header."
+				children: "This is your side. Clients never see this. Live, it would sit behind your login — a list of counseling sessions, not a medical chart."
 			}),
 			!in_ ? /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 				className: "mt-10 max-w-lg rounded-xl bg-surface p-6 shadow-border sm:p-8",
@@ -48,19 +48,15 @@ function ProviderHome() {
 					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
 						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
 							className: "text-xs font-medium tracking-widest text-accent uppercase",
-							children: visit.kind === "lifestyle" ? "Lifestyle · 30–45 min" : "Acute · 15 min"
+							children: visit.kind === "lifestyle" ? "Counseling · 45 min · cash" : "Not this playground"
 						}),
 						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
 							className: "mt-2 font-display text-2xl font-semibold tracking-wide",
 							children: visit.name
 						}),
-						/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("p", {
+						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
 							className: "mt-1 text-muted",
-							children: [
-								visit.state,
-								" · ",
-								visit.reason
-							]
+							children: visit.reason
 						})
 					] }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
 						className: "mt-4 text-sm text-muted sm:mt-0",

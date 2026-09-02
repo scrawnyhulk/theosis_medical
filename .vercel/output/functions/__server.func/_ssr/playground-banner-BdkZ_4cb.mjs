@@ -1,12 +1,12 @@
 import { _ as Link } from "../_libs/@tanstack/react-router+[...].mjs";
 import { i as require_jsx_runtime } from "../_libs/@radix-ui/react-label+[...].mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/playground-banner-C-Ew33f2.js
+//#region node_modules/.nitro/vite/services/ssr/assets/playground-banner-BdkZ_4cb.js
 var import_jsx_runtime = require_jsx_runtime();
 function PlaygroundBanner() {
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("p", {
 		className: "border-b border-border bg-ink px-5 py-2.5 text-center text-xs leading-relaxed text-ink-muted sm:px-8",
 		children: [
-			"Playground only. Not a medical visit. Do not send real health information.",
+			"Playground only. Cash-pay lifestyle counseling demo — not a medical visit, not a patient relationship. Do not send real health information.",
 			" ",
 			/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Link, {
 				to: "/",

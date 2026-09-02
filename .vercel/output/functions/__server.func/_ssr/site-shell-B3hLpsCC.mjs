@@ -3,10 +3,10 @@ import { r as require_react } from "../_libs/@hookform/resolvers+[...].mjs";
 import { _ as Link } from "../_libs/@tanstack/react-router+[...].mjs";
 import { i as require_jsx_runtime, n as require_react_dom, r as Slot } from "../_libs/@radix-ui/react-label+[...].mjs";
 import { p as Menu, r as X, s as Search, v as ChevronDown } from "../_libs/lucide-react.mjs";
-import { C as minutes, D as nerdGroups, I as site, L as whyParagraphs, O as nerdTopics, T as nav, s as aboutParagraphs, y as hacks } from "./router-B-HKWIc8.mjs";
+import { C as minutes, D as nerdGroups, I as site, L as whyParagraphs, O as nerdTopics, T as nav, s as aboutParagraphs, y as hacks } from "./router-SgJAeo7U.mjs";
 import { n as clsx, t as cva } from "../_libs/class-variance-authority+clsx.mjs";
 import { t as twMerge } from "../_libs/tailwind-merge.mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/site-shell-ByYPgQOt.js
+//#region node_modules/.nitro/vite/services/ssr/assets/site-shell-B3hLpsCC.js
 var import_react = /* @__PURE__ */ __toESM(require_react());
 var import_jsx_runtime = require_jsx_runtime();
 var import_react_dom = /* @__PURE__ */ __toESM(require_react_dom());
@@ -166,29 +166,22 @@ var plaqueBg = {
 };
 function HolweyHacksMark({ className }) {
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", {
-		className: cn(plaqueShell, "-rotate-2 flex-col items-start justify-center px-2.5 py-1.5 transition-[transform,box-shadow,background-color,border-color] duration-150", "group-hover:rotate-0 group-hover:border-accent group-hover:bg-accent group-hover:shadow-[2px_3px_0_0_rgb(0_0_0_/_0.3)]", className),
+		className: cn(plaqueShell, "-rotate-2 items-center justify-center px-2.5 py-1.5 transition-[transform,box-shadow,background-color,border-color] duration-150", "group-hover:rotate-0 group-hover:border-accent group-hover:bg-accent group-hover:shadow-[2px_3px_0_0_rgb(0_0_0_/_0.3)]", className),
 		style: plaqueBg,
-		children: [
-			/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
-				className: "pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-150 group-hover:opacity-100",
-				style: { backgroundColor: "#2a7ae0" },
-				"aria-hidden": true
-			}),
-			/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", {
-				className: "relative font-display text-[18px] font-semibold tracking-[0.12em] uppercase",
-				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
-					className: "hh-metal-blue",
-					children: "H"
-				}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
-					className: "hh-metal",
-					children: "olwey"
-				})]
-			}),
-			/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
-				className: "hh-metal relative mt-[3px] font-display text-[10px] font-semibold tracking-[0.28em] uppercase",
-				children: "Health Hacks"
-			})
-		]
+		children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+			className: "pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-150 group-hover:opacity-100",
+			style: { backgroundColor: "#2a7ae0" },
+			"aria-hidden": true
+		}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", {
+			className: "relative font-display text-[16px] font-semibold tracking-[0.16em] uppercase sm:text-[18px]",
+			children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+				className: "hh-metal-blue",
+				children: "H"
+			}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+				className: "hh-metal",
+				children: "ealth Hacks"
+			})]
+		})]
 	});
 }
 function HacksPlaque({ title, className, compact, inline }) {
@@ -228,6 +221,10 @@ function topicText(topic) {
 		if ("kicker" in step && typeof step.kicker === "string") extra.push(step.kicker);
 		if ("paragraphs" in step && Array.isArray(step.paragraphs)) extra.push(...step.paragraphs);
 	}
+	if ("extraImages" in topic && Array.isArray(topic.extraImages)) for (const img of topic.extraImages) {
+		if ("title" in img && typeof img.title === "string") extra.push(img.title);
+		if ("alt" in img && typeof img.alt === "string") extra.push(img.alt);
+	}
 	return pack(topic.title, topic.lede, topic.paragraphs, extra);
 }
 var index = [
@@ -246,7 +243,7 @@ var index = [
 		title: "Medical Minutes",
 		blurb: "The ER talk, written down.",
 		hrefKind: "minutes",
-		haystack: pack("medical minutes", "ear fever cough back sprain ct pneumonia sepsis antibiotic resistance")
+		haystack: pack("medical minutes", "ear fever cough back sprain ct pneumonia sepsis antibiotic resistance amoxicillin leftover")
 	},
 	...minutes.map((m) => ({
 		id: `minute-${m.slug}`,
@@ -611,7 +608,7 @@ function SiteHeader() {
 								to: "/hacks",
 								className: "group shrink-0",
 								activeProps: { className: "group" },
-								"aria-label": "Holwey Health Hacks",
+								"aria-label": "Health Hacks",
 								children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(HolweyHacksMark, {})
 							}),
 							null

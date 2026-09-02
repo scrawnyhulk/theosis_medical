@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { EnlargeableImage } from "@/components/hacks/enlargeable-image";
 import { FastFoodStepper } from "@/components/hacks/fast-food-stepper";
+import { HormoziCookbook } from "@/components/hacks/hormozi-recipe-card";
 import { NerdParagraph } from "@/components/hacks/nerd-paragraph";
 import { NerdStepper } from "@/components/hacks/nerd-stepper";
 import { ProteinLabelTool } from "@/components/hacks/protein-label-tool";
@@ -18,8 +19,6 @@ import {
   hacks,
   hacksIntro,
   hormoziRecipeNotes,
-  hormoziRecipes,
-  proteinPercent,
   readingList,
   referenceVideos,
   type HackSlug,
@@ -312,7 +311,7 @@ function HackExtras({ slug }: { slug: HackSlug }) {
         <figure>
           <EnlargeableImage
             src="/images/staples-poster.png"
-            alt="Staples of good foods: protein you can grab, drinks that do not count, produce, PB2, sweet-tooth options, and low-carb bread hacks."
+            alt="High protein staples: the 40% rule, grab-and-go protein, sweet options that do not blow the budget, at-home protein anchors, and how to build the plate."
           />
         </figure>
         <div>
@@ -330,51 +329,7 @@ function HackExtras({ slug }: { slug: HackSlug }) {
           summary="Zero-prep high-protein assemblies. The recipes below are the grocery-aisle version of that video."
           anchor="hormozi-cookbook"
         />
-        <div className="space-y-4">
-          {hormoziRecipes.map((recipe, i) => {
-            const pct = Math.round(proteinPercent(recipe));
-            return (
-              <article key={recipe.name} className="rounded-xl bg-surface p-6 shadow-border sm:p-8">
-                <p className="font-display text-2xl font-semibold text-accent">
-                  {String(i + 1).padStart(2, "0")}
-                </p>
-                <h3 className="mt-2 font-display text-3xl font-semibold tracking-wide">{recipe.name}</h3>
-                <p className="mt-3 leading-relaxed text-muted">{recipe.how}</p>
-                <ul className="mt-4 space-y-2 text-fg">
-                  {recipe.ingredients.map((item) => (
-                    <li key={item} className="flex gap-2">
-                      <span aria-hidden="true" className="mt-2 size-1 shrink-0 rounded-full bg-accent" />
-                      <span>{item}</span>
-                    </li>
-                  ))}
-                </ul>
-                {recipe.swap ? (
-                  <p className="mt-4 leading-relaxed text-muted">{recipe.swap}</p>
-                ) : null}
-                <dl className="mt-5 grid grid-cols-2 gap-3 text-sm sm:grid-cols-4">
-                  <div className="rounded-md bg-ink px-3 py-2">
-                    <dt className="text-xs tracking-widest text-ink-muted uppercase">Calories</dt>
-                    <dd className="mt-1 font-medium tabular-nums text-ink-fg">{recipe.calories}</dd>
-                  </div>
-                  <div className="rounded-md bg-ink px-3 py-2">
-                    <dt className="text-xs tracking-widest text-ink-muted uppercase">Protein</dt>
-                    <dd className="mt-1 font-medium tabular-nums text-ink-fg">{recipe.protein} g</dd>
-                  </div>
-                  <div className="rounded-md bg-ink px-3 py-2">
-                    <dt className="text-xs tracking-widest text-ink-muted uppercase">Carbs / Fat</dt>
-                    <dd className="mt-1 font-medium tabular-nums text-ink-fg">
-                      {recipe.carbs} g / {recipe.fat} g
-                    </dd>
-                  </div>
-                  <div className="rounded-md bg-ink px-3 py-2">
-                    <dt className="text-xs tracking-widest text-ink-muted uppercase">% protein</dt>
-                    <dd className="mt-1 font-medium tabular-nums text-ink-fg">{pct}%</dd>
-                  </div>
-                </dl>
-              </article>
-            );
-          })}
-        </div>
+        <HormoziCookbook />
         <div className="rounded-xl bg-ink p-6 text-ink-fg shadow-border sm:p-8">
           <h2 className="font-display text-xl font-semibold tracking-wide">Fine print</h2>
           <ul className="mt-4 space-y-3 text-ink-muted">

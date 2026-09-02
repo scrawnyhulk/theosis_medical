@@ -3,14 +3,14 @@ import { r as require_react } from "../_libs/@hookform/resolvers+[...].mjs";
 import { _ as Link } from "../_libs/@tanstack/react-router+[...].mjs";
 import { i as require_jsx_runtime } from "../_libs/@radix-ui/react-label+[...].mjs";
 import { b as ArrowRight, x as ArrowLeft } from "../_libs/lucide-react.mjs";
-import { O as nerdTopics, b as hacksIntro, g as getNerdTopic, l as creditKicker, n as Route } from "./router-B-HKWIc8.mjs";
-import { r as SiteShell, t as Button } from "./site-shell-ByYPgQOt.mjs";
-import { t as Input } from "./input-BxK92cCY.mjs";
-import { t as EnlargeableImage } from "./enlargeable-image-B_oMciuv.mjs";
+import { O as nerdTopics, b as hacksIntro, g as getNerdTopic, l as creditKicker, n as Route } from "./router-SgJAeo7U.mjs";
+import { r as SiteShell, t as Button } from "./site-shell-B3hLpsCC.mjs";
+import { t as Input } from "./input-BI3Ycw5g.mjs";
 import { t as NerdParagraph } from "./nerd-paragraph-yTlgbarp.mjs";
-import { n as VideoCard, t as NerdStepper } from "./video-card-CXDUvIE6.mjs";
-import { t as Label } from "./label-CgLs1Oh8.mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/nerd-out._topic-JWRTIGn_.js
+import { n as NerdStepper, t as EnlargeableImage } from "./nerd-stepper-DX4-8j57.mjs";
+import { t as Label } from "./label-DTCijaUM.mjs";
+import { t as VideoCard } from "./video-card-DgPnMgod.mjs";
+//#region node_modules/.nitro/vite/services/ssr/assets/nerd-out._topic-CaVQjjDx.js
 var import_react = /* @__PURE__ */ __toESM(require_react());
 var import_jsx_runtime = require_jsx_runtime();
 var CAL_PER_LB = 31;
@@ -297,14 +297,21 @@ function NerdTopicPage() {
 				})]
 			}) : null,
 			"extraImages" in topic && Array.isArray(topic.extraImages) ? topic.extraImages.map((img) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("figure", {
-				className: "mt-8",
-				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(EnlargeableImage, {
-					src: img.src,
-					alt: img.alt
-				}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("figcaption", {
-					className: "mt-3 text-sm leading-relaxed text-muted",
-					children: img.credit
-				})]
+				className: "mt-10",
+				children: [
+					"title" in img && img.title ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+						className: "mb-3 font-display text-2xl font-semibold tracking-wide",
+						children: img.title
+					}) : null,
+					/* @__PURE__ */ (0, import_jsx_runtime.jsx)(EnlargeableImage, {
+						src: img.src,
+						alt: img.alt
+					}),
+					/* @__PURE__ */ (0, import_jsx_runtime.jsx)("figcaption", {
+						className: "mt-3 text-sm leading-relaxed text-muted",
+						children: img.credit
+					})
+				]
 			}, img.src)) : null,
 			topic.id === "fat-burn-limit" ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)(FatBurnCalculator, {}) : null,
 			"seeAlso" in topic && topic.seeAlso ? /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("p", {

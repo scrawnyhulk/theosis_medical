@@ -3,10 +3,10 @@ import { r as require_react } from "../_libs/@hookform/resolvers+[...].mjs";
 import { _ as Link } from "../_libs/@tanstack/react-router+[...].mjs";
 import { i as require_jsx_runtime } from "../_libs/@radix-ui/react-label+[...].mjs";
 import { _ as ChevronLeft, b as ArrowRight, g as ChevronRight, x as ArrowLeft } from "../_libs/lucide-react.mjs";
-import { D as nerdGroups, E as nerdCovers, O as nerdTopics, b as hacksIntro, m as getHack, y as hacks } from "./router-B-HKWIc8.mjs";
-import { n as HacksPlaque, r as SiteShell } from "./site-shell-ByYPgQOt.mjs";
+import { D as nerdGroups, E as nerdCovers, O as nerdTopics, b as hacksIntro, m as getHack, y as hacks } from "./router-SgJAeo7U.mjs";
+import { n as HacksPlaque, r as SiteShell } from "./site-shell-B3hLpsCC.mjs";
 import { t as NerdParagraph } from "./nerd-paragraph-yTlgbarp.mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/nerd-out.index-Jv_KJiD4.js
+//#region node_modules/.nitro/vite/services/ssr/assets/nerd-out.index-ByEIzVYA.js
 var import_react = /* @__PURE__ */ __toESM(require_react());
 var import_jsx_runtime = require_jsx_runtime();
 var slides = nerdGroups.flatMap((group) => group.topicIds.map((id) => {

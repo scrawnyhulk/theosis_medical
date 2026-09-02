@@ -4,67 +4,56 @@ import { I as redirect, f as createRouter, g as createRootRoute, h as createFile
 import { i as require_jsx_runtime } from "../_libs/@radix-ui/react-label+[...].mjs";
 import { o as TriangleAlert } from "../_libs/lucide-react.mjs";
 import { a as union, i as string, n as number, r as object, t as literal } from "../_libs/zod.mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/visits-BV1ULHsk.js
-var licensedStates = [
-	{
-		code: "IL",
-		name: "Illinois"
-	},
-	{
-		code: "WI",
-		name: "Wisconsin"
-	},
-	{
-		code: "MI",
-		name: "Michigan"
-	},
-	{
-		code: "IN",
-		name: "Indiana"
-	}
-];
+//#region node_modules/.nitro/vite/services/ssr/assets/visits-DmpcM3pS.js
 var visitMeta = {
 	lifestyle: {
 		n: "01",
-		title: "Lifestyle consult",
-		time: "30–45 min",
-		lede: "",
-		body: "Evidence-based consult drawing on nutrition and emergency medicine. Minimum effective dose — the 20% that does 80% of the work. Not a 12-week program."
+		title: "Lifestyle counseling",
+		time: "45 min · $150 cash",
+		lede: "Coaching, not a clinic. Habits, protein, walking, the 20% that actually fits a busy life.",
+		body: "A cash-pay video session for lifestyle counseling: food environment, protein, training you will actually do, hotel and shift defaults. Education and accountability — not a medical visit, not labs, not a prescription."
 	},
 	acute: {
 		n: "02",
 		title: "Acute video visit",
 		time: "15 min",
-		lede: "Sore throat, rash, sinus, the thing that needs a look and maybe not an ED.",
-		body: "Short virtual evaluation for appropriate acute concerns. If this belongs in an emergency department, the next screen will say so."
+		lede: "Not in this playground.",
+		body: "Acute medical video visits are a different legal structure. This demo is lifestyle counseling only."
 	}
 };
 var lifestyleGoals = [
 	"Get leaner",
-	"Build muscle",
-	"Improve cholesterol",
-	"Type 2 diabetes / blood sugar",
-	"Overall health",
-	"How to be healthy in a busy life",
-	"Labs + a plan",
+	"Get stronger",
+	"Eat in a way that survives a 12-hour shift",
+	"Protein, walking, the 80/20",
+	"Hotel / locums / travel defaults",
 	"Something else"
 ];
-var acuteConcerns = [
-	"Sore throat",
-	"Sinus / cold / cough",
-	"Rash or skin",
-	"Mild aches or pains",
-	"Urinary symptoms",
-	"Pink eye / ear",
-	"Something else that is not an emergency"
-];
-var redFlags = [
-	"Chest pain, pressure, or pain spreading to the jaw, neck, or arm",
-	"Trouble breathing, lips or face turning blue",
-	"Stroke signs — face droop, arm weakness, speech that is off",
-	"Severe allergic reaction, swelling of the mouth or throat",
-	"Uncontrolled bleeding, new seizure, or fainting you cannot explain",
-	"Thoughts of suicide or of harming yourself or someone else"
+var coachingAgreement = [
+	{
+		id: "not-medical",
+		label: "This is lifestyle counseling / coaching. It is not a medical visit, not a consult, not a diagnosis, not treatment, and not a lab review."
+	},
+	{
+		id: "not-patient",
+		label: "I am not becoming Nick’s patient. He is not my clinician for this session, and this does not create a medical relationship."
+	},
+	{
+		id: "own-clinician",
+		label: "This does not replace my own doctor, PA, or other clinician. I will not ask Nick to start, stop, or change a medication, or to interpret my labs."
+	},
+	{
+		id: "emergency",
+		label: "If I have an emergency, new concerning symptoms, or a medical question, I will contact my own clinician or call 911 / go to the emergency department — not this session."
+	},
+	{
+		id: "cash",
+		label: "I understand this is cash-pay. No insurance will be billed. No superbill for medical care."
+	},
+	{
+		id: "scope",
+		label: "If the conversation turns medical, Nick will stop and send me back to my own clinician. That is a feature, not a failure."
+	}
 ];
 var lifestyleSlots = [
 	{
@@ -108,30 +97,16 @@ function readDemoChart() {
 var sampleCharts = [{
 	kind: "lifestyle",
 	name: "Jordan Hale",
-	state: "IL",
-	reason: "Improve cholesterol",
-	notes: "Wants a plan that survives a 12-hour shift. No chest pain.",
-	allergies: "NKDA",
-	meds: "Atorvastatin 20 mg nightly",
-	pmh: "Hyperlipidemia. No CAD.",
-	surgeries: "None",
+	email: "jordan@example.com",
+	state: "",
+	reason: "Eat in a way that survives a 12-hour shift",
+	notes: "Wants a plan that survives nights and a hotel breakfast. Not asking for labs.",
 	slot: "Tue · 4:30 p.m. · After clinic",
-	at: "demo"
-}, {
-	kind: "acute",
-	name: "Sam Ortiz",
-	state: "WI",
-	reason: "Sore throat",
-	notes: "Three days. No drooling, no stridor, can drink.",
-	allergies: "Penicillin — rash",
-	meds: "None",
-	pmh: "Otherwise healthy",
-	surgeries: "Tonsils still in",
-	slot: "Next available · today 4:20 p.m.",
-	at: "demo"
+	at: "demo",
+	paid: true
 }];
 //#endregion
-//#region node_modules/.nitro/vite/services/ssr/assets/minutes-Bo2SLmgm.js
+//#region node_modules/.nitro/vite/services/ssr/assets/minutes-DAxHU44E.js
 var site = {
 	name: "Theosis Medical",
 	title: "Nick Holwey, PA-C — Theosis Medical",
@@ -1581,9 +1556,14 @@ var nerdTopics = [
 			"My biggest pet peeve is that most patients are never told how reversible type 2 diabetes is. If you can understand the process by which you became diabetic, if we reverse your steps, we can largely revert you back to the way you were before. There are aspects that never quite return back to 100% normal, but you can get pretty close. Still, people get handed a lifetime prescription and a shrug, and I feel that we can do better.",
 			"Now just to clarify, this is NOT type 1 diabetes. Type 1 is an entirely different beast — an autoimmune failure to make insulin — and a whole other discussion."
 		],
-		image: "/images/nerd-personal-fat-threshold.png",
-		imageAlt: "Infographic: when your personal fat threshold is crossed. Safe storage, the tipping zone, then spillover into muscle, liver, and pancreas. Early type 2 can sometimes move back below this point.",
-		imageCredit: "The tipping point from safe storage to metabolic spillover. Educational only.",
+		image: "/images/nerd-pft.png",
+		imageAlt: "Infographic: your personal fat threshold. Safe subcutaneous storage, the personal limit, visceral overflow, fatty liver, ectopic fat in pancreas and muscle, then circulating fuel overflow. Why two people at the same weight can differ, the metabolic dominoes, and how to move back below the threshold.",
+		imageCredit: "Educational model. Individual fat distribution and disease progression vary. Never stop diabetes medication without clinician guidance. Personal Fat Threshold hypothesis · ReTUNE · DiRECT · Twin Cycle research · ADA Standards of Care.",
+		extraImages: [{
+			src: "/images/nerd-personal-fat-threshold.png",
+			alt: "Infographic: when your personal fat threshold is crossed. Safe storage, the tipping zone, then spillover into muscle, liver, and pancreas. Early type 2 can sometimes move back below this point.",
+			credit: "The tipping point from safe storage to metabolic spillover. Educational only."
+		}],
 		seeAlso: {
 			hash: "reverse-diabetes",
 			label: "How to reverse type 2 diabetes (for most)",
@@ -1646,6 +1626,12 @@ var nerdTopics = [
 		tldrImage: "/images/nerd-cholesterol-simplified.png",
 		tldrImageAlt: "TL;DR infographic: Cholesterol, Simplified. Cargo versus carriers, how plaque starts, the energy-surplus pathway, what raises LDL, the five moves that work, and the four lab numbers that matter.",
 		tldrImageCredit: "TL;DR version. Quick-read summary — see the full infographic for details. Educational only. Sources: OpenEvidence.com · 2026 ACC/AHA · American Heart Association · NIH Endotext.",
+		extraImages: [{
+			title: "A deeper dive into HDL",
+			src: "/images/nerd-hdl.png",
+			alt: "Infographic: how HDL works. HDL is a particle that moves cholesterol to the liver — it does not scrub arteries clean. Reverse cholesterol transport, what else HDL can do, how HDL-C can rise, ways to raise the number that do not equal better health, and reading the lab in context.",
+			credit: "Educational only. Lipid treatment should be based on total cardiovascular risk and individualized with a qualified clinician. Sources: NHLBI · American Heart Association · AIM-HIGH · HPS2-THRIVE · HDL efflux research."
+		}],
 		seeAlso: {
 			hash: "personal-fat-threshold",
 			label: "What actually causes type 2 diabetes",
@@ -2092,7 +2078,7 @@ var minutes = [
 	},
 	{
 		slug: "antibiotic-resistance",
-		n: "08",
+		n: "09",
 		title: "What Is Antibiotic Resistance",
 		lede: "You don't become immune to the medicine. The bacteria do.",
 		paragraphs: [
@@ -2102,14 +2088,61 @@ var minutes = [
 			"What actually helps: do not pressure for antibiotics when the diagnosis is a virus. Do not share or save leftovers. Vaccines, hand hygiene, and treating true bacterial infections promptly all reduce the problem. Watery diarrhea, fever, or severe belly pain during or after a course can be C. diff — call; do not treat that with leftover antibiotics.",
 			"Get seen for fever with shaking chills, a rapidly spreading red area or streaking, a wound that is getting worse, burning urination with back pain or vomiting, a stiff neck, confusion, or looking seriously unwell. Those are not “wait and see if the leftover pills work” problems."
 		],
-		graphic: "antibiotic-resistance"
+		image: "/images/minutes-resistance.png",
+		imageAlt: "Infographic: antibiotic resistance. Bacteria become resistant, not your body. How resistance is selected, what changes inside the bacterium, how genes travel, why first-line drugs can fail, the one-health loop, and how we slow it down."
+	},
+	{
+		slug: "how-antibiotics-work",
+		n: "08",
+		title: "How Do Antibiotics Work",
+		lede: "Can't I just take some leftover amoxicillin when I get sick? That'll take care of it, right?",
+		paragraphs: [
+			"Not quite. Antibiotics are not a general “sick pill.” They work in different ways depending on the type of bacteria — and most of what makes you sick is not bacteria at all.",
+			"Before leftover amoxicillin is the right move, three things have to be true.",
+			"1. It is truly bacterial. Most of the time it isn’t. Colds, most bronchitis, most sore throats, most sinus pressure — viruses. Amoxicillin does nothing to a virus except wave as it drives by on its way to your colon to see if it’s in the mood for diarrhea.",
+			"2. If it is bacterial, we have to infer what kind. Strep is not E. coli is not MRSA is not an atypical pneumonia. The leftover amoxicillin in the cabinet was chosen for a different bug, in a different place, on a different day.",
+			"3. That bug has to actually be susceptible to the drug you are considering. Coverage, resistance, and whether the drug even reaches the infection all matter. A pill that stays in the gut will not treat a kidney. Some drugs never treat pneumonia, no matter what the bottle says.",
+			"That is why leftover antibiotics are a bad plan even when you mean well. Get examined when you need one. Here is the simple version of how these medicines actually work."
+		],
+		image: "/images/minutes-abx-how.png",
+		imageAlt: "Infographic: how antibiotics stop bacteria. Some kill, some hold growth so the immune system can finish the job. Five attack points — cell wall, protein factory, DNA/RNA blueprint, folate recipe, and membrane — plus why they do not treat viruses and how resistance wins in the germs, not in you.",
+		imageCredit: "Educational overview. Antibiotic choice depends on the suspected organism, infection site, allergies, resistance patterns, and patient factors.",
+		extraImages: [{
+			src: "/images/minutes-abx-yeast-diarrhea.png",
+			alt: "Infographic: why antibiotics can cause yeast infections and diarrhea. Antibiotics disturb the microbiome, Candida can overgrow, the gut can lose its balance, and not all diarrhea is C. difficile — but don’t miss it. When to call and what helps.",
+			credit: "Educational overview — not a diagnosis. Antibiotic effects vary by drug, duration, health conditions, and prior microbiome. Contact a healthcare professional for concerning symptoms."
+		}],
+		extraParagraphs: ["The three maps that follow are denser. They are more for medical professionals — or the committed Dr. Googlers — as a refresher on the coverage of each antibiotic: what it hits, what it misses, and where people get into trouble. They are not a home prescribing guide."],
+		steps: [
+			{
+				title: "β-Lactams + cell wall",
+				kicker: "Master set 1 of 3 — class, key drugs, spectrum, signature miss",
+				image: "/images/minutes-abx-cell-wall.png",
+				imageAlt: "Infographic: Antibiotics decoded, master set 1 of 3. β-lactams and cell-wall agents — penicillins, the cephalosporin ladder, carbapenems, monobactams, newer resistant Gram-negative β-lactams, vancomycin, daptomycin, and the major misses including MRSA, Pseudomonas, and atypicals.",
+				imageCredit: "Simplified learning map — not a prescribing guide. Availability and approved indications vary. Current through 2026."
+			},
+			{
+				title: "Non-β-lactams",
+				kicker: "Master set 2 of 3 — mechanism, key drugs, coverage, exam pearl",
+				image: "/images/minutes-abx-non-beta.png",
+				imageAlt: "Infographic: Antibiotics decoded, master set 2 of 3. Non-β-lactams by mechanism — 30S and 50S protein synthesis, DNA/RNA agents, folate and cell damage, lower-UTI specialists, topical agents, and memory patterns for atypicals, MRSA, VRE, and anaerobes.",
+				imageCredit: "Simplified learning map — not a prescribing guide. Spectrum and indications depend on organism, infection site, susceptibility, and local resistance. Current through 2026."
+			},
+			{
+				title: "Coverage atlas",
+				kicker: "Master set 3 of 3 — Gram-positives, resistant Gram-negatives, site traps",
+				image: "/images/minutes-abx-atlas.png",
+				imageAlt: "Infographic: Antibiotics decoded, master set 3 of 3. Coverage atlas — Gram-positive targets, resistant Gram-negatives, atypicals and anaerobes, mycobacteria, and site-of-infection traps. Never memorize coverage without the major misses.",
+				imageCredit: "Simplified learning map — not a prescribing guide. Susceptibility, infection site, severity, patient factors, and local antibiograms determine real-world decisions. Current through 2026."
+			}
+		]
 	}
 ];
 function getMinute(slug) {
 	return minutes.find((m) => m.slug === slug);
 }
 //#endregion
-//#region node_modules/.nitro/vite/services/ssr/assets/router-B-HKWIc8.js
+//#region node_modules/.nitro/vite/services/ssr/assets/router-SgJAeo7U.js
 var import_react = /* @__PURE__ */ __toESM(require_react());
 var import_jsx_runtime = require_jsx_runtime();
 var __defProp = Object.defineProperty;
@@ -2388,7 +2421,7 @@ function PreviewHostBridge() {
 	}, [router]);
 	return null;
 }
-var styles_default = "/assets/styles-Bwe4at-v.css";
+var styles_default = "/assets/styles-CMkvQ_aq.css";
 var APP_NAME = site.name;
 var Route$13 = createRootRoute({
 	head: () => ({
@@ -2504,19 +2537,19 @@ var Route$13 = createRootRoute({
 		})]
 	})
 });
-var $$splitComponentImporter$12 = () => import("./routes-BXx2JiCG.mjs");
-var Route$12 = createFileRoute("/")({ component: lazyRouteComponent($$splitComponentImporter$12, "component") });
-var $$splitComponentImporter$11 = () => import("./hacks-BT0bZlro.mjs");
+var $$splitComponentImporter$11 = () => import("./routes-197ZHkpL.mjs");
+var Route$12 = createFileRoute("/")({ component: lazyRouteComponent($$splitComponentImporter$11, "component") });
+var $$splitComponentImporter$10 = () => import("./hacks-Boeiv9fm.mjs");
 var Route$11 = createFileRoute("/hacks/")({
-	component: lazyRouteComponent($$splitComponentImporter$11, "component"),
+	component: lazyRouteComponent($$splitComponentImporter$10, "component"),
 	head: () => ({ meta: [{ title: "Holwey’s Handy Health Hacks — Theosis Medical" }, {
 		name: "description",
 		content: "Holwey’s Handy Health Hacks: the 20% that does 80% of the work. Protein, calories, drinks, fast food, and the mechanisms behind them."
 	}] })
 });
-var $$splitComponentImporter$10 = () => import("../_slug-DCTz5OW7.mjs");
+var $$splitComponentImporter$9 = () => import("../_slug-CKvznEuq.mjs");
 var Route$10 = createFileRoute("/hacks/$slug")({
-	component: lazyRouteComponent($$splitComponentImporter$10, "component"),
+	component: lazyRouteComponent($$splitComponentImporter$9, "component"),
 	head: ({ params }) => {
 		const hack = getHack(params.slug);
 		return { meta: [{ title: hack ? `${hack.title} — Holwey’s Handy Health Hacks` : "Holwey’s Handy Health Hacks — Theosis Medical" }, {
@@ -2525,19 +2558,19 @@ var Route$10 = createFileRoute("/hacks/$slug")({
 		}] };
 	}
 });
-var $$splitComponentImporter$9 = () => import("./nerd-out-Cxj0SBIt.mjs");
-var Route$9 = createFileRoute("/hacks/nerd-out")({ component: lazyRouteComponent($$splitComponentImporter$9, "component") });
-var $$splitComponentImporter$8 = () => import("./minutes-DIG8XPIN.mjs");
+var $$splitComponentImporter$8 = () => import("./nerd-out-Cxj0SBIt.mjs");
+var Route$9 = createFileRoute("/hacks/nerd-out")({ component: lazyRouteComponent($$splitComponentImporter$8, "component") });
+var $$splitComponentImporter$7 = () => import("./minutes-CfNdSZF4.mjs");
 var Route$8 = createFileRoute("/minutes/")({
-	component: lazyRouteComponent($$splitComponentImporter$8, "component"),
+	component: lazyRouteComponent($$splitComponentImporter$7, "component"),
 	head: () => ({ meta: [{ title: "Medical Minutes — Theosis Medical" }, {
 		name: "description",
 		content: "Medical Minutes: common conditions explained in plain language — the talks Nick Holwey, PA-C, gives in the emergency department."
 	}] })
 });
-var $$splitComponentImporter$7 = () => import("../_slug-V0KNaUYE.mjs");
+var $$splitComponentImporter$6 = () => import("../_slug-Bm-O1o-z.mjs");
 var Route$7 = createFileRoute("/minutes/$slug")({
-	component: lazyRouteComponent($$splitComponentImporter$7, "component"),
+	component: lazyRouteComponent($$splitComponentImporter$6, "component"),
 	head: ({ params }) => {
 		const minute = getMinute(params.slug);
 		return { meta: [{ title: minute ? `${minute.title} — Medical Minutes` : "Medical Minutes — Theosis Medical" }, {
@@ -2546,46 +2579,46 @@ var Route$7 = createFileRoute("/minutes/$slug")({
 		}] };
 	}
 });
-var $$splitComponentImporter$6 = () => import("./provider-B5lmJ_r_.mjs");
+var $$splitComponentImporter$5 = () => import("./provider-DIA-GEIe.mjs");
 var Route$6 = createFileRoute("/provider/")({
 	beforeLoad: () => {
 		throw redirect({ to: "/" });
 	},
-	component: lazyRouteComponent($$splitComponentImporter$6, "component"),
+	component: lazyRouteComponent($$splitComponentImporter$5, "component"),
 	head: () => ({ meta: [{ title: "Clinician board (playground) — Theosis Medical" }, {
 		name: "description",
 		content: "Playground clinician inbox. Not a real EHR. No real PHI."
 	}] })
 });
-var $$splitComponentImporter$5 = () => import("../_id-B5I-jN0s.mjs");
+var $$splitComponentImporter$4 = () => import("../_id-CsqsX3Ya.mjs");
 var Route$5 = createFileRoute("/provider/$id")({
 	beforeLoad: () => {
 		throw redirect({ to: "/" });
 	},
-	component: lazyRouteComponent($$splitComponentImporter$5, "component"),
+	component: lazyRouteComponent($$splitComponentImporter$4, "component"),
 	head: () => ({ meta: [{ title: "Chart (playground) — Theosis Medical" }] })
 });
-var $$splitComponentImporter$4 = () => import("./visits-DNiRXBzj.mjs");
+var $$splitComponentImporter$3 = () => import("./visits-BMtouHYj.mjs");
 var Route$4 = createFileRoute("/visits/")({
 	beforeLoad: () => {
 		throw redirect({ to: "/" });
 	},
-	component: lazyRouteComponent($$splitComponentImporter$4, "component"),
-	head: () => ({ meta: [{ title: "Visits (playground) — Theosis Medical" }, {
+	component: lazyRouteComponent($$splitComponentImporter$3, "component"),
+	head: () => ({ meta: [{ title: "Lifestyle counseling (playground) — Theosis Medical" }, {
 		name: "description",
-		content: "Playground only. Hypothetical lifestyle consults and acute video visits. Not a real clinic."
+		content: "Playground only. Cash-pay lifestyle counseling — coaching, not a medical visit. Not a real booking."
 	}] })
 });
-var $$splitComponentImporter$3 = () => import("../_kind-B_J7d2Ef.mjs");
+var $$splitComponentImporter$2 = () => import("../_kind-DlsLVoi-.mjs");
 var Route$3 = createFileRoute("/visits/$kind")({
-	beforeLoad: () => {
+	beforeLoad: ({ params }) => {
 		throw redirect({ to: "/" });
 	},
 	validateSearch: (search) => ({
 		...search.view === "clinician" ? { view: "clinician" } : {},
 		...typeof search.who === "string" && search.who ? { who: search.who } : {}
 	}),
-	component: lazyRouteComponent($$splitComponentImporter$3, "component"),
+	component: lazyRouteComponent($$splitComponentImporter$2, "component"),
 	head: ({ params }) => {
 		const kind = params.kind;
 		const meta = isVisitKind(kind) ? visitMeta[kind] : null;
@@ -2595,18 +2628,10 @@ var Route$3 = createFileRoute("/visits/$kind")({
 		}] };
 	}
 });
-var $$splitComponentImporter$2 = () => import("./atlas-BitkIu9h.mjs");
-var Route$2 = createFileRoute("/visits/atlas")({
-	beforeLoad: () => {
-		throw redirect({ to: "/" });
-	},
-	component: lazyRouteComponent($$splitComponentImporter$2, "component"),
-	head: () => ({ meta: [{ title: "Atlas.md handoff (playground) — Theosis Medical" }, {
-		name: "description",
-		content: "Playground mock of handing visits to Atlas.md. Not a real clinic."
-	}] })
-});
-var $$splitComponentImporter$1 = () => import("./nerd-out.index-Jv_KJiD4.mjs");
+var Route$2 = createFileRoute("/visits/atlas")({ beforeLoad: () => {
+	throw redirect({ to: "/" });
+} });
+var $$splitComponentImporter$1 = () => import("./nerd-out.index-ByEIzVYA.mjs");
 var Route$1 = createFileRoute("/hacks/nerd-out/")({
 	component: lazyRouteComponent($$splitComponentImporter$1, "component"),
 	head: () => ({ meta: [{ title: "Nutritional Nerd Out — Holwey’s Handy Health Hacks" }, {
@@ -2614,7 +2639,7 @@ var Route$1 = createFileRoute("/hacks/nerd-out/")({
 		content: "Mechanisms. How stuff actually works. Optional reading. Compulsory if you are me."
 	}] })
 });
-var $$splitComponentImporter = () => import("./nerd-out._topic-JWRTIGn_.mjs");
+var $$splitComponentImporter = () => import("./nerd-out._topic-CaVQjjDx.mjs");
 var Route = createFileRoute("/hacks/nerd-out/$topic")({
 	component: lazyRouteComponent($$splitComponentImporter, "component"),
 	head: ({ params }) => {
@@ -2715,4 +2740,4 @@ function getRouter() {
 	});
 }
 //#endregion
-export { peTone as A, licensedStates as B, minutes as C, nerdGroups as D, nerdCovers as E, shapeParagraphs as F, sampleCharts as G, lifestyleSlots as H, site as I, saveDemoChart as K, whyParagraphs as L, proteinPercent as M, readingList as N, nerdTopics as O, referenceVideos as P, acuteConcerns as R, hormoziRecipes as S, nav as T, readDemoChart as U, lifestyleGoals as V, redFlags as W, glanceGroups as _, Route$7 as a, hacksIntro as b, aheadCards as c, fastFoodChains as d, fastFoodNotes as f, getNerdTopic as g, getMinute as h, Route$5 as i, proceduralSkills as j, peRatio as k, creditKicker as l, getHack as m, Route as n, Route$10 as o, futureParagraphs as p, visitMeta as q, Route$3 as r, aboutParagraphs as s, router_exports as t, drinkSwaps as u, hackCovers as v, minutesIntro as w, hormoziRecipeNotes as x, hacks as y, isVisitKind as z };
+export { peTone as A, lifestyleGoals as B, minutes as C, nerdGroups as D, nerdCovers as E, shapeParagraphs as F, visitMeta as G, readDemoChart as H, site as I, whyParagraphs as L, proteinPercent as M, readingList as N, nerdTopics as O, referenceVideos as P, coachingAgreement as R, hormoziRecipes as S, nav as T, sampleCharts as U, lifestyleSlots as V, saveDemoChart as W, glanceGroups as _, Route$7 as a, hacksIntro as b, aheadCards as c, fastFoodChains as d, fastFoodNotes as f, getNerdTopic as g, getMinute as h, Route$5 as i, proceduralSkills as j, peRatio as k, creditKicker as l, getHack as m, Route as n, Route$10 as o, futureParagraphs as p, Route$3 as r, aboutParagraphs as s, router_exports as t, drinkSwaps as u, hackCovers as v, minutesIntro as w, hormoziRecipeNotes as x, hacks as y, isVisitKind as z };

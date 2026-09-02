@@ -1,9 +1,9 @@
 import { _ as Link } from "../_libs/@tanstack/react-router+[...].mjs";
 import { i as require_jsx_runtime } from "../_libs/@radix-ui/react-label+[...].mjs";
 import { b as ArrowRight } from "../_libs/lucide-react.mjs";
-import { b as hacksIntro, l as creditKicker, v as hackCovers, y as hacks } from "./router-B-HKWIc8.mjs";
-import { r as SiteShell } from "./site-shell-ByYPgQOt.mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/hacks-BT0bZlro.js
+import { b as hacksIntro, l as creditKicker, v as hackCovers, y as hacks } from "./router-SgJAeo7U.mjs";
+import { r as SiteShell } from "./site-shell-B3hLpsCC.mjs";
+//#region node_modules/.nitro/vite/services/ssr/assets/hacks-Boeiv9fm.js
 var import_jsx_runtime = require_jsx_runtime();
 function HackCoverCard({ hack, featured }) {
 	const cover = hackCovers[hack.slug];

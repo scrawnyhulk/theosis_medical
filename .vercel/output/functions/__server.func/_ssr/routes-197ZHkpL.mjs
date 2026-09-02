@@ -4,12 +4,12 @@ import { _ as Link } from "../_libs/@tanstack/react-router+[...].mjs";
 import { i as require_jsx_runtime } from "../_libs/@radix-ui/react-label+[...].mjs";
 import { b as ArrowRight, l as Phone, m as Mail, y as Check } from "../_libs/lucide-react.mjs";
 import { i as string, r as object } from "../_libs/zod.mjs";
-import { F as shapeParagraphs, I as site, L as whyParagraphs, _ as glanceGroups, c as aheadCards, j as proceduralSkills, p as futureParagraphs, s as aboutParagraphs } from "./router-B-HKWIc8.mjs";
-import { r as SiteShell, t as Button } from "./site-shell-ByYPgQOt.mjs";
-import { t as Textarea } from "./textarea-KSYp_v9I.mjs";
-import { t as Input } from "./input-BxK92cCY.mjs";
-import { t as Label } from "./label-CgLs1Oh8.mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/routes-BXx2JiCG.js
+import { F as shapeParagraphs, I as site, L as whyParagraphs, _ as glanceGroups, c as aheadCards, j as proceduralSkills, p as futureParagraphs, s as aboutParagraphs } from "./router-SgJAeo7U.mjs";
+import { r as SiteShell, t as Button } from "./site-shell-B3hLpsCC.mjs";
+import { t as Textarea } from "./textarea-bZAFyAQi.mjs";
+import { t as Input } from "./input-BI3Ycw5g.mjs";
+import { t as Label } from "./label-DTCijaUM.mjs";
+//#region node_modules/.nitro/vite/services/ssr/assets/routes-197ZHkpL.js
 var import_react = /* @__PURE__ */ __toESM(require_react());
 var import_jsx_runtime = require_jsx_runtime();
 function AboutParagraph({ text }) {
@@ -313,7 +313,7 @@ function InquiryForm() {
 				}) : null,
 				/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
 					className: "text-sm text-muted",
-					children: "No account required. Used only to answer this request."
+					children: "No account required. I will never spam you or sell your email."
 				})
 			]
 		})]
@@ -471,7 +471,7 @@ function SuggestionForm() {
 				}) : null,
 				/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
 					className: "text-sm text-muted",
-					children: "No account required. Used only to hear you and follow up."
+					children: "No account required. I will never spam you or sell your email."
 				})
 			]
 		})]
@@ -551,7 +551,6 @@ function FuturePlans() {
 									children: ["Open the hacks", /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ArrowRight, {})]
 								})
 							}) : null,
-							null,
 							null
 						]
 					}, card.n))

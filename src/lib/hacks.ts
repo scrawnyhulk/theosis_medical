@@ -458,10 +458,10 @@ export const nerdTopics = [
   {
     id: "protein",
     title: "What’s special about protein",
-    lede: "Protein is not a gym-bro religion. It is the building material. Fuel is carbs and fat. You cannot make muscle out of pasta.",
+    lede: "Protein is not a gym-bro religion. It is the building material. Carbs and fat are fuel.",
     stolenFrom: "Simpson and Raubenheimer, Dr. Ted Naiman, and a pile of unglamorous physiology",
     paragraphs: [
-      "This is not a gym-bro religion. Protein is not the macronutrient we picked because it photographs well. It has a special place at the top because things fall apart without it. Proteins are building materials — muscle, enzymes, skin, and bone — the actual structure of you. Carbs and fat are fuel, but you cannot make muscle out of pasta. Protein is crucial to take in every day, but even more so when trying to lose weight.",
+      "This is not a gym-bro religion. Protein is not the macronutrient we picked because it photographs well. It has a special place at the top because things fall apart without it. Proteins are building materials — muscle, enzymes, skin, and bone — the actual structure of you. Carbs and fat are fuel. Protein is crucial to take in every day, but even more so when trying to lose weight.",
       "In a calorie deficit, low protein intake is a great way to lose the hard-earned muscle you wanted to keep. Lift a little and eat enough protein, and more of what comes off your body is fat. That is the whole argument for making protein the first number to count, not the last.",
       "Your body is very reluctant to turn protein into fat even when you overconsume it. There is no protein storage container the way there is a fat warehouse. Excess amino acids (building blocks of proteins) get used for repair and growth, or they get burned. Turning them into stored body fat is theoretically possible, but the body has to work harder than it wants to to do it, so the juice is typically not worth the squeeze.",
       "Per calorie, protein is the most filling of the three macronutrients. Two hundred calories of chicken breast and two hundred calories of chips do not produce the same experience over the next hour or three. That is why the × 10 trick exists: you are picking food that shuts hunger down, gets on stage and does a great Ozempic impression. We all know this intuitively. Four eggs for breakfast keep us content much longer than a bowl of cinnamon and sugar-O’s.",
@@ -1103,7 +1103,7 @@ export const hormoziRecipes: StapleRecipe[] = [
       "Fat-free cream cheese",
       "Smoked salmon / lox, ~8 oz",
     ],
-    swap: "Hero, Carbonaut, Aldi’s keto loaf, or whatever high-protein bread is on the shelf this week. Same job. Macros below are for Ezekiel.",
+    swap: "Any keto bread works here too — Hero, Carbonaut, Aldi’s keto loaf, or whatever high-protein / keto loaf is on the shelf this week. Same job. Macros below are for Ezekiel.",
     calories: 620,
     protein: 72,
     carbs: 48,
