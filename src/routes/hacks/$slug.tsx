@@ -119,6 +119,18 @@ function HackPage() {
           )}
         </div>
 
+        {hack.slug === "why-hard" ? (
+          <figure className="mt-10">
+            <EnlargeableImage
+              src="/images/hacks-why-hard.png"
+              alt="Why eating healthy feels so hard: ancient survival biology in a 2026 food world. Carb plus fat reward, rare in nature, biology-environment mismatch, and how to make the environment work for you."
+            />
+            <figcaption className="mt-3 text-xs tracking-wide text-muted">
+              Evidence: DiFeliceantonio et al., Cell Metabolism (2018) · Hall et al., Cell Metabolism / NIH (2019)
+            </figcaption>
+          </figure>
+        ) : null}
+
         {hack.slug === "protein-per-pound" || hack.slug === "protein-label" ? (
           <WhyProteinLink />
         ) : null}

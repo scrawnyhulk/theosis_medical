@@ -36,12 +36,14 @@ function HackCoverCard({
         <img
           src={cover.src}
           alt={cover.alt}
-          className="absolute inset-0 size-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
+          className={`absolute inset-0 size-full object-cover transition-transform duration-700 ease-out group-hover:scale-105 ${cover.object ?? "object-center"}`}
         />
         <span className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/35 to-black/10" />
         <span className={`relative z-10 flex h-full min-h-11 flex-col justify-end p-6 sm:p-8 ${featured ? "sm:p-10" : ""}`}>
           {featured ? (
-            <span className="text-xs font-medium tracking-widest text-accent uppercase">Start here</span>
+            <span className="text-xs font-medium tracking-widest text-accent uppercase">
+              {hack.slug === "why-hard" ? "Read this first" : "Start here"}
+            </span>
           ) : null}
           <span className={`font-display font-semibold text-accent ${featured ? "mt-3 text-4xl sm:text-5xl" : "text-3xl"}`}>
             {hack.n}
@@ -56,7 +58,11 @@ function HackCoverCard({
               {creditKicker(hack.stolenFrom, hack.jokeSteal)}
             </span>
           ) : null}
-          {hack.slug !== "where-to-start" ? (
+          {hack.byline ? (
+            <span className={`mt-2 block leading-relaxed text-white/85 ${featured ? "max-w-2xl text-lg" : "text-sm sm:text-base"}`}>
+              {hack.byline}
+            </span>
+          ) : hack.slug !== "where-to-start" ? (
             <span className={`mt-2 block leading-relaxed text-white/85 ${featured ? "max-w-2xl text-lg" : "text-sm sm:text-base"}`}>
               {hack.lede}
             </span>

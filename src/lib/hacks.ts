@@ -1,4 +1,5 @@
 export type HackSlug =
+  | "why-hard"
   | "where-to-start"
   | "dont-drink-calories"
   | "protein-per-pound"
@@ -15,6 +16,7 @@ export type Hack = {
   n: string;
   title: string;
   lede: string;
+  byline?: string;
   stolenFrom?: string;
   jokeSteal?: boolean;
   featured?: boolean;
@@ -25,7 +27,11 @@ export function creditKicker(source: string, jokeSteal?: boolean) {
   return jokeSteal ? `Stolen from ${source}` : `Reference: ${source}`;
 }
 
-export const hackCovers: Partial<Record<HackSlug, { src: string; alt: string }>> = {
+export const hackCovers: Partial<Record<HackSlug, { src: string; alt: string; object?: string }>> = {
+  "why-hard": {
+    src: "/images/hack-why-hard-cover.png",
+    alt: "A 10,000 BC brain in a 2026 food world: hunter-gatherers on one side, delivery and drive-through on the other.",
+  },
   "where-to-start": {
     src: "/images/hack-start-cover.jpg",
     alt: "A path forward: pick a calorie target, eat protein first, spend the rest, keep walking.",
@@ -83,10 +89,22 @@ export const hacksIntro = {
 
 export const hacks: Hack[] = [
   {
-    slug: "where-to-start",
+    slug: "why-hard",
     n: "01",
-    title: "Where to Start",
+    title: "Why Eating Healthy Feels So Hard",
     featured: true,
+    lede: "Ancient survival biology. Modern food abundance. This is not a character flaw.",
+    paragraphs: [
+      "Our bodies think we are still hunter gatherers and will die tomorrow if we don't eat, so when we encounter energy dense foods that have both carbs and fats together, we get a huge reward signal making us gorge ourselves like there's literally no tomorrow.",
+      "We all know what I'm talking about and we each have our own food addictions that we can't put down once we start. It's biology and it literally hits the same parts of the brain that heroin does for opioid addicts.",
+      "Nothing in nature is high in both carbs and fat unless it is meant to fatten up the animal i.e. milk for baby mammals or nuts to fatten up for winter etc. Understanding that this is evolutionary and hard to override is step 1 in figuring out how to navigate it successfully, so here we go!",
+    ],
+  },
+  {
+    slug: "where-to-start",
+    n: "02",
+    title: "Where to Start",
+    byline: "Easy daily calorie calculations based on your goals",
     lede: "Yes, I stole this from a business YouTuber. He stole it from the data. And he’s jacked.",
     stolenFrom: "Alex Hormozi",
     jokeSteal: true,
@@ -99,7 +117,7 @@ paragraphs: [
   },
   {
     slug: "dont-drink-calories",
-    n: "02",
+    n: "03",
     title: "Don't Drink Calories",
     lede: "If it has calories and you can sip it, skip it. Hunger does not count a drink as a meal.",
 paragraphs: [
@@ -111,7 +129,7 @@ paragraphs: [
   },
   {
     slug: "protein-per-pound",
-    n: "03",
+    n: "04",
     title: "One Gram Per Pound",
     lede: "Eat about 1 gram of protein per pound of body weight. If you have a lot to lose, using a goal weight is reasonable.",
     stolenFrom: "Alex Hormozi, Dr. Ted Naiman, and the protein-first crowd",
@@ -125,7 +143,7 @@ paragraphs: [
   },
   {
     slug: "protein-label",
-    n: "04",
+    n: "05",
     title: "The Protein × 10 Trick",
     lede: "The front of the bag is advertising. Two numbers on the back tell you if it is actually a good option.",
     stolenFrom: "Dr. Ted Naiman",
@@ -140,7 +158,7 @@ paragraphs: [
   },
   {
     slug: "fast-food",
-    n: "05",
+    n: "06",
     title: "Fast Food Hacks",
     lede: "Let’s be honest, you are going to eat out. The frequency in which you do is directly correlated to the number of children under your care. Trust me, it’s science.",
 paragraphs: [
@@ -151,7 +169,7 @@ paragraphs: [
   },
   {
     slug: "staples",
-    n: "06",
+    n: "07",
     title: "Regular Food Hacks",
     lede: "Keep these in the house so the right choice is an easy choice.",
     stolenFrom: "Alex Hormozi",
@@ -166,7 +184,7 @@ paragraphs: [
   },
   {
     slug: "exercise",
-    n: "07",
+    n: "08",
     title: "Exercise Hacks",
     lede: "The 20% of exercise most of us will actually do.",
 paragraphs: [
@@ -178,7 +196,7 @@ paragraphs: [
   },
   {
     slug: "nerd-out",
-    n: "08",
+    n: "09",
     title: "Nutritional Nerd Out",
     lede: "Mechanisms. How stuff actually works. Pick a topic — no need to scroll for days. Compulsory if you are me.",
 paragraphs: [
@@ -190,14 +208,14 @@ paragraphs: [
   },
   {
     slug: "helpful-videos",
-    n: "09",
+    n: "10",
     title: "Helpful Videos",
     lede: "Here is a repository for the videos I think are helpful for being successful in health education and management. I may have used them elsewhere already but will consolidate them all here if I can.",
     paragraphs: [],
   },
   {
     slug: "reading-list",
-    n: "10",
+    n: "11",
     title: "Reading List, Stolen With Love",
     lede: "Two books from Dr. Ted Naiman. I am the middleman, not the author.",
 paragraphs: [
