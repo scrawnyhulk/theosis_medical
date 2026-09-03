@@ -8,6 +8,13 @@
 [build.environment]
   NODE_VERSION = "22"
 
+# Missing hashed files must 404 — never fall through to index.html as text/html
+# or the browser refuses to run the page and the header stops working.
+[[redirects]]
+  from = "/assets/*"
+  to = "/404.html"
+  status = 404
+
 [[redirects]]
   from = "/*"
   to = "/index.html"
