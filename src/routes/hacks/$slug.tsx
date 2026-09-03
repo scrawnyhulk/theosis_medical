@@ -121,15 +121,26 @@ function HackPage() {
         </div>
 
         {hack.slug === "why-hard" ? (
-          <figure className="mt-10">
-            <EnlargeableImage
-              src="/images/hacks-why-hard.png"
-              alt="Why eating healthy feels so hard: ancient survival biology in a 2026 food world. Carb plus fat reward, rare in nature, biology-environment mismatch, and how to make the environment work for you."
-            />
-            <figcaption className="mt-3 text-xs tracking-wide text-muted">
-              Evidence: DiFeliceantonio et al., Cell Metabolism (2018) · Hall et al., Cell Metabolism / NIH (2019)
-            </figcaption>
-          </figure>
+          <div className="mt-10 space-y-10">
+            <figure>
+              <EnlargeableImage
+                src="/images/hacks-why-hard.png"
+                alt="Why eating healthy feels so hard: ancient survival biology in a 2026 food world. Carb plus fat reward, rare in nature, biology-environment mismatch, and how to make the environment work for you."
+              />
+              <figcaption className="mt-3 text-xs tracking-wide text-muted">
+                Evidence: DiFeliceantonio et al., Cell Metabolism (2018) · Hall et al., Cell Metabolism / NIH (2019)
+              </figcaption>
+            </figure>
+            <figure>
+              <EnlargeableImage
+                src="/images/hacks-why-hard-succeed.png"
+                alt="How to succeed, part 2: do not build the most aggressive diet you can tolerate. Build the easiest deficit you can repeat. Reasonable deficit, high satiety, low friction, flexible consistency, and a maintenance plan."
+              />
+              <figcaption className="mt-3 text-xs tracking-wide text-muted">
+                Evidence: Leidy et al., AJCN (2015) · Burke et al., JADA (2011) · NIDDK
+              </figcaption>
+            </figure>
+          </div>
         ) : null}
 
         {hack.slug === "protein-per-pound" || hack.slug === "protein-label" ? (
