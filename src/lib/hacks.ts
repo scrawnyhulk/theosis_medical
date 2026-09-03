@@ -7,6 +7,7 @@ export type HackSlug =
   | "fast-food"
   | "staples"
   | "exercise"
+  | "fasting"
   | "nerd-out"
   | "helpful-videos"
   | "reading-list";
@@ -59,6 +60,10 @@ export const hackCovers: Partial<Record<HackSlug, { src: string; alt: string; ob
   exercise: {
     src: "/images/hack-exercise-cover.jpg",
     alt: "Simple training that actually happens: push, pull, squat, walk, and a hill.",
+  },
+  fasting: {
+    src: "/images/hack-fasting-cover.jpg",
+    alt: "A clock between an empty plate and a protein meal — the eating window.",
   },
   "nerd-out": {
     src: "/images/hack-nerd-out-cover.jpg",
@@ -195,8 +200,20 @@ paragraphs: [
     ],
   },
   {
-    slug: "nerd-out",
+    slug: "fasting",
     n: "09",
+    title: "Intermittent Fasting Hacks",
+    byline: "16:8, OMAD, 5:2, and the rest — pick a clock you can keep",
+    lede: "Different clocks. Same idea: a window you can actually keep.",
+    paragraphs: [
+      "Intermittent fasting is not one diet. It is a family of eating windows. 16:8, 18:6, OMAD, 5:2, alternate-day — they all shrink the hours (or the days) you eat. The style is a tool. The deficit is still the point.",
+      "I am going to walk through the main styles here so you can see what they actually look like on a Tuesday, not just on an infographic. Pick the one that fits a shift, a hotel breakfast, or a house full of kids. If it does not fit real life, it is not your hack.",
+      "Protein still comes first inside the window. Water, coffee, unsweetened tea outside it. This is not a medical protocol, and it is not for everyone — pregnancy, a history of disordered eating, some diabetes meds, and a few other situations mean you talk to your own clinician first.",
+    ],
+  },
+  {
+    slug: "nerd-out",
+    n: "10",
     title: "Nutritional Nerd Out",
     lede: "Mechanisms. How stuff actually works. Pick a topic — no need to scroll for days. Compulsory if you are me.",
 paragraphs: [
@@ -208,21 +225,72 @@ paragraphs: [
   },
   {
     slug: "helpful-videos",
-    n: "10",
+    n: "11",
     title: "Helpful Videos",
     lede: "Here is a repository for the videos I think are helpful for being successful in health education and management. I may have used them elsewhere already but will consolidate them all here if I can.",
     paragraphs: [],
   },
   {
     slug: "reading-list",
-    n: "11",
+    n: "12",
     title: "Reading List, Stolen With Love",
     lede: "Two books from Dr. Ted Naiman. I am the middleman, not the author.",
-paragraphs: [
+    paragraphs: [
       "If a hack on this page helped, these are a big part of why. I am not affiliated. I just keep learning from him, then translating it into something I can actually do on a work week.",
     ],
   },
 ];
+
+export const fastingStyles = [
+  {
+    id: "16-8",
+    name: "16:8",
+    window: "16 hours off · 8 hours on",
+    blurb: "The default. Skip breakfast or skip late night. Eat in an eight-hour window.",
+  },
+  {
+    id: "18-6",
+    name: "18:6",
+    window: "18 hours off · 6 hours on",
+    blurb: "Tighter window. Two meals, maybe a snack. Still a Tuesday, not a monastery.",
+  },
+  {
+    id: "20-4",
+    name: "20:4",
+    window: "20 hours off · 4 hours on",
+    blurb: "One long gap, one short eating block. Easy to under-eat protein if you are not paying attention.",
+  },
+  {
+    id: "omad",
+    name: "OMAD",
+    window: "One meal a day",
+    blurb: "The whole day’s food in one sitting. High protein still has to fit on that plate.",
+  },
+  {
+    id: "5-2",
+    name: "5:2",
+    window: "Five normal days · two low-calorie days",
+    blurb: "You do not shrink every day’s window. Two days a week you eat a lot less.",
+  },
+  {
+    id: "adf",
+    name: "Alternate-day",
+    window: "Eat · fast · eat · fast",
+    blurb: "Every other day is the fast. The eat days still need protein and a plan.",
+  },
+  {
+    id: "eat-stop-eat",
+    name: "Eat-stop-eat",
+    window: "One 24-hour fast, 1–2× a week",
+    blurb: "Dinner to dinner. The other days look normal.",
+  },
+  {
+    id: "circadian",
+    name: "Circadian / early window",
+    window: "Eat earlier, stop earlier",
+    blurb: "Push the window toward daylight. Finish dinner, then stop.",
+  },
+] as const;
 
 export const drinkSwaps = [
   { from: "Regular soda, sweet tea, juice", to: "Water, sparkling water, diet soda, or a zero-calorie flavor" },

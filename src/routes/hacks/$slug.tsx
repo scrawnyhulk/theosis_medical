@@ -15,6 +15,7 @@ import {
   drinkSwaps,
   fastFoodChains,
   fastFoodNotes,
+  fastingStyles,
   getHack,
   hacks,
   hacksIntro,
@@ -275,6 +276,29 @@ function HackExtras({ slug }: { slug: HackSlug }) {
       </div>
     );
   }
+
+  if (slug === "fasting") {
+    return (
+      <div className="mt-10">
+        <p className="text-xs font-medium tracking-widest text-muted uppercase">The styles</p>
+        <p className="mt-3 text-lg leading-relaxed text-muted">
+          This is the menu of styles. Each one will get its own write-up — what a Tuesday looks like,
+          who it actually fits, and how to keep protein from falling off a cliff. For now, pick the
+          clock. The rest is coming.
+        </p>
+        <div className="mt-8 grid gap-4 sm:grid-cols-2">
+          {fastingStyles.map((style) => (
+            <article key={style.id} className="rounded-xl bg-surface p-5 shadow-border sm:p-6">
+              <p className="font-display text-2xl font-semibold tracking-wide text-accent">{style.name}</p>
+              <p className="mt-1 text-xs font-medium tracking-widest text-muted uppercase">{style.window}</p>
+              <p className="mt-3 leading-relaxed text-muted">{style.blurb}</p>
+            </article>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
   if (slug === "exercise") {
     return (
       <NerdStepper
