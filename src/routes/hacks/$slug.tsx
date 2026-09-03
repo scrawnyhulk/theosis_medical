@@ -290,21 +290,32 @@ function HackExtras({ slug }: { slug: HackSlug }) {
 
   if (slug === "fasting") {
     return (
-      <div className="mt-10">
-        <p className="text-xs font-medium tracking-widest text-muted uppercase">The styles</p>
-        <p className="mt-3 text-lg leading-relaxed text-muted">
-          This is the menu of styles. Each one will get its own write-up — what a Tuesday looks like,
-          who it actually fits, and how to keep protein from falling off a cliff. For now, pick the
-          clock. The rest is coming.
-        </p>
-        <div className="mt-8 grid gap-4 sm:grid-cols-2">
-          {fastingStyles.map((style) => (
-            <article key={style.id} className="rounded-xl bg-surface p-5 shadow-border sm:p-6">
-              <p className="font-display text-2xl font-semibold tracking-wide text-accent">{style.name}</p>
-              <p className="mt-1 text-xs font-medium tracking-widest text-muted uppercase">{style.window}</p>
-              <p className="mt-3 leading-relaxed text-muted">{style.blurb}</p>
-            </article>
-          ))}
+      <div className="mt-10 space-y-10">
+        <figure>
+          <EnlargeableImage
+            src="/images/hacks-fasting-evidence.png"
+            alt="Fasting: what changes and what is proven. Longer fast means deeper metabolic change, not automatically greater health benefit. Overnight 12–14 hours, time-restricted 14–16 hours, periodic 24 hours, extended 36–48 hours, prolonged around 72 hours. Autophagy is cellular recycling, not a magic switch."
+          />
+          <figcaption className="mt-3 text-xs tracking-wide text-muted">
+            Sources: PMID 29754952 · PMID 28459931 · PMID 38429390 · NIH News in Health
+          </figcaption>
+        </figure>
+        <div>
+          <p className="text-xs font-medium tracking-widest text-muted uppercase">The styles</p>
+          <p className="mt-3 text-lg leading-relaxed text-muted">
+            This is the menu of styles. Each one will get its own write-up — what a Tuesday looks like,
+            who it actually fits, and how to keep protein from falling off a cliff. For now, pick the
+            clock. The rest is coming.
+          </p>
+          <div className="mt-8 grid gap-4 sm:grid-cols-2">
+            {fastingStyles.map((style) => (
+              <article key={style.id} className="rounded-xl bg-surface p-5 shadow-border sm:p-6">
+                <p className="font-display text-2xl font-semibold tracking-wide text-accent">{style.name}</p>
+                <p className="mt-1 text-xs font-medium tracking-widest text-muted uppercase">{style.window}</p>
+                <p className="mt-3 leading-relaxed text-muted">{style.blurb}</p>
+              </article>
+            ))}
+          </div>
         </div>
       </div>
     );
