@@ -20,10 +20,10 @@ export const Route = createFileRoute("/visits/$kind")({
     const meta = isVisitKind(kind) ? visitMeta[kind] : null;
     return {
       meta: [
-        { title: meta ? `${meta.title} (playground) — Theosis Medical` : "Visit — Theosis Medical" },
+        { title: meta ? `${meta.title} (live demo) — Theosis Medical` : "Visit — Theosis Medical" },
         {
           name: "description",
-          content: "Playground only. Hypothetical visit flow. Not a real clinic.",
+          content: "Live demo. How a Sesame cash-pay counseling visit would look. Not a real booking.",
         },
       ],
     };

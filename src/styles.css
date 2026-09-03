@@ -21,6 +21,13 @@
   --color-border: color-mix(in oklab, var(--color-fg) 12%, transparent);
   --color-border-strong: color-mix(in oklab, var(--color-fg) 22%, transparent);
 
+  --color-sesame-paper: #efebe3;
+  --color-sesame-card: #fffdf8;
+  --color-sesame-ink: #161616;
+  --color-sesame-muted: #5f5c55;
+  --color-sesame-lime: #c8e05a;
+  --color-sesame-lime-ink: #1a2208;
+
   --radius-xs: 4px;
   --radius-sm: 8px;
   --radius-md: 12px;

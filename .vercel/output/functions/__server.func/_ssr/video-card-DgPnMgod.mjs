@@ -1,5 +1,5 @@
 import { i as require_jsx_runtime } from "../_libs/@radix-ui/react-label+[...].mjs";
-import { c as Play, h as ExternalLink } from "../_libs/lucide-react.mjs";
+import { _ as ExternalLink, u as Play } from "../_libs/lucide-react.mjs";
 //#region node_modules/.nitro/vite/services/ssr/assets/video-card-DgPnMgod.js
 var import_jsx_runtime = require_jsx_runtime();
 function VideoCard({ videoId, title, credit, summary, anchor }) {

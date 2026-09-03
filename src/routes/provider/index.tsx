@@ -16,8 +16,8 @@ export const Route = createFileRoute("/provider/")({
   component: ProviderHome,
   head: () => ({
     meta: [
-      { title: "Clinician board (playground) — Theosis Medical" },
-      { name: "description", content: "Playground clinician inbox. Not a real EHR. No real PHI." },
+      { title: "Sesame provider inbox (live demo) — Theosis Medical" },
+      { name: "description", content: "Live demo of a Sesame-style provider inbox. Not a real EHR. No real PHI." },
     ],
   }),
 });
@@ -31,13 +31,13 @@ function ProviderHome() {
     <SiteShell>
       <PlaygroundBanner />
       <div className="mx-auto max-w-6xl px-5 py-16 pb-28 sm:px-8 lg:py-24">
-        <p className="text-xs font-medium tracking-widest text-muted uppercase">Clinician · playground</p>
+        <p className="text-xs font-medium tracking-widest text-muted uppercase">Sesame · provider · live demo</p>
         <h1 className="mt-4 font-display text-4xl font-semibold tracking-wide sm:text-5xl">
-          Today’s board
+          Today’s visits
         </h1>
         <p className="mt-4 max-w-2xl text-lg leading-relaxed text-muted">
-          This is your side. Clients never see this. Live, it would sit behind your login — a list
-          of counseling sessions, not a medical chart.
+          This is your side of Sesame. Clients never see this. Live, it would be the Sesame provider
+          app — a list of cash-pay counseling sessions, not a medical chart.
         </p>
 
         {!in_ ? (
@@ -61,7 +61,7 @@ function ProviderHome() {
               >
                 <div>
                   <p className="text-xs font-medium tracking-widest text-accent uppercase">
-                    {visit.kind === "lifestyle" ? "Counseling · 45 min · cash" : "Not this playground"}
+                    {visit.kind === "lifestyle" ? "Counseling · 45 min · Sesame cash" : "Not this demo"}
                   </p>
                   <p className="mt-2 font-display text-2xl font-semibold tracking-wide">{visit.name}</p>
                   <p className="mt-1 text-muted">{visit.reason}</p>

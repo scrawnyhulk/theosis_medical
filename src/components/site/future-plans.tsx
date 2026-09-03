@@ -63,7 +63,7 @@ export function FuturePlans() {
               {SHOW_VISIT_DEMO && card.n === "01" ? (
                 <Button asChild className="mt-3 w-fit" size="sm" variant="outline">
                   <Link to="/visits/$kind" params={{ kind: "lifestyle" }}>
-                    Demo a counseling session
+                    Live demo on Sesame
                     <ArrowRight />
                   </Link>
                 </Button>

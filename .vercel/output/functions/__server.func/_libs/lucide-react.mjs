@@ -321,6 +321,39 @@ var Search = createLucideIcon("search", [["path", {
 * This source code is licensed under the ISC license.
 * See the LICENSE file in the root directory of this source tree.
 */
+var Share = createLucideIcon("share", [
+	["path", {
+		d: "M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8",
+		key: "1b2hhj"
+	}],
+	["polyline", {
+		points: "16 6 12 2 8 6",
+		key: "m901s6"
+	}],
+	["line", {
+		x1: "12",
+		x2: "12",
+		y1: "2",
+		y2: "15",
+		key: "1p0rca"
+	}]
+]);
+/**
+* @license lucide-react v0.510.0 - ISC
+*
+* This source code is licensed under the ISC license.
+* See the LICENSE file in the root directory of this source tree.
+*/
+var Star = createLucideIcon("star", [["path", {
+	d: "M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z",
+	key: "r04s7s"
+}]]);
+/**
+* @license lucide-react v0.510.0 - ISC
+*
+* This source code is licensed under the ISC license.
+* See the LICENSE file in the root directory of this source tree.
+*/
 var TriangleAlert = createLucideIcon("triangle-alert", [
 	["path", {
 		d: "m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3",
@@ -449,4 +482,4 @@ var ZoomIn = createLucideIcon("zoom-in", [
 	}]
 ]);
 //#endregion
-export { ChevronLeft as _, VideoOff as a, ArrowRight as b, Play as c, Mic as d, MicOff as f, ChevronRight as g, ExternalLink as h, Video as i, Phone as l, Mail as m, ZoomOut as n, TriangleAlert as o, Menu as p, X as r, Search as s, ZoomIn as t, PhoneOff as u, ChevronDown as v, ArrowLeft as x, Check as y };
+export { ArrowLeft as C, ArrowRight as S, ExternalLink as _, VideoOff as a, ChevronDown as b, Share as c, Phone as d, PhoneOff as f, Mail as g, Menu as h, Video as i, Search as l, MicOff as m, ZoomOut as n, TriangleAlert as o, Mic as p, X as r, Star as s, ZoomIn as t, Play as u, ChevronRight as v, Check as x, ChevronLeft as y };

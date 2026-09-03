@@ -19,7 +19,7 @@ export const visitMeta: Record<
     n: "02",
     title: "Acute video visit",
     time: "15 min",
-    lede: "Not in this playground.",
+    lede: "Not in this live demo.",
     body: "Acute medical video visits are a different legal structure. This demo is lifestyle counseling only.",
   },
 };

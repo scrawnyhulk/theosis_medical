@@ -16,7 +16,7 @@ export const Route = createFileRoute("/provider/$id")({
   },
   component: ProviderChart,
   head: () => ({
-    meta: [{ title: "Chart (playground) — Theosis Medical" }],
+    meta: [{ title: "Chart (live demo) — Theosis Medical" }],
   }),
 });
 
@@ -37,7 +37,7 @@ function ProviderChart() {
     return (
       <SiteShell>
         <PlaygroundBanner />
-        <p className="px-5 py-16 text-muted">No chart in this playground session.</p>
+        <p className="px-5 py-16 text-muted">No chart in this live demo session.</p>
       </SiteShell>
     );
   }

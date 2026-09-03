@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as InstallRouteImport } from './routes/install'
 import { Route as HacksIndexRouteImport } from './routes/hacks/index'
 import { Route as HacksSlugRouteImport } from './routes/hacks/$slug'
 import { Route as HacksNerdOutRouteImport } from './routes/hacks/nerd-out'
@@ -26,6 +27,11 @@ import { Route as HacksNerdOutTopicRouteImport } from './routes/hacks/nerd-out.$
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const InstallRoute = InstallRouteImport.update({
+  id: '/install',
+  path: '/install',
   getParentRoute: () => rootRouteImport,
 } as any)
 const HacksIndexRoute = HacksIndexRouteImport.update({
@@ -91,6 +97,7 @@ const HacksNerdOutTopicRoute = HacksNerdOutTopicRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/install': typeof InstallRoute
   '/hacks/$slug': typeof HacksSlugRoute
   '/hacks/nerd-out': typeof HacksNerdOutRouteWithChildren
   '/minutes/$slug': typeof MinutesSlugRoute
@@ -106,6 +113,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/install': typeof InstallRoute
   '/hacks/$slug': typeof HacksSlugRoute
   '/minutes/$slug': typeof MinutesSlugRoute
   '/provider/$id': typeof ProviderIdRoute
@@ -121,6 +129,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/install': typeof InstallRoute
   '/hacks/$slug': typeof HacksSlugRoute
   '/hacks/nerd-out': typeof HacksNerdOutRouteWithChildren
   '/minutes/$slug': typeof MinutesSlugRoute
@@ -138,6 +147,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/install'
     | '/hacks/$slug'
     | '/hacks/nerd-out'
     | '/minutes/$slug'
@@ -153,6 +163,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/install'
     | '/hacks/$slug'
     | '/minutes/$slug'
     | '/provider/$id'
@@ -167,6 +178,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/install'
     | '/hacks/$slug'
     | '/hacks/nerd-out'
     | '/minutes/$slug'
@@ -183,6 +195,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  InstallRoute: typeof InstallRoute
   HacksSlugRoute: typeof HacksSlugRoute
   HacksNerdOutRoute: typeof HacksNerdOutRouteWithChildren
   MinutesSlugRoute: typeof MinutesSlugRoute
@@ -202,6 +215,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/install': {
+      id: '/install'
+      path: '/install'
+      fullPath: '/install'
+      preLoaderRoute: typeof InstallRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/hacks/': {
@@ -307,6 +327,7 @@ const HacksNerdOutRouteWithChildren = HacksNerdOutRoute._addFileChildren(
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  InstallRoute: InstallRoute,
   HacksSlugRoute: HacksSlugRoute,
   HacksNerdOutRoute: HacksNerdOutRouteWithChildren,
   MinutesSlugRoute: MinutesSlugRoute,
