@@ -135,6 +135,9 @@ export const minutes: Minute[] = [
     n: "06",
     title: "Why We Don't CT Everyone",
     lede: "A powerful, sometimes lifesaving tool — used thoughtfully.",
+    cover: "/images/minutes-ct-cover.png",
+    coverAlt:
+      "Patient in a CT scanner with slices of the body and a DNA strand highlighting radiation risk.",
     paragraphs: [
       "A CT takes many X-rays from different angles and builds a detailed picture. Those X-rays are ionizing radiation — enough energy to alter atoms. That is not the same kind of radiation as Wi-Fi or a cell phone. One scan is a small added risk, not zero. Dose, repeats, age, sex, body area, and technique all matter.",
       "Most of the time the DNA damage is repaired. Sometimes the cell dies. Very rarely a repair mistake remains and may contribute to cancer years later. Children and younger adults have more years ahead. Women have a somewhat higher risk for some radiation-linked cancers. Typical dose in perspective: a chest X-ray is about a few days of natural background. A head CT is months. An abdomen and pelvis CT can be a few years of background in one sitting.",
