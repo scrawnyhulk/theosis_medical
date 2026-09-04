@@ -316,6 +316,10 @@ function HackExtras({ slug }: { slug: HackSlug }) {
               </article>
             ))}
           </div>
+          <p className="mt-10 text-sm leading-relaxed text-muted">
+            Credit where it is due: 16:8 comes from Lean Gains. Eat Stop Eat is Brad Pilon's. I did
+            not invent these protocols — I am the middleman.
+          </p>
         </div>
       </div>
     );
