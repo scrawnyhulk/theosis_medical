@@ -24,6 +24,8 @@ export type Minute = {
   lede: string;
   paragraphs: string[];
   extraParagraphs?: string[];
+  cover?: string;
+  coverAlt?: string;
   image?: string;
   imageAlt?: string;
   imageCredit?: string;
@@ -48,6 +50,9 @@ export const minutes: Minute[] = [
     n: "01",
     title: "Why Ear Pain Doesn't Always Need Antibiotics",
     lede: "Understanding the Eustachian tube and how the ear and nose are connected.",
+    cover: "/images/minutes-eustachian-cover.png",
+    coverAlt:
+      "Side view of the face showing how the nose and middle ear connect through the Eustachian tube.",
     paragraphs: [
       "The middle ear is a tiny room behind the eardrum. The Eustachian tube is the hallway that connects that room to the back of the nose. When a cold or allergies swell the lining, the hallway cannot open, pressure drops, fluid can collect, and the ear feels full, pops, crackles, or hurts.",
       "That is often a pressure-and-drainage problem, not a bacterial infection. Antibiotics do not open the tube or treat a virus. Looking at the eardrum is how we tell the difference. Ear pain is a symptom — not a diagnosis.",
