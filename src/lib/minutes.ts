@@ -177,6 +177,9 @@ export const minutes: Minute[] = [
     n: "09",
     title: "What Is Antibiotic Resistance",
     lede: "You don't become immune to the medicine. The bacteria do.",
+    cover: "/images/minutes-resistance-cover.png",
+    coverAlt:
+      "Resistant bacterium pumping out antibiotic and sharing resistance genes with nearby bacteria.",
     paragraphs: [
       "You do not become “immune” to antibiotics. The bacteria do. Resistance means a germ has picked up a trick — a pump that spits the drug out, an enzyme that cuts it apart, a lock that no longer fits the key — and that trick can be copied to other bacteria. The pill that used to work may not work the next time, for you or for someone else.",
       "Most of the infections people want a Z-pack for in the ER are viruses: colds, most sinus pressure, most bronchitis, most sore throats. Antibiotics do not treat viruses. Using them anyway still hits the bacteria that live on you all the time, and those are the ones that learn. Leftover pills from last year, a leftover for a family member, and “just in case” prescriptions do the same thing.",
