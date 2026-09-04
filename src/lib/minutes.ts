@@ -67,6 +67,9 @@ export const minutes: Minute[] = [
     n: "02",
     title: "Understanding Low Back Pain",
     lede: "What's going on underneath it all and when to worry.",
+    cover: "/images/minutes-low-back-cover.png",
+    coverAlt:
+      "Back view of a person holding the low back, with the spine and sciatic nerve highlighted.",
     paragraphs: [
       "We often do not find a single injury or disease that explains it. Muscle spasm is a common reason the back hurts. True nerve compression — disc, bony narrowing, or deep gluteal muscles irritating the sciatic nerve — is less common than people think, and it is not the cause of all low back pain.",
       "What actually helps: stay active as you are able. Avoid bed rest. Heat for comfort. Exercise if it lasts more than a few weeks. NSAIDs at the lowest dose for the shortest time may help; acetaminophen alone usually does not. Opioids are generally not recommended.",
