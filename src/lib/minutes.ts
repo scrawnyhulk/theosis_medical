@@ -103,6 +103,9 @@ export const minutes: Minute[] = [
     n: "04",
     title: "Bronchitis vs Pneumonia",
     lede: "The sound and color of mucus do not tell you whether you have a serious lung infection.",
+    cover: "/images/minutes-cough-cover.png",
+    coverAlt:
+      "Lungs showing mucus in the airways versus infection in the air sacs — bronchitis versus pneumonia.",
     paragraphs: [
       "Green or yellow mucus is usually your own immune cells and shed lining from the airway — not bacteria. Colored phlegm is normal during ordinary viral colds and chest infections. It does not mean you need antibiotics.",
       "A loud, rattling, “junky” cough usually comes from mucus in the larger upper airways — the windpipe and bronchial tubes. That mucus is meant to be coughed up. The noise is your body clearing it, not a sign of pneumonia.",
