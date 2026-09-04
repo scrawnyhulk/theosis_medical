@@ -29,6 +29,20 @@ the regular Postgres driver) and `@electric-sql/pglite` (local DB fallback).
 For **user accounts, sign-in, and reading the current user**, see the separate
 **`auth` skill** — this skill is just the database.
 
+## Turning the database on
+
+Set `deploy.database` to `true` in `.grok/app-env.json`:
+
+```json
+{ "VITE_AUTH_ENABLED": "false", "deploy": { "database": true } }
+```
+
+That is what tells the platform to provision Neon for the deployed app; leave it
+`false` and the deploy gets no `DATABASE_URL`, so the app silently runs on a
+throwaway PGLite that loses its rows. Shipping `migrations/*.sql`, or sign-in,
+provisions one regardless — this flag is for an app that queries `@/lib/db`
+without either. It is not a `VITE_` key and never reaches the browser.
+
 ## Env vars — do **not** create a `.env` file
 
 **Never write a `.env` / `.env.local` / `.env.example` for the database.** In

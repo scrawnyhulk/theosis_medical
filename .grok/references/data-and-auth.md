@@ -15,6 +15,9 @@ Full guides + snippets: the **`neon` skill** (database) and the **`auth` skill**
   is set, else a local **PGLite** fallback — so the preview always renders.
 - In preview, PGLite **bootstraps at server start** (`ensureDbReady`) once the
   app has migrations. Do not remove that.
+- A deployed app is provisioned a real database when it ships `migrations/*.sql`
+  or sign-in. An app that needs one without either says so with
+  `"deploy": {"database": true}` in `.grok/app-env.json` — see the `neon` skill.
 
 ## Migrations
 
@@ -73,4 +76,25 @@ flag (exit 0 agree, 1 diverged, 2 could not observe).
 ## Env
 
 On deploy the platform injects `DATABASE_URL` + per-app auth creds; live preview
-needs neither (baked preview client, PGLite fallback).
+needs neither (baked preview client, PGLite fallback). Deployed behind the gate,
+signed-in Grok viewers get the app session automatically from `x-grok-identity`
+(see the `auth` skill — `references/grok-identity.md`); the broker federation
+covers anonymous viewers and no-gate contexts.
+
+## HARD RULE — connector / AppData API (backend only)
+
+**Never call connector or AppData APIs from frontend code.**
+
+| Allowed | Forbidden |
+| --- | --- |
+| `createServerFn({ method: "POST" }).handler` that dynamic-imports `@/lib/app-data/client.server` and calls `callTool` | Importing `@/lib/app-data/client.server` from a route component, `useEffect`, event handler, or any client module |
+| UI calling that **server function** only | Browser `fetch("/__gate/app-data/…")`, `fetch` to the connectors host, or any direct CallTool from the client |
+| Types/constants from `@/lib/app-data` (no network) | Putting `x-connector-access-token`, connector JWTs, or gate secrets in client state, props, or `VITE_*` env |
+
+**Flow (required):** browser → **this app's** `createServerFn` → **app backend**
+SDK → public connectors host (`connectors.grok.me`, **auth required**) → gate.
+Unauthenticated hits on the connectors host redirect to gate OIDC sign-in.
+
+If you need Drive / Gmail / calendar / connector data, load the **`app-data`
+skill** (`.grok/skills/app-data/SKILL.md`) and follow it exactly. Do not invent
+a client-side connector client.

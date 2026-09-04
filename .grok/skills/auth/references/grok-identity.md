@@ -10,7 +10,9 @@ viewer automatically — no sign-in button, no redirect, no broker round-trip.
 `useSession` / `useCurrentUser` simply return the Grok user.
 
 The broker OAuth flow is the **fallback** for anonymous/public viewers and for
-contexts without the gate; the live preview keeps its existing popup mechanism.
+contexts without the gate. The live preview gets the same zero-click identity
+from the in-VM preview proxy at `http://127.0.0.1:6014` (preview tokens carry
+audience `preview`); the popup mechanism remains the fallback there.
 
 ## Never render sign-in or re-auth UI to a gate viewer
 
@@ -20,6 +22,13 @@ concept**. Never render "Re-auth with Grok", "Sign in again", "Refresh
 session", or a standing "Continue with Grok" button: sign-in UI may appear
 only in the `app-data` skill's `login` error state, after a connector call
 actually returned `loginRequired: true`.
+
+The live preview gets the same zero-click session, so a sign-in button visible
+to the owner in the preview indicates a bug (a CTA rendered while the session
+check was still pending, or rendered in reaction to a data error) — fix it,
+don't restyle it. For any fallback sign-in surface use `<SignInGate>` from
+`@/lib/auth/gates`: it renders sign-in UI only after the session check resolved
+to no user, never during loading and never from a data error.
 
 Sign-out is also a no-op for a gate session — the next request re-materializes
 it from `x-grok-identity`, an instant sign-back-in loop. `<UserButton />`
@@ -37,8 +46,8 @@ sign-out (or any sign-out route/handler) for gate viewers.
 
 | Var | Scope | Meaning |
 |---|---|---|
-| `GROK_PROJECT_ID` | server | enables "Sign in with Grok" (`x-grok-identity` audience check `app:<project_id>`) |
-| `GROK_GATE_ORIGIN` | server | gate public origin (JWKS + issuer pin); unset → derived from the inbound host |
+| `GROK_PROJECT_ID` | server | deployed apps: enables "Sign in with Grok" (`x-grok-identity` audience check `app:<project_id>`) |
+| `GROK_GATE_ORIGIN` | server | gate public origin override (JWKS + issuer pin); unset → preview mode (no `GROK_PROJECT_ID`) defaults to the in-VM proxy `http://127.0.0.1:6014` (audience `preview`), deployed mode derives it from the inbound host |
 
 Deployed behavior: gate-authenticated viewers are signed in automatically from
 `x-grok-identity`; the deployer also injects a per-app broker client +
