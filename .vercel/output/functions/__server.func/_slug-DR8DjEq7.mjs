@@ -1,17 +1,17 @@
 import { i as __toESM } from "./_runtime.mjs";
-import { D as proteinPercent, O as readingList, T as peTone, _ as hormoziRecipes, a as fastFoodChains, g as hormoziRecipeNotes, h as hacksIntro, i as drinkSwaps, k as referenceVideos, l as getHack, m as hacks, o as fastFoodNotes, r as creditKicker, s as fastingStyles, w as peRatio } from "./_ssr/minutes-PhFWXEos.mjs";
+import { D as proteinPercent, O as readingList, T as peTone, _ as hormoziRecipes, a as fastFoodChains, g as hormoziRecipeNotes, h as hacksIntro, i as drinkSwaps, k as referenceVideos, l as getHack, m as hacks, o as fastFoodNotes, r as creditKicker, s as fastingStyles, w as peRatio } from "./_ssr/minutes-C1UNf1GV.mjs";
 import { r as require_react } from "./_libs/@hookform/resolvers+[...].mjs";
 import { _ as Link } from "./_libs/@tanstack/react-router+[...].mjs";
 import { i as require_jsx_runtime } from "./_libs/@radix-ui/react-label+[...].mjs";
-import { C as ArrowLeft, S as ArrowRight, n as ZoomOut, t as ZoomIn, v as ChevronRight, y as ChevronLeft } from "./_libs/lucide-react.mjs";
-import { o as Route$10 } from "./_ssr/router-BnbxP_CZ.mjs";
-import { i as cn, r as SiteShell, t as Button } from "./_ssr/site-shell-DHj3ZVbe.mjs";
-import { t as Input } from "./_ssr/input-BQ6RNFRg.mjs";
+import { C as ArrowRight, b as ChevronLeft, n as ZoomOut, t as ZoomIn, w as ArrowLeft, y as ChevronRight } from "./_libs/lucide-react.mjs";
+import { o as Route$10 } from "./_ssr/router-CCme6peK.mjs";
+import { i as cn, r as SiteShell, t as Button } from "./_ssr/site-shell-C4mQJBZr.mjs";
+import { t as Input } from "./_ssr/input-BXT1KNpr.mjs";
 import { t as NerdParagraph } from "./_ssr/nerd-paragraph-yTlgbarp.mjs";
-import { n as NerdStepper, t as EnlargeableImage } from "./_ssr/nerd-stepper-DhavoUxO.mjs";
-import { t as Label } from "./_ssr/label-B0lYPMwR.mjs";
+import { n as NerdStepper, t as EnlargeableImage } from "./_ssr/nerd-stepper-VJt_mfZG.mjs";
+import { t as Label } from "./_ssr/label-DlkRHBHE.mjs";
 import { t as VideoCard } from "./_ssr/video-card-DgPnMgod.mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/_slug-DI3B0rZg.js
+//#region node_modules/.nitro/vite/services/ssr/assets/_slug-DR8DjEq7.js
 var import_react = /* @__PURE__ */ __toESM(require_react());
 var import_jsx_runtime = require_jsx_runtime();
 function sourceLabel(source) {
@@ -1018,6 +1018,10 @@ function HackExtras({ slug }) {
 						})
 					]
 				}, style.id))
+			}),
+			/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+				className: "mt-10 text-sm leading-relaxed text-muted",
+				children: "Credit where it is due: 16:8 comes from Lean Gains. Eat Stop Eat is Brad Pilon's. I did not invent these protocols — I am the middleman."
 			})
 		] })]
 	});

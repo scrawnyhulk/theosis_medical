@@ -1,15 +1,15 @@
 import { i as __toESM } from "../_runtime.mjs";
-import { A as shapeParagraphs, E as proceduralSkills, M as whyParagraphs, c as futureParagraphs, f as glanceGroups, j as site, n as aheadCards, t as aboutParagraphs } from "./minutes-PhFWXEos.mjs";
+import { A as shapeParagraphs, E as proceduralSkills, M as whyParagraphs, c as futureParagraphs, f as glanceGroups, j as site, n as aheadCards, t as aboutParagraphs } from "./minutes-C1UNf1GV.mjs";
 import { n as useForm, r as require_react, t as u } from "../_libs/@hookform/resolvers+[...].mjs";
 import { _ as Link } from "../_libs/@tanstack/react-router+[...].mjs";
 import { i as require_jsx_runtime } from "../_libs/@radix-ui/react-label+[...].mjs";
-import { S as ArrowRight, d as Phone, g as Mail, x as Check } from "../_libs/lucide-react.mjs";
+import { C as ArrowRight, S as Check, d as Phone, g as Mail } from "../_libs/lucide-react.mjs";
 import { i as string, r as object } from "../_libs/zod.mjs";
-import { r as SiteShell, t as Button } from "./site-shell-DHj3ZVbe.mjs";
-import { t as Textarea } from "./textarea-BDkoYV62.mjs";
-import { t as Input } from "./input-BQ6RNFRg.mjs";
-import { t as Label } from "./label-B0lYPMwR.mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/routes-NQaukPzB.js
+import { r as SiteShell, t as Button } from "./site-shell-C4mQJBZr.mjs";
+import { t as Textarea } from "./textarea-CTmbxqgS.mjs";
+import { t as Input } from "./input-BXT1KNpr.mjs";
+import { t as Label } from "./label-DlkRHBHE.mjs";
+//#region node_modules/.nitro/vite/services/ssr/assets/routes-Dfpsl9Wn.js
 var import_react = /* @__PURE__ */ __toESM(require_react());
 var import_jsx_runtime = require_jsx_runtime();
 function AboutParagraph({ text }) {

@@ -1,4 +1,4 @@
-//#region node_modules/.nitro/vite/services/ssr/assets/minutes-PhFWXEos.js
+//#region node_modules/.nitro/vite/services/ssr/assets/minutes-C1UNf1GV.js
 var site = {
 	name: "Theosis Medical",
 	title: "Nick Holwey, PA-C — Theosis Medical",
@@ -2007,6 +2007,8 @@ var minutes = [
 		n: "01",
 		title: "Why Ear Pain Doesn't Always Need Antibiotics",
 		lede: "Understanding the Eustachian tube and how the ear and nose are connected.",
+		cover: "/images/minutes-eustachian-cover.png",
+		coverAlt: "Side view of the face showing how the nose and middle ear connect through the Eustachian tube.",
 		paragraphs: [
 			"The middle ear is a tiny room behind the eardrum. The Eustachian tube is the hallway that connects that room to the back of the nose. When a cold or allergies swell the lining, the hallway cannot open, pressure drops, fluid can collect, and the ear feels full, pops, crackles, or hurts.",
 			"That is often a pressure-and-drainage problem, not a bacterial infection. Antibiotics do not open the tube or treat a virus. Looking at the eardrum is how we tell the difference. Ear pain is a symptom — not a diagnosis.",
@@ -2020,6 +2022,8 @@ var minutes = [
 		n: "02",
 		title: "Understanding Low Back Pain",
 		lede: "What's going on underneath it all and when to worry.",
+		cover: "/images/minutes-low-back-cover.png",
+		coverAlt: "Back view of a person holding the low back, with the spine and sciatic nerve highlighted.",
 		paragraphs: [
 			"We often do not find a single injury or disease that explains it. Muscle spasm is a common reason the back hurts. True nerve compression — disc, bony narrowing, or deep gluteal muscles irritating the sciatic nerve — is less common than people think, and it is not the cause of all low back pain.",
 			"What actually helps: stay active as you are able. Avoid bed rest. Heat for comfort. Exercise if it lasts more than a few weeks. NSAIDs at the lowest dose for the shortest time may help; acetaminophen alone usually does not. Opioids are generally not recommended.",
@@ -2033,6 +2037,8 @@ var minutes = [
 		n: "03",
 		title: "Fever: Your Body's Secret Weapon...",
 		lede: "...and why it's usually not dangerous.",
+		cover: "/images/minutes-fever-cover.png",
+		coverAlt: "Person in bed with a glowing hypothalamus and immune cells, showing fever as a controlled response.",
 		paragraphs: [
 			"The hypothalamus is the thermostat. In an infection it raises the set point on purpose. Immune cells work better at that higher temperature. The body is not broken. It turned the heat up.",
 			"A high fever from infection almost never reaches temperatures that injure the brain. Dangerous overheating is a different problem — heatstroke, or a child left in a hot car. How the person looks, acts, breathes, drinks, and urinates matters more than the exact number on the thermometer.",
@@ -2048,6 +2054,8 @@ var minutes = [
 		n: "04",
 		title: "Bronchitis vs Pneumonia",
 		lede: "The sound and color of mucus do not tell you whether you have a serious lung infection.",
+		cover: "/images/minutes-cough-cover.png",
+		coverAlt: "Lungs showing mucus in the airways versus infection in the air sacs — bronchitis versus pneumonia.",
 		paragraphs: [
 			"Green or yellow mucus is usually your own immune cells and shed lining from the airway — not bacteria. Colored phlegm is normal during ordinary viral colds and chest infections. It does not mean you need antibiotics.",
 			"A loud, rattling, “junky” cough usually comes from mucus in the larger upper airways — the windpipe and bronchial tubes. That mucus is meant to be coughed up. The noise is your body clearing it, not a sign of pneumonia.",
@@ -2064,6 +2072,8 @@ var minutes = [
 		n: "05",
 		title: "What Is a Strain vs Sprain",
 		lede: "Why it takes so long for these to heal.",
+		cover: "/images/minutes-sprain-cover.png",
+		coverAlt: "Muscle-tendon strain versus ligament sprain, with a runner holding the injured knee.",
 		paragraphs: [
 			"A strain is muscle or tendon. Muscle runs to bone through tendon. A sprain is ligament — bone to bone, the fibers that keep a joint from going the wrong way. They get used interchangeably in the waiting room. They are not the same injury.",
 			"Muscle has a richer blood supply and often heals faster. Tendons and ligaments are dense collagen with limited blood flow, so the same “stretch or tear” takes longer. Healing is cleanup, then a weak disorganized patch, then weeks to months of remodeling while load lines the fibers back up. Pain can ease before full strength is back. That is why it still gives out if you jump back in too soon.",
@@ -2078,6 +2088,8 @@ var minutes = [
 		n: "06",
 		title: "Why We Don't CT Everyone",
 		lede: "A powerful, sometimes lifesaving tool — used thoughtfully.",
+		cover: "/images/minutes-ct-cover.png",
+		coverAlt: "Patient in a CT scanner with slices of the body and a DNA strand highlighting radiation risk.",
 		paragraphs: [
 			"A CT takes many X-rays from different angles and builds a detailed picture. Those X-rays are ionizing radiation — enough energy to alter atoms. That is not the same kind of radiation as Wi-Fi or a cell phone. One scan is a small added risk, not zero. Dose, repeats, age, sex, body area, and technique all matter.",
 			"Most of the time the DNA damage is repaired. Sometimes the cell dies. Very rarely a repair mistake remains and may contribute to cancer years later. Children and younger adults have more years ahead. Women have a somewhat higher risk for some radiation-linked cancers. Typical dose in perspective: a chest X-ray is about a few days of natural background. A head CT is months. An abdomen and pelvis CT can be a few years of background in one sitting.",
@@ -2092,6 +2104,8 @@ var minutes = [
 		n: "07",
 		title: "Sepsis: When the Body's Defenses Turn Destructive",
 		lede: "It is not just a bad infection. Severity varies — and it can quickly become an emergency.",
+		cover: "/images/minutes-sepsis-cover.png",
+		coverAlt: "Whole-body illustration of infection spreading from one organ through the bloodstream.",
 		paragraphs: [
 			"An infection usually starts in one place — a lung, a kidney, a wound, the belly. Most of the time the immune system contains it. Sepsis is what happens when that response stops being local and starts injuring the rest of you. Blood vessels leak and widen, blood pressure falls, tiny clots slow oxygen delivery, and organs begin to fail. It is not “a really bad cold.” It is organ dysfunction from a dysregulated response to infection.",
 			"There are degrees of severity. Some people are caught early and turn around with treatment. Septic shock is the far end: blood pressure stays dangerously low even after fluids, and circulation and organs fail. Almost any infection can lead here — bacterial, viral, fungal, or parasitic. You cannot diagnose it from a phone. You can notice when someone with an infection is getting worse in a way that is not ordinary — and that change can happen fast.",
@@ -2106,6 +2120,8 @@ var minutes = [
 		n: "09",
 		title: "What Is Antibiotic Resistance",
 		lede: "You don't become immune to the medicine. The bacteria do.",
+		cover: "/images/minutes-resistance-cover.png",
+		coverAlt: "Resistant bacterium pumping out antibiotic and sharing resistance genes with nearby bacteria.",
 		paragraphs: [
 			"You do not become “immune” to antibiotics. The bacteria do. Resistance means a germ has picked up a trick — a pump that spits the drug out, an enzyme that cuts it apart, a lock that no longer fits the key — and that trick can be copied to other bacteria. The pill that used to work may not work the next time, for you or for someone else.",
 			"Most of the infections people want a Z-pack for in the ER are viruses: colds, most sinus pressure, most bronchitis, most sore throats. Antibiotics do not treat viruses. Using them anyway still hits the bacteria that live on you all the time, and those are the ones that learn. Leftover pills from last year, a leftover for a family member, and “just in case” prescriptions do the same thing.",
@@ -2121,6 +2137,8 @@ var minutes = [
 		n: "08",
 		title: "How Do Antibiotics Work",
 		lede: "Can't I just take some leftover amoxicillin when I get sick? That'll take care of it, right?",
+		cover: "/images/minutes-abx-how-cover.png",
+		coverAlt: "Cutaway of a bacterium showing antibiotics hitting the cell wall, DNA, and protein machinery.",
 		paragraphs: [
 			"Not quite. Antibiotics are not a general “sick pill.” They work in different ways depending on the type of bacteria — and most of what makes you sick is not bacteria at all.",
 			"Before leftover amoxicillin is the right move, three things have to be true.",

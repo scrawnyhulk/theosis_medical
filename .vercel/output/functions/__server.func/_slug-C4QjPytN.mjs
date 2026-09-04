@@ -1,11 +1,11 @@
-import { u as getMinute, y as minutesIntro } from "./_ssr/minutes-PhFWXEos.mjs";
+import { u as getMinute, y as minutesIntro } from "./_ssr/minutes-C1UNf1GV.mjs";
 import { _ as Link } from "./_libs/@tanstack/react-router+[...].mjs";
 import { i as require_jsx_runtime } from "./_libs/@radix-ui/react-label+[...].mjs";
-import { C as ArrowLeft } from "./_libs/lucide-react.mjs";
-import { a as Route$7 } from "./_ssr/router-BnbxP_CZ.mjs";
-import { r as SiteShell, t as Button } from "./_ssr/site-shell-DHj3ZVbe.mjs";
-import { n as NerdStepper, t as EnlargeableImage } from "./_ssr/nerd-stepper-DhavoUxO.mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/_slug-vXsxW9Wy.js
+import { w as ArrowLeft } from "./_libs/lucide-react.mjs";
+import { a as Route$7 } from "./_ssr/router-CCme6peK.mjs";
+import { r as SiteShell, t as Button } from "./_ssr/site-shell-C4mQJBZr.mjs";
+import { n as NerdStepper, t as EnlargeableImage } from "./_ssr/nerd-stepper-VJt_mfZG.mjs";
+//#region node_modules/.nitro/vite/services/ssr/assets/_slug-C4QjPytN.js
 var import_jsx_runtime = require_jsx_runtime();
 function MinutePage() {
 	const { slug } = Route$7.useParams();

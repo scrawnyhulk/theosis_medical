@@ -1,12 +1,16 @@
 import { i as __toESM } from "../_runtime.mjs";
 import { r as require_react } from "../_libs/@hookform/resolvers+[...].mjs";
 import { i as require_jsx_runtime } from "../_libs/@radix-ui/react-label+[...].mjs";
-import { n as ZoomOut, t as ZoomIn, v as ChevronRight, y as ChevronLeft } from "../_libs/lucide-react.mjs";
-import { i as cn } from "./site-shell-DHj3ZVbe.mjs";
+import { b as ChevronLeft, n as ZoomOut, t as ZoomIn, v as Download, y as ChevronRight } from "../_libs/lucide-react.mjs";
+import { i as cn } from "./site-shell-C4mQJBZr.mjs";
 import { t as NerdParagraph } from "./nerd-paragraph-yTlgbarp.mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/nerd-stepper-DhavoUxO.js
+//#region node_modules/.nitro/vite/services/ssr/assets/nerd-stepper-VJt_mfZG.js
 var import_react = /* @__PURE__ */ __toESM(require_react());
 var import_jsx_runtime = require_jsx_runtime();
+function fileNameFromSrc(src) {
+	const last = src.split("/").pop();
+	return last && last.length > 0 ? last : "image.png";
+}
 function EnlargeableImage({ src, alt, className }) {
 	const [open, setOpen] = (0, import_react.useState)(false);
 	const scrollerRef = (0, import_react.useRef)(null);
@@ -18,6 +22,7 @@ function EnlargeableImage({ src, alt, className }) {
 		sl: 0,
 		st: 0
 	});
+	const fileName = fileNameFromSrc(src);
 	(0, import_react.useEffect)(() => {
 		if (!open) return;
 		function onKey(e) {
@@ -71,18 +76,27 @@ function EnlargeableImage({ src, alt, className }) {
 			scroller.removeEventListener("pointercancel", up);
 		};
 	}, [open]);
-	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", {
-		type: "button",
-		onClick: () => setOpen(true),
-		className: "group relative block w-full cursor-zoom-in rounded-xl text-left",
-		"aria-label": `Enlarge: ${alt}`,
-		children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("img", {
-			src,
-			alt,
-			className: cn("w-full rounded-xl bg-steel", className)
-		}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
-			className: "absolute right-3 bottom-3 flex size-10 items-center justify-center rounded-sm bg-ink/80 text-ink-fg",
-			children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ZoomIn, { className: "size-5" })
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+		className: "relative",
+		children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", {
+			type: "button",
+			onClick: () => setOpen(true),
+			className: "group relative block w-full cursor-zoom-in rounded-xl text-left",
+			"aria-label": `Enlarge: ${alt}`,
+			children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("img", {
+				src,
+				alt,
+				className: cn("w-full rounded-xl bg-steel", className)
+			}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+				className: "absolute right-3 bottom-3 flex size-10 items-center justify-center rounded-sm bg-ink/80 text-ink-fg",
+				children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ZoomIn, { className: "size-5" })
+			})]
+		}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("a", {
+			href: src,
+			download: fileName,
+			className: "absolute right-14 bottom-3 flex size-10 items-center justify-center rounded-sm bg-ink/80 text-ink-fg",
+			"aria-label": `Download full-size: ${alt}`,
+			children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Download, { className: "size-5" })
 		})]
 	}), open ? /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 		ref: scrollerRef,
@@ -94,18 +108,28 @@ function EnlargeableImage({ src, alt, className }) {
 		role: "dialog",
 		"aria-modal": "true",
 		"aria-label": alt,
-		children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-			className: "mx-auto my-8 w-fit max-w-none",
-			children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("img", {
-				src,
-				alt,
-				draggable: false,
-				className: "pointer-events-none block h-auto w-auto max-w-none rounded-sm bg-steel"
+		children: [
+			/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+				className: "mx-auto my-8 w-fit max-w-none",
+				children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("img", {
+					src,
+					alt,
+					draggable: false,
+					className: "pointer-events-none block h-auto w-auto max-w-none rounded-sm bg-steel"
+				})
+			}),
+			/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("a", {
+				href: src,
+				download: fileName,
+				onClick: (event) => event.stopPropagation(),
+				className: "fixed bottom-6 left-4 z-[81] inline-flex min-h-11 items-center gap-2 rounded-sm bg-ink px-4 text-sm font-medium text-ink-fg shadow-ink-ring",
+				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Download, { className: "size-4" }), "Download full-size"]
+			}),
+			/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+				className: "pointer-events-none fixed right-4 bottom-6 flex size-11 items-center justify-center rounded-sm bg-ink text-ink-fg shadow-ink-ring",
+				children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ZoomOut, { className: "size-5" })
 			})
-		}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
-			className: "pointer-events-none fixed right-4 bottom-6 flex size-11 items-center justify-center rounded-sm bg-ink text-ink-fg shadow-ink-ring",
-			children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ZoomOut, { className: "size-5" })
-		})]
+		]
 	}) : null] });
 }
 function NerdStepper({ steps, topicId }) {

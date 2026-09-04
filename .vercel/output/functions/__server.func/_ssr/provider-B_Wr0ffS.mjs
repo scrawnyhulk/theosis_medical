@@ -3,10 +3,10 @@ import { a as readDemoChart, o as sampleCharts } from "./visits-BPR-9BBc.mjs";
 import { r as require_react } from "../_libs/@hookform/resolvers+[...].mjs";
 import { _ as Link } from "../_libs/@tanstack/react-router+[...].mjs";
 import { i as require_jsx_runtime } from "../_libs/@radix-ui/react-label+[...].mjs";
-import { S as ArrowRight } from "../_libs/lucide-react.mjs";
-import { r as SiteShell, t as Button } from "./site-shell-DHj3ZVbe.mjs";
+import { C as ArrowRight } from "../_libs/lucide-react.mjs";
+import { r as SiteShell, t as Button } from "./site-shell-C4mQJBZr.mjs";
 import { t as PlaygroundBanner } from "./playground-banner-CTrUT8xW.mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/provider-Du2sxuSy.js
+//#region node_modules/.nitro/vite/services/ssr/assets/provider-B_Wr0ffS.js
 var import_react = /* @__PURE__ */ __toESM(require_react());
 var import_jsx_runtime = require_jsx_runtime();
 function ProviderHome() {

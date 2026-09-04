@@ -1,12 +1,12 @@
 import { i as __toESM } from "../_runtime.mjs";
-import { C as nerdTopics, M as whyParagraphs, S as nerdGroups, b as nav, j as site, m as hacks, t as aboutParagraphs, v as minutes } from "./minutes-PhFWXEos.mjs";
+import { C as nerdTopics, M as whyParagraphs, S as nerdGroups, b as nav, j as site, m as hacks, t as aboutParagraphs, v as minutes } from "./minutes-C1UNf1GV.mjs";
 import { r as require_react } from "../_libs/@hookform/resolvers+[...].mjs";
 import { _ as Link } from "../_libs/@tanstack/react-router+[...].mjs";
 import { i as require_jsx_runtime, n as require_react_dom, r as Slot } from "../_libs/@radix-ui/react-label+[...].mjs";
-import { b as ChevronDown, h as Menu, l as Search, r as X } from "../_libs/lucide-react.mjs";
+import { h as Menu, l as Search, r as X, x as ChevronDown } from "../_libs/lucide-react.mjs";
 import { n as clsx, t as cva } from "../_libs/class-variance-authority+clsx.mjs";
 import { t as twMerge } from "../_libs/tailwind-merge.mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/site-shell-DHj3ZVbe.js
+//#region node_modules/.nitro/vite/services/ssr/assets/site-shell-C4mQJBZr.js
 var import_react = /* @__PURE__ */ __toESM(require_react());
 var import_jsx_runtime = require_jsx_runtime();
 var import_react_dom = /* @__PURE__ */ __toESM(require_react_dom());
