@@ -290,6 +290,13 @@ export const fastingStyles = [
     window: "Eat earlier, stop earlier",
     blurb: "Push the window toward daylight. Finish dinner, then stop.",
   },
+  {
+    id: "psmf",
+    name: "PSMF",
+    window: "Protein-sparing modified fast",
+    blurb:
+      "Not a clock. A short, aggressive fat-loss phase: high protein, very low carb, very low added fat. Example below.",
+  },
 ] as const;
 
 export const drinkSwaps = [

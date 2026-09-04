@@ -321,6 +321,54 @@ function HackExtras({ slug }: { slug: HackSlug }) {
             not invent these protocols — I am the middleman.
           </p>
         </div>
+        <div id="psmf">
+          <p className="text-xs font-medium tracking-widest text-muted uppercase">An example</p>
+          <h2 className="mt-3 font-display text-3xl font-semibold tracking-wide uppercase">
+            Protein-sparing modified fast
+          </h2>
+          <div className="mt-4 space-y-4 text-lg leading-relaxed text-muted">
+            <p>
+              The styles above shrink the hours you eat. A protein-sparing modified fast shrinks the
+              calories hard while trying not to eat your own muscle to do it.
+            </p>
+            <p>
+              It is a very-low-energy phase built around lean protein. Carbohydrate and added fat stay
+              very low on purpose, so more of the energy gap has to come from stored body fat. That is
+              the “modified” part. You are still eating. This is not a water fast, and it is not
+              high-fat keto.
+            </p>
+            <p>
+              Three levers: enough protein to spare lean tissue, carbs mostly from non-starchy
+              vegetables, and almost no oils, butter, nuts, or fatty cuts. Repeatable meals look
+              boring on purpose — chicken and broccoli, egg-white scramble, tuna and nonfat yogurt,
+              extra-lean beef with cabbage. Season with mustard, salsa, vinegar, pickles, herbs. The
+              sauces are where this dies.
+            </p>
+            <p>
+              Protein-sparing is the goal, not a guarantee. Resistance training and enough protein
+              help. Fluids, electrolytes, and an exit plan are not optional. Traditional clinical
+              programs can run under 800 calories a day. Do not start one of those without medical
+              supervision. Diabetes medications, diuretics, SGLT2 inhibitors, kidney or liver
+              disease, gout, gallstones, pregnancy, breastfeeding, older or frail adults, and a
+              history of disordered eating are all reasons this is not a DIY project.
+            </p>
+            <p>
+              This is a short-term tool. It is not a personality, and it is not the diet you live on
+              after the fat comes off. Refeed. Then a sustainable high-protein deficit. Then
+              maintenance.
+            </p>
+          </div>
+          <figure className="mt-8">
+            <EnlargeableImage
+              src="/images/hacks-psmf.png"
+              alt="What is a protein-sparing modified fast? A short, aggressive fat-loss phase built around high lean protein, very low carbohydrate, and very low added fat, with repeatable meals, limits, monitoring, and an exit plan. Not a zero-food fast, not keto, and not a forever diet."
+            />
+            <figcaption className="mt-3 text-xs tracking-wide text-muted">
+              Educational only. Cleveland Clinic PSMF program · Chang & Kashyap, CCJM · PSMF
+              clinical literature
+            </figcaption>
+          </figure>
+        </div>
       </div>
     );
   }
