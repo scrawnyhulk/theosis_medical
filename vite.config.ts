@@ -170,6 +170,10 @@ export default defineConfig(({ command, isPreview }) => ({
       prerender: {
         enabled: true,
         crawlLinks: true,
+        // Download links on infographics are <a href="/images/...png">.
+        // Crawling those fetches the PNG as text and overwrites the binary.
+        filter: ({ path }: { path: string }) =>
+          !/\.(png|jpe?g|webp|gif|svg|ico|mp4|pdf|woff2?)$/i.test(path),
       },
     }),
     ...(command === "build" || isPreview
