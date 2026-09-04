@@ -159,6 +159,9 @@ export const minutes: Minute[] = [
     n: "07",
     title: "Sepsis: When the Body's Defenses Turn Destructive",
     lede: "It is not just a bad infection. Severity varies — and it can quickly become an emergency.",
+    cover: "/images/minutes-sepsis-cover.png",
+    coverAlt:
+      "Whole-body illustration of infection spreading from one organ through the bloodstream.",
     paragraphs: [
       "An infection usually starts in one place — a lung, a kidney, a wound, the belly. Most of the time the immune system contains it. Sepsis is what happens when that response stops being local and starts injuring the rest of you. Blood vessels leak and widen, blood pressure falls, tiny clots slow oxygen delivery, and organs begin to fail. It is not “a really bad cold.” It is organ dysfunction from a dysregulated response to infection.",
       "There are degrees of severity. Some people are caught early and turn around with treatment. Septic shock is the far end: blood pressure stays dangerously low even after fluids, and circulation and organs fail. Almost any infection can lead here — bacterial, viral, fungal, or parasitic. You cannot diagnose it from a phone. You can notice when someone with an infection is getting worse in a way that is not ordinary — and that change can happen fast.",
