@@ -170,10 +170,12 @@ export default defineConfig(({ command, isPreview }) => ({
       prerender: {
         enabled: true,
         crawlLinks: true,
-        // Download links on infographics are <a href="/images/...png">.
-        // Crawling those fetches the PNG as text and overwrites the binary.
-        filter: ({ path }: { path: string }) =>
-          !/\.(png|jpe?g|webp|gif|svg|ico|mp4|pdf|woff2?)$/i.test(path),
+        // Hash links (/#about) all write the same index.html — a later empty
+        // response blanks the homepage. Image download hrefs overwrite PNGs.
+        filter: ({ path }: { path: string }) => {
+          if (path.includes("#") || path.includes("?")) return false;
+          return !/\.(png|jpe?g|webp|gif|svg|ico|mp4|pdf|woff2?)$/i.test(path);
+        },
       },
     }),
     ...(command === "build" || isPreview
