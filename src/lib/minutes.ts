@@ -123,6 +123,9 @@ export const minutes: Minute[] = [
     n: "05",
     title: "What Is a Strain vs Sprain",
     lede: "Why it takes so long for these to heal.",
+    cover: "/images/minutes-sprain-cover.png",
+    coverAlt:
+      "Muscle-tendon strain versus ligament sprain, with a runner holding the injured knee.",
     paragraphs: [
       "A strain is muscle or tendon. Muscle runs to bone through tendon. A sprain is ligament — bone to bone, the fibers that keep a joint from going the wrong way. They get used interchangeably in the waiting room. They are not the same injury.",
       "Muscle has a richer blood supply and often heals faster. Tendons and ligaments are dense collagen with limited blood flow, so the same “stretch or tear” takes longer. Healing is cleanup, then a weak disorganized patch, then weeks to months of remodeling while load lines the fibers back up. Pain can ease before full strength is back. That is why it still gives out if you jump back in too soon.",
