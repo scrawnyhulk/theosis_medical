@@ -31,6 +31,7 @@ export type Minute = {
   imageCredit?: string;
   extraImages?: { src: string; alt: string; credit: string }[];
   steps?: MinuteStep[];
+  cardNote?: string;
 };
 
 export const minutesIntro = {
@@ -196,6 +197,7 @@ export const minutes: Minute[] = [
     n: "08",
     title: "How Do Antibiotics Work",
     lede: "Can't I just take some leftover amoxicillin when I get sick? That'll take care of it, right?",
+    cardNote: "Extra nerdy. A resource for medical professionals.",
     cover: "/images/minutes-abx-how-cover.png",
     coverAlt:
       "Cutaway of a bacterium showing antibiotics hitting the cell wall, DNA, and protein machinery.",

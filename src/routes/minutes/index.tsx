@@ -40,6 +40,11 @@ function MinuteCard({ minute }: { minute: Minute }) {
             <span className="mt-2 block text-sm leading-relaxed text-white/85 sm:text-base">
               {minute.lede}
             </span>
+            {minute.cardNote ? (
+              <span className="mt-3 block text-[10px] leading-snug tracking-[0.18em] text-white/55 uppercase">
+                {minute.cardNote}
+              </span>
+            ) : null}
           </span>
         </span>
       </Link>

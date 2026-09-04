@@ -62,6 +62,11 @@ function MinutePage() {
           {minute.title}
         </h1>
         <p className="mt-5 text-xl leading-relaxed text-fg">{minute.lede}</p>
+        {minute.cardNote ? (
+          <p className="mt-3 text-[10px] leading-snug tracking-[0.18em] text-muted uppercase">
+            {minute.cardNote}
+          </p>
+        ) : null}
         <div className="mt-8 space-y-5 text-lg leading-relaxed text-muted">
           {minute.paragraphs.map((p) => (
             <p key={p.slice(0, 36)}>{p}</p>
