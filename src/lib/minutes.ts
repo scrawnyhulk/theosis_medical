@@ -84,6 +84,9 @@ export const minutes: Minute[] = [
     n: "03",
     title: "Fever: Your Body's Secret Weapon...",
     lede: "...and why it's usually not dangerous.",
+    cover: "/images/minutes-fever-cover.png",
+    coverAlt:
+      "Person in bed with a glowing hypothalamus and immune cells, showing fever as a controlled response.",
     paragraphs: [
       "The hypothalamus is the thermostat. In an infection it raises the set point on purpose. Immune cells work better at that higher temperature. The body is not broken. It turned the heat up.",
       "A high fever from infection almost never reaches temperatures that injure the brain. Dangerous overheating is a different problem — heatstroke, or a child left in a hot car. How the person looks, acts, breathes, drinks, and urinates matters more than the exact number on the thermometer.",
