@@ -193,6 +193,9 @@ export const minutes: Minute[] = [
     n: "08",
     title: "How Do Antibiotics Work",
     lede: "Can't I just take some leftover amoxicillin when I get sick? That'll take care of it, right?",
+    cover: "/images/minutes-abx-how-cover.png",
+    coverAlt:
+      "Cutaway of a bacterium showing antibiotics hitting the cell wall, DNA, and protein machinery.",
     paragraphs: [
       "Not quite. Antibiotics are not a general “sick pill.” They work in different ways depending on the type of bacteria — and most of what makes you sick is not bacteria at all.",
       "Before leftover amoxicillin is the right move, three things have to be true.",
