@@ -1,8 +1,13 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { ZoomIn, ZoomOut } from "lucide-react";
+import { Download, ZoomIn, ZoomOut } from "lucide-react";
 import { cn } from "@/lib/utils";
+
+function fileNameFromSrc(src: string) {
+  const last = src.split("/").pop();
+  return last && last.length > 0 ? last : "image.png";
+}
 
 export function EnlargeableImage({
   src,
@@ -23,6 +28,7 @@ export function EnlargeableImage({
     sl: 0,
     st: 0,
   });
+  const fileName = fileNameFromSrc(src);
 
   useEffect(() => {
     if (!open) return;
@@ -85,17 +91,27 @@ export function EnlargeableImage({
 
   return (
     <>
-      <button
-        type="button"
-        onClick={() => setOpen(true)}
-        className="group relative block w-full cursor-zoom-in rounded-xl text-left"
-        aria-label={`Enlarge: ${alt}`}
-      >
-        <img src={src} alt={alt} className={cn("w-full rounded-xl bg-steel", className)} />
-        <span className="absolute right-3 bottom-3 flex size-10 items-center justify-center rounded-sm bg-ink/80 text-ink-fg">
-          <ZoomIn className="size-5" />
-        </span>
-      </button>
+      <div className="relative">
+        <button
+          type="button"
+          onClick={() => setOpen(true)}
+          className="group relative block w-full cursor-zoom-in rounded-xl text-left"
+          aria-label={`Enlarge: ${alt}`}
+        >
+          <img src={src} alt={alt} className={cn("w-full rounded-xl bg-steel", className)} />
+          <span className="absolute right-3 bottom-3 flex size-10 items-center justify-center rounded-sm bg-ink/80 text-ink-fg">
+            <ZoomIn className="size-5" />
+          </span>
+        </button>
+        <a
+          href={src}
+          download={fileName}
+          className="absolute right-14 bottom-3 flex size-10 items-center justify-center rounded-sm bg-ink/80 text-ink-fg"
+          aria-label={`Download full-size: ${alt}`}
+        >
+          <Download className="size-5" />
+        </a>
+      </div>
       {open ? (
         <div
           ref={scrollerRef}
@@ -116,6 +132,15 @@ export function EnlargeableImage({
               className="pointer-events-none block h-auto w-auto max-w-none rounded-sm bg-steel"
             />
           </div>
+          <a
+            href={src}
+            download={fileName}
+            onClick={(event) => event.stopPropagation()}
+            className="fixed bottom-6 left-4 z-[81] inline-flex min-h-11 items-center gap-2 rounded-sm bg-ink px-4 text-sm font-medium text-ink-fg shadow-ink-ring"
+          >
+            <Download className="size-4" />
+            Download full-size
+          </a>
           <span className="pointer-events-none fixed right-4 bottom-6 flex size-11 items-center justify-center rounded-sm bg-ink text-ink-fg shadow-ink-ring">
             <ZoomOut className="size-5" />
           </span>
