@@ -79,6 +79,13 @@ export const hackCovers: Partial<Record<HackSlug, { src: string; alt: string; ob
   },
 };
 
+export const hackGroups = [
+  { id: "start", title: "Start here", slugs: ["why-hard", "where-to-start"] },
+  { id: "fuel", title: "Fuel", slugs: ["dont-drink-calories", "protein-per-pound", "protein-label"] },
+  { id: "life", title: "Real life", slugs: ["fast-food", "staples", "exercise", "fasting"] },
+  { id: "deeper", title: "Go deeper", slugs: ["nerd-out", "helpful-videos", "reading-list"] },
+] as const;
+
 export const hacksIntro = {
   kicker: "Lifestyle medicine — the 20%",
   title: "Holwey’s Handy Health Hacks",
