@@ -18,9 +18,6 @@ export function SiteFooter() {
           <Link to="/hacks" className="text-sm text-ink-muted hover:text-ink-fg">
             Holwey’s Handy Health Hacks
           </Link>
-          <Link to="/store" className="text-sm text-ink-muted hover:text-ink-fg">
-            The Shop
-          </Link>
           <Link to="/install" className="text-sm text-ink-muted hover:text-ink-fg">
             Add to Home Screen
           </Link>

@@ -5,7 +5,7 @@ const SMS_GATEWAYS = [
   "7654870777@tmomail.net",
 ];
 
-export type SiteFormKind = "inquiry" | "suggestion" | "merch";
+export type SiteFormKind = "inquiry" | "suggestion";
 
 export async function sendSiteForm(input: {
   kind: SiteFormKind;
@@ -16,9 +16,7 @@ export async function sendSiteForm(input: {
   const subject =
     input.kind === "inquiry"
       ? `THEOSIS: New consult request from ${input.name}`
-      : input.kind === "merch"
-        ? `THEOSIS: Merch interest from ${input.name}`
-        : `THEOSIS: New suggestion from ${input.name}`;
+      : `THEOSIS: New suggestion from ${input.name}`;
 
   const details = Object.entries(input.fields)
     .filter(([, value]) => value.trim().length > 0)
@@ -33,12 +31,7 @@ export async function sendSiteForm(input: {
     _template: "table",
     _captcha: "false",
     _honey: "",
-    type:
-      input.kind === "inquiry"
-        ? "Consult request"
-        : input.kind === "merch"
-          ? "Merch interest"
-          : "Suggestion",
+    type: input.kind === "inquiry" ? "Consult request" : "Suggestion",
     ...input.fields,
   };
 
