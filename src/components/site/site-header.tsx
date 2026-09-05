@@ -50,6 +50,13 @@ export function SiteHeader() {
             >
               <HolweyHacksMark />
             </Link>
+            <Link
+              to="/store"
+              className="shrink-0 text-sm font-medium tracking-wide text-muted uppercase transition-colors duration-150 hover:text-fg"
+              activeProps={{ className: "text-fg" }}
+            >
+              Shop
+            </Link>
             {SHOW_VISIT_DEMO ? (
               <Link
                 to="/visits"
@@ -115,6 +122,13 @@ export function SiteHeader() {
             aria-label="Holwey Health Hacks"
           >
             <HolweyHacksMark />
+          </Link>
+          <Link
+            to="/store"
+            className="flex min-h-12 items-center border-b border-border text-base font-medium tracking-wide text-fg uppercase"
+            onClick={close}
+          >
+            Shop
           </Link>
           {SHOW_VISIT_DEMO ? (
             <Link

@@ -18,6 +18,7 @@ import { Route as MinutesIndexRouteImport } from './routes/minutes/index'
 import { Route as MinutesSlugRouteImport } from './routes/minutes/$slug'
 import { Route as ProviderIndexRouteImport } from './routes/provider/index'
 import { Route as ProviderIdRouteImport } from './routes/provider/$id'
+import { Route as StoreIndexRouteImport } from './routes/store/index'
 import { Route as VisitsIndexRouteImport } from './routes/visits/index'
 import { Route as VisitsKindRouteImport } from './routes/visits/$kind'
 import { Route as VisitsAtlasRouteImport } from './routes/visits/atlas'
@@ -69,6 +70,11 @@ const ProviderIdRoute = ProviderIdRouteImport.update({
   path: '/provider/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
+const StoreIndexRoute = StoreIndexRouteImport.update({
+  id: '/store/',
+  path: '/store/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const VisitsIndexRoute = VisitsIndexRouteImport.update({
   id: '/visits/',
   path: '/visits/',
@@ -107,6 +113,7 @@ export interface FileRoutesByFullPath {
   '/hacks/': typeof HacksIndexRoute
   '/minutes/': typeof MinutesIndexRoute
   '/provider/': typeof ProviderIndexRoute
+  '/store/': typeof StoreIndexRoute
   '/visits/': typeof VisitsIndexRoute
   '/hacks/nerd-out/$topic': typeof HacksNerdOutTopicRoute
   '/hacks/nerd-out/': typeof HacksNerdOutIndexRoute
@@ -122,6 +129,7 @@ export interface FileRoutesByTo {
   '/hacks': typeof HacksIndexRoute
   '/minutes': typeof MinutesIndexRoute
   '/provider': typeof ProviderIndexRoute
+  '/store': typeof StoreIndexRoute
   '/visits': typeof VisitsIndexRoute
   '/hacks/nerd-out/$topic': typeof HacksNerdOutTopicRoute
   '/hacks/nerd-out': typeof HacksNerdOutIndexRoute
@@ -139,6 +147,7 @@ export interface FileRoutesById {
   '/hacks/': typeof HacksIndexRoute
   '/minutes/': typeof MinutesIndexRoute
   '/provider/': typeof ProviderIndexRoute
+  '/store/': typeof StoreIndexRoute
   '/visits/': typeof VisitsIndexRoute
   '/hacks/nerd-out/$topic': typeof HacksNerdOutTopicRoute
   '/hacks/nerd-out/': typeof HacksNerdOutIndexRoute
@@ -157,6 +166,7 @@ export interface FileRouteTypes {
     | '/hacks/'
     | '/minutes/'
     | '/provider/'
+    | '/store/'
     | '/visits/'
     | '/hacks/nerd-out/$topic'
     | '/hacks/nerd-out/'
@@ -172,6 +182,7 @@ export interface FileRouteTypes {
     | '/hacks'
     | '/minutes'
     | '/provider'
+    | '/store'
     | '/visits'
     | '/hacks/nerd-out/$topic'
     | '/hacks/nerd-out'
@@ -188,6 +199,7 @@ export interface FileRouteTypes {
     | '/hacks/'
     | '/minutes/'
     | '/provider/'
+    | '/store/'
     | '/visits/'
     | '/hacks/nerd-out/$topic'
     | '/hacks/nerd-out/'
@@ -205,6 +217,7 @@ export interface RootRouteChildren {
   HacksIndexRoute: typeof HacksIndexRoute
   MinutesIndexRoute: typeof MinutesIndexRoute
   ProviderIndexRoute: typeof ProviderIndexRoute
+  StoreIndexRoute: typeof StoreIndexRoute
   VisitsIndexRoute: typeof VisitsIndexRoute
 }
 
@@ -273,6 +286,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProviderIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/store/': {
+      id: '/store/'
+      path: '/store'
+      fullPath: '/store/'
+      preLoaderRoute: typeof StoreIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/visits/': {
       id: '/visits/'
       path: '/visits'
@@ -337,6 +357,7 @@ const rootRouteChildren: RootRouteChildren = {
   HacksIndexRoute: HacksIndexRoute,
   MinutesIndexRoute: MinutesIndexRoute,
   ProviderIndexRoute: ProviderIndexRoute,
+  StoreIndexRoute: StoreIndexRoute,
   VisitsIndexRoute: VisitsIndexRoute,
 }
 export const routeTree = rootRouteImport
