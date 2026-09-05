@@ -1,4 +1,4 @@
-//#region node_modules/.nitro/vite/services/ssr/assets/minutes-C1UNf1GV.js
+//#region node_modules/.nitro/vite/services/ssr/assets/minutes-CTL0zzDu.js
 var site = {
 	name: "Theosis Medical",
 	title: "Nick Holwey, PA-C — Theosis Medical",
@@ -393,6 +393,12 @@ var fastingStyles = [
 		name: "Circadian / early window",
 		window: "Eat earlier, stop earlier",
 		blurb: "Push the window toward daylight. Finish dinner, then stop."
+	},
+	{
+		id: "psmf",
+		name: "PSMF",
+		window: "Protein-sparing modified fast",
+		blurb: "Not a clock. A short, aggressive fat-loss phase: high protein, very low carb, very low added fat. Example below."
 	}
 ];
 var drinkSwaps = [
@@ -2137,6 +2143,7 @@ var minutes = [
 		n: "08",
 		title: "How Do Antibiotics Work",
 		lede: "Can't I just take some leftover amoxicillin when I get sick? That'll take care of it, right?",
+		cardNote: "Extra nerdy. A resource for medical professionals.",
 		cover: "/images/minutes-abx-how-cover.png",
 		coverAlt: "Cutaway of a bacterium showing antibiotics hitting the cell wall, DNA, and protein machinery.",
 		paragraphs: [

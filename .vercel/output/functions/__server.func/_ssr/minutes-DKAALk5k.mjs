@@ -1,9 +1,9 @@
-import { v as minutes, y as minutesIntro } from "./minutes-C1UNf1GV.mjs";
+import { v as minutes, y as minutesIntro } from "./minutes-CTL0zzDu.mjs";
 import { _ as Link } from "../_libs/@tanstack/react-router+[...].mjs";
 import { i as require_jsx_runtime } from "../_libs/@radix-ui/react-label+[...].mjs";
 import { C as ArrowRight } from "../_libs/lucide-react.mjs";
-import { r as SiteShell } from "./site-shell-C4mQJBZr.mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/minutes-Bj9B9ze6.js
+import { r as SiteShell } from "./site-shell-CtXFxL8f.mjs";
+//#region node_modules/.nitro/vite/services/ssr/assets/minutes-DKAALk5k.js
 var import_jsx_runtime = require_jsx_runtime();
 function MinuteCard({ minute }) {
 	if (minute.cover) return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Link, {
@@ -33,7 +33,11 @@ function MinuteCard({ minute }) {
 						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
 							className: "mt-2 block text-sm leading-relaxed text-white/85 sm:text-base",
 							children: minute.lede
-						})
+						}),
+						minute.cardNote ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+							className: "mt-3 block text-[10px] leading-snug tracking-[0.18em] text-white/55 uppercase",
+							children: minute.cardNote
+						}) : null
 					]
 				})
 			]

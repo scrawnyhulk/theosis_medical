@@ -3,8 +3,8 @@ import { r as require_react } from "../_libs/@hookform/resolvers+[...].mjs";
 import { _ as Link } from "../_libs/@tanstack/react-router+[...].mjs";
 import { i as require_jsx_runtime } from "../_libs/@radix-ui/react-label+[...].mjs";
 import { c as Share } from "../_libs/lucide-react.mjs";
-import { r as SiteShell, t as Button } from "./site-shell-C4mQJBZr.mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/install-DpPIEoXY.js
+import { r as SiteShell, t as Button } from "./site-shell-CtXFxL8f.mjs";
+//#region node_modules/.nitro/vite/services/ssr/assets/install-BT541B_P.js
 var import_react = /* @__PURE__ */ __toESM(require_react());
 var import_jsx_runtime = require_jsx_runtime();
 function InstallButton() {

@@ -1,12 +1,12 @@
 import { i as __toESM } from "../_runtime.mjs";
 import { c as visitMeta, n as isVisitKind } from "./visits-BPR-9BBc.mjs";
-import { d as getNerdTopic, j as site, l as getHack, u as getMinute } from "./minutes-C1UNf1GV.mjs";
+import { d as getNerdTopic, j as site, l as getHack, u as getMinute } from "./minutes-CTL0zzDu.mjs";
 import { r as require_react } from "../_libs/@hookform/resolvers+[...].mjs";
 import { I as redirect, f as createRouter, g as createRootRoute, h as createFileRoute, l as Scripts, m as lazyRouteComponent, p as Outlet, u as HeadContent, y as useRouter } from "../_libs/@tanstack/react-router+[...].mjs";
 import { i as require_jsx_runtime } from "../_libs/@radix-ui/react-label+[...].mjs";
 import { o as TriangleAlert } from "../_libs/lucide-react.mjs";
 import { a as union, i as string, n as number, r as object, t as literal } from "../_libs/zod.mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/router-CCme6peK.js
+//#region node_modules/.nitro/vite/services/ssr/assets/router-BqljcClt.js
 var import_react = /* @__PURE__ */ __toESM(require_react());
 var import_jsx_runtime = require_jsx_runtime();
 var __defProp = Object.defineProperty;
@@ -292,7 +292,7 @@ function PwaRegister() {
 	}, []);
 	return null;
 }
-var styles_default = "/assets/styles-Bt4CeHyv.css";
+var styles_default = "/assets/styles-CRcm4BId.css";
 var APP_NAME = site.name;
 var Route$14 = createRootRoute({
 	head: () => ({
@@ -417,9 +417,9 @@ var Route$14 = createRootRoute({
 		})]
 	})
 });
-var $$splitComponentImporter$12 = () => import("./routes-Dfpsl9Wn.mjs");
+var $$splitComponentImporter$12 = () => import("./routes-C0OtuvS4.mjs");
 var Route$13 = createFileRoute("/")({ component: lazyRouteComponent($$splitComponentImporter$12, "component") });
-var $$splitComponentImporter$11 = () => import("./install-DpPIEoXY.mjs");
+var $$splitComponentImporter$11 = () => import("./install-BT541B_P.mjs");
 var Route$12 = createFileRoute("/install")({
 	component: lazyRouteComponent($$splitComponentImporter$11, "component"),
 	head: () => ({ meta: [{ title: "Add to Home Screen — Theosis Medical" }, {
@@ -427,7 +427,7 @@ var Route$12 = createFileRoute("/install")({
 		content: "Add Theosis Medical to your phone’s home screen so it opens like an app — no App Store needed."
 	}] })
 });
-var $$splitComponentImporter$10 = () => import("./hacks-CsAauFDI.mjs");
+var $$splitComponentImporter$10 = () => import("./hacks-Cis3lC-C.mjs");
 var Route$11 = createFileRoute("/hacks/")({
 	component: lazyRouteComponent($$splitComponentImporter$10, "component"),
 	head: () => ({ meta: [{ title: "Holwey’s Handy Health Hacks — Theosis Medical" }, {
@@ -435,7 +435,7 @@ var Route$11 = createFileRoute("/hacks/")({
 		content: "Holwey’s Handy Health Hacks: the 20% that does 80% of the work. Protein, calories, drinks, fast food, and the mechanisms behind them."
 	}] })
 });
-var $$splitComponentImporter$9 = () => import("../_slug-DR8DjEq7.mjs");
+var $$splitComponentImporter$9 = () => import("../_slug-KDx9668b.mjs");
 var Route$10 = createFileRoute("/hacks/$slug")({
 	component: lazyRouteComponent($$splitComponentImporter$9, "component"),
 	head: ({ params }) => {
@@ -448,7 +448,7 @@ var Route$10 = createFileRoute("/hacks/$slug")({
 });
 var $$splitComponentImporter$8 = () => import("./nerd-out-Cxj0SBIt.mjs");
 var Route$9 = createFileRoute("/hacks/nerd-out")({ component: lazyRouteComponent($$splitComponentImporter$8, "component") });
-var $$splitComponentImporter$7 = () => import("./minutes-Bj9B9ze6.mjs");
+var $$splitComponentImporter$7 = () => import("./minutes-DKAALk5k.mjs");
 var Route$8 = createFileRoute("/minutes/")({
 	component: lazyRouteComponent($$splitComponentImporter$7, "component"),
 	head: () => ({ meta: [{ title: "Medical Minutes — Theosis Medical" }, {
@@ -456,7 +456,7 @@ var Route$8 = createFileRoute("/minutes/")({
 		content: "Medical Minutes: common conditions explained in plain language — the talks Nick Holwey, PA-C, gives in the emergency department."
 	}] })
 });
-var $$splitComponentImporter$6 = () => import("../_slug-C4QjPytN.mjs");
+var $$splitComponentImporter$6 = () => import("../_slug-CNfOfTgm.mjs");
 var Route$7 = createFileRoute("/minutes/$slug")({
 	component: lazyRouteComponent($$splitComponentImporter$6, "component"),
 	head: ({ params }) => {
@@ -467,7 +467,7 @@ var Route$7 = createFileRoute("/minutes/$slug")({
 		}] };
 	}
 });
-var $$splitComponentImporter$5 = () => import("./provider-B_Wr0ffS.mjs");
+var $$splitComponentImporter$5 = () => import("./provider-CRh3t6Vu.mjs");
 var Route$6 = createFileRoute("/provider/")({
 	beforeLoad: () => {
 		throw redirect({ to: "/" });
@@ -478,7 +478,7 @@ var Route$6 = createFileRoute("/provider/")({
 		content: "Live demo of a Sesame-style provider inbox. Not a real EHR. No real PHI."
 	}] })
 });
-var $$splitComponentImporter$4 = () => import("../_id-DTuVUhJ8.mjs");
+var $$splitComponentImporter$4 = () => import("../_id-3y-WwRBY.mjs");
 var Route$5 = createFileRoute("/provider/$id")({
 	beforeLoad: () => {
 		throw redirect({ to: "/" });
@@ -486,7 +486,7 @@ var Route$5 = createFileRoute("/provider/$id")({
 	component: lazyRouteComponent($$splitComponentImporter$4, "component"),
 	head: () => ({ meta: [{ title: "Chart (live demo) — Theosis Medical" }] })
 });
-var $$splitComponentImporter$3 = () => import("./visits-CaY1s0Os.mjs");
+var $$splitComponentImporter$3 = () => import("./visits-C4aC4NKO.mjs");
 var Route$4 = createFileRoute("/visits/")({
 	beforeLoad: () => {
 		throw redirect({ to: "/" });
@@ -497,7 +497,7 @@ var Route$4 = createFileRoute("/visits/")({
 		content: "Live demo. How cash-pay lifestyle counseling would look if booked on Sesame. Not a real booking."
 	}] })
 });
-var $$splitComponentImporter$2 = () => import("../_kind-BAow8RyN.mjs");
+var $$splitComponentImporter$2 = () => import("../_kind-DdjBuzvC.mjs");
 var Route$3 = createFileRoute("/visits/$kind")({
 	beforeLoad: ({ params }) => {
 		throw redirect({ to: "/" });
@@ -519,7 +519,7 @@ var Route$3 = createFileRoute("/visits/$kind")({
 var Route$2 = createFileRoute("/visits/atlas")({ beforeLoad: () => {
 	throw redirect({ to: "/" });
 } });
-var $$splitComponentImporter$1 = () => import("./nerd-out.index-CwcHdLOd.mjs");
+var $$splitComponentImporter$1 = () => import("./nerd-out.index-El0oq1c8.mjs");
 var Route$1 = createFileRoute("/hacks/nerd-out/")({
 	component: lazyRouteComponent($$splitComponentImporter$1, "component"),
 	head: () => ({ meta: [{ title: "Nutritional Nerd Out — Holwey’s Handy Health Hacks" }, {
@@ -527,7 +527,7 @@ var Route$1 = createFileRoute("/hacks/nerd-out/")({
 		content: "Mechanisms. How stuff actually works. Optional reading. Compulsory if you are me."
 	}] })
 });
-var $$splitComponentImporter = () => import("./nerd-out._topic-Dm3J3Twx.mjs");
+var $$splitComponentImporter = () => import("./nerd-out._topic-Dinmq61o.mjs");
 var Route = createFileRoute("/hacks/nerd-out/$topic")({
 	component: lazyRouteComponent($$splitComponentImporter, "component"),
 	head: ({ params }) => {

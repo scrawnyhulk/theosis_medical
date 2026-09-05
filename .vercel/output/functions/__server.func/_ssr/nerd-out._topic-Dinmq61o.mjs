@@ -1,17 +1,17 @@
 import { i as __toESM } from "../_runtime.mjs";
-import { C as nerdTopics, d as getNerdTopic, h as hacksIntro, r as creditKicker } from "./minutes-C1UNf1GV.mjs";
+import { C as nerdTopics, d as getNerdTopic, h as hacksIntro, r as creditKicker } from "./minutes-CTL0zzDu.mjs";
 import { r as require_react } from "../_libs/@hookform/resolvers+[...].mjs";
 import { _ as Link } from "../_libs/@tanstack/react-router+[...].mjs";
 import { i as require_jsx_runtime } from "../_libs/@radix-ui/react-label+[...].mjs";
 import { C as ArrowRight, w as ArrowLeft } from "../_libs/lucide-react.mjs";
-import { n as Route } from "./router-CCme6peK.mjs";
-import { r as SiteShell, t as Button } from "./site-shell-C4mQJBZr.mjs";
-import { t as Input } from "./input-BXT1KNpr.mjs";
+import { n as Route } from "./router-BqljcClt.mjs";
+import { r as SiteShell, t as Button } from "./site-shell-CtXFxL8f.mjs";
+import { t as Input } from "./input-GTNOeJSC.mjs";
 import { t as NerdParagraph } from "./nerd-paragraph-yTlgbarp.mjs";
-import { n as NerdStepper, t as EnlargeableImage } from "./nerd-stepper-VJt_mfZG.mjs";
-import { t as Label } from "./label-DlkRHBHE.mjs";
+import { n as NerdStepper, t as EnlargeableImage } from "./nerd-stepper-if8VwVcu.mjs";
+import { t as Label } from "./label-DGV5PdOv.mjs";
 import { t as VideoCard } from "./video-card-DgPnMgod.mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/nerd-out._topic-Dm3J3Twx.js
+//#region node_modules/.nitro/vite/services/ssr/assets/nerd-out._topic-Dinmq61o.js
 var import_react = /* @__PURE__ */ __toESM(require_react());
 var import_jsx_runtime = require_jsx_runtime();
 var CAL_PER_LB = 31;

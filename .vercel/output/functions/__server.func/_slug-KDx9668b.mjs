@@ -1,17 +1,17 @@
 import { i as __toESM } from "./_runtime.mjs";
-import { D as proteinPercent, O as readingList, T as peTone, _ as hormoziRecipes, a as fastFoodChains, g as hormoziRecipeNotes, h as hacksIntro, i as drinkSwaps, k as referenceVideos, l as getHack, m as hacks, o as fastFoodNotes, r as creditKicker, s as fastingStyles, w as peRatio } from "./_ssr/minutes-C1UNf1GV.mjs";
+import { D as proteinPercent, O as readingList, T as peTone, _ as hormoziRecipes, a as fastFoodChains, g as hormoziRecipeNotes, h as hacksIntro, i as drinkSwaps, k as referenceVideos, l as getHack, m as hacks, o as fastFoodNotes, r as creditKicker, s as fastingStyles, w as peRatio } from "./_ssr/minutes-CTL0zzDu.mjs";
 import { r as require_react } from "./_libs/@hookform/resolvers+[...].mjs";
 import { _ as Link } from "./_libs/@tanstack/react-router+[...].mjs";
 import { i as require_jsx_runtime } from "./_libs/@radix-ui/react-label+[...].mjs";
 import { C as ArrowRight, b as ChevronLeft, n as ZoomOut, t as ZoomIn, w as ArrowLeft, y as ChevronRight } from "./_libs/lucide-react.mjs";
-import { o as Route$10 } from "./_ssr/router-CCme6peK.mjs";
-import { i as cn, r as SiteShell, t as Button } from "./_ssr/site-shell-C4mQJBZr.mjs";
-import { t as Input } from "./_ssr/input-BXT1KNpr.mjs";
+import { o as Route$10 } from "./_ssr/router-BqljcClt.mjs";
+import { i as cn, r as SiteShell, t as Button } from "./_ssr/site-shell-CtXFxL8f.mjs";
+import { t as Input } from "./_ssr/input-GTNOeJSC.mjs";
 import { t as NerdParagraph } from "./_ssr/nerd-paragraph-yTlgbarp.mjs";
-import { n as NerdStepper, t as EnlargeableImage } from "./_ssr/nerd-stepper-VJt_mfZG.mjs";
-import { t as Label } from "./_ssr/label-DlkRHBHE.mjs";
+import { n as NerdStepper, t as EnlargeableImage } from "./_ssr/nerd-stepper-if8VwVcu.mjs";
+import { t as Label } from "./_ssr/label-DGV5PdOv.mjs";
 import { t as VideoCard } from "./_ssr/video-card-DgPnMgod.mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/_slug-DR8DjEq7.js
+//#region node_modules/.nitro/vite/services/ssr/assets/_slug-KDx9668b.js
 var import_react = /* @__PURE__ */ __toESM(require_react());
 var import_jsx_runtime = require_jsx_runtime();
 function sourceLabel(source) {
@@ -984,46 +984,82 @@ function HackExtras({ slug }) {
 	});
 	if (slug === "fasting") return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 		className: "mt-10 space-y-10",
-		children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("figure", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(EnlargeableImage, {
-			src: "/images/hacks-fasting-evidence.png",
-			alt: "Fasting: what changes and what is proven. Longer fast means deeper metabolic change, not automatically greater health benefit. Overnight 12–14 hours, time-restricted 14–16 hours, periodic 24 hours, extended 36–48 hours, prolonged around 72 hours. Autophagy is cellular recycling, not a magic switch."
-		}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("figcaption", {
-			className: "mt-3 text-xs tracking-wide text-muted",
-			children: "Sources: PMID 29754952 · PMID 28459931 · PMID 38429390 · NIH News in Health"
-		})] }), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
-			/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-				className: "text-xs font-medium tracking-widest text-muted uppercase",
-				children: "The styles"
-			}),
-			/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-				className: "mt-3 text-lg leading-relaxed text-muted",
-				children: "This is the menu of styles. Each one will get its own write-up — what a Tuesday looks like, who it actually fits, and how to keep protein from falling off a cliff. For now, pick the clock. The rest is coming."
-			}),
-			/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-				className: "mt-8 grid gap-4 sm:grid-cols-2",
-				children: fastingStyles.map((style) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("article", {
-					className: "rounded-xl bg-surface p-5 shadow-border sm:p-6",
-					children: [
-						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-							className: "font-display text-2xl font-semibold tracking-wide text-accent",
-							children: style.name
-						}),
-						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-							className: "mt-1 text-xs font-medium tracking-widest text-muted uppercase",
-							children: style.window
-						}),
-						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-							className: "mt-3 leading-relaxed text-muted",
-							children: style.blurb
-						})
-					]
-				}, style.id))
-			}),
-			/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-				className: "mt-10 text-sm leading-relaxed text-muted",
-				children: "Credit where it is due: 16:8 comes from Lean Gains. Eat Stop Eat is Brad Pilon's. I did not invent these protocols — I am the middleman."
+		children: [
+			/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("figure", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(EnlargeableImage, {
+				src: "/images/hacks-fasting-evidence.png",
+				alt: "Fasting: what changes and what is proven. Longer fast means deeper metabolic change, not automatically greater health benefit. Overnight 12–14 hours, time-restricted 14–16 hours, periodic 24 hours, extended 36–48 hours, prolonged around 72 hours. Autophagy is cellular recycling, not a magic switch."
+			}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("figcaption", {
+				className: "mt-3 text-xs tracking-wide text-muted",
+				children: "Sources: PMID 29754952 · PMID 28459931 · PMID 38429390 · NIH News in Health"
+			})] }),
+			/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
+				/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+					className: "text-xs font-medium tracking-widest text-muted uppercase",
+					children: "The styles"
+				}),
+				/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+					className: "mt-3 text-lg leading-relaxed text-muted",
+					children: "This is the menu of styles. Each one will get its own write-up — what a Tuesday looks like, who it actually fits, and how to keep protein from falling off a cliff. For now, pick the clock. The rest is coming."
+				}),
+				/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+					className: "mt-8 grid gap-4 sm:grid-cols-2",
+					children: fastingStyles.map((style) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("article", {
+						className: "rounded-xl bg-surface p-5 shadow-border sm:p-6",
+						children: [
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+								className: "font-display text-2xl font-semibold tracking-wide text-accent",
+								children: style.name
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+								className: "mt-1 text-xs font-medium tracking-widest text-muted uppercase",
+								children: style.window
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+								className: "mt-3 leading-relaxed text-muted",
+								children: style.blurb
+							})
+						]
+					}, style.id))
+				}),
+				/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+					className: "mt-10 text-sm leading-relaxed text-muted",
+					children: "Credit where it is due: 16:8 comes from Lean Gains. Eat Stop Eat is Brad Pilon's. I did not invent these protocols — I am the middleman."
+				})
+			] }),
+			/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+				id: "psmf",
+				children: [
+					/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+						className: "text-xs font-medium tracking-widest text-muted uppercase",
+						children: "An example"
+					}),
+					/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h2", {
+						className: "mt-3 font-display text-3xl font-semibold tracking-wide uppercase",
+						children: "Protein-sparing modified fast"
+					}),
+					/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+						className: "mt-4 space-y-4 text-lg leading-relaxed text-muted",
+						children: [
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { children: "The styles above shrink the hours you eat. A protein-sparing modified fast shrinks the calories hard while trying not to eat your own muscle to do it." }),
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { children: "It is a very-low-energy phase built around lean protein. Carbohydrate and added fat stay very low on purpose, so more of the energy gap has to come from stored body fat. That is the “modified” part. You are still eating. This is not a water fast, and it is not high-fat keto." }),
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { children: "Three levers: enough protein to spare lean tissue, carbs mostly from non-starchy vegetables, and almost no oils, butter, nuts, or fatty cuts. Repeatable meals look boring on purpose — chicken and broccoli, egg-white scramble, tuna and nonfat yogurt, extra-lean beef with cabbage. Season with mustard, salsa, vinegar, pickles, herbs. The sauces are where this dies." }),
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { children: "Protein-sparing is the goal, not a guarantee. Resistance training and enough protein help. Fluids, electrolytes, and an exit plan are not optional. Traditional clinical programs can run under 800 calories a day. Do not start one of those without medical supervision. Diabetes medications, diuretics, SGLT2 inhibitors, kidney or liver disease, gout, gallstones, pregnancy, breastfeeding, older or frail adults, and a history of disordered eating are all reasons this is not a DIY project." }),
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { children: "This is a short-term tool. It is not a personality, and it is not the diet you live on after the fat comes off. Refeed. Then a sustainable high-protein deficit. Then maintenance." })
+						]
+					}),
+					/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("figure", {
+						className: "mt-8",
+						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(EnlargeableImage, {
+							src: "/images/hacks-psmf.png",
+							alt: "What is a protein-sparing modified fast? A short, aggressive fat-loss phase built around high lean protein, very low carbohydrate, and very low added fat, with repeatable meals, limits, monitoring, and an exit plan. Not a zero-food fast, not keto, and not a forever diet."
+						}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("figcaption", {
+							className: "mt-3 text-xs tracking-wide text-muted",
+							children: "Educational only. Cleveland Clinic PSMF program · Chang & Kashyap, CCJM · PSMF clinical literature"
+						})]
+					})
+				]
 			})
-		] })]
+		]
 	});
 	if (slug === "exercise") return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(NerdStepper, {
 		topicId: "exercise",

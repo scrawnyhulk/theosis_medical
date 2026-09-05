@@ -2,10 +2,10 @@ import { t as coachingAgreement } from "./visits-BPR-9BBc.mjs";
 import { _ as Link } from "../_libs/@tanstack/react-router+[...].mjs";
 import { i as require_jsx_runtime } from "../_libs/@radix-ui/react-label+[...].mjs";
 import { C as ArrowRight, s as Star } from "../_libs/lucide-react.mjs";
-import { r as SiteShell } from "./site-shell-C4mQJBZr.mjs";
+import { r as SiteShell } from "./site-shell-CtXFxL8f.mjs";
 import { t as PlaygroundBanner } from "./playground-banner-CTrUT8xW.mjs";
 import { t as SesameMark } from "./sesame-mark-zKxQdq97.mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/visits-CaY1s0Os.js
+//#region node_modules/.nitro/vite/services/ssr/assets/visits-C4aC4NKO.js
 var import_jsx_runtime = require_jsx_runtime();
 function VisitsHub() {
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(SiteShell, { children: [

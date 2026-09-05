@@ -1,12 +1,12 @@
 import { i as __toESM } from "../_runtime.mjs";
-import { C as nerdTopics, S as nerdGroups, h as hacksIntro, l as getHack, m as hacks, x as nerdCovers } from "./minutes-C1UNf1GV.mjs";
+import { C as nerdTopics, S as nerdGroups, h as hacksIntro, l as getHack, m as hacks, x as nerdCovers } from "./minutes-CTL0zzDu.mjs";
 import { r as require_react } from "../_libs/@hookform/resolvers+[...].mjs";
 import { _ as Link } from "../_libs/@tanstack/react-router+[...].mjs";
 import { i as require_jsx_runtime } from "../_libs/@radix-ui/react-label+[...].mjs";
 import { C as ArrowRight, b as ChevronLeft, w as ArrowLeft, y as ChevronRight } from "../_libs/lucide-react.mjs";
-import { n as HacksPlaque, r as SiteShell } from "./site-shell-C4mQJBZr.mjs";
+import { n as HacksPlaque, r as SiteShell } from "./site-shell-CtXFxL8f.mjs";
 import { t as NerdParagraph } from "./nerd-paragraph-yTlgbarp.mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/nerd-out.index-CwcHdLOd.js
+//#region node_modules/.nitro/vite/services/ssr/assets/nerd-out.index-El0oq1c8.js
 var import_react = /* @__PURE__ */ __toESM(require_react());
 var import_jsx_runtime = require_jsx_runtime();
 var slides = nerdGroups.flatMap((group) => group.topicIds.map((id) => {

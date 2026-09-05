@@ -1,11 +1,11 @@
-import { u as getMinute, y as minutesIntro } from "./_ssr/minutes-C1UNf1GV.mjs";
+import { u as getMinute, y as minutesIntro } from "./_ssr/minutes-CTL0zzDu.mjs";
 import { _ as Link } from "./_libs/@tanstack/react-router+[...].mjs";
 import { i as require_jsx_runtime } from "./_libs/@radix-ui/react-label+[...].mjs";
 import { w as ArrowLeft } from "./_libs/lucide-react.mjs";
-import { a as Route$7 } from "./_ssr/router-CCme6peK.mjs";
-import { r as SiteShell, t as Button } from "./_ssr/site-shell-C4mQJBZr.mjs";
-import { n as NerdStepper, t as EnlargeableImage } from "./_ssr/nerd-stepper-VJt_mfZG.mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/_slug-C4QjPytN.js
+import { a as Route$7 } from "./_ssr/router-BqljcClt.mjs";
+import { r as SiteShell, t as Button } from "./_ssr/site-shell-CtXFxL8f.mjs";
+import { n as NerdStepper, t as EnlargeableImage } from "./_ssr/nerd-stepper-if8VwVcu.mjs";
+//#region node_modules/.nitro/vite/services/ssr/assets/_slug-CNfOfTgm.js
 var import_jsx_runtime = require_jsx_runtime();
 function MinutePage() {
 	const { slug } = Route$7.useParams();
@@ -51,6 +51,10 @@ function MinutePage() {
 				className: "mt-5 text-xl leading-relaxed text-fg",
 				children: minute.lede
 			}),
+			minute.cardNote ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+				className: "mt-3 text-[10px] leading-snug tracking-[0.18em] text-muted uppercase",
+				children: minute.cardNote
+			}) : null,
 			/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
 				className: "mt-8 space-y-5 text-lg leading-relaxed text-muted",
 				children: minute.paragraphs.map((p) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { children: p }, p.slice(0, 36)))
