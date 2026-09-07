@@ -136,6 +136,14 @@ export const minutes: Minute[] = [
     image: "/images/minutes-sprain.png",
     imageAlt:
       "Infographic: sprain versus strain. Muscle strain, tendon strain, and ligament sprain, why collagen healing takes weeks, what actually helps, and red flags that need an exam.",
+    extraImages: [
+      {
+        src: "/images/minutes-sprain-fibers.png",
+        alt: "Infographic: strain versus sprain at the fiber level. Torn muscle fibers versus torn ligament fibers, why it hurts, and why healing takes weeks to months — cleanup, rebuild, strengthen.",
+        credit:
+          "Simplified microscopic illustrations — educational, not to scale. Sources: AAOS OrthoInfo · Hospital for Special Surgery.",
+      },
+    ],
   },
   {
     slug: "ct",
