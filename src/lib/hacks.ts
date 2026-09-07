@@ -208,7 +208,7 @@ paragraphs: [
     paragraphs: [
       "Another tool in the toolbelt of trying to live a healthful life in the midst of a chaotic one, is fasting. Contrary to what you might think, I have found this to be the easiest hack to adopt and maintain for over 15 years.",
       "At first it may seem a bit tough if you are used to eating all throughout the day, but even just starting by skipping breakfast and eating lunch as your first meal will improve your metabolic flexibility.",
-      "What is metabolic flexibility you might ask? This is the ability to seamlessly switch to fat burning when we haven't eaten in a while and to go back and forth between fat and carbs for fuel without feeling hangry or fatigued. See below for more...",
+      "What is metabolic flexibility you might ask? This is the ability to seamlessly switch to fat burning when we haven't eaten in a while and to go back and forth between fat and carbs for fuel without feeling hangry or fatigued.",
       "Intermittent fasting is not one diet. It is a family of eating windows. 16:8, 18:6, OMAD, 5:2, alternate-day — they all shrink the hours (or the days) you eat. The style is a tool. The deficit is still the point.",
       "I am going to walk through the main styles here so you can see what they actually look like on a Tuesday, not just on an infographic. Pick the one that fits a shift, a hotel breakfast, or a house full of kids. If it does not fit real life, it is not your hack.",
       "Protein still comes first inside the window. Water, coffee, unsweetened tea outside it. This is not a medical protocol, and it is not for everyone — pregnancy, a history of disordered eating, some diabetes meds, and a few other situations mean you talk to your own clinician first.",
