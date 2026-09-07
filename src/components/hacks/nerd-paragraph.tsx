@@ -8,6 +8,7 @@ const tokens: Record<
   hormozi: { kind: "hack", slug: "where-to-start", hash: "hormozi", label: "Go back here" },
   a1c: { kind: "nerd", topic: "a1c", label: "hemoglobin A1c" },
   takeout: { kind: "hack", slug: "fast-food", label: "takeout splurges" },
+  flex: { kind: "hack", slug: "fasting", hash: "metabolic-flexibility", label: "metabolic flexibility" },
   energy: { kind: "nerd", topic: "energy", label: "energy" },
   sweeteners: { kind: "nerd", topic: "sweeteners", label: "What are they, exactly?" },
   diabetes: { kind: "nerd", topic: "personal-fat-threshold", label: "causes type 2 diabetes" },

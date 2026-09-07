@@ -291,6 +291,15 @@ function HackExtras({ slug }: { slug: HackSlug }) {
   if (slug === "fasting") {
     return (
       <div className="mt-10 space-y-10">
+        <figure id="metabolic-flexibility" className="scroll-mt-28">
+          <EnlargeableImage
+            src="/images/hacks-metabolic-flexibility.png"
+            alt="Metabolic flexibility: your body’s ability to adjust its fuel mix between fat and carbohydrate as food availability and activity change. Flexible fuel use versus less flexible, and how to support it with movement, strength, matching intake, and sleep."
+          />
+          <figcaption className="mt-3 text-xs tracking-wide text-muted">
+            Simplified physiology. Sources: Goodpaster & Sparks, Cell Metabolism (2017) · Smith et al., Endocrine Reviews (2018)
+          </figcaption>
+        </figure>
         <figure>
           <EnlargeableImage
             src="/images/hacks-fasting-evidence.png"
