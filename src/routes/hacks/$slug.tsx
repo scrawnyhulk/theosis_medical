@@ -81,17 +81,27 @@ function HackPage() {
           All Holwey’s Handy Health Hacks
         </Link>
         {hack.slug === "tldr" ? (
-          <div className="mt-8">
+          <div className="relative mt-8">
             <EnlargeableImage
               src="/images/hack-tldr-hero.png"
               alt="The short list: protein food, lifting, walking, sleep, and a body running on those habits."
             />
+            <div className="pointer-events-none absolute inset-0 rounded-xl bg-gradient-to-t from-ink via-ink/30 to-transparent" />
+            <div className="pointer-events-none absolute inset-x-0 bottom-0 max-w-[70%] p-5 sm:p-8">
+              <p className="font-display text-3xl font-semibold text-accent">{hack.n}</p>
+              <h1 className="mt-1 font-display text-5xl font-semibold tracking-wide text-ink-fg uppercase sm:text-6xl">
+                {hack.title}
+              </h1>
+            </div>
           </div>
-        ) : null}
-        <p className="mt-8 font-display text-3xl font-semibold text-accent">{hack.n}</p>
-        <h1 className="mt-2 font-display text-4xl font-semibold tracking-wide sm:text-5xl">
-          {hack.title}
-        </h1>
+        ) : (
+          <>
+            <p className="mt-8 font-display text-3xl font-semibold text-accent">{hack.n}</p>
+            <h1 className="mt-2 font-display text-4xl font-semibold tracking-wide sm:text-5xl">
+              {hack.title}
+            </h1>
+          </>
+        )}
         {hack.stolenFrom ? (
           <p className="mt-4 text-xs font-medium tracking-widest text-accent uppercase">
             {creditKicker(hack.stolenFrom, hack.jokeSteal)}
