@@ -7,14 +7,14 @@ import { cn } from "@/lib/utils";
 const goals = [
   {
     id: "extreme-loss",
-    label: "Extreme weight loss",
+    label: "Extreme fat loss",
     multiplier: 8,
     band: "7–9",
     hint: "Bottom of the spectrum. Body weight × 7, 8, or 9. Using 8 here. If it drops too fast, step up.",
   },
   {
     id: "moderate-loss",
-    label: "Moderate weight loss",
+    label: "Moderate fat loss",
     multiplier: 10,
     band: "10–12",
     hint: "The 10× walkthrough in the video. 10, 11, or 12. Using 10 because the math is clean. Lose too fast? Bump to 11 or 12.",
