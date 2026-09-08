@@ -80,6 +80,14 @@ function HackPage() {
           <ArrowLeft className="size-4" />
           All Holwey’s Handy Health Hacks
         </Link>
+        {hack.slug === "tldr" ? (
+          <div className="mt-8">
+            <EnlargeableImage
+              src="/images/hack-tldr-hero.png"
+              alt="The short list: protein food, lifting, walking, sleep, and a body running on those habits."
+            />
+          </div>
+        ) : null}
         <p className="mt-8 font-display text-3xl font-semibold text-accent">{hack.n}</p>
         <h1 className="mt-2 font-display text-4xl font-semibold tracking-wide sm:text-5xl">
           {hack.title}
