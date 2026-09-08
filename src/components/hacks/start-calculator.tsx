@@ -117,6 +117,9 @@ export function StartCalculator({ compact = false }: { compact?: boolean }) {
           Fat loss and diabetes reversal use the same calorie math. Extreme is the aggressive reversal target. Moderate is the moderate one.
         </p>
         <p className="mt-2 text-sm text-muted">{goal.hint}</p>
+        <p className="mt-4 max-w-xl text-sm leading-relaxed text-warn">
+          If you take insulin or other medicines that lower blood sugar, do not start a drastic calorie cut without talking with your physician first. The dose that fit your old diet can drop glucose too far once you eat less.
+        </p>
       </div>
       {result ? (
         <dl className="mt-8 grid gap-4 sm:grid-cols-3">
