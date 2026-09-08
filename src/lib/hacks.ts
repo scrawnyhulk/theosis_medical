@@ -151,11 +151,11 @@ paragraphs: [
     slug: "protein-per-pound",
     n: "04",
     title: "One Gram Per Pound",
-    lede: "Eat about 1 gram of protein per pound of body weight. If you have a lot to lose, using a goal weight is reasonable.",
+    lede: "Eat about 1 gram of protein per pound of body weight — goal weight is fine if you have a lot to lose. Individuals over 60 years old may need even more.",
     stolenFrom: "Alex Hormozi, Dr. Ted Naiman, and the protein-first crowd",
 paragraphs: [
       "If you weigh 180 pounds, aim for about 180 grams of protein across the day. Not in one sitting. Spread it out so you are not trying to choke down a Costco chicken at 9 p.m.",
-      "If you are carrying a lot of extra weight, using a goal or “ideal” weight for that gram-per-pound number is a reasonable way to start. The point is a high-protein floor, not a contest.",
+      "If you are carrying a lot of extra weight, using a goal or “ideal” weight for that gram-per-pound number is a reasonable way to start. The point is a high-protein floor, not a contest. Individuals over 60 years old may need even more.",
       "Why this works: protein is filling, it protects muscle, and it makes “eat less junk” a lot easier without a spreadsheet diet. Control protein and calories first. Then let carbs and fat be whatever is easiest to maintain.",
       "This is a target, not a religion. If you have kidney disease or another condition your clinician is managing where you have been told to restrict or monitor protein, this is not your plan. Ask them.",
       "And if you still are listening to the person regurgitating myths from the 80's, read/watch below:",
@@ -1381,7 +1381,7 @@ export const tldrItems: { slug: HackSlug; line: string }[] = [
   },
   {
     slug: "protein-per-pound",
-    line: "About 1 gram of protein per pound — goal weight is fine if you have a lot to lose.",
+    line: "Eat about 1 gram of protein per pound of body weight — goal weight is fine if you have a lot to lose. Individuals over 60 years old may need even more.",
   },
   {
     slug: "protein-label",

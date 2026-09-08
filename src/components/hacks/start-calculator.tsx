@@ -128,7 +128,11 @@ export function StartCalculator({ compact = false }: { compact?: boolean }) {
             value={String(result.calories)}
             note={`${goal.multiplier} × body weight`}
           />
-          <Stat label="Protein" value={`${result.protein} g`} note="1 g per pound" />
+          <Stat
+            label="Protein"
+            value={`${result.protein} g`}
+            note="About 1 g per pound. Goal weight is fine if you have a lot to lose. Over 60 may need more."
+          />
           <Stat
             label="Leftover after protein"
             value={`${result.remaining} cal`}
