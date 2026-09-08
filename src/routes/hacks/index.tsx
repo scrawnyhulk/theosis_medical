@@ -42,7 +42,7 @@ function HackCoverCard({
         <span className={`relative z-10 flex h-full min-h-11 flex-col justify-end p-6 sm:p-8 ${featured ? "sm:p-10" : ""}`}>
           {featured ? (
             <span className="text-xs font-medium tracking-widest text-accent uppercase">
-              {hack.slug === "why-hard" ? "Read this first" : "Start here"}
+              {hack.slug === "why-hard" ? "Read this first" : hack.slug === "tldr" ? "Give this to people" : "Start here"}
             </span>
           ) : null}
           <span className={`font-display font-semibold text-accent ${featured ? "mt-3 text-4xl sm:text-5xl" : "text-3xl"}`}>
@@ -119,7 +119,9 @@ function HacksHub() {
 
       <section className="mx-auto max-w-6xl px-5 py-16 sm:px-8 lg:py-24">
         <p className="text-xs font-medium tracking-widest text-muted uppercase">Pick a hack</p>
-        {tldr ? (
+        {tldr && hackCovers[tldr.slug] ? (
+          <HackCoverCard hack={tldr} featured />
+        ) : tldr ? (
           <Link
             to="/hacks/$slug"
             params={{ slug: "tldr" }}
