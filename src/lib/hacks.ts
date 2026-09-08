@@ -1389,7 +1389,7 @@ export const tldrItems: { slug: HackSlug; line: string }[] = [
   },
   {
     slug: "staples",
-    line: "Greek yogurt, tuna, chicken, egg whites, Fairlife, Legendary pastries — and anything else that hits the protein × 10 trick. If it passes that test, it works.",
+    line: "Greek yogurt, tuna, chicken, steak, egg whites, Fairlife milk, Legendary pastries — and anything else that hits the protein × 10 trick. If it passes that test, it works.",
   },
   {
     slug: "exercise",
