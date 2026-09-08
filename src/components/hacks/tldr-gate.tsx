@@ -93,13 +93,13 @@ export function TldrGate() {
               If not, a plethora of info awaits ahead.
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
-              <Button asChild size="lg">
+              <Button type="button" size="lg" onClick={dismiss}>
+                I want to get wicked smaht!
+              </Button>
+              <Button asChild size="lg" variant="onInkOutline">
                 <Link to="/hacks/$slug" params={{ slug: "tldr" }} onClick={dismiss}>
                   Show me the short list
                 </Link>
-              </Button>
-              <Button type="button" variant="onInkOutline" size="lg" onClick={dismiss}>
-                I’ll take the long way
               </Button>
             </div>
           </div>
