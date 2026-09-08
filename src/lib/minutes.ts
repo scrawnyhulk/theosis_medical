@@ -269,6 +269,9 @@ export const minutes: Minute[] = [
     n: "10",
     title: "What Is Peritonitis?",
     lede: "The abdominal pain you can't ignore — and how it happens.",
+    cover: "/images/minutes-peritonitis-cover.png",
+    coverAlt:
+      "Open abdomen showing inflamed organs and a close-up of the peritoneum, the thin lining around the abdominal cavity.",
     paragraphs: [
       "The abdomen has a thin, slippery lining called the peritoneum. One layer coats the inner wall. The other wraps the organs. Between them is a tiny space with just enough fluid for everything to glide. Peritonitis is inflammation of that lining. It can stay next to one angry organ, or it can spread across the whole cavity.",
       "It usually starts local. An organ gets inflamed — appendix, gallbladder, a diverticulum, a stomach ulcer. The nearby peritoneum reacts. If something leaks or ruptures, acid, bile, pus, bacteria, or stool hit a space that was never meant to see them. Inflammation then spreads. See below for a visual on how this looks...",
