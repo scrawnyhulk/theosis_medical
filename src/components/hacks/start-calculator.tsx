@@ -11,7 +11,7 @@ const goals = [
     also: "Aggressive diabetes reversal",
     multiplier: 8,
     band: "7–9",
-    hint: "Calories = body weight × 8. Range 7–9. Too fast? Step up.",
+    hint: "At this goal, calories are body weight × 7–9. Shown is 8. Too fast? Increase to 9.",
   },
   {
     id: "moderate-loss",
@@ -19,28 +19,28 @@ const goals = [
     also: "Moderate diabetes reversal",
     multiplier: 10,
     band: "10–12",
-    hint: "Calories = body weight × 10. Range 10–12. Too fast? Step up.",
+    hint: "At this goal, calories are body weight × 10–12. Shown is 10. Too fast? Increase to 11 or 12.",
   },
   {
     id: "maintenance",
     label: "Maintenance",
     multiplier: 14,
     band: "13–15",
-    hint: "Calories = body weight × 14. Range 13–15.",
+    hint: "At this goal, calories are body weight × 13–15. Shown is 14.",
   },
   {
     id: "moderate-gain",
     label: "Moderate weight gain",
     multiplier: 17,
     band: "16–18",
-    hint: "Calories = body weight × 17. Range 16–18.",
+    hint: "At this goal, calories are body weight × 16–18. Shown is 17.",
   },
   {
     id: "extreme-gain",
     label: "Extreme weight gain",
     multiplier: 20,
     band: "19–21",
-    hint: "Calories = body weight × 20. Range 19–21.",
+    hint: "At this goal, calories are body weight × 19–21. Shown is 20.",
   },
 ] as const;
 
