@@ -1369,11 +1369,11 @@ export const tldrItems: { slug: HackSlug; line: string }[] = [
   },
   {
     slug: "where-to-start",
-    line: "Pick a calorie target. Hit protein. Spend the rest on whatever still fits.",
+    line: "Pick your calorie target per day based on your goals.",
   },
   {
     slug: "dont-drink-calories",
-    line: "Water, coffee, tea, diet soda. Hunger does not count a drink as a meal.",
+    line: "Water, coffee, tea, diet soda. This is low-hanging fruit and can easily chisel off thousands of calories per week from your current diet.",
   },
   {
     slug: "protein-per-pound",
@@ -1381,7 +1381,7 @@ export const tldrItems: { slug: HackSlug; line: string }[] = [
   },
   {
     slug: "protein-label",
-    line: "Protein grams × 10 versus calories. If protein wins, buy it.",
+    line: "Look at the nutrition label. Add a zero to the protein grams. If that number is the same as or higher than the calories, it is 40% or more protein — a great fat-loss food.",
   },
   {
     slug: "fast-food",

@@ -3,7 +3,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
 
-export function ProteinLabelTool() {
+export function ProteinLabelTool({ compact = false }: { compact?: boolean }) {
   const [calories, setCalories] = useState("");
   const [protein, setProtein] = useState("");
 
@@ -50,26 +50,30 @@ export function ProteinLabelTool() {
   };
 
   return (
-    <div className="rounded-xl bg-surface p-5 shadow-border sm:p-8">
-      <p className="text-xs font-medium tracking-widest text-muted uppercase">Try a label</p>
-      <h3 className="mt-2 font-display text-3xl font-semibold tracking-wide">Protein × 10 vs calories</h3>
-      <p className="mt-3 max-w-xl text-muted">
-        Pull two numbers off the panel. Hitting × 10 (40% protein) is the ideal. 30% or more is still fine.
-      </p>
-      <div className="mt-6 grid gap-5 sm:grid-cols-2">
+    <div className={compact ? "" : "rounded-xl bg-surface p-5 shadow-border sm:p-8"}>
+      {compact ? null : (
+        <>
+          <p className="text-xs font-medium tracking-widest text-muted uppercase">Try a label</p>
+          <h3 className="mt-2 font-display text-3xl font-semibold tracking-wide">Protein × 10 vs calories</h3>
+          <p className="mt-3 max-w-xl text-muted">
+            Pull two numbers off the panel. Hitting × 10 (40% protein) is the ideal. 30% or more is still fine.
+          </p>
+        </>
+      )}
+      <div className={compact ? "grid gap-5 sm:grid-cols-2" : "mt-6 grid gap-5 sm:grid-cols-2"}>
         <div>
-          <Label htmlFor="hack-calories">Calories per serving</Label>
+          <Label htmlFor={compact ? "tldr-hack-calories" : "hack-calories"}>Calories per serving</Label>
           <Input
-            id="hack-calories"
+            id={compact ? "tldr-hack-calories" : "hack-calories"}
             inputMode="decimal"
             value={calories}
             onChange={(e) => setCalories(e.target.value)}
           />
         </div>
         <div>
-          <Label htmlFor="hack-protein">Protein grams per serving</Label>
+          <Label htmlFor={compact ? "tldr-hack-protein" : "hack-protein"}>Protein grams per serving</Label>
           <Input
-            id="hack-protein"
+            id={compact ? "tldr-hack-protein" : "hack-protein"}
             inputMode="decimal"
             value={protein}
             onChange={(e) => setProtein(e.target.value)}

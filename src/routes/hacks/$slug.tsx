@@ -193,12 +193,13 @@ function HackExtras({ slug }: { slug: HackSlug }) {
           {tldrItems.map((item) => {
             const hack = getHack(item.slug);
             if (!hack) return null;
+            const hasTool = item.slug === "where-to-start" || item.slug === "protein-label";
             return (
-              <li key={item.slug}>
+              <li key={item.slug} className="rounded-xl bg-surface p-5 shadow-border sm:p-6">
                 <Link
                   to="/hacks/$slug"
                   params={{ slug: item.slug }}
-                  className="group flex min-h-11 gap-4 rounded-xl bg-surface p-5 shadow-border transition-colors duration-150 hover:bg-fg/5 sm:p-6"
+                  className="group flex min-h-11 gap-4"
                 >
                   <span className="font-display text-2xl font-semibold text-accent">{hack.n}</span>
                   <span className="min-w-0">
@@ -212,6 +213,12 @@ function HackExtras({ slug }: { slug: HackSlug }) {
                     </span>
                   </span>
                 </Link>
+                {hasTool ? (
+                  <div className="mt-5 border-t border-border pt-5">
+                    {item.slug === "where-to-start" ? <StartCalculator compact /> : null}
+                    {item.slug === "protein-label" ? <ProteinLabelTool compact /> : null}
+                  </div>
+                ) : null}
               </li>
             );
           })}

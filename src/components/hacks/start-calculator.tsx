@@ -42,7 +42,7 @@ const goals = [
   },
 ] as const;
 
-export function StartCalculator() {
+export function StartCalculator({ compact = false }: { compact?: boolean }) {
   const [pounds, setPounds] = useState("180");
   const [goalId, setGoalId] = useState<(typeof goals)[number]["id"]>("moderate-loss");
 
@@ -59,19 +59,23 @@ export function StartCalculator() {
   }, [pounds, goal.multiplier]);
 
   return (
-    <div className="rounded-xl bg-surface p-5 shadow-border sm:p-8">
-      <p className="text-xs font-medium tracking-widest text-muted uppercase">Your numbers</p>
-      <h3 className="mt-2 font-display text-3xl font-semibold tracking-wide">
-        Goal → calories → protein
-      </h3>
-      <p className="mt-3 max-w-xl text-muted">
-        Same math as the video: body weight × a number from 7 to 21, then 1 g of protein per pound.
-        Every three steps on that scale is a different goal. Leftover calories are ordinary food.
-      </p>
-      <div className="mt-6 max-w-xs">
-        <Label htmlFor="start-pounds">Body weight (pounds)</Label>
+    <div className={compact ? "" : "rounded-xl bg-surface p-5 shadow-border sm:p-8"}>
+      {compact ? null : (
+        <>
+          <p className="text-xs font-medium tracking-widest text-muted uppercase">Your numbers</p>
+          <h3 className="mt-2 font-display text-3xl font-semibold tracking-wide">
+            Goal → calories → protein
+          </h3>
+          <p className="mt-3 max-w-xl text-muted">
+            Same math as the video: body weight × a number from 7 to 21, then 1 g of protein per pound.
+            Every three steps on that scale is a different goal. Leftover calories are ordinary food.
+          </p>
+        </>
+      )}
+      <div className={compact ? "max-w-xs" : "mt-6 max-w-xs"}>
+        <Label htmlFor={compact ? "tldr-start-pounds" : "start-pounds"}>Body weight (pounds)</Label>
         <Input
-          id="start-pounds"
+          id={compact ? "tldr-start-pounds" : "start-pounds"}
           inputMode="decimal"
           value={pounds}
           onChange={(e) => setPounds(e.target.value)}
