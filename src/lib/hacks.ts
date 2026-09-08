@@ -1389,15 +1389,15 @@ export const tldrItems: { slug: HackSlug; line: string }[] = [
   },
   {
     slug: "staples",
-    line: "Keep high-protein food in the house so the easy choice is the right one.",
+    line: "Greek yogurt, tuna, chicken, egg whites, Fairlife, Legendary pastries — and anything else that hits the protein × 10 trick. If it passes that test, it works.",
   },
   {
     slug: "exercise",
-    line: "The lifts you will actually do, plus walking. Not a six-day CrossFit religion.",
+    line: "One set to failure with rest-pause: a push, a pull, and a leg movement, 2–4 times per week.",
   },
   {
     slug: "fasting",
-    line: "Pick a clock you can keep. Protein inside the window. The deficit is still the point.",
+    line: "Narrow your eating window and skip a meal or two. Skip breakfast daily, eat one meal a day, or skip an entire day of eating once or twice a week. All of them decrease the amount of fuel going in so you can burn more going out.",
   },
 ];
 
