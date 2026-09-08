@@ -98,7 +98,7 @@ export function TldrGate() {
               </Button>
               <Button asChild size="lg" variant="onInkOutline">
                 <Link to="/hacks/$slug" params={{ slug: "tldr" }} onClick={dismiss}>
-                  Show me the short list
+                  Cliff notes for now
                 </Link>
               </Button>
             </div>
