@@ -45,7 +45,7 @@ const goals = [
 ] as const;
 
 export function StartCalculator({ compact = false }: { compact?: boolean }) {
-  const [pounds, setPounds] = useState("180");
+  const [pounds, setPounds] = useState("");
   const [goalId, setGoalId] = useState<(typeof goals)[number]["id"]>("moderate-loss");
 
   const goal = goals.find((g) => g.id === goalId) ?? goals[1];
