@@ -7,7 +7,8 @@ export type MinuteSlug =
   | "ct"
   | "sepsis"
   | "antibiotic-resistance"
-  | "how-antibiotics-work";
+  | "how-antibiotics-work"
+  | "peritonitis";
 
 export type MinuteStep = {
   title: string;
@@ -262,6 +263,26 @@ export const minutes: Minute[] = [
           "Simplified learning map — not a prescribing guide. Susceptibility, infection site, severity, patient factors, and local antibiograms determine real-world decisions. Current through 2026.",
       },
     ],
+  },
+  {
+    slug: "peritonitis",
+    n: "10",
+    title: "What Is Peritonitis?",
+    lede: "The abdominal pain you can't ignore — and how it happens.",
+    paragraphs: [
+      "The abdomen has a thin, slippery lining called the peritoneum. One layer coats the inner wall. The other wraps the organs. Between them is a tiny space with just enough fluid for everything to glide. Peritonitis is inflammation of that lining. It can stay next to one angry organ, or it can spread across the whole cavity.",
+      "It usually starts local. An organ gets inflamed — appendix, gallbladder, a diverticulum, a stomach ulcer. The nearby peritoneum reacts. If something leaks or ruptures, acid, bile, pus, bacteria, or stool hit a space that was never meant to see them. Inflammation then spreads. The bowel may temporarily stop moving: bloating, vomiting, no stool, no gas.",
+      "Four common setups in the ER: a perforated ulcer (upper abdomen, sudden severe pain), appendicitis (right lower), diverticulitis (often left lower), cholecystitis (right upper). Inflammation beside those organs is not automatically generalized peritonitis. A contained leak is not the same as stool free in the belly. That distinction changes how sick someone is and how fast we move.",
+      "Localized peritonitis: focal pain, tenderness, involuntary guarding over one spot. Generalized: diffuse severe pain, a rigid “board-like” abdomen, and the picture of looking septic. Movement, coughing, or bumps stretching those irritated surfaces makes it worse. Older adults, people on steroids, and immunocompromised patients can look deceptively quiet.",
+      "We find it with history, a real abdominal exam, and vital signs. Labs, ultrasound (especially gallbladder), and CT (free air, abscess, the diseased organ) support the diagnosis. An unstable patient may go to the OR before the pretty pictures.",
+      "Antibiotics do not seal a hole or drain an abscess. Treat the source: nothing by mouth, IV fluids, pain and nausea control, prompt antibiotics when infection is suspected, and urgent surgical consultation. Peritonitis without a perforation exists too — spontaneous bacterial peritonitis in cirrhosis, dialysis-related infection, chemical irritation from blood, bile, or pancreatic fluid.",
+      "Go to the ER now for sudden severe abdominal pain, a rigid abdomen, fainting, confusion, or abdominal pain with fever and vomiting. Peritonitis can progress to sepsis and shock.",
+    ],
+    image: "/images/minutes-peritonitis.png",
+    imageAlt:
+      "Infographic: what is peritonitis. The peritoneum, how a local problem spreads, four common examples, localized versus generalized, exam clues, how it is found, treat the source, and when to seek emergency care.",
+    imageCredit:
+      "Patient education only — not a diagnosis. Mayo Clinic · American Society of Colon and Rectal Surgeons · Merck Manual · World Society of Emergency Surgery guidance.",
   },
 ];
 

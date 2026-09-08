@@ -111,7 +111,7 @@ function MinutesHub() {
               />
               <span className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/35 to-black/10" />
               <span className="relative z-10 flex h-full min-h-11 flex-col justify-end p-6 sm:p-8">
-                <span className="font-display text-3xl font-semibold text-accent">10+</span>
+                <span className="font-display text-3xl font-semibold text-accent">11+</span>
                 <span className="mt-2 font-display text-3xl font-semibold tracking-wide text-white uppercase">
                   More to come
                 </span>
