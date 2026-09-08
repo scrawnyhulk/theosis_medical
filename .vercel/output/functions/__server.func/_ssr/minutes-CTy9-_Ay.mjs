@@ -1,4 +1,4 @@
-//#region node_modules/.nitro/vite/services/ssr/assets/minutes-CTL0zzDu.js
+//#region node_modules/.nitro/vite/services/ssr/assets/minutes-CTy9-_Ay.js
 var site = {
 	name: "Theosis Medical",
 	title: "Nick Holwey, PA-C — Theosis Medical",
@@ -139,6 +139,10 @@ function creditKicker(source, jokeSteal) {
 	return jokeSteal ? `Stolen from ${source}` : `Reference: ${source}`;
 }
 var hackCovers = {
+	tldr: {
+		src: "/images/hack-tldr-cover.png",
+		alt: "A funnel of papers, scans, and charts collapsing into a handful of practical moves: eat, lift, walk, sleep."
+	},
 	"why-hard": {
 		src: "/images/hack-why-hard-cover.png",
 		alt: "A 10,000 BC brain in a 2026 food world: hunter-gatherers on one side, delivery and drive-through on the other."
@@ -200,6 +204,14 @@ var hacksIntro = {
 	disclaimer: "General education, not a personal treatment plan. If you have a medical condition — kidneys, pregnancy, disordered eating, anything your clinician is already following — talk with them before you overhaul how you eat."
 };
 var hacks = [
+	{
+		slug: "tldr",
+		n: "00",
+		title: "TL;DR",
+		byline: "The whole playbook on one page",
+		lede: "This is the 20% that gives 80% of the results. Do this 80% of the time.",
+		paragraphs: ["If someone needs a quick reference on how to approach a healthier lifestyle in a hectic life, give them this and they can delve in further later if they want."]
+	},
 	{
 		slug: "why-hard",
 		n: "01",
@@ -313,6 +325,9 @@ var hacks = [
 		byline: "16:8, OMAD, 5:2, and the rest — pick a clock you can keep",
 		lede: "Different clocks. Same idea: a window you can actually keep.",
 		paragraphs: [
+			"Another tool in the toolbelt of trying to live a healthful life in the midst of a chaotic one, is fasting. Contrary to what you might think, I have found this to be the easiest hack to adopt and maintain for over 15 years.",
+			"At first it may seem a bit tough if you are used to eating all throughout the day, but even just starting by skipping breakfast and eating lunch as your first meal will improve your [[flex]].",
+			"What is [[flex]] you might ask? This is the ability to seamlessly switch to fat burning when we haven't eaten in a while and to go back and forth between fat and carbs for fuel without feeling hangry or fatigued.",
 			"Intermittent fasting is not one diet. It is a family of eating windows. 16:8, 18:6, OMAD, 5:2, alternate-day — they all shrink the hours (or the days) you eat. The style is a tool. The deficit is still the point.",
 			"I am going to walk through the main styles here so you can see what they actually look like on a Tuesday, not just on an infographic. Pick the one that fits a shift, a hotel breakfast, or a house full of kids. If it does not fit real life, it is not your hack.",
 			"Protein still comes first inside the window. Water, coffee, unsweetened tea outside it. This is not a medical protocol, and it is not for everyone — pregnancy, a history of disordered eating, some diabetes meds, and a few other situations mean you talk to your own clinician first."
@@ -1995,6 +2010,44 @@ var readingList = [{
 	authors: "Dr. Ted Naiman",
 	why: "Why some food shuts hunger down per calorie and some food does not. Same instinct as the hacks, with more of the why."
 }];
+var tldrItems = [
+	{
+		slug: "why-hard",
+		line: "This is biology, not a character flaw. Carb plus fat together hijacks the brain. Know that first."
+	},
+	{
+		slug: "where-to-start",
+		line: "Pick your calorie target per day based on your goals."
+	},
+	{
+		slug: "dont-drink-calories",
+		line: "Water, coffee, tea, diet soda. This is low-hanging fruit and can easily chisel off thousands of calories per week from your current diet."
+	},
+	{
+		slug: "protein-per-pound",
+		line: "About 1 gram of protein per pound — goal weight is fine if you have a lot to lose."
+	},
+	{
+		slug: "protein-label",
+		line: "Look at the nutrition label. Add a zero to the protein grams. If that number is the same as or higher than the calories, it is 40% or more protein — a great fat-loss food."
+	},
+	{
+		slug: "fast-food",
+		line: "Extra meat, no bun, skip the fries, diet drink."
+	},
+	{
+		slug: "staples",
+		line: "Greek yogurt, tuna, chicken, steak, egg whites, Fairlife milk, Legendary pastries — and anything else that hits the protein × 10 trick. If it passes that test, it works."
+	},
+	{
+		slug: "exercise",
+		line: "One set to failure with rest-pause: a push, a pull, and a leg movement, 2–4 times per week."
+	},
+	{
+		slug: "fasting",
+		line: "Narrow your eating window and skip a meal or two. Skip breakfast daily, eat one meal a day, or skip an entire day of eating once or twice a week. All of them decrease the amount of fuel going in so you can burn more going out."
+	}
+];
 function getHack(slug) {
 	return hacks.find((h) => h.slug === slug);
 }
@@ -2087,7 +2140,12 @@ var minutes = [
 			"Get checked for deformity, numbness, major weakness, inability to bear weight, a pop with lost function, or an injury that is worsening or not improving."
 		],
 		image: "/images/minutes-sprain.png",
-		imageAlt: "Infographic: sprain versus strain. Muscle strain, tendon strain, and ligament sprain, why collagen healing takes weeks, what actually helps, and red flags that need an exam."
+		imageAlt: "Infographic: sprain versus strain. Muscle strain, tendon strain, and ligament sprain, why collagen healing takes weeks, what actually helps, and red flags that need an exam.",
+		extraImages: [{
+			src: "/images/minutes-sprain-fibers.png",
+			alt: "Infographic: strain versus sprain at the fiber level. Torn muscle fibers versus torn ligament fibers, why it hurts, and why healing takes weeks to months — cleanup, rebuild, strengthen.",
+			credit: "Simplified microscopic illustrations — educational, not to scale. Sources: AAOS OrthoInfo · Hospital for Special Surgery."
+		}]
 	},
 	{
 		slug: "ct",
@@ -2186,10 +2244,22 @@ var minutes = [
 				imageCredit: "Simplified learning map — not a prescribing guide. Susceptibility, infection site, severity, patient factors, and local antibiograms determine real-world decisions. Current through 2026."
 			}
 		]
+	},
+	{
+		slug: "peritonitis",
+		n: "10",
+		title: "What Is Peritonitis?",
+		lede: "The abdominal pain you can't ignore — and how it happens.",
+		cover: "/images/minutes-peritonitis-cover.png",
+		coverAlt: "Open abdomen showing inflamed organs and a close-up of the peritoneum, the thin lining around the abdominal cavity.",
+		paragraphs: ["The abdomen has a thin, slippery lining called the peritoneum. One layer coats the inner wall. The other wraps the organs. Between them is a tiny space with just enough fluid for everything to glide. Peritonitis is inflammation of that lining. It can stay next to one angry organ, or it can spread across the whole cavity.", "It usually starts local. An organ gets inflamed — appendix, gallbladder, a diverticulum, a stomach ulcer. The nearby peritoneum reacts. If something leaks or ruptures, acid, bile, pus, bacteria, or stool hit a space that was never meant to see them. Inflammation then spreads. See below for a visual on how this looks..."],
+		image: "/images/minutes-peritonitis.png",
+		imageAlt: "Infographic: what is peritonitis. The peritoneum, how a local problem spreads, four common examples, localized versus generalized, exam clues, how it is found, treat the source, and when to seek emergency care.",
+		imageCredit: "Patient education only — not a diagnosis. Mayo Clinic · American Society of Colon and Rectal Surgeons · Merck Manual · World Society of Emergency Surgery guidance."
 	}
 ];
 function getMinute(slug) {
 	return minutes.find((m) => m.slug === slug);
 }
 //#endregion
-export { shapeParagraphs as A, nerdTopics as C, proteinPercent as D, proceduralSkills as E, whyParagraphs as M, readingList as O, nerdGroups as S, peTone as T, hormoziRecipes as _, fastFoodChains as a, nav as b, futureParagraphs as c, getNerdTopic as d, glanceGroups as f, hormoziRecipeNotes as g, hacksIntro as h, drinkSwaps as i, site as j, referenceVideos as k, getHack as l, hacks as m, aheadCards as n, fastFoodNotes as o, hackCovers as p, creditKicker as r, fastingStyles as s, aboutParagraphs as t, getMinute as u, minutes as v, peRatio as w, nerdCovers as x, minutesIntro as y };
+export { shapeParagraphs as A, nerdTopics as C, proteinPercent as D, proceduralSkills as E, tldrItems as M, whyParagraphs as N, readingList as O, nerdGroups as S, peTone as T, hormoziRecipes as _, fastFoodChains as a, nav as b, futureParagraphs as c, getNerdTopic as d, glanceGroups as f, hormoziRecipeNotes as g, hacksIntro as h, drinkSwaps as i, site as j, referenceVideos as k, getHack as l, hacks as m, aheadCards as n, fastFoodNotes as o, hackCovers as p, creditKicker as r, fastingStyles as s, aboutParagraphs as t, getMinute as u, minutes as v, peRatio as w, nerdCovers as x, minutesIntro as y };

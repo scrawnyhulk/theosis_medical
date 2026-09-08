@@ -1,17 +1,17 @@
 import { i as __toESM } from "./_runtime.mjs";
-import { D as proteinPercent, O as readingList, T as peTone, _ as hormoziRecipes, a as fastFoodChains, g as hormoziRecipeNotes, h as hacksIntro, i as drinkSwaps, k as referenceVideos, l as getHack, m as hacks, o as fastFoodNotes, r as creditKicker, s as fastingStyles, w as peRatio } from "./_ssr/minutes-CTL0zzDu.mjs";
+import { D as proteinPercent, M as tldrItems, O as readingList, T as peTone, _ as hormoziRecipes, a as fastFoodChains, g as hormoziRecipeNotes, h as hacksIntro, i as drinkSwaps, k as referenceVideos, l as getHack, m as hacks, o as fastFoodNotes, r as creditKicker, s as fastingStyles, w as peRatio } from "./_ssr/minutes-CTy9-_Ay.mjs";
 import { r as require_react } from "./_libs/@hookform/resolvers+[...].mjs";
 import { _ as Link } from "./_libs/@tanstack/react-router+[...].mjs";
 import { i as require_jsx_runtime } from "./_libs/@radix-ui/react-label+[...].mjs";
 import { C as ArrowRight, b as ChevronLeft, n as ZoomOut, t as ZoomIn, w as ArrowLeft, y as ChevronRight } from "./_libs/lucide-react.mjs";
-import { o as Route$10 } from "./_ssr/router-BqljcClt.mjs";
-import { i as cn, r as SiteShell, t as Button } from "./_ssr/site-shell-CtXFxL8f.mjs";
-import { t as Input } from "./_ssr/input-GTNOeJSC.mjs";
-import { t as NerdParagraph } from "./_ssr/nerd-paragraph-yTlgbarp.mjs";
-import { n as NerdStepper, t as EnlargeableImage } from "./_ssr/nerd-stepper-if8VwVcu.mjs";
-import { t as Label } from "./_ssr/label-DGV5PdOv.mjs";
+import { o as Route$10 } from "./_ssr/router-VJiEyHLq.mjs";
+import { i as cn, r as SiteShell, t as Button } from "./_ssr/site-shell-BdMsnFSF.mjs";
+import { t as Input } from "./_ssr/input-Bx-ThbaW.mjs";
+import { t as NerdParagraph } from "./_ssr/nerd-paragraph-CQuEwJxw.mjs";
+import { n as NerdStepper, t as EnlargeableImage } from "./_ssr/nerd-stepper-By9Zaj0g.mjs";
+import { t as Label } from "./_ssr/label-DBml-QKB.mjs";
 import { t as VideoCard } from "./_ssr/video-card-DgPnMgod.mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/_slug-KDx9668b.js
+//#region node_modules/.nitro/vite/services/ssr/assets/_slug-BqwCQJK3.js
 var import_react = /* @__PURE__ */ __toESM(require_react());
 var import_jsx_runtime = require_jsx_runtime();
 function sourceLabel(source) {
@@ -505,7 +505,7 @@ function HormoziCookbook() {
 		onClose: () => setOpen(null)
 	}) : null] });
 }
-function ProteinLabelTool() {
+function ProteinLabelTool({ compact = false }) {
 	const [calories, setCalories] = (0, import_react.useState)("");
 	const [protein, setProtein] = (0, import_react.useState)("");
 	const result = (0, import_react.useMemo)(() => {
@@ -523,35 +523,37 @@ function ProteinLabelTool() {
 		};
 	}, [calories, protein]);
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-		className: "rounded-xl bg-surface p-5 shadow-border sm:p-8",
+		className: compact ? "" : "rounded-xl bg-surface p-5 shadow-border sm:p-8",
 		children: [
-			/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-				className: "text-xs font-medium tracking-widest text-muted uppercase",
-				children: "Try a label"
-			}),
-			/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h3", {
-				className: "mt-2 font-display text-3xl font-semibold tracking-wide",
-				children: "Protein × 10 vs calories"
-			}),
-			/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-				className: "mt-3 max-w-xl text-muted",
-				children: "Pull two numbers off the panel. Hitting × 10 (40% protein) is the ideal. 30% or more is still fine."
-			}),
+			compact ? null : /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [
+				/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+					className: "text-xs font-medium tracking-widest text-muted uppercase",
+					children: "Try a label"
+				}),
+				/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h3", {
+					className: "mt-2 font-display text-3xl font-semibold tracking-wide",
+					children: "Protein × 10 vs calories"
+				}),
+				/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+					className: "mt-3 max-w-xl text-muted",
+					children: "Pull two numbers off the panel. Hitting × 10 (40% protein) is the ideal. 30% or more is still fine."
+				})
+			] }),
 			/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-				className: "mt-6 grid gap-5 sm:grid-cols-2",
+				className: compact ? "grid gap-5 sm:grid-cols-2" : "mt-6 grid gap-5 sm:grid-cols-2",
 				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, {
-					htmlFor: "hack-calories",
+					htmlFor: compact ? "tldr-hack-calories" : "hack-calories",
 					children: "Calories per serving"
 				}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
-					id: "hack-calories",
+					id: compact ? "tldr-hack-calories" : "hack-calories",
 					inputMode: "decimal",
 					value: calories,
 					onChange: (e) => setCalories(e.target.value)
 				})] }), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, {
-					htmlFor: "hack-protein",
+					htmlFor: compact ? "tldr-hack-protein" : "hack-protein",
 					children: "Protein grams per serving"
 				}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
-					id: "hack-protein",
+					id: compact ? "tldr-hack-protein" : "hack-protein",
 					inputMode: "decimal",
 					value: protein,
 					onChange: (e) => setProtein(e.target.value)
@@ -641,7 +643,7 @@ var goals = [
 		hint: "Top of the spectrum. Body weight × 19, 20, or 21. Using 20."
 	}
 ];
-function StartCalculator() {
+function StartCalculator({ compact = false }) {
 	const [pounds, setPounds] = (0, import_react.useState)("180");
 	const [goalId, setGoalId] = (0, import_react.useState)("moderate-loss");
 	const goal = goals.find((g) => g.id === goalId) ?? goals[1];
@@ -659,27 +661,29 @@ function StartCalculator() {
 		};
 	}, [pounds, goal.multiplier]);
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-		className: "rounded-xl bg-surface p-5 shadow-border sm:p-8",
+		className: compact ? "" : "rounded-xl bg-surface p-5 shadow-border sm:p-8",
 		children: [
-			/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-				className: "text-xs font-medium tracking-widest text-muted uppercase",
-				children: "Your numbers"
-			}),
-			/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h3", {
-				className: "mt-2 font-display text-3xl font-semibold tracking-wide",
-				children: "Goal → calories → protein"
-			}),
-			/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-				className: "mt-3 max-w-xl text-muted",
-				children: "Same math as the video: body weight × a number from 7 to 21, then 1 g of protein per pound. Every three steps on that scale is a different goal. Leftover calories are ordinary food."
-			}),
+			compact ? null : /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [
+				/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+					className: "text-xs font-medium tracking-widest text-muted uppercase",
+					children: "Your numbers"
+				}),
+				/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h3", {
+					className: "mt-2 font-display text-3xl font-semibold tracking-wide",
+					children: "Goal → calories → protein"
+				}),
+				/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+					className: "mt-3 max-w-xl text-muted",
+					children: "Same math as the video: body weight × a number from 7 to 21, then 1 g of protein per pound. Every three steps on that scale is a different goal. Leftover calories are ordinary food."
+				})
+			] }),
 			/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-				className: "mt-6 max-w-xs",
+				className: compact ? "max-w-xs" : "mt-6 max-w-xs",
 				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Label, {
-					htmlFor: "start-pounds",
+					htmlFor: compact ? "tldr-start-pounds" : "start-pounds",
 					children: "Body weight (pounds)"
 				}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Input, {
-					id: "start-pounds",
+					id: compact ? "tldr-start-pounds" : "start-pounds",
 					inputMode: "decimal",
 					value: pounds,
 					onChange: (e) => setPounds(e.target.value)
@@ -874,6 +878,67 @@ function HackPage() {
 	}) });
 }
 function HackExtras({ slug }) {
+	if (slug === "tldr") return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+		className: "mt-10",
+		children: [
+			/* @__PURE__ */ (0, import_jsx_runtime.jsx)("ol", {
+				className: "space-y-3",
+				children: tldrItems.map((item) => {
+					const hack = getHack(item.slug);
+					if (!hack) return null;
+					const hasTool = item.slug === "where-to-start" || item.slug === "protein-label";
+					return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("li", {
+						className: "rounded-xl bg-surface p-5 shadow-border sm:p-6",
+						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Link, {
+							to: "/hacks/$slug",
+							params: { slug: item.slug },
+							className: "group flex min-h-11 gap-4",
+							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+								className: "font-display text-2xl font-semibold text-accent",
+								children: hack.n
+							}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", {
+								className: "min-w-0",
+								children: [
+									/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+										className: "block font-display text-xl font-semibold tracking-wide uppercase",
+										children: hack.title
+									}),
+									/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+										className: "mt-1 block leading-relaxed text-muted",
+										children: item.line
+									}),
+									/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", {
+										className: "mt-2 inline-flex items-center gap-2 text-sm font-medium text-accent",
+										children: ["Full hack", /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ArrowRight, { className: "size-4 transition-transform duration-150 group-hover:translate-x-0.5" })]
+									})
+								]
+							})]
+						}), hasTool ? /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+							className: "mt-5 border-t border-border pt-5",
+							children: [item.slug === "where-to-start" ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)(StartCalculator, { compact: true }) : null, item.slug === "protein-label" ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ProteinLabelTool, { compact: true }) : null]
+						}) : null]
+					}, item.slug);
+				})
+			}),
+			/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+				className: "mt-10 text-xs font-medium tracking-widest text-muted uppercase",
+				children: "If you want the why"
+			}),
+			/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+				className: "mt-4 grid gap-3 sm:grid-cols-3",
+				children: [
+					["nerd-out", "Mechanisms"],
+					["helpful-videos", "Videos"],
+					["reading-list", "Books"]
+				].map(([slug, label]) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Link, {
+					to: "/hacks/$slug",
+					params: { slug },
+					className: "rounded-xl bg-surface px-4 py-4 text-sm font-medium text-accent shadow-border hover:bg-fg/5",
+					children: [label, " →"]
+				}, slug))
+			})
+		]
+	});
 	if (slug === "where-to-start") return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
 		className: "mt-10",
 		children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(StartCalculator, {})
@@ -985,6 +1050,17 @@ function HackExtras({ slug }) {
 	if (slug === "fasting") return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 		className: "mt-10 space-y-10",
 		children: [
+			/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("figure", {
+				id: "metabolic-flexibility",
+				className: "scroll-mt-28",
+				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(EnlargeableImage, {
+					src: "/images/hacks-metabolic-flexibility.png",
+					alt: "Metabolic flexibility: your body’s ability to adjust its fuel mix between fat and carbohydrate as food availability and activity change. Flexible fuel use versus less flexible, and how to support it with movement, strength, matching intake, and sleep."
+				}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("figcaption", {
+					className: "mt-3 text-xs tracking-wide text-muted",
+					children: "Simplified physiology. Sources: Goodpaster & Sparks, Cell Metabolism (2017) · Smith et al., Endocrine Reviews (2018)"
+				})]
+			}),
 			/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("figure", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(EnlargeableImage, {
 				src: "/images/hacks-fasting-evidence.png",
 				alt: "Fasting: what changes and what is proven. Longer fast means deeper metabolic change, not automatically greater health benefit. Overnight 12–14 hours, time-restricted 14–16 hours, periodic 24 hours, extended 36–48 hours, prolonged around 72 hours. Autophagy is cellular recycling, not a magic switch."

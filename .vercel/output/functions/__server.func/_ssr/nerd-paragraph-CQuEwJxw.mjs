@@ -1,6 +1,6 @@
 import { _ as Link } from "../_libs/@tanstack/react-router+[...].mjs";
 import { i as require_jsx_runtime } from "../_libs/@radix-ui/react-label+[...].mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/nerd-paragraph-yTlgbarp.js
+//#region node_modules/.nitro/vite/services/ssr/assets/nerd-paragraph-CQuEwJxw.js
 var import_jsx_runtime = require_jsx_runtime();
 var tokens = {
 	hormozi: {
@@ -18,6 +18,12 @@ var tokens = {
 		kind: "hack",
 		slug: "fast-food",
 		label: "takeout splurges"
+	},
+	flex: {
+		kind: "hack",
+		slug: "fasting",
+		hash: "metabolic-flexibility",
+		label: "metabolic flexibility"
 	},
 	energy: {
 		kind: "nerd",
