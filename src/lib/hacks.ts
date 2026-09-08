@@ -103,10 +103,8 @@ export const hacks: Hack[] = [
     n: "00",
     title: "TL;DR",
     byline: "The whole playbook on one page",
-    lede: "If someone asks what to actually do, send them this. Do these most days. The numbered cards are the why, the exceptions, and the recipes.",
-    paragraphs: [
-      "This is the 20%. Not a 12-week program. Not a personality. The short list I actually use on a work week.",
-    ],
+    lede: "This is the 20% that gives 80% of the results. Do this 80% of the time.",
+    paragraphs: [],
   },
   {
     slug: "why-hard",
