@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
+import { TldrGate } from "@/components/hacks/tldr-gate";
 import { SiteShell } from "@/components/site/site-shell";
 import { creditKicker, hackCovers, hacks, hacksIntro, type Hack } from "@/lib/hacks";
 
@@ -42,7 +43,7 @@ function HackCoverCard({
         <span className={`relative z-10 flex h-full min-h-11 flex-col justify-end p-6 sm:p-8 ${featured ? "sm:p-10" : ""}`}>
           {featured ? (
             <span className="text-xs font-medium tracking-widest text-accent uppercase">
-              {hack.slug === "why-hard" ? "Read this first" : hack.slug === "tldr" ? "Give this to people" : "Start here"}
+              {hack.slug === "why-hard" ? "Read this first" : "Start here"}
             </span>
           ) : null}
           <span className={`font-display font-semibold text-accent ${featured ? "mt-3 text-4xl sm:text-5xl" : "text-3xl"}`}>
@@ -74,12 +75,12 @@ function HackCoverCard({
 }
 
 function HacksHub() {
-  const tldr = hacks.find((h) => h.slug === "tldr");
   const featured = hacks.find((h) => h.featured);
   const rest = hacks.filter((h) => !h.featured && h.slug !== "tldr");
 
   return (
     <SiteShell>
+      <TldrGate />
       <section className="border-b border-border">
         <div className="mx-auto max-w-6xl px-5 py-16 sm:px-8 lg:py-24">
           <p className="text-xs font-medium tracking-widest text-muted uppercase">
@@ -100,9 +101,9 @@ function HacksHub() {
               params={{ slug: "tldr" }}
               className="font-medium text-accent hover:text-fg"
             >
-              Just want the cheat sheet?
+              In a rush? TL;DR
             </Link>
-            <span className="text-muted"> One page. Send it to someone.</span>
+            <span className="text-muted"> The short list.</span>
           </p>
           <p className="mt-3 text-lg">
             <Link
@@ -119,28 +120,6 @@ function HacksHub() {
 
       <section className="mx-auto max-w-6xl px-5 py-16 sm:px-8 lg:py-24">
         <p className="text-xs font-medium tracking-widest text-muted uppercase">Pick a hack</p>
-        {tldr && hackCovers[tldr.slug] ? (
-          <HackCoverCard hack={tldr} featured />
-        ) : tldr ? (
-          <Link
-            to="/hacks/$slug"
-            params={{ slug: "tldr" }}
-            className="group mt-8 flex flex-col rounded-xl bg-surface p-6 shadow-border transition-colors duration-150 hover:bg-fg/5 sm:p-8 md:flex-row md:items-end md:justify-between md:gap-10"
-          >
-            <div className="max-w-2xl">
-              <p className="text-xs font-medium tracking-widest text-accent uppercase">Give this to people</p>
-              <p className="mt-3 font-display text-3xl font-semibold text-accent">{tldr.n}</p>
-              <h2 className="mt-2 font-display text-4xl font-semibold tracking-wide uppercase sm:text-5xl">
-                {tldr.title}
-              </h2>
-              <p className="mt-4 text-lg leading-relaxed text-muted">{tldr.lede}</p>
-            </div>
-            <span className="mt-6 inline-flex min-h-11 shrink-0 items-center gap-2 text-sm font-medium text-accent md:mt-0">
-              Open the cheat sheet
-              <ArrowRight className="size-4 transition-transform duration-150 group-hover:translate-x-0.5" />
-            </span>
-          </Link>
-        ) : null}
         {featured && hackCovers[featured.slug] ? (
           <HackCoverCard hack={featured} featured />
         ) : featured ? (
