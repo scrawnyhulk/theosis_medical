@@ -104,7 +104,9 @@ export const hacks: Hack[] = [
     title: "TL;DR",
     byline: "The whole playbook on one page",
     lede: "This is the 20% that gives 80% of the results. Do this 80% of the time.",
-    paragraphs: [],
+    paragraphs: [
+      "If someone needs a quick reference on how to approach a healthier lifestyle in a hectic life, give them this and they can delve in further later if they want.",
+    ],
   },
   {
     slug: "why-hard",
