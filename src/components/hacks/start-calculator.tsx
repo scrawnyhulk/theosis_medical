@@ -11,7 +11,7 @@ const goals = [
     also: "Aggressive diabetes reversal",
     multiplier: 8,
     band: "7–9",
-    hint: "Bottom of the spectrum. Body weight × 7, 8, or 9. Using 8 here. If it drops too fast, step up. Same target if the goal is aggressive diabetes reversal.",
+    hint: "× 8 (range 7–9). Too fast? Step up.",
   },
   {
     id: "moderate-loss",
@@ -19,28 +19,28 @@ const goals = [
     also: "Moderate diabetes reversal",
     multiplier: 10,
     band: "10–12",
-    hint: "The 10× walkthrough in the video. 10, 11, or 12. Using 10 because the math is clean. Lose too fast? Bump to 11 or 12. Same target for a moderate diabetes-reversal deficit.",
+    hint: "× 10 (range 10–12). Too fast? Bump to 11 or 12.",
   },
   {
     id: "maintenance",
     label: "Maintenance",
     multiplier: 14,
     band: "13–15",
-    hint: "Hold the line. Body weight × 13, 14, or 15. Using 14, the middle of the band.",
+    hint: "× 14 (range 13–15).",
   },
   {
     id: "moderate-gain",
     label: "Moderate weight gain",
     multiplier: 17,
     band: "16–18",
-    hint: "A modest surplus. Body weight × 16, 17, or 18. Using 17.",
+    hint: "× 17 (range 16–18).",
   },
   {
     id: "extreme-gain",
     label: "Extreme weight gain",
     multiplier: 20,
     band: "19–21",
-    hint: "Top of the spectrum. Body weight × 19, 20, or 21. Using 20.",
+    hint: "× 20 (range 19–21).",
   },
 ] as const;
 
@@ -69,8 +69,7 @@ export function StartCalculator({ compact = false }: { compact?: boolean }) {
             Goal → calories → protein
           </h3>
           <p className="mt-3 max-w-xl text-muted">
-            Same math as the video: body weight × a number from 7 to 21, then 1 g of protein per pound.
-            Every three steps on that scale is a different goal. Leftover calories are ordinary food.
+            Body weight × 7–21, then 1 g of protein per pound. Leftover calories are ordinary food.
           </p>
         </>
       )}
@@ -113,12 +112,9 @@ export function StartCalculator({ compact = false }: { compact?: boolean }) {
             );
           })}
         </div>
-        <p className="mt-3 text-sm text-muted">
-          Fat loss and diabetes reversal use the same calorie math. Extreme is the aggressive reversal target. Moderate is the moderate one.
-        </p>
-        <p className="mt-2 text-sm text-muted">{goal.hint}</p>
+        <p className="mt-3 text-sm text-muted">{goal.hint}</p>
         <p className="mt-4 max-w-xl text-sm leading-relaxed text-warn">
-          If you take insulin or other medicines that lower blood sugar, do not start a drastic calorie cut without talking with your physician first. The dose that fit your old diet can drop glucose too far once you eat less.
+          On insulin or other glucose-lowering meds? Don’t start a drastic calorie cut without talking with your physician first.
         </p>
       </div>
       {result ? (
@@ -126,13 +122,13 @@ export function StartCalculator({ compact = false }: { compact?: boolean }) {
           <Stat
             label="Calories / day"
             value={String(result.calories)}
-            note={`${goal.multiplier} × body weight (× ${goal.band} in the video)`}
+            note={`${goal.multiplier} × body weight`}
           />
           <Stat label="Protein" value={`${result.protein} g`} note="1 g per pound" />
           <Stat
             label="Leftover after protein"
             value={`${result.remaining} cal`}
-            note={`${result.proteinCals} cal from protein at 4 cal/g. Real meat brings some fat with it.`}
+            note="Protein at 4 cal/g. Real food brings some fat with it."
           />
         </dl>
       ) : (
