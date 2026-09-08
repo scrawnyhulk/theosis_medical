@@ -1,4 +1,4 @@
-//#region node_modules/.nitro/vite/services/ssr/assets/_tanstack-start-manifest_v-Q2EJd6q9.js
+//#region node_modules/.nitro/vite/services/ssr/assets/_tanstack-start-manifest_v-CKLW5Bru.js
 var tsrStartManifest = () => ({ routes: {
 	__root__: {
 		filePath: "/workspace/src/routes/__root.tsx",
@@ -17,7 +17,7 @@ var tsrStartManifest = () => ({ routes: {
 			"/visits/"
 		],
 		preloads: [
-			"/assets/index-HYCFfrCI.js",
+			"/assets/index-BGUkq7Kr.js",
 			"/assets/useStore-CP8wJgJA.js",
 			"/assets/minutes-Do3F2_Hn.js",
 			"/assets/not-found-i5RsCZif.js",
@@ -26,14 +26,14 @@ var tsrStartManifest = () => ({ routes: {
 		scripts: [{ attrs: {
 			type: "module",
 			async: !0,
-			src: "/assets/index-HYCFfrCI.js"
+			src: "/assets/index-BGUkq7Kr.js"
 		} }]
 	},
 	"/": {
 		filePath: "/workspace/src/routes/index.tsx",
 		children: void 0,
 		preloads: [
-			"/assets/routes-DsoAmpUL.js",
+			"/assets/routes-Bb0qvRzW.js",
 			"/assets/arrow-right-BYRlD1vQ.js",
 			"/assets/site-shell-CQKzaSf1.js",
 			"/assets/input-B4KKIonE.js",
@@ -50,7 +50,7 @@ var tsrStartManifest = () => ({ routes: {
 		filePath: "/workspace/src/routes/hacks/$slug.tsx",
 		children: void 0,
 		preloads: [
-			"/assets/_slug-BMgAtx0Z.js",
+			"/assets/_slug-DKe4rUfa.js",
 			"/assets/arrow-left-Cd_egxRk.js",
 			"/assets/arrow-right-BYRlD1vQ.js",
 			"/assets/site-shell-CQKzaSf1.js",
@@ -64,13 +64,13 @@ var tsrStartManifest = () => ({ routes: {
 	"/hacks/nerd-out": {
 		filePath: "/workspace/src/routes/hacks/nerd-out.tsx",
 		children: ["/hacks/nerd-out/$topic", "/hacks/nerd-out/"],
-		preloads: ["/assets/nerd-out-CmNRBPY2.js"]
+		preloads: ["/assets/nerd-out-Be2RHX-J.js"]
 	},
 	"/minutes/$slug": {
 		filePath: "/workspace/src/routes/minutes/$slug.tsx",
 		children: void 0,
 		preloads: [
-			"/assets/_slug-D4azX7w8.js",
+			"/assets/_slug-BSmOHcEk.js",
 			"/assets/arrow-left-Cd_egxRk.js",
 			"/assets/site-shell-CQKzaSf1.js",
 			"/assets/nerd-stepper-DVq54Mea.js"
@@ -80,7 +80,7 @@ var tsrStartManifest = () => ({ routes: {
 		filePath: "/workspace/src/routes/provider/$id.tsx",
 		children: void 0,
 		preloads: [
-			"/assets/_id-Dj7JuCTZ.js",
+			"/assets/_id-D49huVSO.js",
 			"/assets/arrow-left-Cd_egxRk.js",
 			"/assets/arrow-right-BYRlD1vQ.js",
 			"/assets/site-shell-CQKzaSf1.js",
@@ -92,7 +92,7 @@ var tsrStartManifest = () => ({ routes: {
 		filePath: "/workspace/src/routes/visits/$kind.tsx",
 		children: void 0,
 		preloads: [
-			"/assets/_kind-CCSJ7aqR.js",
+			"/assets/_kind-CqeWpG0d.js",
 			"/assets/arrow-right-BYRlD1vQ.js",
 			"/assets/site-shell-CQKzaSf1.js",
 			"/assets/sesame-mark-MBxPHYde.js",
@@ -105,7 +105,7 @@ var tsrStartManifest = () => ({ routes: {
 		filePath: "/workspace/src/routes/hacks/index.tsx",
 		children: void 0,
 		preloads: [
-			"/assets/hacks-kBylOuFH.js",
+			"/assets/hacks-DmFWX6Kt.js",
 			"/assets/arrow-right-BYRlD1vQ.js",
 			"/assets/site-shell-CQKzaSf1.js"
 		]
@@ -123,7 +123,7 @@ var tsrStartManifest = () => ({ routes: {
 		filePath: "/workspace/src/routes/provider/index.tsx",
 		children: void 0,
 		preloads: [
-			"/assets/provider-Dj4d_z2w.js",
+			"/assets/provider-DoRFIJty.js",
 			"/assets/arrow-right-BYRlD1vQ.js",
 			"/assets/site-shell-CQKzaSf1.js",
 			"/assets/playground-banner-Dk8GhyG4.js"
@@ -133,7 +133,7 @@ var tsrStartManifest = () => ({ routes: {
 		filePath: "/workspace/src/routes/visits/index.tsx",
 		children: void 0,
 		preloads: [
-			"/assets/visits-CjMDpzds.js",
+			"/assets/visits-DQvkX94S.js",
 			"/assets/arrow-right-BYRlD1vQ.js",
 			"/assets/site-shell-CQKzaSf1.js",
 			"/assets/sesame-mark-MBxPHYde.js",
@@ -144,7 +144,7 @@ var tsrStartManifest = () => ({ routes: {
 		filePath: "/workspace/src/routes/hacks/nerd-out.$topic.tsx",
 		children: void 0,
 		preloads: [
-			"/assets/nerd-out._topic-C0Tq5yP8.js",
+			"/assets/nerd-out._topic-D8l5eq2a.js",
 			"/assets/arrow-left-Cd_egxRk.js",
 			"/assets/arrow-right-BYRlD1vQ.js",
 			"/assets/site-shell-CQKzaSf1.js",

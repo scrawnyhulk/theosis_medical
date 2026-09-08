@@ -6,7 +6,7 @@ import { I as redirect, f as createRouter, g as createRootRoute, h as createFile
 import { i as require_jsx_runtime } from "../_libs/@radix-ui/react-label+[...].mjs";
 import { o as TriangleAlert } from "../_libs/lucide-react.mjs";
 import { a as union, i as string, n as number, r as object, t as literal } from "../_libs/zod.mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/router-VJiEyHLq.js
+//#region node_modules/.nitro/vite/services/ssr/assets/router-DU2sAWNU.js
 var import_react = /* @__PURE__ */ __toESM(require_react());
 var import_jsx_runtime = require_jsx_runtime();
 var __defProp = Object.defineProperty;
@@ -292,7 +292,7 @@ function PwaRegister() {
 	}, []);
 	return null;
 }
-var styles_default = "/assets/styles-Cm2u1kT0.css";
+var styles_default = "/assets/styles-CuG1moEL.css";
 var APP_NAME = site.name;
 var Route$14 = createRootRoute({
 	head: () => ({
@@ -427,7 +427,7 @@ var Route$12 = createFileRoute("/install")({
 		content: "Add Theosis Medical to your phone’s home screen so it opens like an app — no App Store needed."
 	}] })
 });
-var $$splitComponentImporter$10 = () => import("./hacks-h6KEcv_Z.mjs");
+var $$splitComponentImporter$10 = () => import("./hacks-BAI-pdIp.mjs");
 var Route$11 = createFileRoute("/hacks/")({
 	component: lazyRouteComponent($$splitComponentImporter$10, "component"),
 	head: () => ({ meta: [{ title: "Holwey’s Handy Health Hacks — Theosis Medical" }, {
@@ -435,7 +435,7 @@ var Route$11 = createFileRoute("/hacks/")({
 		content: "Holwey’s Handy Health Hacks: the 20% that does 80% of the work. Protein, calories, drinks, fast food, and the mechanisms behind them."
 	}] })
 });
-var $$splitComponentImporter$9 = () => import("../_slug-BqwCQJK3.mjs");
+var $$splitComponentImporter$9 = () => import("../_slug-DwL9VWH8.mjs");
 var Route$10 = createFileRoute("/hacks/$slug")({
 	component: lazyRouteComponent($$splitComponentImporter$9, "component"),
 	head: ({ params }) => {
@@ -456,7 +456,7 @@ var Route$8 = createFileRoute("/minutes/")({
 		content: "Medical Minutes: common conditions explained in plain language — the talks Nick Holwey, PA-C, gives in the emergency department."
 	}] })
 });
-var $$splitComponentImporter$6 = () => import("../_slug-CiEA9RM3.mjs");
+var $$splitComponentImporter$6 = () => import("../_slug-CWjp6lVt.mjs");
 var Route$7 = createFileRoute("/minutes/$slug")({
 	component: lazyRouteComponent($$splitComponentImporter$6, "component"),
 	head: ({ params }) => {
@@ -478,7 +478,7 @@ var Route$6 = createFileRoute("/provider/")({
 		content: "Live demo of a Sesame-style provider inbox. Not a real EHR. No real PHI."
 	}] })
 });
-var $$splitComponentImporter$4 = () => import("../_id-BopycXoe.mjs");
+var $$splitComponentImporter$4 = () => import("../_id-DMRsNJAp.mjs");
 var Route$5 = createFileRoute("/provider/$id")({
 	beforeLoad: () => {
 		throw redirect({ to: "/" });
@@ -497,7 +497,7 @@ var Route$4 = createFileRoute("/visits/")({
 		content: "Live demo. How cash-pay lifestyle counseling would look if booked on Sesame. Not a real booking."
 	}] })
 });
-var $$splitComponentImporter$2 = () => import("../_kind-bL2IKL4F.mjs");
+var $$splitComponentImporter$2 = () => import("../_kind-Bbg-X34Y.mjs");
 var Route$3 = createFileRoute("/visits/$kind")({
 	beforeLoad: ({ params }) => {
 		throw redirect({ to: "/" });
@@ -527,7 +527,7 @@ var Route$1 = createFileRoute("/hacks/nerd-out/")({
 		content: "Mechanisms. How stuff actually works. Optional reading. Compulsory if you are me."
 	}] })
 });
-var $$splitComponentImporter = () => import("./nerd-out._topic-D2wUS7Oj.mjs");
+var $$splitComponentImporter = () => import("./nerd-out._topic-CNMnOHeO.mjs");
 var Route = createFileRoute("/hacks/nerd-out/$topic")({
 	component: lazyRouteComponent($$splitComponentImporter, "component"),
 	head: ({ params }) => {

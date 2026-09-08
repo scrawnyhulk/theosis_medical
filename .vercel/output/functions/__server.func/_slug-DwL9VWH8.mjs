@@ -4,14 +4,14 @@ import { r as require_react } from "./_libs/@hookform/resolvers+[...].mjs";
 import { _ as Link } from "./_libs/@tanstack/react-router+[...].mjs";
 import { i as require_jsx_runtime } from "./_libs/@radix-ui/react-label+[...].mjs";
 import { C as ArrowRight, b as ChevronLeft, n as ZoomOut, t as ZoomIn, w as ArrowLeft, y as ChevronRight } from "./_libs/lucide-react.mjs";
-import { o as Route$10 } from "./_ssr/router-VJiEyHLq.mjs";
+import { o as Route$10 } from "./_ssr/router-DU2sAWNU.mjs";
 import { i as cn, r as SiteShell, t as Button } from "./_ssr/site-shell-BdMsnFSF.mjs";
 import { t as Input } from "./_ssr/input-Bx-ThbaW.mjs";
 import { t as NerdParagraph } from "./_ssr/nerd-paragraph-CQuEwJxw.mjs";
 import { n as NerdStepper, t as EnlargeableImage } from "./_ssr/nerd-stepper-By9Zaj0g.mjs";
 import { t as Label } from "./_ssr/label-DBml-QKB.mjs";
 import { t as VideoCard } from "./_ssr/video-card-DgPnMgod.mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/_slug-BqwCQJK3.js
+//#region node_modules/.nitro/vite/services/ssr/assets/_slug-DwL9VWH8.js
 var import_react = /* @__PURE__ */ __toESM(require_react());
 var import_jsx_runtime = require_jsx_runtime();
 function sourceLabel(source) {
@@ -609,14 +609,14 @@ function ProteinLabelTool({ compact = false }) {
 var goals = [
 	{
 		id: "extreme-loss",
-		label: "Extreme weight loss",
+		label: "Extreme fat loss",
 		multiplier: 8,
 		band: "7–9",
 		hint: "Bottom of the spectrum. Body weight × 7, 8, or 9. Using 8 here. If it drops too fast, step up."
 	},
 	{
 		id: "moderate-loss",
-		label: "Moderate weight loss",
+		label: "Moderate fat loss",
 		multiplier: 10,
 		band: "10–12",
 		hint: "The 10× walkthrough in the video. 10, 11, or 12. Using 10 because the math is clean. Lose too fast? Bump to 11 or 12."
@@ -792,14 +792,32 @@ function HackPage() {
 				className: "inline-flex min-h-11 items-center gap-2 text-sm font-medium text-muted hover:text-fg",
 				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(ArrowLeft, { className: "size-4" }), "All Holwey’s Handy Health Hacks"]
 			}),
-			/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+			hack.slug === "tldr" ? /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+				className: "relative mt-8",
+				children: [
+					/* @__PURE__ */ (0, import_jsx_runtime.jsx)(EnlargeableImage, {
+						src: "/images/hack-tldr-hero.png",
+						alt: "The short list: protein food, lifting, walking, sleep, and a body running on those habits."
+					}),
+					/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "pointer-events-none absolute inset-0 rounded-xl bg-gradient-to-t from-ink via-ink/30 to-transparent" }),
+					/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+						className: "pointer-events-none absolute inset-x-0 bottom-0 max-w-[70%] p-5 sm:p-8",
+						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+							className: "font-display text-3xl font-semibold text-accent",
+							children: hack.n
+						}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("h1", {
+							className: "mt-1 font-display text-5xl font-semibold tracking-wide text-ink-fg uppercase sm:text-6xl",
+							children: hack.title
+						})]
+					})
+				]
+			}) : /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
 				className: "mt-8 font-display text-3xl font-semibold text-accent",
 				children: hack.n
-			}),
-			/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h1", {
+			}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("h1", {
 				className: "mt-2 font-display text-4xl font-semibold tracking-wide sm:text-5xl",
 				children: hack.title
-			}),
+			})] }),
 			hack.stolenFrom ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
 				className: "mt-4 text-xs font-medium tracking-widest text-accent uppercase",
 				children: creditKicker(hack.stolenFrom, hack.jokeSteal)

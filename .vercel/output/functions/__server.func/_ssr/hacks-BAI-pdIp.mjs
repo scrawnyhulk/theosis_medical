@@ -5,7 +5,7 @@ import { _ as Link } from "../_libs/@tanstack/react-router+[...].mjs";
 import { i as require_jsx_runtime } from "../_libs/@radix-ui/react-label+[...].mjs";
 import { C as ArrowRight, r as X } from "../_libs/lucide-react.mjs";
 import { i as cn, r as SiteShell, t as Button } from "./site-shell-BdMsnFSF.mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/hacks-h6KEcv_Z.js
+//#region node_modules/.nitro/vite/services/ssr/assets/hacks-BAI-pdIp.js
 var import_react = /* @__PURE__ */ __toESM(require_react());
 var import_jsx_runtime = require_jsx_runtime();
 var KEY = "theosis-hacks-tldr-gate-v2";
@@ -83,20 +83,20 @@ function TldrGate() {
 							/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 								className: "mt-8 flex flex-col gap-3 sm:flex-row sm:items-center",
 								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Button, {
+									type: "button",
+									size: "lg",
+									onClick: dismiss,
+									children: "I want to get wicked smaht!"
+								}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Button, {
 									asChild: true,
 									size: "lg",
+									variant: "onInkOutline",
 									children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Link, {
 										to: "/hacks/$slug",
 										params: { slug: "tldr" },
 										onClick: dismiss,
-										children: "Show me the short list"
+										children: "Cliff notes for now"
 									})
-								}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Button, {
-									type: "button",
-									variant: "onInkOutline",
-									size: "lg",
-									onClick: dismiss,
-									children: "I’ll take the long way"
 								})]
 							})
 						]
