@@ -8,16 +8,18 @@ const goals = [
   {
     id: "extreme-loss",
     label: "Extreme fat loss",
+    also: "Aggressive diabetes reversal",
     multiplier: 8,
     band: "7–9",
-    hint: "Bottom of the spectrum. Body weight × 7, 8, or 9. Using 8 here. If it drops too fast, step up.",
+    hint: "Bottom of the spectrum. Body weight × 7, 8, or 9. Using 8 here. If it drops too fast, step up. Same target if the goal is aggressive diabetes reversal.",
   },
   {
     id: "moderate-loss",
     label: "Moderate fat loss",
+    also: "Moderate diabetes reversal",
     multiplier: 10,
     band: "10–12",
-    hint: "The 10× walkthrough in the video. 10, 11, or 12. Using 10 because the math is clean. Lose too fast? Bump to 11 or 12.",
+    hint: "The 10× walkthrough in the video. 10, 11, or 12. Using 10 because the math is clean. Lose too fast? Bump to 11 or 12. Same target for a moderate diabetes-reversal deficit.",
   },
   {
     id: "maintenance",
@@ -84,19 +86,37 @@ export function StartCalculator({ compact = false }: { compact?: boolean }) {
       <div className="mt-6">
         <p className="mb-2 text-xs font-medium tracking-widest text-muted uppercase">The goal</p>
         <div className="flex flex-wrap gap-2">
-          {goals.map((g) => (
-            <Button
-              key={g.id}
-              type="button"
-              size="sm"
-              variant={g.id === goalId ? "default" : "outline"}
-              onClick={() => setGoalId(g.id)}
-            >
-              {g.label}
-            </Button>
-          ))}
+          {goals.map((g) => {
+            const selected = g.id === goalId;
+            const also = "also" in g ? g.also : undefined;
+            return (
+              <Button
+                key={g.id}
+                type="button"
+                size="sm"
+                variant={selected ? "default" : "outline"}
+                className={also ? "h-auto min-h-11 flex-col items-start gap-0.5 whitespace-normal py-2 text-left" : undefined}
+                onClick={() => setGoalId(g.id)}
+              >
+                <span>{g.label}</span>
+                {also ? (
+                  <span
+                    className={cn(
+                      "text-[0.7rem] font-medium tracking-wider uppercase",
+                      selected ? "text-accent-fg/80" : "text-muted",
+                    )}
+                  >
+                    {also}
+                  </span>
+                ) : null}
+              </Button>
+            );
+          })}
         </div>
-        <p className="mt-3 text-sm text-muted">{goal.hint}</p>
+        <p className="mt-3 text-sm text-muted">
+          Fat loss and diabetes reversal use the same calorie math. Extreme is the aggressive reversal target. Moderate is the moderate one.
+        </p>
+        <p className="mt-2 text-sm text-muted">{goal.hint}</p>
       </div>
       {result ? (
         <dl className="mt-8 grid gap-4 sm:grid-cols-3">
