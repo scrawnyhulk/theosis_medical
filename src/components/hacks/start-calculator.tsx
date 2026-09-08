@@ -11,7 +11,7 @@ const goals = [
     also: "Aggressive diabetes reversal",
     multiplier: 8,
     band: "7–9",
-    hint: "× 8 (range 7–9). Too fast? Step up.",
+    hint: "Calories = body weight × 8. Range 7–9. Too fast? Step up.",
   },
   {
     id: "moderate-loss",
@@ -19,28 +19,28 @@ const goals = [
     also: "Moderate diabetes reversal",
     multiplier: 10,
     band: "10–12",
-    hint: "× 10 (range 10–12). Too fast? Bump to 11 or 12.",
+    hint: "Calories = body weight × 10. Range 10–12. Too fast? Step up.",
   },
   {
     id: "maintenance",
     label: "Maintenance",
     multiplier: 14,
     band: "13–15",
-    hint: "× 14 (range 13–15).",
+    hint: "Calories = body weight × 14. Range 13–15.",
   },
   {
     id: "moderate-gain",
     label: "Moderate weight gain",
     multiplier: 17,
     band: "16–18",
-    hint: "× 17 (range 16–18).",
+    hint: "Calories = body weight × 17. Range 16–18.",
   },
   {
     id: "extreme-gain",
     label: "Extreme weight gain",
     multiplier: 20,
     band: "19–21",
-    hint: "× 20 (range 19–21).",
+    hint: "Calories = body weight × 20. Range 19–21.",
   },
 ] as const;
 
@@ -62,14 +62,18 @@ export function StartCalculator({ compact = false }: { compact?: boolean }) {
 
   return (
     <div className={compact ? "" : "rounded-xl bg-surface p-5 shadow-border sm:p-8"}>
-      {compact ? null : (
+      {compact ? (
+        <p className="mb-4 text-sm text-muted">
+          Calories = body weight × a goal number. Protein = 1 g per pound.
+        </p>
+      ) : (
         <>
           <p className="text-xs font-medium tracking-widest text-muted uppercase">Your numbers</p>
           <h3 className="mt-2 font-display text-3xl font-semibold tracking-wide">
             Goal → calories → protein
           </h3>
           <p className="mt-3 max-w-xl text-muted">
-            Body weight × 7–21, then 1 g of protein per pound. Leftover calories are ordinary food.
+            Calories = body weight × 7–21. Protein = 1 g per pound. Leftover calories are ordinary food.
           </p>
         </>
       )}
