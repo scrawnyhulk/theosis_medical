@@ -22,6 +22,7 @@ import {
   hormoziRecipeNotes,
   readingList,
   referenceVideos,
+  tldrItems,
   type HackSlug,
 } from "@/lib/hacks";
 
@@ -185,6 +186,59 @@ function HackPage() {
 }
 
 function HackExtras({ slug }: { slug: HackSlug }) {
+  if (slug === "tldr") {
+    return (
+      <div className="mt-10">
+        <ol className="space-y-3">
+          {tldrItems.map((item) => {
+            const hack = getHack(item.slug);
+            if (!hack) return null;
+            return (
+              <li key={item.slug}>
+                <Link
+                  to="/hacks/$slug"
+                  params={{ slug: item.slug }}
+                  className="group flex min-h-11 gap-4 rounded-xl bg-surface p-5 shadow-border transition-colors duration-150 hover:bg-fg/5 sm:p-6"
+                >
+                  <span className="font-display text-2xl font-semibold text-accent">{hack.n}</span>
+                  <span className="min-w-0">
+                    <span className="block font-display text-xl font-semibold tracking-wide uppercase">
+                      {hack.title}
+                    </span>
+                    <span className="mt-1 block leading-relaxed text-muted">{item.line}</span>
+                    <span className="mt-2 inline-flex items-center gap-2 text-sm font-medium text-accent">
+                      Full hack
+                      <ArrowRight className="size-4 transition-transform duration-150 group-hover:translate-x-0.5" />
+                    </span>
+                  </span>
+                </Link>
+              </li>
+            );
+          })}
+        </ol>
+        <p className="mt-10 text-xs font-medium tracking-widest text-muted uppercase">If you want the why</p>
+        <div className="mt-4 grid gap-3 sm:grid-cols-3">
+          {(
+            [
+              ["nerd-out", "Mechanisms"],
+              ["helpful-videos", "Videos"],
+              ["reading-list", "Books"],
+            ] as const
+          ).map(([slug, label]) => (
+            <Link
+              key={slug}
+              to="/hacks/$slug"
+              params={{ slug }}
+              className="rounded-xl bg-surface px-4 py-4 text-sm font-medium text-accent shadow-border hover:bg-fg/5"
+            >
+              {label} →
+            </Link>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
   if (slug === "where-to-start") {
     return (
       <div className="mt-10">

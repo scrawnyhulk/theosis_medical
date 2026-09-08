@@ -1,4 +1,5 @@
 export type HackSlug =
+  | "tldr"
   | "why-hard"
   | "where-to-start"
   | "dont-drink-calories"
@@ -93,6 +94,16 @@ export const hacksIntro = {
 } as const;
 
 export const hacks: Hack[] = [
+  {
+    slug: "tldr",
+    n: "00",
+    title: "TL;DR",
+    byline: "The whole playbook on one page",
+    lede: "If someone asks what to actually do, send them this. Do these most days. The numbered cards are the why, the exceptions, and the recipes.",
+    paragraphs: [
+      "This is the 20%. Not a 12-week program. Not a personality. The short list I actually use on a work week.",
+    ],
+  },
   {
     slug: "why-hard",
     n: "01",
@@ -1350,6 +1361,45 @@ export const readingList = [
     why: "Why some food shuts hunger down per calorie and some food does not. Same instinct as the hacks, with more of the why.",
   },
 ] as const;
+
+export const tldrItems: { slug: HackSlug; line: string }[] = [
+  {
+    slug: "why-hard",
+    line: "This is biology, not a character flaw. Carb plus fat together hijacks the brain. Know that first.",
+  },
+  {
+    slug: "where-to-start",
+    line: "Pick a calorie target. Hit protein. Spend the rest on whatever still fits.",
+  },
+  {
+    slug: "dont-drink-calories",
+    line: "Water, coffee, tea, diet soda. Hunger does not count a drink as a meal.",
+  },
+  {
+    slug: "protein-per-pound",
+    line: "About 1 gram of protein per pound — goal weight is fine if you have a lot to lose.",
+  },
+  {
+    slug: "protein-label",
+    line: "Protein grams × 10 versus calories. If protein wins, buy it.",
+  },
+  {
+    slug: "fast-food",
+    line: "Extra meat, no bun, skip the fries, diet drink.",
+  },
+  {
+    slug: "staples",
+    line: "Keep high-protein food in the house so the easy choice is the right one.",
+  },
+  {
+    slug: "exercise",
+    line: "The lifts you will actually do, plus walking. Not a six-day CrossFit religion.",
+  },
+  {
+    slug: "fasting",
+    line: "Pick a clock you can keep. Protein inside the window. The deficit is still the point.",
+  },
+];
 
 export function getHack(slug: string): Hack | undefined {
   return hacks.find((h) => h.slug === slug);
