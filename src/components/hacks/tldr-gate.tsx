@@ -47,9 +47,10 @@ export function TldrGate() {
       aria-labelledby="tldr-gate-title"
     >
       <div
-        className="relative w-full max-w-lg overflow-hidden rounded-xl bg-ink shadow-ink-ring"
+        className="relative w-full max-w-6xl overflow-hidden rounded-xl bg-ink shadow-ink-ring"
         onClick={(e) => e.stopPropagation()}
       >
+        <div className="relative aspect-[3/2] max-h-[90vh] min-h-[22rem] w-full sm:min-h-[28rem]">
         {cover ? (
           <img
             src={cover.src}
@@ -57,36 +58,37 @@ export function TldrGate() {
             className="absolute inset-0 size-full object-cover"
           />
         ) : null}
-        <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/70 to-ink/25" />
+        <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/55 to-ink/15" />
         <button
           type="button"
           onClick={dismiss}
-          className="absolute top-3 right-3 z-10 inline-flex size-11 items-center justify-center rounded-sm text-ink-fg hover:bg-ink-fg/10"
+          className="absolute top-3 right-3 z-10 inline-flex size-11 items-center justify-center rounded-sm text-ink-fg hover:bg-ink-fg/10 sm:top-4 sm:right-4"
           aria-label="Close"
         >
           <X className="size-5" />
         </button>
-        <div className="relative flex min-h-[28rem] flex-col justify-end p-6 sm:p-8">
+        <div className="relative flex h-full flex-col justify-end p-6 sm:p-10">
           <p className="text-xs font-medium tracking-widest text-accent uppercase">In a rush?</p>
           <h2
             id="tldr-gate-title"
-            className="mt-3 font-display text-4xl font-semibold tracking-wide text-ink-fg uppercase sm:text-5xl"
+            className="mt-3 font-display text-4xl font-semibold tracking-wide text-ink-fg uppercase sm:text-6xl"
           >
             Here’s the TL;DR
           </h2>
-          <p className="mt-4 max-w-sm text-lg leading-relaxed text-ink-muted">
+          <p className="mt-4 max-w-xl text-lg leading-relaxed text-ink-muted sm:text-xl">
             If not, a plethora of info awaits ahead.
           </p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
-            <Button asChild>
+            <Button asChild size="lg">
               <Link to="/hacks/$slug" params={{ slug: "tldr" }} onClick={dismiss}>
                 Show me the short list
               </Link>
             </Button>
-            <Button type="button" variant="onInkOutline" onClick={dismiss}>
+            <Button type="button" variant="onInkOutline" size="lg" onClick={dismiss}>
               I’ll take the long way
             </Button>
           </div>
+        </div>
         </div>
       </div>
     </div>
