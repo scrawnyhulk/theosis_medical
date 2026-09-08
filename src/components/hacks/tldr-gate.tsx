@@ -7,20 +7,16 @@ import { Button } from "@/components/ui/button";
 import { hackCovers } from "@/lib/hacks";
 import { cn } from "@/lib/utils";
 
-const KEY = "theosis-hacks-tldr-gate";
+const KEY = "theosis-hacks-tldr-gate-v2";
 
 export function TldrGate() {
   const [mounted, setMounted] = useState(false);
-  const [inView, setInView] = useState(false);
+  const [leaving, setLeaving] = useState(false);
   const cover = hackCovers.tldr;
 
   useEffect(() => {
     if (sessionStorage.getItem(KEY) === "1") return;
     setMounted(true);
-    const id = requestAnimationFrame(() => {
-      requestAnimationFrame(() => setInView(true));
-    });
-    return () => cancelAnimationFrame(id);
   }, []);
 
   useEffect(() => {
@@ -39,7 +35,7 @@ export function TldrGate() {
 
   function dismiss() {
     sessionStorage.setItem(KEY, "1");
-    setInView(false);
+    setLeaving(true);
   }
 
   if (!mounted) return null;
@@ -47,9 +43,8 @@ export function TldrGate() {
   return (
     <div
       className={cn(
-        "fixed inset-0 z-[70] flex items-center justify-center overflow-hidden p-4 sm:p-8",
-        "bg-ink/80 transition-opacity duration-500 ease-out motion-reduce:duration-150",
-        inView ? "opacity-100" : "opacity-0",
+        "fixed inset-0 z-[70] flex items-center justify-center overflow-hidden bg-ink/80 p-4 sm:p-8",
+        leaving ? "tldr-scrim-out" : "tldr-scrim-in",
       )}
       onClick={dismiss}
       role="dialog"
@@ -59,17 +54,12 @@ export function TldrGate() {
       <div
         className={cn(
           "relative w-full max-w-5xl overflow-hidden rounded-xl bg-ink shadow-ink-ring",
-          "origin-right transition-[transform,opacity] duration-500 motion-reduce:duration-150",
-          inView
-            ? "translate-x-0 opacity-100"
-            : "translate-x-[110%] opacity-40 motion-reduce:translate-x-0 motion-reduce:opacity-0",
+          leaving ? "tldr-swoop-out" : "tldr-swoop-in",
         )}
-        style={{ transitionTimingFunction: "var(--ease-out)" }}
         onClick={(e) => e.stopPropagation()}
-        onTransitionEnd={(e) => {
+        onAnimationEnd={(e) => {
           if (e.target !== e.currentTarget) return;
-          if (e.propertyName !== "transform") return;
-          if (!inView) setMounted(false);
+          if (leaving) setMounted(false);
         }}
       >
         <div className="relative aspect-[16/10] max-h-[82vh] min-h-[20rem] w-full sm:min-h-[24rem]">

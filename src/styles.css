@@ -196,7 +196,11 @@
   }
 
   .stagger-in,
-  .stagger-in > * {
+  .stagger-in > *,
+  .tldr-swoop-in,
+  .tldr-swoop-out,
+  .tldr-scrim-in,
+  .tldr-scrim-out {
     opacity: 1 !important;
     filter: none !important;
     animation: none !important;
@@ -239,4 +243,56 @@
 
 .stagger-in > :nth-child(5) {
   animation-delay: 0.36s;
+}
+
+@keyframes tldr-swoop-in {
+  from {
+    transform: translateX(100vw);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes tldr-swoop-out {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(100vw);
+  }
+}
+
+@keyframes tldr-scrim-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes tldr-scrim-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+.tldr-swoop-in {
+  animation: tldr-swoop-in 720ms var(--ease-out) both;
+}
+
+.tldr-swoop-out {
+  animation: tldr-swoop-out 320ms ease-in both;
+}
+
+.tldr-scrim-in {
+  animation: tldr-scrim-in 400ms ease-out both;
+}
+
+.tldr-scrim-out {
+  animation: tldr-scrim-out 280ms ease-in both;
 }
