@@ -132,7 +132,7 @@ export function StartCalculator({ compact = false }: { compact?: boolean }) {
           <Stat
             label="Leftover after protein"
             value={`${result.remaining} cal`}
-            note="Protein at 4 cal/g. Real food brings some fat with it."
+            note="Eat whatever you want within this amount of total calories"
           />
         </dl>
       ) : (
