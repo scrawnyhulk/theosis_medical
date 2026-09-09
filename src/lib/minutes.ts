@@ -9,7 +9,8 @@ export type MinuteSlug =
   | "antibiotic-resistance"
   | "how-antibiotics-work"
   | "peritonitis"
-  | "create-diabetic";
+  | "create-diabetic"
+  | "afib";
 
 export type MinuteStep = {
   title: string;
@@ -297,6 +298,28 @@ export const minutes: Minute[] = [
       "The slider is a model of that overflow — not your personal threshold. Watch the order. First the pinchable fat under the skin. When that tank is full, extra fuel wraps the organs as visceral fat. When that is full too, it lands in the liver, the pancreas, and muscle. When those are saturated, glucose and fat spill into the blood, and that is type 2 diabetes.",
       "This is not type 1. Type 1 is an autoimmune failure to make insulin. Different disease.",
     ],
+  },
+  {
+    slug: "afib",
+    n: "12",
+    title: "What Is AFib?",
+    lede: "When the upper chambers quiver instead of squeezing — and why that can lead to a stroke.",
+    cover: "/images/minutes-afib-cover.png",
+    coverAlt:
+      "Normal heart rhythm versus atrial fibrillation: organized signals on the left, chaotic atrial signals and an irregular ECG on the right.",
+    paragraphs: [
+      "The heart has a natural pacemaker — the SA node — that fires an organized signal. The upper chambers (the atria) squeeze. That blood fills the lower chambers (the ventricles). The AV node relays the signal, the ventricles squeeze, and you get a pulse. Those are electrical signals in heart muscle, not nerves firing.",
+      "In atrial fibrillation that signal becomes disorganized. The atria quiver instead of squeezing. The ventricles still beat, but irregularly — and often fast. The pulse feels jumpy. The ECG looks like a messy, uneven line instead of a steady march.",
+      "The stroke risk is the part people underestimate. Because the left atrium is not emptying well, blood can pool in a small pouch called the left atrial appendage. A clot can form there, travel out the left heart into the arteries, and lodge in the brain. AFib raises stroke risk about five-fold; individual risk still varies. A persistently fast rate can also wear the heart out and contribute to heart failure.",
+      "What you might feel: a fluttering or racing heart, fatigue, shortness of breath, dizziness, or chest discomfort. Some people feel nothing. Silent AFib can still raise stroke risk. It is more common with older age, high blood pressure, obesity, diabetes, heart disease, sleep apnea, heavy alcohol use, and a family history.",
+      "Treatment has three jobs: prevent stroke (anticoagulants when your risk warrants them), control the rate if it is too fast, and manage the rhythm — medicines, a controlled electrical reset called cardioversion, or ablation in selected cases. Blood pressure, weight, activity, alcohol, and sleep apnea are the levers that actually help.",
+      "Get checked for a new irregular or racing heartbeat. Call 911 for stroke signs (face drooping, arm weakness, speech difficulty), severe chest pain, fainting, or severe trouble breathing.",
+    ],
+    image: "/images/minutes-afib.png",
+    imageAlt:
+      "Infographic: what is atrial fibrillation. Normal rhythm versus AFib, why AFib can cause a stroke from a clot in the left atrial appendage, symptoms, who is more likely to get it, three treatment goals, and when to call 911.",
+    imageCredit:
+      "Based on the supplied OpenEvidence summary; cross-checked with the American Heart Association. General education — follow your own clinician’s treatment plan.",
   },
 ];
 
