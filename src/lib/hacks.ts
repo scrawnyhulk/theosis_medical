@@ -151,7 +151,7 @@ paragraphs: [
     slug: "protein-per-pound",
     n: "04",
     title: "One Gram Per Pound",
-    lede: "Eat about 1 gram of protein per pound of body weight. If you have a lot to lose, using a goal weight is reasonable.",
+    lede: "Eat about 1 gram of protein per pound of body weight — goal weight is fine if you have a lot to lose. Individuals over 60 years old may need even more.",
     stolenFrom: "Alex Hormozi, Dr. Ted Naiman, and the protein-first crowd",
 paragraphs: [
       "If you weigh 180 pounds, aim for about 180 grams of protein across the day. Not in one sitting. Spread it out so you are not trying to choke down a Costco chicken at 9 p.m.",
@@ -1381,7 +1381,7 @@ export const tldrItems: { slug: HackSlug; line: string }[] = [
   },
   {
     slug: "protein-per-pound",
-    line: "About 1 gram of protein per pound — goal weight is fine if you have a lot to lose.",
+    line: "Eat about 1 gram of protein per pound of body weight — goal weight is fine if you have a lot to lose. Individuals over 60 years old may need even more.",
   },
   {
     slug: "protein-label",
