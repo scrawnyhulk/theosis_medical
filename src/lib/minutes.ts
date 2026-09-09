@@ -8,7 +8,8 @@ export type MinuteSlug =
   | "sepsis"
   | "antibiotic-resistance"
   | "how-antibiotics-work"
-  | "peritonitis";
+  | "peritonitis"
+  | "create-diabetic";
 
 export type MinuteStep = {
   title: string;
@@ -281,6 +282,20 @@ export const minutes: Minute[] = [
       "Infographic: what is peritonitis. The peritoneum, how a local problem spreads, four common examples, localized versus generalized, exam clues, how it is found, treat the source, and when to seek emergency care.",
     imageCredit:
       "Patient education only — not a diagnosis. Mayo Clinic · American Society of Colon and Rectal Surgeons · Merck Manual · World Society of Emergency Surgery guidance.",
+  },
+  {
+    slug: "create-diabetic",
+    n: "11",
+    title: "Create a Diabetic",
+    lede: "An interactive tool showing how diabetes happens.",
+    cover: "/images/minutes-create-diabetic-cover.png",
+    coverAlt:
+      "Anatomical standing figure with extra fuel overflowing from under the skin into the organs — the path to type 2 diabetes.",
+    paragraphs: [
+      "Everyone has a personal limit for how much fat they can store safely under the skin. Genetics set most of that capacity. Some people can keep expanding that tank for a long time. Others overflow after a modest extra ten pounds.",
+      "The slider is a model of that overflow — not your personal threshold. Watch the order. First the pinchable fat under the skin. When that tank is full, extra fuel wraps the organs as visceral fat. When that is full too, it lands in the liver, the pancreas, and muscle. When those are saturated, glucose and fat spill into the blood, and that is type 2 diabetes.",
+      "This is not type 1. Type 1 is an autoimmune failure to make insulin. Different disease.",
+    ],
   },
 ];
 
