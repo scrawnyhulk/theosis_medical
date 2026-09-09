@@ -9,11 +9,11 @@ const VISC = 60;
 const ECTO = 82;
 
 const STAGES = [
-  { src: "/images/diabetic-lean.jpg", at: 0, alt: "Lean anatomical figure with healthy organs and little stored fat." },
-  { src: "/images/diabetic-subq.jpg", at: SQ, alt: "Subcutaneous fat filling under the skin of the abdomen and thighs." },
-  { src: "/images/diabetic-visceral.jpg", at: VISC, alt: "Visceral fat wrapping the intestines and abdominal organs." },
-  { src: "/images/diabetic-ectopic.jpg", at: ECTO, alt: "Fatty liver, fatty pancreas, and marbled muscle — ectopic fat." },
-  { src: "/images/diabetic-spill.jpg", at: 100, alt: "Fuel spilling into the bloodstream — type 2 diabetes." },
+  { src: "/images/diabetic-lean.jpg", alt: "Lean anatomical figure with healthy organs and little stored fat." },
+  { src: "/images/diabetic-subq.jpg", alt: "Subcutaneous fat filling under the skin of the abdomen and thighs." },
+  { src: "/images/diabetic-visceral.jpg", alt: "Visceral fat wrapping the intestines and abdominal organs." },
+  { src: "/images/diabetic-ectopic.jpg", alt: "Fatty liver, fatty pancreas, and marbled muscle — ectopic fat." },
+  { src: "/images/diabetic-spill.jpg", alt: "Fuel spilling into the bloodstream — type 2 diabetes." },
 ] as const;
 
 const TICKS = [
@@ -26,30 +26,16 @@ function clamp01(n: number) {
   return Math.min(1, Math.max(0, n));
 }
 
-function opacities(v: number): number[] {
-  const ats = STAGES.map((s) => s.at);
-  const out = ats.map(() => 0);
-  if (v <= ats[0]) {
-    out[0] = 1;
-    return out;
-  }
-  if (v >= ats[ats.length - 1]) {
-    out[ats.length - 1] = 1;
-    return out;
-  }
-  for (let i = 0; i < ats.length - 1; i++) {
-    if (v >= ats[i] && v <= ats[i + 1]) {
-      const t = (v - ats[i]) / (ats[i + 1] - ats[i]);
-      out[i] = 1 - t;
-      out[i + 1] = t;
-      return out;
-    }
-  }
-  return out;
+function stageIndex(v: number) {
+  if (v < 8) return 0;
+  if (v < SQ) return 1;
+  if (v < VISC) return 2;
+  if (v < ECTO) return 3;
+  return 4;
 }
 
 function stageCopy(v: number) {
-  if (v < 6) {
+  if (v < 8) {
     return {
       title: "Lean",
       line: "No extra fuel in the tank. Muscle, organs, and blood look the way they should.",
@@ -79,10 +65,76 @@ function stageCopy(v: number) {
   };
 }
 
+function useSliderDrag(axis: "x" | "y", onChange: (n: number) => void) {
+  const trackRef = useRef<HTMLDivElement>(null);
+  const onChangeRef = useRef(onChange);
+  onChangeRef.current = onChange;
+
+  const read = useCallback(
+    (clientX: number, clientY: number) => {
+      const el = trackRef.current;
+      if (!el) return;
+      const r = el.getBoundingClientRect();
+      const t =
+        axis === "y"
+          ? 1 - (clientY - r.top) / Math.max(1, r.height)
+          : (clientX - r.left) / Math.max(1, r.width);
+      onChangeRef.current(Math.round(clamp01(t) * 100));
+    },
+    [axis],
+  );
+
+  const onPointerDown = useCallback(
+    (e: React.PointerEvent<HTMLDivElement>) => {
+      if (e.pointerType === "mouse" && e.button !== 0) return;
+      e.preventDefault();
+      e.currentTarget.focus();
+      read(e.clientX, e.clientY);
+
+      const move = (ev: PointerEvent) => {
+        ev.preventDefault();
+        read(ev.clientX, ev.clientY);
+      };
+      const up = () => {
+        window.removeEventListener("pointermove", move);
+        window.removeEventListener("pointerup", up);
+        window.removeEventListener("pointercancel", up);
+      };
+      window.addEventListener("pointermove", move, { passive: false });
+      window.addEventListener("pointerup", up);
+      window.addEventListener("pointercancel", up);
+    },
+    [read],
+  );
+
+  return { trackRef, onPointerDown };
+}
+
+function keys(onChange: (n: number) => void, value: number) {
+  return (e: React.KeyboardEvent) => {
+    if (e.key === "ArrowUp" || e.key === "ArrowRight") {
+      e.preventDefault();
+      onChange(Math.min(100, value + 2));
+    }
+    if (e.key === "ArrowDown" || e.key === "ArrowLeft") {
+      e.preventDefault();
+      onChange(Math.max(0, value - 2));
+    }
+    if (e.key === "Home") {
+      e.preventDefault();
+      onChange(0);
+    }
+    if (e.key === "End") {
+      e.preventDefault();
+      onChange(100);
+    }
+  };
+}
+
 export function CreateDiabetic() {
   const [v, setV] = useState(0);
   const stage = stageCopy(v);
-  const layers = opacities(v);
+  const shown = stageIndex(v);
   const live = `${stage.title}. ${stage.line}`;
 
   return (
@@ -91,7 +143,7 @@ export function CreateDiabetic() {
       <h2 className="mt-2 font-display text-3xl font-semibold tracking-wide">Slide the fuel in</h2>
       <p className="mt-3 max-w-xl text-sm leading-relaxed text-ink-muted sm:text-base">
         Green is empty. Dark red is a full spill into the blood. Three ticks mark the tanks filling up. Drag the
-        slider — or the bar itself.
+        slider.
       </p>
 
       <div className="mt-8 flex flex-col items-center gap-8 lg:flex-row lg:items-stretch lg:justify-center lg:gap-12">
@@ -101,9 +153,9 @@ export function CreateDiabetic() {
               <img
                 key={s.src}
                 src={s.src}
-                alt={i === 0 ? s.alt : ""}
+                alt={i === shown ? s.alt : ""}
                 className="absolute inset-0 size-full object-cover object-top"
-                style={{ opacity: layers[i], transition: "opacity 80ms linear" }}
+                style={{ opacity: i === shown ? 1 : 0 }}
                 draggable={false}
               />
             ))}
@@ -170,22 +222,10 @@ function VerticalBar({
   live: string;
   className?: string;
 }) {
-  const trackRef = useRef<HTMLDivElement>(null);
-  const dragging = useRef(false);
-
-  const apply = useCallback(
-    (clientY: number) => {
-      const el = trackRef.current;
-      if (!el) return;
-      const r = el.getBoundingClientRect();
-      const t = 1 - (clientY - r.top) / r.height;
-      onChange(Math.round(clamp01(t) * 100));
-    },
-    [onChange],
-  );
+  const { trackRef, onPointerDown } = useSliderDrag("y", onChange);
 
   return (
-    <div className={cn("flex min-h-0 flex-1 flex-col", className)}>
+    <div className={cn("flex min-h-0 flex-1 flex-col select-none", className)}>
       <p className="mb-3 text-[10px] font-medium tracking-[0.18em] text-ink-muted uppercase">Type 2 diabetes</p>
       <div className="relative min-h-80 flex-1">
         <div
@@ -198,40 +238,9 @@ function VerticalBar({
           aria-valuetext={live}
           aria-label="Fat accumulation from lean to type 2 diabetes"
           aria-orientation="vertical"
-          className="absolute inset-y-0 left-0 z-10 w-14 cursor-ns-resize touch-none outline-none"
-          onPointerDown={(e) => {
-            e.preventDefault();
-            dragging.current = true;
-            e.currentTarget.setPointerCapture(e.pointerId);
-            apply(e.clientY);
-          }}
-          onPointerMove={(e) => {
-            if (dragging.current) apply(e.clientY);
-          }}
-          onPointerUp={() => {
-            dragging.current = false;
-          }}
-          onPointerCancel={() => {
-            dragging.current = false;
-          }}
-          onKeyDown={(e) => {
-            if (e.key === "ArrowUp" || e.key === "ArrowRight") {
-              e.preventDefault();
-              onChange(Math.min(100, value + 2));
-            }
-            if (e.key === "ArrowDown" || e.key === "ArrowLeft") {
-              e.preventDefault();
-              onChange(Math.max(0, value - 2));
-            }
-            if (e.key === "Home") {
-              e.preventDefault();
-              onChange(0);
-            }
-            if (e.key === "End") {
-              e.preventDefault();
-              onChange(100);
-            }
-          }}
+          className="absolute inset-y-0 left-0 z-10 w-16 cursor-ns-resize touch-none outline-none"
+          onPointerDown={onPointerDown}
+          onKeyDown={keys(onChange, value)}
         >
           <span
             className="pointer-events-none absolute top-0 bottom-0 left-5 w-3 rounded-full"
@@ -248,7 +257,7 @@ function VerticalBar({
         {TICKS.map((tick) => (
           <div
             key={tick.at}
-            className="pointer-events-none absolute left-12 right-0"
+            className="pointer-events-none absolute left-14 right-0"
             style={{ bottom: `${tick.at}%`, transform: "translateY(50%)" }}
           >
             <div className="flex items-center gap-2">
@@ -274,22 +283,10 @@ function HorizontalBar({
   live: string;
   className?: string;
 }) {
-  const trackRef = useRef<HTMLDivElement>(null);
-  const dragging = useRef(false);
-
-  const apply = useCallback(
-    (clientX: number) => {
-      const el = trackRef.current;
-      if (!el) return;
-      const r = el.getBoundingClientRect();
-      const t = (clientX - r.left) / r.width;
-      onChange(Math.round(clamp01(t) * 100));
-    },
-    [onChange],
-  );
+  const { trackRef, onPointerDown } = useSliderDrag("x", onChange);
 
   return (
-    <div className={cn("w-full pb-10", className)}>
+    <div className={cn("w-full pb-10 select-none", className)}>
       <div className="flex justify-between text-[10px] font-medium tracking-[0.18em] text-ink-muted uppercase">
         <span>No extra fat</span>
         <span>Type 2 diabetes</span>
@@ -304,40 +301,9 @@ function HorizontalBar({
         aria-valuetext={live}
         aria-label="Fat accumulation from lean to type 2 diabetes"
         aria-orientation="horizontal"
-        className="relative mt-3 h-11 w-full cursor-ew-resize touch-none outline-none"
-        onPointerDown={(e) => {
-          e.preventDefault();
-          dragging.current = true;
-          e.currentTarget.setPointerCapture(e.pointerId);
-          apply(e.clientX);
-        }}
-        onPointerMove={(e) => {
-          if (dragging.current) apply(e.clientX);
-        }}
-        onPointerUp={() => {
-          dragging.current = false;
-        }}
-        onPointerCancel={() => {
-          dragging.current = false;
-        }}
-        onKeyDown={(e) => {
-          if (e.key === "ArrowRight" || e.key === "ArrowUp") {
-            e.preventDefault();
-            onChange(Math.min(100, value + 2));
-          }
-          if (e.key === "ArrowLeft" || e.key === "ArrowDown") {
-            e.preventDefault();
-            onChange(Math.max(0, value - 2));
-          }
-          if (e.key === "Home") {
-            e.preventDefault();
-            onChange(0);
-          }
-          if (e.key === "End") {
-            e.preventDefault();
-            onChange(100);
-          }
-        }}
+        className="relative mt-3 h-14 w-full cursor-ew-resize touch-none outline-none"
+        onPointerDown={onPointerDown}
+        onKeyDown={keys(onChange, value)}
       >
         <span
           className="pointer-events-none absolute top-1/2 right-0 left-0 h-3 -translate-y-1/2 rounded-full"

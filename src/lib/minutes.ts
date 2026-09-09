@@ -292,6 +292,7 @@ export const minutes: Minute[] = [
     coverAlt:
       "Anatomical standing figure with extra fuel overflowing from under the skin into the organs — the path to type 2 diabetes.",
     paragraphs: [
+      "Remember that fat and carbohydrates are fuel, and if we take in more fuel than we need, we store it in the fuel tanks: fat cells, and glycogen stores (liver and muscle).",
       "Everyone has a personal limit for how much fat they can store safely under the skin. Genetics set most of that capacity. Some people can keep expanding that tank for a long time. Others overflow after a modest extra ten pounds.",
       "The slider is a model of that overflow — not your personal threshold. Watch the order. First the pinchable fat under the skin. When that tank is full, extra fuel wraps the organs as visceral fat. When that is full too, it lands in the liver, the pancreas, and muscle. When those are saturated, glucose and fat spill into the blood, and that is type 2 diabetes.",
       "This is not type 1. Type 1 is an autoimmune failure to make insulin. Different disease.",
