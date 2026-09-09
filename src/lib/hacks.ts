@@ -1369,7 +1369,7 @@ export const readingList = [
 export const tldrItems: { slug: HackSlug; line: string }[] = [
   {
     slug: "why-hard",
-    line: "This is biology, not a character flaw. Carb plus fat together hijacks the brain. Know that first.",
+    line: "This is biology, not a character flaw. Our brain thinks it's 10,000 BC and we will starve tomorrow. Carbs and fats eaten together hijacks the brain and sends a drug-like reward signal that makes it very hard to stop eating as our body sees it as fuel that we may not see again for a while.",
   },
   {
     slug: "where-to-start",
