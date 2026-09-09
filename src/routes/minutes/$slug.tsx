@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowLeft } from "lucide-react";
 import { EnlargeableImage } from "@/components/hacks/enlargeable-image";
 import { NerdStepper } from "@/components/hacks/nerd-stepper";
+import { VideoCard } from "@/components/hacks/video-card";
 import { CreateDiabetic } from "@/components/minutes/create-diabetic";
 import { SiteShell } from "@/components/site/site-shell";
 import { Button } from "@/components/ui/button";
@@ -98,6 +99,16 @@ function MinutePage() {
           </div>
         ) : null}
         {minute.steps && minute.steps.length > 0 ? <NerdStepper steps={minute.steps} topicId={minute.slug} /> : null}
+        {minute.videoId ? (
+          <div className="mt-10">
+            <VideoCard
+              videoId={minute.videoId}
+              title={minute.videoTitle ?? minute.title}
+              credit={minute.videoCredit ?? "Watch"}
+              summary={minute.videoSummary ?? ""}
+            />
+          </div>
+        ) : null}
         <p className="mt-12 text-sm text-muted">{minutesIntro.disclaimer}</p>
       </article>
     </SiteShell>

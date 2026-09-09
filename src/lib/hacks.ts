@@ -1351,6 +1351,15 @@ export const referenceVideos = [
     anchor: "naiman",
     usedOn: { slug: "nerd-out" as const, label: "Nutritional Nerd Out", hash: "personal-fat-threshold" },
   },
+  {
+    videoId: "tPqs4xKPG3A",
+    title: "Atrial Fibrillation Anatomy, ECG and Stroke, Animation.",
+    credit: "Alila Medical Media",
+    summary:
+      "Three minutes: how the atria quiver instead of squeezing, what that looks like on an ECG, and how a clot from the left atrial appendage can travel to the brain.",
+    anchor: "afib-anatomy",
+    usedOn: { slug: "afib" as const, label: "What Is AFib?", section: "minutes" as const },
+  },
 ] as const;
 
 export const readingList = [

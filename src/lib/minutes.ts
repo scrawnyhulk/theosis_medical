@@ -35,6 +35,10 @@ export type Minute = {
   extraImages?: { src: string; alt: string; credit: string }[];
   steps?: MinuteStep[];
   cardNote?: string;
+  videoId?: string;
+  videoTitle?: string;
+  videoCredit?: string;
+  videoSummary?: string;
 };
 
 export const minutesIntro = {
@@ -320,6 +324,11 @@ export const minutes: Minute[] = [
       "Infographic: what is atrial fibrillation. Normal rhythm versus AFib, why AFib can cause a stroke from a clot in the left atrial appendage, symptoms, who is more likely to get it, three treatment goals, and when to call 911.",
     imageCredit:
       "Based on the supplied OpenEvidence summary; cross-checked with the American Heart Association. General education — follow your own clinician’s treatment plan.",
+    videoId: "tPqs4xKPG3A",
+    videoTitle: "Atrial Fibrillation Anatomy, ECG and Stroke, Animation.",
+    videoCredit: "Alila Medical Media",
+    videoSummary:
+      "Three minutes: how the atria quiver instead of squeezing, what that looks like on an ECG, and how a clot from the left atrial appendage can travel to the brain.",
   },
 ];
 
