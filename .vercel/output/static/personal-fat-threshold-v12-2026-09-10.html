@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="dark">
-<meta name="pft-model-version" content="16-refined-tissues-fuel-reserves">
+  <meta name="pft-model-version" content="18-natural-tank-overflow">
 <meta name="description" content="Personal fat threshold: How to create a diabetic. Explore glycogen storage in liver and muscle, fat accumulation, adipocyte hyperplasia, and possible type 2 diabetes in an illustrative anatomy model.">
 <title>Personal fat threshold: How to create a diabetic · Theosis Medical</title>
 <style>
@@ -333,6 +333,9 @@ h1{font-size:clamp(20px,2vw,27px);line-height:1.2}
 .fuel-tank-panel[data-state="overflow"] #fuel-tank-status{color:#ee97a4}
 .fuel-tank-panel[data-state="expanding"] #fuel-tank-status{color:#b9d49c}
 #fuel-tank-svg{display:block;width:100%;height:88px;overflow:visible}
+.tank-water-glint{stroke-dasharray:3 19;animation:tank-runoff 1.8s linear infinite}
+@keyframes tank-runoff{to{stroke-dashoffset:-44}}
+@media(prefers-reduced-motion:reduce){.tank-water-glint{animation:none}}
 #fuel-tank-caption{font-size:12px;line-height:1.25;color:#9fb5c4;margin:0}
 .fuel-tank-panel.in-ct-panel{margin-top:7px;padding-top:7px}
 .in-ct-panel #fuel-tank-svg{height:80px}
@@ -560,15 +563,22 @@ h1{font-size:clamp(20px,2vw,27px);line-height:1.2}
               <linearGradient id="tank-fuel" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#efd597"/><stop offset=".18" stop-color="#bd9650"/><stop offset="1" stop-color="#665126"/></linearGradient>
               <linearGradient id="tank-fuel-side" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#081722" stop-opacity=".24"/><stop offset=".3" stop-color="#fcf3cf" stop-opacity=".09"/><stop offset=".7" stop-color="#fcf3cf" stop-opacity="0"/><stop offset="1" stop-color="#081722" stop-opacity=".35"/></linearGradient>
               <linearGradient id="tank-reflection" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#d9eced" stop-opacity=".17"/><stop offset=".14" stop-color="#d9eced" stop-opacity=".03"/><stop offset=".7" stop-color="#d9eced" stop-opacity="0"/><stop offset="1" stop-color="#d9eced" stop-opacity=".11"/></linearGradient>
-              <linearGradient id="tank-overflow-color" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#e5bd72"/><stop offset=".5" stop-color="#e89c61"/><stop offset="1" stop-color="#ed7e90"/></linearGradient>
+              <radialGradient id="tank-full-surface" cx=".35" cy=".28" r=".8"><stop stop-color="#f0dba6"/><stop offset=".6" stop-color="#c7a562"/><stop offset="1" stop-color="#9a7942"/></radialGradient>
+              <linearGradient id="tank-overflow-sheet" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#e6c787" stop-opacity=".72"/><stop offset=".08" stop-color="#f4dfab" stop-opacity=".32"/><stop offset=".32" stop-color="#eed39b" stop-opacity=".08"/><stop offset=".65" stop-color="#ddbd79" stop-opacity=".22"/><stop offset=".93" stop-color="#f1dba5" stop-opacity=".38"/><stop offset="1" stop-color="#c9a569" stop-opacity=".65"/></linearGradient>
+              <linearGradient id="tank-overflow-color" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#f1daa1" stop-opacity=".85"/><stop offset=".4" stop-color="#cfb073" stop-opacity=".62"/><stop offset=".78" stop-color="#dec087" stop-opacity=".8"/><stop offset="1" stop-color="#ac8b4e" stop-opacity=".65"/></linearGradient>
+              <radialGradient id="tank-puddle-color" cx=".42" cy=".35" r=".72"><stop stop-color="#c3a362" stop-opacity=".6"/><stop offset=".55" stop-color="#b99a57" stop-opacity=".66"/><stop offset=".87" stop-color="#88703e" stop-opacity=".58"/><stop offset="1" stop-color="#d1b679" stop-opacity=".42"/></radialGradient>
             </defs>
+            <g id="tank-overflow-puddle" opacity="0">
+              <path id="tank-spill-pool" fill="url(#tank-puddle-color)" stroke="#c1a368" stroke-opacity=".45" stroke-width=".65"/>
+              <path id="tank-puddle-glint" fill="none" stroke="#e2cc95" stroke-opacity=".43" stroke-width=".7" stroke-linecap="round"/>
+            </g>
             <g id="tank-connections" fill="none" stroke="#5d858b" stroke-width="2"></g>
             <g id="tank-vessels"></g>
             <g id="tank-overflow" opacity="0">
-              <path id="tank-spill-shadow" fill="none" stroke="#0b1017" stroke-width="8" stroke-linecap="round"/>
-              <path id="tank-spill-flow" fill="none" stroke="url(#tank-overflow-color)" stroke-width="4" stroke-linecap="round"/>
-              <g id="tank-spill-drops" fill="#eac984"></g>
-              <ellipse id="tank-spill-pool" cx="278" cy="92" rx="16" ry="2.8" fill="#c76769" opacity=".6"/>
+              <path id="tank-spill-sheet" fill="url(#tank-overflow-sheet)"/>
+              <g id="tank-spill-rivulets" fill="none" stroke-linecap="round"></g>
+              <ellipse id="tank-spill-rim" cy="17" ry="6.6" fill="none" stroke="#e9d39b" stroke-opacity=".8"/>
+              <g id="tank-spill-drops" fill="#d5b97e" fill-opacity=".68"></g>
             </g>
           </svg>
           <p id="fuel-tank-caption">Moderate reserve · hypothetical capacity</p>
@@ -1270,11 +1280,51 @@ h1{font-size:clamp(20px,2vw,27px);line-height:1.2}
     tankParts.push({group,clipShape,shadow,leftFoot,rightFoot,shell,fill,surface,side,reflection,scale,bottom,rim,glint});
   }
   const tankLinks=Array.from({length:3},()=>node("path",{},$("tank-connections")));
-  const tankDrops=Array.from({length:6},(_,i)=>node("circle",{r:1.5+(i%3)*.45},$("tank-spill-drops")));
+  const tankRunoff=[-1,-.84,-.61,-.35,-.08,.18,.48,.74,1].map(function(position,i){
+    const stream=node("path",{stroke:"url(#tank-overflow-color)"},$("tank-spill-rivulets"));
+    const glint=node("path",{stroke:"#f4e2b5","stroke-opacity":.38,"stroke-width":.6,class:"tank-water-glint",style:"animation-delay:"+(-i*.19)+"s"},$("tank-spill-rivulets"));
+    return {position,stream,glint};
+  });
+  const tankDrops=Array.from({length:6},()=>node("ellipse",{},$("tank-spill-drops")));
   function tankBoundary(x,w){return "M"+x+" 17 Q"+(x+w/2)+" 3 "+(x+w)+" 17 L"+(x+w)+" 79 Q"+(x+w/2)+" 93 "+x+" 79Z"}
+  function renderTankOverflow(x,w,amount){
+    const visible=amount>0,center=x+w/2,spread=w/2+7+23*amount,depth=5+6*amount;
+    $("tank-overflow").setAttribute("opacity",visible?1:0);
+    $("tank-overflow-puddle").setAttribute("opacity",visible?1:0);
+    // A shallow pool lies on the ground behind and around the tank. Its
+    // edge expands gently with the excess, with no detached outlet stream.
+    const edge=Array.from({length:40},function(_,i){
+      const angle=2*Math.PI*i/40,r=1+.027*Math.sin(angle*3+.5)+.018*Math.cos(angle*7);
+      return [center+spread*Math.cos(angle)*r,87+depth*Math.sin(angle)*r];
+    });
+    $("tank-spill-pool").setAttribute("d",smoothOutline(edge));
+    $("tank-puddle-glint").setAttribute("d","M"+(center-spread*.84)+" "+(87+depth*.44)+" Q"+(center-spread*.32)+" "+(87+depth*1.07)+" "+(center+spread*.18)+" "+(87+depth*.94)+" M"+(center+spread*.48)+" "+(87+depth*.8)+" Q"+(center+spread*.8)+" "+(87+depth*.6)+" "+(center+spread*.9)+" "+(87+depth*.3));
+    // Fuel crosses the whole lip and clings to the curved outer wall.
+    // Fine rivulets follow gravity to the same pool, instead of arcing away.
+    $("tank-spill-sheet").setAttribute("d","M"+x+" 17 Q"+center+" 30 "+(x+w)+" 17 L"+(x+w)+" 81 Q"+center+" 96 "+x+" 81Z");
+    $("tank-spill-sheet").setAttribute("opacity",(.2+.5*amount).toFixed(3));
+    $("tank-spill-rim").setAttribute("cx",center);$("tank-spill-rim").setAttribute("rx",w/2+.35);
+    $("tank-spill-rim").setAttribute("stroke-width",(.65+1.2*amount).toFixed(2));
+    tankRunoff.forEach(function(run,i){
+      const u=run.position,curve=Math.sqrt(Math.max(0,1-u*u)),px=center+u*(w/2+.55),top=17+6.5*curve,bottom=84+6*curve;
+      const bend=Math.abs(u)>.99?.35:1.2+(i%3)*.55;
+      const d="M"+px+" "+top+" C"+(px-bend)+" "+(top+13)+" "+(px+bend)+" "+(top+24)+" "+px+" "+(top+35)+" S"+(px-bend*.7)+" "+(bottom-10)+" "+px+" "+bottom;
+      run.stream.setAttribute("d",d);run.glint.setAttribute("d",d);
+      run.stream.setAttribute("stroke-width",(.55+amount*(Math.abs(u)>.99?3.2:1.3+(i%3)*.6)).toFixed(2));
+      run.stream.setAttribute("opacity",(.4+.5*amount).toFixed(3));
+      run.glint.setAttribute("opacity",(.3+.6*amount).toFixed(3));
+    });
+    tankDrops.forEach(function(dot,i){
+      const u=[-.93,-.7,-.28,.19,.59,.94][i],curve=Math.sqrt(1-u*u);
+      dot.setAttribute("cx",center+u*(w/2+2));dot.setAttribute("cy",86+5*curve);
+      dot.setAttribute("rx",(.45+amount*(.5+(i%2)*.35)).toFixed(2));
+      dot.setAttribute("ry",(.4+amount*.65).toFixed(2));
+      dot.setAttribute("opacity",(.2+.45*amount).toFixed(2));
+    });
+  }
   function renderFuelTank(m){
     const state=fuelTankState(m),multi=m.profile==="extreme",w=state.width;
-    const start=multi?24:40;
+    const start=multi?24:(320-w)/2;
     $("fuel-tank-panel").dataset.state=state.overflow>0?"overflow":multi?"expanding":"storing";
     $("fuel-tank-svg").dataset.tankCount=String(state.count);
     $("fuel-tank-svg").dataset.overflow=state.overflow.toFixed(4);
@@ -1290,6 +1340,7 @@ h1{font-size:clamp(20px,2vw,27px);line-height:1.2}
       p.surface.setAttribute("cx",x+w/2);p.surface.setAttribute("cy",y);p.surface.setAttribute("rx",w/2);p.surface.setAttribute("opacity",level>.001?1:0);
       if(level===0)p.fill.setAttribute("height",0);
       p.rim.setAttribute("cx",x+w/2);p.rim.setAttribute("rx",w/2);
+      p.rim.setAttribute("fill",level>=.999?"url(#tank-full-surface)":"#112632");
       p.bottom.setAttribute("d","M"+x+" 79 Q"+(x+w/2)+" 93 "+(x+w)+" 79");
       p.glint.setAttribute("d","M"+(x+5)+" 27L"+(x+5)+" 72");
       p.scale.setAttribute("d",[.25,.5,.75].map(v=>"M"+(x+w-12)+" "+(79-v*62)+"h7").join(" "));
@@ -1299,17 +1350,13 @@ h1{font-size:clamp(20px,2vw,27px);line-height:1.2}
       link.setAttribute("d","M"+a+" 59 H"+b);
       link.setAttribute("opacity",multi&&i<state.count-1?.8:0);
     });
-    const outlet=start+w,spill="M"+outlet+" 20 C"+(outlet+21)+" 20 278 20 278 40 L278 76";
-    $("tank-overflow").setAttribute("opacity",state.overflow>0?1:0);
-    $("tank-spill-flow").setAttribute("d",spill);$("tank-spill-shadow").setAttribute("d",spill);
-    $("tank-spill-flow").setAttribute("stroke-width",(2+5*state.overflow).toFixed(2));
-    tankDrops.forEach(function(dot,i){dot.setAttribute("cx",278+(i%2?-1:1)*(i%3));dot.setAttribute("cy",79+i*2.2);dot.setAttribute("opacity",clamp(state.overflow*7-i*.35));});
+    renderTankOverflow(start,w,state.overflow);
     let status="Storage available",caption=m.profileLabel.replace(" threshold","")+" reserve · hypothetical capacity";
     if(m.glycemicState==="prediabetes")status="Little reserve left";
     if(state.overflow>0){status="Overflow · A1c ≥6.5%";caption="Insulin response no longer keeps up";}
     if(multi){status=state.count===1?"Expandable reserve":state.count+" tanks · capacity added";caption="New fat cells add storage · no spill in this example";}
     $("fuel-tank-status").textContent=status;$("fuel-tank-caption").textContent=caption;
-    $("fuel-tank-svg").setAttribute("aria-label",multi?"Hypothetical expanding fuel reserve. "+state.count+" tanks, filled sequentially, with spare capacity and no overflow in this example.":"Hypothetical "+m.profileLabel.toLowerCase()+" fuel tank. "+Math.round(state.levels[0]*100)+" percent of illustrative capacity. "+(state.overflow>0?"Overflow begins with the model's diabetes-range A1c and increases as more fuel is added.":"No overflow yet."));
+    $("fuel-tank-svg").setAttribute("aria-label",multi?"Hypothetical expanding fuel reserve. "+state.count+" tanks, filled sequentially, with spare capacity and no overflow in this example.":"Hypothetical "+m.profileLabel.toLowerCase()+" fuel tank. "+Math.round(state.levels[0]*100)+" percent of illustrative capacity. "+(state.overflow>0?"Fuel spills over the rim and down the sides into a growing puddle around the base, beginning with the model's diabetes-range A1c.":"No overflow yet."));
   }
   function placeFuelTank(width,height){
     const panel=$("fuel-tank-panel"),home=$("fuel-tank-home");
@@ -1457,6 +1504,7 @@ h1{font-size:clamp(20px,2vw,27px);line-height:1.2}
   }
   fitWorkbench();
   // END WORKBENCH
+
 
 
 
