@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="dark">
-  <meta name="pft-model-version" content="21-embed-readout-spacing">
+  <meta name="pft-model-version" content="22-standalone-layout-in-website">
 <meta name="description" content="Personal fat threshold: How to create a diabetic. Explore glycogen storage in liver and muscle, fat accumulation, adipocyte hyperplasia, and possible type 2 diabetes in an illustrative anatomy model.">
 <title>Personal fat threshold: How to create a diabetic · Theosis Medical</title>
 <style>
@@ -322,6 +322,25 @@ h1{font-size:clamp(20px,2vw,27px);line-height:1.2}
 .compact-height .a1c-card{margin-bottom:8px;padding-top:6px;padding-bottom:6px}
 .compact-height .ct-intro{display:none}
 @media(max-width:700px){.depot-row,.glycogen-row,.compact-height .depot-row,.compact-height .glycogen-row{min-height:27px}.depot-value,.threshold-controls p{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap}.compact-height .stage-block h2{font-size:15px}.compact-height .depots,.compact-height .glycogen-stores{gap:6px}}
+/* Fit the right column in place. The CT comparison always keeps its own
+   column; meters retain their intrinsic height instead of being overlapped.
+   Density is selected from actual content height in fitLiveReadouts(). */
+.detail[data-density="compact"],.detail[data-density="tight"]{gap:6px;padding-top:8px;padding-bottom:8px}
+.detail[data-density="compact"] .stage-heading,.detail[data-density="tight"] .stage-block,.detail[data-density="tight"] #fuel-tank-caption{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap}
+.detail[data-density="compact"] .stage-block h2{font-size:17px;line-height:1.2;margin:0}
+.detail[data-density="compact"] .section-label,.detail[data-density="tight"] .section-label{margin-bottom:6px}
+.detail[data-density="compact"] .glycogen-stores,.detail[data-density="tight"] .glycogen-stores{gap:5px;padding-bottom:6px;margin-bottom:6px}
+.detail[data-density="compact"] .depots,.detail[data-density="tight"] .depots{gap:5px}
+.detail[data-density="compact"] .depot-row,.detail[data-density="compact"] .glycogen-row,.detail[data-density="tight"] .depot-row,.detail[data-density="tight"] .glycogen-row{min-height:25px}
+.detail[data-density="compact"] .depot-name,.detail[data-density="tight"] .depot-name{font-size:14px;margin-bottom:3px}
+.detail[data-density="compact"] .fuel-tank-panel,.detail[data-density="tight"] .fuel-tank-panel{padding-top:6px}
+.detail[data-density="compact"] #fuel-tank-svg{height:76px}
+.detail[data-density="tight"] #fuel-tank-svg{height:68px}
+.detail[data-density="compact"] .blood-section,.detail[data-density="tight"] .blood-section{padding-top:6px}
+.detail[data-density="compact"] .blood-head,.detail[data-density="tight"] .blood-head{font-size:14px;line-height:1.25;margin-bottom:2px}
+.detail[data-density="compact"] .blood-svg{height:42px}
+.detail[data-density="tight"] .blood-svg{height:38px}
+@media(max-width:700px){.detail[data-density="compact"] #fuel-tank-svg,.detail[data-density="tight"] #fuel-tank-svg{height:58px}.detail[data-density="compact"] .blood-svg,.detail[data-density="tight"] .blood-svg{height:36px}}
 
 /* END WORKBENCH CSS */
 /* BEGIN FUEL TANK CSS */
@@ -338,10 +357,6 @@ h1{font-size:clamp(20px,2vw,27px);line-height:1.2}
 @keyframes tank-runoff{to{stroke-dashoffset:-44}}
 @media(prefers-reduced-motion:reduce){.tank-water-glint{animation:none}}
 #fuel-tank-caption{font-size:12px;line-height:1.25;color:#9fb5c4;margin:0}
-.fuel-tank-panel.in-ct-panel{margin-top:7px;padding-top:7px}
-.in-ct-panel #fuel-tank-svg{height:80px}
-.in-ct-panel .fuel-tank-head{display:block}
-.in-ct-panel #fuel-tank-status{display:block;margin-top:2px}
 .reading-columns .hyperplasia-panel{max-width:440px;padding:10px 12px;margin:12px 0;min-height:100px}
 .reading-columns .hyperplasia-panel>strong{font-size:14px}
 .reading-columns .hyperplasia-svg{height:54px;max-height:54px}
@@ -1394,24 +1409,6 @@ h1{font-size:clamp(20px,2vw,27px);line-height:1.2}
     $("fuel-tank-status").textContent=status;$("fuel-tank-caption").textContent=caption;
     $("fuel-tank-svg").setAttribute("aria-label",multi?"Hypothetical expanding fuel reserve. "+state.count+" tanks, filled sequentially, with spare capacity and no overflow in this example.":"Hypothetical "+m.profileLabel.toLowerCase()+" fuel tank. "+Math.round(state.levels[0]*100)+" percent of illustrative capacity. "+(state.overflow>0?"Fuel spills over the rim and down the sides into a growing puddle around the base, beginning with the model's diabetes-range A1c.":"No overflow yet."));
   }
-  function placeFuelTank(width,height){
-    const panel=$("fuel-tank-panel"),home=$("fuel-tank-home");
-    const detail=root.querySelector(".detail"),ct=root.querySelector(".ct-panel");
-    function place(compact){
-      const destination=compact?ct:home;
-      if(panel.parentElement!==destination){
-        if(compact)destination.insertBefore(panel,destination.querySelector(".ct-caption"));
-        else destination.appendChild(panel);
-      }
-      panel.classList.toggle("in-ct-panel",compact);
-    }
-    if(width>700&&height<595){place(true);return;}
-    // Measure the complete sidebar with the tank in its normal position.
-    // Its required height also depends on wrapped stage and status text,
-    // so an iframe-height breakpoint alone cannot prevent collisions.
-    place(false);
-    if(width>700&&detail.scrollHeight>detail.clientHeight+2)place(true);
-  }
   // END FUEL TANK
 
   const tickEls=baseTicks.map(function(n,i){
@@ -1501,6 +1498,17 @@ h1{font-size:clamp(20px,2vw,27px);line-height:1.2}
     }
   }catch(e){/* Cross-origin embeds use their own available viewport. */}
   let fitFrame=0;
+  function fitLiveReadouts(){
+    const detail=root.querySelector(".detail");
+    // Keep the tank between the meters and blood view at every size. Measure
+    // the complete column because stage/status wrapping changes its height.
+    // All choices are resolved synchronously before paint, so observation of
+    // the final size cannot oscillate between density levels.
+    for(const density of ["roomy","compact","tight"]){
+      detail.dataset.density=density;
+      if(detail.scrollHeight<=detail.clientHeight+1)break;
+    }
+  }
   function fitWorkbench(){
     fitFrame=0;
     const full=document.fullscreenElement===root;
@@ -1514,7 +1522,7 @@ h1{font-size:clamp(20px,2vw,27px);line-height:1.2}
     const workspaceHeight=Math.max(minimum,Math.min(730,available));
     root.style.setProperty("--workspace-height",Math.round(workspaceHeight)+"px");
     root.classList.toggle("compact-height",workspaceHeight<555);
-    placeFuelTank(width,workspaceHeight);
+    fitLiveReadouts();
     $("human-svg").setAttribute("viewBox",width<=900?"108 0 500 1080":"0 0 720 1080");
     $("expand-view").textContent=full?"Exit full screen":"Full screen";
     $("expand-view").setAttribute("aria-pressed",String(full));
@@ -1552,6 +1560,7 @@ h1{font-size:clamp(20px,2vw,27px);line-height:1.2}
   }
   fitWorkbench();
   // END WORKBENCH
+
 
 
 
