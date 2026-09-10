@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="dark">
-  <meta name="pft-model-version" content="19-continuous-abdominal-fat">
+  <meta name="pft-model-version" content="20-lower-leg-vessel-alignment">
 <meta name="description" content="Personal fat threshold: How to create a diabetic. Explore glycogen storage in liver and muscle, fat accumulation, adipocyte hyperplasia, and possible type 2 diabetes in an illustrative anatomy model.">
 <title>Personal fat threshold: How to create a diabetic · Theosis Medical</title>
 <style>
@@ -435,6 +435,13 @@ h1{font-size:clamp(20px,2vw,27px);line-height:1.2}
             <radialGradient id="lipid-particle"><stop offset="0" stop-color="#fff5c0"/><stop offset=".62" stop-color="#f3cf7c"/><stop offset="1" stop-color="#b99342"/></radialGradient>
             <linearGradient id="glucose-particle" x2="1" y2="1"><stop stop-color="#e6fcff"/><stop offset="1" stop-color="#7bd6f3"/></linearGradient>
             <clipPath id="arterial-lumen-clip" clipPathUnits="userSpaceOnUse"></clipPath>
+            <!-- The fixed calf, ankle, and foot silhouettes keep the entire
+                 vascular overlay on tissue, including edge shading and fuel. -->
+            <clipPath id="lower-leg-vessel-bounds" clipPathUnits="userSpaceOnUse">
+              <rect x="0" y="0" width="720" height="734"/>
+              <path d="M246 730 C245 755 232 778 230 806 C229 835 237 866 242 890 C246 912 248 932 247 948 L243 975 Q238 992 219 1008 L212 1025 Q242 1036 274 1025 L281 990 L277 957 C277 939 280 916 284 893 C289 871 300 841 302 812 C303 790 295 773 300 746 L305 730Z"/>
+              <path d="M382 730 C383 755 389 774 386 796 C381 819 389 852 397 873 C403 894 409 920 409 944 L406 976 Q403 990 413 1006 L430 1029 Q457 1040 474 1026 L466 1007 Q449 989 443 977 L438 948 C438 926 442 903 446 879 C453 852 459 831 457 808 C455 782 446 766 441 747 L439 730Z"/>
+            </clipPath>
             <filter id="vessel-surface-grain" x="-3%" y="-3%" width="106%" height="106%" color-interpolation-filters="sRGB"><feTurbulence type="fractalNoise" baseFrequency=".37 .83" numOctaves="2" seed="17" result="grain"/><feColorMatrix in="grain" type="saturate" values="0"/><feComponentTransfer><feFuncR type="linear" slope=".22" intercept=".81"/><feFuncG type="linear" slope=".22" intercept=".81"/><feFuncB type="linear" slope=".22" intercept=".81"/><feFuncA type="linear" slope="0" intercept="1"/></feComponentTransfer><feComposite operator="in" in2="SourceAlpha" result="surface"/><feBlend in="SourceGraphic" in2="surface" mode="multiply"/></filter>
             <linearGradient id="portrait-fade-x"><stop stop-color="white" stop-opacity="0"/><stop offset=".12" stop-color="white"/><stop offset=".88" stop-color="white"/><stop offset="1" stop-color="white" stop-opacity="0"/></linearGradient>
             <linearGradient id="portrait-fade-y" x1="0" y1="0" x2="0" y2="1"><stop stop-color="white" stop-opacity="0"/><stop offset=".025" stop-color="white"/><stop offset=".96" stop-color="white"/><stop offset="1" stop-color="white" stop-opacity="0"/></linearGradient>
@@ -471,8 +478,10 @@ h1{font-size:clamp(20px,2vw,27px);line-height:1.2}
           </g>
           <g aria-hidden="true" class="functional-overlays">
             <g id="cardiac-anatomy" filter="url(#heart-depth)"><use id="photo-heart" href="#heart-source" filter="url(#heart-tissue-light)"/><g id="epicardial-fat" mask="url(#heart-surface-mask)"></g></g>
-            <g id="vascular-trace" stroke-linecap="round" stroke-linejoin="round" opacity=".25"><g id="arterial-shadows"></g><g id="arterial-walls"></g><g id="arterial-lumens"></g><g id="arterial-materials" filter="url(#vessel-surface-grain)"></g><g id="arterial-highlights" fill="none"></g></g>
-            <g id="body-blood-particles" clip-path="url(#arterial-lumen-clip)"></g>
+            <g clip-path="url(#lower-leg-vessel-bounds)">
+              <g id="vascular-trace" stroke-linecap="round" stroke-linejoin="round" opacity=".25"><g id="arterial-shadows"></g><g id="arterial-walls"></g><g id="arterial-lumens"></g><g id="arterial-materials" filter="url(#vessel-surface-grain)"></g><g id="arterial-highlights" fill="none"></g></g>
+              <g id="body-blood-particles" clip-path="url(#arterial-lumen-clip)"></g>
+            </g>
           </g>
             </g>
           </defs>
@@ -910,12 +919,12 @@ h1{font-size:clamp(20px,2vw,27px);line-height:1.2}
     {id:"left-profunda-femoris",parent:"left-femoral",width:[4,2.5],points:[[416,588],[438,603],[440,640],[428,678]]},
     {id:"right-popliteal",parent:"right-femoral",width:[5.5,5],points:[[280,711],[276,742],[269,766]]},
     {id:"left-popliteal",parent:"left-femoral",width:[5.5,5],points:[[411,714],[417,742],[423,766]]},
-    {id:"right-anterior-tibial-dorsalis-pedis",parent:"right-popliteal",width:[4,2.5],points:[[269,766],[257,791],[257,854],[250,928],[243,967],[226,1004]]},
-    {id:"left-anterior-tibial-dorsalis-pedis",parent:"left-popliteal",width:[4,2.5],points:[[423,766],[435,791],[435,854],[442,928],[449,967],[466,1004]]},
-    {id:"right-posterior-tibial",parent:"right-popliteal",width:[4,2.5],points:[[269,766],[274,805],[269,867],[263,929],[257,966]]},
-    {id:"left-posterior-tibial",parent:"left-popliteal",width:[4,2.5],points:[[423,766],[418,805],[423,867],[429,929],[435,966]]},
-    {id:"right-fibular",parent:"right-posterior-tibial",width:[3,2],points:[[274,805],[246,832],[244,884],[240,934]]},
-    {id:"left-fibular",parent:"left-posterior-tibial",width:[3,2],points:[[418,805],[446,832],[448,884],[452,934]]},
+    {id:"right-anterior-tibial-dorsalis-pedis",parent:"right-popliteal",width:[4,2.5],points:[[269,766],[263,792],[261,847],[260,905],[258,943],[254,970],[244,1004]]},
+    {id:"left-anterior-tibial-dorsalis-pedis",parent:"left-popliteal",width:[4,2.5],points:[[423,766],[424,795],[426,850],[425,905],[424,943],[426,970],[440,1004]]},
+    {id:"right-posterior-tibial",parent:"right-popliteal",width:[4,2.5],points:[[269,766],[280,805],[277,852],[270,900],[268,945],[267,969]]},
+    {id:"left-posterior-tibial",parent:"left-popliteal",width:[4,2.5],points:[[423,766],[414,805],[414,853],[416,900],[416,945],[416,969]]},
+    {id:"right-fibular",parent:"right-posterior-tibial",width:[3,2],points:[[280,805],[246,832],[248,880],[250,932]]},
+    {id:"left-fibular",parent:"left-posterior-tibial",width:[3,2],points:[[414,805],[444,832],[438,880],[432,932]]},
     {id:"right-coronary",parent:"aortic-root",photoWall:true,width:[2.7,1.8],points:[[338,282],[332,285],[327,291],[321,297],[320,305]]},
     {id:"left-main-coronary",parent:"aortic-root",photoWall:true,width:[2.9,2.5],points:[[338,278],[346,281],[354,285],[360,287]]},
     {id:"left-anterior-descending",parent:"left-main-coronary",photoWall:true,width:[2.5,1.5],points:[[360,287],[359,299],[355,312],[354,327]]},
@@ -1530,6 +1539,7 @@ h1{font-size:clamp(20px,2vw,27px);line-height:1.2}
   }
   fitWorkbench();
   // END WORKBENCH
+
 
 
 
