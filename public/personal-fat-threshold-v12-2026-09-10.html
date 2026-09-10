@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="dark">
-<meta name="pft-model-version" content="13-abdominal-comparison">
+<meta name="pft-model-version" content="14-fixed-organs-ct-detail">
 <meta name="description" content="Personal fat threshold: How to create a diabetic. Explore glycogen storage in liver and muscle, fat accumulation, adipocyte hyperplasia, and possible type 2 diabetes in an illustrative anatomy model.">
 <title>Personal fat threshold: How to create a diabetic · Theosis Medical</title>
 <style>
@@ -286,7 +286,7 @@ h1{font-size:clamp(26px,3vw,36px)}
             <linearGradient id="portrait-fade-y" x1="0" y1="0" x2="0" y2="1"><stop stop-color="white" stop-opacity="0"/><stop offset=".025" stop-color="white"/><stop offset=".96" stop-color="white"/><stop offset="1" stop-color="white" stop-opacity="0"/></linearGradient>
             <mask id="portrait-mask-x"><rect width="720" height="1080" fill="url(#portrait-fade-x)"/></mask>
             <mask id="portrait-mask-y"><rect width="720" height="1080" fill="url(#portrait-fade-y)"/></mask>
-            <clipPath id="organ-window"><path d="M278 334 Q332 321 398 337 Q411 354 410 389 L413 447 Q412 491 384 515 Q358 542 330 535 Q287 526 272 486 Q260 448 270 403Z"/></clipPath>
+            <clipPath id="organ-window"><path d="M278 334 Q332 321 398 337 Q411 354 410 389 L407 438 Q409 480 383 506 Q355 528 326 518 Q293 506 281 472 Q271 441 270 403Z"/></clipPath>
             <clipPath id="liver-region"><path d="M277 377 C273 349 298 330 332 332 L393 337 Q402 342 385 361 Q371 377 349 379 Q312 405 280 417 Q275 399 277 377Z"/></clipPath>
             <clipPath id="pancreas-region"><path d="M309 404 Q326 390 349 385 L400 372 Q408 378 398 388 Q374 407 338 424 Q312 433 307 419Z"/></clipPath>
             <clipPath id="muscle-region"><path d="M256 558 Q278 541 291 560 L303 619 Q298 686 276 718 Q256 703 247 661Z M387 560 Q409 537 428 567 L438 653 Q432 700 412 726 Q391 689 384 641Z M216 278 Q234 290 225 323 L204 363 Q193 378 186 366 L194 317Z M471 278 Q462 299 475 330 L495 369 Q508 379 512 365 L500 318Z"/></clipPath>
@@ -294,18 +294,16 @@ h1{font-size:clamp(26px,3vw,36px)}
             <filter id="pancreas-fat-tone" color-interpolation-filters="sRGB"><feColorMatrix type="matrix" values=".78 .14 .08 0 .08 .17 .69 .14 0 .07 .12 .16 .72 0 .05 0 0 0 1 0"/></filter>
             <filter id="glycogen-tissue-tone" color-interpolation-filters="sRGB"><feColorMatrix type="matrix" values=".30 .30 .05 0 .01 .20 .60 .20 0 .18 .10 .55 .40 0 .15 0 0 0 1 0"/></filter>
             <filter id="muscle-fat-texture" color-interpolation-filters="sRGB"><feColorMatrix type="luminanceToAlpha" result="fibres"/><feComponentTransfer in="fibres" result="fine-fibres"><feFuncA type="linear" slope="3.5" intercept="-1.2"/></feComponentTransfer><feFlood flood-color="#e0cf9d" flood-opacity=".86" result="tissue-colour"/><feComposite in="tissue-colour" in2="fine-fibres" operator="in"/></filter>
-            <mask id="outside-abdomen-mask" maskUnits="userSpaceOnUse" x="0" y="0" width="720" height="1080" style="mask-type:luminance"><rect width="720" height="1080" fill="white"/><rect x="200" y="325" width="292" height="245" fill="black"/></mask>
-            <clipPath id="abdomen-only-clip" clipPathUnits="userSpaceOnUse"><rect x="200" y="325" width="292" height="245"/></clipPath>
-            <filter id="abdominal-projection" filterUnits="userSpaceOnUse" primitiveUnits="userSpaceOnUse" x="200" y="325" width="292" height="245" color-interpolation-filters="sRGB">
-              <feImage id="abdomen-displacement-image" x="200" y="325" width="292" height="245" preserveAspectRatio="none" result="field"/>
-              <feComponentTransfer in="field" result="neutral-field"><feFuncR type="linear" slope="1" intercept="-.001960784314"/><feFuncG type="table" tableValues=".5 .5"/></feComponentTransfer>
-              <feDisplacementMap id="abdomen-displacement" in="SourceGraphic" in2="neutral-field" scale="0" xChannelSelector="R" yChannelSelector="G"/>
-            </filter>
             <g id="body-source">
           <g mask="url(#portrait-mask-x)">
             <g mask="url(#portrait-mask-y)" aria-hidden="true">
               <use id="photo-lean" href="#uploaded-person"/>
               <g id="muscle-glycogen" clip-path="url(#muscle-region)"><use id="muscle-glycogen-tone" href="#uploaded-person" filter="url(#glycogen-tissue-tone)" opacity="0"/><g id="muscle-glycogen-granules"></g></g>
+              <g id="deep-abdominal-fat" filter="url(#fat-depth)">
+                <path id="deep-abdominal-fat-tissue" fill="url(#visceral-adipose-texture)" fill-rule="evenodd" filter="url(#adipose-material-tone)" d="M0 0Z"/>
+                <path id="deep-abdominal-fat-shade" fill="url(#adipose-soft-light)" fill-rule="evenodd" d="M0 0Z"/>
+                <path id="deep-abdominal-fat-edge" fill="none" stroke="#b29971" stroke-opacity=".4" stroke-width="1.7" d="M0 0Z"/>
+              </g>
               <g id="subcutaneous-fat" filter="url(#fat-depth)"></g>
               <!-- One registered organ window, always taken from the baseline.
                    Ectopic tints use these same pixels, never another liver. -->
@@ -324,8 +322,7 @@ h1{font-size:clamp(26px,3vw,36px)}
           </g>
             </g>
           </defs>
-          <use href="#body-source" mask="url(#outside-abdomen-mask)" aria-hidden="true"/>
-          <g clip-path="url(#abdomen-only-clip)" aria-hidden="true"><use id="body-abdomen" href="#body-source"/></g>
+          <use id="body-anatomy" href="#body-source" aria-hidden="true"/>
           <g aria-hidden="true" class="anatomy-labels">
             <path d="M365 314 L538 240 L598 240" class="callout-line"/><circle cx="365" cy="314" r="3" class="callout-dot"/><text x="608" y="247" class="callout">Heart</text>
             <path d="M281 354 L208 313 L97 313" class="callout-line"/><circle cx="281" cy="354" r="3" class="callout-dot"/>
@@ -432,12 +429,12 @@ h1{font-size:clamp(26px,3vw,36px)}
   </div>
   <details class="science">
     <summary>About the model &amp; sources</summary>
-    <p><strong>About the abdominal views.</strong> These are CT-style teaching diagrams, not patient scans or measured segmentations. The muscle wall separates subcutaneous fat from the deep abdominal compartment. Fat is darker than muscle on CT; gold, orange, and purple overlays identify the modeled compartments. The baseline stays fixed and the current view uses the same field of view. The drawing approximates upper-abdominal relationships rather than reproducing an exact scan level. Visceral fat drives most of the deeper expansion here; intra-organ fat mainly changes tissue appearance, not organ size. Both subcutaneous and visceral fat can increase waist size. Neither body shape nor this diagram determines an individual’s fat distribution or diabetes status. See <a href="https://www.niddk.nih.gov/health-information/weight-management/adult-overweight-obesity/health-risks" target="_blank" rel="noopener noreferrer">NIDDK: Body fat distribution and health risks</a>.</p>
+    <p><strong>About the abdominal views.</strong> These are CT-style teaching diagrams, not patient scans or measured segmentations. The muscle wall separates subcutaneous fat from the deep abdominal compartment. Fat is darker than muscle on CT; gold, orange, and purple overlays identify the modeled compartments. The baseline stays fixed and the current view uses the same field of view. The drawing approximates upper-abdominal relationships rather than reproducing an exact scan level. Added visceral fat drives the deeper expansion here. The standing figure’s organs retain their original dimensions, while fat grows around them. Intra-organ fat changes tissue appearance, not organ size. The CT-style rendering uses darker fat, varied soft-tissue shading, irregular bowel loops, renal detail, and cortical and trabecular bone to approximate imaging appearance. Both subcutaneous and visceral fat can increase waist size. Neither body shape nor this diagram determines an individual’s fat distribution or diabetes status. Reference anatomy: <a href="https://pressbooks.pub/undergradimaging/chapter/abdomen/" target="_blank" rel="noopener noreferrer">Undergraduate Diagnostic Imaging Fundamentals: Abdomen</a>. No patient-scan pixels are used in this procedural teaching view. See <a href="https://www.niddk.nih.gov/health-information/weight-management/adult-overweight-obesity/health-risks" target="_blank" rel="noopener noreferrer">NIDDK: Body fat distribution and health risks</a>.</p>
     <p><strong>About glycogen.</strong> Glycogen is a reserve of stored glucose in liver and muscle. The liver can use it to support blood glucose; muscle uses its own glycogen for activity. These reserves are limited and change with meals and movement. See <a href="https://www.ncbi.nlm.nih.gov/books/NBK554417/" target="_blank" rel="noopener noreferrer">NCBI Bookshelf: Glycogenolysis</a>. Carbohydrate can also be converted into fat during sustained excess intake, as examined in a <a href="https://pubmed.ncbi.nlm.nih.gov/3165600/" target="_blank" rel="noopener noreferrer">human carbohydrate-overfeeding study</a>. The glycogen-first segment is a teaching sequence, not a requirement that glycogen must be full before any fat can be stored. Its teal highlights and partially stocked starting bars are illustrative; glycogen is not visibly teal. High blood glucose reflects impaired regulation and insufficient insulin, not simply full storage tanks.</p>
     <p>The heart is visible within the chest, with coronary arteries supplying its surface. The added surface fat is called epicardial fat; it grows with the visceral-fat example here. The baseline artwork already shows a small normal layer. This is an illustration of where fat can accumulate, not an additional diabetes threshold. Heart position and coronary connections follow <a href="https://openstax.org/books/anatomy-and-physiology-2e/pages/19-1-heart-anatomy" target="_blank" rel="noopener noreferrer">OpenStax: Heart Anatomy</a>.</p>
     <p>The major arteries are shown through the tissues in a simplified front-view projection. Aortic-arch branches and limb pathways follow <a href="https://openstax.org/books/anatomy-and-physiology-2e/pages/20-5-circulatory-pathways" target="_blank" rel="noopener noreferrer">OpenStax: Circulatory Pathways</a>. Glucose and lipid symbols are enlarged to show the changing concentration; they are not artery-blocking clots or plaque.</p>
     <p>The personal fat threshold is a hypothesis about individual susceptibility to excess fat and type 2 diabetes. Fat under the skin (subcutaneous fat) can act as an energy reservoir. Limited healthy storage may contribute to fat accumulating around organs (visceral fat) and in tissues such as the liver and pancreas. The ReTUNE study supports the concept in people with type 2 diabetes at a lower BMI.</p>
-    <p>The numbered fat-storage marks organize the explanation; they are not established clinical thresholds or a universal sequence. Fat-depot shapes expand over one anatomical image. A local abdominal projection rounds the belly as visceral fat rises; limbs keep their existing positions. Whole-body images do not crossfade. Every curve, body-shape change, and particle count is illustrative. Bar lengths compare a tissue with its own displayed range, not the quantity of fat in different tissues. A full bar means the end of this animation’s range, not a full organ.</p>
+    <p>The numbered fat-storage marks organize the explanation; they are not established clinical thresholds or a universal sequence. Fat-depot shapes expand over one anatomical image. Added visceral tissue expands around a fixed organ window, while the outer abdominal fat layer moves outward. Organs and limbs are never stretched. Whole-body images do not crossfade. Every curve, body-shape change, and particle count is illustrative. Bar lengths compare a tissue with its own displayed range, not the quantity of fat in different tissues. A full bar means the end of this animation’s range, not a full organ.</p>
     <p>Fat tissue can expand by enlarging existing cells (hypertrophy) and forming new cells from precursors (hyperplasia). Recruitment varies by fat depot; a <a href="https://mayoclinic.elsevierpure.com/en/publications/regional-differences-in-cellular-mechanisms-of-adipose-tissue-gai/" target="_blank" rel="noopener noreferrer">human overfeeding study observed new fat-cell formation in lower-body fat</a>. Extreme is a fictional high-capacity example, not a clinical category, and hyperplasia is not exclusive to it. Its controlled glucose does not imply unlimited safe storage: <a href="https://pubmed.ncbi.nlm.nih.gov/24670711/" target="_blank" rel="noopener noreferrer">metabolically healthy obesity still carried increased future diabetes risk in the Whitehall II study</a>. There is no validated “hundreds of pounds” cutoff in this model.</p>
     <p>Insulin resistance and insulin-producing beta-cell function both matter. Extra circulating fats can appear before high blood glucose. Glucose rises because its regulation is impaired, not because it is physically squeezed out of fat stores. Muscle fat is not always harmful; <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC3178290/" target="_blank" rel="noopener noreferrer">trained athletes can store fat in muscle while remaining insulin sensitive</a>. Fat loss can improve metabolic health, but moving this slider backward does not predict diabetes remission.</p>
     <p><strong>About HbA1c.</strong> The <a href="https://www.niddk.nih.gov/health-information/diagnostic-tests/a1c-test" target="_blank" rel="noopener noreferrer">NIDDK A1C guide</a> defines the prediabetes range as 5.7–6.4% and the diabetes range as 6.5% or above. HbA1c reflects average glucose over approximately 3 months. This model assigns fictional sustained-glucose examples to the slider; it cannot estimate a person's HbA1c, and moving it is not an immediate biological change. The number is rounded to one decimal and the label follows that displayed value. The chosen endpoints are about 10.1% for Lower, 8.4% for Moderate, 7.0% for Larger, and 5.4% for Extreme; these illustrate contrasting scenarios, not typical outcomes for people with those body shapes. A diabetes diagnosis usually requires confirmation with another test.</p>
@@ -793,16 +790,19 @@ h1{font-size:clamp(26px,3vw,36px)}
       bodyParticles.push({el:dot,glucose:glucose,order:(i*.61803398875)%1,branch:branch.id,t:t,x:pos.x,y:pos.y});
     }
   });
-  let renderedSurface=-1,renderedCardiacFat=-1;
+  let renderedSurface=-1,renderedCardiacFat=-1,renderedBelly=-1;
   function renderAnatomy(m){
     renderGlycogen(m);
-    if(m.surfaceVolume!==renderedSurface){
+    const belly=abdominalState(m).distension;
+    if(m.surfaceVolume!==renderedSurface||belly!==renderedBelly){
       adiposePaths.forEach(function(part){
-        const d=part.ribbon(part.surface,m.surfaceVolume);
+        const points=abdominalSurfacePoints(part.region,belly);
+        const surface=points===part.region.points?part.surface:tissueContour(points,fatRegions.indexOf(part.region)*.93);
+        const d=part.ribbon(surface,m.surfaceVolume);
         part.tissue.setAttribute("d",d);part.shade.setAttribute("d",d);part.clipShape.setAttribute("d",d);
-        part.bands.forEach((band,i)=>band.setAttribute("d",part.ribbon(part.region.points,m.surfaceVolume,i/24,Math.min(1,(i+1.025)/24))));
+        part.bands.forEach((band,i)=>band.setAttribute("d",part.ribbon(points,m.surfaceVolume,i/24,Math.min(1,(i+1.025)/24))));
       });
-      renderedSurface=m.surfaceVolume;
+      renderedSurface=m.surfaceVolume;renderedBelly=belly;
     }
     const cardiacFat=cardiacFatAmount(m);
     if(cardiacFat!==renderedCardiacFat){
@@ -854,39 +854,53 @@ h1{font-size:clamp(26px,3vw,36px)}
     const pancreas=clamp((m.pancreas-.02)/.98);
     const muscle=clamp((m.muscle-.03)/.97);
     return {subcutaneous:m.surfaceVolume,visceral,liver,pancreas,muscle,
-      distension:.92*visceral+.08*liver};
+      distension:visceral};
   }
 
-  // Deform only a bounded abdominal window of the SAME rendered anatomy.
-  // The complementary masks are opaque, not a blend of lean/fat photographs.
-  // Hands, shoulders, hips, knees and feet are outside the deformation field.
-  function prepareAbdominalProjection(){
-    const c=document.createElement("canvas");c.width=292;c.height=245;
-    const ctx=c.getContext("2d");if(!ctx)return;
-    const map=ctx.createImageData(c.width,c.height);
-    for(let y=0;y<c.height;y++)for(let x=0;x<c.width;x++){
-      const dx=x+200-346,yy=y+325;
-      const vertical=smooth(332,427,yy)*(1-smooth(472,555,yy));
-      const lateral=(dx/100)*(1-smooth(94,144,Math.abs(dx)));
-      const i=4*(y*c.width+x);
-      map.data[i]=Math.round(255*(.5-.42*lateral*vertical));
-      map.data[i+1]=128;map.data[i+2]=128;map.data[i+3]=255;
-    }
-    ctx.putImageData(map,0,0);
-    $("abdomen-displacement-image").setAttribute("href",c.toDataURL("image/png"));
+  // Added tissue occupies the space around ONE fixed organ window. Neither
+  // the photograph, organ layers nor vessel network is scaled or displaced.
+  const fixedOrganOutline="M278 334 Q332 321 398 337 Q411 354 410 389 L407 438 Q409 480 383 506 Q355 528 326 518 Q293 506 281 472 Q271 441 270 403Z";
+  function abdominalWallOffset(y,amount){
+    return 22*amount*smooth(333,427,y)*(1-smooth(487,565,y));
   }
-  prepareAbdominalProjection();
+  function expandedFatOutline(amount){
+    return fixedOrganOutline.replace(/(-?\d+(?:\.\d+)?) (-?\d+(?:\.\d+)?)/g,function(_,sx,sy){
+      const x=Number(sx),y=Number(sy),side=clamp(Math.abs(x-342)/54)*Math.sign(x-342);
+      return (x+side*abdominalWallOffset(y,amount)).toFixed(3)+" "+(y+9*amount*smooth(477,540,y)).toFixed(3);
+    });
+  }
+  function abdominalSurfacePoints(region,amount){
+    if(region.id!=="flank-left"&&region.id!=="flank-right"&&region.id!=="lower-abdomen")return region.points;
+    return region.points.map(p=>{
+      const q=p.slice();q[0]+=Math.sign(p[0]-346)*abdominalWallOffset(p[1],amount);
+      if(region.id==="lower-abdomen")q[1]+=9*amount*smooth(477,540,p[1]);
+      return q;
+    });
+  }
+  function renderDeepAbdominalFat(s){
+    const ring=s.visceral<=0?"M0 0Z":expandedFatOutline(s.visceral)+" "+fixedOrganOutline;
+    $("deep-abdominal-fat-tissue").setAttribute("d",ring);
+    $("deep-abdominal-fat-shade").setAttribute("d",ring);
+    $("deep-abdominal-fat-edge").setAttribute("d",s.visceral<=0?"M0 0Z":expandedFatOutline(s.visceral));
+    $("deep-abdominal-fat").setAttribute("data-added-fat",s.visceral.toFixed(4));
+  }
 
   // CT-style axial teaching diagram: anterior at the top, patient's right
   // on the viewer's left. Geometry is explicit and color is an explanatory
   // segmentation overlay, not an actual CT, segmentation, or clinical scan.
   const ctPalette={sat:[240,203,124],vis:[239,155,87],organ:[213,154,234],glycogen:[128,217,200]};
   function ctTint(gray,rgb,amount){return "rgb("+rgb.map(c=>Math.round(gray*(1-amount)+c*amount)).join(",")+")"}
-  const ctNoise=document.createElement("canvas");ctNoise.width=360;ctNoise.height=280;
+  const ctNoise=document.createElement("canvas");ctNoise.width=720;ctNoise.height=560;
   const ctNoiseContext=ctNoise.getContext("2d");
   if(ctNoiseContext){
-    const noise=ctNoiseContext.createImageData(360,280);let seed=7717;
-    for(let i=0;i<noise.data.length;i+=4){seed=(1664525*seed+1013904223)>>>0;const v=seed>>>24;noise.data[i]=noise.data[i+1]=noise.data[i+2]=v;noise.data[i+3]=36;}
+    const noise=ctNoiseContext.createImageData(720,560);let seed=7717;
+    for(let y=0;y<560;y++)for(let x=0;x<720;x++){
+      seed=(1664525*seed+1013904223)>>>0;
+      const fine=(seed>>>24)/255-.5;
+      const broad=Math.sin(x*.107+Math.sin(y*.039)*2)*Math.cos(y*.093-x*.012);
+      const v=Math.round(128+fine*76+broad*20),i=4*(y*720+x);
+      noise.data[i]=noise.data[i+1]=noise.data[i+2]=v;noise.data[i+3]=92;
+    }
     ctNoiseContext.putImageData(noise,0,0);
   }
   function ctContour(rx,front,back){
@@ -899,21 +913,34 @@ h1{font-size:clamp(26px,3vw,36px)}
     p.bezierCurveTo(180-rx*.65,151+back,180-rx,151+back*.65,180-rx,151);
     p.bezierCurveTo(180-rx,151-front*.56,180-rx*.60,151-front-2,180,151-front);p.closePath();return p;
   }
-  function ctOrgan(ctx,path,gray,fat,glycogen){
-    const shading=ctx.createLinearGradient(95,90,230,196);
-    shading.addColorStop(0,ctTint(gray+12,ctPalette.organ,.32*fat));
-    shading.addColorStop(.46,ctTint(gray,ctPalette.organ,.32*fat));
-    shading.addColorStop(1,ctTint(gray-20,ctPalette.organ,.32*fat));
+  function ctOrgan(ctx,path,gray,fat,glycogen,bounds=[180,138,110]){
+    const [cx,cy,r]=bounds;
+    const shading=ctx.createRadialGradient(cx-r*.2,cy-r*.15,1,cx,cy,r);
+    shading.addColorStop(0,ctTint(gray+6,ctPalette.organ,.17*fat));
+    shading.addColorStop(.65,ctTint(gray,ctPalette.organ,.17*fat));
+    shading.addColorStop(1,ctTint(gray-14,ctPalette.organ,.17*fat));
     ctx.fillStyle=shading;ctx.fill(path);
-    ctx.strokeStyle="rgba(219,219,219,.12)";ctx.lineWidth=.7;ctx.stroke(path);
+    ctx.strokeStyle="rgba(199,199,199,.09)";ctx.lineWidth=.65;ctx.stroke(path);
     ctx.save();ctx.clip(path);
-    if(glycogen>0){ctx.fillStyle="rgba(128,217,200,"+(.1*glycogen)+")";ctx.fill(path);}
-    ctx.fillStyle="rgba(42,39,43,.09)";
-    for(let i=0;i<120;i++){const x=75+((i*71)%205),y=78+((i*37)%114);ctx.beginPath();ctx.ellipse(x,y,1+(i%3),.5+(i%2),i*.7,0,Math.PI*2);ctx.fill();}
+    // Glycogen is shown on the figure, not assigned a CT-visible color.
+    ctx.globalCompositeOperation="soft-light";
+    ctx.drawImage(ctNoise,cx-r,cy-r,2*r,2*r);
+    ctx.globalCompositeOperation="source-over";
+    ctx.fillStyle="rgba(31,31,34,.055)";
+    for(let i=0;i<90;i++){const x=cx-r+((i*71)%197)/197*2*r,y=cy-r+((i*37)%113)/113*2*r;ctx.beginPath();ctx.ellipse(x,y,.6+(i%3)*.34,.4+(i%2)*.28,i*.7,0,Math.PI*2);ctx.fill();}
     ctx.restore();
   }
   function ctEllipse(ctx,x,y,rx,ry,color,rotation=0){
     ctx.beginPath();ctx.ellipse(x,y,rx,ry,rotation,0,Math.PI*2);ctx.fillStyle=color;ctx.fill();
+  }
+  function ctBowel(ctx,x,y,rx,ry,index){
+    ctx.save();ctx.translate(x,y);ctx.rotate(index*.73);
+    const loop=new Path2D("M-.9 -.25 C-.86 -.78 -.3 -1 .22 -.83 C.65 -.96 1 -.44 .88 .06 C1 .56 .43 .91 -.1 .86 C-.6 1 -1 .46 -.9 -.25Z");
+    ctx.scale(rx,ry);ctx.fillStyle="#88898c";ctx.fill(loop);
+    ctx.scale(.72,.65);ctx.fillStyle=index%3===0?"#090a0c":"#414247";ctx.fill(loop);
+    ctx.strokeStyle="rgba(158,157,157,.55)";ctx.lineWidth=.13;
+    ctx.beginPath();ctx.moveTo(-.66,-.31);ctx.quadraticCurveTo(-.11,-.5,.36,-.09);ctx.moveTo(-.31,.47);ctx.quadraticCurveTo(.1,.15,.58,.3);ctx.stroke();
+    ctx.restore();
   }
   function drawAbdominalCT(canvas,m){
     const ctx=canvas.getContext("2d");if(!ctx)return;
@@ -926,58 +953,70 @@ h1{font-size:clamp(26px,3vw,36px)}
     const cavity=ctContour(innerRx,front,back);
     ctx.setTransform(2,0,0,2,0,0);ctx.clearRect(0,0,360,280);
     ctx.fillStyle="#05090d";ctx.fillRect(0,0,360,280);
-    ctx.fillStyle=ctTint(47,ctPalette.sat,.16+.34*sat);ctx.fill(outer);
-    ctx.strokeStyle="#a7a9aa";ctx.lineWidth=1.5;ctx.stroke(outer);
+    ctx.fillStyle=ctTint(41,ctPalette.sat,.025+.12*sat);ctx.fill(outer);
+    ctx.strokeStyle="#959595";ctx.lineWidth=1.15;ctx.stroke(outer);
     ctx.save();ctx.clip(outer);
     // Fine septa within the outer ring stay still as its area expands.
-    ctx.strokeStyle="rgba(178,171,153,.25)";ctx.lineWidth=.6;
-    for(let i=0;i<68;i++){const a=i*Math.PI*2/68;ctx.beginPath();ctx.moveTo(180+Math.cos(a)*innerRx,151+Math.sin(a)*front);ctx.lineTo(180+Math.cos(a)*(innerRx+63),151+Math.sin(a)*(front+56));ctx.stroke();}
+    ctx.strokeStyle="rgba(178,174,166,.13)";ctx.lineWidth=.5;
+    for(let i=0;i<150;i++){const x=31+(i*53)%300,y=32+(i*31)%218;ctx.beginPath();ctx.moveTo(x,y);ctx.bezierCurveTo(x+4,y-3,x+7,y+4,x+15,y+1);if(i%3===0){ctx.moveTo(x+7,y+2);ctx.quadraticCurveTo(x+7,y+7,x+3,y+10)}ctx.stroke();}
     ctx.restore();
-    ctx.fillStyle=ctTint(124,ctPalette.organ,.16*s.muscle);ctx.fill(wall);
-    ctx.strokeStyle="#c1c1c1";ctx.lineWidth=.5;ctx.stroke(wall);
-    ctx.fillStyle=ctTint(37,ctPalette.vis,.12+.35*s.visceral);ctx.fill(cavity);
+    ctx.fillStyle=ctTint(113,ctPalette.organ,.1*s.muscle);ctx.fill(wall);
+    ctx.strokeStyle="rgba(191,191,191,.26)";ctx.lineWidth=.6;ctx.stroke(wall);
+    [1.8,4.2].forEach(d=>{ctx.strokeStyle="rgba(53,54,56,.35)";ctx.lineWidth=.65;ctx.stroke(ctContour(innerRx+d,front+d,back+d))});
+    ctx.fillStyle=ctTint(34,ctPalette.vis,.025+.12*s.visceral);ctx.fill(cavity);
     ctx.save();ctx.clip(cavity);
     // The deep compartment expands mostly anteriorly. Organs retain their
     // sizes, with modest displacement; fat occupies the intervening space.
     const lift=-13*v,left=-7*v,right=7*v;
+    // Separate bowel loops move apart as mesenteric fat increases.
+    [[163,112,8,6],[192,123,9,6],[153,153,9,7],[210,158,11,7],[155,172,7,6],[213,179,9,7],[177,153,7,5],[193,109,7,5]].forEach((p,i)=>{
+      const x=p[0]+(p[0]-183)*.19*v,y=p[1]-19*v;
+      ctBowel(ctx,x,y,p[2],p[3],i);
+    });
+    // Mesenteric vessels remain fine bright branches amid darker fat.
+    ctx.strokeStyle="rgba(175,173,171,.34)";ctx.lineWidth=.65;
+    for(let i=0;i<8;i++){const a=3.4+i*.3;ctx.beginPath();const ox=179+Math.cos(a)*12,oy=150+Math.sin(a)*12-8*v;ctx.moveTo(ox,oy);ctx.bezierCurveTo(ox-5,oy-7,183+Math.cos(a)*25,149+Math.sin(a)*27-12*v,180+Math.cos(a)*(40+17*v),152+Math.sin(a)*(37+18*v));ctx.stroke();}
+
     ctx.save();ctx.translate(left,lift);
-    ctOrgan(ctx,new Path2D("M92 111 C98 91 119 87 143 91 Q164 89 190 101 Q201 109 183 117 L147 126 Q139 142 115 152 Q100 155 92 140 Q87 126 92 111Z"),137-31*s.liver,s.liver,m.glycogenLiver);
+    ctOrgan(ctx,new Path2D("M92 111 C96 96 108 91 119 90 Q132 86 143 91 Q166 91 187 100 Q202 111 184 118 Q170 121 147 127 Q139 141 120 151 Q104 158 96 143 Q87 128 92 111Z"),136-29*s.liver,s.liver,0,[130,116,55]);
     // Branching vessels are embedded in the liver, not a second organ.
-    ctx.strokeStyle="rgba(54,51,52,.36)";ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(144,113);ctx.lineTo(124,119);ctx.lineTo(110,110);ctx.moveTo(124,119);ctx.lineTo(110,137);ctx.stroke();
+    ctx.strokeStyle="rgba(58,56,58,.34)";ctx.lineWidth=1.2;ctx.beginPath();ctx.moveTo(147,119);ctx.quadraticCurveTo(130,124,116,116);ctx.quadraticCurveTo(110,112,107,107);ctx.moveTo(130,121);ctx.quadraticCurveTo(121,133,106,141);ctx.moveTo(144,119);ctx.quadraticCurveTo(155,106,173,103);ctx.stroke();
     ctx.restore();
     ctx.save();ctx.translate(right,lift);
-    ctOrgan(ctx,new Path2D("M251 111 C264 110 272 122 269 139 Q264 153 255 158 Q245 150 245 137 Q241 121 251 111Z"),143,0,0);
+    ctOrgan(ctx,new Path2D("M252 111 Q261 108 266 117 C276 132 267 144 265 151 Q259 161 252 155 C242 142 242 133 245 120 Q247 113 252 111Z"),141,0,0,[257,135,24]);
     // Stomach: a wall around dark gas/fluid, on the patient's left.
-    ctEllipse(ctx,224,111,24,17,"#939395",-.2);ctEllipse(ctx,224,111,20,13,"#181a1c",-.2);
-    ctx.strokeStyle="#535456";ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(207,116);ctx.lineTo(240,113);ctx.stroke();
+    ctOrgan(ctx,new Path2D("M206 99 C216 90 236 93 242 104 Q250 116 235 126 Q220 132 204 122 Q197 112 206 99Z"),122,0,0,[222,110,26]);
+    ctx.fillStyle="#111315";ctx.fill(new Path2D("M207 101 Q220 94 234 101 Q241 102 241 113 L206 115 Q201 109 207 101Z"));
+    ctx.fillStyle="#525356";ctx.fill(new Path2D("M206 115 L241 113 Q233 128 218 124 Q209 124 206 115Z"));
+    ctx.strokeStyle="#979797";ctx.lineWidth=.9;ctx.beginPath();ctx.moveTo(207,120);ctx.quadraticCurveTo(222,118,235,121);ctx.stroke();
     ctx.restore();
     // Kidneys, psoas muscles, aorta and IVC remain posterior landmarks.
     [-1,1].forEach(side=>{
       ctx.save();ctx.translate(180+side*(51+4*v),164);ctx.scale(side,1);
-      ctOrgan(ctx,new Path2D("M-7 -16 C9 -22 20 -10 18 6 Q15 23 1 22 Q-12 19 -10 9 Q1 8 0 0 Q-9 -5 -7 -16Z"),146,0,0);
+      ctOrgan(ctx,new Path2D("M-7 -16 C9 -22 20 -10 18 6 Q15 23 1 22 Q-12 19 -10 9 Q1 8 0 0 Q-9 -5 -7 -16Z"),146,0,0,[4,2,25]);
+      ctx.fillStyle="#797b7c";ctx.fill(new Path2D("M-3 -10 Q8 -14 12 -4 L9 2 L12 10 Q8 17 1 16 L-3 11 L3 7 L2 0Z"));
+      ctx.fillStyle="#b5b5b2";ctx.fill(new Path2D("M-5 -3 Q5 0 4 5 L0 9 L-6 6Z"));
       ctx.restore();
-      ctEllipse(ctx,180+side*23,183,12,22,ctTint(118,ctPalette.organ,.25*s.muscle),side*.19);
+      ctx.save();ctx.translate(180+side*23,184);ctx.scale(side,1);ctOrgan(ctx,new Path2D("M-7 -19 Q5 -24 11 -10 Q14 2 8 19 Q1 27 -8 19 Q-14 11 -11 -2Z"),112,s.muscle,0,[0,0,26]);ctx.restore();
     });
     // Pancreas lies behind the stomach, in front of the central vessels.
     ctx.save();ctx.translate(0,-5*v);
-    ctOrgan(ctx,new Path2D("M154 132 Q165 123 177 132 Q200 140 222 127 Q232 124 236 131 Q228 141 209 146 Q182 151 168 144 Q154 151 151 143Z"),137-19*s.pancreas,s.pancreas,0);ctx.restore();
+    ctOrgan(ctx,new Path2D("M154 132 Q159 125 165 129 L174 132 Q183 129 189 135 Q200 138 210 132 L223 128 Q232 123 236 130 Q231 138 220 140 Q210 147 203 143 Q192 150 181 144 Q173 143 169 148 Q158 151 153 144 Q148 139 154 132Z"),132-19*s.pancreas,s.pancreas,0,[189,137,48]);ctx.restore();
     ctEllipse(ctx,189,164,6.2,6.2,"#b5b5b5");ctEllipse(ctx,169,162,8,5,"#8a8a8b",.2);
-    // Separate bowel loops move apart as mesenteric fat increases.
-    [[155,119,9,6],[192,123,9,6],[151,155,9,7],[210,158,11,7],[155,174,7,6],[213,179,9,7],[176,145,7,5]].forEach((p,i)=>{
-      const x=p[0]+(p[0]-183)*.19*v,y=p[1]-19*v;
-      ctEllipse(ctx,x,y,p[2],p[3],"#919193",i*.7);ctEllipse(ctx,x,y,p[2]-2.8,p[3]-2.4,i%3===0?"#090b0d":"#434244",i*.7);
-    });
-    // Mesenteric vessels remain fine bright branches amid darker fat.
-    ctx.strokeStyle="rgba(204,199,194,.39)";ctx.lineWidth=.9;
-    for(let i=0;i<12;i++){const a=3.5+i*.21;ctx.beginPath();ctx.moveTo(184,150-8*v);ctx.quadraticCurveTo(183+Math.cos(a)*25,149+Math.sin(a)*27-12*v,180+Math.cos(a)*(40+17*v),152+Math.sin(a)*(37+18*v));ctx.stroke();}
     ctx.restore();
     // Lumbar vertebra, canal, posterior elements and paraspinal muscle.
-    [-1,1].forEach(side=>ctEllipse(ctx,180+side*25,205,17,14,ctTint(116,ctPalette.organ,.22*s.muscle),side*.15));
-    ctEllipse(ctx,180,184,17,13,"#e0e0dc");ctEllipse(ctx,180,184,14,10,"#a9aaab");
-    ctEllipse(ctx,180,204,9,8,"#d2d3d0");ctEllipse(ctx,180,203,5,4,"#3a3d41");
-    ctx.fillStyle="#d8d9d5";ctx.fill(new Path2D("M177 210 L183 210 L185 222 Q180 228 175 222Z"));
-    ctx.strokeStyle="#d5d6d3";ctx.lineWidth=4;ctx.beginPath();ctx.moveTo(165,188);ctx.lineTo(149,197);ctx.moveTo(195,188);ctx.lineTo(211,197);ctx.stroke();
-    ctx.save();ctx.clip(outer);ctx.globalCompositeOperation="soft-light";ctx.drawImage(ctNoise,0,0);ctx.restore();
+    [-1,1].forEach(side=>{ctx.save();ctx.translate(180+side*27,209);ctx.scale(side,1);ctOrgan(ctx,new Path2D("M-12 -13 Q-6 -20 4 -17 Q18 -13 20 -1 Q17 13 5 15 Q-12 15 -15 6 Q-19 -6 -12 -13Z"),112,s.muscle,0,[0,0,25]);ctx.restore();});
+    const vertebra=new Path2D("M165 175 Q178 168 192 174 Q199 177 198 186 Q197 195 188 197 L173 197 Q163 195 162 186 Q161 179 165 175Z");
+    ctOrgan(ctx,vertebra,215,0,0,[180,184,23]);
+    const marrow=new Path2D("M167 178 Q179 171 191 177 Q197 180 194 190 Q190 195 179 194 Q165 196 165 186Z");
+    ctOrgan(ctx,marrow,146,0,0,[180,184,17]);ctx.save();ctx.clip(marrow);
+    for(let i=0;i<58;i++){ctx.fillStyle=i%3===0?"#b8b9b6":"#8a8c8d";ctx.fillRect(164+(i*13)%32,174+(i*7)%22,.5+(i%3)*.3,.6+(i%2)*.4)}ctx.restore();
+    // Pedicles, laminae and spinous process surround a darker spinal canal.
+    ctOrgan(ctx,new Path2D("M166 191 L171 194 L171 201 Q181 208 190 200 L190 194 L196 191 L198 196 L210 199 L211 203 L196 201 Q193 206 185 211 L184 223 Q181 227 177 223 L177 211 Q166 209 164 201 L150 204 L148 200 L163 196Z"),191,0,0,[181,204,33]);
+    ctEllipse(ctx,181,200,6.5,4.5,"#42464a");
+    // Paired rectus muscles follow the expanding anterior abdominal wall.
+    [-1,1].forEach(side=>ctEllipse(ctx,180+side*13,149-front,11,3.3,ctTint(127,ctPalette.organ,.12*s.muscle),side*.1));
+    ctx.save();ctx.clip(outer);ctx.globalCompositeOperation="soft-light";ctx.drawImage(ctNoise,0,0,360,280);ctx.restore();
     ctx.fillStyle="#b7c0cb";ctx.font="12px Arial, sans-serif";ctx.textAlign="center";
     ctx.fillText("FRONT",180,15);ctx.fillText("BACK",180,270);ctx.fillText("R",13,149);ctx.fillText("L",347,149);
     // No numeric dimensions: this is a shared illustrative field, not a scan.
@@ -987,10 +1026,7 @@ h1{font-size:clamp(26px,3vw,36px)}
   let ctBaselineDrawn=false;
   function renderAbdominalView(m){
     const s=abdominalState(m);
-    $("abdomen-displacement").setAttribute("scale",(72*s.distension).toFixed(3));
-    $("body-abdomen").setAttribute("data-distension",s.distension.toFixed(4));
-    // At baseline the neutral projection is bypassed entirely.
-    $("body-abdomen").setAttribute("filter",s.distension>0?"url(#abdominal-projection)":"none");
+    renderDeepAbdominalFat(s);
     if(!ctBaselineDrawn){drawAbdominalCT($("ct-baseline"),model(0,1));ctBaselineDrawn=true;}
     drawAbdominalCT($("ct-current"),m);
     $("ct-current-value").textContent=Math.round(m.x)+" / 100";
@@ -998,7 +1034,7 @@ h1{font-size:clamp(26px,3vw,36px)}
     const inner=s.visceral<.01?"Baseline":s.visceral<.15?"Slight rise":s.visceral<.6?"Expanding":"Marked expansion";
     $("ct-outer-value").textContent=outer;$("ct-inner-value").textContent=inner;
     $("ct-current").setAttribute("aria-label","Illustrative axial abdominal section at fuel "+Math.round(m.x)+" of 100. Subcutaneous fat: "+outer+". Visceral fat: "+inner+". "+(s.liver>.1?"Purple tint shows fat within organs. ":"")+"The matching baseline section stays fixed; both use the same scale.");
-    $("abdomen-caption").textContent=s.visceral>.15?"The deeper abdomen rounds outward as visceral fat increases. The cross-section shows the extra space around the organs.":m.profile==="extreme"&&m.fatLoad>35?"Most growth in this example is under the skin. The deep abdominal compartment increases only slightly.":"The outer layer grows with fat under the skin; the deeper belly expands as visceral fat rises.";
+    $("abdomen-caption").textContent=s.visceral>.15?"Added visceral fat fills the expanding space around the organs. The organs keep their shape as the belly becomes rounder.":m.profile==="extreme"&&m.fatLoad>35?"Most growth in this example is under the skin. The deep abdominal compartment increases only slightly.":"The outer layer grows with fat under the skin; the deeper belly expands as visceral fat rises.";
   }
   // END ABDOMINAL VIEW
 
