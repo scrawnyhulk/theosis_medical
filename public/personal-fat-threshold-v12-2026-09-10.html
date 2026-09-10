@@ -320,7 +320,7 @@ h1{font-size:clamp(20px,2vw,27px);line-height:1.2}
 .compact-height .hyperplasia-svg{height:21px;max-height:21px}
 .compact-height .a1c-card{margin-bottom:8px;padding-top:6px;padding-bottom:6px}
 .compact-height .ct-intro{display:none}
-@media(max-width:700px){.compact-height .depot-row,.compact-height .glycogen-row{min-height:38px}.compact-height .stage-block h2{font-size:15px}.compact-height .depots,.compact-height .glycogen-stores{gap:6px}}
+@media(max-width:700px){.depot-row,.glycogen-row,.compact-height .depot-row,.compact-height .glycogen-row{min-height:27px}.depot-value,.threshold-controls p{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap}.compact-height .stage-block h2{font-size:15px}.compact-height .depots,.compact-height .glycogen-stores{gap:6px}}
 
 /* END WORKBENCH CSS */
 </style>
@@ -1262,7 +1262,7 @@ h1{font-size:clamp(20px,2vw,27px);line-height:1.2}
     const hostInset=!full&&modelHostWindow?(hostNav?hostNav.getBoundingClientRect().height:65)+88:16;
     const heading=root.querySelector(".workbench-header").getBoundingClientRect().height;
     const available=viewHeight-hostInset-heading-36;
-    const minimum=width<=700?540:420;
+    const minimum=width<=700?540:480;
     const workspaceHeight=Math.max(minimum,Math.min(730,available));
     root.style.setProperty("--workspace-height",Math.round(workspaceHeight)+"px");
     root.classList.toggle("compact-height",workspaceHeight<555);
@@ -1299,6 +1299,7 @@ h1{font-size:clamp(20px,2vw,27px);line-height:1.2}
   }
   fitWorkbench();
   // END WORKBENCH
+
 
 
   if(!isEmbedded){
