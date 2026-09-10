@@ -58,25 +58,31 @@ function MinutePage() {
           <ArrowLeft className="size-4" />
           All Medical Minutes
         </Link>
-        <p className="mt-8 font-display text-3xl font-semibold text-accent">
-          {minute.group === "interactive" ? "Interactive physiology" : minute.n}
-        </p>
-        <h1 className="mt-2 font-display text-4xl font-semibold tracking-wide sm:text-5xl">
-          {minute.title}
-        </h1>
-        <p className="mt-5 text-xl leading-relaxed text-fg">{minute.lede}</p>
-        {minute.cardNote ? (
-          <p className="mt-3 text-[10px] leading-snug tracking-[0.18em] text-muted uppercase">
-            {minute.cardNote}
-          </p>
-        ) : null}
-        <div className="mt-8 space-y-5 text-lg leading-relaxed text-muted">
-          {minute.paragraphs.map((p) => (
-            <p key={p.slice(0, 36)}>{p}</p>
-          ))}
-        </div>
+        {minute.slug !== "create-diabetic" ? (
+          <>
+            <p className="mt-8 font-display text-3xl font-semibold text-accent">
+              {minute.group === "interactive" ? "Interactive physiology" : minute.n}
+            </p>
+            <h1 className="mt-2 font-display text-4xl font-semibold tracking-wide sm:text-5xl">
+              {minute.title}
+            </h1>
+            <p className="mt-5 text-xl leading-relaxed text-fg">{minute.lede}</p>
+            {minute.cardNote ? (
+              <p className="mt-3 text-[10px] leading-snug tracking-[0.18em] text-muted uppercase">
+                {minute.cardNote}
+              </p>
+            ) : null}
+            <div className="mt-8 space-y-5 text-lg leading-relaxed text-muted">
+              {minute.paragraphs.map((p) => (
+                <p key={p.slice(0, 36)}>{p}</p>
+              ))}
+            </div>
+          </>
+        ) : (
+          <h1 className="sr-only">{minute.title}</h1>
+        )}
         {minute.slug === "create-diabetic" ? (
-          <div className="mt-10">
+          <div className="mt-8">
             <iframe
               src="/personal-fat-threshold-v12-2026-09-10.html"
               title="Personal fat threshold interactive model"
