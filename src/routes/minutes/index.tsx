@@ -33,7 +33,11 @@ function MinuteCard({ minute }: { minute: Minute }) {
           />
           <span className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/35 to-black/10" />
           <span className="relative z-10 flex h-full min-h-11 flex-col justify-end p-6 sm:p-8">
-            <span className="font-display text-3xl font-semibold text-accent">{minute.n}</span>
+            {minute.group === "interactive" ? (
+              <span className="text-xs font-medium tracking-widest text-accent uppercase">Model</span>
+            ) : (
+              <span className="font-display text-3xl font-semibold text-accent">{minute.n}</span>
+            )}
             <span className="mt-2 font-display text-3xl font-semibold tracking-wide text-white uppercase">
               {minute.title}
             </span>
@@ -94,6 +98,7 @@ function MinutesHub() {
         <p className="text-xs font-medium tracking-widest text-muted uppercase">Minutes</p>
         <div className="mt-8 grid gap-4 md:grid-cols-2">
           {[...minutes]
+            .filter((m) => m.group !== "interactive")
             .sort((a, b) => a.n.localeCompare(b.n))
             .map((minute) => (
               <MinuteCard key={minute.slug} minute={minute} />
@@ -127,6 +132,25 @@ function MinutesHub() {
               </span>
             </span>
           </a>
+        </div>
+      </section>
+
+      <section className="border-t border-border">
+        <div className="mx-auto max-w-6xl px-5 py-16 sm:px-8 lg:py-24">
+          <p className="text-xs font-medium tracking-widest text-muted uppercase">Explore</p>
+          <h2 className="mt-3 font-display text-4xl font-semibold tracking-wide sm:text-5xl">
+            Interactive physiology
+          </h2>
+          <p className="mt-4 max-w-2xl text-lg leading-relaxed text-muted">
+            Models you can move, not just read. Slide the fuel in and watch where it goes.
+          </p>
+          <div className="mt-8 grid gap-4 md:grid-cols-2">
+            {minutes
+              .filter((m) => m.group === "interactive")
+              .map((minute) => (
+                <MinuteCard key={minute.slug} minute={minute} />
+              ))}
+          </div>
         </div>
       </section>
     </SiteShell>

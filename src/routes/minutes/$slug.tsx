@@ -3,7 +3,6 @@ import { ArrowLeft } from "lucide-react";
 import { EnlargeableImage } from "@/components/hacks/enlargeable-image";
 import { NerdStepper } from "@/components/hacks/nerd-stepper";
 import { VideoCard } from "@/components/hacks/video-card";
-import { CreateDiabetic } from "@/components/minutes/create-diabetic";
 import { SiteShell } from "@/components/site/site-shell";
 import { Button } from "@/components/ui/button";
 import { getMinute, minutesIntro } from "@/lib/minutes";
@@ -51,7 +50,7 @@ function MinutePage() {
 
   return (
     <SiteShell>
-      <article className={`mx-auto px-5 py-16 sm:px-8 lg:py-24 ${minute.slug === "create-diabetic" ? "max-w-5xl" : "max-w-3xl"}`}>
+      <article className={`mx-auto px-5 py-16 sm:px-8 lg:py-24 ${minute.slug === "create-diabetic" ? "max-w-6xl" : "max-w-3xl"}`}>
         <Link
           to="/minutes"
           className="inline-flex min-h-11 items-center gap-2 text-sm font-medium text-muted hover:text-fg"
@@ -59,7 +58,9 @@ function MinutePage() {
           <ArrowLeft className="size-4" />
           All Medical Minutes
         </Link>
-        <p className="mt-8 font-display text-3xl font-semibold text-accent">{minute.n}</p>
+        <p className="mt-8 font-display text-3xl font-semibold text-accent">
+          {minute.group === "interactive" ? "Interactive physiology" : minute.n}
+        </p>
         <h1 className="mt-2 font-display text-4xl font-semibold tracking-wide sm:text-5xl">
           {minute.title}
         </h1>
@@ -74,7 +75,22 @@ function MinutePage() {
             <p key={p.slice(0, 36)}>{p}</p>
           ))}
         </div>
-        {minute.slug === "create-diabetic" ? <CreateDiabetic /> : null}
+        {minute.slug === "create-diabetic" ? (
+          <div className="mt-10">
+            <iframe
+              src="/personal-fat-threshold.html"
+              title="Personal fat threshold interactive model"
+              className="w-full rounded-[14px] bg-[#09131f]"
+              style={{ height: 1600, border: 0 }}
+              loading="lazy"
+            />
+            <p className="mt-3 text-sm text-muted">
+              <a href="/personal-fat-threshold.html" className="text-accent hover:text-fg">
+                Open the model in its own tab
+              </a>
+            </p>
+          </div>
+        ) : null}
         {minute.image ? (
           <figure className="mt-10">
             <EnlargeableImage src={minute.image} alt={minute.imageAlt ?? minute.title} />

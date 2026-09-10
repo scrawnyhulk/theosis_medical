@@ -65,6 +65,7 @@ const index: Indexed[] = [
     haystack: pack(
       "medical minutes",
       "ear fever cough back sprain ct pneumonia sepsis antibiotic resistance amoxicillin leftover",
+      "interactive physiology create a diabetic personal fat threshold",
     ),
   },
   ...minutes.map((m) => ({
