@@ -3,7 +3,7 @@ export const site = {
   title: "Nick Holwey, PA-C — Theosis Medical",
   tagline: "Nick Holwey, PA-C · Emergency medicine",
   description:
-    "Nick Holwey, PA-C is an Emergency Medicine Physician Assistant with more than 13 years of clinical experience and the founder of Theosis Medical, LLC. Illinois-based, multi-state licensed (Illinois, Wisconsin, Michigan, Indiana). Independent locum tenens emergency medicine — with a longstanding focus on lifestyle medicine, nutrition, and practical health, and hopes to soon expand the practice to include individual consultations for nutrition and acute-care telemedicine.",
+    "Nick Holwey, PA-C is an Emergency Medicine Physician Associate with more than 13 years of clinical experience and the founder of Theosis Medical, LLC. Illinois-based, multi-state licensed (Illinois, Wisconsin, Michigan, Indiana). Independent locum tenens emergency medicine — with a longstanding focus on lifestyle medicine, nutrition, and practical health, and hopes to soon expand the practice to include individual consultations for nutrition and acute-care telemedicine.",
   url: "https://theosismedical.com",
   phoneDisplay: "765.487.0777",
   phoneHref: "tel:+17654870777",
@@ -22,7 +22,7 @@ export const nav = [
 ] as const;
 
 export const aboutParagraphs = [
-  "My name is Nick Holwey, and I am an Emergency Medicine Physician Assistant with more than 13 years of clinical experience and the founder of Theosis Medical. I earned my Master of Physician Assistant Studies from Wichita State University after completing my undergraduate degree in Food Science and Human Nutrition at the University of Illinois.",
+  "My name is Nick Holwey, and I am an Emergency Medicine Physician Associate with more than 13 years of clinical experience and the founder of Theosis Medical. I earned my Master of Physician Assistant Studies from Wichita State University after completing my undergraduate degree in Food Science and Human Nutrition at the University of Illinois.",
   "Emergency medicine has been the foundation of my career, with experience spanning Level I trauma centers and high-acuity emergency care to community and rural emergency departments, as well as urgent care, telemedicine, hospital medicine, and prehospital emergency care. I am NCCPA-certified, hold the Certificate of Added Qualifications in Emergency Medicine (CAQ-EM), and maintain licensure across multiple states.",
   "Today, I practice primarily as an independent contractor in emergency medicine through Theosis Medical, providing care in rural and community emergency departments where adaptability, sound clinical judgment, and the ability to work effectively with limited resources are especially important.",
   "Beyond emergency medicine, I have maintained a longstanding interest in lifestyle medicine, nutritional biochemistry, and exercise physiology. My degree in nutrition has continued to influence the way I think about health and disease, and I regularly follow the evolving literature in these areas with a particular interest in how evidence-based nutrition, exercise, and lifestyle interventions can both improve but also prevent long-term health problems and disease. I incorporate these principles into my practice when possible, but time is typically limited in emergency medicine, and so my hope is to eventually develop a more dedicated space within Theosis Medical to help patients translate that evidence into practical, sustainable [[hacks]] that fit real life.",

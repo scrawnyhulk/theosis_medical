@@ -20,7 +20,7 @@ const data = {
       "@id": `${site.url}/#nick`,
       name: "Nick Holwey",
       honorificSuffix: "PA-C",
-      jobTitle: "Emergency Medicine Physician Assistant",
+      jobTitle: "Emergency Medicine Physician Associate",
       description: site.description,
       image: `${site.url}/images/nick.jpg`,
       url: `${site.url}/#about`,
