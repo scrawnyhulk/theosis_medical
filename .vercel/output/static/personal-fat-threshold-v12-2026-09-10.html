@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="dark">
-  <meta name="pft-model-version" content="18-natural-tank-overflow">
+  <meta name="pft-model-version" content="19-continuous-abdominal-fat">
 <meta name="description" content="Personal fat threshold: How to create a diabetic. Explore glycogen storage in liver and muscle, fat accumulation, adipocyte hyperplasia, and possible type 2 diabetes in an illustrative anatomy model.">
 <title>Personal fat threshold: How to create a diabetic · Theosis Medical</title>
 <style>
@@ -1079,11 +1079,33 @@ h1{font-size:clamp(20px,2vw,27px);line-height:1.2}
       return q;
     });
   }
-  function renderDeepAbdominalFat(s){
-    const ring=s.visceral<=0?"M0 0Z":expandedFatOutline(s.visceral)+" "+fixedOrganOutline;
+  function joinedAbdominalFatOutline(s){
+    // Carry the deep tissue under the INNER half of the actual surface-fat
+    // bands. Thin reserves otherwise leave a gap when the flank moves out.
+    const flank=id=>abdominalSurfacePoints(fatRegions.find(r=>r.id===id),s.distension).slice(1,5);
+    const left=flank("flank-left").map(p=>[p[0]+p[3]*s.subcutaneous*.45,p[1]]);
+    const right=flank("flank-right").map(p=>[p[0]-p[2]*s.subcutaneous*.45,p[1]]);
+    const lower=abdominalSurfacePoints(fatRegions.find(r=>r.id==="lower-abdomen"),s.distension);
+    const base=[4,3,2].map(function(i){
+      const p=lower[i],a=lower[i-1],b=lower[i+1],length=Math.hypot(b[0]-a[0],b[1]-a[1]);
+      const offset=(p[2]-(p[2]+p[3])*.7)*s.subcutaneous;
+      return [p[0]-(b[1]-a[1])/length*offset,p[1]+(b[0]-a[0])/length*offset];
+    });
+    const target=[[278,334],[332,329],[398,337],...right,...base,...left.reverse()];
+    const origin=[[278,334],[332,329],[398,337],[409,356],[409,411],[404,465],[384,505],[370,516],[348,523],[326,518],[302,510],[281,472],[270,403],[275,356]];
+    const join=smooth(0,.18,s.visceral);
+    return smoothOutline(origin.map(function(p,i){
+      const side=clamp(Math.abs(p[0]-342)/54)*Math.sign(p[0]-342);
+      const x=p[0]+side*abdominalWallOffset(p[1],s.visceral),y=p[1]+9*s.visceral*smooth(477,540,p[1]);
+      return [x+(target[i][0]-x)*join,y+(target[i][1]-y)*join];
+    }));
+  }
+  function renderDeepAbdominalFat(s,profile){
+    const outer=profile==="lower"||profile==="moderate"?joinedAbdominalFatOutline(s):expandedFatOutline(s.visceral);
+    const ring=s.visceral<=0?"M0 0Z":outer+" "+fixedOrganOutline;
     $("deep-abdominal-fat-tissue").setAttribute("d",ring);
     $("deep-abdominal-fat-shade").setAttribute("d",ring);
-    $("deep-abdominal-fat-edge").setAttribute("d",s.visceral<=0?"M0 0Z":expandedFatOutline(s.visceral));
+    $("deep-abdominal-fat-edge").setAttribute("d",s.visceral<=0?"M0 0Z":outer);
     $("deep-abdominal-fat").setAttribute("data-added-fat",s.visceral.toFixed(4));
   }
 
@@ -1228,7 +1250,7 @@ h1{font-size:clamp(20px,2vw,27px);line-height:1.2}
   let ctBaselineDrawn=false;
   function renderAbdominalView(m){
     const s=abdominalState(m);
-    renderDeepAbdominalFat(s);
+    renderDeepAbdominalFat(s,m.profile);
     if(!ctBaselineDrawn){drawAbdominalCT($("ct-baseline"),model(0,1));ctBaselineDrawn=true;}
     drawAbdominalCT($("ct-current"),m);
     $("ct-current-value").textContent=Math.round(m.x)+" / 100";
@@ -1287,10 +1309,11 @@ h1{font-size:clamp(20px,2vw,27px);line-height:1.2}
   });
   const tankDrops=Array.from({length:6},()=>node("ellipse",{},$("tank-spill-drops")));
   function tankBoundary(x,w){return "M"+x+" 17 Q"+(x+w/2)+" 3 "+(x+w)+" 17 L"+(x+w)+" 79 Q"+(x+w/2)+" 93 "+x+" 79Z"}
-  function renderTankOverflow(x,w,amount){
-    const visible=amount>0,center=x+w/2,spread=w/2+7+23*amount,depth=5+6*amount;
+  function renderTankOverflow(x,w,amount,earlySpill=0){
+    const visible=amount>0,center=x+w/2,spread=w/2+7+23*amount+62*earlySpill,depth=5+6*amount+earlySpill;
     $("tank-overflow").setAttribute("opacity",visible?1:0);
     $("tank-overflow-puddle").setAttribute("opacity",visible?1:0);
+    $("tank-overflow-puddle").dataset.spread=spread.toFixed(3);
     // A shallow pool lies on the ground behind and around the tank. Its
     // edge expands gently with the excess, with no detached outlet stream.
     const edge=Array.from({length:40},function(_,i){
@@ -1350,7 +1373,10 @@ h1{font-size:clamp(20px,2vw,27px);line-height:1.2}
       link.setAttribute("d","M"+a+" 59 H"+b);
       link.setAttribute("opacity",multi&&i<state.count-1?.8:0);
     });
-    renderTankOverflow(start,w,state.overflow);
+    // The lower reserve has been spilling for more of the shared fuel scale.
+    // Accumulated excess spreads its puddle farther without changing A1c.
+    const earlySpill=m.profile==="lower"&&state.overflow>0?clamp((m.x-state.onset)/(100-state.onset)):0;
+    renderTankOverflow(start,w,state.overflow,earlySpill);
     let status="Storage available",caption=m.profileLabel.replace(" threshold","")+" reserve · hypothetical capacity";
     if(m.glycemicState==="prediabetes")status="Little reserve left";
     if(state.overflow>0){status="Overflow · A1c ≥6.5%";caption="Insulin response no longer keeps up";}
@@ -1504,6 +1530,7 @@ h1{font-size:clamp(20px,2vw,27px);line-height:1.2}
   }
   fitWorkbench();
   // END WORKBENCH
+
 
 
 
