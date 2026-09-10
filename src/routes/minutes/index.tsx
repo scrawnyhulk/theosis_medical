@@ -17,7 +17,7 @@ export const Route = createFileRoute("/minutes/")({
   }),
 });
 
-function MinuteCard({ minute }: { minute: Minute }) {
+function MinuteCard({ minute, featured }: { minute: Minute; featured?: boolean }) {
   if (minute.cover) {
     return (
       <Link
@@ -25,23 +25,41 @@ function MinuteCard({ minute }: { minute: Minute }) {
         params={{ slug: minute.slug }}
         className="group block overflow-hidden rounded-xl bg-ink shadow-border"
       >
-        <span className="relative block aspect-[3/2] overflow-hidden rounded-xl">
+        <span
+          className={`relative block overflow-hidden rounded-xl ${
+            featured ? "aspect-[16/10] sm:aspect-[21/9]" : "aspect-[3/2]"
+          }`}
+        >
           <img
             src={minute.cover}
             alt={minute.coverAlt ?? minute.title}
             className="absolute inset-0 size-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
           />
           <span className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/35 to-black/10" />
-          <span className="relative z-10 flex h-full min-h-11 flex-col justify-end p-6 sm:p-8">
+          <span
+            className={`relative z-10 flex h-full min-h-11 flex-col justify-end ${
+              featured ? "p-6 sm:p-10" : "p-6 sm:p-8"
+            }`}
+          >
             {minute.group === "interactive" ? (
-              <span className="text-xs font-medium tracking-widest text-accent uppercase">Model</span>
+              <span className="text-xs font-medium tracking-widest text-accent uppercase">
+                Interactive physiology
+              </span>
             ) : (
               <span className="font-display text-3xl font-semibold text-accent">{minute.n}</span>
             )}
-            <span className="mt-2 font-display text-3xl font-semibold tracking-wide text-white uppercase">
+            <span
+              className={`mt-2 font-display font-semibold tracking-wide text-white uppercase ${
+                featured ? "text-4xl sm:text-5xl" : "text-3xl"
+              }`}
+            >
               {minute.title}
             </span>
-            <span className="mt-2 block text-sm leading-relaxed text-white/85 sm:text-base">
+            <span
+              className={`mt-2 block leading-relaxed text-white/85 ${
+                featured ? "max-w-2xl text-base sm:text-lg" : "text-sm sm:text-base"
+              }`}
+            >
               {minute.lede}
             </span>
             {minute.cardNote ? (
@@ -75,6 +93,9 @@ function MinuteCard({ minute }: { minute: Minute }) {
 }
 
 function MinutesHub() {
+  const interactive = minutes.filter((m) => m.group === "interactive");
+  const talks = [...minutes].filter((m) => m.group !== "interactive").sort((a, b) => a.n.localeCompare(b.n));
+
   return (
     <SiteShell>
       <section className="border-b border-border">
@@ -91,65 +112,80 @@ function MinutesHub() {
             ))}
           </div>
           <p className="mt-6 max-w-3xl text-sm text-muted">{minutesIntro.disclaimer}</p>
+          <div className="mt-10 flex flex-wrap gap-3">
+            <a
+              href="#interactive-physiology"
+              className="inline-flex min-h-11 items-center rounded-sm bg-accent px-5 text-sm font-medium text-accent-fg"
+            >
+              Interactive physiology
+            </a>
+            <a
+              href="#minutes"
+              className="inline-flex min-h-11 items-center rounded-sm border border-border px-5 text-sm font-medium text-fg hover:bg-fg/5"
+            >
+              The minutes
+            </a>
+          </div>
         </div>
       </section>
 
-      <section className="mx-auto max-w-6xl px-5 py-16 sm:px-8 lg:py-24">
-        <p className="text-xs font-medium tracking-widest text-muted uppercase">Minutes</p>
-        <div className="mt-8 grid gap-4 md:grid-cols-2">
-          {[...minutes]
-            .filter((m) => m.group !== "interactive")
-            .sort((a, b) => a.n.localeCompare(b.n))
-            .map((minute) => (
-              <MinuteCard key={minute.slug} minute={minute} />
-            ))}
-
-          <a
-            href="/#suggest"
-            className="group block overflow-hidden rounded-xl bg-ink shadow-border"
-          >
-            <span className="relative block aspect-[3/2] overflow-hidden rounded-xl">
-              <img
-                src="/images/minutes-more-cover.jpg"
-                alt="Laptop on a desk with organs and medical symbols rising off the screen — more Medical Minutes to come."
-                className="absolute inset-0 size-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
-              />
-              <span className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/35 to-black/10" />
-              <span className="relative z-10 flex h-full min-h-11 flex-col justify-end p-6 sm:p-8">
-                <span className="font-display text-3xl font-semibold text-accent">13+</span>
-                <span className="mt-2 font-display text-3xl font-semibold tracking-wide text-white uppercase">
-                  More to come
-                </span>
-                <span className="mt-2 block text-sm leading-relaxed text-white/85 sm:text-base">
-                  More conditions, explained the same way. Have something you keep Googling at 2 a.m., or a
-                  topic you wish someone had walked you through in the ER? Tell me what you would find
-                  useful.
-                </span>
-                <span className="mt-3 inline-flex items-center gap-2 text-sm font-medium text-accent">
-                  Suggest a topic
-                  <ArrowRight className="size-4 transition-transform duration-150 group-hover:translate-x-0.5" />
-                </span>
-              </span>
-            </span>
-          </a>
-        </div>
-      </section>
-
-      <section className="border-t border-border">
-        <div className="mx-auto max-w-6xl px-5 py-16 sm:px-8 lg:py-24">
-          <p className="text-xs font-medium tracking-widest text-muted uppercase">Explore</p>
+      <section id="interactive-physiology" className="scroll-mt-20 border-b border-border">
+        <div className="mx-auto max-w-6xl px-5 py-16 sm:px-8 lg:py-20">
+          <p className="text-xs font-medium tracking-widest text-muted uppercase">Playable</p>
           <h2 className="mt-3 font-display text-4xl font-semibold tracking-wide sm:text-5xl">
             Interactive physiology
           </h2>
           <p className="mt-4 max-w-2xl text-lg leading-relaxed text-muted">
             Models you can move, not just read. Slide the fuel in and watch where it goes.
           </p>
+          <div className="mt-8 space-y-4">
+            {interactive.map((minute) => (
+              <MinuteCard key={minute.slug} minute={minute} featured />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section id="minutes" className="scroll-mt-20">
+        <div className="mx-auto max-w-6xl px-5 py-16 sm:px-8 lg:py-24">
+          <p className="text-xs font-medium tracking-widest text-muted uppercase">The talks</p>
+          <h2 className="mt-3 font-display text-4xl font-semibold tracking-wide sm:text-5xl">Minutes</h2>
+          <p className="mt-4 max-w-2xl text-lg leading-relaxed text-muted">
+            The explanations I give over and over in the emergency department.
+          </p>
           <div className="mt-8 grid gap-4 md:grid-cols-2">
-            {minutes
-              .filter((m) => m.group === "interactive")
-              .map((minute) => (
-                <MinuteCard key={minute.slug} minute={minute} />
-              ))}
+            {talks.map((minute) => (
+              <MinuteCard key={minute.slug} minute={minute} />
+            ))}
+
+            <a
+              href="/#suggest"
+              className="group block overflow-hidden rounded-xl bg-ink shadow-border"
+            >
+              <span className="relative block aspect-[3/2] overflow-hidden rounded-xl">
+                <img
+                  src="/images/minutes-more-cover.jpg"
+                  alt="Laptop on a desk with organs and medical symbols rising off the screen — more Medical Minutes to come."
+                  className="absolute inset-0 size-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
+                />
+                <span className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/35 to-black/10" />
+                <span className="relative z-10 flex h-full min-h-11 flex-col justify-end p-6 sm:p-8">
+                  <span className="font-display text-3xl font-semibold text-accent">13+</span>
+                  <span className="mt-2 font-display text-3xl font-semibold tracking-wide text-white uppercase">
+                    More to come
+                  </span>
+                  <span className="mt-2 block text-sm leading-relaxed text-white/85 sm:text-base">
+                    More conditions, explained the same way. Have something you keep Googling at 2 a.m., or a
+                    topic you wish someone had walked you through in the ER? Tell me what you would find
+                    useful.
+                  </span>
+                  <span className="mt-3 inline-flex items-center gap-2 text-sm font-medium text-accent">
+                    Suggest a topic
+                    <ArrowRight className="size-4 transition-transform duration-150 group-hover:translate-x-0.5" />
+                  </span>
+                </span>
+              </span>
+            </a>
           </div>
         </div>
       </section>
