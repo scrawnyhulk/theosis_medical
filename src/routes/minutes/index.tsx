@@ -105,7 +105,7 @@ function MinutesHub() {
           >
             <span className="relative block aspect-[3/2] overflow-hidden rounded-xl">
               <img
-                src="/images/minutes-more-cover.png"
+                src="/images/minutes-more-cover.jpg"
                 alt="Laptop on a desk with organs and medical symbols rising off the screen — more Medical Minutes to come."
                 className="absolute inset-0 size-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
               />

@@ -31,11 +31,11 @@ export function creditKicker(source: string, jokeSteal?: boolean) {
 
 export const hackCovers: Partial<Record<HackSlug, { src: string; alt: string; object?: string }>> = {
   tldr: {
-    src: "/images/hack-tldr-cover.png",
+    src: "/images/hack-tldr-cover.jpg",
     alt: "A funnel of papers, scans, and charts collapsing into a handful of practical moves: eat, lift, walk, sleep.",
   },
   "why-hard": {
-    src: "/images/hack-why-hard-cover.png",
+    src: "/images/hack-why-hard-cover.jpg",
     alt: "A 10,000 BC brain in a 2026 food world: hunter-gatherers on one side, delivery and drive-through on the other.",
   },
   "where-to-start": {

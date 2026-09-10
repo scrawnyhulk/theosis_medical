@@ -58,7 +58,7 @@ export const minutes: Minute[] = [
     n: "01",
     title: "Why Ear Pain Doesn't Always Need Antibiotics",
     lede: "Understanding the Eustachian tube and how the ear and nose are connected.",
-    cover: "/images/minutes-eustachian-cover.png",
+    cover: "/images/minutes-eustachian-cover.jpg",
     coverAlt:
       "Side view of the face showing how the nose and middle ear connect through the Eustachian tube.",
     paragraphs: [
@@ -75,7 +75,7 @@ export const minutes: Minute[] = [
     n: "02",
     title: "Understanding Low Back Pain",
     lede: "What's going on underneath it all and when to worry.",
-    cover: "/images/minutes-low-back-cover.png",
+    cover: "/images/minutes-low-back-cover.jpg",
     coverAlt:
       "Back view of a person holding the low back, with the spine and sciatic nerve highlighted.",
     paragraphs: [
@@ -92,7 +92,7 @@ export const minutes: Minute[] = [
     n: "03",
     title: "Fever: Your Body's Secret Weapon...",
     lede: "...and why it's usually not dangerous.",
-    cover: "/images/minutes-fever-cover.png",
+    cover: "/images/minutes-fever-cover.jpg",
     coverAlt:
       "Person in bed with a glowing hypothalamus and immune cells, showing fever as a controlled response.",
     paragraphs: [
@@ -111,7 +111,7 @@ export const minutes: Minute[] = [
     n: "04",
     title: "Bronchitis vs Pneumonia",
     lede: "The sound and color of mucus do not tell you whether you have a serious lung infection.",
-    cover: "/images/minutes-cough-cover.png",
+    cover: "/images/minutes-cough-cover.jpg",
     coverAlt:
       "Lungs showing mucus in the airways versus infection in the air sacs — bronchitis versus pneumonia.",
     paragraphs: [
@@ -131,7 +131,7 @@ export const minutes: Minute[] = [
     n: "05",
     title: "What Is a Strain vs Sprain",
     lede: "Why it takes so long for these to heal.",
-    cover: "/images/minutes-sprain-cover.png",
+    cover: "/images/minutes-sprain-cover.jpg",
     coverAlt:
       "Muscle-tendon strain versus ligament sprain, with a runner holding the injured knee.",
     paragraphs: [
@@ -157,7 +157,7 @@ export const minutes: Minute[] = [
     n: "06",
     title: "Why We Don't CT Everyone",
     lede: "A powerful, sometimes lifesaving tool — used thoughtfully.",
-    cover: "/images/minutes-ct-cover.png",
+    cover: "/images/minutes-ct-cover.jpg",
     coverAlt:
       "Patient in a CT scanner with slices of the body and a DNA strand highlighting radiation risk.",
     paragraphs: [
@@ -175,7 +175,7 @@ export const minutes: Minute[] = [
     n: "07",
     title: "Sepsis: When the Body's Defenses Turn Destructive",
     lede: "It is not just a bad infection. Severity varies — and it can quickly become an emergency.",
-    cover: "/images/minutes-sepsis-cover.png",
+    cover: "/images/minutes-sepsis-cover.jpg",
     coverAlt:
       "Whole-body illustration of infection spreading from one organ through the bloodstream.",
     paragraphs: [
@@ -193,7 +193,7 @@ export const minutes: Minute[] = [
     n: "09",
     title: "What Is Antibiotic Resistance",
     lede: "You don't become immune to the medicine. The bacteria do.",
-    cover: "/images/minutes-resistance-cover.png",
+    cover: "/images/minutes-resistance-cover.jpg",
     coverAlt:
       "Resistant bacterium pumping out antibiotic and sharing resistance genes with nearby bacteria.",
     paragraphs: [
@@ -213,7 +213,7 @@ export const minutes: Minute[] = [
     title: "How Do Antibiotics Work",
     lede: "Can't I just take some leftover amoxicillin when I get sick? That'll take care of it, right?",
     cardNote: "Extra nerdy. A resource for medical professionals.",
-    cover: "/images/minutes-abx-how-cover.png",
+    cover: "/images/minutes-abx-how-cover.jpg",
     coverAlt:
       "Cutaway of a bacterium showing antibiotics hitting the cell wall, DNA, and protein machinery.",
     paragraphs: [
@@ -275,7 +275,7 @@ export const minutes: Minute[] = [
     n: "10",
     title: "What Is Peritonitis?",
     lede: "The abdominal pain you can't ignore — and how it happens.",
-    cover: "/images/minutes-peritonitis-cover.png",
+    cover: "/images/minutes-peritonitis-cover.jpg",
     coverAlt:
       "Open abdomen showing inflamed organs and a close-up of the peritoneum, the thin lining around the abdominal cavity.",
     paragraphs: [
@@ -293,7 +293,7 @@ export const minutes: Minute[] = [
     n: "11",
     title: "Create a Diabetic",
     lede: "An interactive tool showing how diabetes happens.",
-    cover: "/images/minutes-create-diabetic-cover.png",
+    cover: "/images/minutes-create-diabetic-cover.jpg",
     coverAlt:
       "Anatomical standing figure with extra fuel overflowing from under the skin into the organs — the path to type 2 diabetes.",
     paragraphs: [
@@ -308,7 +308,7 @@ export const minutes: Minute[] = [
     n: "12",
     title: "What Is AFib?",
     lede: "When the upper chambers quiver instead of squeezing — and why that can lead to a stroke.",
-    cover: "/images/minutes-afib-cover.png",
+    cover: "/images/minutes-afib-cover.jpg",
     coverAlt:
       "Normal heart rhythm versus atrial fibrillation: organized signals on the left, chaotic atrial signals and an irregular ECG on the right.",
     paragraphs: [

@@ -83,7 +83,7 @@ function HackPage() {
         {hack.slug === "tldr" ? (
           <div className="relative mt-8">
             <EnlargeableImage
-              src="/images/hack-tldr-hero.png"
+              src="/images/hack-tldr-hero.jpg"
               alt="The short list: protein food, lifting, walking, sleep, and a body running on those habits."
             />
             <div className="pointer-events-none absolute inset-0 rounded-xl bg-gradient-to-t from-ink via-ink/30 to-transparent" />
