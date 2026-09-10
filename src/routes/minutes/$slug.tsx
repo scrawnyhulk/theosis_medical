@@ -78,14 +78,14 @@ function MinutePage() {
         {minute.slug === "create-diabetic" ? (
           <div className="mt-10">
             <iframe
-              src="/personal-fat-threshold.html"
+              src="/personal-fat-threshold-v12-2026-09-10.html"
               title="Personal fat threshold interactive model"
               className="w-full rounded-[14px] bg-[#09131f]"
               style={{ height: 1600, border: 0 }}
               loading="lazy"
             />
             <p className="mt-3 text-sm text-muted">
-              <a href="/personal-fat-threshold.html" className="text-accent hover:text-fg">
+              <a href="/personal-fat-threshold-v12-2026-09-10.html" className="text-accent hover:text-fg">
                 Open the model in its own tab
               </a>
             </p>
