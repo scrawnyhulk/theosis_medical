@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="dark">
-<meta name="pft-model-version" content="14-fixed-organs-ct-detail">
+<meta name="pft-model-version" content="15-visible-live-workbench">
 <meta name="description" content="Personal fat threshold: How to create a diabetic. Explore glycogen storage in liver and muscle, fat accumulation, adipocyte hyperplasia, and possible type 2 diabetes in an illustrative anatomy model.">
 <title>Personal fat threshold: How to create a diabetic · Theosis Medical</title>
 <style>
@@ -209,22 +209,143 @@ h1{font-size:clamp(26px,3vw,36px)}
 @media(max-width:500px){.ct-panel{padding:13px}.ct-views{gap:8px}.ct-scan figcaption{display:block;padding:8px;font-size:14px}.ct-scan figcaption span{display:block;font-size:12px}.ct-legend{grid-template-columns:1fr;gap:9px}.ct-legend strong{display:inline}.ct-legend small{display:inline;margin-left:5px}.human .callout{display:none}.abdomen-caption{padding-right:13px;padding-left:13px}}
 
 /* END ABDOMINAL CSS */
+/* BEGIN WORKBENCH CSS */
+/* Keep every live result on the same working surface as the fuel control. */
+.app{max-width:1600px;padding:12px 16px 20px;--workspace-height:580px}
+.workbench-header{position:relative;margin-bottom:12px}
+.title-row{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:12px}
+.brand{font-size:12px;letter-spacing:.13em;margin-bottom:4px}
+h1{font-size:clamp(20px,2vw,27px);line-height:1.2}
+.intro-lead{font-size:14px;line-height:1.35;margin:5px 0 0}
+.embedded .brand,.embedded .intro-lead{display:none}
+.view-actions{display:flex;align-items:center;gap:8px;flex:none}
+.view-actions button,.intro-details>summary{font-size:14px;white-space:nowrap;min-height:44px;padding:10px 12px;border:1px solid #36516b;border-radius:8px;background:#172b40;color:var(--ink);line-height:22px}
+.intro-details>summary{list-style:none}
+.intro-details>summary::-webkit-details-marker{display:none}
+.intro-details[open]>summary{background:#29445e}
+.intro-details .intro-story{position:absolute;z-index:20;top:100%;left:0;right:0;max-width:none;max-height:min(65vh,580px);overflow:auto;overscroll-behavior:contain;margin-top:8px;padding:12px 22px;background:#102132;border:1px solid #47617a;border-radius:12px;box-shadow:0 20px 50px #0008}
+.intro-story p{font-size:16px;line-height:1.55}
+.capacity.threshold-controls{grid-template-columns:minmax(220px,285px) minmax(0,1fr);column-gap:16px;margin:0;align-items:center}
+.threshold-controls label{font-size:14px;margin-bottom:4px;line-height:1.25}
+.threshold-controls select{font-size:14px;min-height:42px;padding:8px 28px 8px 10px}
+.threshold-controls p{font-size:14px;line-height:1.4;max-width:none}
+.workspace{display:grid;grid-template-columns:minmax(190px,.78fr) minmax(0,1.8fr) minmax(265px,1fr);grid-template-rows:minmax(0,1fr);gap:12px;height:var(--workspace-height);align-items:stretch}
+.workspace>.ct-panel,.workspace>.visual,.workspace>.detail{grid-row:1;min-height:0;min-width:0;width:auto;margin:0}
+.workspace>.ct-panel{grid-column:1}
+.workspace>.visual{grid-column:2}
+.workspace>.detail{grid-column:3}
+.ct-panel{display:flex;flex-direction:column;padding:12px;border-radius:12px}
+.ct-panel h2{font-size:17px;margin:0 0 4px}
+.ct-intro{font-size:13px;line-height:1.35;margin:0 0 8px}
+.ct-views{display:grid;grid-template-columns:1fr;grid-template-rows:1fr 1fr;gap:8px;flex:1;min-height:0}
+.ct-scan{display:grid;grid-template-rows:auto minmax(0,1fr);min-height:0;border-radius:7px}
+.ct-scan figcaption{padding:6px 8px;font-size:14px;line-height:1.25;flex-wrap:wrap;gap:2px 6px}
+.ct-scan figcaption span{font-size:12px}
+.ct-scan canvas{width:100%;height:100%;min-height:0;object-fit:contain;aspect-ratio:auto}
+.ct-legend{display:grid;grid-template-columns:1fr;gap:5px;margin:8px 0 0;font-size:13px;line-height:1.25}
+.ct-legend>div{gap:6px;grid-template-columns:9px minmax(0,1fr)}
+.ct-key{width:8px;height:8px;margin-top:4px}
+.ct-legend strong{display:inline;font-size:13px;font-weight:500}
+.ct-legend small{display:inline;font-size:12px;margin-left:5px}
+.ct-caption{font-size:12px;color:#9fb3c7;margin:8px 0 0;line-height:1.3}
+.visual{display:grid;grid-template-rows:auto minmax(0,1fr) auto;border-radius:12px;overflow:hidden}
+.visual-header{padding:10px 12px 0;min-height:29px}
+.visual-header strong{font-size:14px}
+.visual-header span{font-size:12px}
+.anatomy-layout{display:grid;grid-template-columns:minmax(0,1fr) 145px;height:100%;min-height:0;padding:0;position:relative}
+.human{display:block;width:100%;height:100%;min-height:0;align-self:stretch}
+.slider-panel{position:relative;display:flex;flex-direction:column;min-height:0;height:100%;padding:8px 10px 10px 0}
+.a1c-card{position:static;display:block;flex:none;margin:0 0 12px;padding:9px;border-radius:8px}
+.a1c-reading{position:static;padding:0;min-height:0}
+.a1c-label{font-size:14px;white-space:normal}
+.a1c-reading>small{display:inline;font-size:12px;margin:0}
+#a1c-output{position:static;display:block;font-size:31px;margin:2px 0;line-height:1.1}
+.a1c-unit{font-size:18px}
+.a1c-status{font-size:13px;line-height:1.25}
+.a1c-thresholds{display:grid;border:0;border-top:1px solid #30485c;margin:7px 0 0;padding:5px 0 0;gap:3px}
+.a1c-threshold{font-size:12px;gap:5px;line-height:1.3}
+.rail{height:auto;min-height:90px;flex:1}
+.scale-end{font-size:12px;line-height:1.2}
+.scale-end.high{margin:0 0 14px 5px}
+.scale-end.low{margin:14px 0 0 5px}
+.tick-name{display:inline}
+.scale-label{padding:7px 12px;gap:8px;font-size:14px;min-height:43px}
+.scale-label small{font-size:12px;line-height:1.3;margin:0}
+.scale-label output{font-size:19px}
+.detail{display:flex;flex-direction:column;padding:12px;border:1px solid var(--line);border-radius:12px;background:#0b1724;gap:10px}
+.stage-block{flex:none;min-height:0}
+.stage-heading{font-size:12px;letter-spacing:.015em;line-height:1.3;gap:6px}
+.stage-block h2{font-size:20px;line-height:1.2;margin:5px 0 0}
+.distribution{display:flex;flex-direction:column;min-height:0;flex:1}
+.section-label{font-size:14px;line-height:1.3;margin:0 0 8px}
+.glycogen-stores{gap:9px;padding:0 0 10px;margin:0 0 10px}
+.depots{gap:9px;margin:0}
+.depot-row,.glycogen-row{grid-template-columns:18px minmax(0,1fr) 54px;gap:7px;min-height:29px}
+.depot-number{width:18px;height:18px;font-size:12px}
+.depot-name{font-size:14px;line-height:1.2;margin:0 0 4px;gap:4px}
+.depot-value{font-size:12px;line-height:1.2}
+.meter,.glycogen-stores .meter{height:5px}
+.hyperplasia-panel{order:3;flex:none;position:relative;margin:10px 0 0;padding:6px 8px;min-height:64px;border-radius:7px}
+.hyperplasia-panel>strong{font-size:13px;line-height:1.2}
+.hyperplasia-panel>span{font-size:12px;line-height:1.2;margin:2px 0 0}
+.hyperplasia-svg{height:28px;max-height:28px;margin:3px 0 0}
+.blood-section{flex:none;border-top:1px solid var(--line);padding-top:9px}
+.blood-head{display:block;margin:0 0 4px}
+.blood-head strong{font-size:14px;line-height:1.25}
+#blood-status{display:block;font-size:12px;line-height:1.25;margin-top:2px}
+.blood-svg{height:54px;width:100%}
+.blood-legend{font-size:12px;gap:10px;margin:3px 0 0;line-height:1.25}
+.live-footnote{font-size:12px;color:#9fb3c7;margin:8px 0 0;line-height:1.4}
+.reading-details{margin-top:8px;border-bottom:1px solid var(--line)}
+.reading-details summary,.science summary{font-size:14px;padding:10px 0;min-height:40px}
+.reading-columns{display:grid;grid-template-columns:1fr 1fr;gap:24px;padding:4px 0 12px}
+.reading-columns p{font-size:14px;line-height:1.5;margin:0 0 12px;color:#b8c8d8}
+.reading-columns .stage-copy{min-height:0;font-size:16px}
+.reading-columns .takeaway{padding-left:12px}
+.bottom-note{margin:10px 0 0;padding:10px 0;gap:20px;font-size:13px}
+.app:fullscreen{max-width:none;width:100%;height:100%;overflow:auto;background:var(--bg);padding:12px 18px}
+.app:fullscreen::backdrop{background:var(--bg)}
+@media(max-width:1150px){.workspace{grid-template-columns:minmax(170px,.75fr) minmax(0,1.65fr) minmax(244px,1fr);gap:10px}.human .callout,.visual-header span{display:none}.anatomy-layout{grid-template-columns:minmax(0,1fr) 133px}.detail,.ct-panel{padding:10px}.depot-row,.glycogen-row{grid-template-columns:18px minmax(0,1fr) 49px;gap:5px}.ct-scan figcaption{display:block}.ct-scan figcaption span{display:block;margin-top:2px}.stage-block h2{font-size:18px}.title-row{gap:10px}.view-actions{gap:6px}.view-actions button,.intro-details>summary{padding:10px}}
+@media(max-width:900px) and (min-width:701px){.app{padding:10px}.workspace{grid-template-columns:minmax(140px,.65fr) minmax(0,1.4fr) minmax(228px,1fr);gap:8px}.anatomy-layout{grid-template-columns:minmax(0,1fr) 114px}.a1c-card{padding:7px}.a1c-label{font-size:13px}.a1c-threshold{display:block}.a1c-threshold strong{margin-right:4px}.tick-name{display:none}.stage-block h2{font-size:17px}.ct-legend strong,.ct-legend small{display:block;margin-left:0}.title-subtitle{display:block}.intro-lead{display:none}.view-actions{flex-direction:column;gap:4px}.view-actions button,.intro-details>summary{min-height:36px;padding:6px 10px}}
+@media(max-width:700px){.app{padding:10px 8px 16px}.title-row{gap:8px;align-items:flex-start;margin-bottom:9px}.brand{font-size:12px;margin-bottom:3px}.title-row h1{font-size:19px}.title-subtitle{display:block;font-size:17px}.intro-lead{display:none}.view-actions{flex-direction:column;gap:4px}.view-actions button,.intro-details>summary{font-size:12px;padding:5px 8px;min-height:34px;line-height:22px}.capacity.threshold-controls{display:block;margin:0}.threshold-controls label{font-size:13px}.threshold-controls select{min-height:40px}.threshold-controls p{font-size:13px;line-height:1.3;margin:6px 0 0}.workspace{grid-template-columns:minmax(0,1fr) minmax(0,1fr);grid-template-rows:minmax(0,1.7fr) minmax(0,1fr);gap:8px}.workspace>.visual{grid-column:1;grid-row:1}.workspace>.ct-panel{grid-column:1;grid-row:2}.workspace>.detail{grid-column:2;grid-row:1/span 2}.visual-header{padding:7px 8px 0;min-height:25px}.visual-header strong{font-size:13px}.anatomy-layout{grid-template-columns:minmax(0,1fr) 43px;padding-top:93px}.human{height:100%;min-height:0}.human .callout{display:none}.slider-panel{position:static;height:100%;padding:4px 1px 5px 0}.a1c-card{position:absolute;top:5px;left:7px;right:7px;padding:6px;display:block;min-height:77px;margin:0}.a1c-reading{position:relative;padding-right:42px}.a1c-label{font-size:13px}.a1c-reading>small{display:none}#a1c-output{position:absolute;right:0;top:1px;font-size:24px;margin:0}.a1c-unit{font-size:13px}.a1c-status{font-size:12px;margin-top:2px}.a1c-thresholds{display:flex;flex-wrap:wrap;gap:2px 8px;margin-top:5px;padding-top:3px}.a1c-threshold{font-size:12px;gap:3px}.scale-end{font-size:12px;margin-left:0}.scale-end.high{margin:0 0 10px}.scale-end.low{margin:10px 0 0}.range-wrap{left:4px;width:34px}.spectrum{width:5px;left:0}.ticks{display:none}.rail{min-height:60px}#fat-range{width:34px}.scale-label{display:flex;flex-wrap:wrap;gap:2px;padding:5px 7px;min-height:36px;font-size:12px}.scale-label small{display:none}.scale-label output{font-size:16px;margin-left:auto}.scale-label output span{font-size:12px}.ct-panel{padding:7px}.ct-panel h2{font-size:13px;line-height:1.2;margin-bottom:5px}.ct-intro{display:none}.ct-views{gap:5px;grid-template-columns:1fr 1fr;grid-template-rows:1fr}.ct-scan figcaption{font-size:12px;padding:4px;line-height:1.2}.ct-scan figcaption span{display:none}.ct-legend{gap:3px;margin-top:5px}.ct-legend strong{font-size:12px;display:inline}.ct-legend small{display:none}.ct-caption{font-size:12px;margin-top:4px}.detail{padding:8px;gap:9px}.stage-heading{font-size:12px}.stage-dot{display:none}.stage-block h2{font-size:16px;line-height:1.25}.section-label{font-size:13px;margin-bottom:8px}.depot-row,.glycogen-row{position:relative;display:block;min-height:38px;padding-left:0;padding-bottom:0}.depot-number{display:none}.depot-name{font-size:14px;line-height:1.2;margin-bottom:3px}.depot-value{display:block;text-align:left;font-size:12px;line-height:1.2;margin-top:2px}.glycogen-stores{gap:8px;margin-bottom:8px;padding-bottom:8px}.depots{gap:8px}.blood-head strong{font-size:13px}.blood-svg{height:44px}.blood-legend{display:grid;gap:3px}.blood-section{padding-top:7px}.hyperplasia-panel{padding:5px;margin-top:6px;min-height:57px}.hyperplasia-panel>strong{font-size:12px}.hyperplasia-panel>span{font-size:12px}.hyperplasia-svg{height:23px;max-height:23px}.reading-columns,.bottom-note{grid-template-columns:1fr;gap:10px}.intro-details .intro-story{padding:10px 14px}.app:fullscreen{padding:8px}.live-footnote{font-size:12px}}
+/* Short laptop windows keep the full set of meters and the blood view in frame. */
+.compact-height .detail{gap:7px;padding-top:9px;padding-bottom:9px}
+.compact-height .stage-block h2{font-size:17px}
+.compact-height .section-label{margin-bottom:6px}
+.compact-height .glycogen-stores{gap:6px;margin-bottom:7px;padding-bottom:7px}
+.compact-height .depots{gap:5px}
+.compact-height .depot-row,.compact-height .glycogen-row{min-height:25px}
+.compact-height .blood-svg{height:36px}
+.compact-height .hyperplasia-panel{margin-top:7px;min-height:55px}
+.compact-height .hyperplasia-svg{height:21px;max-height:21px}
+.compact-height .a1c-card{margin-bottom:8px;padding-top:6px;padding-bottom:6px}
+.compact-height .ct-intro{display:none}
+@media(max-width:700px){.compact-height .depot-row,.compact-height .glycogen-row{min-height:38px}.compact-height .stage-block h2{font-size:15px}.compact-height .depots,.compact-height .glycogen-stores{gap:6px}}
+
+/* END WORKBENCH CSS */
 </style>
 </head>
 <body>
 <main class="app" id="pft-app">
-  <header>
-    <div class="masthead"><div class="brand">THEOSIS <span>MEDICAL</span></div><span class="eyebrow">Interactive physiology</span></div>
-    <h1>Personal fat threshold<span class="title-subtitle">: How to create a diabetic</span></h1>
-    <p class="intro intro-lead">An interactive tool showing how diabetes happens.</p>
-    <div class="intro-story">
+  <header class="workbench-header">
+    <div class="title-row">
+      <div>
+        <div class="brand">THEOSIS <span>MEDICAL</span></div>
+        <h1>Personal fat threshold<span class="title-subtitle">: How to create a diabetic</span></h1>
+        <p class="intro intro-lead">An interactive tool showing how diabetes happens.</p>
+      </div>
+      <div class="view-actions">
+        <details class="intro-details" id="how-it-works"><summary>How it works</summary><div class="intro-story">
       <p>Remember that fat and carbohydrates are fuel. If we take in more fuel than we need, we store it in the fuel tanks: fat cells, and glycogen stores in the liver and muscle.</p>
       <p>We tend to think of type 2 diabetes as just a “sugar problem,” but how we handle excess fuel matters too. Glycogen is stored sugar in the liver and muscle. These reserves are limited and refill after we eat. With continued excess intake, carbohydrate can be turned into fat, and the body can also store more of the fat we eat. If healthy fat storage becomes strained, fat can accumulate in tissues and interfere with insulin. Blood sugar rises when insulin can no longer keep up and the liver releases too much glucose. Limited healthy fat storage can therefore help drive type 2 diabetes.</p>
       <p>People differ in how much fat they can store under the skin without metabolic strain. Genetics help shape that capacity. Some people can keep expanding that tank for a long time. For others, even a modest weight gain can matter.</p>
       <p>The slider is a model of that overflow—not your personal threshold. First, watch glycogen replenish in the liver and muscle. Then the model focuses on increasing pinchable fat under the skin. As healthy storage comes under strain, more fat can accumulate around the organs as visceral fat, and within the liver, pancreas, and muscle. In real life these processes overlap; they do not have to fill one at a time. Full glycogen stores are normal and do not themselves cause diabetes. If insulin can no longer keep up, glucose stays elevated in the blood, often alongside higher circulating fats. That can lead to type 2 diabetes.</p>
       <p>This is not type 1. Type 1 usually involves autoimmune destruction of the cells that make insulin, leaving the body unable to make enough insulin. Different disease.</p>
-    </div>
     <p class="model-note">Choose a threshold, then slide upward to add fuel: glycogen first, followed by fat accumulation in this teaching sequence. Higher thresholds delay glucose changes in this fictional example. The scale is not time, calories, or pounds.</p>
+        </div></details>
+        <button type="button" id="expand-view" aria-pressed="false">Full screen</button>
+      </div>
+    </div>
     <div class="capacity threshold-controls">
         <label for="capacity-select">1. Choose a personal threshold</label>
         <select id="capacity-select" aria-describedby="capacity-note"><option value="0.72">Lower threshold</option><option value="1" selected>Moderate threshold</option><option value="1.1">Larger threshold</option><option value="2">Extreme threshold · Hyperplasia</option></select>
@@ -236,18 +357,17 @@ h1{font-size:clamp(26px,3vw,36px)}
     <!-- BEGIN ABDOMINAL PANEL -->
     <aside class="ct-panel" aria-labelledby="ct-title">
       <h2 id="ct-title">Inside the abdomen</h2>
-      <p class="ct-intro">Transverse view, as if looking up from the feet. Compare the same slice at the same scale.</p>
+      <p class="ct-intro">Transverse view · Same slice and scale</p>
       <div class="ct-views">
-        <figure class="ct-scan"><figcaption><strong>Normal baseline</strong><span>Fixed reference</span></figcaption><canvas id="ct-baseline" width="720" height="560" role="img" aria-label="Illustrative baseline axial abdominal section, with a thin outer layer of subcutaneous fat and a small amount of deep fat around the organs.">Baseline abdominal cross-section.</canvas></figure>
-        <figure class="ct-scan"><figcaption><strong>Current model</strong><span id="ct-current-value">0 / 100</span></figcaption><canvas id="ct-current" width="720" height="560" role="img" aria-label="Illustrative abdominal cross-section responding to the fuel slider.">The outer fat layer and deep abdominal compartment expand with the model.</canvas></figure>
+        <figure class="ct-scan"><figcaption><strong>Normal</strong><span>Fixed reference</span></figcaption><canvas id="ct-baseline" width="720" height="560" role="img" aria-label="Illustrative baseline axial abdominal section, with a thin outer layer of subcutaneous fat and a small amount of deep fat around the organs.">Baseline abdominal cross-section.</canvas></figure>
+        <figure class="ct-scan"><figcaption><strong>Current</strong><span id="ct-current-value">0 / 100</span></figcaption><canvas id="ct-current" width="720" height="560" role="img" aria-label="Illustrative abdominal cross-section responding to the fuel slider.">The outer fat layer and deep abdominal compartment expand with the model.</canvas></figure>
       </div>
       <div class="ct-legend">
         <div><i class="ct-key" aria-hidden="true"></i><div><strong>Under the skin</strong><small id="ct-outer-value">Baseline</small></div></div>
         <div><i class="ct-key vis" aria-hidden="true"></i><div><strong>Around the organs</strong><small id="ct-inner-value">Baseline</small></div></div>
         <div><i class="ct-key organ" aria-hidden="true"></i><div><strong>Within tissues</strong><small>Organ-fat overlay</small></div></div>
       </div>
-      <p class="ct-note">The pale abdominal muscle wall separates the outer and inner fat. Visceral fat expands the space inside that wall.</p>
-      <p class="ct-note">CT-style illustration, not a patient scan. Fat is dark on CT; added colors identify the compartments. A larger belly can reflect both types of fat and does not diagnose diabetes.</p>
+      <p class="ct-caption">CT-style teaching illustration</p>
     </aside>
 
     <!-- END ABDOMINAL PANEL -->
@@ -348,7 +468,7 @@ h1{font-size:clamp(26px,3vw,36px)}
         <div class="slider-panel">
           <div class="a1c-card" id="a1c-card" data-state="normal">
             <div class="a1c-reading">
-              <span class="a1c-label">Hemoglobin A1c</span>
+              <span class="a1c-label">HbA1c</span>
               <small>Illustrative</small>
               <output id="a1c-output" for="fat-range capacity-select" aria-describedby="a1c-help"><span id="a1c-number">5.2</span><span class="a1c-unit">%</span></output>
               <span class="a1c-status" id="a1c-status">Normal range</span>
@@ -370,18 +490,18 @@ h1{font-size:clamp(26px,3vw,36px)}
         </div>
       </div>
       <div class="scale-label">
-        <div><label for="fat-range">Fuel accumulation</label><small id="range-help">Glycogen, then fat. Illustrative scale. Drag or use ↑ / ↓.</small></div>
+        <div><label for="fat-range">Fuel accumulation</label><small id="range-help">Drag or use ↑ / ↓ · Illustrative scale</small></div>
         <output for="fat-range" id="fat-output">0 <span>/ 100</span></output>
       </div>
-      <p class="abdomen-caption" id="abdomen-caption">The outer layer grows with fat under the skin; the deeper belly expands as visceral fat rises.</p>
-      <p id="a1c-help" class="a1c-help">HbA1c reflects average glucose over about 3 months. This readout is a fictional example assuming sustained levels, not an estimate from body fat.</p>
+
+
     </section>
     <aside class="detail" aria-label="What changes as fuel accumulates">
       <div class="stage-block">
         <div class="stage-heading"><span class="stage-dot"></span><span id="stage-kicker">First · Glycogen reserves</span></div>
         <h2 id="stage-title">Room for stored carbohydrate</h2>
-        <p class="stage-copy" id="stage-copy">Liver and muscle hold glucose as glycogen. This example starts with partly stocked reserves. Move the slider to watch the teal glycogen highlights build before added fat appears.</p>
-        <p class="takeaway" id="takeaway">Replenishing glycogen is normal. It is not a step into diabetes.</p>
+
+
       </div>
       <div class="distribution">
         <div class="hyperplasia-panel" id="hyperplasia-panel" hidden>
@@ -391,14 +511,14 @@ h1{font-size:clamp(26px,3vw,36px)}
             <defs><radialGradient id="adipocyte-fill" cx=".35" cy=".3" r=".75"><stop stop-color="#f4dfaa"/><stop offset=".65" stop-color="#c8aa69"/><stop offset="1" stop-color="#8b744b"/></radialGradient></defs>
             <g id="adipocyte-cells"></g>
           </svg>
-          <p>Adipocyte hyperplasia: precursor cells mature into additional fat cells, adding places to store energy. This larger storage reserve helps explain why a person with substantial obesity may not have diabetes.</p>
-          <small>Schematic cell counts. This is one possible phenotype, not a guarantee of lasting protection or absence of other health risks.</small>
+
+
         </div>
         <div class="section-label">Illustrative fuel stores</div>
         <div class="glycogen-stores" id="glycogen-stores">
           <div class="glycogen-row active" id="glycogen-liver-row"><span class="depot-number">G</span><div><div class="depot-name">Liver glycogen</div><div class="meter" id="glycogen-liver-meter" role="meter" aria-label="Illustrative liver glycogen reserve" aria-valuemin="0" aria-valuemax="100" aria-valuenow="25"><i id="glycogen-liver-bar" style="width:25%"></i></div></div><span class="depot-value" id="glycogen-liver-value">Starting</span></div>
           <div class="glycogen-row active" id="glycogen-muscle-row"><span class="depot-number">G</span><div><div class="depot-name">Muscle glycogen</div><div class="meter" id="glycogen-muscle-meter" role="meter" aria-label="Illustrative muscle glycogen reserve" aria-valuemin="0" aria-valuemax="100" aria-valuenow="25"><i id="glycogen-muscle-bar" style="width:25%"></i></div></div><span class="depot-value" id="glycogen-muscle-value">Starting</span></div>
-          <p class="glycogen-help"><strong>Teal highlights = glycogen.</strong> Stored carbohydrate in liver and muscle; levels are illustrative.</p>
+
         </div>
         <div class="depots" id="depots">
           <div class="depot-row" data-depot="sat" style="--c:var(--sat)"><span class="depot-number">1</span><div><div class="depot-name">Under the skin</div><div class="meter"><i></i></div></div><span class="depot-value">Baseline</span></div>
@@ -419,10 +539,19 @@ h1{font-size:clamp(26px,3vw,36px)}
           </g>
         </svg>
         <div class="blood-legend"><span><i class="dot-fat"></i>Circulating fats</span><span><i class="dot-glucose"></i>Glucose</span></div>
-        <p class="blood-caption" id="blood-caption">Body arteries are shown through tissue. Glucose and lipid symbols are enlarged; counts are illustrative.</p>
+
       </div>
     </aside>
   </div>
+  <p class="live-footnote">Move the lever upward to add fuel. Teal = glycogen · HbA1c and storage levels are illustrative, not personal predictions.</p>
+  <details class="reading-details">
+    <summary>What this stage means &amp; how to read the views</summary>
+    <div class="reading-columns">
+      <div><p class="stage-copy" id="stage-copy">Liver and muscle hold glucose as glycogen. This example starts with partly stocked reserves. Move the slider to watch the teal glycogen highlights build before added fat appears.</p><p class="takeaway" id="takeaway">Replenishing glycogen is normal. It is not a step into diabetes.</p><p><strong>Extreme threshold / hyperplasia.</strong> Adipocyte hyperplasia adds fat cells that can store energy. This helps explain why a person with substantial obesity may not have diabetes. This is a possible phenotype, not a guarantee of lasting protection or absence of other health risks. The cell counts are schematic.</p></div>
+      <div><p class="abdomen-caption" id="abdomen-caption">The outer layer grows with fat under the skin; the deeper belly expands as visceral fat rises.</p><p id="a1c-help" class="a1c-help">HbA1c reflects average glucose over about 3 months. This readout is a fictional example assuming sustained levels, not an estimate from body fat.</p><p class="glycogen-help"><strong>Teal highlights = glycogen.</strong> Stored carbohydrate in liver and muscle; levels are illustrative.</p><p class="blood-caption" id="blood-caption">Body arteries are shown through tissue. Glucose and lipid symbols are enlarged; counts are illustrative.</p><p>The pale abdominal muscle wall separates outer subcutaneous fat from deep visceral fat. Fat is dark on CT; added colors identify compartments. A larger belly can reflect both types of fat and does not diagnose diabetes.</p></div>
+    </div>
+  </details>
+  <div id="view-status" class="sr-only" role="status"></div>
   <div class="bottom-note">
     <p><strong>Fuel storage overlaps.</strong> Glycogen replenishment, fuel use, and fat storage can happen together. Fat under the skin, around organs, and within organs can also increase together.</p>
     <p><strong>Diabetes is diagnosed with blood tests.</strong> Type 2 can develop when insulin production cannot meet the body’s needs. The slider cannot diagnose or predict it.</p>
@@ -1103,9 +1232,78 @@ h1{font-size:clamp(26px,3vw,36px)}
   });
   $("capacity-select").addEventListener("change",function(){render(true)});
   render(false);
+  // BEGIN WORKBENCH
+  // Fit the active surface to the viewport, including when this file is embedded.
+  // The same-origin Theosis frame is the only host layout this model adjusts.
+  let modelHostFrame=null;
+  let modelHostWindow=null;
+  try{
+    if(window.frameElement&&window.parent.location.origin===location.origin&&
+       /(^|\.)theosismedical\.com$/.test(location.hostname)&&
+       /^\/minutes\/create-diabetic\/?$/.test(window.parent.location.pathname)){
+      modelHostFrame=window.frameElement;
+      modelHostWindow=window.parent;
+      const article=modelHostFrame.closest("article");
+      if(article){article.style.maxWidth="1600px";article.style.paddingTop="16px";article.style.paddingBottom="24px"}
+      modelHostFrame.parentElement.style.marginTop="12px";
+      modelHostFrame.style.display="block";
+      modelHostFrame.style.width="100%";
+      modelHostFrame.style.scrollMarginTop="80px";
+      modelHostFrame.setAttribute("allowfullscreen","");
+    }
+  }catch(e){/* Cross-origin embeds use their own available viewport. */}
+  let fitFrame=0;
+  function fitWorkbench(){
+    fitFrame=0;
+    const full=document.fullscreenElement===root;
+    const viewHeight=full?window.innerHeight:modelHostWindow?modelHostWindow.innerHeight:window.innerHeight;
+    const width=root.clientWidth;
+    const hostNav=modelHostWindow?modelHostWindow.document.querySelector("header"):null;
+    const hostInset=!full&&modelHostWindow?(hostNav?hostNav.getBoundingClientRect().height:65)+88:16;
+    const heading=root.querySelector(".workbench-header").getBoundingClientRect().height;
+    const available=viewHeight-hostInset-heading-36;
+    const minimum=width<=700?540:420;
+    const workspaceHeight=Math.max(minimum,Math.min(730,available));
+    root.style.setProperty("--workspace-height",Math.round(workspaceHeight)+"px");
+    root.classList.toggle("compact-height",workspaceHeight<555);
+    $("human-svg").setAttribute("viewBox",width<=900?"108 0 500 1080":"0 0 720 1080");
+    $("expand-view").textContent=full?"Exit full screen":"Full screen";
+    $("expand-view").setAttribute("aria-pressed",String(full));
+    if(modelHostFrame&&!full){
+      // Let the document grow when a reader deliberately opens the notes.
+      // Height comes from the content, never from a 1600px iframe viewport.
+      const contentHeight=Math.ceil(root.getBoundingClientRect().height)+2;
+      if(Math.abs(parseFloat(modelHostFrame.style.height||"0")-contentHeight)>1)
+        modelHostFrame.style.height=contentHeight+"px";
+    }
+  }
+  function scheduleWorkbenchFit(){if(!fitFrame)fitFrame=requestAnimationFrame(fitWorkbench)}
+  $("expand-view").addEventListener("click",async function(){
+    try{
+      if(document.fullscreenElement===root)await document.exitFullscreen();
+      else if(root.requestFullscreen)await root.requestFullscreen();
+      else throw new Error("Fullscreen not supported");
+    }catch(e){
+      // A host may disallow fullscreen; the complete model can still open itself.
+      if(window.self!==window.top&&location.protocol!=="about:")window.open(location.href,"_blank","noopener");
+      else $("view-status").textContent="Full screen is unavailable in this browser. The live panels remain grouped together.";
+    }
+  });
+  window.addEventListener("resize",scheduleWorkbenchFit);
+  document.addEventListener("fullscreenchange",scheduleWorkbenchFit);
+  if(modelHostWindow)modelHostWindow.addEventListener("resize",scheduleWorkbenchFit);
+  if(typeof ResizeObserver!=="undefined"){
+    const workbenchObserver=new ResizeObserver(scheduleWorkbenchFit);
+    workbenchObserver.observe(root);
+    workbenchObserver.observe(root.querySelector(".workbench-header"));
+  }
+  fitWorkbench();
+  // END WORKBENCH
+
+
   if(!isEmbedded){
     function escapeAttribute(s){return s.replace(/&/g,"&amp;").replace(/"/g,"&quot;").replace(/</g,"&lt;").replace(/>/g,"&gt;")}
-    const snippet='<iframe title="Personal fat threshold: How to create a diabetic — Theosis Medical" style="display:block;width:100%;height:100%;min-height:1400px;border:0;border-radius:14px;background:#09131f" loading="lazy" sandbox="allow-scripts allow-popups allow-popups-to-escape-sandbox" srcdoc="'+escapeAttribute(portableHTML)+'"></iframe>';
+    const snippet='<iframe title="Personal fat threshold: How to create a diabetic — Theosis Medical" style="display:block;width:100%;height:100dvh;min-height:680px;border:0;border-radius:14px;background:#09131f" loading="lazy" allowfullscreen sandbox="allow-scripts allow-popups allow-popups-to-escape-sandbox" srcdoc="'+escapeAttribute(portableHTML)+'"></iframe>';
     $("embed-code").value=snippet;
     $("copy-embed").addEventListener("click",async function(){
       try{if(!navigator.clipboard)throw new Error("Clipboard unavailable");await navigator.clipboard.writeText(snippet);$("copy-status").textContent="Copied. Paste it into your website’s HTML Embed component."}
