@@ -344,6 +344,9 @@ h1{font-size:clamp(20px,2vw,27px);line-height:1.2}
 .detail{gap:8px}
 .detail .glycogen-stores{gap:7px;padding-bottom:8px;margin-bottom:8px}
 .detail .depots{gap:7px}
+/* On phones the A1c card already identifies the current category. Keep the
+   longer stage heading accessible without spending the meters' live space. */
+@media(max-width:700px){.detail .stage-block,.detail .section-label{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap}}
 @media(max-width:700px){.fuel-tank-head{display:block}.fuel-tank-head strong{font-size:13px}#fuel-tank-status{display:block;font-size:12px;margin-top:2px}#fuel-tank-svg{height:58px}#fuel-tank-caption{font-size:12px;line-height:1.25}.fuel-tank-panel{padding-top:6px}.detail{gap:7px}.detail .glycogen-stores{gap:5px;margin-bottom:6px;padding-bottom:6px}.detail .depots{gap:5px}.detail .depot-row,.detail .glycogen-row{min-height:25px}.detail .depot-name{font-size:14px;margin-bottom:3px}.detail .stage-block h2{font-size:15px}.detail .section-label{margin-bottom:5px}.detail .blood-svg{height:36px}.detail .blood-legend{display:flex;gap:4px 8px;flex-wrap:wrap}.detail .blood-head{margin-bottom:3px}.detail .blood-section{padding-top:6px}}
 
 /* END FUEL TANK CSS */
@@ -1454,6 +1457,7 @@ h1{font-size:clamp(20px,2vw,27px);line-height:1.2}
   }
   fitWorkbench();
   // END WORKBENCH
+
 
 
 
