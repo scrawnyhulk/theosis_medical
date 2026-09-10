@@ -310,7 +310,7 @@ export const minutes: Minute[] = [
     lede: "When the upper chambers quiver instead of squeezing — and why that can lead to a stroke.",
     cover: "/images/minutes-afib-cover.jpg",
     coverAlt:
-      "Normal heart rhythm versus atrial fibrillation: organized signals on the left, chaotic atrial signals and an irregular ECG on the right.",
+      "Anatomical heart with chaotic electrical activity in the upper chambers and organized signals in the lower chambers — atrial fibrillation.",
     paragraphs: [
       "The heart has a natural pacemaker — the SA node — that fires an organized signal. The upper chambers (the atria) squeeze. That blood fills the lower chambers (the ventricles). The AV node relays the signal, the ventricles squeeze, and you get a pulse. Those are electrical signals in heart muscle, not nerves firing.",
       "In atrial fibrillation that signal becomes disorganized. The atria quiver instead of squeezing. The ventricles still beat, but irregularly — and often fast. The pulse feels jumpy. The ECG looks like a messy, uneven line instead of a steady march.",
