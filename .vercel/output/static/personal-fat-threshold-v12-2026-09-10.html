@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="dark">
-  <meta name="pft-model-version" content="20-lower-leg-vessel-alignment">
+  <meta name="pft-model-version" content="21-embed-readout-spacing">
 <meta name="description" content="Personal fat threshold: How to create a diabetic. Explore glycogen storage in liver and muscle, fat accumulation, adipocyte hyperplasia, and possible type 2 diabetes in an illustrative anatomy model.">
 <title>Personal fat threshold: How to create a diabetic · Theosis Medical</title>
 <style>
@@ -276,7 +276,8 @@ h1{font-size:clamp(20px,2vw,27px);line-height:1.2}
 .stage-block{flex:none;min-height:0}
 .stage-heading{font-size:12px;letter-spacing:.015em;line-height:1.3;gap:6px}
 .stage-block h2{font-size:20px;line-height:1.2;margin:5px 0 0}
-.distribution{display:flex;flex-direction:column;min-height:0;flex:1}
+.distribution{display:flex;flex-direction:column;min-height:min-content;flex:1 0 auto}
+.distribution>*{flex-shrink:0}
 .section-label{font-size:14px;line-height:1.3;margin:0 0 8px}
 .glycogen-stores{gap:9px;padding:0 0 10px;margin:0 0 10px}
 .depots{gap:9px;margin:0}
@@ -1395,13 +1396,21 @@ h1{font-size:clamp(20px,2vw,27px);line-height:1.2}
   }
   function placeFuelTank(width,height){
     const panel=$("fuel-tank-panel"),home=$("fuel-tank-home");
-    const compact=width>700&&height<595;
-    const destination=compact?root.querySelector(".ct-panel"):home;
-    if(panel.parentElement!==destination){
-      if(compact)destination.insertBefore(panel,destination.querySelector(".ct-caption"));
-      else destination.appendChild(panel);
+    const detail=root.querySelector(".detail"),ct=root.querySelector(".ct-panel");
+    function place(compact){
+      const destination=compact?ct:home;
+      if(panel.parentElement!==destination){
+        if(compact)destination.insertBefore(panel,destination.querySelector(".ct-caption"));
+        else destination.appendChild(panel);
+      }
+      panel.classList.toggle("in-ct-panel",compact);
     }
-    panel.classList.toggle("in-ct-panel",compact);
+    if(width>700&&height<595){place(true);return;}
+    // Measure the complete sidebar with the tank in its normal position.
+    // Its required height also depends on wrapped stage and status text,
+    // so an iframe-height breakpoint alone cannot prevent collisions.
+    place(false);
+    if(width>700&&detail.scrollHeight>detail.clientHeight+2)place(true);
   }
   // END FUEL TANK
 
@@ -1536,9 +1545,14 @@ h1{font-size:clamp(20px,2vw,27px);line-height:1.2}
     const workbenchObserver=new ResizeObserver(scheduleWorkbenchFit);
     workbenchObserver.observe(root);
     workbenchObserver.observe(root.querySelector(".workbench-header"));
+    // Refit when changing stages or reserve counts wraps live readout text.
+    [".stage-block",".distribution","#fuel-tank-panel",".blood-section"].forEach(function(selector){
+      workbenchObserver.observe(root.querySelector(selector));
+    });
   }
   fitWorkbench();
   // END WORKBENCH
+
 
 
 
