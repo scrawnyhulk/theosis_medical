@@ -298,7 +298,7 @@ export const minutes: Minute[] = [
     group: "interactive",
     cover: "/images/minutes-create-diabetic-cover.jpg",
     coverAlt:
-      "Anatomical standing figure with extra fuel overflowing from under the skin into the organs — the path to type 2 diabetes.",
+      "Standing anatomical figure with a CT slice, an overflowing fuel tank of fat stores, and a slider adding fuel — how type 2 diabetes can develop.",
     coverObject: "object-top",
     paragraphs: [
       "Remember that fat and carbohydrates are fuel, and if we take in more fuel than we need, we store it in the fuel tanks: fat cells, and glycogen stores (liver and muscle).",
