@@ -299,7 +299,6 @@ export const minutes: Minute[] = [
     cover: "/images/minutes-create-diabetic-cover.jpg",
     coverAlt:
       "Standing anatomical figure with a CT slice, an overflowing fuel tank of fat stores, and a slider adding fuel — how type 2 diabetes can develop.",
-    coverObject: "object-top",
     paragraphs: [
       "Remember that fat and carbohydrates are fuel, and if we take in more fuel than we need, we store it in the fuel tanks: fat cells, and glycogen stores (liver and muscle).",
       "Everyone has a personal limit for how much fat they can store safely under the skin. Genetics set most of that capacity. Some people can keep expanding that tank for a long time. Others overflow after a modest extra ten pounds.",

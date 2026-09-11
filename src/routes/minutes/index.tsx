@@ -27,20 +27,24 @@ function MinuteCard({ minute, featured }: { minute: Minute; featured?: boolean }
       >
         <span
           className={`relative block overflow-hidden rounded-xl ${
-            featured ? "aspect-[16/10] sm:aspect-[21/9]" : "aspect-[3/2]"
+            featured ? "" : "aspect-[3/2]"
           }`}
         >
           <img
             src={minute.cover}
             alt={minute.coverAlt ?? minute.title}
-            className={`absolute inset-0 size-full object-cover transition-transform duration-700 ease-out group-hover:scale-105 ${
-              minute.coverObject ?? "object-center"
-            } ${minute.coverObject === "object-top" ? "origin-top" : ""}`}
+            className={
+              featured
+                ? "block h-auto w-full"
+                : `absolute inset-0 size-full object-cover transition-transform duration-700 ease-out group-hover:scale-105 ${
+                    minute.coverObject ?? "object-center"
+                  } ${minute.coverObject === "object-top" ? "origin-top" : ""}`
+            }
           />
           <span className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/35 to-black/10" />
           <span
-            className={`relative z-10 flex h-full min-h-11 flex-col justify-end ${
-              featured ? "p-6 sm:p-10" : "p-6 sm:p-8"
+            className={`z-10 flex min-h-11 flex-col justify-end ${
+              featured ? "absolute inset-0 p-6 sm:p-10" : "relative h-full p-6 sm:p-8"
             }`}
           >
             {minute.group === "interactive" ? (
