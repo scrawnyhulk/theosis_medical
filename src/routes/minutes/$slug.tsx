@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useEffect } from "react";
 import { ArrowLeft } from "lucide-react";
 import { EnlargeableImage } from "@/components/hacks/enlargeable-image";
 import { NerdStepper } from "@/components/hacks/nerd-stepper";
@@ -30,6 +31,12 @@ export const Route = createFileRoute("/minutes/$slug")({
 function MinutePage() {
   const { slug } = Route.useParams();
   const minute = getMinute(slug);
+
+  useEffect(() => {
+    if (minute?.slug === "create-diabetic") {
+      window.location.replace("/personal-fat-threshold.html");
+    }
+  }, [minute?.slug]);
 
   if (!minute) {
     return (
@@ -83,18 +90,15 @@ function MinutePage() {
         )}
         {minute.slug === "create-diabetic" ? (
           <div className="mt-8">
-            <iframe
-              src="/personal-fat-threshold-v12-2026-09-10.html"
-              title="Personal fat threshold interactive model"
-              className="w-full rounded-[14px] bg-[#09131f]"
-              style={{ height: 1600, border: 0 }}
-              loading="lazy"
-            />
-            <p className="mt-3 text-sm text-muted">
-              <a href="/personal-fat-threshold-v12-2026-09-10.html" className="text-accent hover:text-fg">
-                Open the model in its own tab
-              </a>
+            <p className="text-lg text-muted">
+              The interactive is its own page so it can actually run.
             </p>
+            <a
+              href="/personal-fat-threshold.html"
+              className="mt-6 inline-flex min-h-11 items-center rounded-sm bg-accent px-5 text-sm font-medium text-accent-fg"
+            >
+              Open Create a Diabetic
+            </a>
           </div>
         ) : null}
         {minute.image ? (

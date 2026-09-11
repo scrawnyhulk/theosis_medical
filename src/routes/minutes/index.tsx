@@ -19,12 +19,8 @@ export const Route = createFileRoute("/minutes/")({
 
 function MinuteCard({ minute, featured }: { minute: Minute; featured?: boolean }) {
   if (minute.cover) {
-    return (
-      <Link
-        to="/minutes/$slug"
-        params={{ slug: minute.slug }}
-        className="group block overflow-hidden rounded-xl bg-ink shadow-border"
-      >
+    const className = "group block overflow-hidden rounded-xl bg-ink shadow-border";
+    const body = (
         <span
           className={`relative block overflow-hidden rounded-xl ${
             featured ? "" : "aspect-[3/2]"
@@ -75,6 +71,21 @@ function MinuteCard({ minute, featured }: { minute: Minute; featured?: boolean }
             ) : null}
           </span>
         </span>
+    );
+    if (minute.slug === "create-diabetic") {
+      return (
+        <a href="/personal-fat-threshold.html" className={className}>
+          {body}
+        </a>
+      );
+    }
+    return (
+      <Link
+        to="/minutes/$slug"
+        params={{ slug: minute.slug }}
+        className={className}
+      >
+        {body}
       </Link>
     );
   }
