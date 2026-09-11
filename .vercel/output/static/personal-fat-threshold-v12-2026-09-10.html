@@ -404,7 +404,7 @@ h1{font-size:clamp(20px,2vw,27px);line-height:1.2}
     <!-- BEGIN ABDOMINAL PANEL -->
     <aside class="ct-panel" aria-labelledby="ct-title">
       <h2 id="ct-title">Inside the abdomen</h2>
-      <p class="ct-intro">Transverse slice through the standing figure at the dashed line · same level and scale</p>
+      <p class="ct-intro">Transverse slice through the standing figure at the dashed line — looking down from the head, same level and waist scale</p>
       <div class="ct-views">
         <figure class="ct-scan"><figcaption><strong>Normal</strong><span>Fixed reference</span></figcaption><canvas id="ct-baseline" width="720" height="560" role="img" aria-label="Illustrative baseline axial abdominal section, with a thin outer layer of subcutaneous fat and a small amount of deep fat around the organs.">Baseline abdominal cross-section.</canvas></figure>
         <figure class="ct-scan"><figcaption><strong>Current</strong><span id="ct-current-value">0 / 100</span></figcaption><canvas id="ct-current" width="720" height="560" role="img" aria-label="Illustrative abdominal cross-section responding to the fuel slider.">The outer fat layer and deep abdominal compartment expand with the model.</canvas></figure>
@@ -712,7 +712,7 @@ h1{font-size:clamp(20px,2vw,27px);line-height:1.2}
   const thresholdProfiles={
     "0.72":{key:"lower",label:"Lower threshold",delay:0,internalScale:.72,storageScale:.72,surfaceEnd:70,surfaceMax:.24,
       note:"A smaller under-skin reserve helps explain why someone can develop type 2 diabetes without being significantly overweight. This is an illustrative phenotype, not a prediction from weight."},
-    "1":{key:"moderate",label:"Moderate threshold",delay:0,internalScale:1,storageScale:1,surfaceEnd:78,surfaceMax:.60,a1cTop:8.4,visceralBoost:1.45,bellyBoost:1.7,
+    "1":{key:"moderate",label:"Moderate threshold",delay:0,internalScale:1,storageScale:1,surfaceEnd:78,surfaceMax:.60,a1cTop:8.4,visceralBoost:1.6,bellyBoost:1.9,
       note:"A fuller body and more fat stored under the skin before the internal changes rise. Fictional example; body size does not identify a personal threshold."},
     "1.1":{key:"larger",label:"Larger threshold",delay:32,internalScale:.72,storageScale:1.2,surfaceEnd:90,surfaceMax:.88,a1cTop:7.0,
       note:"A larger under-skin reserve and fuller body, with internal fat and glucose changes at a higher load. This is an illustrative phenotype, not a prediction from weight."},
@@ -776,7 +776,9 @@ h1{font-size:clamp(20px,2vw,27px);line-height:1.2}
     {id:"calf-right",points:[[431,738,0,0],[450,779,5,11],[449,824,4,10],[445,875,3,5],[448,923,0,0]]},
     // A continuous lower-abdominal fold joins the flanks around the fixed
     // organ window. Expansion is normal to this arc, never a limb transform.
-    {id:"lower-abdomen",orientation:"normal",points:[[253,478,0,0],[267,511,16,18],[299,539,26,26],[346,548,32,36],[393,539,26,26],[425,511,18,16],[439,478,0,0]]}
+    {id:"lower-abdomen",orientation:"normal",points:[[253,478,0,0],[267,511,16,18],[299,539,26,26],[346,548,32,36],[393,539,26,26],[425,511,18,16],[439,478,0,0]]},
+    // Central pouch so moderate visceral load reads as a beer belly, not just wider flanks.
+    {id:"central-belly",orientation:"normal",points:[[268,358,0,0],[276,404,28,32],[296,448,46,50],[346,476,58,64],[396,448,50,46],[416,404,32,28],[424,358,0,0]]}
   ];
   function smoothOutline(points){
     if(!points.length)return "";
@@ -1083,7 +1085,7 @@ h1{font-size:clamp(20px,2vw,27px);line-height:1.2}
     const pancreas=clamp((m.pancreas-.02)/.98);
     const muscle=clamp((m.muscle-.03)/.97);
     return {subcutaneous:m.surfaceVolume,visceral,liver,pancreas,muscle,
-      distension:clamp(visceral*(m.bellyBoost||1))};
+      distension:Math.min(1.45,visceral*(m.bellyBoost||1))};
   }
 
   // Added tissue occupies the space around ONE fixed organ window. Neither
@@ -1091,19 +1093,19 @@ h1{font-size:clamp(20px,2vw,27px);line-height:1.2}
   const fixedOrganOutline="M278 334 Q332 321 398 337 Q411 354 410 389 L407 438 Q409 480 383 506 Q355 528 326 518 Q293 506 281 472 Q271 441 270 403Z";
   function abdominalWallOffset(y,amount){
     // Central/anterior expansion reads as a beer belly on the front view.
-    return 38*amount*smooth(320,430,y)*(1-smooth(500,575,y));
+    return 52*amount*smooth(318,418,y)*(1-smooth(488,568,y));
   }
   function expandedFatOutline(amount){
     return fixedOrganOutline.replace(/(-?\d+(?:\.\d+)?) (-?\d+(?:\.\d+)?)/g,function(_,sx,sy){
       const x=Number(sx),y=Number(sy),side=clamp(Math.abs(x-342)/54)*Math.sign(x-342);
-      return (x+side*abdominalWallOffset(y,amount)).toFixed(3)+" "+(y+20*amount*smooth(470,548,y)).toFixed(3);
+      return (x+side*abdominalWallOffset(y,amount)).toFixed(3)+" "+(y+32*amount*smooth(450,548,y)).toFixed(3);
     });
   }
   function abdominalSurfacePoints(region,amount){
-    if(region.id!=="flank-left"&&region.id!=="flank-right"&&region.id!=="lower-abdomen")return region.points;
+    if(region.id!=="flank-left"&&region.id!=="flank-right"&&region.id!=="lower-abdomen"&&region.id!=="central-belly")return region.points;
     return region.points.map(p=>{
       const q=p.slice();q[0]+=Math.sign(p[0]-346)*abdominalWallOffset(p[1],amount);
-      if(region.id==="lower-abdomen")q[1]+=22*amount*smooth(470,548,p[1]);
+      if(region.id==="lower-abdomen"||region.id==="central-belly")q[1]+=32*amount*smooth(400,548,p[1]);
       return q;
     });
   }
@@ -1124,7 +1126,7 @@ h1{font-size:clamp(20px,2vw,27px);line-height:1.2}
     const join=smooth(0,.18,s.visceral);
     return smoothOutline(origin.map(function(p,i){
       const side=clamp(Math.abs(p[0]-342)/54)*Math.sign(p[0]-342);
-      const x=p[0]+side*abdominalWallOffset(p[1],s.visceral),y=p[1]+20*s.visceral*smooth(470,548,p[1]);
+      const x=p[0]+side*abdominalWallOffset(p[1],s.visceral),y=p[1]+32*s.visceral*smooth(450,548,p[1]);
       return [x+(target[i][0]-x)*join,y+(target[i][1]-y)*join];
     }));
   }
@@ -1155,22 +1157,23 @@ h1{font-size:clamp(20px,2vw,27px);line-height:1.2}
     }
     ctNoiseContext.putImageData(noise,0,0);
   }
-  function ctContour(rx,front,back){
+  function ctContour(rx,front,back,cy){
+    cy=cy==null?151:cy;
     const p=new Path2D();
-    p.moveTo(180,151-front);
-    p.bezierCurveTo(180+rx*.60,151-front-2,180+rx,151-front*.56,180+rx,151);
-    p.bezierCurveTo(180+rx,151+back*.65,180+rx*.65,151+back,202,151+back);
-    p.bezierCurveTo(192,151+back-1,185,151+back-6,180,151+back-6);
-    p.bezierCurveTo(175,151+back-6,168,151+back-1,158,151+back);
-    p.bezierCurveTo(180-rx*.65,151+back,180-rx,151+back*.65,180-rx,151);
-    p.bezierCurveTo(180-rx,151-front*.56,180-rx*.60,151-front-2,180,151-front);p.closePath();return p;
+    p.moveTo(180,cy-front);
+    p.bezierCurveTo(180+rx*.60,cy-front-2,180+rx,cy-front*.56,180+rx,cy);
+    p.bezierCurveTo(180+rx,cy+back*.65,180+rx*.65,cy+back,202,cy+back);
+    p.bezierCurveTo(192,cy+back-1,185,cy+back-6,180,cy+back-6);
+    p.bezierCurveTo(175,cy+back-6,168,cy+back-1,158,cy+back);
+    p.bezierCurveTo(180-rx*.65,cy+back,180-rx,cy+back*.65,180-rx,cy);
+    p.bezierCurveTo(180-rx,cy-front*.56,180-rx*.60,cy-front-2,180,cy-front);p.closePath();return p;
   }
   function ctOrgan(ctx,path,gray,fat,glycogen,bounds=[180,138,110]){
     const [cx,cy,r]=bounds;
     const shading=ctx.createRadialGradient(cx-r*.2,cy-r*.15,1,cx,cy,r);
-    shading.addColorStop(0,ctTint(gray+6,ctPalette.organ,.42*fat));
-    shading.addColorStop(.65,ctTint(gray,ctPalette.organ,.48*fat));
-    shading.addColorStop(1,ctTint(gray-14,ctPalette.organ,.38*fat));
+    shading.addColorStop(0,ctTint(gray+8,[232,196,110],.58*fat));
+    shading.addColorStop(.65,ctTint(gray,ctPalette.organ,.55*fat));
+    shading.addColorStop(1,ctTint(gray-16,[232,196,110],.48*fat));
     ctx.fillStyle=shading;ctx.fill(path);
     ctx.strokeStyle="rgba(199,199,199,.09)";ctx.lineWidth=.65;ctx.stroke(path);
     ctx.save();ctx.clip(path);
@@ -1180,11 +1183,11 @@ h1{font-size:clamp(20px,2vw,27px);line-height:1.2}
     ctx.globalCompositeOperation="source-over";
     ctx.fillStyle="rgba(31,31,34,.055)";
     for(let i=0;i<90;i++){const x=cx-r+((i*71)%197)/197*2*r,y=cy-r+((i*37)%113)/113*2*r;ctx.beginPath();ctx.ellipse(x,y,.6+(i%3)*.34,.4+(i%2)*.28,i*.7,0,Math.PI*2);ctx.fill();}
-    if(fat>0.04){
-      ctx.fillStyle="rgba(232,196,110,"+(0.16+0.52*fat).toFixed(3)+")";
-      for(let i=0;i<Math.round(16+80*fat);i++){
-        const x=cx-r*.78+((i*47)%163)/163*1.56*r,y=cy-r*.72+((i*89)%151)/151*1.44*r;
-        ctx.beginPath();ctx.ellipse(x,y,.65+fat*1.5,.4+fat,.55*i,0,Math.PI*2);ctx.fill();
+    if(fat>0.03){
+      ctx.fillStyle="rgba(232,196,110,"+(0.22+0.58*fat).toFixed(3)+")";
+      for(let i=0;i<Math.round(28+130*fat);i++){
+        const x=cx-r*.82+((i*47)%163)/163*1.64*r,y=cy-r*.76+((i*89)%151)/151*1.52*r;
+        ctx.beginPath();ctx.ellipse(x,y,.85+fat*2.1,.5+fat*1.3,.55*i,0,Math.PI*2);ctx.fill();
       }
     }
     ctx.restore();
@@ -1201,49 +1204,92 @@ h1{font-size:clamp(20px,2vw,27px);line-height:1.2}
     ctx.beginPath();ctx.moveTo(-.66,-.31);ctx.quadraticCurveTo(-.11,-.5,.36,-.09);ctx.moveTo(-.31,.47);ctx.quadraticCurveTo(.1,.15,.58,.3);ctx.stroke();
     ctx.restore();
   }
-  function drawCtLabels(ctx,s,front,sat,v){
-    function leader(x,y,tx,ty,text){
-      ctx.save();
-      ctx.strokeStyle="rgba(220,230,240,.82)";
-      ctx.fillStyle="#f3f7fb";
+  const CT_SLICE_Y=392;
+  function transverseGeometry(s){
+    // Axial outline is a top-down cut through the standing figure at the dashed
+    // CT line: same waist half-width, same subcutaneous pad, same anterior
+    // beer-belly push. Not a measured scan.
+    const sat=s.subcutaneous,v=s.distension;
+    const t=clamp((CT_SLICE_Y-356)/(411-356));
+    const outerW=21+16*t;
+    const figureHalf=(433-t-(259+t))/2+outerW*sat+abdominalWallOffset(CT_SLICE_Y,v);
+    const outerRx=Math.min(168,Math.max(98,figureHalf*1.08));
+    let satPad=10+32*sat;
+    const wall=6;
+    const innerRx=Math.max(70,outerRx-satPad-wall);
+    let front=56+14*sat+80*v;
+    let back=52+12*sat+7*v;
+    let cy=154;
+    if(cy-(front+satPad)<20)cy+=20-(cy-(front+satPad));
+    if(cy+(back+satPad)>266){
+      cy=266-(back+satPad);
+      if(cy-(front+satPad)<20){
+        const k=(266-20)/(front+back+2*satPad);
+        front*=k;back*=k;satPad*=k;
+        cy=20+front+satPad;
+      }
+    }
+    return {innerRx,satPad,wall,front,back,cy,sat,v};
+  }
+  function drawCtLabels(ctx,g,s){
+    const {cy,front,innerRx,sat,v,satPad}=g;
+    const dy=cy-151;
+    function pill(tx,ty,align,text,color){
+      ctx.font="700 13px Arial, sans-serif";
+      const w=ctx.measureText(text).width,pad=6,h=17;
+      const x=align==="left"?tx:tx-w-2*pad;
+      ctx.fillStyle="rgba(6,14,22,.82)";
+      ctx.strokeStyle=color;
       ctx.lineWidth=1;
+      ctx.beginPath();
+      const r=3,y=ty-h/2,bw=w+2*pad;
+      ctx.moveTo(x+r,y);ctx.lineTo(x+bw-r,y);ctx.quadraticCurveTo(x+bw,y,x+bw,y+r);
+      ctx.lineTo(x+bw,y+h-r);ctx.quadraticCurveTo(x+bw,y+h,x+bw-r,y+h);
+      ctx.lineTo(x+r,y+h);ctx.quadraticCurveTo(x,y+h,x,y+h-r);
+      ctx.lineTo(x,y+r);ctx.quadraticCurveTo(x,y,x+r,y);ctx.closePath();
+      ctx.fill();ctx.stroke();
+      ctx.fillStyle=color;
+      ctx.textAlign="left";ctx.textBaseline="middle";
+      ctx.fillText(text,x+pad,ty);
+    }
+    function leader(x,y,tx,ty,text,color,align){
+      ctx.save();
+      ctx.strokeStyle=color;ctx.fillStyle=color;ctx.lineWidth=1.2;
       ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(tx,ty);ctx.stroke();
-      ctx.beginPath();ctx.arc(x,y,2.4,0,Math.PI*2);ctx.fill();
-      ctx.font="600 11px Arial, sans-serif";
-      ctx.textAlign=tx>=x?"left":"right";
-      ctx.textBaseline="middle";
-      ctx.lineWidth=3;ctx.strokeStyle="rgba(8,16,24,.55)";
-      const px=tx+(tx>=x?5:-5);
-      ctx.strokeText(text,px,ty);
-      ctx.fillText(text,px,ty);
+      ctx.beginPath();ctx.arc(x,y,2.7,0,Math.PI*2);ctx.fill();
+      pill(tx,ty,align,text,color);
       ctx.restore();
     }
-    const antY=Math.max(28,151-front-10-16*sat);
-    leader(180,antY,70,26,"Subcutaneous fat");
-    leader(168,151-front+22,52,64,"Visceral fat");
-    leader(124-7*v,116-13*v,36,102,"Liver");
-    leader(198,137-5*v,300,88,"Pancreas");
+    const satY=cy-front-Math.max(4,satPad*.4);
+    leader(180,Math.max(22,Math.min(satY,cy-front+2)),54,16,"Subcutaneous fat","#f0cb7c","left");
+    leader(180-innerRx*.18,cy-front+18+8*Math.min(v,.8),44,50,"Visceral fat","#ef9b57","left");
+    leader(118-6*v,118-10*v+dy,28,104,"Liver","#f17d66","left");
+    leader(214+4*v,138-4*v+dy,312,84,"Pancreas","#d59aea","right");
   }
   function ensureCtSliceMarker(){
     if($("ct-slice-marker"))return;
     const svg=$("human-svg");if(!svg)return;
     const g=node("g",{id:"ct-slice-marker","pointer-events":"none"},svg);
-    node("line",{x1:"236",x2:"456",y1:"392",y2:"392",stroke:"#8ebcff","stroke-width":"2","stroke-dasharray":"7 5",opacity:".9"},g);
-    const label=node("text",{x:"464",y:"396",fill:"#8ebcff","font-size":"13","font-weight":"650"},g);
+    node("rect",{x:"250",y:"384",width:"192",height:"16",fill:"#8ebcff","fill-opacity":".16",stroke:"#8ebcff","stroke-width":"1.5","stroke-dasharray":"6 4",rx:"2"},g);
+    node("line",{x1:"236",x2:"456",y1:"392",y2:"392",stroke:"#8ebcff","stroke-width":"2.2","stroke-dasharray":"7 5",opacity:".95"},g);
+    const label=node("text",{x:"464",y:"397",fill:"#8ebcff","font-size":"13","font-weight":"650"},g);
     label.textContent="CT slice";
   }
   function drawAbdominalCT(canvas,m){
     const ctx=canvas.getContext("2d");if(!ctx)return;
-    const s=abdominalState(m),v=s.distension,sat=s.subcutaneous;
-    // Both panels retain the same field of view. No automatic zoom disguises
-    // growth. The abdominal wall remains BETWEEN the two adipose depots.
-    const innerRx=92+34*v,front=65+58*v,back=65+8*v;
-    const outer=ctContour(innerRx+12+34*sat,front+13+28*sat,back+12+22*sat);
-    const wall=ctContour(innerRx+6,front+6,back+6);
-    const cavity=ctContour(innerRx,front,back);
+    const s=abdominalState(m);
+    const g=transverseGeometry(s);
+    const {innerRx,satPad,front,back,cy,sat,v}=g;
+    const dy=cy-151;
+    // Both panels retain the same field of view. Growth is the anterior wall
+    // moving forward — the beer-belly — while the spine stays posterior.
+    // The abdominal wall remains BETWEEN the two adipose depots.
+    const outer=ctContour(innerRx+6+satPad,front+satPad,back+satPad,cy);
+    const wall=ctContour(innerRx+6,front+6,back+6,cy);
+    const cavity=ctContour(innerRx,front,back,cy);
     ctx.setTransform(2,0,0,2,0,0);ctx.clearRect(0,0,360,280);
     ctx.fillStyle="#05090d";ctx.fillRect(0,0,360,280);
-    ctx.fillStyle=ctTint(41,ctPalette.sat,.025+.12*sat);ctx.fill(outer);
+    ctx.fillStyle=ctTint(41,ctPalette.sat,.08+.32*sat);ctx.fill(outer);
     ctx.strokeStyle="#959595";ctx.lineWidth=1.15;ctx.stroke(outer);
     ctx.save();ctx.clip(outer);
     // Fine septa within the outer ring stay still as its area expands.
@@ -1252,15 +1298,25 @@ h1{font-size:clamp(20px,2vw,27px);line-height:1.2}
     ctx.restore();
     ctx.fillStyle=ctTint(113,ctPalette.organ,.1*s.muscle);ctx.fill(wall);
     ctx.strokeStyle="rgba(191,191,191,.26)";ctx.lineWidth=.6;ctx.stroke(wall);
-    [1.8,4.2].forEach(d=>{ctx.strokeStyle="rgba(53,54,56,.35)";ctx.lineWidth=.65;ctx.stroke(ctContour(innerRx+d,front+d,back+d))});
-    ctx.fillStyle=ctTint(34,ctPalette.vis,.025+.12*s.visceral);ctx.fill(cavity);
-    ctx.save();ctx.clip(cavity);
+    [1.8,4.2].forEach(d=>{ctx.strokeStyle="rgba(53,54,56,.35)";ctx.lineWidth=.65;ctx.stroke(ctContour(innerRx+d,front+d,back+d,cy))});
+    ctx.fillStyle=ctTint(34,ctPalette.vis,.08+.38*s.visceral);ctx.fill(cavity);
+    ctx.save();ctx.clip(cavity);ctx.translate(0,dy);
+    // Omental fat fills the space the anterior wall opened — the beer belly
+    // on this slice. Organs stay toward the spine.
+    if(v>0.05){
+      ctx.fillStyle="rgba(239,155,87,"+(0.18+0.40*s.visceral).toFixed(3)+")";
+      for(let i=0;i<11;i++){
+        const ox=180+((i%5)-2)*(17+6*v);
+        const oy=(151-front)+14+i*6.2;
+        ctx.beginPath();ctx.ellipse(ox,oy,15+10*v,7+4.5*v,i*.46,0,Math.PI*2);ctx.fill();
+      }
+    }
     // The deep compartment expands mostly anteriorly. Organs retain their
-    // sizes, with modest displacement; fat occupies the intervening space.
-    const lift=-13*v,left=-7*v,right=7*v;
+    // sizes, with modest posterior settling; fat occupies the intervening space.
+    const lift=10*v,left=-8*v,right=8*v;
     // Separate bowel loops move apart as mesenteric fat increases.
     [[163,112,8,6],[192,123,9,6],[153,153,9,7],[210,158,11,7],[155,172,7,6],[213,179,9,7],[177,153,7,5],[193,109,7,5]].forEach((p,i)=>{
-      const x=p[0]+(p[0]-183)*.19*v,y=p[1]-19*v;
+      const x=p[0]+(p[0]-183)*.22*v,y=p[1]+8*v;
       ctBowel(ctx,x,y,p[2],p[3],i);
     });
     // Mesenteric vessels remain fine bright branches amid darker fat.
@@ -1268,7 +1324,7 @@ h1{font-size:clamp(20px,2vw,27px);line-height:1.2}
     for(let i=0;i<8;i++){const a=3.4+i*.3;ctx.beginPath();const ox=179+Math.cos(a)*12,oy=150+Math.sin(a)*12-8*v;ctx.moveTo(ox,oy);ctx.bezierCurveTo(ox-5,oy-7,183+Math.cos(a)*25,149+Math.sin(a)*27-12*v,180+Math.cos(a)*(40+17*v),152+Math.sin(a)*(37+18*v));ctx.stroke();}
 
     ctx.save();ctx.translate(left,lift);
-    ctOrgan(ctx,new Path2D("M92 111 C96 96 108 91 119 90 Q132 86 143 91 Q166 91 187 100 Q202 111 184 118 Q170 121 147 127 Q139 141 120 151 Q104 158 96 143 Q87 128 92 111Z"),136-52*s.liver,s.liver,0,[130,116,55]);
+    ctOrgan(ctx,new Path2D("M92 111 C96 96 108 91 119 90 Q132 86 143 91 Q166 91 187 100 Q202 111 184 118 Q170 121 147 127 Q139 141 120 151 Q104 158 96 143 Q87 128 92 111Z"),136-70*s.liver,s.liver,0,[130,116,55]);
     // Branching vessels are embedded in the liver, not a second organ.
     ctx.strokeStyle="rgba(58,56,58,.34)";ctx.lineWidth=1.2;ctx.beginPath();ctx.moveTo(147,119);ctx.quadraticCurveTo(130,124,116,116);ctx.quadraticCurveTo(110,112,107,107);ctx.moveTo(130,121);ctx.quadraticCurveTo(121,133,106,141);ctx.moveTo(144,119);ctx.quadraticCurveTo(155,106,173,103);ctx.stroke();
     ctx.restore();
@@ -1290,10 +1346,11 @@ h1{font-size:clamp(20px,2vw,27px);line-height:1.2}
       ctx.save();ctx.translate(180+side*23,184);ctx.scale(side,1);ctOrgan(ctx,new Path2D("M-7 -19 Q5 -24 11 -10 Q14 2 8 19 Q1 27 -8 19 Q-14 11 -11 -2Z"),112,s.muscle,0,[0,0,26]);ctx.restore();
     });
     // Pancreas lies behind the stomach, in front of the central vessels.
-    ctx.save();ctx.translate(0,-5*v);
-    ctOrgan(ctx,new Path2D("M154 132 Q159 125 165 129 L174 132 Q183 129 189 135 Q200 138 210 132 L223 128 Q232 123 236 130 Q231 138 220 140 Q210 147 203 143 Q192 150 181 144 Q173 143 169 148 Q158 151 153 144 Q148 139 154 132Z"),132-44*s.pancreas,s.pancreas,0,[189,137,48]);ctx.restore();
+    ctx.save();ctx.translate(0,4*v);
+    ctOrgan(ctx,new Path2D("M154 132 Q159 125 165 129 L174 132 Q183 129 189 135 Q200 138 210 132 L223 128 Q232 123 236 130 Q231 138 220 140 Q210 147 203 143 Q192 150 181 144 Q173 143 169 148 Q158 151 153 144 Q148 139 154 132Z"),132-62*s.pancreas,s.pancreas,0,[189,137,48]);ctx.restore();
     ctEllipse(ctx,189,164,6.2,6.2,"#b5b5b5");ctEllipse(ctx,169,162,8,5,"#8a8a8b",.2);
     ctx.restore();
+    ctx.save();ctx.translate(0,dy);
     // Lumbar vertebra, canal, posterior elements and paraspinal muscle.
     [-1,1].forEach(side=>{ctx.save();ctx.translate(180+side*27,209);ctx.scale(side,1);ctOrgan(ctx,new Path2D("M-12 -13 Q-6 -20 4 -17 Q18 -13 20 -1 Q17 13 5 15 Q-12 15 -15 6 Q-19 -6 -12 -13Z"),112,s.muscle,0,[0,0,25]);ctx.restore();});
     const vertebra=new Path2D("M165 175 Q178 168 192 174 Q199 177 198 186 Q197 195 188 197 L173 197 Q163 195 162 186 Q161 179 165 175Z");
@@ -1305,11 +1362,12 @@ h1{font-size:clamp(20px,2vw,27px);line-height:1.2}
     ctOrgan(ctx,new Path2D("M166 191 L171 194 L171 201 Q181 208 190 200 L190 194 L196 191 L198 196 L210 199 L211 203 L196 201 Q193 206 185 211 L184 223 Q181 227 177 223 L177 211 Q166 209 164 201 L150 204 L148 200 L163 196Z"),191,0,0,[181,204,33]);
     ctEllipse(ctx,181,200,6.5,4.5,"#42464a");
     // Paired rectus muscles follow the expanding anterior abdominal wall.
-    [-1,1].forEach(side=>ctEllipse(ctx,180+side*13,149-front,11,3.3,ctTint(127,ctPalette.organ,.12*s.muscle),side*.1));
+    [-1,1].forEach(side=>ctEllipse(ctx,180+side*13,151-front,11,3.3,ctTint(127,ctPalette.organ,.12*s.muscle),side*.1));
+    ctx.restore();
     ctx.save();ctx.clip(outer);ctx.globalCompositeOperation="soft-light";ctx.drawImage(ctNoise,0,0,360,280);ctx.restore();
     ctx.fillStyle="#b7c0cb";ctx.font="12px Arial, sans-serif";ctx.textAlign="center";
-    ctx.fillText("FRONT",180,15);ctx.fillText("BACK",180,270);ctx.fillText("R",13,149);ctx.fillText("L",347,149);
-    drawCtLabels(ctx,s,front,sat,v);
+    ctx.fillText("FRONT",180,14);ctx.fillText("BACK",180,272);ctx.fillText("R",13,cy);ctx.fillText("L",347,cy);
+    drawCtLabels(ctx,g,s);
     // No numeric dimensions: this is a shared illustrative field, not a scan.
     canvas.dataset.subcutaneous=sat.toFixed(4);canvas.dataset.visceral=s.visceral.toFixed(4);
     canvas.dataset.cavityWidth=(2*innerRx).toFixed(3);canvas.dataset.frontDepth=front.toFixed(3);
