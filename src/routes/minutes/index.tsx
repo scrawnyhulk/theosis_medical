@@ -33,7 +33,9 @@ function MinuteCard({ minute, featured }: { minute: Minute; featured?: boolean }
           <img
             src={minute.cover}
             alt={minute.coverAlt ?? minute.title}
-            className="absolute inset-0 size-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
+            className={`absolute inset-0 size-full object-cover transition-transform duration-700 ease-out group-hover:scale-105 ${
+              minute.coverObject ?? "object-center"
+            } ${minute.coverObject === "object-top" ? "origin-top" : ""}`}
           />
           <span className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/35 to-black/10" />
           <span

@@ -29,6 +29,7 @@ export type Minute = {
   extraParagraphs?: string[];
   cover?: string;
   coverAlt?: string;
+  coverObject?: string;
   image?: string;
   imageAlt?: string;
   imageCredit?: string;
@@ -298,6 +299,7 @@ export const minutes: Minute[] = [
     cover: "/images/minutes-create-diabetic-cover.jpg",
     coverAlt:
       "Anatomical standing figure with extra fuel overflowing from under the skin into the organs — the path to type 2 diabetes.",
+    coverObject: "object-top",
     paragraphs: [
       "Remember that fat and carbohydrates are fuel, and if we take in more fuel than we need, we store it in the fuel tanks: fat cells, and glycogen stores (liver and muscle).",
       "Everyone has a personal limit for how much fat they can store safely under the skin. Genetics set most of that capacity. Some people can keep expanding that tank for a long time. Others overflow after a modest extra ten pounds.",
