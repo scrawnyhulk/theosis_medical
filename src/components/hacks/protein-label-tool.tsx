@@ -3,9 +3,17 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
 
-export function ProteinLabelTool({ compact = false }: { compact?: boolean }) {
-  const [calories, setCalories] = useState("");
-  const [protein, setProtein] = useState("");
+export function ProteinLabelTool({
+  compact = false,
+  defaultCalories = "",
+  defaultProtein = "",
+}: {
+  compact?: boolean;
+  defaultCalories?: string;
+  defaultProtein?: string;
+}) {
+  const [calories, setCalories] = useState(defaultCalories);
+  const [protein, setProtein] = useState(defaultProtein);
 
   const result = useMemo(() => {
     const cal = Number(calories);
@@ -51,7 +59,11 @@ export function ProteinLabelTool({ compact = false }: { compact?: boolean }) {
 
   return (
     <div className={compact ? "" : "rounded-xl bg-surface p-5 shadow-border sm:p-8"}>
-      {compact ? null : (
+      {compact ? (
+        <p className="mb-5 text-sm leading-relaxed text-muted">
+          Pull those two numbers off any package and try it. This yogurt is already filled in.
+        </p>
+      ) : (
         <>
           <p className="text-xs font-medium tracking-widest text-muted uppercase">Try a label</p>
           <h3 className="mt-2 font-display text-3xl font-semibold tracking-wide">Protein × 10 vs calories</h3>
@@ -60,7 +72,7 @@ export function ProteinLabelTool({ compact = false }: { compact?: boolean }) {
           </p>
         </>
       )}
-      <div className={compact ? "grid gap-5 sm:grid-cols-2" : "mt-6 grid gap-5 sm:grid-cols-2"}>
+      <div className={compact ? "grid gap-4" : "mt-6 grid gap-5 sm:grid-cols-2"}>
         <div>
           <Label htmlFor={compact ? "tldr-hack-calories" : "hack-calories"}>Calories per serving</Label>
           <Input
