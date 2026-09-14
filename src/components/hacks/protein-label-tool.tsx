@@ -1,8 +1,9 @@
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
 import { NutritionFactsLabel } from "@/components/hacks/nutrition-facts-label";
+import { proteinBandMeta, scoreProtein } from "@/lib/protein-score";
 
 export function ProteinLabelPair({ compact = false }: { compact?: boolean }) {
   const [calories, setCalories] = useState("90");
@@ -42,47 +43,7 @@ export function ProteinLabelTool({
   onProtein: (value: string) => void;
 }) {
 
-  const result = useMemo(() => {
-    const cal = Number(calories);
-    const pro = Number(protein);
-    if (!Number.isFinite(cal) || !Number.isFinite(pro) || calories === "" || protein === "") {
-      return null;
-    }
-    const timesTen = pro * 10;
-    const pct = cal > 0 ? (pro * 4 * 100) / cal : 0;
-    const pass = timesTen >= cal && cal >= 0 && pro >= 0;
-    const band =
-      pass || pct >= 40
-        ? "ideal"
-        : pct >= 30
-          ? "fine"
-          : pct >= 25
-            ? "mid"
-            : pct >= 20
-              ? "c"
-              : pct >= 10
-                ? "soap"
-                : "balloon";
-    return { cal, pro, timesTen, pct, band };
-  }, [calories, protein]);
-
-  const copy: Record<string, string> = {
-    ideal: "Ideal. At least 40% of calories from protein.",
-    fine: "Good. 30% or more — still a solid pick.",
-    mid: "Fair. Not a protein food, but not junk.",
-    c: "Mediocre. More fuel than building material.",
-    soap: "Poor. The calories are doing most of the work.",
-    balloon: "Very poor. Almost no protein for the energy.",
-  };
-
-  const tone: Record<string, string> = {
-    ideal: "bg-ok/15 text-fg",
-    fine: "bg-accent/15 text-fg",
-    mid: "bg-warn/15 text-fg",
-    c: "bg-warn/20 text-fg",
-    soap: "bg-danger/15 text-fg",
-    balloon: "bg-danger/25 text-fg",
-  };
+  const result = scoreProtein(calories, protein);
 
   return (
     <div className={compact ? "" : "rounded-xl bg-surface p-5 shadow-border sm:p-8"}>
@@ -120,13 +81,16 @@ export function ProteinLabelTool({
         </div>
       </div>
       {result ? (
-        <div className={cn("mt-6 rounded-md px-5 py-5", tone[result.band])}>
-          <p className="font-display text-2xl font-semibold tracking-wide">
+        <div className={cn("mt-6 rounded-md px-5 py-5", proteinBandMeta[result.band].tone)}>
+          <p className="text-xs font-medium tracking-widest text-muted uppercase">
+            {proteinBandMeta[result.band].grade} · {proteinBandMeta[result.band].cutoff}
+          </p>
+          <p className="mt-2 font-display text-2xl font-semibold tracking-wide">
             Protein × 10 = {result.timesTen}
             <span className="mx-3 text-muted">{result.band === "ideal" ? "≥" : result.band === "fine" ? "close to" : "<"}</span>
             {result.cal} calories
           </p>
-          <p className="mt-2 text-lg">{copy[result.band]}</p>
+          <p className="mt-2 text-lg">{proteinBandMeta[result.band].line}</p>
           <p className="mt-2 text-sm text-muted">
             Roughly {Math.round(result.pct)}% of calories from protein (protein grams × 4 ÷ calories).
           </p>

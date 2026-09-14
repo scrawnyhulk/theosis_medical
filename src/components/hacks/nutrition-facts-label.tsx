@@ -1,3 +1,5 @@
+import { proteinBandMeta, scoreProtein } from "@/lib/protein-score";
+
 const rows: { label: string; indent?: boolean }[] = [
   { label: "Total Fat" },
   { label: "Saturated Fat", indent: true },
@@ -10,35 +12,20 @@ const rows: { label: string; indent?: boolean }[] = [
   { label: "Includes Added Sugars", indent: true },
 ];
 
-function parseNum(value: string) {
-  const trimmed = value.trim();
-  if (trimmed === "") return null;
-  const n = Number(trimmed);
-  return Number.isFinite(n) ? n : null;
-}
-
 function fmt(n: number) {
   return Number.isInteger(n) ? String(n) : String(Math.round(n * 10) / 10);
 }
 
 export function NutritionFactsLabel({ calories, protein }: { calories: string; protein: string }) {
-  const cal = parseNum(calories);
-  const pro = parseNum(protein);
-  const timesTen = pro == null ? null : pro * 10;
-  const pass = cal != null && timesTen != null && timesTen >= cal && cal >= 0 && pro >= 0;
-  const close = cal != null && pro != null && !pass && cal > 0 && (pro * 4 * 100) / cal >= 30;
-  const calorieText = cal == null ? "—" : fmt(cal);
-  const proteinText = pro == null ? "—" : `${fmt(pro)}g`;
-  const proteinDv = pro == null ? "" : `${Math.max(0, Math.round((pro / 50) * 100))}%`;
+  const scored = scoreProtein(calories, protein);
+  const calorieText = scored ? fmt(scored.cal) : calories.trim() === "" ? "—" : calories;
+  const proteinText = scored ? `${fmt(scored.pro)}g` : protein.trim() === "" ? "—" : `${protein}g`;
+  const proteinDv = scored ? `${Math.max(0, Math.round((scored.pro / 50) * 100))}%` : "";
+  const meta = scored ? proteinBandMeta[scored.band] : null;
 
-  const proteinNote =
-    cal == null || timesTen == null
-      ? "Add a zero to the protein grams, then compare to calories."
-      : pass
-        ? `Add a zero → ${fmt(timesTen)}. ${fmt(timesTen)} beats ${fmt(cal)} calories. This one passes.`
-        : close
-          ? `Add a zero → ${fmt(timesTen)}. Close to ${fmt(cal)} calories — 30% or more is still fine.`
-          : `Add a zero → ${fmt(timesTen)}. ${fmt(timesTen)} does not beat ${fmt(cal)} calories. Keep looking.`;
+  const proteinNote = !scored
+    ? "Add a zero to the protein grams, then compare to calories."
+    : `Add a zero → ${fmt(scored.timesTen)}. ${meta?.line}`;
 
   return (
     <figure className="mx-auto w-full max-w-xs">
@@ -84,7 +71,7 @@ export function NutritionFactsLabel({ calories, protein }: { calories: string; p
         <div className="h-2 bg-sesame-ink" />
         <p
           className={`px-2 py-1.5 text-xs leading-snug font-semibold ${
-            cal == null || timesTen == null ? "bg-steel/40" : pass ? "bg-ok/30" : close ? "bg-accent/25" : "bg-danger/25"
+            meta ? meta.labelTone : "bg-steel/40"
           }`}
         >
           {proteinNote}
