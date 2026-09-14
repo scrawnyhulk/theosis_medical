@@ -2,18 +2,45 @@ import { useMemo, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
+import { NutritionFactsLabel } from "@/components/hacks/nutrition-facts-label";
+
+export function ProteinLabelPair({ compact = false }: { compact?: boolean }) {
+  const [calories, setCalories] = useState("90");
+  const [protein, setProtein] = useState("16");
+
+  return (
+    <div
+      className={
+        compact
+          ? "grid items-start gap-6 sm:grid-cols-[minmax(0,260px)_minmax(0,1fr)]"
+          : "grid items-start gap-8 lg:grid-cols-[minmax(0,280px)_minmax(0,1fr)]"
+      }
+    >
+      <NutritionFactsLabel calories={calories} protein={protein} />
+      <ProteinLabelTool
+        compact={compact}
+        calories={calories}
+        protein={protein}
+        onCalories={setCalories}
+        onProtein={setProtein}
+      />
+    </div>
+  );
+}
 
 export function ProteinLabelTool({
   compact = false,
-  defaultCalories = "",
-  defaultProtein = "",
+  calories,
+  protein,
+  onCalories,
+  onProtein,
 }: {
   compact?: boolean;
-  defaultCalories?: string;
-  defaultProtein?: string;
+  calories: string;
+  protein: string;
+  onCalories: (value: string) => void;
+  onProtein: (value: string) => void;
 }) {
-  const [calories, setCalories] = useState(defaultCalories);
-  const [protein, setProtein] = useState(defaultProtein);
 
   const result = useMemo(() => {
     const cal = Number(calories);
@@ -61,7 +88,7 @@ export function ProteinLabelTool({
     <div className={compact ? "" : "rounded-xl bg-surface p-5 shadow-border sm:p-8"}>
       {compact ? (
         <p className="mb-5 text-sm leading-relaxed text-muted">
-          Pull those two numbers off any package and try it. This yogurt is already filled in.
+          Pull those two numbers off any package. The label updates as you type.
         </p>
       ) : (
         <>
@@ -79,7 +106,7 @@ export function ProteinLabelTool({
             id={compact ? "tldr-hack-calories" : "hack-calories"}
             inputMode="decimal"
             value={calories}
-            onChange={(e) => setCalories(e.target.value)}
+            onChange={(e) => onCalories(e.target.value)}
           />
         </div>
         <div>
@@ -88,7 +115,7 @@ export function ProteinLabelTool({
             id={compact ? "tldr-hack-protein" : "hack-protein"}
             inputMode="decimal"
             value={protein}
-            onChange={(e) => setProtein(e.target.value)}
+            onChange={(e) => onProtein(e.target.value)}
           />
         </div>
       </div>

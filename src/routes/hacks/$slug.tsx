@@ -5,8 +5,7 @@ import { FastFoodStepper } from "@/components/hacks/fast-food-stepper";
 import { HormoziCookbook } from "@/components/hacks/hormozi-recipe-card";
 import { NerdParagraph } from "@/components/hacks/nerd-paragraph";
 import { NerdStepper } from "@/components/hacks/nerd-stepper";
-import { ProteinLabelTool } from "@/components/hacks/protein-label-tool";
-import { NutritionFactsLabel } from "@/components/hacks/nutrition-facts-label";
+import { ProteinLabelPair } from "@/components/hacks/protein-label-tool";
 import { StartCalculator } from "@/components/hacks/start-calculator";
 import { VideoCard } from "@/components/hacks/video-card";
 import { SiteShell } from "@/components/site/site-shell";
@@ -235,12 +234,7 @@ function HackExtras({ slug }: { slug: HackSlug }) {
                 {hasTool ? (
                   <div className="mt-5 border-t border-border pt-5">
                     {item.slug === "where-to-start" ? <StartCalculator compact /> : null}
-                    {item.slug === "protein-label" ? (
-                      <div className="grid items-start gap-6 sm:grid-cols-[minmax(0,260px)_minmax(0,1fr)]">
-                        <NutritionFactsLabel />
-                        <ProteinLabelTool compact defaultCalories="90" defaultProtein="16" />
-                      </div>
-                    ) : null}
+                    {item.slug === "protein-label" ? <ProteinLabelPair compact /> : null}
                   </div>
                 ) : null}
               </li>
@@ -332,10 +326,7 @@ function HackExtras({ slug }: { slug: HackSlug }) {
             alt="The add-a-zero protein test: multiply protein grams by 10 and compare to calories. If it meets or beats calories, the food is at least 40% protein."
           />
         </figure>
-        <div className="grid items-start gap-8 lg:grid-cols-[minmax(0,280px)_minmax(0,1fr)]">
-          <NutritionFactsLabel />
-          <ProteinLabelTool />
-        </div>
+        <ProteinLabelPair />
       </div>
     );
   }
