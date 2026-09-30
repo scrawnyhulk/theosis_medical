@@ -337,7 +337,7 @@ export const minutes: Minute[] = [
   {
     slug: "cough-cold",
     n: "13",
-    title: "Cough and Cold Instructions",
+    title: "Coughs and Colds and Why They Are Typically Viral",
     lede: "Most of this is a virus. Antibiotics will not fix it. Here is what actually helps, and when to come back.",
     cover: "/images/minutes-uri-cover.jpg",
     coverObject: "object-top",
