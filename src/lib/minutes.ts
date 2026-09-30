@@ -10,7 +10,8 @@ export type MinuteSlug =
   | "how-antibiotics-work"
   | "peritonitis"
   | "create-diabetic"
-  | "afib";
+  | "afib"
+  | "cough-cold";
 
 export type MinuteStep = {
   title: string;
@@ -332,6 +333,29 @@ export const minutes: Minute[] = [
     videoCredit: "Alila Medical Media",
     videoSummary:
       "Three minutes: how the atria quiver instead of squeezing, what that looks like on an ECG, and how a clot from the left atrial appendage can travel to the brain.",
+  },
+  {
+    slug: "cough-cold",
+    n: "13",
+    title: "Cough and Cold Instructions",
+    lede: "Most of this is a virus. Antibiotics will not fix it. Here is what actually helps, and when to come back.",
+    cover: "/images/minutes-uri-cover.jpg",
+    coverObject: "object-top",
+    coverAlt:
+      "Emergency department discharge sheet for a viral upper respiratory infection: supportive care, warning signs, and when to follow up.",
+    paragraphs: [
+      "Most colds and flu-like illnesses are caused by viruses. About 80–90% of upper respiratory infections are viral. Your immune system clears this on its own. Antibiotics do not treat a virus. They can still cause side effects, diarrhea, and antibiotic resistance. Treatment is symptom relief while you heal.",
+      "Symptoms often peak around days 2–3, then ease. A sore throat is usually 2–7 days. Flu-like illness is often 3–7 days, though cough and fatigue can last more than 2 weeks. A common cold usually improves within 10–15 days. A cough or acute bronchitis can last 2–3 weeks. It can run longer if you smoke or have asthma or another chronic lung disease.",
+      "Rest. Drink fluids. Warm liquids can help. Acetaminophen can help fever, aches, and headache. Ibuprofen or naproxen can too, if they are safe for you. If you were prescribed an NSAID — ketorolac, etodolac, diclofenac — do not also take an over-the-counter NSAID. Honey may soothe a cough in children older than 1 year. Never give honey to a baby under 1. Throat lozenges, saline nasal spray or rinse, and sleeping with your head up on a pillow or two can help. A cool-mist humidifier is reasonable. Do not smoke. Do not give aspirin to children or teens with a viral illness. For children, use acetaminophen or ibuprofen exactly as directed.",
+      "Go to the ER or urgent care for trouble breathing or shortness of breath, chest pain, confusion, severe weakness, or being hard to wake, vomiting that will not stop or an inability to keep fluids down, signs of dehydration (very little urination, dizziness, extreme thirst), a severe or worsening headache, coughing up blood, or severe sinus pain, facial swelling, or ear drainage.",
+      "Follow up if you are getting worse instead of better after 3–5 days, a fever higher than 101.5°F (38.6°C) lasts more than 3–4 days or comes back after improving, or symptoms last longer than expected — especially past 2–3 weeks. If you are not improving, see your primary care clinician in about 5–7 days.",
+      "Protect other people. Wash your hands. Cover coughs and sneezes. Limit close contact while you are sick. Throw away used tissues. Stay home if you have a fever, and until you are feeling better.",
+    ],
+    image: "/images/minutes-uri.png",
+    imageAlt:
+      "Infographic: upper respiratory infection emergency department discharge instructions. Viral illness, symptom timeline, supportive care, when to go back to the ER, follow-up, and how to protect others.",
+    imageCredit:
+      "Educational discharge infographic — based on common evidence-based URI guidance. Not a personal treatment plan.",
   },
 ];
 
