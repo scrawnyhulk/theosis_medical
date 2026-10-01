@@ -340,9 +340,8 @@ export const minutes: Minute[] = [
     title: "Coughs and Colds and Why They Are Typically Viral",
     lede: "Most of this is a virus. Antibiotics will not fix it. Here is what actually helps, and when to come back.",
     cover: "/images/minutes-uri-cover.jpg",
-    coverObject: "object-top",
     coverAlt:
-      "Emergency department discharge sheet for a viral upper respiratory infection: supportive care, warning signs, and when to follow up.",
+      "A parent and child with a cold, tissues and honey nearby, and a view of the nose, throat, and lungs with viruses in the air.",
     paragraphs: [
       "Most colds and flu-like illnesses are caused by viruses. About 80–90% of upper respiratory infections are viral. Your immune system clears this on its own. Antibiotics do not treat a virus. They can still cause side effects, diarrhea, and antibiotic resistance. Treatment is symptom relief while you heal.",
       "Symptoms often peak around days 2–3, then ease. A sore throat is usually 2–7 days. Flu-like illness is often 3–7 days, though cough and fatigue can last more than 2 weeks. A common cold usually improves within 10–15 days. A cough or acute bronchitis can last 2–3 weeks. It can run longer if you smoke or have asthma or another chronic lung disease.",
