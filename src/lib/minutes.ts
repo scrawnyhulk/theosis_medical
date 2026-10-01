@@ -355,6 +355,14 @@ export const minutes: Minute[] = [
       "Infographic: upper respiratory infection emergency department discharge instructions. Viral illness, symptom timeline, supportive care, when to go back to the ER, follow-up, and how to protect others.",
     imageCredit:
       "Educational discharge infographic — based on common evidence-based URI guidance. Not a personal treatment plan.",
+    extraImages: [
+      {
+        src: "/images/minutes-cough-cold-viruses.png",
+        alt: "Infographic: why kids seem sick for months. Weekly swab studies found a series of different viruses, often rhinovirus, not one infection that lasts for months. PCR can stay positive after symptoms fade.",
+        credit:
+          "Kids are usually not carrying one virus for months. It is a relay of infections, often different rhinoviruses, sometimes more than one at a time. A PCR test can stay positive after they feel better. Educational summary of weekly swab studies — not a diagnosis.",
+      },
+    ],
   },
 ];
 
