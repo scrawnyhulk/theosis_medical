@@ -339,7 +339,7 @@ export const minutes: Minute[] = [
     n: "13",
     title: "Coughs and Colds and Why They Are Typically Viral",
     lede: "Most of this is a virus. Antibiotics will not fix it. Here is what actually helps, and when to come back.",
-    cover: "/images/minutes-uri-cover.jpg",
+    cover: "/images/minutes-cough-cold-cover.jpg",
     coverAlt:
       "A parent and child with a cold, tissues and honey nearby, and a view of the nose, throat, and lungs with viruses in the air.",
     paragraphs: [
