@@ -154,7 +154,7 @@ paragraphs: [
     lede: "Eat about 1 gram of protein per pound of body weight — goal weight is fine if you have a lot to lose. Individuals over 60 years old may need even more.",
     stolenFrom: "Alex Hormozi, Dr. Ted Naiman, and the protein-first crowd",
 paragraphs: [
-      "If you weigh 180 pounds, aim for about 180 grams of protein across the day. Not in one sitting. Spread it out so you are not trying to choke down a Costco chicken at 9 p.m.",
+      "If you weigh 180 pounds, aim for about 180 grams of protein across the day. If you are a one-meal-a-day kind of person, it is totally fine to get it all in one sitting if you can do it. For a lot of people it may be better to space it through the day. If you do spread it out, aim for at least 30 grams per meal. The latest data shows the most important thing about protein intake is the total for the day, not hitting a dose every 3–4 hours. If you are a bodybuilder, yes, there are micro gains you may get by eating every 3 hours. For most of us, aiming for a daily total of 1 gram per pound — however we can get it — is fine.",
       "If you are carrying a lot of extra weight, using a goal or “ideal” weight for that gram-per-pound number is a reasonable way to start. The point is a high-protein floor, not a contest.",
       "Why this works: protein is filling, it protects muscle, and it makes “eat less junk” a lot easier without a spreadsheet diet. Control protein and calories first. Then let carbs and fat be whatever is easiest to maintain.",
       "This is a target, not a religion. If you have kidney disease or another condition your clinician is managing where you have been told to restrict or monitor protein, this is not your plan. Ask them.",
