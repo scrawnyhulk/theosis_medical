@@ -132,7 +132,7 @@ paragraphs: [
       "I admit… I stole it. It was me. In the library. With the candlestick. However, when I find easy-to-digest information that simplifies a subject overcomplicated by so many others — I’m using it. Plus, he clearly knows what he’s talking about because he’s jacked. Just kidding — but seriously.",
       "In truth he summarizes the data beautifully, and simplifies it in a way that even a tired, overstimulated mother of six — awake with the baby at 2 a.m., who just wants a few hours of shut-eye and a vacation — could easily understand. Watch the video. Figure out your goals.",
       "Need to drop fat quick? Use the bottom number on the spectrum. Want to stay the course? Hold your ground in the mid-range. You can shift the goalposts whatever way you want based on your goals at the time.",
-      "Calculate your protein. The remaining calories are free to spend on whatever delectable dish you’ve been denying yourself. If it fits in the remaining calories, you’re golden. If math isn’t your strong suit — or it’s been a long day, or a long year, and you only have a few brain cells still choosing to show up for work — use the calculator below.",
+      "Calculate your protein. The remaining calories are free to spend on whatever delectable dish you’ve been denying yourself. If it fits in the remaining calories, you’re golden. If math isn’t your strong suit — or it’s been a long day, or a long year, and you only have a few brain cells still choosing to show up for work — use the calculator below. The video multiplies the whole scale weight. That runs high for a shorter person, because more of that weight is stored fat. The calculator keeps his multipliers and corrects the weight for height and sex first.",
     ],
   },
   {
