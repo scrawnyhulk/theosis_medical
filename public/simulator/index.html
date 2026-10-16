@@ -1113,6 +1113,16 @@ input[type="checkbox"],input[type="radio"]{min-width:24px;min-height:24px}
 .optout span{display:flex;flex-direction:column;gap:.1rem}.optout small{opacity:.8}
 #lift-adv[hidden],#lift-box[hidden],#cardio-wrap[hidden],#lift-fieldset[hidden],#lift-groups[hidden]{display:none!important}
 
+/* v7.6.16: floating "Ask Theosis" bubble, bottom right on every step */
+.ask-fab{position:fixed;right:max(1rem,env(safe-area-inset-right));bottom:calc(1rem + env(safe-area-inset-bottom));z-index:34;display:inline-flex;align-items:center;gap:.5rem;min-height:3.25rem;min-width:3.25rem;padding:.7rem 1rem;border-radius:999px;border:1px solid rgba(255,255,255,.18);background:var(--accent-strong);color:var(--accent-fg);font:600 .95rem/1 inherit;font-family:inherit;box-shadow:0 8px 24px rgba(0,0,0,.45);cursor:pointer;justify-content:center}
+.ask-fab[hidden]{display:none}
+.ask-fab:hover{filter:brightness(1.08)}.ask-fab:focus-visible{outline:3px solid #fff;outline-offset:3px}
+body.has-ask{padding-bottom:4.75rem}
+@media(max-width:63.99rem){body.has-mbar .ask-fab{bottom:calc(4.4rem + env(safe-area-inset-bottom))}}
+@media(max-width:30rem){.ask-fab{padding:.7rem;border-radius:50%}.ask-fab-t{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}}
+@media print{.ask-fab{display:none!important}}
+@media(prefers-reduced-motion:no-preference){.ask-fab{transition:filter .15s}}
+
 </style>
 </head>
 <body>
@@ -6694,6 +6704,8 @@ function aiUseAdd(k, n = 1) { const u = aiUse(); u[k] = (u[k] || 0) + n; try { l
 const aiLeft = (k) => Math.max(0, AI_LIM()[k] - (aiUse()[k] || 0));
 const aiConsentOk = () => !window.TheosisConsent || !!(TheosisConsent.get() && TheosisConsent.has("photoAi"));
 const aiOn = () => !!(CONFIG.AI_ENDPOINT && AI.avail);
+/** v7.6.16: only on Netlify deploy previews / branch deploys (hostname has "--" and ends .netlify.app) the bubble stays visible even when the function can't be reached or has no key, and the dialog says why, so a tester is never left with nothing on screen. Never on a production domain. */
+const aiPreviewHost = () => /^[a-z0-9-]+--[a-z0-9-]+\.netlify\.app$/i.test(location.hostname);
 function aiProHeader() { try { const t = localStorage.getItem(CONFIG.PRO_KEY); return t ? btoa(unescape(encodeURIComponent(t))) : ""; } catch (e) { return ""; } }
 /** Is the function there, configured, and does this browser's consent allow it? Asked once per page load. */
 function aiCheck() {
@@ -6701,8 +6713,8 @@ function aiCheck() {
   const localNoFn = /^(127\.0\.0\.1|localhost)$/.test(location.hostname) && !/[?&]ai=1\b/.test(location.search);
   if (!CONFIG.AI_ENDPOINT || location.protocol === "file:" || localNoFn) { AI.avail = false; return Promise.resolve(false); }
   if (AI.checking) return AI.checking;
-  AI.checking = fetch(CONFIG.AI_ENDPOINT, { headers: { Accept: "application/json" }, cache: "no-store" }).then(async (r) => { if (!r.ok || !/json/.test(r.headers.get("content-type") || "")) throw new Error("no function");
-    const j = await r.json(); AI.avail = !!(j && j.configured); AI.limits = j && j.limits || null; AI.mock = !!(j && j.mock); return AI.avail; }).catch(() => { AI.avail = false; return false; })
+  AI.checking = fetch(CONFIG.AI_ENDPOINT, { headers: { Accept: "application/json" }, cache: "no-store" }).then(async (r) => { if (!r.ok || !/json/.test(r.headers.get("content-type") || "")) { AI.why = `The AI function answered with status ${r.status} (${(r.headers.get("content-type") || "no type").split(";")[0]}), not the expected JSON. Check that netlify/functions/ai.js deployed and that Deploy Previews aren't behind a login that blocks it.`; throw new Error("no function"); }
+    const j = await r.json(); AI.avail = !!(j && j.configured); if (!AI.avail) AI.why = "The AI function is deployed but GEMINI_API_KEY isn't visible to it. In Netlify, add GEMINI_API_KEY with the Deploy Previews scope ticked, then trigger a new deploy of this preview."; AI.limits = j && j.limits || null; AI.mock = !!(j && j.mock); return AI.avail; }).catch((e) => { AI.avail = false; if (!AI.why) AI.why = "Couldn't reach the AI function (" + ((e && e.message) || "network error") + ")."; return false; })
     .then((v) => { aiRenderAll(); return v; });
   return AI.checking;
 }
@@ -6847,7 +6859,7 @@ function aiRenderAsk() {
 function aiMd(text, links) { let h = String(text).split(/\n{2,}/).map((p) => `<p>${esc(p).replace(/\n/g, "<br>")}</p>`).join("");
   for (const l of links || []) { const u = esc(l.url); h = h.split(u).join(`<a href="${u}" target="_blank" rel="noopener">${u.replace(/^https:\/\//, "")}</a>`); } return h; }
 function aiAskOpen(prefill) {
-  if (!aiOn()) return;
+  if (!aiOn()) { if (!(AI.avail === false && aiPreviewHost())) return; const d = aiAskDlg(); d.innerHTML = `<div class="info-head"><h2 id="ask-h" tabindex="-1">Ask Theosis</h2><button type="button" class="x" data-ask-close="1" aria-label="Close">×</button></div><div class="info-body"><p><b>The chat isn't available on this preview yet.</b></p><p>${esc(AI.why || "The AI function isn't reachable.")}</p><p class="hint">You only see this message on a Netlify preview address. On the live site the button stays hidden when AI isn't available.</p></div>`; if (!d.open) { try { d.showModal(); } catch (e) { d.setAttribute("open", ""); } } return; }
   if (!canUse("aiChat")) { const d = aiAskDlg(); d.innerHTML = `<div class="info-head"><h2 id="ask-h" tabindex="-1">Ask Theosis ${aiTag("aiChat")}</h2><button type="button" class="x" data-ask-close="1" aria-label="Close">×</button></div><div class="info-body"><p>This is a Pro feature. ${CONFIG.CHECKOUT_URL ? `<a href="${esc(CONFIG.CHECKOUT_URL)}">Unlock Pro</a>` : "Pro isn't on sale yet."}</p></div>`; try { d.showModal(); } catch (e) { d.setAttribute("open", ""); } return; }
   const d = aiAskDlg(); aiRenderAsk(); if (!d.open) { try { d.showModal(); } catch (e) { d.setAttribute("open", ""); } } AI.chat.open = true; const q = $("#ask-q"); if (q) { if (prefill) q.value = prefill; q.focus(); } else $("#ask-h").focus();
 }
@@ -6878,7 +6890,13 @@ function renderPlanOpt() {
 }
 
 // ===== wiring =====
-function aiRenderAll() { aiRenderFood(); aiRenderStages(); renderPlanOpt(); $$("[data-open-ask]").forEach((b) => { b.hidden = !aiOn(); }); if ($("#dlg-ask") && $("#dlg-ask").open) aiRenderAsk(); }
+function aiFab() { let b = $("#ask-fab"); if (b) return b; b = document.createElement("button"); b.type = "button"; b.id = "ask-fab"; b.className = "ask-fab"; b.setAttribute("data-open-ask", "1"); b.hidden = true;
+  b.setAttribute("aria-label", "Ask Theosis: open the chat"); b.setAttribute("aria-haspopup", "dialog");
+  b.innerHTML = `<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20.5l1.5-4.6A8 8 0 1 1 21 12z"/></svg><span class="ask-fab-t">Ask Theosis</span>`;
+  document.body.appendChild(b); return b; }
+function aiRenderAll() { aiRenderFood(); aiRenderStages(); renderPlanOpt(); const diag = !aiOn() && AI.avail === false && aiPreviewHost() && !!CONFIG.AI_ENDPOINT && location.protocol !== "file:";
+  const fab = aiFab(); fab.hidden = !(aiOn() || diag); document.body.classList.toggle("has-ask", !fab.hidden);
+  $$("[data-open-ask]").forEach((b) => { if (b !== fab) b.hidden = !aiOn(); }); if ($("#dlg-ask") && $("#dlg-ask").open) aiRenderAsk(); }
 /** Withdrawing the photo/AI consent: abort anything in flight and delete every AI photo, image, answer and draft held in memory. */
 function aiWipe() { for (const x of [AI.food.ctl, AI.stages.ctl, AI.chat.ctl]) { try { x && x.abort(); } catch (e) { /* ignore */ } }
   AI.adult = false; AI.food = { busy: false, items: [], note: "", kind: "", err: "", status: "", ctl: null }; AI.stages = { busy: false, frames: [], err: "", status: "", run: null, mine: false, ctl: null }; AI.chat = { open: false, msgs: [], busy: false, err: "", ctl: null }; AI.plan = { key: "", sections: null, busy: false, note: "" };
