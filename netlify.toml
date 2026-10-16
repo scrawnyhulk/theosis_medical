@@ -8,6 +8,43 @@
 [build.environment]
   NODE_VERSION = "22"
 
+# Gemini / food / labs functions for the simulator (added for /simulator).
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"
+
+[[headers]]
+  for = "/simulator/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(self), microphone=(), geolocation=()"
+
+[[headers]]
+  for = "/simulator/fig3d/*"
+  [headers.values]
+    Cache-Control = "public, max-age=604800"
+
+[[headers]]
+  for = "/simulator/photofit/*"
+  [headers.values]
+    Cache-Control = "public, max-age=2592000"
+[[headers]]
+  for = "/simulator/photofit/*.wasm"
+  [headers.values]
+    Content-Type = "application/wasm"
+
+# Trailing slash so the simulator's relative asset paths resolve. Must precede the catch-all.
+[[redirects]]
+  from = "/simulator"
+  to = "/simulator/"
+  status = 301
+
+[[redirects]]
+  from = "/fat-burn-calculator"
+  to = "/fat-burn-calculator/"
+  status = 301
+
 # Missing hashed files must 404 — never fall through to index.html as text/html
 # or the browser refuses to run the page and the header stops working.
 [[redirects]]
