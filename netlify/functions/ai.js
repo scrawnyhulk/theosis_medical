@@ -75,7 +75,7 @@ async function gemini(model, body, kind) {
   try {
     const res = await fetch(ENDPOINT(model), { method: "POST", headers: { "Content-Type": "application/json", "x-goog-api-key": key }, body: JSON.stringify(body), signal: ctl.signal });
     const data = await res.json().catch(() => ({}));
-    if (!res.ok) { const e = new Error("upstream"); e.code = res.status === 429 ? "rate" : "upstream"; e.status = res.status; e.detail = (data && data.error && (data.error.status + ": " + String(data.error.message || "").slice(0, 300))) || ""; console.error("gemini error", res.status, data && data.error && data.error.status); throw e; }
+    if (!res.ok) { const e = new Error("upstream"); e.code = res.status === 429 ? "rate" : "upstream"; e.status = res.status; console.error("gemini error", res.status, data && data.error && data.error.status); throw e; }
     return data;
   } catch (e) { if (e.code) throw e; const x = new Error(ctl.signal.aborted ? "timeout" : "network"); x.code = ctl.signal.aborted ? "timeout" : "network"; throw x; }
   finally { clearTimeout(timer); }
@@ -221,8 +221,10 @@ async function doChat(body, mock) {
   if (EMERGENCY.test(last)) return { status: 200, data: { reply: "That sounds like it could be urgent. Please don't wait on an app: call 911 (or your local emergency number) or go to the nearest emergency department now. If you're thinking about harming yourself, call or text 988 in the US. I can help with general nutrition questions once you're safe.", links: [], emergency: true, beyondSite: false, uncertain: false } };
   if (mock) return { status: 200, data: { reply: "Mock answer: protein is filling, protects muscle in a deficit, and is a good place to start. I'm a general education tool, so check with your own clinician about your situation.", links: [LINKS().find((l) => /protein-per-pound/.test(l.url)) || LINKS()[0]].filter(Boolean), beyondSite: false, uncertain: false, mock: true } };
   const sys = chatSystem() + (facts.length ? "\n\nSimulator facts for THIS user (the only numbers you may state as theirs):\n- " + facts.join("\n- ") : "\n\nNo simulator facts were provided; do not state personal numbers.");
-  const d = await gemini(MODELS().text, { systemInstruction: { parts: [{ text: sys }] }, contents: msgs.map((m) => ({ role: m.role, parts: [{ text: m.text }] })), generationConfig: { responseMimeType: "application/json", temperature: 0.4, maxOutputTokens: 1200 } }, "text");
-  const raw = textOf(d), j = parseJson(raw); let reply = cleanText(j && typeof j.reply === "string" ? j.reply : j ? "" : raw, MAX.answerChars);
+  const d = await gemini(MODELS().text, { systemInstruction: { parts: [{ text: sys }] }, contents: msgs.map((m) => ({ role: m.role, parts: [{ text: m.text }] })), generationConfig: { responseMimeType: "application/json", temperature: 0.4, maxOutputTokens: 4096 } }, "text");
+  let raw = textOf(d), j = parseJson(raw);
+  if (!j && /^\s*\{\s*"reply"\s*:/.test(raw)) { const mm = /"reply"\s*:\s*"((?:[^"\\]|\\.)*)/.exec(raw); if (mm) { let t = mm[1]; try { t = JSON.parse('"' + t.replace(/\\$/, "") + '"'); } catch (e) { t = t.replace(/\\n/g, "\n").replace(/\\"/g, '"'); } j = { reply: t }; } }
+  let reply = cleanText(j && typeof j.reply === "string" ? j.reply : j ? "" : raw, MAX.answerChars);
   if (!reply) return { status: 502, code: "unreadable", message: "The AI answer couldn't be read. Please try again." };
   const allow = linkAllow(), links = [];
   for (const l of (j && Array.isArray(j.links) ? j.links : []).slice(0, 3)) { const a = allow.get(String(l && l.url || "").replace(/\/$/, "")); if (a && !links.find((x) => x.url === a.url)) links.push({ title: a.title, url: a.url }); }
@@ -278,7 +280,7 @@ exports.handler = async (event) => {
   } catch (e) {
     refund(uid, kind); const code = (e && e.code) || "failed"; console.error("ai failed:", action, code);   // no photo, question or personal data is logged
     const map = { not_configured: [503, "AI features aren't set up on this site yet."], rate: [429, "The AI service is busy. Try again in a minute."], timeout: [504, "The AI service took too long. Try again."], network: [502, "Couldn't reach the AI service."], upstream: [502, "The AI service couldn't answer right now."] };
-    const m = map[code] || [500, "Something went wrong. Please try again."]; const dbg = (process.env.CONTEXT === "deploy-preview" && e && e.detail) ? " [preview debug: Gemini " + e.status + " " + e.detail + "]" : ""; return err(m[0], code, m[1] + dbg, corsOrigin);
+    const m = map[code] || [500, "Something went wrong. Please try again."]; return err(m[0], code, m[1], corsOrigin);
   }
 };
 Object.assign(exports, { stagePrompt, ungrounded, readFacts, normLabel, _store: store, proStatus, linkAllow, chatSystem, MODELS });
