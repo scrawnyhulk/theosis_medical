@@ -1107,6 +1107,11 @@ input[type="checkbox"],input[type="radio"]{min-width:24px;min-height:24px}
 .ask-form textarea{width:100%;box-sizing:border-box;resize:vertical;border-radius:10px;padding:.55rem .7rem;background:rgba(255,255,255,.05);color:inherit;border:1px solid var(--border);font:inherit}
 .ai-plan-opt small{display:block;color:var(--muted)}
 @media print{#ai-plan-opt-box,#ai-stages,#ai-food{display:none!important}}
+/* v7.6.15: opt-outs on the Move step */
+.optout{display:flex;gap:.65rem;align-items:flex-start;margin:.35rem 0 .6rem;padding:.6rem .75rem;border:1px solid var(--line,#33404d);border-radius:10px;cursor:pointer}
+.optout input{margin-top:.25rem;width:1.1rem;height:1.1rem;flex:none}
+.optout span{display:flex;flex-direction:column;gap:.1rem}.optout small{opacity:.8}
+#lift-adv[hidden],#lift-box[hidden],#cardio-wrap[hidden],#lift-fieldset[hidden],#lift-groups[hidden]{display:none!important}
 
 </style>
 </head>
@@ -1430,7 +1435,9 @@ input[type="checkbox"],input[type="radio"]{min-width:24px;min-height:24px}
             </div>
             <div class="section" id="move-preset">
               <div class="section-head"><h2>Strength training</h2></div>
-              <fieldset><legend class="sr-only">Strength training</legend>
+              <label class="optout"><input type="checkbox" data-optout="noLift" id="opt-nolift"><span><b>I don't do strength training</b><small>For cyclists, runners and cardio-only people. Turns lifting off everywhere, and the projection assumes no muscle gain.</small></span></label>
+              <p class="hint optout-note" id="nolift-note" hidden>Lifting is off. In a deficit, a bit more of the weight lost can be muscle, so keep protein high. You can turn lifting back on any time.</p>
+              <fieldset id="lift-fieldset"><legend class="sr-only">Strength training</legend>
                 <div class="opt-grid lift-grid">
                   <label class="opt"><input type="radio" name="move.preset" value="none"><span class="box"><b>None</b><small>No lifting right now</small></span></label>
                   <label class="opt opt-min"><input type="radio" name="move.preset" value="min"><span class="box"><b>Minimalist strength training</b><small>Minimum effective dose: 2 short sessions a week, about 15 min</small></span></label>
@@ -1470,9 +1477,13 @@ input[type="checkbox"],input[type="radio"]{min-width:24px;min-height:24px}
               </div>
               <div class="cardio-box" id="cardio-box">
                 <div class="section-head"><h2>Cardio</h2></div>
+                <label class="optout"><input type="checkbox" data-optout="noCardio" id="opt-nocardio"><span><b>I don't want to do cardio</b><small>Steps and food carry the plan. Turns cardio off everywhere.</small></span></label>
+                <p class="hint optout-note" id="nocardio-note" hidden>Cardio is off. Your burn comes from steps, daily living and any lifting. You can add cardio back any time.</p>
+                <div id="cardio-wrap">
                 <div id="cardio-list"></div>
                 <button type="button" class="link-btn" id="cardio-add">+ Add another kind of cardio</button>
                 <p class="hint">Pick what you do and how hard. 150 minutes a week is the public-health target. Burn uses 2011 Compendium values, counting only what's on top of your resting burn.</p>
+                </div>
               </div>
             </div>
             <p class="hint" id="planner-note" hidden>Using your weekly planner below. Turn it off to go back to the quick settings.</p>
@@ -2017,12 +2028,23 @@ function cardioNetMet(e, p, kg) {
   if (!c) return LEGACY_CARDIO_NET;
   return c.met[e.effort] != null ? c.met[e.effort] - 1 : c.met.moderate - 1;
 }
+/* v7.6.15: opting out. move.noLift = "I don't do strength training" and move.noCardio = "I don't do cardio" (steps only if both).
+   Applied everywhere the move settings are read, so a hidden-but-remembered preset, custom rows or planner minutes can never leak in. */
+function applyOptOuts(move) {
+  if (!move || !(move.noLift || move.noCardio)) return move;
+  const m = Object.assign({}, move);
+  if (move.noLift) { m.preset = "none"; m.lifts = []; }
+  if (move.noCardio) { m.cardioMin = 0; m.cardio = []; }
+  if (Array.isArray(move.planner)) m.planner = move.planner.map((d) => Object.assign({}, d, move.noLift ? { lift: 0 } : {}, move.noCardio ? { cardio: 0 } : {}));
+  return m;
+}
 /** typed cardio entries -> { min (per week), kcalWeek (net) }. Entry 0's minutes come from move.cardioMin (the field everyone already uses). */
 function cardioEntries(move) {
   if (!Array.isArray(move.cardio) || !move.cardio.length) return null;
   return move.cardio.map((e, i) => ({ ...e, min: i === 0 ? (move.cardioMin || 0) : (e.min || 0) }));
 }
 function cardioWeek(move, p, kg) {
+  move = applyOptOuts(move);
   const list = cardioEntries(move);
   if (!list) { const m = move.cardioMin || 0; return { min: m, kcalWeek: m / 60 * LEGACY_CARDIO_NET * kg, avgNet: LEGACY_CARDIO_NET }; }
   let min = 0, kcal = 0;
@@ -2050,6 +2072,7 @@ const LIFT_TYPES = {
 const LIFT_EFFORT = { easy: 0.8, moderate: 1.0, hard: 1.05 };
 const MIN_PRESET = [{ type: "med", effort: "hard", min: 15, days: 2 }];   // Simple-mode "Minimalist" preset
 function liftRows(move) {
+  move = applyOptOuts(move);
   if (!move || move.plannerOn) return null;
   const L = move.preset === "min" ? MIN_PRESET : move.preset === "custom" && Array.isArray(move.lifts) ? move.lifts : null; if (!L) return null;
   return L.map((e) => ({ type: LIFT_TYPES[e.type] ? e.type : "hypertrophy", effort: LIFT_EFFORT[e.effort] ? e.effort : "moderate", min: Math.max(0, Math.min(240, +e.min || 0)), days: Math.max(0, Math.min(14, +e.days || 0)) }))
@@ -2080,6 +2103,7 @@ function liftFactors(move) {
   return { burn, gain, net: st.net, sets, style: adv.style || "mixed" };
 }
 function weeklyTraining(move) {
+  move = applyOptOuts(move);
   const cw = cardioWeek(move, null, 80);
   if (move.plannerOn && Array.isArray(move.planner)) {
     let liftSessions = 0, liftMin = 0, cardioMin = 0;
@@ -2261,6 +2285,7 @@ function defaultGroups(rowType) { return rowType === "med" ? PRESET_GROUPS.min.s
 const cleanGroups = (g, dflt) => Array.isArray(g) ? MUSCLE_KEYS.filter((k) => g.includes(k)) : dflt.slice();
 /** rows of {days, x (stimulus per session), groups} for the current move settings, or null with no lifting */
 function muscleRows(move) {
+  move = applyOptOuts(move);
   if (!move) return null;
   if (move.plannerOn) { const t = weeklyTraining(move); return t.liftSessions > 0 ? [{ days: t.liftSessions, x: 1, w: toW(MUSCLE_KEYS) }] : null; }
   if (move.preset === "custom" && Array.isArray(move.lifts)) {
@@ -2374,6 +2399,7 @@ function goalDirection(inp) {
   const g = inp.goal;
   if (g.type === "gain" || g.type === "bulk") return "gain";
   if (g.type === "targetWeight") return g.target < inp.profile.weightKg ? "loss" : "gain";
+  if (g.type === "targetBf" && g.target > inp.profile.bf + 0.05) return "gain";   // v7.6.15: a goal body fat above today's is a gain plan, never blocked
   if (g.type === "targetBf" || GOALS[g.type].loss) return "loss";
   return g.type === "gain" ? "gain" : "neutral";
 }
@@ -2439,6 +2465,7 @@ function recommendIntake(inp, pace, tdee, F, L, k, day) {
 
 // ---------- simulation ----------
 function simulate(inp, o = {}) {
+  if (inp.move && (inp.move.noLift || inp.move.noCardio)) inp = Object.assign({}, inp, { move: applyOptOuts(inp.move) });
   const p = inp.profile, food = inp.food, g = inp.goal;
   const k = K_KG * (o.kScale || 1);
   const tsc = (a) => (o.tdeeScale && o.tdeeScale !== 1 ? Object.assign({}, a, { tdee: a.tdee * o.tdeeScale }) : a);   // v7.1 uncertainty band
@@ -2520,7 +2547,7 @@ function simulate(inp, o = {}) {
 
 function targetFnFor(inp) {
   const g = inp.goal;
-  if (g.type === "targetBf") return (F, L) => 100 * F / (F + L) <= g.target + 1e-9;
+  if (g.type === "targetBf") return goalDirection(inp) === "gain" ? (F, L) => 100 * F / (F + L) >= g.target - 1e-9 : (F, L) => 100 * F / (F + L) <= g.target + 1e-9;
   if (g.type === "targetWeight") return goalDirection(inp) === "loss" ? (F, L) => F + L <= g.target + 1e-9 : (F, L) => F + L >= g.target - 1e-9;
   if (g.type === "gain" && g.target > 0) return (F, L) => F + L >= g.target - 1e-9;
   return null;
@@ -2530,24 +2557,20 @@ function targetFnFor(inp) {
 function goalProblems(inp) {
   const p = inp.profile, g = inp.goal, a = analyze(p), errs = [];
   // v6.2: an exact goal weight / body fat on Maximal or Steady fat loss runs as a target with that goal's pace; it must point down
-  if (g.baseType === "maxloss" || g.baseType === "steady") {
-    if (g.type === "targetWeight" && g.target >= p.weightKg - 0.25) errs.push("A fat-loss goal needs a goal weight below your current weight. To gain, choose Lean muscle gain or Reach a target weight.");
-  }
+  // v7.6.15: a goal weight or body fat above today's is allowed on every goal type (it runs as a gain plan, with a gentle note)
   if ((g.baseType || g.type) === "maxloss" && p.bfSource === "bmi") errs.push("Maximal fat loss needs a measured or tape-measured body fat %. A BMI-based guess is too rough to time it safely.");
   if (g.type === "targetBf") {
     if (!(g.target > 0)) errs.push("Enter a target body fat %.");
     else if (g.target < ESSENTIAL[p.sex]) errs.push(`Below ${ESSENTIAL[p.sex]}% is essential fat for ${p.sex === "m" ? "men" : "women"}. That isn't a safe target.`);
-    else if (g.target >= p.bf) errs.push("Target body fat has to be lower than where you are now. To build muscle, choose Lean muscle gain.");
+    else if (Math.abs(g.target - p.bf) <= 0.05) errs.push("That's your current body fat. Choose Maintain & tone instead.");
   }
   if (g.type === "targetWeight") {
     if (!(g.target > 0)) errs.push("Enter a target weight.");
     else if (Math.abs(g.target - p.weightKg) < 0.25) errs.push("That's your current weight. Choose Maintain & tone instead.");
     else if (g.target < p.weightKg) { const minW = a.leanKg / (1 - ESSENTIAL[p.sex] / 100); if (g.target < minW) errs.push(`Keeping your muscle, the lowest safe weight is about ${minW.toFixed(1)} kg (essential fat). Going lower would cost muscle.`); }
-    else if (g.target > p.weightKg * 1.35) errs.push("That's a very large gain. Set a closer target first.");
   }
   if (g.type === "gain" && g.target > 0) {
     if (g.target <= p.weightKg + 0.25) errs.push("For muscle gain, the target weight has to be above your current weight. Leave it blank to just see the next weeks.");
-    else if (g.target > p.weightKg * 1.35) errs.push("That's a very large gain. Set a closer target first.");
   }
   if ((g.type === "gain" || (g.type === "targetWeight" && g.target > p.weightKg)) && g.bfCeiling > 0 && g.bfCeiling <= p.bf) errs.push("Your body-fat ceiling has to be above where you are now.");
   if (g.weeks != null && (!(g.weeks >= 1) || g.weeks > 260)) errs.push("Use a timeframe from 1 to 260 weeks.");
@@ -2607,10 +2630,30 @@ function refit(inp, R, weighIns) {
   const rmse = Math.sqrt(sse(k) / w.length), tdee0 = R.main.rows[0].tdee;
   return { ok: true, k: +k.toFixed(3), kRaw: +kRaw.toFixed(3), trust: +trust.toFixed(2), n: w.length, spanDays: span, kcalPerDay: Math.round((k - 1) * tdee0), rmse: +rmse.toFixed(2), assumedIntake: Math.round(kcal), small: Math.abs(k - 1) < 0.02 };
 }
-function project(inp) {
-  const p = inp.profile, g = inp.goal;
+/* v7.6.15: goal body fat ABOVE today's. It runs through the gain-to-target-weight machinery (surplus, timeline, deadline, ceiling).
+   The goal weight starts at today's lean mass / (1 - goal%) and is refined a few times so the simulated lean gain along the way
+   (muscle you add while gaining) is counted: the plan stops when body fat actually reaches the goal. */
+function bfUpInput(inp) {
+  const p = inp.profile, g = inp.goal, t = g.target, lean = p.weightKg * (1 - p.bf / 100), W0 = lean / (1 - t / 100);
+  const mk = (w) => Object.assign({}, inp, { goal: Object.assign({}, g, { type: "targetWeight", baseType: undefined, target: w, bfGoal: t }) });
+  const bfAt = (w) => { const gi = mk(w), s = simulate(gi, { pace: g.pace || 0.6, horizonDays: MAX_DAYS, target: targetFnFor(gi), stopAtTarget: true, forceRecommended: true }); return s.reached == null ? null : s.rows[s.rows.length - 1].bf; };
+  // body fat at the moment the weight is reached rises with the goal weight: bisect for the weight that ends at the goal body fat
+  let lo = Math.max(W0, p.weightKg + 0.3), hi = Math.max(lo, W0) * 1.5, W = lo;
+  const b0 = bfAt(lo);
+  if (b0 != null && b0 < t - 0.1) {
+    const bh = bfAt(hi);
+    if (bh != null && bh >= t) { for (let i = 0; i < 14; i++) { const mid = (lo + hi) / 2, bm = bfAt(mid); if (bm == null || bm >= t) hi = mid; else lo = mid; } W = hi; }
+    else W = hi;   // not reachable by this style: the plan reports it
+  }
+  return { inp: mk(W), weightKg: W, leanKeptKg: W0 };
+}
+function project(inp0) {
+  let inp = inp0, bfGoal = null;
+  if (inp.move && (inp.move.noLift || inp.move.noCardio)) inp = Object.assign({}, inp, { move: applyOptOuts(inp.move) });
   const problems = goalProblems(inp);
   if (problems.length) return { blocked: problems };
+  if (inp.goal.type === "targetBf" && goalDirection(inp) === "gain") { const u = bfUpInput(inp); bfGoal = { target: inp.goal.target, weightKg: u.weightKg, leanKeptKg: u.leanKeptKg }; inp = u.inp; }
+  const p = inp.profile, g = inp.goal;
   const dir = goalDirection(inp);
   const isTarget = g.type === "targetBf" || g.type === "targetWeight" || (g.type === "gain" && g.target > 0);
   const tfn = targetFnFor(inp);
@@ -2698,7 +2741,7 @@ function project(inp) {
   const first = rec.rows[0];
   const recMacros = macros(first.intake, prot.g, inp.food.style, ref.kg);
   const act0 = activity(p, inp.move, a0.fatKg, a0.leanKg, inp.food.bmrEq);
-  const result = { inp, main, rec, horizon, pace, feas, range, ref, protein: prot, macros: recMacros, act0, analysis: a0, dir, isTarget, actual,
+  const result = { bfGoal, inp, main, rec, horizon, pace, feas, range, ref, protein: prot, macros: recMacros, act0, analysis: a0, dir, isTarget, actual,
     psmf: inp.food.psmf ? psmfFor(inp) : null, psmfInfo: psmfFor(inp), health: healthSummary(p) };
   result.warnings = warningsFor(result);
   result.consult = result.warnings.some((w) => w.consult);
@@ -2744,10 +2787,32 @@ function warningsFor(R) {
   if (pct > 1.5) W.push({ t: "warn", m: `Week-one pace is ${pct.toFixed(1)}% of body weight. Above about 1% a week, protecting muscle depends on high protein and resistance training. Faster rates are best supervised.` });
   const tr = weeklyTraining(R.inp.move);
   const fastGain = R.dir === "gain" && R.inp.goal.gainMode === "fast";
-  if (R.dir === "gain" && tr.liftSessions === 0) W.push({ t: "warn", m: fastGain ? "Without resistance training, a surplus adds almost only fat. Add lifting on the Move step so some of the gain is muscle." : "Muscle gain needs resistance training, so the lean plan holds at maintenance. Add lifting on the Move step to build muscle." });
+  { // v7.6.15: opted out of lifting and/or cardio. Gentle, never blocks.
+    const mv0 = R.inp.move || {}, nl = !!mv0.noLift, nc = !!mv0.noCardio, deficit = R.dir === "loss" || (R.main.rows[0].tdee - R.main.rows[0].intake) > 150;
+    if (nl && nc) W.push({ t: "info", kind: "optout", m: "You've turned off both lifting and cardio, so this plan runs on steps and food alone. That works for fat loss, and every number here already reflects it. Two things to know: without lifting there's no muscle-gain signal, and cardio and strength work both help heart and metabolic health. You can add either back whenever you like." });
+    else if (nc) W.push({ t: "info", kind: "optout", m: "Cardio is turned off, so your burn comes from daily steps, daily living" + (tr.liftSessions > 0 ? " and lifting" : "") + ". That's fine: food and steps carry most of a fat-loss plan. Cardio mainly adds heart-health benefit and a bit more burn, so add some any time you want it." });
+    if (nl && deficit) W.push({ t: "info", kind: "optout", m: `Without lifting, more of the weight you lose can be lean mass. Studies of diet alone find roughly a quarter of the loss comes from lean tissue (Weinheimer 2010; Cava 2017); lifting is the strongest way to protect it. The projection shows about ${lbs(Math.max(0, start.leanKg - end.leanKg))} lb of lean mass lost. Keeping protein high (about 1 g per lb) and the deficit moderate helps. Lifting is optional; even two short sessions a week would change this.` });
+    if (nl && R.dir === "gain") W.push({ t: "info", kind: "optout", m: "Lifting is turned off, so no muscle gain is expected: a surplus without resistance training is stored almost entirely as fat. That's reasonable if gaining body fat or weight is the goal (for example if you're underweight). If you'd like the gain to include muscle, add lifting on the Move step." });
+  }
+  { // v7.6.15: large deficit + heavy training -> one gentle note (no claim about the size of any drop)
+    const dd = R.main.rows[0].tdee - R.main.rows[0].intake, pct = dd / Math.max(1, R.main.rows[0].tdee), hrs = (tr.liftMin + tr.cardioMin) / 60;
+    if (R.dir === "loss" && !R.psmf && (pct >= 0.25 || dd >= 800) && (tr.liftSessions >= 4 || tr.cardioMin >= 300 || hrs >= 6))
+      W.push({ t: "info", kind: "deficit-training", m: "A large deficit on top of a lot of training can leave performance and recovery suffering: workouts feel flat, sleep and mood slip, and recovery drags. If you notice that, consider a smaller deficit, eating closer to maintenance around your key training days, or a diet break. This is general guidance, not a measurement of how much your performance would change (see the IOC consensus on relative energy deficiency in sport: Mountjoy et al., Br J Sports Med 2018)." });
+  }
+  if (R.dir === "gain" && tr.liftSessions === 0 && !(R.inp.move || {}).noLift) W.push({ t: "warn", m: fastGain ? "Without resistance training, a surplus adds almost only fat. Add lifting on the Move step so some of the gain is muscle." : "Muscle gain needs resistance training, so the lean plan holds at maintenance. Add lifting on the Move step to build muscle." });
   if (R.inp.goal.type === "bulk" && tr.liftSessions > 0) { const d = end.fatKg - start.fatKg, l = end.leanKg - start.leanKg;
     W.push({ t: "info", m: `Even a moderate surplus adds some fat: about ${lbs(Math.max(0, l))} lb of lean and ${lbs(Math.max(0, d))} lb of fat by the end, taking body fat from ${start.bf.toFixed(1)}% to ${end.bf.toFixed(1)}%. Muscle can only grow so fast, so the rest is stored. That's expected; a short cut afterwards shows the muscle.` }); }
   if (fastGain && R.inp.goal.type !== "bulk") W.push({ t: "info", m: "Faster gain is on: a bigger surplus that adds noticeably more fat than muscle. It suits hard gainers and people who are underweight. Switch back to Lean to keep the gain mostly muscle." });
+  { // v7.6.15: gentle notes for gaining weight or body fat (never blocks). Underweight is a good reason to gain.
+    const h2 = p.heightCm / 100, bmi0 = p.weightKg / (h2 * h2), bmi1 = end.weightKg / (h2 * h2), hi = p.sex === "m" ? 25 : 32, sexTxt = p.sex === "m" ? "men" : "women";
+    if (R.dir === "gain" && (R.bfGoal || R.inp.goal.bfGoal)) {
+      if (bmi0 < 18.5) W.push({ t: "info", m: `Your BMI is ${bmi0.toFixed(1)}, which is in the underweight range, so gaining weight, including some body fat, is a reasonable aim. Aim for steady gain (about 0.25–0.5% of body weight a week), eat regularly, and add lifting so part of the gain is muscle. If the low weight wasn't intended, or your appetite or energy is poor, check in with your clinician.` });
+      else if (bmi0 < 20 && end.bf < hi) W.push({ t: "info", m: `Your BMI is ${bmi0.toFixed(1)}, near the low end of the healthy range. Gaining some body fat is reasonable if that's what you want. Lifting makes sure part of the gain is muscle.` });
+      else if (end.bf >= hi) W.push({ t: "info", m: `${end.bf.toFixed(1)}% body fat is above the range usually linked with the best metabolic health for ${sexTxt} (about ${hi}% or lower). It's your call. Just know higher body fat tends to raise blood sugar, blood pressure and liver-fat risk, so recheck labs and waist as you go.` });
+      if (bmi1 >= 30 && bmi0 < 30) W.push({ t: "info", m: `This plan would take your BMI from ${bmi0.toFixed(1)} to about ${bmi1.toFixed(1)}. BMI doesn't separate muscle from fat, but it's worth checking in with your clinician about your own targets.` });
+    }
+    if (R.dir === "gain" && end.weightKg > p.weightKg * 1.25) W.push({ t: "info", m: `That's a big gain (${lbs(end.weightKg - p.weightKg)} lb, ${Math.round(100 * (end.weightKg / p.weightKg - 1))}%). Many people do it in phases of 3–6 months with a check-in between. The projection shows it as one continuous plan.` });
+  }
   if (R.dir === "gain" && R.feas.status === "ceiling") W.push({ t: "info", m: "You'd reach your body-fat ceiling before the target weight. Many lifters then run a short cut (4–8 weeks) and start the next lean phase from there." });
   if (R.inp.goal.type === "recomp" && tr.liftSessions === 0) W.push({ t: "warn", m: "Recomposition depends on resistance training. Without it, a small deficit just means slow fat loss." });
   const leanChange = end.leanKg - start.leanKg;
@@ -2767,7 +2832,8 @@ function nextStepsFor(R) {
     const minEat = Math.max(FLOOR[p.sex], Math.ceil((first.tdee - first.ceiling) / 10) * 10);
     add(R.main.overDays > 0 || R.inp.food.actualKcal < FLOOR[p.sex], `Eat at least ${minEat.toLocaleString("en-US")} kcal a day`, `Right now your fat can cover about ${ceil0.toLocaleString("en-US")} kcal a day. A bigger gap than that comes out of muscle.`);
   }
-  add(tr.liftSessions === 0 && !(p.health && p.health.pregnant), "Add 2–3 strength sessions a week", "Full-body basics (a squat, a push, a pull, a hinge) for 2–3 sets each. This is what tells your body to keep muscle, or build it.");
+  add(tr.liftSessions === 0 && (R.inp.move || {}).noLift && !(p.health && p.health.pregnant) && R.dir !== "gain", "Keep protein high, since you're not lifting", "Without lifting, protein and a moderate deficit are your main protection for muscle. Walking and everyday activity help too. Strength work is optional, and two short sessions a week would add real protection if you ever want it.");
+  add(tr.liftSessions === 0 && !(R.inp.move || {}).noLift && !(p.health && p.health.pregnant), "Add 2–3 strength sessions a week", "Full-body basics (a squat, a push, a pull, a hinge) for 2–3 sets each. This is what tells your body to keep muscle, or build it.");
   add(true, `Hit about ${R.protein.g} g of protein a day`, `That's ${R.protein.perKg} g per kg${R.protein.perKg === 2.2 ? " (1 g per lb)" : ""} of ${R.ref.basis}. Spread it over 3–4 meals (about 0.4 g/kg each), with protein at each one.`);
   add((R.inp.move.steps || 0) < 7000 && !R.inp.move.plannerOn, "Build up to 8,000 steps a day", "Add 1,000 steps a week. It's the easiest extra burn and helps appetite and blood sugar.");
   add(R.main.floorWeeks > 0, "Move a little more instead of eating less", "Your intake is already at the safe minimum. Extra steps or two cardio sessions a week speed things up without cutting food.");
@@ -2784,7 +2850,7 @@ function nextStepsFor(R) {
 
 const api = { LB, K_LB, K_KG, RHO_F, TAU, K_UNC, RHO_L_LOSS, RHO_L_GAIN, FLOOR, ESSENTIAL, VERY_LEAN, GAIN_RATE, GOALS,
   band, compareGain, BAND_SCALE, refit, params: () => ({ HALL_PA, TEF_BETA, BAND_SCALE, ADAPT_CAP: 0.25 }),
-  navyBf, bmiBf, analyze, healthSummary, a1cStatus, diabetesStatus, psmfPlan, psmfFor, bulkSurplus, BULK_SURPLUS, idealBodyWeight, structuralShare, AT_BETA, AT_TAU, BMI_STOP, LEAN_STOP, bmr, activity, multiplierLabel, referenceWeight, proteinTarget, proteinPlan, highBodyFat, surplusFor, holdRatio, ffmiTaper, CARDIO, cardioNetMet, cardioWeek, cardioEntries, LIFT_STYLE, liftFactors, lossFactor, LIFT_TYPES, LIFT_EFFORT, MIN_PRESET, liftRows, liftRowNet, liftCustom, liftGainFreq, liftRetention, calibrate, macrosFromInput, macros, leanPotentialPerDay,
+  navyBf, bmiBf, analyze, healthSummary, a1cStatus, diabetesStatus, psmfPlan, psmfFor, bulkSurplus, BULK_SURPLUS, idealBodyWeight, structuralShare, AT_BETA, AT_TAU, BMI_STOP, LEAN_STOP, bmr, activity, multiplierLabel, referenceWeight, proteinTarget, proteinPlan, highBodyFat, surplusFor, holdRatio, ffmiTaper, CARDIO, cardioNetMet, cardioWeek, cardioEntries, LIFT_STYLE, liftFactors, lossFactor, LIFT_TYPES, LIFT_EFFORT, MIN_PRESET, applyOptOuts, liftRows, liftRowNet, liftCustom, liftGainFreq, liftRetention, calibrate, macrosFromInput, macros, leanPotentialPerDay,
   simulate, project, MUSCLES, MUSCLE_KEYS, MUSCLE_UPPER, MUSCLE_NAT, MUSCLE_SPILL, PRESET_GROUPS, PRESET_LABEL, defaultGroups, muscleRows, muscleRegions, EXERCISES, matchExercise, inferGroups, rowWeights, goalProblems, goalDirection, weeklyTraining, essentialFatKg };
 if (typeof module !== "undefined" && module.exports) module.exports = api;
 root.BodyEngine = api;
@@ -4175,7 +4241,7 @@ const GOAL_OPTS = [
   ["bulk", "Build muscle (max)", "A bigger surplus for the most muscle. Some fat comes with it, and you'll see how much."],
   ["maintain", "Maintain & tone", "Hold your weight while you train."],
   ["targetWeight", "Reach a target weight", "Pick a number and get a realistic timeline."],
-  ["targetBf", "Reach a target body fat %", "The most useful target for losing fat."],
+  ["targetBf", "Reach a target body fat %", "Pick any body fat %, lower or higher than today. Go lower to lean out, or higher to gain weight."],
   ["pft", "Get under my fat threshold", "Lose to the weight where blood sugar and liver fat are likely to return to normal (estimate from your A1c, waist and liver)."],
 ];
 /* v7: personal fat threshold (pft.js) */
@@ -4189,7 +4255,7 @@ const defaults = () => ({
     fat: { carry: "", menopause: "", ancestry: "" } },
   fig: { mode: "skin", tone: 2, top: false, photoThumb: false },
   goal: { type: "steady", targetBf: null, targetWeightKg: null, deadline: null, window: 12, pace: 0.6, touched: false, gainMode: "lean", gainTargetKg: null, bfCeiling: null, exactW: null, exactBf: null, exactBy: null },
-  move: { steps: 7500, preset: "none", cardioMin: 0, cardio: [{ type: "cycling", effort: "moderate", by: "effort" }], experience: "beginner", plannerOn: false, planner: DAYS.map(() => ({ lift: 0, cardio: 0 })), adv: { style: "mixed", sets: 10, rir: "2-3" },
+  move: { steps: 7500, preset: "none", noLift: false, noCardio: false, presetBefore: null, cardioMin: 0, cardio: [{ type: "cycling", effort: "moderate", by: "effort" }], experience: "beginner", plannerOn: false, planner: DAYS.map(() => ({ lift: 0, cardio: 0 })), adv: { style: "mixed", sets: 10, rir: "2-3" },
     lifts: [{ type: "hypertrophy", effort: "moderate", min: 60, days: 3 }], groups: {} },
   food: { proteinRef: "goal", actualOn: false, actualKcal: null, actualProtein: "moderate", actualProteinG: null, actualCarbsG: null, actualFatG: null, actualProteinEst: true, style: "balanced", dietBreakEvery: 0, bmrEq: "mifflin", psmf: false, mealDay: "everyday", mealDiet: "balanced", mealSrc: "rec", mealUsed: null, mealMacros: null, log: [], logUsed: false, logDone: false, psmfNoteOff: null, avgUsed: null,
     rmr: null, tdeeKnown: null, refeedDays: 0, yourMacros: { on: false, unit: "pct", p: 30, c: 40, f: 30 } },
@@ -4273,7 +4339,7 @@ function engineInput() {
     return est.over ? { profile: prof, goal: { type: "targetWeight", baseType: "pft", target: est.weightKg.mid, weeks: g.deadline || null, pace: +g.pace || 0.6, gainMode: "lean", bfCeiling: null }, move: mv, food, mode: S.mode }
       : { profile: prof, goal: { type: "steady", baseType: "pft", target: null, weeks: g.window, pace: g.calcPace ? +g.pace : 0.6, calcPace: !!g.calcPace, gainMode: "lean", bfCeiling: null }, move: mv, food, mode: S.mode }; }
   if (X) return { profile: { sex: p.sex, age: p.age, heightCm: p.heightCm, weightKg: p.weightKg, bf: b.bf, bfSource: b.source, waistCm: p.waistCm, health: p.health, cal: calFor(mv, fat0, p.weightKg - fat0) },
-    goal: { type: X.type, baseType: g.type, target: X.target, weeks: g.deadline || null, pace: g.calcPace ? +g.pace : g.type === "maxloss" ? 1 : 0.6, calcPace: !!g.calcPace, gainMode: "lean", bfCeiling: null },
+    goal: { type: X.type, baseType: g.type, target: X.target, weeks: g.deadline || null, pace: g.calcPace ? +g.pace : g.type === "maxloss" ? 1 : 0.6, calcPace: !!g.calcPace, gainMode: gainModeOf(g), bfCeiling: g.bfCeiling || null, bfGoal: X.type === "targetWeight" && X.bf > 0 ? X.bf : undefined },
     move: mv, food, mode: S.mode };
   return { profile: { sex: p.sex, age: p.age, heightCm: p.heightCm, weightKg: p.weightKg, bf: b.bf, bfSource: b.source, waistCm: p.waistCm, health: p.health, cal: calFor(mv, fat0, p.weightKg - fat0) },
     goal: { type: g.type, target: g.type === "bulk" ? null : g.type === "targetBf" ? g.targetBf : g.type === "targetWeight" ? g.targetWeightKg : gainT ? g.gainTargetKg : null, weeks: isT ? (g.deadline || null) : g.window, pace: +g.pace, calcPace: !!g.calcPace,
@@ -4291,7 +4357,18 @@ function exactGoal() {
   return null;
 }
 // Lean gain has two styles: keep body fat % (default, v4.1) or let it rise slowly (<= 0.8 lb fat per lb of muscle, optional ceiling)
-const gainModeOf = (g) => (g.gainMode === "fast" || g.gainMode === "moderate" ? g.gainMode : "lean");
+// v7.6.15: a goal body fat above today's (or a goal weight above it with a higher body fat) is a deliberate gain of fat as well as muscle
+function bfUpGoal() {
+  const b = bfInfo().bf, g = S.goal, X = exactGoal();
+  if (X) return (X.type === "targetBf" && X.target > b + 0.05) || (X.type === "targetWeight" && X.by === "both" && X.bf >= b - 0.05 && X.target > S.profile.weightKg);
+  return g.type === "targetBf" && g.targetBf > b + 0.05;
+}
+// Unless you pick a gain style yourself, a body-fat gain starts on Moderate (Fast if you aren't lifting, since Lean holds at maintenance without lifting)
+function gainModeOf(g) {
+  const explicit = g.gainMode === "fast" || g.gainMode === "moderate" ? g.gainMode : "lean";
+  if (g.gainSet || !bfUpGoal()) return explicit;
+  return E.weeklyTraining(effMove()).liftSessions > 0 ? "moderate" : "fast";
+}
 function ensureTargets() {
   const b = bfInfo(), lean = S.profile.weightKg * (1 - b.bf / 100), ess = E.ESSENTIAL[S.profile.sex];
   if (S.goal.targetBf == null) S.goal.targetBf = Math.max(ess + 4, Math.round(b.bf - 8));
@@ -4308,13 +4385,13 @@ const FIELDS = {
   waist2: { conv: "len", opt: true, get: () => S.profile.waistCm, set: (v) => (S.profile.waistCm = v), min: 45, max: 220, msg: () => (imp() ? "Enter 18–87 in." : "Enter 45–220 cm.") },
   neck: { conv: "len", opt: true, get: () => S.profile.neckCm, set: (v) => (S.profile.neckCm = v), min: 20, max: 70, msg: () => (imp() ? "Enter 8–27 in." : "Enter 20–70 cm.") },
   hip: { conv: "len", opt: true, get: () => S.profile.hipCm, set: (v) => (S.profile.hipCm = v), min: 50, max: 220, msg: () => (imp() ? "Enter 20–87 in." : "Enter 50–220 cm.") },
-  targetBf: { get: () => S.goal.targetBf, set: (v) => (S.goal.targetBf = v), min: 3, max: 60, msg: () => "Enter 3–60%." },
+  targetBf: { get: () => S.goal.targetBf, set: (v) => (S.goal.targetBf = v), min: 3, max: 65, msg: () => "Enter 3–65%." },
   gainTarget: { conv: "w", opt: true, get: () => S.goal.gainTargetKg, set: (v) => (S.goal.gainTargetKg = v), min: 36, max: 318, msg: () => (imp() ? "Enter 80–700 lb, or leave it blank." : "Enter 36–318 kg, or leave it blank.") },
   bfCeiling: { opt: true, get: () => S.goal.bfCeiling, set: (v) => (S.goal.bfCeiling = v), min: 5, max: 50, msg: () => "Enter 5–50%, or leave it blank." },
   exactW: { conv: "w", opt: true, get: () => S.goal.exactW, set: (v) => { S.goal.exactW = v; if (v != null) S.goal.exactBy = S.goal.exactBf > 0 ? "both" : "w"; else S.goal.exactBy = S.goal.exactBf > 0 ? "bf" : null; },   // v7.6.11: weight and body fat can both be set
     min: 36, max: 318, msg: () => (imp() ? "Enter 80–700 lb, or leave it blank." : "Enter 36–318 kg, or leave it blank.") },
   exactBf: { opt: true, get: () => S.goal.exactBf, set: (v) => { S.goal.exactBf = v; if (v != null) S.goal.exactBy = S.goal.exactW > 0 ? "both" : "bf"; else S.goal.exactBy = S.goal.exactW > 0 ? "w" : null; },
-    min: 3, max: 60, msg: () => "Enter 3–60%, or leave it blank." },
+    min: 3, max: 65, msg: () => "Enter 3–65%, or leave it blank." },
   targetWeight: { conv: "w", get: () => S.goal.targetWeightKg, set: (v) => (S.goal.targetWeightKg = v), min: 36, max: 318, msg: () => (imp() ? "Enter 80–700 lb." : "Enter 36–318 kg.") },
   deadline: { opt: true, get: () => S.goal.deadline, set: (v) => (S.goal.deadline = v), min: 1, max: 260, msg: () => "Enter 1–260 weeks, or leave blank." },
   window: { get: () => S.goal.window, set: (v) => (S.goal.window = v), min: 1, max: 260, msg: () => "Enter 1–260 weeks." },
@@ -4749,7 +4826,7 @@ function ladderLogs() {
 }
 function pftLadder() {
   if (!R || R.blocked) return null; const e = pftEst(), rows = R.main.rows, g = S.goal.type;
-  const reach = R.isTarget && R.main.reached != null && g !== "pft" ? rowAtDay(R.main.reached) : null;
+  const reach = R.isTarget && R.dir !== "gain" && R.main.reached != null && g !== "pft" ? rowAtDay(R.main.reached) : null;
   const goal = reach ? (g === "targetBf" ? { label: `Reach ${fP(reach.bf)} body fat (your goal)`, marker: "bf", now: rows[0].bf, target: reach.bf + 0.05, unit: "%" } : { label: `Reach ${fW(reach.weightKg)} (your goal)`, marker: "weightKg", now: rows[0].weightKg, target: reach.weightKg + 0.05, unit: "kg" }) : null;
   const steps = PF.goals(pftInput(), { est: e, goal, logs: ladderLogs() }), gap = gapNow(), w0 = rows[0].weightKg;
   for (const s of steps) if (s.key === "waist") s.label = `Waist under ${fmtStep(s, s.target)}`;
@@ -4950,7 +5027,9 @@ function applyMacroGrams() {
   $$('input[name="food.actualProtein"]').forEach((r) => (r.checked = r.value === S.food.actualProtein));
 }
 const xLab = (X) => X.by === "both" ? `${fW(S.goal.exactW)} at ${fP(S.goal.exactBf)} body fat` : X.by === "w" ? fW(X.target) : fP(X.target) + " body fat";
-function goalLabel() { const X = exactGoal(); return E.GOALS[S.goal.type].label + (X ? ` to ${X.by === "both" ? xLab(X) : X.by === "w" ? fW(X.target) : fP(X.target)}` : ""); }
+function goalLabel() { const X = exactGoal(); if (X && bfUpGoal()) return `Gain to ${X.by === "both" ? xLab(X) : X.by === "w" ? fW(X.target) : fP(X.target) + " body fat"}`;   // v7.6.15
+  if (X && X.type === "targetWeight" && X.target > S.profile.weightKg + 0.25) return `Gain to ${X.by === "both" ? xLab(X) : fW(X.target)}`;
+  return E.GOALS[S.goal.type].label + (X ? ` to ${X.by === "both" ? xLab(X) : X.by === "w" ? fW(X.target) : fP(X.target)}` : ""); }
 function sumData() {
   const st = startPerson(), e = endRow(), b = bfInfo(), d = { st, e, b };
   if (!e) return d;
@@ -5128,13 +5207,13 @@ function renderGoal() {
   { const n = $("#g-calcpace"); if (n) { n.hidden = !g.calcPace; if (g.calcPace) n.innerHTML = `Using the pace you chose in the Maximum Fat Burn Calculator: <b>${esc(g.calcLabel || "")}</b> (${Math.round(g.pace * 100)}% of your maximum fat-burn rate). Pick a pace below to change it.`; }
     document.querySelectorAll('input[name="goal.pace"]').forEach((r) => { if (g.calcPace) r.checked = false; }); }
   $("#g-pace").hidden = !((isT || (g.type === "pft" && pftEst().over)) && dir === "loss") || g.type === "gain";
-  $("#g-exp").hidden = !(g.type === "recomp" || g.type === "gain" || g.type === "bulk" || (g.type === "targetWeight" && dir === "gain"));
+  $("#g-exp").hidden = !(g.type === "recomp" || g.type === "gain" || g.type === "bulk" || ((g.type === "targetWeight" || g.type === "targetBf") && dir === "gain"));
   $$("#window-chips .chip").forEach((c) => c.setAttribute("aria-pressed", String(+c.dataset.win === +g.window)));
   const lean = p.weightKg * (1 - b.bf / 100);
-  $("#h-tbf").textContent = g.type === "targetWeight" ? "Matches your goal weight at today's lean mass. Type here to aim for a body fat % instead." : g.targetBf > 0 && g.targetBf < 60 ? `≈ ${fW(lean / (1 - g.targetBf / 100))} if you keep today's lean mass` : "";
+  $("#h-tbf").textContent = g.type === "targetWeight" ? "Matches your goal weight at today's lean mass. Type here to aim for a body fat % instead." : g.targetBf > 0 && g.targetBf < 66 ? (g.targetBf > b.bf + 0.05 ? `≈ ${fW(lean / (1 - g.targetBf / 100))} at today's lean mass, a bit more once you add some muscle. A higher body fat than today is fine; this runs as a gain plan.` : `≈ ${fW(lean / (1 - g.targetBf / 100))} if you keep today's lean mass`) : "";
   $("#h-tw").textContent = g.type === "targetBf" ? "Matches your goal body fat at today's lean mass. Type here to aim for a weight instead." : g.targetWeightKg > lean ? `≈ ${fP(100 * (1 - lean / g.targetWeightKg))} body fat if you keep today's lean mass` : "";
   { const tw = $('[data-f="targetWeight"]'), tb = $('[data-f="targetBf"]');
-    if (g.type === "targetBf" && tw && g.targetBf > 0 && g.targetBf < 60) tw.value = nW(lean / (1 - g.targetBf / 100));
+    if (g.type === "targetBf" && tw && g.targetBf > 0 && g.targetBf < 66) tw.value = nW(lean / (1 - g.targetBf / 100));
     if (g.type === "targetWeight" && tb && g.targetWeightKg > lean) tb.value = +(100 * (1 - lean / g.targetWeightKg)).toFixed(1); }
   const t = E.weeklyTraining(effMove()), rate = E.GAIN_RATE[p.sex][S.move.experience];
   $("#h-exp").innerHTML = (R && R.assumed && R.assumed.move ? `<span class="assume">${ASSUME_TXT}</span> ` : "") + (t.liftSessions > 0 ? `Estimated lean gain at your level: about <strong>${rate} kg (${(rate * LB).toFixed(1)} lb) a month</strong> with 4+ sessions a week${t.liftSessions < 4 ? `, about ${(rate * 0.75).toFixed(2)} kg with your ${t.liftSessions === 2.5 ? "2–3" : t.liftSessions}` : ""}. That's an estimate, not a promise.`
@@ -5159,17 +5238,25 @@ function renderExact(g, b, p, X, exOn) {
 function impliedGoal(g, b, p) {
   const W = +g.exactW, BF = +g.exactBf; if (!(W > 0 && BF > 0)) return null;
   const lean0 = p.weightKg * (1 - b.bf / 100), fat0 = p.weightKg - lean0, lean1 = W * (1 - BF / 100), fat1 = W - lean1, dL = lean1 - lean0, dF = fat1 - fat0, T = 0.45;   // 0.45 kg ≈ 1 lb: below that it is rounding
-  const kind = dF < -T && dL > T ? "recomp" : dF < -T && dL >= -T ? "fat" : dF < -T ? "leanloss" : dF >= -T && dL > T ? "gain" : "other";
+  const kind = dF < -T && dL > T ? "recomp" : dF < -T && dL >= -T ? "fat" : dF < -T ? "leanloss" : dF > T && dL > T ? "wgain" : dF > T && dL >= -T ? "fatgain" : dF > T ? "fatgainlean" : dF >= -T && dL > T ? "gain" : "other";   // v7.6.15: fat can go UP too
   return { W, BF, lean0, fat0, lean1, fat1, dL, dF, kind };
 }
 function impliedHtml(g, b, p) {
+  const T = 0.45;
   const I = impliedGoal(g, b, p); if (!I) return "";
   const lbL = Math.abs(I.dL) * LB, e = R && !R.blocked ? endRow() : null, s0 = R && !R.blocked ? R.main.rows[0] : null, fatWk = e ? Math.max(1, e.day / 7) : null;
   const row = (lab, a, c, d) => `<tr><th>${lab}</th><td>${fW(a)}</td><td>${fW(c)}</td><td>${fWd(d)}</td></tr>`;
-  const head = { recomp: "Recomposition: build lean mass while losing fat", fat: "Mostly fat loss: lean mass about the same", leanloss: "Fat loss with a lean-mass loss", gain: "Lean gain without fat loss", other: "Your combination" }[I.kind];
+  const head = { recomp: "Recomposition: build lean mass while losing fat", fat: "Mostly fat loss: lean mass about the same", leanloss: "Fat loss with a lean-mass loss", gain: "Lean gain without fat loss", wgain: "Gaining weight: muscle and fat", fatgain: "Gaining fat: lean mass about the same", fatgainlean: "Fat gain with some lean loss", other: "Your combination" }[I.kind];
   const wks = (lo, hi) => `${Math.round(lbL / hi)}–${Math.round(lbL / lo)} weeks`;
   let tl = "", warn = [];
-  if (I.dL > 0.45) {
+  const up = I.dF > T;
+  if (up) {
+    const span = g.deadline || fatWk, rate = span ? I.dF * LB / span : null, wkTxt = fatWk ? `about <b>${Math.round(fatWk)} weeks</b> at your plan's surplus` : "";
+    tl = `Gaining ${fW(I.dF)} of fat${I.dL > T ? ` and ${fW(I.dL)} of lean mass` : ""} takes ${wkTxt || "a few months"}.`;
+    if (I.dL > T) { const lr = lbL / Math.max(1, span || 1); if (lr > 0.5) warn.push(`Adding ${fW(I.dL)} of lean mass this fast (about ${(+lr.toFixed(2))} lb a week) is more than natural muscle gain allows, so more of the weight would be fat. Consider a later date. You can still keep it.`); }
+    if (I.dF > I.fat0 * 1.0 && p.weightKg < 200) warn.push(`This more than doubles your fat mass. That's fine if it's what you want, for example when underweight. Just recheck labs and waist along the way.`);
+    if (((I.W / ((p.heightCm / 100) ** 2)) >= 30)) warn.push(`The goal weight puts your BMI at ${(I.W / ((p.heightCm / 100) ** 2)).toFixed(1)} (30 or above). It's your call, but check in with your clinician about your own targets.`);
+  } else if (I.dL > 0.45) {
     const span = g.deadline || fatWk, rate = span ? lbL / span : null, rd = (x) => +x.toFixed(2);
     tl = `Lean gain of ${fWd(I.dL)} takes about <b>${wks(0.25, 0.5)}</b> as a newer lifter (0.25–0.5 lb a week), about ${wks(0.12, 0.25)} at an intermediate level, and ${wks(0.06, 0.12)} or more if you have trained for years.${fatWk ? ` The fat-loss part is about ${Math.round(fatWk)} weeks, so plan on the longer of the two: <b>about ${Math.max(Math.round(fatWk), Math.round(lbL / 0.5))} weeks at the earliest</b>.` : ""}`;
     if (rate && rate > 0.5) warn.push(`That asks for about ${rd(rate)} lb of lean mass a week${g.deadline ? " by your date" : " at the pace the fat loss alone would finish"}. That is faster than natural muscle gain, even for a beginner (about 0.25–0.5 lb a week, and much less if you are trained; Aragon, Schoenfeld). Consider a later date or a smaller goal weight. You can still keep it.`);
@@ -5179,14 +5266,25 @@ function impliedHtml(g, b, p) {
     warn.push(`This goal implies losing about ${fW(-I.dL)} of lean mass (${lossPct.toFixed(1)}%). Fat loss usually costs a little lean mass, but if you want to keep your muscle, raise the goal weight or lower the goal body fat %. You can still keep it.`);
     tl = fatWk ? `Fat loss of ${fW(-I.dF)} takes about <b>${Math.round(fatWk)} weeks</b> on your pace.` : "";
   } else if (I.dF < -0.45) tl = fatWk ? `Fat loss of ${fW(-I.dF)} takes about <b>${Math.round(fatWk)} weeks</b> on your pace.` : "";
-  if (I.dF >= -0.45 && I.dL <= 0.45) warn.push("Both numbers are close to where you are now, so this goal would change very little.");
+  if (up && e && Math.abs(e.bf - I.BF) > 1) warn.push(`The plan reaches ${fW(I.W)} at about ${fP(e.bf)} body fat, not ${fP(I.BF)}: with your lifting and training level ${e.bf < I.BF ? "more of the gain is muscle" : "more of the gain is fat"} than this goal assumes. That's fine; to land closer to ${fP(I.BF)}, adjust the goal weight or the How fast to gain style.`);
+  if (Math.abs(I.dF) <= 0.45 && I.dL <= 0.45) warn.push("Both numbers are close to where you are now, so this goal would change very little.");
   const r0 = R && !R.blocked ? R.rec.rows[0] : null;
-  const band = r0 && I.dL > 0.45 ? `<p class="hint g-imp-band"><b>Calorie band:</b> fat loss needs a deficit, muscle gain needs fuel. Stay near maintenance to about 15% below it, roughly <b>${fK(Math.round(r0.tdee * 0.85 / 10) * 10)}–${fK(Math.round(r0.tdee / 10) * 10)} kcal</b> (maintenance is about ${fK(Math.round(r0.tdee / 10) * 10)} kcal) with protein around 1 g per lb of goal weight and lifting at least 2–3 times a week. A bigger deficit (your current plan: ${fK(r0.intake)} kcal) is faster for fat but slows or stops muscle gain.</p>` : r0 ? `<p class="hint g-imp-band"><b>Calorie band:</b> your plan starts at about ${fK(r0.intake)} kcal a day against maintenance of about ${fK(Math.round(r0.tdee / 10) * 10)} kcal.</p>` : "";
+  const band = r0 && up ? `<p class="hint g-imp-band"><b>Calorie band:</b> gaining needs a surplus. Your plan starts at about <b>${fK(r0.intake)} kcal</b> a day against maintenance of about ${fK(Math.round(r0.tdee / 10) * 10)} kcal (${r0.intake >= r0.tdee ? "+" : ""}${fK(Math.round(r0.intake - r0.tdee))}). ${I.dL > T ? "Keep protein around 1 g per lb of goal weight and lift at least 2–3 times a week so part of the gain is muscle." : "Pick Moderate or Fast under How fast to gain for a bigger surplus."}</p>` : r0 && I.dL > 0.45 ? `<p class="hint g-imp-band"><b>Calorie band:</b> fat loss needs a deficit, muscle gain needs fuel. Stay near maintenance to about 15% below it, roughly <b>${fK(Math.round(r0.tdee * 0.85 / 10) * 10)}–${fK(Math.round(r0.tdee / 10) * 10)} kcal</b> (maintenance is about ${fK(Math.round(r0.tdee / 10) * 10)} kcal) with protein around 1 g per lb of goal weight and lifting at least 2–3 times a week. A bigger deficit (your current plan: ${fK(r0.intake)} kcal) is faster for fat but slows or stops muscle gain.</p>` : r0 ? `<p class="hint g-imp-band"><b>Calorie band:</b> your plan starts at about ${fK(r0.intake)} kcal a day against maintenance of about ${fK(Math.round(r0.tdee / 10) * 10)} kcal.</p>` : "";
   return `<div class="g-implied" id="g-implied" data-kind="${I.kind}"><p class="label g-imp-h">What this goal means: ${head}</p>
     <table class="g-imp-t"><thead><tr><th></th><th>Now</th><th>Goal</th><th>Change</th></tr></thead><tbody>${row("Weight", p.weightKg, I.W, I.W - p.weightKg)}${row("Lean mass", I.lean0, I.lean1, I.dL)}${row("Fat mass", I.fat0, I.fat1, I.dF)}</tbody></table>
     <p class="hint">Goal lean mass = goal weight × (1 − goal body fat %) = ${fW(I.lean1)}.</p>${tl ? `<p class="hint g-imp-tl">${tl}</p>` : ""}${band}${warn.map((w) => `<p class="feas warn g-imp-warn">${w}</p>`).join("")}</div>`;
 }
-function feasHtml() {
+function feasHtml() { const h = feasHtml0(), bn = bfGoalNote(); return bn ? h + bn : h; }
+// v7.6.15: a goal body fat above today's: say what the plan aims at, and nudge toward a style that can get there
+function bfGoalNote() {
+  if (!R || R.blocked) return "";
+  const bg = R.bfGoal, both = R.inp.goal.bfGoal > 0; if (!bg && !both) return "";
+  const t = bg ? bg.target : R.inp.goal.bfGoal, gm = R.inp.goal.gainMode, nl = (R.inp.move || {}).noLift;
+  let h = bg ? `<p class="hint g-bf-note"><b>Goal: ${fP(t)} body fat (up from ${fP(R.analysis.bf != null ? R.analysis.bf : bfInfo().bf)}).</b> At today\'s lean mass that\'s about ${fW(bg.leanKeptKg)}. Counting the muscle you\'d add on the way, the plan aims for about <b>${fW(bg.weightKg)}</b>. Gaining body fat on purpose is fine: the surplus is sized for it.</p>` : "";
+  if (R.feas.status === "unreachable" && gm === "lean") h += `<p class="feas warn g-bf-warn">The Lean style adds too little fat to ever reach ${fP(t)}. Pick Moderate or Fast under <b>How fast to gain</b>.</p>`;
+  else if (nl && R.feas.status !== "unreachable") h += `<p class="hint g-bf-note">Lifting is off, so this gain is almost all fat.</p>`;
+  return h; }
+function feasHtml0() {
   if (!R) return "";
   if (R.blocked) return `<div class="feas danger">${R.blocked.map(esc).join("<br>")}</div>`;
   const g = S.goal, e = endRow(), s = R.main.rows[0], wk = fWk(e.day), fat = e.fatKg - s.fatKg, lean = e.leanKg - s.leanKg;
@@ -5334,6 +5432,12 @@ function renderMove() {
   renderCardio(); renderLifts();
   { const bx = $('[data-f="stepsN"]'); if (bx && document.activeElement !== bx && !invalid.has("stepsN")) bx.value = fmtSteps(m.steps); }
   $$("#steps-chips .chip").forEach((c) => c.setAttribute("aria-pressed", String(+c.dataset.steps === m.steps)));
+  { const nl = !!m.noLift, nc = !!m.noCardio, set = (id, f) => { const e = $(id); if (e) f(e); };
+    set("#opt-nolift", (e) => (e.checked = nl)); set("#opt-nocardio", (e) => (e.checked = nc));
+    set("#nolift-note", (e) => (e.hidden = !nl)); set("#nocardio-note", (e) => (e.hidden = !nc));
+    set("#lift-fieldset", (e) => (e.hidden = nl)); set("#cardio-wrap", (e) => (e.hidden = nc));
+    if (nl) for (const id of ["#lift-customize", "#lift-box", "#lift-min-note", "#lift-groups", "#lift-adv"]) set(id, (e) => (e.hidden = true));
+    $$('#planner-body [data-k="lift"]').forEach((el) => (el.disabled = nl)); $$('#planner-body [data-k="cardio"]').forEach((el) => (el.disabled = nc)); }
   $("#move-preset").hidden = m.plannerOn; $("#planner-note").hidden = !m.plannerOn; $("#planner-wrap").hidden = !m.plannerOn;
   $$("#planner-body [data-pl]").forEach((el) => { const v = m.planner[+el.dataset.pl][el.dataset.k]; if (document.activeElement !== el) el.value = String(v || (el.dataset.k === "lift" ? 0 : "")); });
   const a = R && !R.blocked ? R.act0 : baseActivity();
@@ -6023,7 +6127,7 @@ function planSummaryHtml() {
     ["Starting point", `${fW(s.weightKg)} at ${fP(s.bf)} body fat${b.source !== "measured" ? " (estimated)" : ""}${labs.length ? `; ${esc(labs.join(", "))}` : ""}.`],
     ["Goal", `${esc(goalLabel())}.`],
     ["Food", `${S.food.psmf ? "clinician-guided PSMF, " : S.food.actualOn ? "what you eat now, " : ""}about ${fK(kcal)} kcal a day${prot}.`],
-    ["Workouts", `${tw.liftSessions > 0 ? `${tw.liftSessions === 2.5 ? "2–3" : tw.liftSessions} lifting sessions a week` : "no lifting"}, about ${Number(S.move.steps || 0).toLocaleString("en-US")} steps a day.`],
+    ["Workouts", `${tw.liftSessions > 0 ? `${tw.liftSessions === 2.5 ? "2–3" : tw.liftSessions} lifting sessions a week` : "no lifting"}${S.move.noCardio ? ", no cardio" : tw.cardioMin > 0 ? `, ${tw.cardioMin} min of cardio` : ""}, about ${Number(S.move.steps || 0).toLocaleString("en-US")} steps a day.`],
     ["Likely result", `about ${fW(e.weightKg)} at ${fP(e.bf)} body fat after ${fWk(e.day)} weeks (around ${fDate(e.day, true)}); fat ${fWd(e.fatKg - s.fatKg)}, lean ${fWd(e.leanKg - s.leanKg)}. Estimates, not guarantees.`]];
   let pft = "";
   try { const est = pftEst(), L0 = pftLadder(); if (est && est.over && R.dir !== "gain") {
@@ -6117,7 +6221,7 @@ function recapPairs() {
   const g = S.goal; const isT = g.type === "targetBf" || g.type === "targetWeight";
   return [["You", `${p.sex === "m" ? "Male" : "Female"}, ${p.age}, ${h}, ${fW(p.weightKg)}, ${fP(b.bf)} body fat${b.source === "measured" ? "" : b.source === "navy" ? " (tape est.)" : " (BMI est.)"}`],
     ["Goal", `${goalLabel()}${g.type === "targetBf" ? `: ${g.targetBf}%` : g.type === "targetWeight" ? `: ${fW(g.targetWeightKg)}` : ""}${isT ? (g.deadline ? ` by week ${g.deadline}` : "") : ` · ${g.window} weeks`}`],
-    ["Move", `${S.move.steps.toLocaleString("en-US")} steps/day · ${t.liftSessions ? `${S.move.plannerOn || t.custom ? (S.move.preset === "min" ? "2 minimalist" : t.liftSessions) : t.liftSessions === 2.5 ? "2–3" : "4+"} lifting sessions/week` : "no lifting"} · ${t.cardioMin} min cardio/week`],
+    ["Move", `${S.move.steps.toLocaleString("en-US")} steps/day · ${t.liftSessions ? `${S.move.plannerOn || t.custom ? (S.move.preset === "min" ? "2 minimalist" : t.liftSessions) : t.liftSessions === 2.5 ? "2–3" : "4+"} lifting sessions/week` : "no lifting"} · ${S.move.noCardio ? "no cardio" : t.cardioMin + " min cardio/week"}`],
     ["Daily burn", `${fK(R.act0.tdee)} kcal (${R.act0.multiplier.toFixed(2)}× BMR)`],
     ["Eat", S.food.psmf ? `${fK(fixedKcal())} kcal/day PSMF (clinician-guided) · protein ≥ ${R.psmf.protein} g · plan would be ${fK(r0.intake)}` : S.food.actualOn ? `${fK(fixedKcal())} kcal/day (actual) · plan would be ${fK(r0.intake)}` : `${fK(r0.intake)} kcal/day to start · P ${R.macros.protein} g · F ${R.macros.fat} g · C ${R.macros.carbs} g`],
     ["Start date", fDate(0, true)]];
@@ -6155,7 +6259,8 @@ function ciProjection(c) {
   inp.profile = { ...inp.profile, weightKg: t.weightKg, bf: t.bf, bfSource: c.bf > 0 ? "measured" : inp.profile.bfSource, waistCm: t.waistCm };
   if (inp.goal.weeks != null) inp.goal.weeks = Math.max(1, Math.round(inp.goal.weeks - c.week));
   const key = JSON.stringify([c.id, c.week, c.weightKg, c.bf, c.waistCm, inp]); if (key === CI.projKey) return CI.proj;
-  let r; try { r = E.project(inp); } catch (e) { r = { blocked: ["The rest of the plan couldn't be calculated from this check-in."] }; }
+  const g0 = inp.goal, lossGoal = R.dir === "loss" && (g0.type === "targetBf" || g0.type === "targetWeight");   // v7.6.15: a loss goal you've already passed must not silently turn into a gain plan
+  let r; try { r = lossGoal && ((g0.type === "targetBf" && t.bf <= g0.target + 0.05) || (g0.type === "targetWeight" && t.weightKg <= g0.target + 0.25)) ? { blocked: ["Your check-in is already at or past your goal, so there's nothing left to project toward. Set a new goal on the Goal step."] } : E.project(inp); } catch (e) { r = { blocked: ["The rest of the plan couldn't be calculated from this check-in."] }; }
   CI.projKey = key; CI.proj = r; return r; }
 /** Base for "See it on your photo": the latest check-in if there is one, else the start. */
 function aiBase() { const c = ciLatest(), r2 = c ? ciProjection(c) : null;
@@ -6856,10 +6961,14 @@ function bind() {
     if (ev.target.id === "fs-q" && ev.key === "Enter") { ev.preventDefault(); clearTimeout(fs.timer); fsSearch(true); } });
   document.addEventListener("change", (ev) => {
     const el = ev.target;
+    if (el.matches && el.matches("input[data-optout]")) {   // v7.6.15: "I don't do strength training" / "I don't want to do cardio"
+      const k = el.dataset.optout, m = S.move; m[k] = !!el.checked;
+      if (k === "noLift") { if (m.noLift) { if (m.preset !== "none") m.presetBefore = m.preset; m.preset = "none"; } else m.preset = m.presetBefore && m.presetBefore !== "none" ? m.presetBefore : "2-3"; liftSig = ""; }
+      fillInputs(); update(); return; }
     if (el.matches("input[type=radio][name]:not([data-ce]):not([data-local])")) {
       if (el.name === "units") { S.units = el.value; fillInputs(); update(); return; }
       let v = el.value; if (el.name === "goal.pace") { v = +v; delete S.goal.calcPace; delete S.goal.calcLabel; }
-      setPath(el.name, v);
+      setPath(el.name, v); if (el.name === "goal.gainMode") S.goal.gainSet = true;
       if (el.name === "goal.type") { S.goal.touched = true; ensureTargets(); fillInputs(); setTimeout(revealExact, 60); }
       if (el.name === "food.yourMacros.unit") { const m = S.food.yourMacros, src = R && R.macros && !R.blocked ? (R.autoMacros || R.macros) : null;
         if (m.unit === "g" && src) Object.assign(m, { p: src.protein, c: src.carbs, f: src.fat }); else if (m.unit === "pct") Object.assign(m, { p: 30, c: 40, f: 30 });
