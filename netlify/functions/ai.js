@@ -75,7 +75,7 @@ async function gemini(model, body, kind) {
   try {
     const res = await fetch(ENDPOINT(model), { method: "POST", headers: { "Content-Type": "application/json", "x-goog-api-key": key }, body: JSON.stringify(body), signal: ctl.signal });
     const data = await res.json().catch(() => ({}));
-    if (!res.ok) { const e = new Error("upstream"); e.code = res.status === 429 ? "rate" : "upstream"; e.status = res.status; console.error("gemini error", res.status, data && data.error && data.error.status); throw e; }
+    if (!res.ok) { const e = new Error("upstream"); e.code = res.status === 429 ? "rate" : "upstream"; e.status = res.status; e.detail = (data && data.error && (data.error.status + ": " + String(data.error.message || "").slice(0, 300))) || ""; console.error("gemini error", res.status, data && data.error && data.error.status); throw e; }
     return data;
   } catch (e) { if (e.code) throw e; const x = new Error(ctl.signal.aborted ? "timeout" : "network"); x.code = ctl.signal.aborted ? "timeout" : "network"; throw x; }
   finally { clearTimeout(timer); }
@@ -278,7 +278,7 @@ exports.handler = async (event) => {
   } catch (e) {
     refund(uid, kind); const code = (e && e.code) || "failed"; console.error("ai failed:", action, code);   // no photo, question or personal data is logged
     const map = { not_configured: [503, "AI features aren't set up on this site yet."], rate: [429, "The AI service is busy. Try again in a minute."], timeout: [504, "The AI service took too long. Try again."], network: [502, "Couldn't reach the AI service."], upstream: [502, "The AI service couldn't answer right now."] };
-    const m = map[code] || [500, "Something went wrong. Please try again."]; return err(m[0], code, m[1], corsOrigin);
+    const m = map[code] || [500, "Something went wrong. Please try again."]; const dbg = (process.env.CONTEXT === "deploy-preview" && e && e.detail) ? " [preview debug: Gemini " + e.status + " " + e.detail + "]" : ""; return err(m[0], code, m[1] + dbg, corsOrigin);
   }
 };
 Object.assign(exports, { stagePrompt, ungrounded, readFacts, normLabel, _store: store, proStatus, linkAllow, chatSystem, MODELS });
