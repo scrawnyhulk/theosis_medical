@@ -47,7 +47,7 @@ exports.handler = async (event) => {
   if (m[2].length * 0.75 > MAX_BYTES) return json(413, { error: "That file is too large (8 MB max)." }, cors);
   try {
     const res = await fetch(ENDPOINT(MODEL), { method: "POST", headers: { "Content-Type": "application/json", "x-goog-api-key": key },
-      body: JSON.stringify({ contents: [{ role: "user", parts: [{ text: PROMPT }, { inline_data: { mime_type: m[1], data: m[2] } }] }], generationConfig: { temperature: 0, responseMimeType: "application/json" } }) });
+      body: JSON.stringify({ contents: [{ role: "user", parts: [{ text: PROMPT }, { inline_data: { mime_type: m[1], data: m[2] } }] }], generationConfig: { temperature: 0, responseMimeType: "application/json", maxOutputTokens: 2048 } }) });
     if (!res.ok) return json(502, { error: "The lab reader is busy. Please type your values." }, cors);
     const out = await res.json(), text = (((out.candidates || [])[0] || {}).content || { parts: [] }).parts.map((p) => p.text || "").join("");
     let parsed; try { parsed = JSON.parse(text); } catch (e) { return json(502, { error: "Couldn't read the report. Please type your values." }, cors); }

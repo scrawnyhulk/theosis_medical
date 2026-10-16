@@ -270,7 +270,7 @@ footer{max-width:80rem;margin:0 auto;padding:2rem 1rem 3rem;border-top:1px solid
 .estimate{display:flex;align-items:baseline;gap:.6rem;flex-wrap:wrap;padding:.8rem 1rem;border-radius:var(--r-sm);background:var(--accent-soft);box-shadow:inset 3px 0 0 var(--accent)}
 .estimate b{font-family:var(--font-display);font-size:1.6rem;font-weight:600;line-height:1}
 .estimate span{font-size:.85rem;color:var(--muted)}
-.tag{display:inline-block;padding:.12rem .45rem;border-radius:4px;font-size:.68rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;background:rgba(212,160,86,.16);color:var(--warn);vertical-align:2px}
+.tag{display:inline-block;padding:.12rem .45rem;border-radius:4px;font-size:.68rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;background:rgba(42,122,224,.16);color:#9cc4f7;vertical-align:2px}
 .tag.blue{background:var(--accent-soft);color:#79b4f6}
 
 /* feasibility */
@@ -826,7 +826,7 @@ figure[data-f3]{position:relative}
 .mchip[aria-pressed="true"]{color:#fff;background:rgba(42,122,224,.85);box-shadow:none}
 .mchip.sec[aria-pressed="true"]{background:rgba(42,122,224,.3);color:var(--fg,#e8edf3)}
 .mchip.ro{cursor:default}.mchip:focus-visible{outline:2px solid #79b4f6;outline-offset:1px}
-.mus-note .unk{color:#e7a34b}.mus-note{margin:.35rem 0 0}
+.mus-note .unk{color:#9cc4f7}.mus-note{margin:.35rem 0 0}
 .lift-groups{margin:.6rem 0 .2rem}
 @media (max-width:560px){.mus-grid{grid-template-columns:repeat(2,1fr)}}
 .reg-tbl tr.mus-g th{padding-left:1rem;font-weight:400}.reg-tbl tr.grp.sub th{font-size:.72rem;opacity:.8}
@@ -836,10 +836,10 @@ figure[data-f3]{position:relative}
 .expect.flash{animation:gx-flash 1.4s ease-out}
 
 /* v6.6: Maximum Fat Burn Calculator entry points */
-.qc-card{display:flex;align-items:center;gap:.8rem;padding:.85rem 1rem;border-radius:var(--r-md);text-decoration:none;color:inherit;background:linear-gradient(135deg,rgba(231,163,75,.16),rgba(42,122,224,.12));box-shadow:0 0 0 1px rgba(231,163,75,.55);transition:box-shadow .15s,transform .15s}
-.qc-card:hover{box-shadow:0 0 0 2px #e7a34b;transform:translateY(-1px)}.qc-card:focus-visible{outline:2px solid #79b4f6;outline-offset:2px}
-.qc-card svg{color:#e7a34b;flex:none}.qc-card > span:nth-of-type(1){flex:1;display:flex;flex-direction:column;gap:.15rem}
-.qc-card b{font-size:1rem}.qc-card small{color:var(--muted);font-size:.86rem;line-height:1.4}.qc-go{font-size:1.3rem;color:#e7a34b;flex:none}
+.qc-card{display:flex;align-items:center;gap:.8rem;padding:.85rem 1rem;border-radius:var(--r-md);text-decoration:none;color:inherit;background:linear-gradient(135deg,rgba(42,122,224,.20),rgba(42,122,224,.06));box-shadow:0 0 0 1px rgba(92,156,240,.30),inset 3px 0 0 var(--accent);transition:box-shadow .15s,transform .15s}
+.qc-card:hover{box-shadow:0 0 0 1px rgba(121,180,246,.7),inset 3px 0 0 #79b4f6;transform:translateY(-1px)}.qc-card:focus-visible{outline:2px solid #79b4f6;outline-offset:2px}
+.qc-card svg{color:#79b4f6;flex:none}.qc-card > span:nth-of-type(1){flex:1;display:flex;flex-direction:column;gap:.15rem}
+.qc-card b{font-size:1rem}.qc-card small{color:var(--muted);font-size:.86rem;line-height:1.4}.qc-go{font-size:1.3rem;color:#79b4f6;flex:none}
 .qc-landing{max-width:48rem;margin:1.2rem 0 0}
 .qc-wrap .btn{margin-top:.4rem}
 
@@ -910,7 +910,7 @@ footer{flex-wrap:wrap;gap:.6rem 1.2rem}
 .expert-kv,.expert-rows{border-collapse:collapse;width:100%;font-size:.88rem;font-variant-numeric:tabular-nums}.expert-kv caption,.expert-rows caption{text-align:left;font-weight:700;padding:.3rem 0}
 .expert-kv th,.expert-kv td,.expert-rows th,.expert-rows td{padding:.25rem .4rem;border-bottom:1px solid rgba(255,255,255,.1);text-align:left}
 .table-scroll{overflow-x:auto;max-height:22rem;margin-top:.8rem}
-:focus-visible{outline:3px solid #ffd27a;outline-offset:2px}
+:focus-visible{outline:2px solid #79b4f6;outline-offset:2px}  /* v7.6.18b: was yellow #ffd27a; blue everywhere */
 
 /* v7.3 WCAG AA fixes */
 .chip[aria-pressed="true"] small.muted{color:inherit}
@@ -927,7 +927,7 @@ input[type="checkbox"],input[type="radio"]{min-width:24px;min-height:24px}
 .pft-inside-dlg{width:min(1200px,calc(100% - 1rem));max-width:none}.pft-inside-dlg iframe{width:100%;height:min(78vh,900px);border:0;border-radius:10px;background:#000}
 
 /* ---------- v7.6 Food Log ---------- */
-.fl-entry{width:100%;max-width:48rem;font:inherit;text-align:left;cursor:pointer;border:0;margin-top:1rem;background:linear-gradient(135deg,rgba(42,122,224,.18),rgba(231,163,75,.10))}
+.fl-entry{width:100%;max-width:48rem;font:inherit;text-align:left;cursor:pointer;border:0;margin-top:1rem;background:linear-gradient(135deg,rgba(42,122,224,.20),rgba(42,122,224,.06))}
 .qc-landing.fl-entry + .qc-landing{margin-top:.7rem}
 .fl-nav{margin-left:auto;min-height:44px}
 .flog{max-width:46rem;margin:0 auto;padding:1rem 1rem 6rem}
@@ -1123,6 +1123,78 @@ body.has-ask{padding-bottom:4.75rem}
 @media print{.ask-fab{display:none!important}}
 @media(prefers-reduced-motion:no-preference){.ask-fab{transition:filter .15s}}
 
+/* v7.6.17: first-page hero image (muscle vs fat tissue illustration). Right column on wide screens only; absent below 62rem and in print. */
+.entry-hero{display:none}
+@media(min-width:62rem){
+  .entry{max-width:74rem;display:grid;grid-template-columns:minmax(0,1fr) 24rem;column-gap:2.5rem;align-items:start}
+  .entry>*{grid-column:1}
+  .entry>.entry-hero{grid-column:2;grid-row:1 / span 7;display:block;position:sticky;top:1.5rem;margin-top:.4rem}
+  .entry-hero .hero-fig{margin:0;text-align:center}
+  .entry-hero img{display:block;width:100%;max-width:22rem;height:auto;max-height:calc(100vh - 6rem);object-fit:contain;margin:0 auto;pointer-events:none;user-select:none;
+    }
+  .entry-hero .hero-note{margin-top:.5rem;font-size:.74rem}
+}
+@media(min-width:62rem) and (prefers-reduced-motion:no-preference){
+  .entry-hero img{animation:heroIn .9s ease-out both,heroFloat 9s ease-in-out .9s infinite}
+  @keyframes heroIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+  @keyframes heroFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+}
+@media print{.entry-hero{display:none!important}}
+@media(min-width:62rem){.entry[hidden]{display:none}}
+/* v7.6.18 Health context card */
+.health-card{margin-top:1.1rem;padding:1rem 1.1rem;border-radius:var(--r-md,14px);background:rgba(8,13,20,.35);box-shadow:0 0 0 1px var(--border,#33404d)}
+.health-card .row{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:.8rem 1rem}
+.med-q{border:0;margin:.4rem 0 0;padding:.7rem .8rem;border-radius:10px;box-shadow:0 0 0 1px var(--border,#33404d)}
+.med-q legend{font-weight:600;padding:0 .3rem}.med-q .req{font-size:.7rem;text-transform:uppercase;letter-spacing:.06em;color:#a9cdf8;margin-left:.3rem}
+.med-q.invalid{box-shadow:0 0 0 2px var(--danger,#e5736f)}
+.med-q .seg{display:flex;flex-wrap:wrap;gap:.5rem;margin:.3rem 0}
+.med-q .seg label{display:inline-flex;align-items:center;gap:.4rem;padding:.5rem .9rem;border-radius:999px;box-shadow:0 0 0 1px var(--border,#33404d);cursor:pointer;min-height:44px}
+.med-q .seg input{accent-color:var(--accent,#79b4f6);width:1.1rem;height:1.1rem}
+.med-ack{margin-top:.6rem;padding:.7rem .8rem;border-radius:10px;background:rgba(240,176,112,.08);box-shadow:0 0 0 1px rgba(240,176,112,.4)}
+.health-actions{display:flex;flex-wrap:wrap;gap:.6rem;align-items:center;margin:.9rem 0 .4rem}
+.health-actions .lab-upload{flex:1 1 280px;min-width:0}.health-actions .lu-row{margin:0}
+/* v7.6.18 phone pass: one Ask Theosis entry (the round bubble), bubble clear of the summary bar, room at the page end so it never covers Back / Next */
+@media(max-width:63.99rem){body.has-mbar .ask-fab{bottom:calc(5rem + env(safe-area-inset-bottom))}body.has-mbar .wiz-nav,body.has-mbar #wizard{padding-bottom:7.5rem}}
+@media(max-width:40rem){.fl-nav[data-open-ask]{display:none!important}.health-card .row,.med-q .seg{grid-template-columns:1fr}.health-card{padding:.85rem .8rem}.med-q .seg label{flex:1 1 30%;justify-content:center}.lu-row .btn,.health-actions .btn{width:100%;min-height:44px}.two-card{grid-template-columns:1fr}}
+
+/* v7.6.18b: one sleek blue style for titled / informational callouts. Amber and red stay for real warnings only
+   (.alert.warn/.danger, .feas.warn/.danger, medication card, RED-S/PSMF, .fit-mismatch, over-target eating lines). */
+:root{--callout-bg:linear-gradient(135deg,rgba(42,122,224,.16),rgba(42,122,224,.05) 70%);--callout-edge:rgba(92,156,240,.28);--callout-bar:#2a7ae0}
+.how-got,.cred,.fit-note,.alert.info,.hint-box{background:var(--callout-bg);border:0;border-left:0;box-shadow:inset 3px 0 0 var(--callout-bar),0 0 0 1px var(--callout-edge)}
+.how-got{border-radius:var(--r-sm)}
+.how-got summary{color:#9cc4f7}
+.fit-note{border-left:0;border-radius:var(--r-sm)}
+.alert.info{border-radius:var(--r-sm)}
+.alert.info .ic{color:#79b4f6}
+.info-body .cred{border-radius:var(--r-sm)}
+@media print{.how-got,.cred,.fit-note,.alert.info,.qc-card{background:#f3f7fd!important;box-shadow:inset 3px 0 0 #2a7ae0!important;color:#1a2433!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}.how-got summary{color:#1d5fb8}}
+/* v7.6.18b: "How we got this" table must wrap on phones (it overflowed to ~905px at 390px when opened) */
+.how-tbl{table-layout:fixed}.how-tbl td{width:6.5rem}.how-tbl th,.how-tbl th small,.how-tbl .link-btn{overflow-wrap:anywhere;white-space:normal}
+/* v7.6.18b: info dialogs (fat ceiling, science, privacy, disclaimer, consent, intro, ask, fit) use the same sleek blue frame.
+   Real warnings keep .alert.warn/.danger colours inside them. No amber/yellow frame or focus ring. */
+.info-dlg,.consent-dlg,.intro-dlg,.fit-dlg,.ask-dlg{background:linear-gradient(160deg,rgba(42,122,224,.16),rgba(42,122,224,0) 38%),#0f1722;box-shadow:0 0 0 1px rgba(92,156,240,.38),inset 3px 0 0 #2a7ae0,0 20px 60px rgba(0,0,0,.6);outline:0}
+.info-dlg:focus,.info-dlg:focus-visible,.consent-dlg:focus-visible,.intro-dlg:focus-visible,.fit-dlg:focus-visible,.ask-dlg:focus-visible,.info-head h2:focus,.info-head h2:focus-visible{outline:0}
+.info-head{background:linear-gradient(180deg,#12213a,#0f1a2c);border-bottom:1px solid rgba(92,156,240,.22)}
+.info-head h2{color:#cfe2fb}
+.info-head .x:hover,.info-head .x:focus-visible{color:#9cc4f7;outline:2px solid #5c9cf0;outline-offset:-4px;border-radius:8px}
+.info-body h3{color:#9cc4f7}
+.info-body a{color:#9cc4f7}
+.info-body blockquote,.info-body .callout,.info-body .note{background:var(--callout-bg);box-shadow:inset 3px 0 0 var(--callout-bar),0 0 0 1px var(--callout-edge);border-radius:var(--r-sm);padding:.6rem .8rem;margin:.6rem 0}
+@media (forced-colors:active){.info-dlg,.consent-dlg,.intro-dlg,.fit-dlg,.ask-dlg{border:2px solid CanvasText}}
+@media print{.info-dlg{display:none!important}}
+/* v7.6.18b glow pass: clean 1.5px blue outline, 16px radius, soft blue glow + depth shadow, no left bar. */
+:root{--glow-edge:rgba(92,156,240,.65);--glow:0 0 24px rgba(79,155,255,.25),0 8px 24px rgba(0,0,0,.35)}
+.info-dlg,.consent-dlg,.intro-dlg,.fit-dlg,.ask-dlg{border:1.5px solid var(--glow-edge);border-radius:16px;box-shadow:var(--glow),0 20px 60px rgba(0,0,0,.6);overflow:hidden}
+.info-dlg[open]{overflow:hidden;display:flex;flex-direction:column}
+.info-dlg .info-body{overflow:auto;min-height:0}
+.pft-inside-dlg{border-radius:16px}
+.info-head{border-radius:14px 14px 0 0}
+.how-got,.cred,.fit-note,.alert.info,.hint-box,.info-body blockquote,.info-body .callout,.info-body .note,.qc-card,.fl-entry{border:1.5px solid var(--glow-edge);border-radius:14px;box-shadow:var(--glow)}
+.qc-card:hover{box-shadow:0 0 28px rgba(79,155,255,.38),0 8px 24px rgba(0,0,0,.35)}
+.alert,.feas,.med-card,.psmf,.fit-mismatch{border-radius:14px}
+@media (max-width:480px){.info-dlg,.consent-dlg,.intro-dlg,.fit-dlg,.ask-dlg{border-radius:14px}}
+@media print{.how-got,.cred,.fit-note,.alert.info,.qc-card{box-shadow:none!important;border:1px solid #2a7ae0!important;border-radius:8px}}
+
 </style>
 </head>
 <body>
@@ -1163,6 +1235,9 @@ body.has-ask{padding-bottom:4.75rem}
       <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19V5M4 19h16M8 15l3-4 3 2 4-6"/></svg>Built on published research</span>
     </div>
     <button type="button" class="qc-card qc-landing fl-entry" data-open-log="1"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 3v8M5 3v5a3 3 0 0 0 6 0V3M8 11v10M17 3c-2 2-3 5-3 8h3v10"/></svg><span><b>Food Log</b><small>Log what you eat today: search, scan a barcode or quick-add calories. Works on its own; the simulator can use your average.</small></span><span class="qc-go" aria-hidden="true">→</span></button>
+    <aside class="entry-hero" id="entry-hero" aria-label="Illustration of muscle and fat tissue" data-print="no">
+      <figure class="hero-fig"><img src="assets/hero-muscle-fat.webp" width="671" height="1000" loading="lazy" decoding="async" alt="Illustration of a torso: muscle, ribs and organs in blue on one side and fat tissue in tan on the other, with small circular icons around it for muscle, fat burn and energy flow, linked to the body by thin glowing lines."><figcaption class="hint hero-note">Illustration: muscle and fat tissue (not a measurement)</figcaption></figure>
+    </aside>
   </section>
 
   <!-- ================= WIZARD ================= -->
@@ -1248,26 +1323,38 @@ body.has-ask{padding-bottom:4.75rem}
                 <span class="hint">From a DEXA scan. When filled in, it's used instead of the estimate.</span></label>
               <div class="estimate" id="bf-estimate" aria-live="polite"></div>
             </div>
-            <details class="adv" id="health-adv">
-              <summary>Optional: health context <span class="sum-sub">A1c, diabetes, medication, fatty liver</span></summary>
-              <div class="adv-body stack">
-                <p class="hint" style="margin-top:0">You can skip this. Answers change safety notes and limits, and stay on this device.</p>
-                <div class="row">
-                  <label class="field"><span class="label">Diagnosed with diabetes?</span>
+            <div class="health-card" id="health-card" role="group" aria-labelledby="h-health">
+              <p class="eyebrow card-eyebrow">Health context · stays on this device</p>
+              <div class="section-head"><h2 id="h-health">Health context</h2></div>
+              <p class="hint" style="margin-top:0">These answers change safety notes and limits. Education only, not medical advice.</p>
+              <fieldset class="med-q" id="med-q" data-field="meds"><legend>Do you take medication for blood pressure or blood sugar (including insulin)? <span class="req">Required</span></legend>
+                <div class="seg" role="radiogroup">
+                  <label><input type="radio" name="profile.health.meds" value="no"><span>No</span></label>
+                  <label><input type="radio" name="profile.health.meds" value="yes"><span>Yes</span></label>
+                  <label><input type="radio" name="profile.health.meds" value="unsure"><span>Not sure</span></label>
+                </div>
+                <p class="hint">Include insulin and any medicine that lowers blood sugar or blood pressure, whether it is for diabetes, weight or another condition. If you are unsure, ask your prescriber or pharmacist.</p>
+                <div class="med-ack" id="med-ack" hidden>
+                  <label class="check"><input type="checkbox" data-check="profile.health.medAck" id="med-ack-cb"><span>Lowering calories is often exactly what helps in situations like mine, but with these medicines it has to be done more carefully, because doses may need to change as weight comes down. I understand I should talk with my prescriber before and during my plan.</span></label>
+                </div>
+              </fieldset>
+              <div class="row mt1">
+                <label class="field"><span class="label">Diagnosed with diabetes?</span>
                     <span class="control"><select data-sel="profile.health.diabetes"><option value="unknown">Prefer not to say / unsure</option><option value="none">No diabetes or prediabetes</option><option value="prediabetes">Prediabetes</option><option value="t2">Type 2 diabetes</option><option value="t1">Type 1 diabetes</option><option value="other">Another type of diabetes</option></select></span><span class="hint dm-note" id="dm-note" aria-live="polite" hidden></span></label>
-                  <label class="field"><span class="label">Glucose-lowering medication?</span>
-                    <span class="control"><select data-sel="profile.health.meds"><option value="unknown">Not answered</option><option value="no">No</option><option value="yes">Yes</option><option value="unsure">I'm not sure</option></select></span>
-                    <span class="hint">Include insulin and any medicine that lowers glucose, whether for diabetes, weight or another condition. If unsure, ask your prescriber or pharmacist.</span></label>
-                </div>
-                <div class="row">
-                  <label class="field" data-field="a1c"><span class="label">Latest lab HbA1c <span style="text-transform:none;letter-spacing:0">(optional)</span></span>
-                    <span class="control"><input data-f="a1c" inputmode="decimal" placeholder="e.g. 5.9"><span class="unit">%</span></span><span class="err"></span></label>
-                  <label class="field"><span class="label">Told you have fatty liver?</span>
+                <label class="field"><span class="label">Told you have fatty liver?</span>
                     <span class="control"><select data-sel="profile.health.fattyLiver"><option value="unknown">Don't know / not tested</option><option value="no">No</option><option value="yes">Yes, by a clinician</option></select></span></label>
-                </div>
-                <details class="labs" id="labs-box"><summary>Add lab results (optional)</summary>
-                  <p class="hint">From a recent blood test, in US units. They sharpen your threshold estimate and your body's story. They stay on this device.</p>
-                  <div class="lab-grid">
+              </div>
+              <div class="row">
+                <label class="field" data-field="a1c"><span class="label">Latest lab HbA1c <span style="text-transform:none;letter-spacing:0">(optional)</span></span>
+                    <span class="control"><input data-f="a1c" inputmode="decimal" placeholder="e.g. 5.9"><span class="unit">%</span></span><span class="err"></span></label>
+              </div>
+              <div class="health-actions" id="health-actions">
+                <button type="button" class="btn btn-ghost" id="labs-toggle" aria-expanded="false" aria-controls="labs-box">Add lab results</button>
+                <div class="lab-upload" id="lab-upload"></div>
+              </div>
+              <div class="labs" id="labs-box" hidden>
+                <p class="hint">From a recent blood test, in US units. They sharpen your threshold estimate and your body's story. They stay on this device.</p>
+                <div class="lab-grid">
                     <label class="field"><span class="label">Total cholesterol</span><span class="control"><input data-lab="tc" inputmode="decimal" placeholder="e.g. 190"><span class="unit">mg/dL</span></span></label>
                     <label class="field"><span class="label">LDL</span><span class="control"><input data-lab="ldl" inputmode="decimal" placeholder="e.g. 110"><span class="unit">mg/dL</span></span></label>
                     <label class="field"><span class="label">HDL</span><span class="control"><input data-lab="hdl" inputmode="decimal" placeholder="e.g. 50"><span class="unit">mg/dL</span></span></label>
@@ -1277,10 +1364,9 @@ body.has-ask{padding-bottom:4.75rem}
                     <label class="field"><span class="label">Fasting glucose</span><span class="control"><input data-lab="fg" inputmode="decimal" placeholder="e.g. 95"><span class="unit">mg/dL</span></span></label>
                     <label class="field"><span class="label">Fasting insulin</span><span class="control"><input data-lab="ins" inputmode="decimal" placeholder="e.g. 8"><span class="unit">µIU/mL</span></span></label>
                   </div>
-                  <div class="lab-upload" id="lab-upload"></div>
-                  <div id="labs-out" aria-live="polite"></div>
-                </details>
-                <p class="hint">Waist goes under Basics. Measure midway between your lowest rib and the top of your hip bone, after a normal breath out, with the tape level.</p>
+                <div id="labs-out" aria-live="polite"></div>
+              </div>
+              <p class="hint">Waist goes under Basics. Measure midway between your lowest rib and the top of your hip bone, after a normal breath out, with the tape level.</p>
                 <div id="health-out" aria-live="polite"></div>
                 <label class="check"><input type="checkbox" data-check="profile.health.pregnant"><span>I'm pregnant or breastfeeding</span></label>
                 <label class="check"><input type="checkbox" data-check="profile.health.edHistory"><span>I have a history of an eating disorder</span></label>
@@ -1290,8 +1376,7 @@ body.has-ask{padding-bottom:4.75rem}
                   <p>Type 2 diabetes remission is a clinical outcome, not a promised weight-loss result: HbA1c below 6.5% for at least three months without the usual glucose-lowering medication, assessed by your clinician. This simulator doesn't forecast your A1c or remission.</p>
                   <p class="links"><a href="https://www.niddk.nih.gov/health-information/diagnostic-tests/a1c-test" target="_blank" rel="noopener">NIDDK: A1c test</a> · <a href="https://www.nice.org.uk/guidance/ng246" target="_blank" rel="noopener">NICE NG246: waist</a> · <a href="https://diabetes.org/newsroom/international-experts-outline-diabetes-remission-diagnosis-criteria" target="_blank" rel="noopener">Remission consensus</a></p>
                 </details>
-              </div>
-            </details>
+            </div>
           </div>
 
           <div class="card" id="fat-card">
@@ -1445,11 +1530,10 @@ body.has-ask{padding-bottom:4.75rem}
             </div>
             <div class="section" id="move-preset">
               <div class="section-head"><h2>Strength training</h2></div>
-              <label class="optout"><input type="checkbox" data-optout="noLift" id="opt-nolift"><span><b>I don't do strength training</b><small>For cyclists, runners and cardio-only people. Turns lifting off everywhere, and the projection assumes no muscle gain.</small></span></label>
-              <p class="hint optout-note" id="nolift-note" hidden>Lifting is off. In a deficit, a bit more of the weight lost can be muscle, so keep protein high. You can turn lifting back on any time.</p>
+              <label class="optout"><input type="checkbox" data-optout="noLift" id="opt-nolift"><span><b>I don't do strength training</b><small>Turns lifting off everywhere. With lifting off, the projection doesn't count any muscle gain from training, so your actual body composition may differ.</small></span></label>
+              <p class="hint optout-note" id="nolift-note" hidden>Lifting is off. In a deficit, a bit more of the weight lost can be muscle, so keep protein high. The projection counts muscle gain only from lifting, so your actual body composition may differ. You can turn lifting back on any time.</p>
               <fieldset id="lift-fieldset"><legend class="sr-only">Strength training</legend>
                 <div class="opt-grid lift-grid">
-                  <label class="opt"><input type="radio" name="move.preset" value="none"><span class="box"><b>None</b><small>No lifting right now</small></span></label>
                   <label class="opt opt-min"><input type="radio" name="move.preset" value="min"><span class="box"><b>Minimalist strength training</b><small>Minimum effective dose: 2 short sessions a week, about 15 min</small></span></label>
                   <label class="opt"><input type="radio" name="move.preset" value="2-3"><span class="box"><b>2–3 a week</b><small>Full-body sessions, about an hour</small></span></label>
                   <label class="opt"><input type="radio" name="move.preset" value="4+"><span class="box"><b>4+ a week</b><small>A structured program</small></span></label>
@@ -1766,7 +1850,7 @@ body.has-ask{padding-bottom:4.75rem}
         <p><strong>Softer, more realistic fat (v6.1).</strong> On heavier figures fat is shaped as smooth volume with wide, gradual falloffs, so there are no ledges or angled edges at the belly, flanks or back. A soft gravity fold forms under the lower belly as body fat rises (more with softer fat and after 50), with a gentle roll at the sides and back, and the hips fill out in step with the waist. Where fat is thick the surface is finer and smoothed (muscle definition on lean bodies is unchanged), and skin folds are softly shaded. The figure is an illustration from your estimates, not a scan.</p>
         <p><strong>Muscle definition and close-up (v5).</strong> Visible abdominal definition is drawn as a soft, procedural shading map (not anatomy scanned from a person), faded in by body fat: men full at about 10–12%, softer at 12–15%, none by about 17%; women full at about 17–18%, softer to about 20–23%, none by about 25%, scaled by muscularity. It's illustrative. Real definition varies with genetics, water and lighting. Pinch, Ctrl/⌘ + scroll, double-click or the Close-up button zoom the torso.</p>
         <p><strong>Build muscle (max) (v5).</strong> A moderate 250–350 kcal a day surplus sized by training age and sex: men about 350 / 300 / 250 kcal and women about 300 / 275 / 250 kcal for under 1 year / 1–3 years / 3+ years of lifting. It steps down as you gain experience over the projection and never goes below 250 (Iraki 2019: roughly 10–20% above maintenance for newer lifters, less once trained; Helms 2023: small surpluses build about as much muscle as large ones, with less fat). Muscle grows only as fast as your estimated gain rate allows, so the rest of the surplus is stored as fat, and the projection shows that fat rise. Without lifting there's no surplus. "See the muscle" shows the fat-free surface, which grows with projected lean mass.</p>
-        <p><strong>Example days (v5).</strong> Four diet types × four styles (Everyday, Quick &amp; easy, Vegetarian, Plant-based), built from rounded USDA FoodData Central values. Each type sets calorie shares: Balanced keeps protein at 15–35% and fat at 25–35%; Lower carb about 20% carbs; Higher protein at least 35% protein; Low fat about 18% fat. Your protein target is kept within each type's range. Portions are solved in usable steps to land within about 5% of the calories and on the macro targets. Allergens are listed from the foods used.</p>
+        <p><strong>Example days (v5).</strong> Four diet types × five styles (Everyday, Quick &amp; easy, Vegetarian, Plant-based, Gluten-free), built from rounded USDA FoodData Central values. Each type sets calorie shares: Balanced keeps protein at 15–35% and fat at 25–35%; Lower carb about 20% carbs; Higher protein at least 35% protein; Low fat about 18% fat. Your protein target is kept within each type's range. Portions are solved in usable steps to land within about 5% of the calories and on the macro targets. Allergens are listed from the foods used. The Gluten-free style uses only naturally gluten-free foods (oats only if labeled gluten-free), with a reminder that people with celiac disease or gluten sensitivity should check labels for cross-contamination.</p>
         <p><strong>Saved days (v5).</strong> Saved days live only in this browser (localStorage). Export and Import move them as a .json file. Nothing is uploaded.</p>
         <p><strong>Before you set Move and Food.</strong> On the Goal step the projection assumes 2–3 lifting sessions a week and adequate protein, and says so. Once you reach the Move and Food steps, your own choices replace those assumptions everywhere, including the live summary.</p>
         <p><strong>Food search.</strong> Branded products come from Open Food Facts (searched from your browser; barcodes by number or camera where the browser supports it). Generic foods come from USDA FoodData Central. Values are per serving as listed by the source, or per 100 g. Your day log adds up calories and macros; once it reaches 500 kcal it becomes the intake used in the simulation, until you type a number yourself. Database values can be wrong or out of date, so check the label.</p>
@@ -2767,6 +2851,7 @@ function warningsFor(R) {
   if (h.pregnant) W.push({ t: "danger", consult: true, m: "Pregnancy and breastfeeding need extra energy, so this plan holds you at maintenance. Please plan any changes with your clinician." });
   const d0 = (R.main.rows[0].tdee - R.main.rows[0].intake), lowCarb = R.inp.food.style === "lowcarb" || !!R.psmf;
   R.medCard = R.health.medCheck && (d0 >= 250 || lowCarb);
+  if (R.health.medCheck && (h.meds === "yes" || h.meds === "unsure" || h.glucoseMeds)) W.push({ t: "info", kind: "meds-ack", consult: true, m: "You told us you take " + (h.meds === "unsure" ? "(or aren't sure whether you take) " : "") + "medication for blood pressure or blood sugar. Lowering calories is often what helps in situations like yours, but with these medicines it has to be done more carefully, because doses may need to change as weight comes down. Talk with your prescriber before and during your plan. This tool is education only and can't adjust any medicine." });
   if (R.medCard) W.push({ t: "danger", consult: true, kind: "meds", m: "Check medications first. Reducing calories or carbohydrate can change medication needs. Insulin and some diabetes tablets can cause low glucose; fasting or very-low-carbohydrate intake can also be risky with SGLT2 medicines. Review glucose-lowering medication and monitoring with your clinician before you start. Never stop or adjust medication based on this simulator." });
   if (h.edHistory) W.push({ t: "warn", consult: true, m: "With a history of disordered eating, structured dieting is best done with your care team. A consult can help set this up safely." });
   if (R.feas.status === "tooFast" && !R.actual) W.push({ t: "warn", m: `${R.feas.requested} weeks isn't possible without losing muscle. The fastest route designed to limit muscle loss takes about ${(R.feas.fastestDays / 7).toFixed(1)} weeks, so that's what's shown.` });
@@ -2799,10 +2884,10 @@ function warningsFor(R) {
   const fastGain = R.dir === "gain" && R.inp.goal.gainMode === "fast";
   { // v7.6.15: opted out of lifting and/or cardio. Gentle, never blocks.
     const mv0 = R.inp.move || {}, nl = !!mv0.noLift, nc = !!mv0.noCardio, deficit = R.dir === "loss" || (R.main.rows[0].tdee - R.main.rows[0].intake) > 150;
-    if (nl && nc) W.push({ t: "info", kind: "optout", m: "You've turned off both lifting and cardio, so this plan runs on steps and food alone. That works for fat loss, and every number here already reflects it. Two things to know: without lifting there's no muscle-gain signal, and cardio and strength work both help heart and metabolic health. You can add either back whenever you like." });
+    if (nl && nc) W.push({ t: "info", kind: "optout", m: "You've turned off both lifting and cardio, so this plan runs on steps and food alone. That works for fat loss, and every number here already reflects it. Two things to know: without lifting, the projection doesn't count any muscle gain from training (so your actual body composition may differ), and cardio and strength work both help heart and metabolic health. You can add either back whenever you like." });
     else if (nc) W.push({ t: "info", kind: "optout", m: "Cardio is turned off, so your burn comes from daily steps, daily living" + (tr.liftSessions > 0 ? " and lifting" : "") + ". That's fine: food and steps carry most of a fat-loss plan. Cardio mainly adds heart-health benefit and a bit more burn, so add some any time you want it." });
     if (nl && deficit) W.push({ t: "info", kind: "optout", m: `Without lifting, more of the weight you lose can be lean mass. Studies of diet alone find roughly a quarter of the loss comes from lean tissue (Weinheimer 2010; Cava 2017); lifting is the strongest way to protect it. The projection shows about ${lbs(Math.max(0, start.leanKg - end.leanKg))} lb of lean mass lost. Keeping protein high (about 1 g per lb) and the deficit moderate helps. Lifting is optional; even two short sessions a week would change this.` });
-    if (nl && R.dir === "gain") W.push({ t: "info", kind: "optout", m: "Lifting is turned off, so no muscle gain is expected: a surplus without resistance training is stored almost entirely as fat. That's reasonable if gaining body fat or weight is the goal (for example if you're underweight). If you'd like the gain to include muscle, add lifting on the Move step." });
+    if (nl && R.dir === "gain") W.push({ t: "info", kind: "optout", m: "Lifting is turned off, so the projection doesn't count any muscle gain from training, and your actual body composition may differ: a surplus without resistance training is stored almost entirely as fat. That's reasonable if gaining body fat or weight is the goal (for example if you're underweight). If you'd like the gain to include muscle, add lifting on the Move step." });
   }
   { // v7.6.15: large deficit + heavy training -> one gentle note (no claim about the size of any drop)
     const dd = R.main.rows[0].tdee - R.main.rows[0].intake, pct = dd / Math.max(1, R.main.rows[0].tdee), hrs = (tr.liftMin + tr.cardioMin) / 60;
@@ -3003,6 +3088,8 @@ const FOODS = {
   chickpeas: food("Chickpeas", 1, "cup cooked", 269, 14.5, 45, 4.2), quinoa: food("Quinoa", 1, "cup cooked", 222, 8.1, 39.4, 3.6),
   edamame: food("Edamame, shelled", 1, "cup cooked", 188, 18.4, 13.8, 8.1), peaprotein: food("Pea protein powder", 1, "scoop (30 g)", 120, 24, 1, 2),
   tempeh: food("Tempeh", 100, "g", 192, 20.3, 7.6, 10.8),
+  // v7.6.19 gluten-free style: oats must be labeled gluten-free (same USDA values as rolled oats); sweet corn, boiled (USDA SR Legacy, per 100 g)
+  oatsgf: food("Rolled oats, labeled gluten-free", 40, "g dry", 156, 6.8, 26.5, 2.8), corn: food("Sweet corn kernels", 100, "g cooked", 96, 3.4, 21, 1.5),
   // v5 additions for the diet types
   avocado: food("Avocado", 100, "g", 160, 2, 8.5, 14.7), cheddar: food("Cheddar cheese", 1, "oz", 114, 7, 0.4, 9.4), beef: food("Lean ground beef (90%)", 1, "oz cooked", 62, 7.4, 0, 3.3),
   cod: food("Cod", 1, "oz cooked", 30, 6.5, 0, 0.3), eggwhite: food("Egg whites", 100, "g", 52, 10.9, 0.7, 0.2), whey: food("Whey protein powder", 1, "scoop (30 g)", 120, 24, 3, 1.5),
@@ -3024,6 +3111,7 @@ const DIETS = {
 const STYLES = {
   everyday: { name: "Everyday", tag: "Simple meal prep" }, quick: { name: "Quick & easy", tag: "Little or no cooking" },
   vegetarian: { name: "Vegetarian", tag: "Includes dairy and eggs" }, vegan: { name: "Plant-based", tag: "Vegan" },
+  glutenfree: { name: "Gluten-free", tag: "Naturally gluten-free foods" },
 };
 const B = "Breakfast", L = "Lunch", D = "Dinner", S = "Snack";
 const T = {
@@ -3091,8 +3179,24 @@ const T = {
     M(L, "Lentil & rice bowl", [row("lentils", 1, 0.5, 2, 0.25), row("rice", 0.75, 0.5, 2.5, 0.25), row("vegetables", 1, 1, 2, 0.5)]),
     M(D, "Seitan, potato & green beans", [row("seitan", 1.5, 1, 3, 0.5), row("potato", 2, 1, 4, 0.5), row("beans", 1, 1, 2, 0.5), row("oil", 0, 0, 2)]),
     M(S, "Fruit & a pea-protein shake", [row("apple", 1, 0, 2), row("berries", 1, 0, 2, 0.5), row("peaprotein", 1, 0, 2, 0.5)])],
+  "glutenfree-balanced": [M(B, "Yogurt, gluten-free oats & berries", [row("oatsgf", 1, 0.5, 3, 0.25), row("yogurt", 2, 1, 4, 0.5), row("berries", 1, 0.5, 2, 0.5)]),
+    M(L, "Chicken, quinoa & corn bowl", [row("chicken", 5, 3, 9), row("quinoa", 0.75, 0.5, 2, 0.25), row("corn", 1, 0.5, 2, 0.5), row("broccoli", 1, 1, 2, 0.5), row("oil", 1, 0, 4)]),
+    M(D, "Salmon, potato & green beans", [row("salmon", 5, 3, 8), row("potato", 2, 1, 4, 0.5), row("beans", 1, 1, 2, 0.5), row("oil", 1, 0, 4)]),
+    M(S, "Cottage cheese, apple & almonds", [row("cottage", 1, 0.5, 2, 0.25), row("apple", 1, 0, 2), row("almonds", 0.5, 0.25, 2, 0.25)])],
+  "glutenfree-lowcarb": [M(B, "Eggs, avocado & berries", [row("egg", 3, 2, 5), row("avocado", 0.5, 0.5, 1.5, 0.5), row("berries", 0.5, 0.5, 1.5, 0.5), row("cheddar", 0.5, 0, 2, 0.5)]),
+    M(L, "Tuna salad with avocado", [row("tuna", 5, 3, 8), row("greens", 2, 2, 4), row("oil", 2, 1, 5), row("avocado", 0.5, 0, 1.5, 0.5)]),
+    M(D, "Chicken thigh, cauliflower rice & green beans", [row("thigh", 6, 4, 10), row("cauli", 1, 1, 2, 0.5), row("beans", 1, 1, 2, 0.5), row("oil", 1, 0, 4)]),
+    M(S, "Greek yogurt & almonds", [row("yogurt", 1.5, 1, 3, 0.5), row("almonds", 1, 0.5, 2, 0.25)])],
+  "glutenfree-highprotein": [M(B, "Egg-white scramble, potato & berries", [row("eggwhite", 1.5, 1, 3, 0.5), row("egg", 1, 1, 2), row("potato", 1, 0.5, 3, 0.5), row("berries", 1, 0.5, 2, 0.5)]),
+    M(L, "Chicken & rice bowl", [row("chicken", 6, 4, 10), row("rice", 1, 0.5, 2.5, 0.25), row("broccoli", 1, 1, 2, 0.5), row("oil", 1, 0, 3)]),
+    M(D, "Lean beef, potato & green beans", [row("beef", 5, 3, 8), row("potato", 2, 1, 4, 0.5), row("beans", 1, 1, 2, 0.5), row("oil", 0, 0, 3)]),
+    M(S, "Cottage cheese, apple & a whey shake", [row("cottage", 1, 0.5, 2, 0.25), row("apple", 1, 0, 2), row("whey", 1, 0, 2, 0.5)])],
+  "glutenfree-lowfat": [M(B, "Gluten-free oats, skim milk, yogurt & banana", [row("oatsgf", 1.5, 1, 3, 0.25), row("skim", 1, 0.5, 2, 0.5), row("banana", 1, 0, 2), row("yogurt", 1, 0, 3, 0.5)]),
+    M(L, "Chicken, rice & corn", [row("chicken", 5, 3, 9), row("rice", 1.25, 0.5, 3, 0.25), row("corn", 1, 0.5, 2, 0.5), row("broccoli", 1, 1, 2, 0.5)]),
+    M(D, "Cod, potato & green beans", [row("cod", 6, 4, 10), row("potato", 2.5, 1, 5, 0.5), row("beans", 1, 1, 2, 0.5), row("oil", 1, 0, 2)]),
+    M(S, "Greek yogurt, berries & an apple", [row("yogurt", 2, 1, 4, 0.5), row("berries", 1, 0.5, 2, 0.5), row("apple", 1, 0, 2)])],
 };
-const TITLE_KEYS = { walnuts: /walnut/i, cheddar: /cheese/i, avocado: /avocado/i, whey: /whey/i, apple: /apple/i, banana: /banana/i, oats: /oats/i, berries: /berr/i, egg: /\begg\b(?!-white| white)/i,
+const TITLE_KEYS = { walnuts: /walnut/i, cheddar: /cheese/i, avocado: /avocado/i, whey: /whey/i, apple: /apple/i, banana: /banana/i, oats: /oats/i, oatsgf: /oats/i, berries: /berr/i, egg: /\begg\b(?!-white| white)/i,
   yogurt: /yogurt/i, eggwhite: /egg.white/i, bread: /toast/i, peaprotein: /pea-protein/i, tempeh: /tempeh/i, soymilk: /soy milk/i, almonds: /almond/i, oil: /olive oil/i };
 const listAnd = (a) => (a.length < 2 ? a.join("") : a.slice(0, -1).join(", ") + " and " + a[a.length - 1]);
 function allergensOf(meals) { const tags = []; for (const m of meals) for (const it of m.items) { const t = AL[it.id]; if (t && !tags.includes(t)) tags.push(t); }
@@ -3151,7 +3255,9 @@ function buildDays(target, diet = "balanced") {
   const message = guard(t);
   return { target: t, diet, message, days: message ? [] : TEMPLATES.filter((tp) => tp.diet === diet).map((tp) => buildDay(tp, t)) };
 }
-const api = { buildDays, dietTargets, FOODS, TEMPLATES, DIETS, STYLES };
+// Shown with the Gluten-free style (and in the recap / PDF).
+const GF_NOTE = "Anyone with celiac disease or gluten sensitivity should check every label for gluten and cross-contamination, including oats (buy only oats labeled gluten-free), protein powders, sauces and seasonings.";
+const api = { GF_NOTE, buildDays, dietTargets, FOODS, TEMPLATES, DIETS, STYLES };
 if (typeof module !== "undefined" && module.exports) module.exports = api;
 root.SampleDays = api;
 })(typeof window !== "undefined" ? window : globalThis);
@@ -3979,11 +4085,18 @@ return { KEY, MEALS, MEAL_IDS, dateKey, addDays, isDate, mealFor, empty, normali
       <li><b>Third-party content.</b> The 3D body uses MakeHuman assets (CC0) and three.js (MIT); see the licence files included with the app.</li>
       <li><b>Changes.</b> We may update these terms; continued use means you accept the current version.</li></ol>
       <p class="hint">Template wording; have it reviewed by counsel before launch.</p>` },
+    fatceiling: { t: "What's a fat ceiling?", h: `
+      <p>Your body can only release so much stored fat as fuel each day. That limit is your <b>fat ceiling</b>. It is about <b>31 kcal of deficit per pound of body fat per day</b> (Alpert 2005), so it is higher when you carry more fat and shrinks as you lose it.</p>
+      <p>A deficit bigger than the ceiling can't be covered by fat alone. The rest is pulled from muscle and other tissue, and bigger deficits also make side effects such as fatigue, hunger and feeling cold more likely.</p>
+      <p>That's why your daily calorie target is capped to keep the deficit under your ceiling. As the ceiling shrinks with fat loss, the target steps down gradually. A minimum applies too (1,500 kcal a day for men, 1,200 for women), and the target never goes below it.</p>
+      <p class="hint">Source: Alpert SS. A limit on the energy transfer rate from the human fat store in hypophagia. J Theor Biol 2005;233:1–13. Education only, not medical advice. Talk with your clinician before a large change in how you eat.</p>` },
     sources: { t: "Sources & Acknowledgements", h: "" },
   };
-  function open(k) { const P = PAGES[k]; if (!P) return; if (k === "sources" && window.TheosisSources) P.h = window.TheosisSources.pageHtml(); const d = document.getElementById("info-dlg"); if (!d) return;
+  let opener = null;
+  function open(k) { const P = PAGES[k]; if (!P) return; if (k === "sources" && window.TheosisSources) P.h = window.TheosisSources.pageHtml(); const d = document.getElementById("info-dlg"); if (!d) return; if (!d.open) opener = document.activeElement;
     d.querySelector("#info-title").textContent = P.t; d.querySelector("#info-body").innerHTML = P.h + `<p class="hint info-copy">© ${Y} ${ORG}</p>`;
     if (!d.open) { try { d.showModal(); } catch (e) { d.setAttribute("open", ""); } } d.querySelector("#info-title").focus(); }
+  (function () { const d = document.getElementById("info-dlg"); if (d) d.addEventListener("close", () => { const o = opener; opener = null; const t = o && o.isConnected ? o : document.getElementById("fc-open"); if (t && t.focus && o && o.id === "fc-open") t.focus(); else if (o && o.isConnected && o.focus) o.focus(); }); })();
   function close() { const d = document.getElementById("info-dlg"); if (d && d.open) d.close(); if (/^#(science|disclaimer|privacy|about|terms|sources)$/.test(location.hash)) history.replaceState(null, "", location.pathname + location.search); }
   document.addEventListener("click", (e) => { const t = e.target.closest("[data-info]"); if (t) { e.preventDefault(); open(t.dataset.info); } if (e.target.closest("#info-close")) close(); });
   const fromHash = () => { const k = location.hash.slice(1); if (PAGES[k]) open(k); };
@@ -4222,10 +4335,10 @@ const E = window.BodyEngine, FIG = window.BodyFigure, LB = E.LB;
 const CONFIG = {
   CONSULT_URL: "https://theosismedical.com/#contact",   // contact section on theosismedical.com
   CONSULT_PHONE: "765.487.0777",
-  PREVIEW_ENDPOINT: null,
+  PREVIEW_ENDPOINT: "/.netlify/functions/preview",   // v7.6.18 beta: single "See it on your photo" illustration (preview.js, same GEMINI_API_KEY)
   AI_ENDPOINT: "/.netlify/functions/ai",                  // v7.6.14: ONE Netlify Function holds GEMINI_API_KEY (see AI-SETUP.md). The AI features hide themselves when it isn't deployed or has no key.
   AI_EXPLAIN_PLAN: true,                                 // v7.6.14: the single switch for the "Explain my plan" section of the print-to-PDF recap. Set false to remove it completely.
-  LABS_ENDPOINT: null,                                   // "/.netlify/functions/labs" once LABS_API_KEY (or GEMINI_API_KEY) is set on Netlify                                // "/.netlify/functions/preview" once GEMINI_API_KEY is set on Netlify
+  LABS_ENDPOINT: "/.netlify/functions/labs",                                   // "/.netlify/functions/labs" once LABS_API_KEY (or GEMINI_API_KEY) is set on Netlify                                // "/.netlify/functions/preview" once GEMINI_API_KEY is set on Netlify
   STORAGE_KEY: "theosis-bodyplan-v1",
   FIG3D: true,                                           // 3D figure (lazy, WebGL only); the 2D SVG stays as fallback and for print
   FIG3D_BASE: "fig3d/",                                  // asset folder next to index.html
@@ -4261,7 +4374,7 @@ const pftEst = () => PF.estimate(pftInput());
 const defaults = () => ({
   v: 1, mode: "plan", step: 0, maxStep: 1, units: "imperial", ui: { mode: "simple" },
   profile: { sex: "m", age: 35, heightCm: 177.8, weightKg: 190 / LB, bfMode: "bmi", bf: 25, neckCm: null, waistCm: null, hipCm: null, dexaBf: null,
-    health: { pregnant: false, glucoseMeds: false, edHistory: false, meds: "unknown", diabetes: "unknown", diabetesAuto: false, diabetesPicked: false, a1c: null, fattyLiver: "unknown", labs: {} },
+    health: { pregnant: false, glucoseMeds: false, edHistory: false, meds: "unknown", medAck: false, diabetes: "unknown", diabetesAuto: false, diabetesPicked: false, a1c: null, fattyLiver: "unknown", labs: {} },
     fat: { carry: "", menopause: "", ancestry: "" } },
   fig: { mode: "skin", tone: 2, top: false, photoThumb: false },
   goal: { type: "steady", targetBf: null, targetWeightKg: null, deadline: null, window: 12, pace: 0.6, touched: false, gainMode: "lean", gainTargetKg: null, bfCeiling: null, exactW: null, exactBf: null, exactBy: null },
@@ -4273,7 +4386,10 @@ const defaults = () => ({
 function merge(base, extra) { if (!extra || typeof extra !== "object") return base; for (const k of Object.keys(base)) { if (!(k in extra)) continue;
   if (base[k] && typeof base[k] === "object" && !Array.isArray(base[k])) merge(base[k], extra[k]); else base[k] = extra[k]; } return base; }
 let S = defaults(), HAD_SAVED = false;   // HAD_SAVED (v7.6.11): the person already used the simulator, so a hand-off from the calculator must not overwrite their numbers
-try { const saved = JSON.parse(localStorage.getItem(CONFIG.STORAGE_KEY) || "null"); if (saved && saved.v === 1) { S = merge(defaults(), saved); HAD_SAVED = !!((saved.maxStep || 0) > 1 || (saved.goal && saved.goal.touched) || (saved.profile && saved.profile.weightKg && saved.step > 0)); } } catch (e) { /* storage unavailable */ }
+// v7.6.18: the strength dropdown's "None" option is gone. A saved plan whose lifting type was None (and that already passed the Move step) becomes the "I don't do strength training" checkbox, ticked.
+function migrateNone(saved) { { const h = saved && saved.profile && saved.profile.health; if (h && (!h.meds || h.meds === "unknown") && h.glucoseMeds) S.profile.health.meds = "yes"; }  // v7.6.18: the old yes/no glucose-medication flag becomes the required medication answer
+  const m = saved && saved.move; if (m && m.preset === "none" && !m.noLift && (saved.maxStep || 0) >= 3 && !m.plannerOn) { S.move.noLift = true; } }
+try { const saved = JSON.parse(localStorage.getItem(CONFIG.STORAGE_KEY) || "null"); if (saved && saved.v === 1) { S = merge(defaults(), saved); migrateNone(saved); HAD_SAVED = !!((saved.maxStep || 0) > 1 || (saved.goal && saved.goal.touched) || (saved.profile && saved.profile.weightKg && saved.step > 0)); } } catch (e) { /* storage unavailable */ }
 S.step = 0;
 // v5 P5: Simple / Advanced is remembered on its own (it survives "Start over")
 const UI_KEY = "theosis-bodyplan-ui";
@@ -4926,7 +5042,7 @@ function renderWeekly() {
 const LU = { busy: false, msg: "", found: null };
 function renderLabUpload() {
   const box = $("#lab-upload"); if (!box) return; const on = !!CONFIG.LABS_ENDPOINT, C = window.TheosisConsent, ok = on && C && C.has("labAi");
-  box.innerHTML = !on ? `<p class="hint" data-lu="off">Lab report upload with automatic reading is not turned on for this site yet. Type your values above. That works offline too.</p>`
+  box.innerHTML = !on ? `<p class="hint" data-lu="off">Lab report upload with automatic reading is not available here (for example in a drag-and-drop or offline copy). You can still add your values by hand with "Add lab results".</p>`
     : `<div class="lu-row"><button type="button" class="btn btn-ghost" id="lu-pick" ${LU.busy ? "disabled" : ""}>${LU.busy ? "Reading your report…" : "Upload a lab report (photo or PDF)"}</button>
       <span class="hint">${ok ? "Sent to an AI provider only to read the values; not used for training and deleted after processing. You'll confirm every value." : `Needs the "Lab upload and AI reading" opt-in. <a href="#" data-consent>Consent settings</a>`}</span></div>
       <input type="file" id="lu-file" accept="image/jpeg,image/png,image/webp,application/pdf" hidden>
@@ -4989,6 +5105,17 @@ function renderExpect() {
 }
 function endRow() { return R && !R.blocked ? R.main.rows[R.main.rows.length - 1] : null; }
 function timeLabel() { const e = endRow(); if (!e) return "—"; const wk = fWk(e.day); return `${wk} wk${R.main.reached && R.isTarget ? " to goal" : ""}`; }
+/* v7.6.18: the always-visible Health context card (medication question, diabetes, A1c, liver, labs) */
+const HC = { labsOpen: false, labsTouched: false, showErr: false };
+function renderHealthCard(showErr) {
+  const h = S.profile.health, card = $("#health-card"); if (!card) return; if (showErr) HC.showErr = true;
+  $$('input[name="profile.health.meds"]').forEach((r) => (r.checked = r.value === h.meds));
+  const need = h.meds === "yes" || h.meds === "unsure", ack = $("#med-ack"); if (ack) ack.hidden = !need;
+  const cb = $("#med-ack-cb"); if (cb) cb.checked = !!h.medAck;
+  const q = $("#med-q"); if (q) { const bad = HC.showErr && !!medProblem(); q.classList.toggle("invalid", bad); q.setAttribute("aria-invalid", String(bad)); }
+  const anyLab = Object.values(h.labs || {}).some((v) => v != null && v !== ""), open = HC.labsTouched ? HC.labsOpen : (HC.labsOpen || anyLab);
+  const box = $("#labs-box"), tg = $("#labs-toggle"); if (box) box.hidden = !open; if (tg) { tg.setAttribute("aria-expanded", String(open)); tg.textContent = open ? "Hide lab results" : "Add lab results"; }
+}
 /* v7.5 PFT inside view: opens the personal-fat-threshold anatomy app (built by the PFT worker, copied read-only into pft-inside/)
    in a dialog. Lazy: the frame only loads when opened. Always labelled as an illustration of typical patterns, never the user's anatomy. */
 const PFT_INSIDE_URL = "pft-inside/index.html";
@@ -5167,7 +5294,7 @@ function renderLabs() {
   o.innerHTML = t.length ? `<div class="hgrid">${t.join("")}</div><p class="hint">Markers, not a diagnosis. Your clinician interprets labs together with your history.</p>` : "";
 }
 function renderHealth() {
-  renderLabs(); renderLabUpload();
+  renderLabs(); renderLabUpload(); renderHealthCard();
   const out = $("#health-out"); if (!out) return;
   const b = bfInfo(), hs = E.healthSummary({ ...S.profile, bf: b.bf }), rows = [];
   if (!hs.answered) { out.innerHTML = ""; return; }
@@ -5319,7 +5446,7 @@ function feasHtml0() {
   const assumed = R.assumed && R.assumed.move, noLift = !assumed && E.weeklyTraining(S.move).liftSessions === 0;
   const as = assumed ? ` <span class="assume">${ASSUME_TXT}</span>` : "";
   if (g.type === "maxloss" || g.type === "steady") return `<div class="feas"><b>${fWd(sfat)} of fat in ${swk} weeks</b>, about ${fW(Math.abs(sfat) / Math.max(1, swk))} a week, ending near ${fP(showE.bf)} body fat. Lean mass: ${fWd(slean)}.${as}${noLift ? " Adding lifting would protect more muscle." : ""}${habitNote}</div>`;
-  if (g.type === "recomp") return `<div class="feas ${noLift ? "warn" : ""}"><b>Over ${swk} weeks: ${fWd(sfat)} fat and ${fWd(slean)} lean</b> (estimates). The scale moves only ${fWd(showE.weightKg - s.weightKg)}.${as}${noLift ? " Without lifting there's no muscle gain, so set it on the Move step." : ""}${habitNote}</div>`;
+  if (g.type === "recomp") return `<div class="feas ${noLift ? "warn" : ""}"><b>Over ${swk} weeks: ${fWd(sfat)} fat and ${fWd(slean)} lean</b> (estimates). The scale moves only ${fWd(showE.weightKg - s.weightKg)}.${as}${noLift ? " Without lifting, the plan doesn't count any muscle gain, so add lifting on the Move step to include it." : ""}${habitNote}</div>`;
   if (g.type === "bulk") { const sur = R.rec.rows[0].intake - Math.round(R.rec.rows[0].tdee);
     return `<div class="feas ${noLift ? "warn" : ""}">${noLift ? "<b>Muscle gain needs resistance training.</b> Add it on the Move step; without it the plan holds at maintenance." : `<b>Over ${swk} weeks: ${fWd(slean)} lean and ${fWd(sfat)} fat</b> (estimates), ending near ${fP(showE.bf)} body fat (from ${fP(s.bf)}). A surplus of about ${fK(Math.max(0, sur))} kcal a day, sized to your training experience; muscle can only grow so fast, so the rest is stored as fat.`}${as}${habitNote}</div>`; }
   if (g.type === "gain") { const ceil = R.main.ceilingHit ? ` You reach your ${fP(g.bfCeiling)} body-fat ceiling around week ${fWk(R.main.ceilingHit)}, so the plan holds there.` : "";
@@ -5529,6 +5656,7 @@ function renderMeals() {
     ${[["Calories", "kcal", ""], ["Protein", "protein", " g"], ["Carbs", "carbs", " g"], ["Fat", "fat", " g"]].map(([n, k, u]) => { const v = Math.round(day.totals[k]), tg = Math.round(day.target[k]), d = v - tg, ok = k === "kcal" ? Math.abs(d) <= 0.02 * tg : k === "protein" ? d >= -Math.max(8, 0.09 * tg) && d <= Math.max(18, 0.13 * tg) : Math.abs(d) * (k === "fat" ? 9 : 4) <= 0.15 * day.target.kcal;
       return `<tr data-k="${k}"><th>${n}</th><td>${fK(v)}${u}</td><td>${fK(tg)}${u}</td><td>${ok ? "✓ " : ""}${d === 0 ? "on target" : `${d > 0 ? "+" : "−"}${fK(Math.abs(d))}${u}`}</td></tr>`; }).join("")}</tbody></table>
   ${Math.abs(gap) > 100 || pg < -15 ? `<p class="hint">These portions don't fully match your targets, because each food stays within a usable range.</p>` : ""}
+  ${day.id === "glutenfree" ? `<p class="hint gf-note" id="gf-note"><strong>Gluten-free:</strong> ${esc(window.SampleDays.GF_NOTE)}</p>` : ""}
   <p class="hint">Contains: ${esc(day.allergens)} Check labels for allergens and exact nutrition. These are meal ideas, not a nutrition prescription.</p>
   <div class="actions"><button type="button" class="btn ${inUse ? "btn-ghost" : "btn-steel"}" data-meal-use="${day.key}" ${inUse ? "disabled" : ""}>${inUse ? "Used in your projection ✓" : "Use this day"}</button>
     <span class="hint" style="margin:0">${inUse ? "" : `Projects this exact day (${fK(Math.round(day.totals.kcal / 10) * 10)} kcal, ${fK(day.totals.protein)} g protein) as what you eat. You can change it any time.`}</span></div>
@@ -5559,7 +5687,7 @@ function renderFood() {
     return `${diff > 5 ? `Your daily burn (${fK(r0.tdee)}) minus a ${fK(diff)} kcal deficit` : diff < -5 ? `Your daily burn (${fK(r0.tdee)}) plus a ${fK(-diff)} kcal surplus` : `About your daily burn (${fK(r0.tdee)})`}. At this target you ${pace}, reaching ${fW(e.fatKg + e.leanKg)} in about ${wk} week${wk === 1 ? "" : "s"}.`; })();
   const how = `<details class="how-got"><summary>How we got this</summary><table class="how-tbl"><tbody>
       <tr><th scope="row">Daily burn<small>resting + daily living + steps + training</small></th><td>${fK(r0.tdee)} kcal</td></tr>
-      <tr><th scope="row">${diff > 5 ? "Deficit" : diff < -5 ? "Surplus" : "Deficit / surplus"}<small>${diff > 5 ? `${esc(paceTxt)} Kept under your fat ceiling (${fK(r0.ceiling)} kcal a day).` : diff < -5 ? "Sized to how fast you can build muscle." : "None: maintenance."}</small></th><td>${diff > 5 ? "−" : diff < -5 ? "+" : ""}${fK(Math.abs(diff))} kcal</td></tr>
+      <tr><th scope="row">${diff > 5 ? "Deficit" : diff < -5 ? "Surplus" : "Deficit / surplus"}<small>${diff > 5 ? `${esc(paceTxt)} Kept under your fat ceiling (${fK(r0.ceiling)} kcal a day). <button type="button" class="link-btn" data-info="fatceiling" id="fc-open">(What's a fat ceiling?)</button>` : diff < -5 ? "Sized to how fast you can build muscle." : "None: maintenance."}</small></th><td>${diff > 5 ? "−" : diff < -5 ? "+" : ""}${fK(Math.abs(diff))} kcal</td></tr>
       <tr class="tot"><th scope="row">= Your daily calorie target</th><td>${fK(r0.intake)} kcal</td></tr></tbody></table>
       <p class="hint">Never below the ${fK(floor)} kcal safe minimum.${taper2 ? " " + taper2 : ""}</p></details>`;
   // the one secondary line, only once foods are entered or "Simulate what I actually eat" is on
@@ -5586,7 +5714,7 @@ function renderFood() {
     const mv = S.profile.health.meds || "unknown", o = (v, t) => `<option value="${v}" ${mv === v ? "selected" : ""}>${t}</option>`;
     med.innerHTML = `<p class="eyebrow card-eyebrow">Before a lower-calorie plan</p><h2>Check medications first</h2>
     <p class="read" style="margin-top:.5rem">Reducing calories or carbohydrate can change medication needs. Insulin and some diabetes tablets can cause low glucose; fasting or very-low-carbohydrate intake can also be risky with SGLT2 medicines.</p>
-    <div class="row mt1"><label class="field"><span class="label">Do you take glucose-lowering medication?</span><span class="control"><select data-sel="profile.health.meds">${o("unknown", "Not answered")}${o("no", "No")}${o("yes", "Yes")}${o("unsure", "I'm not sure")}</select></span></label></div>
+    <div class="row mt1"><label class="field"><span class="label">Do you take medication for blood pressure or blood sugar (including insulin)?</span><span class="control"><select data-sel="profile.health.meds">${o("no", "No")}${o("yes", "Yes")}${o("unsure", "Not sure")}</select></span></label></div>
     <p class="hint">${S.profile.health.diabetes === "t1" ? "Type 1 diabetes needs an individualized plan from your diabetes team. " : ""}Review doses and monitoring with your clinician before you start. Never stop or adjust medication based on this simulator. You can keep exploring; nothing here is blocked.</p>`;
   }
   // PSMF prompt at <= 1,000 kcal
@@ -6137,7 +6265,7 @@ function planSummaryHtml() {
     ["Starting point", `${fW(s.weightKg)} at ${fP(s.bf)} body fat${b.source !== "measured" ? " (estimated)" : ""}${labs.length ? `; ${esc(labs.join(", "))}` : ""}.`],
     ["Goal", `${esc(goalLabel())}.`],
     ["Food", `${S.food.psmf ? "clinician-guided PSMF, " : S.food.actualOn ? "what you eat now, " : ""}about ${fK(kcal)} kcal a day${prot}.`],
-    ["Workouts", `${tw.liftSessions > 0 ? `${tw.liftSessions === 2.5 ? "2–3" : tw.liftSessions} lifting sessions a week` : "no lifting"}${S.move.noCardio ? ", no cardio" : tw.cardioMin > 0 ? `, ${tw.cardioMin} min of cardio` : ""}, about ${Number(S.move.steps || 0).toLocaleString("en-US")} steps a day.`],
+    ["Workouts", `${tw.liftSessions > 0 ? `${tw.liftSessions === 2.5 ? "2–3" : tw.liftSessions} lifting sessions a week` : "no lifting"}${S.move.noCardio ? ", no cardio" : tw.cardioMin > 0 ? `, ${tw.cardioMin} min of cardio` : ""}, about ${Number(S.move.steps || 0).toLocaleString("en-US")} steps a day.${tw.liftSessions > 0 ? "" : " Muscle gain from training isn't counted here, so actual body composition may differ."}`],
     ["Likely result", `about ${fW(e.weightKg)} at ${fP(e.bf)} body fat after ${fWk(e.day)} weeks (around ${fDate(e.day, true)}); fat ${fWd(e.fatKg - s.fatKg)}, lean ${fWd(e.leanKg - s.leanKg)}. Estimates, not guarantees.`]];
   let pft = "";
   try { const est = pftEst(), L0 = pftLadder(); if (est && est.over && R.dir !== "gain") {
@@ -6728,9 +6856,15 @@ async function aiCall(action, payload, signal) {
   if (!res.ok || !j) { const x = new Error((j && j.error) || (res.status === 404 ? "AI features aren't available on this copy of the site." : `The AI service had a problem (${res.status}). Try again.`)); x.code = (j && j.code) || "http"; if (res.status === 404 || x.code === "not_configured") AI.avail = false; throw x; }
   return j;
 }
-function aiShrink(file, max = 1280) { return new Promise((res, rej) => { if (!file || !/^image\//.test(file.type)) return rej(new Error("That file isn't a photo.")); const url = URL.createObjectURL(file), im = new Image();
-  im.onload = () => { const k = Math.min(1, max / Math.max(im.width, im.height)), c = document.createElement("canvas"); c.width = Math.max(1, Math.round(im.width * k)); c.height = Math.max(1, Math.round(im.height * k)); c.getContext("2d").drawImage(im, 0, 0, c.width, c.height); URL.revokeObjectURL(url); res(c.toDataURL("image/jpeg", 0.85)); };
-  im.onerror = () => { URL.revokeObjectURL(url); rej(new Error("That photo couldn't be opened.")); }; im.src = url; }); }
+function aiShrink(file, max = 1600, q = 0.8) { return new Promise((res, rej) => {
+  // Phone photos are 3-12 MB: scale the long side to <= 1600 px and re-encode as JPEG (also turns HEIC/odd types the browser can open into JPEG). Result is ~150-400 KB.
+  const ok = file && (/^image\//.test(file.type) || !file.type);
+  if (!ok) return rej(new Error("That file isn't a photo."));
+  if (/hei[cf]/i.test(file.type || "") || /\.hei[cf]$/i.test(file.name || "")) { /* try anyway: Safari can decode HEIC, others will fail below */ }
+  const draw = (src, w, h, done) => { const k = Math.min(1, max / Math.max(w, h)), c = document.createElement("canvas"); c.width = Math.max(1, Math.round(w * k)); c.height = Math.max(1, Math.round(h * k)); const x = c.getContext("2d"); x.fillStyle = "#fff"; x.fillRect(0, 0, c.width, c.height); x.drawImage(src, 0, 0, c.width, c.height); done(); res(c.toDataURL("image/jpeg", q)); };
+  const viaImg = () => { const url = URL.createObjectURL(file), im = new Image(); im.onload = () => draw(im, im.naturalWidth || im.width, im.naturalHeight || im.height, () => URL.revokeObjectURL(url)); im.onerror = () => { URL.revokeObjectURL(url); rej(new Error("That photo couldn't be opened. If it is a HEIC photo, set the camera to JPEG (or take a screenshot of it) and try again.")); }; im.src = url; };
+  if (window.createImageBitmap) createImageBitmap(file, { imageOrientation: "from-image" }).then((bm) => draw(bm, bm.width, bm.height, () => { try { bm.close(); } catch (e) { /* ignore */ } }), viaImg); else viaImg();
+}); }
 const aiSafe = (s) => String(s).replace(/[^A-Za-z0-9 .,:%+\-–−·()/'’→&#]/g, " ").replace(/\s+/g, " ").trim().slice(0, 100);
 const aiTag = (feat) => `<span class="tag">Pro${CONFIG.PRO_GATING && !canUse(feat) ? " · locked" : ""}</span>`;
 
@@ -6755,6 +6889,7 @@ function aiFacts() {
   const sp = stagePlan(); const pts = sp.ok ? sp.pts : [{ weeks: fWk(e.day), endWeightKg: e.weightKg, endBf: e.bf }];
   for (const q of pts) out.push(`Week ${Math.round(q.weeks)}: ${fW(q.endWeightKg)}, ${fP(q.endBf)} body fat`);
   out.push(`Fat change by week ${Math.round(fWk(e.day))}: ${fWd(e.fatKg - s.fatKg)}`); out.push(`Lean change by week ${Math.round(fWk(e.day))}: ${fWd(e.leanKg - s.leanKg)}`);
+  if (!(R.inp.move && E.weeklyTraining(R.inp.move).liftSessions > 0)) out.push("Lifting is off, so the projection doesn't count any muscle gain from training; actual body composition may differ");
   if (R.rec && R.rec.rows && R.rec.rows[0]) out.push(`Daily target week 1: ${fK(R.rec.rows[0].intake)} kcal`);
   if (R.macros) out.push(`Protein target ${R.macros.protein} g, fat ${R.macros.fat} g, carbs ${R.macros.carbs} g a day`);
   if (h.a1c > 0) out.push(`A1c ${+(+h.a1c).toFixed(1)}%`); if (h.fattyLiver && h.fattyLiver !== "no" && h.fattyLiver !== "unknown") out.push("Fatty liver reported");
@@ -6785,7 +6920,7 @@ function aiRenderFood() {
 async function aiFoodPhoto(file, hint) {
   const F = AI.food; if (!file) return; if (!proGate("aiPhoto", "#ai-food .ai-food-h")) return;
   F.err = ""; F.status = ""; F.note = ""; F.busy = true; aiRenderFood(); F.ctl = new AbortController();
-  try { const img = await aiShrink(file, 1280); const j = await aiCall("label", { image: img, hint }, F.ctl.signal); aiUseAdd("label");
+  try { const img = await aiShrink(file); const j = await aiCall("label", { image: img, hint }, F.ctl.signal); aiUseAdd("label");
     F.items = (j.items || []).slice(0, 6); F.note = j.note || ""; F.kind = j.kind;
     if (!F.items.length) F.status = "The AI couldn't find a food or label it could read in that photo. Try a closer, sharper photo, or search for the food instead."; else F.status = `Found ${F.items.length} item${F.items.length === 1 ? "" : "s"}. Check the numbers, then add.`; }
   catch (e) { if (e.code !== "abort") F.err = e.message; } finally { F.busy = false; F.ctl = null; aiRenderFood(); }
@@ -6923,10 +7058,16 @@ function renderProgress() {
     return `<li class="${cls}"><button type="button" data-goto="${k}" ${k <= S.maxStep ? "" : "disabled"} ${k === S.step ? 'aria-current="step"' : ""} aria-label="Step ${k}: ${n}${k === S.step ? " (current)" : ""}"><span class="num" aria-hidden="true">${k < S.step ? "✓" : k}</span><span class="lbl">${n}</span></button></li>`; }).join("");
   $("#prog-mobile").innerHTML = `Step ${S.step} of 5 · <b>${STEPS[S.step - 1]}</b>`;
 }
+/* v7.6.18: the medication question is required before leaving step 1; "Yes" or "Not sure" also needs the acknowledgment ticked */
+function medProblem() { const h = S.profile.health, m = h.meds; if (window.__NO_MED_GATE) return "";   // test-only hook, like __NO_FIT_GATE
+  if (m !== "no" && m !== "yes" && m !== "unsure") return "Answer the medication question under Health context first.";
+  if ((m === "yes" || m === "unsure") && !h.medAck) return "Tick the medication acknowledgment under Health context to continue.";
+  return ""; }
 function stepProblems(step) {
   const vis = (k) => { const el = $(`[data-field="${k}"]`); return el && el.offsetParent !== null; };
   const bad = [...invalid].filter(vis);
   if (bad.length) return "Fix the highlighted field first.";
+  if (step === 1) { const mp = medProblem(); if (mp) return mp; }
   if (step === 1 && S.profile.bfMode === "navy" && bfInfo().navyMissing) return `Enter neck and waist${S.profile.sex === "f" ? " and hips" : ""}, or choose "I don't know".`;
   if (step === 2 && R && R.blocked) return "Adjust your goal first.";
   return "";
@@ -7014,7 +7155,7 @@ function bind() {
     if (t.dataset.f3zoom) { if (F3.rt && F3.rt.closeUp) F3.rt.closeUp(t.dataset.f3zoom, !zoomOn(t.dataset.f3zoom)); return; }
     if (t.dataset.f3tone != null) return setFigLook(null, +t.dataset.f3tone);
     if (t.dataset.f3top) { S.fig.top = !S.fig.top; $$("[data-f3top]").forEach((b) => b.setAttribute("aria-pressed", String(!S.fig.top))); return setFigLook(null, null); }
-    if (t.dataset.goto) { const k = +t.dataset.goto; if (k <= S.maxStep || k <= S.step) { if (!gateGo(k)) go(k); } return; }
+    if (t.dataset.goto) { const k = +t.dataset.goto; if (S.step === 1 && k > 1) { const mp = medProblem(); if (mp) { $("#nav-note").textContent = mp; renderHealthCard(true); return; } } if (k <= S.maxStep || k <= S.step) { if (!gateGo(k)) go(k); } return; }
     if (t.dataset.win) { S.goal.window = +t.dataset.win; fillInputs(); update(); return; }
     if (t.dataset.steps) { S.move.steps = +t.dataset.steps; fillInputs(); update(); return; }
     if (t.dataset.usewk) { S.goal.deadline = +t.dataset.usewk; fillInputs(); update(); return; }
@@ -7067,6 +7208,7 @@ function bind() {
     if (t.id === "refit-apply") { const f = refitNow(); if (f && f.ok) { S.refit = { k: f.k, applied: true, at: new Date().toISOString(), n: f.n }; update(); const x = $("#weekly-card"); if (x) { x.classList.add("flash"); setTimeout(() => x.classList.remove("flash"), 1200); } } return; }
     if (t.id === "expert-csv") { const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([expertCsv()], { type: "text/csv" })); a.download = `body-plan-model-${new Date().toISOString().slice(0, 10)}.csv`; document.body.appendChild(a); a.click(); a.remove(); return; }
     if (t.id === "refit-undo") { S.refit = null; update(); return; }
+    if (t.id === "labs-toggle") { HC.labsOpen = !HC.labsOpen; HC.labsTouched = true; renderHealthCard(); return; }
     if (t.id === "lu-pick") { const C = window.TheosisConsent; if (C && !C.has("labAi")) { C.open(true); return; } $("#lu-file").click(); return; }
     if (t.id === "lu-use") { const h = S.profile.health; h.labs = h.labs || {}; document.querySelectorAll("[data-luv]").forEach((el) => { const n = parseNum(el.value); if (n > 0) { if (el.dataset.luv === "a1c") h.a1c = n; else h.labs[el.dataset.luv] = n; } }); LU.found = null; LU.msg = "Values added. You can still edit them above."; fillInputs(); update(); return; }
     if (t.id === "lu-discard") { LU.found = null; LU.msg = ""; renderLabUpload(); return; }
@@ -7085,7 +7227,7 @@ function bind() {
       S.food.mealMacros = { id: d.key, protein: Math.round(d.totals.protein), carbs: Math.round(d.totals.carbs), fat: Math.round(d.totals.fat) };
       mealStatus = `${d.dietName} · ${d.name} is now used in your projection.`; fillInputs(); update(); return; }
     switch (t.id) {
-      case "btn-next": { const pr = stepProblems(S.step); if (pr) { $("#nav-note").textContent = pr; const f = $(".step:not([hidden]) .field.invalid input"); f && f.focus(); return; } { const k = Math.min(5, S.step + 1); if (!gateGo(k)) go(k); } return; }
+      case "btn-next": { const pr = stepProblems(S.step); if (pr) { if (S.step === 1 && medProblem()) renderHealthCard(true); $("#nav-note").textContent = pr; const f = $(".step:not([hidden]) .field.invalid input"); f && f.focus(); return; } { const k = Math.min(5, S.step + 1); if (!gateGo(k)) go(k); } return; }
       case "btn-back": return go(S.step - 1);
       case "actual-toggle": S.food.actualOn = !S.food.actualOn; if (!S.food.actualOn) { S.food.psmf = false; S.food.mealSrc = "rec"; } setSwitch(t, S.food.actualOn); fillInputs(); update(); return;
       case "planner-toggle": S.move.plannerOn = !S.move.plannerOn; if (S.move.plannerOn && S.move.planner.every((d) => !d.lift && !d.cardio)) seedPlanner(); setSwitch(t, S.move.plannerOn); update(); return;

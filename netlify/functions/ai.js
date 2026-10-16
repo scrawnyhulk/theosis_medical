@@ -74,12 +74,14 @@ async function gemini(model, body, kind) {
   const ctl = new AbortController(), timer = setTimeout(() => ctl.abort(), TIMEOUT_MS[kind] || 20000);
   try {
     const res = await fetch(ENDPOINT(model), { method: "POST", headers: { "Content-Type": "application/json", "x-goog-api-key": key }, body: JSON.stringify(body), signal: ctl.signal });
-    const data = await res.json().catch(() => ({}));
-    if (!res.ok) { const e = new Error("upstream"); e.code = res.status === 429 ? "rate" : "upstream"; e.status = res.status; console.error("gemini error", res.status, data && data.error && data.error.status); throw e; }
+    const raw = await res.text().catch(() => ""); let data = {}; try { data = JSON.parse(raw); } catch (e2) { /* not JSON */ }
+    if (!res.ok) { const e = new Error("upstream"); e.code = res.status === 429 ? "rate" : "upstream"; e.status = res.status; e.detail = (data && data.error && (data.error.status + ": " + String(data.error.message || "").slice(0, 300))) || ("non-JSON reply: " + String(raw).replace(/\s+/g, " ").slice(0, 200)); console.error("gemini error", model, res.status, data && data.error && data.error.status); throw e; }
     return data;
   } catch (e) { if (e.code) throw e; const x = new Error(ctl.signal.aborted ? "timeout" : "network"); x.code = ctl.signal.aborted ? "timeout" : "network"; throw x; }
   finally { clearTimeout(timer); }
 }
+/** Netlify does NOT expose CONTEXT to functions at runtime, so also recognise preview/branch hosts (deploy-preview-N--site.netlify.app, branch--site.netlify.app). Never true on the production domain. */
+const isPreview = (event) => { const h = (event && event.headers) || {}, host = String(h["x-forwarded-host"] || h.host || h.Host || ""); return env().CONTEXT === "deploy-preview" || /^[a-z0-9-]+--[a-z0-9-]+\.netlify\.app$/i.test(host); };
 const partsOf = (d) => (d && d.candidates && d.candidates[0] && d.candidates[0].content && d.candidates[0].content.parts) || [];
 const textOf = (d) => partsOf(d).map((p) => p.text || "").join("").trim();
 function parseJson(t) { t = String(t || "").trim().replace(/^```(?:json)?\s*/i, "").replace(/\s*```$/, ""); try { return JSON.parse(t); } catch (e) { const m = /\{[\s\S]*\}/.exec(t); if (m) try { return JSON.parse(m[0]); } catch (e2) { /* fallthrough */ } } return null; }
@@ -108,6 +110,7 @@ const CONCEPTS = [
   "SIMULATOR CONCEPTS (explain plainly; the exact numbers for THIS user are in 'Simulator facts'):",
   "- The simulator turns a person's body, goal, training and food into a week-by-week projection of weight, fat mass and lean mass. It is an estimate from population research, not a measurement or a promise.",
   "- Maximum fat burn: there is a ceiling on how much body fat can be burned for fuel per day (it rises with fat mass). Eating below what that ceiling supports tends to cost muscle, so 'maximal fat loss' means the deficit your fat can fuel while limiting muscle loss. 'Steady' is a smaller deficit that is easier to keep up.",
+  "- The projection counts muscle gain only from lifting. If lifting is off, it counts no muscle gain from training, so the person's actual body composition and scale weight may differ. Never say training other than lifting adds zero muscle.",
   "- Protein and lifting protect lean mass during a deficit; the simulator uses protein level, training and age in its muscle estimate.",
   "- Body fat %, fat mass, lean mass: lean mass is everything that is not fat (mostly muscle, organs, water, bone).",
   "- Fat distribution: fat around the organs (visceral) vs under the skin (subcutaneous). The split is a model estimate from sex, age, waist, body fat, A1c/diabetes, fatty liver and optional ancestry; a DEXA or MRI is the only way to measure it. Visceral fat tends to fall faster than total fat early in weight loss.",
@@ -182,7 +185,9 @@ async function doLabel(body, mock) {
   const img = decodeImage(body.image); if (!img) return { status: 400, code: "bad_image", message: "Send a JPEG, PNG or WebP photo." }; if (img.tooBig) return { status: 413, code: "too_big", message: "That photo is too large. Try a smaller one." };
   const hint = body.hint === "label" ? "The user says this is a nutrition label." : body.hint === "meal" ? "The user says this is a meal or food." : "";
   if (mock) return { status: 200, data: { ...normLabel({ kind: "label", note: "Mock answer.", items: [{ name: "Mock granola bar", brand: "Test Foods", serving_text: "1 bar (40 g)", serving_g: 40, kcal: 180, protein: 6, carbs: 24, fat: 7, fiber: 3, sugar: 9, satFat: 1.5, sodiumMg: 95, basis: "label", confidence: "high" }] }), mock: true } };
-  const d = await gemini(MODELS().vision, { contents: [{ role: "user", parts: [{ inline_data: { mime_type: img.mime, data: img.data } }, { text: LABEL_PROMPT + (hint ? "\n" + hint : "") }] }], generationConfig: { responseMimeType: "application/json", temperature: 0.1 } }, "text");
+  const req = { contents: [{ role: "user", parts: [{ inlineData: { mimeType: img.mime, data: img.data } }, { text: LABEL_PROMPT + (hint ? "\n" + hint : "") }] }], generationConfig: { responseMimeType: "application/json" } };
+  let d; try { d = await gemini(MODELS().vision, req, "text"); }
+  catch (e) { const fb = env().GEMINI_VISION_FALLBACK || "gemini-3.6-flash"; if (e.code === "upstream" && e.status !== 401 && e.status !== 403 && fb !== MODELS().vision) { console.error("label: retrying with fallback vision model"); d = await gemini(fb, req, "text"); } else throw e; }
   const j = parseJson(textOf(d)); if (!j) return { status: 502, code: "unreadable", message: "The AI answer couldn't be read. Try again or type the food in." };
   return { status: 200, data: normLabel(j) };
 }
@@ -280,7 +285,7 @@ exports.handler = async (event) => {
   } catch (e) {
     refund(uid, kind); const code = (e && e.code) || "failed"; console.error("ai failed:", action, code);   // no photo, question or personal data is logged
     const map = { not_configured: [503, "AI features aren't set up on this site yet."], rate: [429, "The AI service is busy. Try again in a minute."], timeout: [504, "The AI service took too long. Try again."], network: [502, "Couldn't reach the AI service."], upstream: [502, "The AI service couldn't answer right now."] };
-    const m = map[code] || [500, "Something went wrong. Please try again."]; return err(m[0], code, m[1], corsOrigin);
+    const m = map[code] || [500, "Something went wrong. Please try again."]; const dbg = (isPreview(event) && e && (e.detail || e.status)) ? " [preview debug: Gemini " + (e.status || "") + " " + (e.detail || "") + "]" : ""; return err(m[0], code, m[1] + dbg, corsOrigin);
   }
 };
 Object.assign(exports, { stagePrompt, ungrounded, readFacts, normLabel, _store: store, proStatus, linkAllow, chatSystem, MODELS });
