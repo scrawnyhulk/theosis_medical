@@ -1,0 +1,12 @@
+On-device photo-to-3D (Theosis Body Plan)
+
+This folder contains files from MediaPipe Tasks Vision (@mediapipe/tasks-vision 1.1.0) and the
+MediaPipe Pose Landmarker (lite) model, Copyright Google LLC, licensed under the Apache License 2.0:
+https://www.apache.org/licenses/LICENSE-2.0
+Source: https://github.com/google-ai-edge/mediapipe  ·  Model card: https://ai.google.dev/edge/mediapipe/solutions/vision/pose_landmarker
+
+  vision_wasm_internal.js / .wasm  MediaPipe Tasks runtime (WebAssembly, SIMD build)
+  pose_landmarker_lite.task         Pose Landmarker (lite) model with segmentation
+  photofit.js                       Theosis Body Plan photo-fit code, bundled with the MediaPipe Tasks Vision JS API
+
+These files run entirely in the visitor's browser. No photo or measurement is uploaded.

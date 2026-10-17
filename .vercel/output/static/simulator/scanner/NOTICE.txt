@@ -1,0 +1,4 @@
+This folder contains ZXing for JavaScript (@zxing/library 0.23.0, https://github.com/zxing-js/library),
+Copyright the ZXing authors, licensed under the Apache License, Version 2.0 (see LICENSE-zxing-library-Apache-2.0.txt).
+Unmodified minified UMD build. Used by the Body Composition Simulator's Food Log for camera barcode scanning
+when the browser has no built-in BarcodeDetector for retail codes.
