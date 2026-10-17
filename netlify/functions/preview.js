@@ -13,9 +13,7 @@
  * never from user text, so it can't be steered into other edits. Output is always labeled "AI illustration" by the page.
  * Node 18+ (global fetch). No dependencies.
  */
-const MODEL = process.env.GEMINI_IMAGE_MODEL || "gemini-nano-banana-2.1";
-const ENDPOINT = (model) => `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent`;
-const MAX_IMAGE_BYTES = 4 * 1024 * 1024;           // decoded size cap
+const MAX_IMAGE_BYTES = 3.5 * 1024 * 1024;       // decoded size cap (Netlify rejects request bodies over 6 MB, and base64 adds a third)
 const ALLOWED_MIME = ["image/jpeg", "image/png", "image/webp"];
 
 const json = (status, body, origin) => ({
@@ -54,30 +52,22 @@ exports.handler = async (event) => {
   } catch { return json(400, { error: "Projection numbers are missing or out of range." }, corsOrigin); }
 
   const gt = SP.gate(p); if (gt) return json(422, { error: gt.message, code: gt.code }, corsOrigin);
-  const prompt = buildPrompt(p);
+  const AIM = require("./ai.js");
   try {
-    const res = await fetch(ENDPOINT(MODEL), {
-      method: "POST",
-      headers: { "Content-Type": "application/json", "x-goog-api-key": key },
-      body: JSON.stringify({
-        contents: [{ role: "user", parts: [{ inline_data: { mime_type: m[1], data: m[2] } }, { text: prompt }] }],
-        generationConfig: { responseModalities: ["TEXT", "IMAGE"] },
-      }),
-    });
-    const data = await res.json().catch(() => ({}));
-    if (!res.ok) { console.error("gemini error", MODEL, res.status, data && data.error && data.error.status); return json(502, { error: res.status === 404 ? "The AI image model isn't available for this site's Google account right now. This is a setup problem, not your photo." : "The image service couldn't make a preview right now.", code: res.status === 404 ? "model_unavailable" : "upstream" }, corsOrigin); }
-    const parts = (data.candidates && data.candidates[0] && data.candidates[0].content && data.candidates[0].content.parts) || [];
-    const img = parts.find((x) => x.inlineData || x.inline_data);
-    if (!img) {
-      const o = require("./ai.js").stageOutcome(data);   // v7.6.21: log the real reason (no photo, no key) and tell the user something specific
-      console.warn("gemini returned no image:", JSON.stringify({ model: MODEL, reason: o.reason, blocked_categories: o.ratings && o.ratings.length ? o.ratings : undefined, model_text: o.text || undefined }));
-      return json(422, { error: o.message, code: "declined", reason: o.reason, kind: o.kind }, corsOrigin);
+    // v7.6.22b: same engine as "See yourself at each stage": standard prompt, soft retry, fallback model, 25 s per call, and every failure explained by one shared function
+    const out = await AIM.runStage(p, { mime: m[1], data: m[2] }, false);
+    if (out.status !== 200) {
+      console.warn("preview: no image", JSON.stringify({ reason: out.reason, kind: out.kind, model_text: out.text || undefined }));
+      const dbg = AIM.isPreview(event) && out.reason ? " [preview debug: Gemini reason " + out.reason + (out.text ? ' · model said: "' + String(out.text).slice(0, 160) + '"' : "") + "]" : "";
+      return json(out.status, { error: out.message + dbg, code: out.code, reason: out.reason, kind: out.kind }, corsOrigin);
     }
-    const d = img.inlineData || img.inline_data;
-    return json(200, { image: `data:${d.mimeType || d.mime_type || "image/png"};base64,${d.data}`, model: MODEL, label: "AI illustration, not a prediction" }, corsOrigin);
+    const d = out.part.inlineData || out.part.inline_data, mime = d.mimeType || d.mime_type || "image/png";
+    if (!/^image\/(png|jpeg|webp)$/.test(mime)) return json(502, { error: "The image service returned something unexpected. Please try again.", code: "unreadable" }, corsOrigin);
+    return json(200, { image: `data:${mime};base64,${d.data}`, model: AIM.MODELS().image, label: "AI illustration, not a prediction" }, corsOrigin);
   } catch (e) {
-    console.error("preview failed:", e && e.message);
-    return json(500, { error: "Preview failed. Please try again." }, corsOrigin);
+    console.error("preview failed:", e && e.code, e && e.status, e && e.detail ? String(e.detail).slice(0, 200) : (e && e.message));
+    const x = AIM.explainError("preview", e && (e.code || e.status) ? e : Object.assign(new Error((e && e.message) || "unknown"), { code: "failed" }), event);
+    return json(x.status, { error: x.message, code: x.code, upstreamStatus: (e && e.status) || undefined }, corsOrigin);
   }
 };
 exports.buildPrompt = buildPrompt;   // exported for testing

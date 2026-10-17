@@ -208,6 +208,29 @@ async function doStage(body, mock) {
   return { status: 200, data: { image: `data:${mime};base64,${x.data}`, week: p.week } };
 }
 
+/** v7.6.22b: ONE place that turns a thrown upstream error into a friendly, specific message (plus the raw Google status and message on preview hosts only). Used by ai.js and preview.js so no failure path falls back to a generic string. */
+function explainError(action, e, event) {
+  const code = (e && e.code) || "failed", st = e && e.status, dt = String((e && e.detail) || "");
+  const map = { not_configured: [503, "AI features aren't set up on this site yet."], rate: [429, "The AI service is busy. Try again in a minute."], timeout: [504, "The AI service took too long. Try again."], network: [502, "Couldn't reach the AI service."], upstream: [502, "The AI service couldn't answer right now."] };
+  let m = map[code] || [500, "Something went wrong. Please try again."], outCode = code;
+  if (action === "stage" || action === "preview") {
+    if (code === "timeout") m = [504, "Google's image service took too long (image edits can take 20 seconds or more). Please try again; a smaller or simpler photo can help."];
+    else if (code === "network") m = [502, "Couldn't reach Google's image service. Check your connection and try again."];
+    else if (code === "rate" || st === 429) { m = [429, "Google's image service is busy or this site's image quota is used up. Try again in a minute."]; outCode = "rate"; }
+    else if (code === "upstream") { let c2 = null;
+      if (st === 404) c2 = ["model_unavailable", "The AI image model isn't available for this site's Google account right now. This is a setup problem, not your photo."];
+      else if (st === 400 && /location is not supported|not available in your country/i.test(dt)) c2 = ["region", "Google's image service isn't available from this server's region. This is a setup problem, not your photo."];
+      else if (st === 400 && /billing|free tier|paid/i.test(dt)) c2 = ["billing", "Google's image service needs a paid plan on this site's account. This is a setup problem, not your photo."];
+      else if (st === 400 && /modalit|response_modalities|responseModalities|image generation|not support/i.test(dt)) c2 = ["model_config", "Google's image model rejected how this site asks for an image. This is a setup problem, not your photo."];
+      else if (st === 400 && /image|size|too large|payload|decode|invalid/i.test(dt)) c2 = ["bad_photo", "Google's image service couldn't use this photo (it may be too large or an unusual format). Try a different photo."];
+      else if (st === 401 || st === 403) c2 = ["key", "The AI image service rejected this site's credentials. This is a setup problem, not your photo."];
+      else if (st >= 500) c2 = ["google_down", "Google's image service had a temporary problem (HTTP " + st + "). Please try again in a minute."];
+      else c2 = ["upstream", "Google's image service returned an error (HTTP " + (st || "unknown") + "). Please try again; if it keeps happening it's a setup problem, not your photo."];
+      m = [502, c2[1]]; outCode = c2[0]; }
+  }
+  const dbg = isPreview(event) && e ? " [preview debug: " + (code === "timeout" || code === "network" ? "no reply from Google (" + code + ")" : "Gemini " + (st || "?") + " " + (dt || (e.message || ""))).slice(0, 360) + "]" : "";
+  return { status: m[0], code: outCode, message: m[1] + dbg };
+}
 /** v7.6.21: classify a Gemini image response that has no image so the REAL reason is logged and a friendly, specific message reaches the user. */
 const IMG_BLOCK = {
   IMAGE_SAFETY: ["safety", "Google's safety filter blocked this image. A fully clothed, front-facing, well-lit photo (athletic wear or a fitted t-shirt) usually works better than a shirtless or swimwear photo."],
@@ -328,15 +351,7 @@ exports.handler = async (event) => {
     return json(200, { ...out.data, left: sp.left }, corsOrigin);
   } catch (e) {
     refund(uid, kind); const code = (e && e.code) || "failed"; let extra = null; console.error("ai failed:", action, code, e && e.status ? e.status : "");   // no photo, question or personal data is logged
-    const map = { not_configured: [503, "AI features aren't set up on this site yet."], rate: [429, "The AI service is busy. Try again in a minute."], timeout: [504, "The AI service took too long. Try again."], network: [502, "Couldn't reach the AI service."], upstream: [502, "The AI service couldn't answer right now."] };
-    let m = map[code] || [500, "Something went wrong. Please try again."];
-    // v7.6.21: say what actually went wrong upstream (still friendly, never the key or the raw message outside previews)
-    if (code === "upstream" && action === "stage") { const st = e.status, dt = String(e.detail || ""); let c2 = null;
-      if (st === 404) c2 = ["model_unavailable", "The AI image model isn't available for this site's Google account right now. This is a setup problem, not your photo."];
-      else if (st === 400 && /location is not supported|not available in your country/i.test(dt)) c2 = ["region", "Google's image service isn't available from this server's region. This is a setup problem, not your photo."];
-      else if (st === 400 && /billing|free tier|paid/i.test(dt)) c2 = ["billing", "Google's image service needs a paid plan on this site's account. This is a setup problem, not your photo."];
-      else if (st === 401 || st === 403) c2 = ["key", "The AI image service rejected this site's credentials. This is a setup problem, not your photo."];
-      if (c2) { m = [502, c2[1]]; extra = { code: c2[0] }; } } const dbg = (isPreview(event) && e && (e.detail || e.status)) ? " [preview debug: Gemini " + (e.status || "") + " " + (e.detail || "") + "]" : ""; return err(m[0], (extra && extra.code) || code, m[1] + dbg, corsOrigin);
+    const x = explainError(action, e, event); return err(x.status, x.code, x.message, corsOrigin);
   }
 };
-Object.assign(exports, { stageOutcome, runStage, stagePrompt, ungrounded, readFacts, normLabel, _store: store, proStatus, linkAllow, chatSystem, MODELS });
+Object.assign(exports, { explainError, isPreview, stageOutcome, runStage, stagePrompt, ungrounded, readFacts, normLabel, _store: store, proStatus, linkAllow, chatSystem, MODELS });
