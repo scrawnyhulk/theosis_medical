@@ -25,22 +25,9 @@ const json = (status, body, origin) => ({
 });
 const num = (v, lo, hi) => { const n = Number(v); if (!Number.isFinite(n) || n < lo || n > hi) throw new Error("bad number"); return n; };
 
-/** Fixed prompt template. Every variable is a validated number or enum. */
-function buildPrompt(p) {
-  const sex = p.sex === "f" ? "woman" : "man";
-  const dW = p.endWeightKg - p.startWeightKg, dFat = p.fatChangeKg, dLean = p.leanChangeKg;
-  const lb = (kg) => (Math.abs(kg) * 2.2046).toFixed(1);
-  const fatTxt = dFat < -0.3 ? `about ${lb(dFat)} lb less body fat` : dFat > 0.3 ? `about ${lb(dFat)} lb more body fat` : "about the same body fat";
-  const leanTxt = dLean > 0.3 ? `about ${lb(dLean)} lb more muscle` : dLean < -0.3 ? `about ${lb(dLean)} lb less muscle` : "about the same muscle";
-  return [
-    `Edit this photo of a ${sex} to illustrate the same person after ${p.weeks} weeks of a nutrition and training plan.`,
-    `Body composition change: from ${p.startBf}% to ${p.endBf}% body fat, ${fatTxt} and ${leanTxt} (total weight change ${dW >= 0 ? "+" : "-"}${lb(dW)} lb).`,
-    "Change ONLY body shape, in proportion to these numbers: waist, abdomen, hips, thighs, arms, face fullness, and, if muscle increases, slightly more muscle definition.",
-    "Keep EXACTLY the same face and identity, skin tone, hair, tattoos, clothing, pose, camera angle, lighting, background and image framing.",
-    "Be conservative and realistic. Small changes in the numbers must give small visual changes. Do not exaggerate muscularity or leanness, do not beautify, do not add or remove clothing, do not change age.",
-    "Photorealistic, natural, no text or watermarks.",
-  ].join(" ");
-}
+/** v7.6.19: one shared template (stage-prompt.js), same as ai.js "stage". Every variable is a validated number or enum. */
+const SP = require("./stage-prompt.js");
+const buildPrompt = (p) => SP.build(p);
 
 exports.handler = async (event) => {
   const allowed = process.env.ALLOWED_ORIGIN || "";
@@ -63,10 +50,10 @@ exports.handler = async (event) => {
   let p;
   try {
     const q = body.projection || {};
-    p = { sex: q.sex === "f" ? "f" : "m", weeks: num(q.weeks, 0.5, 260), startWeightKg: num(q.startWeightKg, 30, 330), endWeightKg: num(q.endWeightKg, 30, 330),
-      startBf: num(q.startBf, 3, 70), endBf: num(q.endBf, 3, 70), fatChangeKg: num(q.fatChangeKg, -150, 60), leanChangeKg: num(q.leanChangeKg, -40, 20) };
+    p = SP.sanitize(q, { minWeek: 0.5, maxWeek: 260, maxFatGain: 60, maxLeanGain: 20 });
   } catch { return json(400, { error: "Projection numbers are missing or out of range." }, corsOrigin); }
 
+  const gt = SP.gate(p); if (gt) return json(422, { error: gt.message, code: gt.code }, corsOrigin);
   const prompt = buildPrompt(p);
   try {
     const res = await fetch(ENDPOINT(MODEL), {
@@ -78,13 +65,13 @@ exports.handler = async (event) => {
       }),
     });
     const data = await res.json().catch(() => ({}));
-    if (!res.ok) { console.error("gemini error", res.status, data && data.error && data.error.status); return json(502, { error: "The image service couldn't make a preview right now." }, corsOrigin); }
+    if (!res.ok) { console.error("gemini error", MODEL, res.status, data && data.error && data.error.status); return json(502, { error: res.status === 404 ? "The AI image model isn't available for this site's Google account right now. This is a setup problem, not your photo." : "The image service couldn't make a preview right now.", code: res.status === 404 ? "model_unavailable" : "upstream" }, corsOrigin); }
     const parts = (data.candidates && data.candidates[0] && data.candidates[0].content && data.candidates[0].content.parts) || [];
     const img = parts.find((x) => x.inlineData || x.inline_data);
     if (!img) {
-      const reason = (data.candidates && data.candidates[0] && data.candidates[0].finishReason) || (data.promptFeedback && data.promptFeedback.blockReason) || "no image";
-      console.warn("gemini returned no image:", reason);          // no photo or personal data is logged
-      return json(422, { error: "The image service declined this photo. Try a different photo (front-facing, well lit, clothed or in athletic wear)." }, corsOrigin);
+      const o = require("./ai.js").stageOutcome(data);   // v7.6.21: log the real reason (no photo, no key) and tell the user something specific
+      console.warn("gemini returned no image:", JSON.stringify({ model: MODEL, reason: o.reason, blocked_categories: o.ratings && o.ratings.length ? o.ratings : undefined, model_text: o.text || undefined }));
+      return json(422, { error: o.message, code: "declined", reason: o.reason, kind: o.kind }, corsOrigin);
     }
     const d = img.inlineData || img.inline_data;
     return json(200, { image: `data:${d.mimeType || d.mime_type || "image/png"};base64,${d.data}`, model: MODEL, label: "AI illustration, not a prediction" }, corsOrigin);

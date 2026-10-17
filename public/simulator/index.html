@@ -1195,6 +1195,41 @@ body.has-ask{padding-bottom:4.75rem}
 @media (max-width:480px){.info-dlg,.consent-dlg,.intro-dlg,.fit-dlg,.ask-dlg{border-radius:14px}}
 @media print{.how-got,.cred,.fit-note,.alert.info,.qc-card{box-shadow:none!important;border:1px solid #2a7ae0!important;border-radius:8px}}
 
+/* v7.6.19 entry title graphic (SVG, transparent; replaces visible h1, which stays for SEO/screen readers) */
+.title-art{margin:.2rem 0 1rem;text-align:center}.title-art .title-gfx{display:block;width:100%;max-width:34rem;height:auto;margin:0 auto;overflow:visible}
+@media (max-width:480px){.title-art .title-gfx{max-width:22rem}}
+/* v7.6.19 layout: wordmark = title (all sizes); shield mark sits in the hero column (>=62rem only, hidden on phones and in print) */
+.title-art{text-align:left}.title-art .title-gfx{margin:0;max-width:36rem}
+@media (max-width:480px){.title-art .title-gfx{max-width:22rem;margin:0 auto}.title-art{text-align:center}}
+.entry-hero .hero-mark{display:flex;justify-content:center;align-items:center;min-height:18rem}
+.entry-hero .shield-gfx{width:100%;max-width:17rem;height:auto;filter:drop-shadow(0 0 28px rgba(42,123,255,.28));pointer-events:none;user-select:none}
+@media print{.entry-hero{display:none!important}}
+/* v7.6.19b: Nick's wordmark image = title; his shield image = right column (desktop only, like the old hero; hero-muscle-fat.webp kept in assets, unreferenced) */
+.title-art{text-align:left}.title-art img.title-gfx{display:block;width:100%;max-width:36rem;height:auto;margin:0}
+@media (max-width:480px){.title-art img.title-gfx{max-width:100%}}
+.entry-hero img{filter:drop-shadow(0 0 26px rgba(42,123,255,.3))}
+.title-art{margin:.2rem 0 1rem}
+
+/* v7.6.20 habits-first */
+.hab-key{color:var(--accent)}
+.hab-conf{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;color:var(--ink-muted);font-size:.85rem}
+.hab-why{margin:.5rem 0 .75rem 1.1rem;padding:0;color:var(--ink-muted);font-size:.9rem;line-height:1.45}
+.hab-q{margin:.9rem 0 .4rem}
+.hab-btns{display:flex;flex-wrap:wrap;gap:.5rem}
+.hab-off{margin-top:.75rem}
+.hab-confirm{margin-top:1rem;padding-top:.5rem;border-top:1px solid var(--border)}
+.hab-cps{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.6rem;margin:.75rem 0}
+@media(min-width:48rem){.hab-cps{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.hab-cp{padding:.7rem .75rem;border-radius:var(--r-sm);background:rgba(8,13,20,.55);box-shadow:0 0 0 1px var(--border);display:flex;flex-direction:column;gap:.15rem;min-width:0}
+.hab-cp strong{font-family:var(--font-display);font-size:1.3rem;font-weight:600;color:var(--fg)}
+.hab-cp-l{font-size:.78rem;letter-spacing:.04em;text-transform:uppercase;color:var(--ink-muted)}
+.hab-cp-d,.hab-cp-s{font-size:.8rem;color:var(--ink-muted);overflow-wrap:anywhere}
+.hab-cp.cut{box-shadow:0 0 0 1px rgba(255,210,122,.45)}
+.hab-slide{margin:.5rem 0 .75rem}
+.hab-slide input[type=range]{width:100%}
+.hab-wk-out{margin-top:.5rem}
+.hab-week{margin-top:.5rem}
+
 </style>
 </head>
 <body>
@@ -1209,8 +1244,8 @@ body.has-ask{padding-bottom:4.75rem}
 <main id="main">
   <!-- ================= ENTRY ================= -->
   <section id="entry" class="entry" aria-labelledby="entry-h">
-    <p class="eyebrow">Health Hacks · Nick Holwey, PA-C</p>
-    <h1 id="entry-h">Theosis Metabolic Simulator</h1>
+    <div class="title-art"><img class="title-gfx" src="assets/title-nick-1600.webp" srcset="assets/title-nick-800.webp 800w, assets/title-nick-1600.webp 1600w" sizes="(max-width:36rem) 92vw, 36rem" width="1600" height="300" alt="Theosis Metabolic Simulator" decoding="async" fetchpriority="high"></div>
+    <h1 id="entry-h" class="sr-only">Theosis Metabolic Simulator</h1>
     <p class="lead">See where your body is headed, in <strong>fat and muscle</strong>, not just pounds. Five short steps. Every answer comes with a sensible default, so you can click straight through and fine-tune later.</p>
     <div class="entry-mode"><span id="entry-mode-l">Detail level:</span><div class="mode-sw" role="radiogroup" aria-labelledby="entry-mode-l">
       <button type="button" role="radio" data-uimode="simple" aria-checked="true">Simple</button><button type="button" role="radio" data-uimode="advanced" aria-checked="false">Advanced</button></div>
@@ -1225,7 +1260,7 @@ body.has-ask{padding-bottom:4.75rem}
       <button type="button" class="choice" data-mode="habits">
         <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg></span>
         <b>Where are my habits taking me?</b>
-        <span class="d">Enter how you actually eat and move. See where your current habits lead in 3, 6 or 12 months, side by side with a plan built for your goal.</span>
+        <span class="d">Enter how you actually move and eat. We tell you which outcome your habits most resemble, then show where they lead at 4 weeks, 3 months, 6 months and a year.</span>
         <span class="go">Check my habits <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
       </button>
     </div>
@@ -1235,8 +1270,8 @@ body.has-ask{padding-bottom:4.75rem}
       <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19V5M4 19h16M8 15l3-4 3 2 4-6"/></svg>Built on published research</span>
     </div>
     <button type="button" class="qc-card qc-landing fl-entry" data-open-log="1"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 3v8M5 3v5a3 3 0 0 0 6 0V3M8 11v10M17 3c-2 2-3 5-3 8h3v10"/></svg><span><b>Food Log</b><small>Log what you eat today: search, scan a barcode or quick-add calories. Works on its own; the simulator can use your average.</small></span><span class="qc-go" aria-hidden="true">→</span></button>
-    <aside class="entry-hero" id="entry-hero" aria-label="Illustration of muscle and fat tissue" data-print="no">
-      <figure class="hero-fig"><img src="assets/hero-muscle-fat.webp" width="671" height="1000" loading="lazy" decoding="async" alt="Illustration of a torso: muscle, ribs and organs in blue on one side and fat tissue in tan on the other, with small circular icons around it for muscle, fat burn and energy flow, linked to the body by thin glowing lines."><figcaption class="hint hero-note">Illustration: muscle and fat tissue (not a measurement)</figcaption></figure>
+    <aside class="entry-hero" id="entry-hero" aria-label="Theosis Metabolic Simulator shield" data-print="no">
+      <figure class="hero-fig"><img src="assets/shield-nick.webp" width="700" height="868" loading="lazy" decoding="async" alt="Theosis Metabolic Simulator shield"></figure>
     </aside>
   </section>
 
@@ -1433,6 +1468,7 @@ body.has-ask{padding-bottom:4.75rem}
         <!-- STEP 2: GOAL -->
         <section class="step" data-step="2" aria-labelledby="h-goal" hidden>
           <header class="step-head"><p class="eyebrow">Step 2 of 5</p><h1 id="h-goal" tabindex="-1">Goal</h1><p class="lead" id="goal-lead">What you want your body to do. You'll get instant feedback on whether it's realistic.</p></header>
+          <div class="card hab-read" id="hab-read" aria-live="polite" hidden></div>
           <div class="card">
             <p class="eyebrow card-eyebrow">Choose one</p>
             <fieldset><legend class="sr-only">Choose a goal</legend>
@@ -1630,6 +1666,8 @@ body.has-ask{padding-bottom:4.75rem}
                 <label class="field" data-field="actualF"><span class="label">Fat <small class="muted">(optional)</small></span>
                   <span class="control"><input data-f="actualF" inputmode="decimal"><span class="unit">g</span></span><span class="err"></span></label>
               </div>
+              <div class="hab-week" id="hab-week" hidden><label class="field" data-field="habWeek"><span class="label">Or enter a weekly total <small class="muted">(optional)</small></span>
+                <span class="control"><input id="hab-week-in" inputmode="numeric" autocomplete="off" aria-describedby="hab-week-out"><span class="unit">kcal / week</span></span></label><p class="hint" id="hab-week-out" aria-live="polite">If your eating changes a lot day to day, a weekly total divided by 7 is a better average than one day.</p></div>
               <div id="macro-note" aria-live="polite"></div>
               <p class="hint" style="margin-top:.4rem" id="h-prot"></p>
               <section class="foodlog" id="foodlog" aria-labelledby="fl-h">
@@ -1646,7 +1684,7 @@ body.has-ask{padding-bottom:4.75rem}
                 </div>
                 <div class="fs-scan" id="fs-scan-box" hidden><div class="fs-view"><video id="fs-video" playsinline muted autoplay aria-label="Camera view for barcode scanning"></video><div class="fs-guide" aria-hidden="true"></div></div><div class="fs-scan-bar"><span class="hint" id="fs-scan-msg" role="status"></span><button type="button" class="btn btn-ghost" id="fs-scan-stop">Stop camera</button></div></div>
                 <label class="btn btn-ghost fs-photo" for="fs-photo">Take photo / upload image</label><input type="file" id="fs-photo" accept="image/*" capture="environment" class="sr-only">
-                <div id="ai-food"></div><input type="file" id="ai-food-label" accept="image/*" capture="environment" class="sr-only" tabindex="-1" aria-hidden="true"><input type="file" id="ai-food-meal" accept="image/*" capture="environment" class="sr-only" tabindex="-1" aria-hidden="true">
+                <div id="ai-food"></div><input type="file" id="ai-food-label" accept="image/*" capture="environment" class="sr-only" tabindex="-1" aria-hidden="true">
                 <p class="hint fs-status" id="fs-status" role="status" aria-live="polite"></p>
                 <details class="fs-diag" id="fs-scan-diag-wrap" hidden><summary>Scanner details</summary><p class="hint" id="fs-scan-diag"></p></details>
                 <ul class="fs-results" id="fs-results" aria-label="Search results"></ul>
@@ -1714,6 +1752,7 @@ body.has-ask{padding-bottom:4.75rem}
         <section class="step" data-step="5" aria-labelledby="h-proj" hidden>
           <header class="step-head"><p class="eyebrow">Step 5 of 5</p><h1 id="h-proj" tabindex="-1">Projection</h1></header>
           <div id="fit-banner-5" class="fit-wrap" hidden></div>
+          <div class="card hab-path" id="hab-path" hidden></div>
           <div class="card" id="proj-hero" aria-live="polite"></div>
           <div class="card mt1">
             <p class="eyebrow card-eyebrow">Over time</p>
@@ -1823,9 +1862,9 @@ body.has-ask{padding-bottom:4.75rem}
     <details class="card method" id="methods">
       <summary><h2>Methods &amp; references</h2></summary>
       <div class="body">
-        <p><strong>Fat ceiling.</strong> Alpert (2005) found that the fat store can release at most about <strong>290 ± 25 kJ per kg of fat per day</strong>, which is <strong>31.4 kcal per lb of fat</strong>. A deficit bigger than that is covered by lean tissue. Each week's recommended deficit is set from that week's end-of-week fat mass, so it stays under the ceiling every day. Fat mass stores about 4,250 kcal per lb (≈ 9,400 kcal/kg, Hall 2008). That's not the 3,500 kcal/lb of adipose tissue. Together these give Alpert's response time of about <strong>135 days</strong>. The ±25 kJ uncertainty is shown as a range.</p>
+        <p><strong>Fat ceiling.</strong> Alpert (2005) found that the fat store can release at most about <strong>290 ± 25 kJ per kg of fat per day</strong>, which is <strong>31.4 kcal per lb of fat</strong>. A deficit bigger than that is covered by liver glycogen (roughly 100 g, about 400 kcal, approximate) and by increasing protein loss from muscle and organs (these overlap). Intake can go at most 400 kcal a day below the fat ceiling deficit, no further (a design limit, not a published figure). To be conservative, the lean share of weight lost is multiplied by 1.15, so the model shows somewhat more muscle loss than the formulas alone would; that is an assumption, not a measurement. Each week's recommended deficit is set from that week's end-of-week fat mass, so it stays under the ceiling every day. Fat mass stores about 4,250 kcal per lb (≈ 9,400 kcal/kg, Hall 2008). That's not the 3,500 kcal/lb of adipose tissue. Together these give Alpert's response time of about <strong>135 days</strong>. The ±25 kJ uncertainty is shown as a range.</p>
         <p><strong>Daily burn.</strong> BMR from Mifflin-St Jeor (default) or Katch-McArdle, ×1.2 for sedentary daily living and digestion, then added activity on top. Steps above ~3,000 a day at about 0.5 kcal per kg per km (ACSM walking equation; stride ≈ 0.41 × height). Lifting at ~3 net METs and cardio at ~5 net METs (Ainsworth 2011 Compendium). Burn is recalculated every day as your weight and lean mass change.</p>
-        <p><strong>Metabolic adaptation.</strong> When you eat less, expenditure falls by more than tissue loss explains (adaptive thermogenesis; Rosenbaum &amp; Leibel 2010). Following Hall (2011), burn drops by about <strong>14% of the cut in intake</strong> from your starting maintenance, building over about two weeks. For a typical 500–700 kcal cut that's 70–100 kcal a day, roughly a 3–5% slowdown. If a fixed intake asks for more than your fat can supply, the body conserves harder (Keys 1950; Dulloo &amp; Jacquet 1998): extra adaptation covers the gap up to <strong>25% of burn</strong>, and only the remainder comes from lean tissue. Recommended plans set each week's intake from this adapted burn, and adaptation stays in place while you hold a lower weight.</p>
+        <p><strong>Metabolic adaptation.</strong> When you eat less, expenditure falls by more than tissue loss explains (adaptive thermogenesis; Rosenbaum &amp; Leibel 2010; Fothergill 2016). The size is an <strong>assumption we chose, not a published constant</strong>: burn drops by about <strong>14% of the cut in intake</strong> from your starting maintenance, building over about two weeks. The papers report the direction and rough size (holding a 10% lower weight lowered 24-hour expenditure about 20–25%, which is 10–15% below what tissue change explains; in the Biggest Loser follow-up the extra slowing was about 500 kcal a day at 6 years, with large differences between people), but not this coefficient. For a typical 500–700 kcal cut that's 70–100 kcal a day, roughly a 3–5% slowdown. If a fixed intake asks for more than your fat can supply, the body conserves harder (Keys 1950; Dulloo &amp; Jacquet 1998; we did not read these two in full): extra adaptation covers the gap up to <strong>25% of burn</strong>, and only the remainder comes from lean tissue. Recommended plans set each week's intake from this adapted burn, and adaptation stays in place while you hold a lower weight.</p>
         <p><strong>Where losses come from.</strong> Inside the ceiling, the share of weight lost as lean tissue has two parts. The first follows Forbes' fat-dependent curve (leaner people lose more lean); resistance training (to ~0 with 4+ sessions a week) and adequate protein shrink it. The second is a <strong>structural share</strong> in larger bodies that training can't protect: the non-fat part of adipose tissue, skin, and load-bearing muscle. It rises from 0 at 18% body fat (men) / 28% (women) to 12% of weight lost at 38% / 48%, ×1.15 from age 60. Together, larger adults who lift lose about <strong>10–18% of weight as lean</strong>, and about 20–25% without lifting (Villareal 2017; Weinheimer 2010). Energy beyond the ceiling that adaptation doesn't cover comes from lean tissue at ~1,800 kcal/kg. Gains: lean tissue costs ~2,500 kcal/kg including synthesis, up to the training-specific monthly rate (see Goal, Advanced). Any extra energy is stored as fat.</p>
         <p><strong>Safety limits.</strong> Recommended intake never drops below 1,200 kcal (women) or 1,500 kcal (men) a day (NHLBI 1998). Body fat can't go below essential fat (5% men, 12% women), and results under 8% (men) or 18% (women) are flagged. Projections of a fixed intake (what you eat, or PSMF) <strong>stop</strong> when body fat reaches 8% / 18%, BMI drops below 18.5, or lean mass falls below 80% of where you started, and say why; they never extrapolate past those points. Week-one pace above 1.5% of body weight a week is flagged. Pregnancy and eating-disorder history change the plan or prompt a consult.</p>
         <p><strong>Health context (optional).</strong> HbA1c bands follow ADA/NIDDK: under 5.7% is below the prediabetes range, 5.7–6.4% prediabetes, 6.5% or more the diabetes range, which needs clinical confirmation. Waist-to-height bands follow NICE NG246: 0.4–0.49 healthy, 0.5–0.59 increased and 0.6 or more high central adiposity, applied only below BMI 35. Type 2 diabetes remission is a clinical outcome, not a promised weight-loss result: HbA1c below 6.5% for at least three months without glucose-lowering medication (Riddle 2021). This tool doesn't forecast A1c, liver fat or remission. If you take glucose-lowering medication, or aren't sure, a medication card appears whenever the plan is a real deficit (250 kcal or more) or low-carb.</p>
@@ -1885,6 +1924,7 @@ body.has-ask{padding-bottom:4.75rem}
           <li>Deurenberg P, Weststrate JA, Seidell JC. Body mass index as a measure of body fatness: age- and sex-specific prediction formulas. <em>Br J Nutr.</em> 1991;65(2):105–114.</li>
           <li>Kouri EM, et al. Fat-free mass index in users and nonusers of anabolic-androgenic steroids. <em>Clin J Sport Med.</em> 1995;5(4):223–228.</li>
           <li>Rosenbaum M, Leibel RL. Adaptive thermogenesis in humans. <em>Int J Obes.</em> 2010;34(Suppl 1):S47–S55.</li>
+          <li>Fothergill E, et al. Persistent metabolic adaptation 6 years after “The Biggest Loser” competition. <em>Obesity.</em> 2016;24(8):1612–1619.</li>
           <li>Keys A, et al. <em>The Biology of Human Starvation.</em> University of Minnesota Press; 1950.</li>
           <li>Dulloo AG, Jacquet J. Adaptive reduction in basal metabolic rate in response to food deprivation in humans: a role for feedback signals from fat stores. <em>Am J Clin Nutr.</em> 1998;68(3):599–606.</li>
           <li>Villareal DT, et al. Aerobic or resistance exercise, or both, in dieting obese older adults. <em>N Engl J Med.</em> 2017;376(20):1943–1955.</li>
@@ -1965,6 +2005,15 @@ body.has-ask{padding-bottom:4.75rem}
 (function (root) {
 "use strict";
 const LB = 2.2046226218;
+/* v7.6.20: what covers a deficit once the fat store's release limit is passed: liver glycogen (about 100 g, ~400 kcal, approximate textbook value) is its own line,
+   then increasingly protein from muscle AND organs (overlapping, never a clean sequence). No other glycogen store is modelled. CONSERVATIVE: the model still counts the
+   whole excess as possible lean loss (an assumption, not a measurement). Beyond-ceiling buffer: intake may go at most OVER_BUFFER_KCAL below the max-fat deficit (hard cap). */
+const OVER_BUFFER_KCAL = 400, LEAN_LOSS_CONSERVATIVE = 1.15;   // assumptions (see Sources): lean share of loss x1.15
+const LIVER_GLY_G = 100, LIVER_GLY_KCAL = 400;
+function overFuel(overKcal) {
+  const o = Math.max(0, overKcal || 0), gly = Math.min(o, LIVER_GLY_KCAL), pro = o - gly;
+  return { liverGlycogenKcal: gly, liverGlycogenG: gly / LIVER_GLY_KCAL * LIVER_GLY_G, proteinKcal: pro, proteinKg: pro / RHO_L_LOSS, conservativeLeanKg: o / RHO_L_LOSS };
+}
 const K_LB = 31.4;                       // Alpert 2005: 290 kJ/kg fat/day = 31.4 kcal/lb/day
 const K_KG = K_LB * LB;                  // 69.2 kcal per kg fat per day
 const RHO_F = 4250 * LB;                 // kcal per kg of fat mass (~9,370; Hall 2008 ~9,440)
@@ -1982,6 +2031,8 @@ const LEAN_STOP = 0.80;                  // ...or below 80% of starting lean mas
 // deficit exceeds what fat can supply, the body conserves harder (Keys 1950; Dulloo & Jacquet 1998): the
 // shortfall is matched by further adaptation up to a 25%-of-burn cap; only the rest is drawn from lean tissue.
 const AT_BETA = 0.14, AT_OVER = 1.0, AT_TAU = 14, AT_CAP = 0.25;
+// v7.6.20c surplus side, from full texts: Bray 2012 (JAMA, PMC3777747) total expenditure rose ~48-55% of the +954 kcal/d excess at weeks 7-8 with 15-25% protein (mostly tissue gain, protein turnover, TEF; REE rise mostly in weeks 2-4) and ~4% with 5% protein; Hall 2012 (AJCN, PMC3302369): little evidence of an ACTIVE REE rise beyond tissue cost; NEAT rise reported up to 500 kcal/d in one study, not reproduced in others. The model already includes the passive parts (lean/fat tissue, TEF, activity cost of a heavier body), so the extra active term is kept small: 20% of the excess, counted only up to 1,000 kcal/d of excess (the range studied: Levine 1999 and Bray 2012 fed ~1,000; Stock's review 890-2,000), so max +200 kcal/d. Individuals vary widely (Levine 1999 abstract: 10-fold differences in fat storage).
+const AT_BETA_UP = 0.20, AT_UP_MAXEXCESS = 1000;
 const MAX_DAYS = 260 * 7;
 // Realistic lean-mass gain potential with consistent lifting (kg per month), see methods
 const GAIN_RATE = { m: { beginner: 0.9, intermediate: 0.45, advanced: 0.22 }, f: { beginner: 0.45, intermediate: 0.22, advanced: 0.11 } };
@@ -2146,7 +2197,7 @@ function cardioWeek(move, p, kg) {
   const avgNet = min > 0 ? kcal / kg / (min / 60) : cardioNetMet(list[0], p, kg);
   return { min, kcalWeek: kcal, avgNet };
 }
-/* v5 P5: lifting style (net METs incl. rests; Compendium 02050 3.5, 02052 5.0, 02054 6.0, 02035 4.3 / 02040 8.0 gross) */
+/* v5 P5: lifting style (net METs incl. rests; Compendium 2011 gross METs: 02054 light 3.5, 02052 moderate 5.0, 02050 vigorous 6.0; 02035 4.3 / 02040 8.0 gross) */
 const LIFT_STYLE = { mixed: { label: "Mixed", net: 3.0, gain: 1.0 }, hypertrophy: { label: "Hypertrophy / bodybuilding", net: 3.5, gain: 1.05 },
   strength: { label: "Strength / powerlifting", net: 2.5, gain: 0.95 }, circuit: { label: "Circuit / CrossFit-style", net: 5.0, gain: 0.85 } };
 /* v6: custom lifting rows {type, effort, min (per session), days (per week)}, like the cardio list. Gross METs from the 2011
@@ -2326,7 +2377,7 @@ const MUSCLE_SPILL = { chest: { shoulders: 0.5, triceps: 0.5, core: 0.1 }, back:
 const PRESET_GROUPS = { "2-3": MUSCLE_KEYS.slice(), "4+": MUSCLE_KEYS.slice(), min: ["chest", "back", "quads", "glutes"], full: MUSCLE_KEYS.slice() };
 const PRESET_LABEL = { "2-3": "Full body", "4+": "Push / pull / legs (all groups)", min: "Push, pull and a leg compound" };
 /* v6.5: exercise dictionary. Primary movers weigh 1, secondary 0.5 (EMG and hypertrophy studies: e.g. bench/push-ups grow the
-   chest most with some front-delt and triceps growth, Brandão 2020; squats grow quads and glutes but barely the hamstrings,
+   chest most with some front-delt and triceps growth (the secondary-mover weights are the app's assumptions); squats grow quads and glutes but barely the hamstrings,
    Kubo 2019; RDLs / leg curls train hamstrings; rows and pull-ups train the back with biceps assisting). Synonyms + fuzzy match. */
 const EXERCISES = [
   [["bench press", "bench", "chest press", "dumbbell press", "db press", "floor press", "incline press", "incline bench", "decline bench"], { chest: 1, shoulders: 0.5, triceps: 0.5 }],
@@ -2420,7 +2471,7 @@ function muscleRegions(move, sex) {
 }
 
 // ---------- muscle-gain potential ----------
-// Natural ceiling: potential tapers over the last ~4 FFMI points below ~25 (men) / ~21.5 (women) (Kouri 1995)
+// Natural ceiling: potential tapers over the last ~4 FFMI points below ~25 (men) / ~21.5 (women) (Kouri 1995 found FFMI ≈ 25 as the upper range in natural athletes; the taper width and the 21.5 women's value are the app's assumptions)
 const FFMI_LIMIT = { m: 25, f: 21.5 };
 function ffmiTaper(p, L) { if (L == null) return 1; const h = p.heightCm / 100, ffmi = L / (h * h) + 6.1 * (1.8 - h); return clamp((FFMI_LIMIT[p.sex] - ffmi) / 4, 0.15, 1); }
 function leanPotentialPerDay(p, move, day, proteinLevel, L) {
@@ -2448,14 +2499,21 @@ function dayChange(E, F, ctx, L) {
     const D = -E;
     const gain = P * 0.5 * Math.max(0, 1 - D / ceiling);
     const within = Math.min(D, ceiling), excess = D - within;
-    const pm = L != null && ctx.sex ? leanShare(F, L, ctx) : clamp(10.4 / (10.4 + F) * ctx.lossFactor, 0, 0.6);
+    const pm = clamp((L != null && ctx.sex ? leanShare(F, L, ctx) : clamp(10.4 / (10.4 + F) * ctx.lossFactor, 0, 0.6)) * LEAN_LOSS_CONSERVATIVE, 0, 0.6);   // v7.6.20g: conservative x1.15
     const x = within / (RHO_F + RHO_L_LOSS * pm / (1 - pm));
     const y = x * pm / (1 - pm);
     return { dF: -x - gain * RHO_L_GAIN / RHO_F, dL: -y - excess / RHO_L_LOSS + gain, over: excess > 1 ? excess : 0 };
   }
   // Surplus: a small surplus already supports the full training-limited potential (it is reached once the surplus covers
   // the lean tissue plus about half as much fat); anything beyond that is stored as fat (Slater 2019; Iraki 2019)
-  if (P <= 0) return { dF: E / RHO_F, dL: 0, over: 0 };
+  if (P <= 0) {
+    // v7.6.20: no resistance training. Overfeeding still adds some lean tissue (Forbes 1987; Hall 2007: lean share of a weight change = 10.4 / (10.4 + fat kg);
+    // Bray 2012: +2.9 kg lean with adequate protein, none with very low protein). Energy density of lean tissue 1,800 kcal/kg (Hall 2008).
+    const pmS = ctx.leanFloor ? 10.4 / (10.4 + F) * ctx.leanFloor : 0;
+    if (pmS <= 0) return { dF: E / RHO_F, dL: 0, over: 0 };
+    const x = E / (RHO_F + RHO_L_LOSS * pmS / (1 - pmS));
+    return { dF: x, dL: x * pmS / (1 - pmS), over: 0 };
+  }
   if (ctx.dateMode) {        // target-by-date plan: the training-limited lean gain first, everything beyond it is fat
     const gainD = Math.min(P, Math.max(0, E) / RHO_L_GAIN);
     return { dF: (E - gainD * RHO_L_GAIN) / RHO_F, dL: gainD, over: 0 };
@@ -2517,6 +2575,8 @@ const holdRatio = (p) => clamp(p.bf, 3, 60) / (100 - clamp(p.bf, 3, 60));
    and the projection shows it. Without lifting there is no muscle signal, so it holds at maintenance (with a warning). */
 // v5.1: a moderate 250–350 kcal surplus (Iraki 2019: ~10–20% of maintenance for newer lifters, less when trained; Helms 2023:
 // small surpluses build about as much muscle with less fat). Steps down with training age over the projection, never below 250.
+/* v7.6.20b: the surplus ranges (kcal/day) each Plan-my-goal gain style uses, named once so the habits-first flow classifies with the same ones. */
+const GAIN_KCAL = { lean: [100, 300], bulk: [250, 350], moderate: [200, 450], fast: [300, 600] };
 const BULK_SURPLUS = { m: { beginner: 350, intermediate: 300, advanced: 250 }, f: { beginner: 300, intermediate: 275, advanced: 250 } }, BULK_MIN = 250;
 function bulkSurplus(p, move, day) {
   if (weeklyTraining(move).liftSessions <= 0) return 0;
@@ -2529,13 +2589,18 @@ function surplusFor(p, move, F, L, day, mode) {
   if (mode === "max") return bulkSurplus(p, move, day || 0);
   const P = leanPotentialPerDay(p, move, day || 0, "high", L);
   if (mode === "hold") mode = "lean";   // v7.6.3: "keep body fat %" removed; old saved plans map to Lean
-  if (mode === "moderate") { if (P <= 0) return 0; return Math.round(clamp(P * (RHO_L_GAIN + MOD_RATIO * RHO_F), 200, 450) / 10) * 10; }
-  if (mode === "fast") { const base = P > 0 ? 2 * clamp(P * (RHO_L_GAIN + LEAN_BULK_RATIO * RHO_F), 75, 350) : 0; return Math.round(clamp(Math.max(base, p.sex === "f" ? 300 : 400), 300, 600) / 10) * 10; }
+  if (mode === "moderate") { if (P <= 0) return 0; return Math.round(clamp(P * (RHO_L_GAIN + MOD_RATIO * RHO_F), GAIN_KCAL.moderate[0], GAIN_KCAL.moderate[1]) / 10) * 10; }
+  if (mode === "fast") { const base = P > 0 ? 2 * clamp(P * (RHO_L_GAIN + LEAN_BULK_RATIO * RHO_F), 75, 350) : 0; return Math.round(clamp(Math.max(base, p.sex === "f" ? 300 : 400), GAIN_KCAL.fast[0], GAIN_KCAL.fast[1]) / 10) * 10; }
   if (P <= 0) return 0;
-  return Math.round(clamp(P * (RHO_L_GAIN + LEAN_RATIO * RHO_F), 100, 300) / 10) * 10;
+  return Math.round(clamp(P * (RHO_L_GAIN + LEAN_RATIO * RHO_F), GAIN_KCAL.lean[0], GAIN_KCAL.lean[1]) / 10) * 10;
 }
 
-function recommendIntake(inp, pace, tdee, F, L, k, day) {
+/* v7.6.20e: one rule for "fast gain, mostly fat" (surplus kcal/day vs maintenance), shared by habits.js and the Plan's target-weight path. Built only from GAIN_KCAL:
+   above the Moderate style's top (450), or the Fast style's start (300) when lifting fewer than 2 days a week. */
+function fastGainSurplus(bal, liftSessions) { return bal > GAIN_KCAL.moderate[1] || (bal >= GAIN_KCAL.fast[0] && !(liftSessions >= 2)); }
+/* v7.6.20b: the day's target deficit (+) or surplus (-) in kcal for the chosen goal, before the safe-minimum floor. Split out of recommendIntake (same math,
+   unchanged) so planBands() and the habits-first flow classify with exactly the Plan-my-goal definitions. */
+function deficitFor(inp, pace, tdee, F, L, k, day) {
   const p = inp.profile, g = inp.goal, dir = goalDirection(inp);
   const ceilEnd = k * F * Math.exp(-7 * k / RHO_F);
   let def = 0;
@@ -2550,11 +2615,23 @@ function recommendIntake(inp, pace, tdee, F, L, k, day) {
     def = -Math.min(2500, ln * RHO_L_GAIN + (n - ln) * RHO_F);
   }
   else if (dir === "gain") def = p.health && p.health.pregnant ? 0 : -surplusFor(p, inp.move, F, L, day, g.type === "bulk" ? "max" : g.gainMode);
+  return def;
+}
+function recommendIntake(inp, pace, tdee, F, L, k, day) {
+  const p = inp.profile, g = inp.goal, dir = goalDirection(inp);
+  const def = deficitFor(inp, pace, tdee, F, L, k, day);
   const floor = FLOOR[p.sex];
   let intake = tdee - def, floorBinds = false, noRoom = false;
   if (def > 0 && intake < floor) { if (tdee <= floor) { intake = tdee; noRoom = true; } else { intake = floor; floorBinds = true; } }
   intake = def > 0 ? Math.ceil(intake / 10) * 10 : dir === "gain" && (g.type === "bulk" || g.gainMode === "hold" || g.gainMode === "date") ? Math.round(intake) : Math.round(intake / 10) * 10;
   return { intake, floorBinds, noRoom, ceiling: k * F };
+}
+
+/* v7.6.20b: where a daily balance (kcal vs maintenance) sits against each Plan-my-goal goal, for these inputs. Deficits are the Plan's own (Recomp, Steady, Maximal);
+   surplus ranges are GAIN_KCAL (Lean / Build muscle (max) / Moderate / Fast). Used by habits.js so both flows classify the same way. */
+function planBands(inp, tdee) {
+  const p = inp.profile, F = p.weightKg * p.bf / 100, L = p.weightKg - F, k = K_KG, d = (type) => Math.max(0, deficitFor(Object.assign({}, inp, { goal: Object.assign({}, inp.goal, { type, pace: type === "maxloss" ? 1 : 0.6 }) }), type === "maxloss" ? 1 : 0.6, tdee, F, L, k, 0));
+  return { tdee, recomp: d("recomp"), steady: d("steady"), maxloss: d("maxloss"), gain: GAIN_KCAL };
 }
 
 // ---------- simulation ----------
@@ -2580,7 +2657,7 @@ function simulate(inp, o = {}) {
   const targetFn = o.target || null;
   const rows = [];
   let intake = 0, plan = null, reached = null, holding = false, capped = false;
-  let floorWeeks = 0, overDays = 0, overKcal = 0, noRoom = false, weekIdx = 0, isBreak = false, ceilingHit = null;
+  let capWeeks = 0, floorWeeks = 0, overDays = 0, overKcal = 0, noRoom = false, weekIdx = 0, isBreak = false, ceilingHit = null;
   const bfCeil = dir === "gain" && g.bfCeiling > 0 && g.gainMode !== "hold" && g.gainMode !== "date" ? g.bfCeiling : null;
   const holdR = null;
   const every = !actual && dir === "loss" ? (food.dietBreakEvery || 0) : 0;
@@ -2597,7 +2674,8 @@ function simulate(inp, o = {}) {
         weekIdx = day / 7;
         isBreak = every > 0 && weekIdx % (every + 1) === every;
         plan = recommendIntake(inp, pace, burn, F, L, k, day);
-        if (actual) intake = fixedKcal;
+        if (actual) { intake = fixedKcal;
+          if (!psmf) { const minIn = Math.ceil((burn - (k * F + OVER_BUFFER_KCAL)) / 10) * 10; if (intake < minIn) { intake = minIn; capWeeks++; } } }   // v7.6.20g hard cap: at most 400 kcal below the max-fat deficit
         else if (holding || isBreak) intake = Math.round(burn / 10) * 10;
         else { intake = plan.intake; if (plan.floorBinds) floorWeeks++; if (plan.noRoom) noRoom = true; }
       }
@@ -2606,10 +2684,12 @@ function simulate(inp, o = {}) {
     if (day >= horizon) break;
     // adaptive thermogenesis: first-order approach to its target
     const overPred = Math.max(0, act.tdee - intake - AT_BETA * Math.max(0, ei0 - intake) - k * F);
-    const atTarget = Math.min(AT_CAP * act.tdee, AT_BETA * Math.max(0, ei0 - intake) + AT_OVER * overPred);
+    let atTarget = Math.min(AT_CAP * act.tdee, AT_BETA * Math.max(0, ei0 - intake) + AT_OVER * overPred);
+    // v7.6.20: habits (fixed intake) above baseline raise expenditure too (adaptive thermogenesis / NEAT, uses AT_BETA_UP (20%, capped) and the 14-day response; NOT assumed symmetric with the 14% deficit coefficient, since Rosenbaum & Leibel 2010 (full text) say weight-gain responses are not a mirror image of weight-loss ones; both coefficients are calibrations, see Sources: assume-deficit / assume-surplus)
+    if (actual && !psmf && intake > ei0) atTarget = -Math.min(AT_CAP * act.tdee, AT_BETA_UP * Math.min(intake - ei0, AT_UP_MAXEXCESS));
     adapt += (atTarget - adapt) / AT_TAU;
-    const ctx = { k, potential: leanPotentialPerDay(p, inp.move, day, protLevel, L), lossFactor: lf, sex: p.sex, age: p.age, holdR: holdR, dateMode: dir === "gain" && g.gainMode === "date" && !actual };
-    // v5 Advanced: refeed days (1–2 days a week at maintenance during a fat-loss diet; Campbell 2020, Peos 2021)
+    const ctx = { k, potential: leanPotentialPerDay(p, inp.move, day, protLevel, L), leanFloor: actual && !psmf && protLevel !== "low" ? 1 : 0, lossFactor: lf, sex: p.sex, age: p.age, holdR: holdR, dateMode: dir === "gain" && g.gainMode === "date" && !actual };
+    // v5 Advanced: refeed days (1–2 days a week at maintenance during a fat-loss diet; Campbell 2020 and Peos 2021 tested longer alternating blocks of diet and maintenance, so the 1–2 day weekly pattern is a common practice, not directly tested there)
     const refeed = refeedDays > 0 && !holding && !isBreak && (day % 7) >= 7 - refeedDays;
     if (refeed) refeedCount++;
     const eatToday = refeed ? Math.max(intake, burn) : intake;
@@ -2623,8 +2703,8 @@ function simulate(inp, o = {}) {
     }
     // stop rules for fixed-intake projections (what you eat / PSMF): never extrapolate past these
     // v7.6.4: a large surplus can't extrapolate to absurd body fat either
-    if (actual && ch.dF > 0 && 100 * F / (F + L) >= Math.max(60, p.bf + 5)) { stopped = { day: day + 1, reason: "bfhigh" }; const a2 = tsc(activity(p, inp.move, F, L, food.bmrEq)); rows.push(Object.assign(row(day + 1, a2.tdee - adapt - tef(intake), { tef: tef(intake) }), { end: true, stopped: "bfhigh" })); break; }
-    if (actual && (ch.dF + ch.dL) < 0) {
+    if (actual && !o.noStops && ch.dF > 0 && 100 * F / (F + L) >= Math.max(60, p.bf + 5)) { stopped = { day: day + 1, reason: "bfhigh" }; const a2 = tsc(activity(p, inp.move, F, L, food.bmrEq)); rows.push(Object.assign(row(day + 1, a2.tdee - adapt - tef(intake), { tef: tef(intake) }), { end: true, stopped: "bfhigh" })); break; }
+    if (actual && !o.noStops && (ch.dF + ch.dL) < 0) {
       const W = F + L, why = 100 * F / W < bfStop ? "bf" : W / h2 < bmiStop ? "bmi" : L < LEAN_STOP * L0 ? "lean" : null;
       if (why) { stopped = { day: day + 1, reason: why }; const a2 = tsc(activity(p, inp.move, F, L, food.bmrEq)); rows.push(Object.assign(row(day + 1, a2.tdee - adapt - tef(intake), { tef: tef(intake) }), { end: true, stopped: why })); break; }
     }
@@ -2636,7 +2716,7 @@ function simulate(inp, o = {}) {
   }
   if (rows.length) rows[rows.length - 1].end = true;
   const last = rows[rows.length - 1];
-  return { rows, reached, ceilingHit, capped, floorWeeks, overDays, overKcal, noRoom, endF: last.fatKg, endL: last.leanKg, pace, stopped, adaptEnd: last.adapt, ei0, fixedKcal: actual ? fixedKcal : null, psmf, refeedDays: refeedCount };
+  return { rows, reached, ceilingHit, capped, capWeeks, floorWeeks, overDays, overKcal, noRoom, endF: last.fatKg, endL: last.leanKg, pace, stopped, adaptEnd: last.adapt, ei0, fixedKcal: actual ? fixedKcal : null, psmf, refeedDays: refeedCount };
 }
 
 function targetFnFor(inp) {
@@ -2788,6 +2868,9 @@ function project(inp0) {
         feas.allowBf = free.reached != null ? Math.ceil(free.rows[free.rows.length - 1].bf * 2) / 2 : null; planDays = null; }
     } else { feas.status = "unreachable"; planDays = null; }
     if (dateDay != null) inpMain = withG({ gainMode: "date", dateDay });
+    /* v7.6.20e: a goal weight that needs a big surplus to make the requested weeks is a fast gain that is mostly fat. The implied surplus is the daily surplus the date-driven plan
+       would need for the requested weeks; it's judged with the same rule the habits-first flow uses (fastGainSurplus: above the Moderate style's top, or the Fast style's start without regular lifting). */
+    if (want && (feas.status === "tooFast" || feas.dateDriven)) { const dr = dateRun(want).s.rows[0]; feas.impliedSurplus = Math.round(dr.intake - dr.tdee); feas.fastGain = fastGainSurplus(feas.impliedSurplus, weeklyTraining(inp.move).liftSessions); }
     if (feas.status === "ceiling") horizon = Math.ceil(feas.ceilingDay);
     else if (planDays == null) horizon = 52 * 7;
     else { horizon = Math.ceil(planDays); if (want && feas.status === "fits") horizon = Math.max(horizon, want); }
@@ -2844,6 +2927,7 @@ function project(inp0) {
 }
 
 // ---------- warnings ----------
+function FAST_GAIN_NOTE(sur, wk) { return `Reaching this goal weight in ${wk} weeks would take a surplus of about ${Math.round(sur / 10) * 10} kcal a day. That's a fast gain, and it will be mostly fat: muscle can't be built that quickly, so most of the extra weight would be body fat, not muscle. A longer timeframe or a smaller weight change keeps more of the gain as muscle. This is general education, not a prescription.`; }
 function warningsFor(R) {
   const W = [], p = R.inp.profile, rows = R.main.rows, end = rows[rows.length - 1], start = rows[0];
   const h = p.health || {};
@@ -2855,6 +2939,7 @@ function warningsFor(R) {
   if (R.medCard) W.push({ t: "danger", consult: true, kind: "meds", m: "Check medications first. Reducing calories or carbohydrate can change medication needs. Insulin and some diabetes tablets can cause low glucose; fasting or very-low-carbohydrate intake can also be risky with SGLT2 medicines. Review glucose-lowering medication and monitoring with your clinician before you start. Never stop or adjust medication based on this simulator." });
   if (h.edHistory) W.push({ t: "warn", consult: true, m: "With a history of disordered eating, structured dieting is best done with your care team. A consult can help set this up safely." });
   if (R.feas.status === "tooFast" && !R.actual) W.push({ t: "warn", m: `${R.feas.requested} weeks isn't possible without losing muscle. The fastest route designed to limit muscle loss takes about ${(R.feas.fastestDays / 7).toFixed(1)} weeks, so that's what's shown.` });
+  if (R.dir === "gain" && R.feas.fastGain) W.push({ t: "warn", kind: "fastgain-target", m: FAST_GAIN_NOTE(R.feas.impliedSurplus, R.feas.requested || R.inp.goal.weeks) });
   if (R.feas.status === "unreachable") W.push({ t: "warn", consult: true, m: "This target isn't reachable within 5 years at these settings. Add lifting, adjust activity, or choose a closer target." });
   const fixed = R.main.fixedKcal;
   if (R.psmf) {
@@ -2865,9 +2950,11 @@ function warningsFor(R) {
     if (R.horizon > 12 * 7) W.push({ t: "info", m: "PSMF phases usually last 6–12 weeks. This projection runs it longer only for comparison. Plan the transition with your clinician." });
   } else if (R.actual && fixed < 800) W.push({ t: "danger", consult: true, m: "Under 800 kcal a day is a very-low-calorie diet. It needs medical supervision and lab monitoring." });
   else if (R.actual && fixed < FLOOR[p.sex]) W.push({ t: "warn", consult: true, m: `${fixed.toLocaleString("en-US")} kcal is below the usual unsupervised minimum of ${FLOOR[p.sex].toLocaleString("en-US")} kcal for ${p.sex === "m" ? "men" : "women"}.` });
+  if (R.main.capWeeks > 0) W.push({ t: "warn", consult: true, kind: "overcap", m: `You can go at most 400 kcal a day below the most your fat can fuel. Your intake is below that on ${R.main.capWeeks} week${R.main.capWeeks > 1 ? "s" : ""}, so the projection raises it to that limit. The extra 400 kcal is beyond what fat can fuel and is drawn from liver glycogen and protein in this model.` });
   if (R.main.overDays > 0) {
-    const leanLoss = R.main.overKcal / RHO_L_LOSS;
-    W.push({ t: "warn", consult: true, m: `On ${R.main.overDays} of ${R.horizon} days your deficit is bigger than your fat can supply (about 31 kcal per lb of fat). The extra comes out of muscle: roughly ${lbs(leanLoss)} lb of lean tissue in this projection.` });
+    const of = overFuel(R.main.overKcal), leanLoss = of.conservativeLeanKg;
+    R.overFuel = of;
+    W.push({ t: "warn", consult: true, kind: "overfuel", m: `On ${R.main.overDays} of ${R.horizon} days your deficit is bigger than your fat can supply (about 31 kcal per lb of fat). Past that, the body can draw on liver glycogen first (roughly 100 g, about 400 kcal; an approximate textbook figure) and then on more and more protein. Protein loss is never zero even inside the ceiling, it is larger in leaner people, and it comes from organs such as the liver and kidney as well as muscle. These overlap rather than switch cleanly. To be conservative we count this whole extra as possible lean loss: roughly ${lbs(leanLoss)} lb of lean tissue in this projection. That is an assumption, not a measurement.` });
   }
   if (R.main.stopped) {
     const why = { bf: `body fat reaches ${VERY_LEAN[p.sex]}%, the lower limit for ${p.sex === "m" ? "men" : "women"} in this model`, bmi: "BMI falls below 18.5 (underweight)", lean: "lean mass would fall below 80% of where you started", bfhigh: "body fat climbs past the range this model can project" }[R.main.stopped.reason];
@@ -2886,7 +2973,7 @@ function warningsFor(R) {
     const mv0 = R.inp.move || {}, nl = !!mv0.noLift, nc = !!mv0.noCardio, deficit = R.dir === "loss" || (R.main.rows[0].tdee - R.main.rows[0].intake) > 150;
     if (nl && nc) W.push({ t: "info", kind: "optout", m: "You've turned off both lifting and cardio, so this plan runs on steps and food alone. That works for fat loss, and every number here already reflects it. Two things to know: without lifting, the projection doesn't count any muscle gain from training (so your actual body composition may differ), and cardio and strength work both help heart and metabolic health. You can add either back whenever you like." });
     else if (nc) W.push({ t: "info", kind: "optout", m: "Cardio is turned off, so your burn comes from daily steps, daily living" + (tr.liftSessions > 0 ? " and lifting" : "") + ". That's fine: food and steps carry most of a fat-loss plan. Cardio mainly adds heart-health benefit and a bit more burn, so add some any time you want it." });
-    if (nl && deficit) W.push({ t: "info", kind: "optout", m: `Without lifting, more of the weight you lose can be lean mass. Studies of diet alone find roughly a quarter of the loss comes from lean tissue (Weinheimer 2010; Cava 2017); lifting is the strongest way to protect it. The projection shows about ${lbs(Math.max(0, start.leanKg - end.leanKg))} lb of lean mass lost. Keeping protein high (about 1 g per lb) and the deficit moderate helps. Lifting is optional; even two short sessions a week would change this.` });
+    if (nl && deficit) W.push({ t: "info", kind: "optout", m: `Without lifting, more of the weight you lose can be lean mass. Studies of diet alone find roughly 20–30% of the loss comes from lean tissue (Cava 2017; in Weinheimer 2010 most diet-only groups lost at least 15% of the loss as lean); lifting is the strongest way to protect it. The projection shows about ${lbs(Math.max(0, start.leanKg - end.leanKg))} lb of lean mass lost. Keeping protein high (about 1 g per lb) and the deficit moderate helps. Lifting is optional; even two short sessions a week would change this.` });
     if (nl && R.dir === "gain") W.push({ t: "info", kind: "optout", m: "Lifting is turned off, so the projection doesn't count any muscle gain from training, and your actual body composition may differ: a surplus without resistance training is stored almost entirely as fat. That's reasonable if gaining body fat or weight is the goal (for example if you're underweight). If you'd like the gain to include muscle, add lifting on the Move step." });
   }
   { // v7.6.15: large deficit + heavy training -> one gentle note (no claim about the size of any drop)
@@ -2943,12 +3030,91 @@ function nextStepsFor(R) {
   return S;
 }
 
-const api = { LB, K_LB, K_KG, RHO_F, TAU, K_UNC, RHO_L_LOSS, RHO_L_GAIN, FLOOR, ESSENTIAL, VERY_LEAN, GAIN_RATE, GOALS,
+const api = { OVER_BUFFER_KCAL, LEAN_LOSS_CONSERVATIVE, overFuel, LIVER_GLY_G, LIVER_GLY_KCAL, LB, K_LB, K_KG, RHO_F, TAU, K_UNC, RHO_L_LOSS, RHO_L_GAIN, FLOOR, ESSENTIAL, VERY_LEAN, GAIN_RATE, GOALS,
   band, compareGain, BAND_SCALE, refit, params: () => ({ HALL_PA, TEF_BETA, BAND_SCALE, ADAPT_CAP: 0.25 }),
-  navyBf, bmiBf, analyze, healthSummary, a1cStatus, diabetesStatus, psmfPlan, psmfFor, bulkSurplus, BULK_SURPLUS, idealBodyWeight, structuralShare, AT_BETA, AT_TAU, BMI_STOP, LEAN_STOP, bmr, activity, multiplierLabel, referenceWeight, proteinTarget, proteinPlan, highBodyFat, surplusFor, holdRatio, ffmiTaper, CARDIO, cardioNetMet, cardioWeek, cardioEntries, LIFT_STYLE, liftFactors, lossFactor, LIFT_TYPES, LIFT_EFFORT, MIN_PRESET, applyOptOuts, liftRows, liftRowNet, liftCustom, liftGainFreq, liftRetention, calibrate, macrosFromInput, macros, leanPotentialPerDay,
+  navyBf, bmiBf, analyze, healthSummary, a1cStatus, diabetesStatus, psmfPlan, psmfFor, bulkSurplus, fastGainSurplus, FAST_GAIN_NOTE, BULK_SURPLUS, idealBodyWeight, structuralShare, AT_BETA, AT_TAU, BMI_STOP, LEAN_STOP, bmr, activity, multiplierLabel, referenceWeight, proteinTarget, proteinPlan, highBodyFat, surplusFor, deficitFor, planBands, GAIN_KCAL, holdRatio, ffmiTaper, CARDIO, cardioNetMet, cardioWeek, cardioEntries, LIFT_STYLE, liftFactors, lossFactor, LIFT_TYPES, LIFT_EFFORT, MIN_PRESET, applyOptOuts, liftRows, liftRowNet, liftCustom, liftGainFreq, liftRetention, calibrate, macrosFromInput, macros, leanPotentialPerDay,
   simulate, project, MUSCLES, MUSCLE_KEYS, MUSCLE_UPPER, MUSCLE_NAT, MUSCLE_SPILL, PRESET_GROUPS, PRESET_LABEL, defaultGroups, muscleRows, muscleRegions, EXERCISES, matchExercise, inferGroups, rowWeights, goalProblems, goalDirection, weeklyTraining, essentialFatKg };
 if (typeof module !== "undefined" && module.exports) module.exports = api;
 root.BodyEngine = api;
+})(typeof window !== "undefined" ? window : globalThis);
+
+</script>
+<script>
+/* v7.6.20: "Where are my habits taking me?" logic (pure, no DOM). Reads what someone does now (food, steps, training), says which outcome their
+   habits most resemble (a likely match, never a diagnosis), flags paths that look off, and projects fixed habits to coarse checkpoints.
+   The projection comes from engine.simulate (adaptive model, see VALIDATION / SWEEP-v7.6.20.md). The zones are the Plan my goal ones (engine.planBands / GAIN_KCAL), so both flows classify alike; labels are not diagnoses. */
+(function (root) {
+"use strict";
+const CHECKPOINTS = [{ key: "w4", label: "4 weeks", days: 28 }, { key: "m3", label: "3 months", days: 91 }, { key: "m6", label: "6 months", days: 182 }, { key: "y1", label: "1 year", days: 365 }];
+const OUTCOMES = {
+  muscle:    { label: "Building muscle (lean gain)", goalType: "gain" },
+  recomp:    { label: "Recomposition (slow fat loss with muscle kept or gained)", goalType: "recomp" },
+  fatloss_s: { label: "Slow, steady fat loss", goalType: "steady" },
+  fatloss_f: { label: "Faster fat loss", goalType: "steady" },
+  maintain:  { label: "Maintaining your weight", goalType: "maintain" },
+  slowgain:  { label: "Slow fat gain", goalType: "maintain" },
+  fastgain:  { label: "Fast weight gain, mostly fat", goalType: "maintain" },
+  crash:     { label: "Very large deficit", goalType: "steady" },
+};
+function fixedInput(inp, kcal) { const i = JSON.parse(JSON.stringify(inp)); i.food = Object.assign(i.food || {}, { actualOn: true, psmf: false }); if (kcal != null) i.food.actualKcal = kcal; return i; }
+/* Habits row: weekly average -> daily. */
+const weeklyToDaily = (w) => Math.round(w / 7);
+function classify(inp, E) {
+  const i = fixedInput(inp), kcal = +i.food.actualKcal, p = i.profile;
+  const sim = E.simulate(i, { horizonDays: 84 }), a = sim.rows[0], z = sim.rows[sim.rows.length - 1];
+  const tdee = sim.ei0, bal = kcal - tdee, pct = bal / tdee;
+  const wt = E.weeklyTraining(i.move), lift = wt.liftSessions || 0;
+  const gkg = i.food.actualProteinG > 0 && p.weightKg > 0 ? i.food.actualProteinG / p.weightKg : null;
+  const level = i.food.actualProtein || "moderate", protOk = gkg != null ? gkg >= 1.4 : level !== "low";
+  const floor = E.FLOOR[p.sex];
+  const why = [], off = [];
+  // v7.6.20b: zones come from the Plan-my-goal definitions (engine.planBands / GAIN_KCAL), not separate cut-offs:
+  //  maintain = within the smallest Plan surplus (lean gain, 100 kcal) of maintenance; recomp = a deficit up to the Plan's Recomp deficit (with lifting and protein);
+  //  slow fat loss = up to the Plan's Steady deficit; faster = up to its Maximal deficit (what your fat can fuel); beyond that = very large deficit.
+  //  Gain: with lifting and protein up to the Moderate style's top (450); Fast style (300-600) and anything above it, or no lifting at 300+, = mostly fat.
+  const B = E.planBands(i, tdee), G = B.gain, minG = G.lean[0];
+  let key;
+  if (bal >= minG) {
+    if (lift >= 2 && protOk && bal <= G.moderate[1]) key = "muscle";
+    else if (E.fastGainSurplus(bal, lift)) key = "fastgain";
+    else key = "slowgain";
+  } else if (bal > -minG) key = "maintain";
+  else if (-bal <= B.recomp) key = lift >= 2 && protOk ? "recomp" : "fatloss_s";
+  else if (-bal <= B.steady) key = "fatloss_s";
+  else if (-bal <= B.maxloss) key = "fatloss_f";
+  else key = "crash";
+  why.push(`You eat about ${Math.round(kcal).toLocaleString("en-US")} kcal a day against roughly ${Math.round(tdee / 10) * 10} that your body burns (${bal >= 0 ? "+" : "−"}${Math.abs(Math.round(pct * 100))}%).`);
+  why.push(lift >= 2 ? `You lift about ${lift} time${lift === 1 ? "" : "s"} a week.` : lift > 0 ? "You lift less than twice a week." : "You don't do resistance training.");
+  if (gkg != null) why.push(`Protein is about ${gkg.toFixed(1)} g per kg of body weight${protOk ? "" : ", which is on the low side for keeping or building muscle"}.`); else why.push(`Protein is in the ${level} range.`);
+  // off-track flags
+  if (key === "fastgain") off.push(lift < 2 ? "A large surplus with no regular lifting is mostly stored as fat." : "That surplus is bigger than muscle can use, so a lot of it is stored as fat.");
+  if (kcal < floor) off.push(`That's under the usual unsupervised minimum of ${floor.toLocaleString("en-US")} kcal.`);
+  if (key === "crash") off.push("A deficit this large can cost muscle, energy and nutrients. It is hard to sustain.");
+  if (-bal > B.recomp && lift < 2 && key !== "maintain") off.push("A big deficit without lifting costs more lean mass.");
+  const near = [minG, -minG, G.moderate[1], G.fast[0], -B.recomp, -B.steady, -B.maxloss].some((t) => Math.abs(bal - t) < 0.015 * tdee);
+  const likelihood = near || (gkg == null && (key === "muscle" || key === "recomp")) ? "possible" : "likely";
+  return { key, label: OUTCOMES[key].label, goalType: OUTCOMES[key].goalType, likelihood, why, bands: B, lessReliable: bal > G.fast[1], offTrack: off.length > 0, offReasons: off, kcal, tdee, balance: bal, pct, lift, protGkg: gkg,
+    proj12: { weeks: Math.round(z.day / 7), dW: z.weightKg - a.weightKg, dF: z.fatKg - a.fatKg, dL: z.leanKg - a.leanKg, endBf: z.bf, startBf: a.bf }, stopped: sim.stopped };
+}
+/* Fixed habits projected to the hard checkpoints (4 weeks, 3 months, 6 months, 1 year) and any custom week. */
+function pathAt(inp, E, weeks) {
+  const i = fixedInput(inp), days = Math.max(7, Math.min(365 * 2, Math.round(weeks * 7)));
+  const sim = E.simulate(i, { horizonDays: days }), a = sim.rows[0], z = sim.rows[sim.rows.length - 1];
+  return { weeks, days, stoppedAt: sim.stopped ? Math.round(sim.stopped.day / 7) : null, stopReason: sim.stopped ? sim.stopped.reason : null, reachedDay: z.day,
+    weightKg: z.weightKg, fatKg: z.fatKg, leanKg: z.leanKg, bf: z.bf, dW: z.weightKg - a.weightKg, dF: z.fatKg - a.fatKg, dL: z.leanKg - a.leanKg, burn: z.tdee, intake: z.intake, start: { weightKg: a.weightKg, fatKg: a.fatKg, leanKg: a.leanKg, bf: a.bf } };
+}
+/* v7.6.20b: a surplus bigger than the largest Plan gain style (Fast, up to 600 kcal) is beyond where the adaptive model is validated, so its numbers are flagged. */
+function lessReliable(i, E, tdee) { return +i.food.actualKcal - tdee > E.GAIN_KCAL.fast[1]; }
+function checkpoints(inp, E) {
+  const i = fixedInput(inp), sim = E.simulate(i, { horizonDays: 365 }), a = sim.rows[0];
+  return { lessReliable: lessReliable(i, E, sim.ei0), stopped: sim.stopped, start: { weightKg: a.weightKg, fatKg: a.fatKg, leanKg: a.leanKg, bf: a.bf }, rows: CHECKPOINTS.map((c) => {
+    let r = null; for (const x of sim.rows) if (!r || Math.abs(x.day - c.days) < Math.abs(r.day - c.days)) r = x;
+    const cut = sim.stopped && sim.stopped.day < c.days - 3;
+    return Object.assign({ cut: !!cut }, c, { weightKg: r.weightKg, fatKg: r.fatKg, leanKg: r.leanKg, bf: r.bf, dW: r.weightKg - a.weightKg, dF: r.fatKg - a.fatKg, dL: r.leanKg - a.leanKg, burn: r.tdee }); }) };
+}
+const api = { lessReliable, CHECKPOINTS, OUTCOMES, classify, pathAt, checkpoints, weeklyToDaily, fixedInput };
+if (typeof module !== "undefined" && module.exports) module.exports = api;
+root.TheosisHabits = api;
 })(typeof window !== "undefined" ? window : globalThis);
 
 </script>
@@ -3521,20 +3687,19 @@ return { KEY, MEALS, MEAL_IDS, dateKey, addDays, isDate, mealFor, empty, normali
         -1 = subcutaneous / hyperplastic pattern (pinchable fat on hips, thighs, arms, flanks and a lower-belly apron)
       Inputs are optional. Nudges and their sources:
         - diabetes / prediabetes / HbA1c and fatty liver: type 2 diabetes is tied to visceral and liver fat
-          (Taylor & Holman 2015 personal fat threshold; Fabbrini 2010; Neeland 2012 Dallas Heart Study)
+          (Taylor & Holman 2015 personal fat threshold; Fabbrini 2009 (PNAS); Neeland 2012 Dallas Heart Study)
         - waist-to-height ratio above what's typical for the BMI: central adiposity proxy (Ashwell 2012; NICE NG246)
         - age: visceral share rises with age (Kuk 2009); menopause shifts women toward central fat (Lovejoy 2008)
         - ancestry (optional, stays on the device): more visceral and liver fat at the same BMI on average in South Asian
           and East/Southeast Asian adults (Lear 2007; Raji 2001; Wulan 2010; ADA BMI 23 screening cut-off for Asian Americans;
-          Ntuk 2014 UK Biobank equivalent-risk BMIs), somewhat more in Hispanic/Latino adults (Browning 2004 liver fat);
+          Ntuk 2014 UK Biobank equivalent-risk BMIs), somewhat more liver fat in Hispanic/Latino adults (Browning 2004, Dallas Heart Study; liver fat only, not visceral);
           less visceral and more subcutaneous fat at the same waist in Black/African adults (Carroll 2008; Katzmarzyk 2010)
         - self-described pattern (belly and firm vs pinchable all over / hips and thighs / arms) and the photo fit
         - sex-typical partitioning is built into the depot split (men ~2x the visceral share of women)
    2) split(sex, fatKg, ph) -> depots in kg: vat (visceral), abd (abdominal subcutaneous), gf (gluteofemoral: hips,
       buttocks, thighs), up (arms, chest, upper back), rest (calves, face, neck, intermuscular), + liverPct (illustrative).
    3) at(start, F) -> depots at total fat F along the engine's trajectory: each depot follows a power law of total fat,
-      depot = depot0 * (F/F0)^k. Visceral k = 1.7 gives ~1.6-1.7x the relative loss of total fat early (Chaston & Dixon 2008;
-      power-law form after Hallgreen & Hall 2008), narrowing with larger losses (in kg, more fat still comes from under the skin,
+      depot = depot0 * (F/F0)^k. Visceral k = 1.7 is a MODELLING ASSUMPTION giving ~1.6-1.7x the relative loss of total fat early (direction: Chaston & Dixon 2008 and Merlotti 2017 find visceral fat falls proportionally more than subcutaneous; the power-law form is from Hallgreen & Hall 2008, whose pooled best-fit exponent was about 1.3, so 1.7 is steeper than that published value and displayed visceral changes may be on the optimistic side), narrowing with larger losses (in kg, more fat still comes from under the skin,
       Merlotti 2017); gluteofemoral fat is the slowest, especially in women (k 0.7 women, 0.85 men; Karpe & Pinnick 2015). Abdominal subcutaneous and upper-body fat follow
       total fat (k ~1). 'rest' takes up the difference, so the depots always add up to the engine's fat mass.
    4) regions(sex, depots, F) -> morph inputs for the 3D figure (litres relative to a typical body of the same sex and fat). */
@@ -3689,7 +3854,7 @@ return { KEY, MEALS, MEAL_IDS, dateKey, addDays, isDate, mealFor, empty, normali
       liver: { from: a.liverPct, to: b.liverPct } };
   }
   /* v6: anatomy state for the 3D anatomy views (illustrative): visceral and subcutaneous fat (kg), liver fat (%, graded with
-     MRI-PDFF bands: < 5% normal, 5–17.4% mild, 17.4–22.1% moderate, > 22.1% severe; Tang 2013) and glycogen fullness (0..1).
+     MRI-PDFF bands: < 5% normal, 5–17.4% mild, 17.4–22.1% moderate, > 22.1% severe; Tang 2015, Radiology: histology-based PDFF cut-offs 6.4% (grade 1+), 17.4% (grade 2+), 22.1% (grade 3); the app's "normal < 5%" is the usual conventional limit, not Tang's 6.4%) and glycogen fullness (0..1).
      Glycogen: muscle stores fill with carbohydrate (g per kg fat-free mass), a deficit draws the liver's store down first, and
      liver fat (insulin resistance) blunts storage in both. */
   const LIVER_GRADES = ["normal", "mild", "moderate", "severe"];
@@ -3719,12 +3884,12 @@ return { KEY, MEALS, MEAL_IDS, dateKey, addDays, isDate, mealFor, empty, normali
    and pancreas and blood sugar rises. Getting below it, at any BMI, tends to clear liver fat and lower A1c.
    Weight-loss amounts used (evidence):
    - Type 2 diabetes: DiRECT (Lean 2018/2019): remission in 86% of those losing ≥ 15 kg, 57% at 10–15 kg, 34% at 5–10 kg;
-     ReTUNE (Taylor 2022): remission in people with BMI < 27 after ~10–15% loss. Longer duration / higher A1c needs more.
+     ReTUNE (Taylor 2023, Clin Sci): 70% (14 of 20) of people with type 2 diabetes and BMI < 27 went into remission after a median 6.5% loss (range 5.5–10.2%) in a small single-arm study. Longer duration / higher A1c needs more.
    - Prediabetes: DPP (Knowler 2002; Hamman 2006): ~7% loss cut progression 58%; each kg lost lowered risk ~16%.
    - Fatty liver: Vilar-Gomez 2015: steatohepatitis resolved in 64% at 7–10% loss, 90% at ≥ 10%; MRI-PDFF falls
-     ~ 1–2 points of liver fat per 1% weight lost early on (Patel 2016 meta-analysis of PDFF response).
-   - Waist: sex cut-offs 102 / 88 cm (IDF / NCEP), 90 / 80 cm for South and East Asian adults (IDF); about 1 cm waist per kg lost.
-   - A1c after loss: DiRECT ~ −0.9 to −1.6 points at 10–15 kg; Look AHEAD year 1 (8.6% loss) ~ −0.6. Modelled as falling toward
+     tracks histologic improvement (Patel 2016, a secondary analysis of a 24-week NASH trial: responders had a larger MRI-PDFF drop, −4.1 vs −0.6 points; it is not a meta-analysis and not specific to weight loss). The "points per 1% lost" slope is NOT from a paper; liver fat is shown only as illustrative.
+   - Waist: sex cut-offs 102 / 88 cm (NCEP ATP III; IDF Europid is 94 / 80), 90 / 80 cm for South Asian and Chinese adults (IDF 2006); about 1 cm of waist per kg lost is a rule of thumb (assumption), not a published constant.
+   - A1c after loss: DiRECT ~ −0.9 to −1.6 points at 10–15 kg; Look AHEAD year 1 (8.6% loss) ~ −0.6 (to be re-checked against the primary paper). Modelled as falling toward
      ~5.6 in proportion to progress toward the threshold weight (estimate). */
 (function (root, factory) { const api = factory(); if (typeof module === "object" && module.exports) module.exports = api; else root.PFT = api; })(typeof self !== "undefined" ? self : this, function () {
   const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
@@ -3740,7 +3905,7 @@ return { KEY, MEALS, MEAL_IDS, dateKey, addDays, isDate, mealFor, empty, normali
     const t1 = inp.diabetes === "t1";
     const markers = [], need = [], why = [];
     if (dm && !t1) { const extra = a1c != null ? clamp((a1c - 6.5) * 0.015, 0, 0.05) : 0.02; need.push([0.10 + extra, 0.15 + extra]); markers.push("a1c-dm");
-      why.push(`Type 2 diabetes range${a1c != null ? ` (A1c ${a1c})` : ""}: in DiRECT, most people who lost about 10–15% of their weight (≥ 15 kg) went into remission.`); }
+      why.push(`Type 2 diabetes range${a1c != null ? ` (A1c ${a1c})` : ""}: in DiRECT, remission was seen in 57% of people who lost 10–15 kg and 86% of those who lost 15 kg or more (about 10–15% of body weight or more).`); }
     else if (pre) { need.push([0.05, 0.08]); markers.push("a1c-pre"); why.push(`Prediabetes range${a1c != null ? ` (A1c ${a1c})` : ""}: losing about 5–7% cut the chance of diabetes by more than half (DPP).`); }
     if (liver) { need.push([0.07, 0.10]); markers.push("liver"); why.push("Fatty liver: in a 1-year study, losing 7–10% resolved liver inflammation in about two-thirds (Vilar-Gomez 2015)."); }
     if (!liver && inp.fattyLiver !== "no" && L.altHigh) { need.push([0.05, 0.10]); markers.push("alt"); why.push(`ALT ${L.alt} U/L is above the healthy range (ACG 2017). Fatty liver is the most common cause, but not the only one; ask your clinician.`); }
@@ -4033,7 +4198,9 @@ return { KEY, MEALS, MEAL_IDS, dateKey, addDays, isDate, mealFor, empty, normali
       ${src("Antonio J, Peacock CA, Ellerbroek A, et al.", "The effects of consuming a high protein diet (4.4 g/kg/d) on body composition in resistance-trained individuals", "J Int Soc Sports Nutr 2014;11:19")}
       ${src("Antonio J, Ellerbroek A, Silver T, et al.", "A high protein diet (3.4 g/kg/d) combined with a heavy resistance training program improves body composition in healthy trained men and women", "J Int Soc Sports Nutr 2015;12:39")}
       ${src("Antonio J, Ellerbroek A, Silver T, et al.", "The effects of a high protein diet on indices of health and body composition: a crossover trial in resistance-trained men", "J Int Soc Sports Nutr 2016;13:3")}
-      ${src("Janssen I, et al.", "Skeletal muscle mass and distribution in 468 men and women aged 18–88 yr", "J Appl Physiol 2000;89:81–8")}</ul>
+      ${src("Janssen I, et al.", "Skeletal muscle mass and distribution in 468 men and women aged 18–88 yr", "J Appl Physiol 2000;89:81–8")}
+      ${src("Cava E, Yeat NC, Mittendorfer B.", "Preserving healthy muscle during weight loss", "Adv Nutr 2017;8:511–9")}
+      ${src("Weinheimer EM, Sands LP, Campbell WW.", "A systematic review of the separate and combined effects of energy restriction and exercise on fat-free mass in middle-aged and older adults", "Nutr Rev 2010;68:375–88")}</ul>
       <h3>Fat distribution and the personal fat threshold</h3><ul>
       ${src("Taylor R, Holman RR.", "Normal weight individuals who develop type 2 diabetes: the personal fat threshold", "Clin Sci 2015;128:405–10")}
       ${src("Lean MEJ, et al. (DiRECT)", "Primary care-led weight management for remission of type 2 diabetes", "Lancet 2018;391:541–51")}
@@ -4059,7 +4226,7 @@ return { KEY, MEALS, MEAL_IDS, dateKey, addDays, isDate, mealFor, empty, normali
     privacy: { t: "Privacy", h: `
       <p><b>Your answers stay on your device.</b> The plan is calculated in your browser. Nothing you enter (weight, health answers, photos, check-ins) is sent to us or stored on a server.</p>
       <ul><li>Your inputs and check-ins are saved in your browser's local storage so you can come back. Use <b>Start over</b> or clear your browser data to remove them.</li>
-      <li>Photos are processed on your device. They are only sent anywhere if you choose the optional AI illustration, and then only the photo and the projection numbers, after you consent.</li>
+      <li>Photos are processed on your device. They are only sent anywhere if you choose the optional AI illustration, and then only the photo, the projection numbers and a few plan details (age, height, calorie level, steps, which muscles you train, your fat-storage pattern, and any measured fat values you entered), after you consent. Your name, labs, medications and ancestry are never sent.</li>
       <li>Lab results you type in stay in this browser like your other answers and are used only for the estimates shown to you.</li>
       <li>The optional food search looks up the food name or barcode you type in a public food database; it doesn't include anything about you.</li>
       <li>We don't use advertising trackers. Basic, anonymous page-view counts may be collected by our host.</li>
@@ -4087,7 +4254,10 @@ return { KEY, MEALS, MEAL_IDS, dateKey, addDays, isDate, mealFor, empty, normali
       <p class="hint">Template wording; have it reviewed by counsel before launch.</p>` },
     fatceiling: { t: "What's a fat ceiling?", h: `
       <p>Your body can only release so much stored fat as fuel each day. That limit is your <b>fat ceiling</b>. It is about <b>31 kcal of deficit per pound of body fat per day</b> (Alpert 2005), so it is higher when you carry more fat and shrinks as you lose it.</p>
-      <p>A deficit bigger than the ceiling can't be covered by fat alone. The rest is pulled from muscle and other tissue, and bigger deficits also make side effects such as fatigue, hunger and feeling cold more likely.</p>
+      <p>A deficit bigger than the ceiling can't be covered by fat alone. The body then draws on <b>liver glycogen</b> and on <b>protein</b>. These overlap; they are not a clean sequence.</p>
+      <ul><li><b>Liver glycogen</b> is a small buffer, roughly 100 g or about 400 kcal (an approximate textbook figure, not measured for you). In a fast it is used up within about a day or two.</li>
+      <li><b>Protein</b> is lost at a low, continuous level even inside the ceiling (never zero, and more in leaner people). It rises as the fat reserve runs out. It comes from organs such as the liver and kidney as well as skeletal muscle, which is part of why prolonged starvation becomes dangerous. Bigger deficits also make fatigue, hunger and feeling cold more likely.</li></ul>
+      <p class="hint">The glycogen and protein split here is a simple illustration, not a measurement of what your body does. To be conservative the projection counts this extra as possible lean loss (an assumption, not a measurement) and never plans a deficit more than 400 kcal a day beyond what fat can fuel.</p>
       <p>That's why your daily calorie target is capped to keep the deficit under your ceiling. As the ceiling shrinks with fat loss, the target steps down gradually. A minimum applies too (1,500 kcal a day for men, 1,200 for women), and the target never goes below it.</p>
       <p class="hint">Source: Alpert SS. A limit on the energy transfer rate from the human fat store in hypophagia. J Theor Biol 2005;233:1–13. Education only, not medical advice. Talk with your clinician before a large change in how you eat.</p>` },
     sources: { t: "Sources & Acknowledgements", h: "" },
@@ -4119,6 +4289,22 @@ return { KEY, MEALS, MEAL_IDS, dateKey, addDays, isDate, mealFor, empty, normali
     ["direct2018", "Lean et al. 2018 (DiRECT)", "Lean MEJ et al. Primary care-led weight management for remission of type 2 diabetes (DiRECT): an open-label, cluster-randomised trial. Lancet 2018;391:541–51.", "Remission and prevention", pm("Primary care-led weight management for remission of type 2 diabetes DiRECT")],
     ["riddle2021", "Riddle et al. 2021 (ADA/EASD consensus)", "Riddle MC et al. Consensus report: definition and interpretation of remission in type 2 diabetes. Diabetes Care 2021;44:2438–44.", "Remission and prevention", pm("Consensus report: definition and interpretation of remission in type 2 diabetes")],
     ["dpp2002", "Knowler et al. 2002 (DPP)", "Knowler WC et al. (Diabetes Prevention Program Research Group). Reduction in the incidence of type 2 diabetes with lifestyle intervention or metformin. N Engl J Med 2002;346:393–403.", "Remission and prevention", pm("Reduction in the incidence of type 2 diabetes with lifestyle intervention or metformin")],
+    ["hall2011m", "Hall et al. 2011 (Lancet)", "Hall KD, Sacks G, Chandramohan D, Chow CC, Wang YC, Gortmaker SL, Swinburn BA. Quantification of the effect of energy imbalance on bodyweight. Lancet 2011;378:826–37. Why a flat 3,500 kcal per pound rule overstates change and how expenditure shifts with weight.", "Projection model (v7.6.20)", "https://pmc.ncbi.nlm.nih.gov/articles/PMC3880593/"],
+    ["hall2007m", "Hall 2007 (Forbes revisited)", "Hall KD. Body fat and fat-free mass inter-relationships: Forbes's theory revisited. Br J Nutr 2007;97:1059–63. The share of a weight change that is lean tissue falls as fat mass rises (10.4 / (10.4 + fat kg)).", "Projection model (v7.6.20)", "https://pmc.ncbi.nlm.nih.gov/articles/PMC2376748/"],
+    ["hall2008m", "Hall 2008 (energy per kg)", "Hall KD. What is the required energy deficit per unit weight loss? Int J Obes 2008;32:573–6. Energy density of fat (about 9,400 kcal per kg) and lean tissue (about 1,800 kcal per kg).", "Projection model (v7.6.20)", "https://pmc.ncbi.nlm.nih.gov/articles/PMC2376744/"],
+    ["bray2012", "Bray et al. 2012 (overfeeding)", "Bray GA, Smith SR, de Jonge L, et al. Effect of dietary protein content on weight gain, energy expenditure, and body composition during overeating: a randomized controlled trial. JAMA 2012;307:47–55 (full text read). 25 healthy adults overfed about 950 kcal/day (about 40%) for 8 weeks in a metabolic unit with no exercise. Fat gain was similar at 5%, 15% and 25% protein (about 3.4–3.7 kg). Lean mass fell 0.7 kg on 5% protein and rose about 2.9–3.2 kg on 15–25% protein. Total energy expenditure rose about 520 kcal/day (15% protein) and 450 kcal/day (25%), mostly in the first 2–4 weeks, but not with 5% protein; much of this follows from added tissue, protein turnover and food processing. Used to check and calibrate the model. Small, young, mostly male, no exercise; lean mass here includes water and other non-muscle tissue.", "Projection model (v7.6.20)", "https://pmc.ncbi.nlm.nih.gov/articles/PMC3777747/"],
+    ["levine1999m", "Levine et al. 1999 (overfeeding, NEAT)", "Levine JA, Eberhardt NL, Jensen MD. Role of nonexercise activity thermogenesis in resistance to fat gain in humans. Science 1999;283:212–4. Abstract only (the full text was not accessible to us). 16 volunteers were overfed 1,000 kcal/day for 8 weeks: about two-thirds of the rise in daily expenditure was everyday movement (NEAT), and NEAT changes accounted for the roughly 10-fold differences in fat storage between people. Other studies did not find effects of the same size (Hall 2012). We use it only as evidence that individuals differ widely.", "Projection model (v7.6.20)", "https://www.science.org/doi/10.1126/science.283.5399.212"],
+    ["hall2012m", "Hall et al. 2012 (energy balance review)", "Hall KD, Heymsfield SB, Kemnitz JW, Klein S, Schoeller DA, Speakman JR. Energy balance and its components: implications for body weight regulation. Am J Clin Nutr 2012;95:989–94. Finds little evidence for an active rise in resting expenditure during overfeeding beyond the cost of larger body size, stored tissue and more food; reported NEAT responses are inconsistent.", "Projection model (v7.6.20)", "https://doi.org/10.3945/ajcn.112.036350"],
+    ["cahill2006", "Cahill 2006 (Fuel metabolism in starvation)", "Cahill GF Jr. Fuel metabolism in starvation. Annu Rev Nutr 2006;26:1–22. Read in full. Hepatic glycogen's contribution to blood glucose is essentially zero by the second or third day of starvation; glucose for the brain then comes from gluconeogenesis (alanine from muscle and the non-liver splanchnic bed, glutamine via kidney, lactate, glycerol) and ketone bodies. It does NOT state the 100 g liver glycogen figure.", "Fuel use in a large deficit", "https://doi.org/10.1146/annurev.nutr.26.061505.111258"],
+    ["lippincott-gly", "Lippincott Illustrated Reviews: Biochemistry (glycogen chapter)", "Lippincott Illustrated Reviews: Biochemistry, 8th ed., chapter 11 (Glycogen metabolism). Chapter PDF read. Source of the approximate textbook figure of about 100 g liver glycogen (400 kcal here = 100 g x about 4 kcal/g, our arithmetic) and that liver glycogen can maintain blood glucose for under 24 hours. Textbook estimate, not a measurement; the primary papers (e.g. Nilsson & Hultman 1973) were not read and are not cited.", "Fuel use in a large deficit", "https://learning.medicine.wsu.edu/"],
+    ["muller2015", "Müller et al. 2015 (Minnesota Starvation Experiment revisited)", "Müller MJ, Enderle J, Pourhassan M, et al. Metabolic adaptation to caloric restriction and subsequent refeeding: the Minnesota Starvation Experiment revisited. Am J Clin Nutr 2015;102:807–19. ABSTRACT ONLY (full text not read). Non-obese men, 3 weeks at half energy: within fat-free mass, skeletal muscle fell about 5%, liver 13% and kidney 8%, so organ protein is lost as well as muscle. Cited for that qualitative point only.", "Fuel use in a large deficit", "https://doi.org/10.3945/ajcn.115.109173"],
+    ["assume-lean-conservative", "Assumption: conservative lean-loss estimate", "ESTIMATE, not a published constant. To avoid surprising anyone, the model leans toward showing MORE muscle loss than the published formulas give: the lean share of weight lost in a deficit is multiplied by 1.15 (capped at 60%), and any deficit beyond what fat can fuel is counted entirely as possible lean loss. Real results may be better; this is a cautious assumption, not a measurement.", "Fuel use in a large deficit", ""],
+    ["assume-overbuffer", "Assumption: 400 kcal buffer past the fat ceiling", "DESIGN LIMIT, not a published figure. Intake may be set at most 400 kcal a day below the deficit your fat can fuel (the fat ceiling, Alpert 2005), and no further; the usual minimum intakes and BMI stops still apply. The extra amount is beyond what fat can fuel and is drawn from liver glycogen (approximate, about 100 g or 400 kcal) and protein in this model.", "Fuel use in a large deficit", ""],
+    ["assume-surplus", "Assumption: expenditure response to a surplus", "ESTIMATE, not a published constant, and individuals vary widely. On top of the effects the model already counts (a heavier body, added tissue, and processing more food), eating above maintenance adds a small extra rise in expenditure: 20% of the surplus, counted only up to 1,000 kcal per day of surplus (the range studied; at most +200 kcal/day), reached over about 2 weeks. This was chosen after reading Bray 2012 in full (total expenditure rose roughly half of the surplus with 15–25% protein, little with 5% protein) and Hall 2012 (little evidence of an active rise beyond tissue cost); Levine 1999 was read as an abstract only. Beyond about 1,000 kcal/day of surplus nothing was studied, so those projections are least reliable.", "Projection model (v7.6.20)", ""],
+    ["assume-deficit", "Assumption: the 14% deficit adaptation coefficient", "ESTIMATE, not a published constant. The model lowers expenditure by 14% of the cut in intake (from starting maintenance), over about 2 weeks, beyond what tissue loss explains. Full texts read: Rosenbaum & Leibel 2010 (holding a 10% lower weight: 24-hour expenditure about 20–25% lower, 10–15% below what lean and fat change predict; a formerly obese person needs roughly 300–400 fewer kcal/day) and Fothergill 2016 (14 Biggest Loser contestants: extra slowing −275 kcal/day at the end of the 30-week competition and −499 ± 207 kcal/day at 6 years; people who kept more weight off had more slowing; very large individual differences). Those describe holding a reduced weight, not a per-kcal coefficient, so 14% is our modelling choice in that direction. Dulloo 2012 (Br J Nutr) says how large adaptive thermogenesis is remains uncertain (abstract only). Rosenbaum & Leibel also note that responses to weight gain are not a mirror image of weight loss.", "Projection model (v7.6.20)", ""],
+    ["fothergill2016", "Fothergill et al. 2016 (Biggest Loser follow-up)", "Fothergill E, Guo J, Howard L, et al. Persistent metabolic adaptation 6 years after “The Biggest Loser” competition. Obesity 2016;24:1612–9. Read in full. 14 participants; weight loss 58.3 ± 24.9 kg at 30 weeks, 41.0 ± 31.3 kg regained by 6 years; resting metabolic rate 704 ± 427 kcal/day below baseline at 6 years; metabolic adaptation (residual after body composition and age) −275 ± 207 kcal/day at 30 weeks and −499 ± 207 kcal/day at 6 years. Very small, unusual group (class III obesity, televised competition); we use it only for direction and rough size.", "Projection model (v7.6.20)", "https://pmc.ncbi.nlm.nih.gov/articles/PMC4989512/"],
+    ["rosenbaum2010", "Rosenbaum & Leibel 2010 (adaptive thermogenesis)", "Rosenbaum M, Leibel RL. Adaptive thermogenesis in humans. Int J Obes 2010;34(Suppl 1):S47–55. Read in full (narrative review). Maintaining a 10% or greater lower weight lowers 24-hour expenditure about 20–25%, which is 10–15% below the prediction from tissue change. It states that responses to maintaining a higher weight are not a mirror image: a bigger effect on the thermic effect of food, less on resting expenditure; and in rodents the rise in expenditure on overfeeding faded after a few months. A narrative review, not a trial.", "Projection model (v7.6.20)", "https://pmc.ncbi.nlm.nih.gov/articles/PMC3673773/"],
+    ["minnesota2008", "Minnesota starvation study (data review 2008)", "Modeling transitions in body composition: the approach to steady state for anthropometric measures and physiological functions in the Minnesota human starvation study. Dyn Med 2008;7:16. Used only to show where the model does not apply (extreme restriction).", "Projection model (v7.6.20)", "https://pmc.ncbi.nlm.nih.gov/articles/PMC2596786/"],
   ];
   const byId = (id) => { const r = REG.find((x) => x[0] === id); if (r) return { id, short: r[1], full: r[2], topic: r[3], link: r[4] };
     const S = window.BodyStory && window.BodyStory.SOURCES, s = S && S.find((x) => x[0] === id);
@@ -4146,7 +4332,7 @@ return { KEY, MEALS, MEAL_IDS, dateKey, addDays, isDate, mealFor, empty, normali
   addEventListener("resize", () => closePop(false));
   function pageHtml() {
     const groups = new Map(), add = (topic, li) => { if (!groups.has(topic)) groups.set(topic, []); groups.get(topic).push(li); }, seen = new Set();
-    for (const r of REG) { seen.add(r[0]); add(r[3], `<li id="srcp-${r[0]}">${esc(r[2])} <a href="${esc(r[4])}" target="_blank" rel="noopener">Find it</a></li>`); }
+    for (const r of REG) { seen.add(r[0]); add(r[3], `<li id="srcp-${r[0]}">${esc(r[2])} ${r[4] ? `<a href="${esc(r[4])}" target="_blank" rel="noopener">Find it</a>` : ""}</li>`); }
     const S = (window.BodyStory && window.BodyStory.SOURCES) || [];
     for (const s of S) if (!seen.has(s[0])) { seen.add(s[0]); add("Your body's story", `<li id="srcp-${s[0]}">${esc(s[1])}</li>`); }
     let h = `<p>Every number and claim in this tool traces back to a published source. Tap a small number in the text to see its source; this page lists them all.</p>`;
@@ -4172,7 +4358,7 @@ return { KEY, MEALS, MEAL_IDS, dateKey, addDays, isDate, mealFor, empty, normali
    and for lab upload / AI reading. Version + timestamp are logged locally (no server). Re-prompts when CONSENT_VERSION changes.
    window.TheosisConsent: {VERSION, get(), has(optIn), open(manage), onChange(fn)} */
 (function () {
-  const VERSION = "2026-10-13.2", KEY = "theosis-consent", LOG = "theosis-consent-log";
+  const VERSION = "2026-10-16", KEY = "theosis-consent", LOG = "theosis-consent-log";
   const REQ = [
     ["advice", "Education only, not medical advice", "I understand this tool is for <b>education only</b>. It is <b>not medical advice</b>, diagnosis or treatment, and using it does <b>not</b> create a clinician–patient (doctor–patient) relationship with Nick Holwey, PA-C, or Theosis Medical. It is not a substitute for care from your own clinician, and I won't change diabetes, blood-pressure or other medicines because of it."],
     ["estimates", "Estimates and illustrations", "I understand results, health milestones and body or organ pictures are <b>estimates and illustrations</b> based on population research, not measurements or predictions for me."],
@@ -4181,7 +4367,7 @@ return { KEY, MEALS, MEAL_IDS, dateKey, addDays, isDate, mealFor, empty, normali
     ["terms", "Terms of use and privacy", `I have read and agree to the <a href="#terms" data-info="terms">Terms of use</a> and the <a href="#privacy" data-info="privacy">Privacy notice</a>, including the Consumer Health Data notice (Washington My Health My Data Act and similar state laws).`],
   ];
   const OPT = [
-    ["photoAi", "Photos and AI images (optional)", "I agree that photos I choose to add are processed <b>on this device</b> to fit the 3D figure. If I ask for an AI illustration, that one photo and my projected numbers are sent to a third-party AI provider (Google Gemini, paid tier) to make it. They are <b>not used to train AI models</b> and are <b>deleted after processing</b>. Nothing else is sent."],
+    ["photoAi", "Photos and AI images (optional)", "I agree that photos I choose to add are processed <b>on this device</b> to fit the 3D figure. If I ask for an AI illustration, that one photo and my projected numbers are sent to a third-party AI provider (Google Gemini, paid tier) to make it. Along with the numbers, a few plan details are sent as fixed categories: my age and height, calorie level, steps, which muscle groups I train, my fat-storage pattern, and any measured visceral or under-the-skin fat values I entered. They are <b>not used to train AI models</b> and are <b>deleted after processing</b>. My name, lab results, medications and ancestry are <b>not</b> sent."],
     ["biometric", "Written biometric consent for photos (required for photo features; Illinois BIPA and similar laws)", "I give my <b>written consent</b> for my photos to be used to estimate body shape landmarks (biometric information) only to draw my figure and AI illustration. They are processed on this device or, for AI illustrations, by the provider above, are <b>not sold, leased, traded or otherwise profited from</b>, are not kept on Theosis servers, and are destroyed when I delete them here or after processing (and in any case within 3 years of my last use). I can withdraw this consent at any time in <b>Consent settings</b>."],
     ["labAi", "Lab upload and AI reading (optional)", "I agree that a lab report I choose to upload is sent to a third-party AI provider (Google Gemini, paid tier) only to read the values. It is <b>not used to train AI models</b> and is <b>deleted after processing</b>. I'll check the values before they're used, and I can always type them in by hand instead."],
   ];
@@ -4702,7 +4888,7 @@ function renderAdv() {
     else { const mm = E.macrosFromInput(0, m); note.innerHTML = mm.kcal >= 500 ? `That's about <strong>${fK(mm.kcal)} kcal</strong> a day, now used as what you eat.` : "Enter at least 500 kcal worth of food to use it."; } }
   const b = bfInfo(), est = $("#bf-estimate"); if (b.dexa && est) { est.hidden = false; est.innerHTML = `<b>${fP(b.bf)}</b><span>body fat · from your DEXA scan</span>`; }
 }
-function renderStep() { const s = S.step; if (s === 1) { renderYou(); renderHealth(); renderPheno(); } else if (s === 2) renderGoal(); else if (s === 3) renderMove(); else if (s === 4) renderFood(); else if (s === 5) renderProjection(); renderNav(); }
+function renderStep() { const s = S.step; if (s === 1) { renderYou(); renderHealth(); renderPheno(); } else if (s === 2) renderGoal(); else if (s === 3) renderMove(); else if (s === 4) renderFood(); else if (s === 5) renderProjection(); renderNav(); renderHabitsAll(); }
 
 // ---------- summary ----------
 // v4: every figure carries its fat distribution (visceral vs under-the-skin depots) for that point on the trajectory
@@ -4886,7 +5072,7 @@ function expectItems() {
 /* v6.5: personalised recommendations driven by the projection. Each one runs the engine again with the change applied and
    shows the effect at the same week (when it can be computed), and "Try this" applies it. Evidence: smaller surpluses
    (~250–350 kcal) add less fat for the same muscle in trained lifters (Iraki 2019; Helms 2023); ~1.6–2.2 g/kg protein
-   (≈ 0.7–1 g/lb) maximises muscle gain and protects it in a deficit (Morton 2018; Helms 2014); lifting during a cut keeps
+   (≈ 0.7–1 g/lb) maximises muscle gain and protects it in a deficit (Morton 2018 meta-analysis found benefit up to ~1.6 g/kg, with ~2.2 g/kg as the upper confidence bound; Helms 2014 for lean athletes in a deficit: 2.3–3.1 g/kg of fat-free mass); lifting during a cut keeps
    muscle (Bickel 2011; Longland 2016); trained muscles grow, untrained ones barely (Schoenfeld 2017). */
 const REC_APPLY = {
   leaner: () => { Object.assign(S.goal, { type: "gain", gainMode: "moderate", touched: true }); },
@@ -5287,7 +5473,7 @@ function renderLabs() {
   const h = S.profile.health, l = h.labs || {}; document.querySelectorAll("input[data-lab]").forEach((el) => { if (document.activeElement !== el) el.value = l[el.dataset.lab] != null ? l[el.dataset.lab] : ""; });
   const o = $("#labs-out"); if (!o) return; const D = PF.labsDerived(l, S.profile.sex); if (!D.any) { o.innerHTML = ""; return; }
   const t = []; if (D.tgHdl != null) t.push(`<div class="hstat"><span>Triglyceride ÷ HDL</span><b>${D.tgHdl.toFixed(1)}</b><small>${D.tgHdl >= 3 ? "3 or more: a common sign of insulin resistance (McLaughlin 2003)" : "Under 3: reassuring for insulin sensitivity"}</small></div>`);
-  if (D.nonHdl != null) t.push(`<div class="hstat"><span>Non-HDL cholesterol</span><b>${Math.round(D.nonHdl)}</b><small>${D.nonHdl >= 160 ? "160 or more is high (AHA/ACC 2018)" : D.nonHdl >= 130 ? "130–159 is above optimal" : "Under 130 is optimal"}</small></div>`);
+  if (D.nonHdl != null) t.push(`<div class="hstat"><span>Non-HDL cholesterol</span><b>${Math.round(D.nonHdl)}</b><small>${D.nonHdl >= 190 ? "190 or more is high (a risk-enhancing level in the AHA/ACC 2018 guideline)" : D.nonHdl >= 160 ? "160–189 is borderline high (NCEP ATP III)" : D.nonHdl >= 130 ? "130–159 is above optimal (NCEP ATP III)" : "Under 130 is optimal (NCEP ATP III)"}</small></div>`);
   if (D.homa != null) t.push(`<div class="hstat"><span>HOMA-IR</span><b>${D.homa.toFixed(1)}</b><small>Glucose × insulin ÷ 405. Higher means more insulin resistance; cut-offs vary (often about 2–2.5)</small></div>`);
   if (D.alt != null) t.push(`<div class="hstat"><span>ALT</span><b>${D.alt}</b><small>${D.altHigh ? `Above the healthy limit (~${D.altCut} U/L, ACG 2017); fatty liver is the most common cause` : "In the healthy range"}</small></div>`);
   if (D.fg != null) t.push(`<div class="hstat"><span>Fasting glucose</span><b>${D.fg}</b><small>${D.fgCat === "dm" ? "126+ is in the diabetes range (confirm with your clinician)" : D.fgCat === "pre" ? "100–125 is in the prediabetes range" : "Under 100 is normal"}</small></div>`);
@@ -5440,7 +5626,7 @@ function feasHtml0() {
     if (f.status === "fits" && R.dir === "loss") return `<div class="feas"><b>Doable.</b> To arrive by week ${g.deadline}, the plan runs at about <b>${Math.round(R.pace * 100)}% of your fat ceiling</b>. The fastest route designed to limit muscle loss would take ${fast} weeks.${habitNote}</div>`;
     if (R.dir === "loss") return `<div class="feas"><b>About ${fWk(reachD)} weeks</b> at a ${R.pace >= 0.99 ? "maximal" : R.pace >= 0.8 ? "firm" : "steady"} pace (around ${fDate(reachD)}). ${R.pace < 0.99 ? `The fastest route designed to limit muscle loss is ${fast} weeks.` : "That's the fastest muscle-sparing route."}${habitNote}</div>`;
     const gm = R.inp.goal.gainMode, mo = reachD / 30.44;
-    if (f.dateDriven) return `<div class="feas"><b>Reaching ${fW(R.inp.goal.target)} by week ${R.inp.goal.weeks}:</b> about ${fWd(re.leanKg - s.leanKg)} lean and ${fWd(re.fatKg - s.fatKg)} fat (${gainShare(s, re)} of the gain is muscle), <b>ending at ${fP(re.bf)} body fat</b> (from ${fP(s.bf)}; estimates). The surplus is sized to make your date, so anything beyond your muscle-gain rate is stored as fat.${habitNote}</div>`;
+    if (f.dateDriven) return `<div class="feas"><b>Reaching ${fW(R.inp.goal.target)} by week ${R.inp.goal.weeks}:</b> about ${fWd(re.leanKg - s.leanKg)} lean and ${fWd(re.fatKg - s.fatKg)} fat (${gainShare(s, re)} of the gain is muscle), <b>ending at ${fP(re.bf)} body fat</b> (from ${fP(s.bf)}; estimates). The surplus is sized to make your date, so anything beyond your muscle-gain rate is stored as fat.${fastGainNoteHtml(f)}${habitNote}</div>`;
     return `<div class="feas ${gm === "fast" ? "warn" : ""}"><b>About ${fWk(reachD)} weeks</b>${mo >= 3 ? ` (≈ ${mo < 10 ? mo.toFixed(1) : Math.round(mo)} months)` : ""} of ${gm === "fast" ? "faster" : gm === "hold" ? "lean gain at your body fat %" : "lean"}${gm === "fast" ? " gain" : gm === "hold" ? "" : " gain"} (around ${fDate(reachD)}): about ${fWd(re.leanKg - s.leanKg)} lean and ${fWd(re.fatKg - s.fatKg)} fat, so ${gainShare(s, re)} of the gain is muscle, <b>ending at ${fP(re.bf)} body fat</b> (from ${fP(s.bf)}; estimates).${habitNote}</div>`;
   }
   const assumed = R.assumed && R.assumed.move, noLift = !assumed && E.weeklyTraining(S.move).liftSessions === 0;
@@ -5465,8 +5651,10 @@ function gainFixHtml(f, habitNote) {
   else why = ` At your current pace you'd hit the ceiling at about week ${fWk(f.ceilingDay)} (${fW(f.ceilingWeight)}), before ${tgt}, so the plan below stops there.`;
   const by = f.status === "tooFast" ? ` by week ${f.requested}` : "";
   const btns = `${N ? `<button type="button" class="btn btn-steel" data-usewk="${N}">Use ${N} weeks</button>` : ""}${f.allowBf ? ` <button type="button" class="btn btn-ghost" data-allowbf="${f.allowBf}">Allow ~${fP(f.allowBf)} body fat${by}</button>` : ""}`;
-  return `<div class="feas warn">${head}${why}<div class="fix-btns mt1">${btns}</div>${habitNote}</div>`;
+  return `<div class="feas warn">${head}${why}${fastGainNoteHtml(f)}<div class="fix-btns mt1">${btns}</div>${habitNote}</div>`;
 }
+// v7.6.20e: a goal weight + short timeframe that implies a fast gain: say plainly it will be mostly fat (same sentence as the plan warning)
+function fastGainNoteHtml(f) { return f && f.fastGain ? `<p class="feas-fastgain mt1"><b>Fast gain, mostly fat.</b> ${esc(E.FAST_GAIN_NOTE(f.impliedSurplus, f.requested || R.inp.goal.weeks))}</p>` : ""; }
 function gainShare(a, z) { const d = z.weightKg - a.weightKg; return d > 0.05 ? `${Math.round(100 * Math.max(0, z.leanKg - a.leanKg) / d)}%` : "most"; }
 
 // ---------- step 3: move ----------
@@ -5736,7 +5924,7 @@ function renderFood() {
     $("#actual-cmp").innerHTML = `<div class="cmp"><div><div class="label">${S.food.psmf ? "PSMF" : "You eat"}</div><div class="big" style="font-size:2rem">${fK(k)}</div><div class="hint">${d > 0 ? "+" : d < 0 ? "−" : "±"}${fK(Math.abs(d))} vs plan</div></div>
       <div><div class="label">Plan</div><div class="big" style="font-size:2rem">${fK(r0.intake)}</div><div class="hint">for ${esc(goalLabel().toLowerCase())}</div></div></div>
       <p class="read">After <strong>${fWk(a.day)} weeks</strong> of eating this way you'd be about <strong>${fW(a.weightKg)} at ${fP(a.bf)}</strong> body fat (${fWd(a.fatKg - R.main.rows[0].fatKg)} fat, ${fWd(a.leanKg - R.main.rows[0].leanKg)} lean).${R.main.stopped ? " The projection stops there (see the note on the Projection step)." : ""} Following the plan for ${R.main.stopped ? fWk(b.day) : "the same"}${R.main.stopped ? " weeks" : " time"}: <strong>${fW(b.weightKg)} at ${fP(b.bf)}</strong>.</p>
-      ${R.main.overDays > 0 ? `<ul class="alerts"><li class="alert warn">${ICON.warn}<span>This intake creates a deficit bigger than your fat can supply on ${R.main.overDays} days. Your body slows down to cover part of it; the rest comes from muscle.</span></li></ul>` : ""}`;
+      ${R.main.overDays > 0 ? `<ul class="alerts"><li class="alert warn">${ICON.warn}<span>This intake creates a deficit bigger than your fat can supply on ${R.main.overDays} days. Your body slows down to cover part of it. Past that, the body leans on liver glycogen (roughly 100 g, about 400 kcal, approximate) and then more and more protein, including organ protein. Protein loss is never zero and is larger in leaner people.</span></li></ul>` : ""}`;
   }
   renderMeals(); renderFsLog();
 }
@@ -6296,7 +6484,7 @@ function heroHtml() {
   const sentence = reached ? `Starting at <strong>${fW(s.weightKg)}</strong> and ${fP(s.bf)} body fat, ${how} gets you to your goal in about <strong>${fWk(R.main.reached)} weeks</strong>: <strong>${fW(e.weightKg)} at ${fP(e.bf)}</strong>, with ${fWd(dFat)} of fat and ${Math.abs(dLean) < 0.23 ? "lean mass essentially held" : `${fWd(dLean)} of lean mass`}.`
     : `After <strong>${fWk(days)} weeks</strong> ${how}, you'd be about <strong>${fW(e.weightKg)} at ${fP(e.bf)} body fat</strong>: ${fWd(dFat)} of fat and ${Math.abs(dLean) < 0.23 ? "lean mass essentially held" : `${fWd(dLean)} of lean mass`}.`;
   const before = photo ? `<img class="photo" src="${photo}" alt="Your photo (before)">` : FIG.svg(st, { title: `Before: ${fP(b.bf)} body fat` });
-  const BD = bandNow(), bandTxt = BD && Math.abs(BD.weightKg.hi - BD.weightKg.lo) > 0.3 ? `<p class="hint band-txt" data-band>Likely range at week ${fWk(days)}: <b>${nW(BD.weightKg.lo)}–${fW(BD.weightKg.hi)}</b>, if your true daily burn is about 8% lower or higher than estimated (shaded on the chart). Most people fall inside it (Frankenfield 2005).</p>` : "";
+  const BD = bandNow(), bandTxt = BD && Math.abs(BD.weightKg.hi - BD.weightKg.lo) > 0.3 ? `<p class="hint band-txt" data-band>Likely range at week ${fWk(days)}: <b>${nW(BD.weightKg.lo)}–${fW(BD.weightKg.hi)}</b>, if your true daily burn is about 8% lower or higher than estimated (shaded on the chart). Even the best prediction equation lands within 10% of measured burn for most, but not all, people (Frankenfield 2005).</p>` : "";
   const stopTxt = R.main.stopped ? ` The projection stops at week ${fWk(R.main.stopped.day)}; see the note below.` : "";
   const stat = (k, a, z, d, dd) => `<div class="stat"><div class="k">${k}</div><div class="v">${a}<span class="arrow">→</span>${z}</div><div class="d">${d}${dd ? " · " + dd : ""}</div></div>`;
   return `<p class="eyebrow card-eyebrow">${S.food.psmf ? "PSMF projection" : S.food.actualOn ? "Where your habits lead" : "Your plan"} · ${headingOutcome()}</p>
@@ -6465,8 +6653,38 @@ function aiDay(B = aiBase()) { const end = B.rows[B.rows.length - 1].day; return
 /** Projected composition at the selected week (default: the end of the projection). */
 function projectionPayload(day, B = aiBase()) {
   if (day == null) day = aiDay(B); const s = B.rows[0], e = rowIn(B.rows, day);
-  return { sex: S.profile.sex, weeks: +fWk(e.day + B.off), date: fDate(e.day + B.off, true), fromWeek: B.c ? B.c.week : 0, startWeightKg: +s.weightKg.toFixed(2), endWeightKg: +e.weightKg.toFixed(2), startBf: +s.bf.toFixed(1), endBf: +e.bf.toFixed(1),
-    fatChangeKg: +(e.fatKg - s.fatKg).toFixed(1), leanChangeKg: +(e.leanKg - s.leanKg).toFixed(1) };
+  return Object.assign({ sex: S.profile.sex, weeks: +fWk(e.day + B.off), date: fDate(e.day + B.off, true), fromWeek: B.c ? B.c.week : 0, startWeightKg: +s.weightKg.toFixed(2), endWeightKg: +e.weightKg.toFixed(2), startBf: +s.bf.toFixed(1), endBf: +e.bf.toFixed(1),
+    fatChangeKg: +(e.fatKg - s.fatKg).toFixed(1), leanChangeKg: +(e.leanKg - s.leanKg).toFixed(1) }, projectionExtras(B, e));
+}
+/** v7.6.19: plan details for the AI illustration prompt, as numbers and fixed categories only (never free text, never ancestry as appearance).
+ *  Ancestry only shapes `phenotype` / `fatFirst` through the fat-distribution estimate (fatdist.js). The server re-validates every field (functions/stage-prompt.js). */
+function projectionExtras(B, e) {
+  const o = {};
+  try {
+    const rows = B.rows, s = rows[0], p = S.profile, mv = effMove(), wt = E.weeklyTraining(mv), lifting = wt.liftSessions > 0 && !S.move.noLift, dFatE = e.fatKg - s.fatKg;
+    o.age = Math.round(p.age); o.heightCm = +p.heightCm.toFixed(1); o.bfSource = bfInfo().source === "measured" ? "measured" : "estimated"; o.steps = Math.round(S.move.steps || 0);
+    let sum = 0, n = 0; for (const r of rows) { if (r.day > e.day) break; if (r.end || !(r.intake > 0) || !(r.tdee > 0)) continue; sum += r.intake - r.tdee; n++; } if (n) o.kcalDelta = Math.round(sum / n);
+    const h = p.heightCm / 100; o.ffmi = +(s.leanKg / (h * h)).toFixed(1);
+    // training: none / broad (generic 2-3 days, push-pull-legs, full body) / targeted (a few specific groups only)
+    const mr = lifting ? E.muscleRegions(mv, p.sex) : null;
+    if (!lifting || !mr) o.train = "none";
+    else { o.liftDays = wt.liftSessions; const gain = e.leanKg - s.leanKg;
+      // generic templates (2-3 days, minimalist push + pull + leg compound, push/pull/legs, full body) are broad, even changes; only a deliberately narrowed set of groups is "targeted"
+      const gs = mr.groups, generic = mv.preset === "min" || (gs.includes("back") && gs.some((k) => ["chest", "shoulders", "triceps"].includes(k)) && gs.some((k) => ["quads", "hamstrings", "glutes"].includes(k)));
+      if (gs.length <= 7 && !generic) { o.train = "targeted"; o.trained = mr.groups.slice(); o.spill = E.MUSCLE_KEYS.filter((k) => !mr.trained[k] && mr.spill[k] > 0.02);
+        const sh = mr.groups.reduce((a, k) => a + mr.share[k], 0), nat = mr.groups.reduce((a, k) => a + mr.nat[k], 0); if (gain > 0 && nat > 0) o.localGrowth = +Math.min(1, Math.max(0, gain * sh / (s.leanKg * nat))).toFixed(3); }
+      else o.train = "broad"; }
+    // fat distribution (phenotype comes from every answer incl. optional ancestry, but only the label is sent) and where the change shows first
+    const fp = fatPattern(); if (fp && fp.ph && ["visceral", "mixed", "subcutaneous"].includes(fp.ph.label)) o.phenotype = fp.ph.label;
+    const d0 = depotsAt(s.fatKg), d1 = depotsAt(e.fatKg);
+    if (Math.abs(dFatE) >= 0.3 && d0 && d1) { const reg = { belly: [d0.vat + d0.abd, d1.vat + d1.abd], hips_thighs: [d0.gf, d1.gf], arms_upper: [d0.up, d1.up] };
+      o.fatFirst = Object.keys(reg).map((k) => [k, Math.abs(reg[k][1] - reg[k][0]) / Math.max(0.1, reg[k][0])]).filter((x) => x[1] >= 0.03).sort((a, b) => b[1] - a[1]).slice(0, 2).map((x) => x[0]); }
+    // visceral / under-the-skin: entered (Hume, InBody, DEXA) values are anchored and flagged measured; otherwise the model's estimate, flagged estimated
+    if (d0 && d1) { const meas = p.viscFatKg > 0 && p.subqFatKg > 0, sub0 = Math.max(0.1, s.fatKg - d0.vat), sub1 = e.fatKg - d1.vat;
+      o.depotsMeasured = !!meas; o.vatStartKg = +(meas ? p.viscFatKg : d0.vat).toFixed(2); o.subqStartKg = +(meas ? p.subqFatKg : sub0).toFixed(2);
+      o.vatEndKg = +(o.vatStartKg * d1.vat / Math.max(0.05, d0.vat)).toFixed(2); o.subqEndKg = +(o.subqStartKg * sub1 / sub0).toFixed(2); }
+  } catch (err) { /* extras are optional: the base numbers still work */ }
+  return o;
 }
 /** The one function the rest of the app calls. Returns {image: dataURL, demo: boolean}.
  *  Today: no endpoint configured, so it returns a clearly labeled demo placeholder made locally (nothing is sent).
@@ -6539,6 +6757,77 @@ function headingOutcome() {
   const out = { rapid: "Fat loss", mild: "Fat loss", recomp: "Recomposition", maint: "Maintenance", lean: "Weight gain", max: "Weight gain" }[fit.band.id] || fit.band.name;
   return `<span data-outcome="${fit.band.id}">${esc(out)}</span> <span class="hint-inline">(your goal: ${esc(goalLabel())})</span>`;
 }
+// ---------- v7.6.20: "Where are my habits taking me?" (habits-first) ----------
+// Order in habits mode: You -> Move -> Food -> Habits read (confirm or adjust a goal) -> Projection (checkpoints + week slider).
+const HAB_ORDER = [1, 3, 4, 2, 5], PLAN_ORDER = [1, 2, 3, 4, 5];
+const stepOrder = () => (S.mode === "habits" ? HAB_ORDER : PLAN_ORDER);
+const stepPos = (k) => stepOrder().indexOf(k) + 1;
+const stepNext = (k) => { const o = stepOrder(), i = o.indexOf(k); return i >= 0 && i < o.length - 1 ? o[i + 1] : k; };
+const stepPrev = (k) => { const o = stepOrder(), i = o.indexOf(k); return i > 0 ? o[i - 1] : k; };
+const stepLabel = (k) => (S.mode === "habits" && k === 2 ? "Habits read" : STEPS[k - 1]);
+let hab = { stay: null, weeks: 26, cls: null };
+function habInput() { const i = engineInput(); i.food = Object.assign({}, i.food, { actualOn: true, psmf: false }); return i; }
+function habFmtChange(kg) { return fWd(kg); }
+function renderHabitsRead() {
+  const box = $("#hab-read"); if (!box) return;
+  const on = S.mode === "habits";
+  box.hidden = !on; $$(".hab-only-2").forEach((e) => (e.hidden = !on));
+  if (!on) { box.innerHTML = ""; return; }
+  if (!R || R.blocked) { box.innerHTML = `<p class="eyebrow card-eyebrow">Your habits read</p><p class="blocked">${(R && R.blocked ? R.blocked : ["Finish the earlier steps first."]).map(esc).join("<br>")}</p>`; return; }
+  let c; try { c = TheosisHabits.classify(habInput(), E); } catch (e) { box.innerHTML = ""; return; }
+  hab.cls = c; const pj = c.proj12, g = GOAL_OPTS.find((o) => o[0] === c.goalType), cur = GOAL_OPTS.find((o) => o[0] === S.goal.type);
+  const dir = (kg) => (Math.abs(kg) < 0.3 ? "about the same weight" : `${kg > 0 ? "gain" : "lose"} about ${fW(Math.abs(kg))}`);
+  box.innerHTML = `<p class="eyebrow card-eyebrow">Your habits read</p>
+  <h2>Your habits most resemble: <span class="hab-key">${esc(c.label)}</span></h2>
+  <p class="hab-conf"><span class="tag">${c.likelihood === "likely" ? "Likely match" : "Possible match"}</span> A likely match from what you entered. It is not a diagnosis, a judgment or a recommendation.</p>
+  <ul class="hab-why">${c.why.map((w) => `<li>${esc(w)}</li>`).join("")}</ul>
+  <p class="read">If you keep exactly these habits, the model estimates you would ${dir(pj.dW)} over ${pj.weeks} weeks: about ${fW(Math.abs(pj.dF))} of fat ${pj.dF >= 0 ? "gained" : "lost"} and ${fW(Math.abs(pj.dL))} of lean mass ${pj.dL >= 0 ? "gained" : "lost"}.${c.stopped ? " The projection stops early here to stay inside safe limits." : ""}</p>
+  ${c.offTrack ? `<div class="hab-off" role="group" aria-label="This path may not be what you want"><ul class="alerts">${c.offReasons.map((m) => alertHtml({ t: "warn", m })).join("")}</ul>
+    <p class="hab-q"><b>Do you want to stay on this path?</b></p>
+    <div class="hab-btns"><button type="button" class="btn btn-ghost" data-hab="stay"${hab.stay === "stay" ? ' aria-pressed="true"' : ""}>Yes, this is my path</button><button type="button" class="btn btn-primary" data-hab="plan">No, help me build a plan</button><button type="button" class="btn btn-ghost" data-hab="see">See what this path will look like over time</button></div>
+    ${hab.stay === "stay" ? `<p class="hint" role="status">Okay. Your projection will follow what you entered. You can change your food or training any time.</p>` : ""}</div>` : ""}
+  <div class="hab-confirm"><p class="hab-q"><b>Does that sound right?</b> Confirm it as your goal to compare against, or adjust below.</p>
+    <div class="hab-btns"><button type="button" class="btn btn-primary" data-hab="confirm"${S.goal.touched && S.goal.type === c.goalType ? ' aria-pressed="true"' : ""}>${S.goal.touched && S.goal.type === c.goalType ? "Confirmed" : `Yes, compare with: ${esc(g ? g[1] : c.goalType)}`}</button><button type="button" class="btn btn-ghost" data-hab="adjust">Adjust my goal</button></div>
+    <p class="hint">Comparing with: <b>${esc(cur ? cur[1] : S.goal.type)}</b>. The choices below set the plan your habits are compared with.</p></div>`;
+}
+function renderHabitsPath() {
+  const box = $("#hab-path"); if (!box) return;
+  const on = S.mode === "habits" && R && !R.blocked; box.hidden = !on; if (!on) { box.innerHTML = ""; return; }
+  let cp; try { cp = TheosisHabits.checkpoints(habInput(), E); } catch (e) { box.hidden = true; return; }
+  const cell = (r) => `<div class="hab-cp${r.cut ? " cut" : ""}"><span class="hab-cp-l">${esc(r.label)}</span><strong>${esc(fW(r.weightKg))}</strong><span class="hab-cp-d">${esc(habFmtChange(r.dW))} · ${esc(fP(r.bf))} body fat</span><span class="hab-cp-s">fat ${esc(habFmtChange(r.dF))} · lean ${esc(habFmtChange(r.dL))}</span>${r.cut ? `<span class="hab-cp-s">Projection stopped earlier (safety limit)</span>` : ""}</div>`;
+  box.innerHTML = `<p class="eyebrow card-eyebrow">Your path over time</p><h2>If you keep these habits</h2>
+  <p class="hint">Model estimate at each checkpoint, starting from ${esc(fW(cp.start.weightKg))} and ${esc(fP(cp.start.bf))} body fat. It assumes you keep exactly the food and training you entered, and it is not a guarantee. Change slows over time because your body burns more or less as your weight changes.</p>
+  ${cp.lessReliable ? `<p class="hint hab-less" role="note"><b>These numbers are less reliable at this size.</b> A surplus this large is beyond what the studies behind the model covered, so treat the checkpoints as rough, not exact.</p>` : ""}
+  <div class="hab-cps" id="hab-cps">${cp.rows.map(cell).join("")}</div>
+  <div class="hab-slide"><label for="hab-wk" class="label">Pick your own week: <b id="hab-wk-n">${hab.weeks}</b> weeks</label><input type="range" id="hab-wk" min="1" max="104" step="1" value="${hab.weeks}" aria-describedby="hab-wk-out"><div id="hab-wk-out" class="hab-wk-out" aria-live="polite"></div></div>
+  <p class="hint">Illustrations of how this could look are broad estimates, labelled "AI illustration, not a measurement" wherever they appear.</p>`;
+  renderHabitsWeek();
+}
+function renderHabitsWeek() {
+  const out = $("#hab-wk-out"); if (!out || !R || R.blocked) return;
+  const p = TheosisHabits.pathAt(habInput(), E, hab.weeks), n = $("#hab-wk-n"); if (n) n.textContent = hab.weeks;
+  out.innerHTML = `<div class="hab-cp"><span class="hab-cp-l">Week ${hab.weeks}${p.stoppedAt != null && p.stoppedAt < hab.weeks ? ` (stops at week ${p.stoppedAt})` : ""}</span><strong>${esc(fW(p.weightKg))}</strong><span class="hab-cp-d">${esc(habFmtChange(p.dW))} · ${esc(fP(p.bf))} body fat</span><span class="hab-cp-s">fat ${esc(habFmtChange(p.dF))} · lean ${esc(habFmtChange(p.dL))}</span></div>`;
+}
+function renderHabitsFood() {   // weekly average helper on the Food step
+  const w = $("#hab-week"); if (!w) return; w.hidden = !(S.mode === "habits" && S.food.actualOn);
+}
+function renderHabitsAll() { renderHabitsFood(); if (S.step === 2) renderHabitsRead(); if (S.step === 5) renderHabitsPath(); $$(".step").forEach((s) => { const k = +s.dataset.step, e = $(".eyebrow", s); if (e && /^Step \d of 5$/.test(e.textContent)) e.textContent = `Step ${stepPos(k)} of 5`; });
+  const h = $("#h-goal"); if (h) h.textContent = S.mode === "habits" ? "What your habits point toward" : "Goal";
+  const gl = $("#goal-lead"); if (gl && S.mode === "habits") gl.textContent = "This is what your current habits look like, and the goal they are compared with."; }
+function habClick(t) {
+  const b = t.closest && t.closest("[data-hab]"); if (!b) return false; const a = b.dataset.hab;
+  if (a === "confirm" && hab.cls) { S.goal.type = hab.cls.goalType; S.goal.touched = true; fillInputs(); update(); }
+  else if (a === "adjust") { const t2 = $("#goal-opts"); if (t2) { t2.scrollIntoView({ block: "center" }); const f = t2.querySelector("input:checked") || t2.querySelector("input"); f && f.focus(); } }
+  else if (a === "stay") { hab.stay = "stay"; if (hab.cls) { S.goal.type = hab.cls.goalType; S.goal.touched = true; fillInputs(); update(); } go(5); setTimeout(() => { const p = $("#hab-path"); p && p.scrollIntoView({ block: "start" }); }, 30); }
+  else if (a === "see") { go(5); setTimeout(() => { const p = $("#hab-path"); p && p.scrollIntoView({ block: "start" }); }, 30); }
+  else if (a === "plan") { S.mode = "plan"; S.food.actualOn = false; S.food.psmf = false; hab.stay = null; go(2); }
+  return true;
+}
+function habWeekly(el) {   // Food step: weekly total -> daily average
+  const n = parseNum(el.value), out = $("#hab-week-out"); if (!(n >= 3500 && n <= 49000)) { if (out) out.textContent = el.value ? "Enter a weekly total between 3,500 and 49,000 kcal." : ""; return; }
+  const d = Math.round(n / 7 / 10) * 10; S.food.actualKcal = d; S.food.mealUsed = null; S.food.logUsed = false; S.food.actualOn = true;
+  if (out) out.textContent = `That's about ${fK(d)} kcal a day, now used as what you eat.`; fillInputs(); update();
+}
 // ---------- v7.6.5: evidence-based calorie bands, goal-fit banner, underweight acknowledgement ----------
 // Bands are % of the person's own estimated maintenance (BMR × activity × body composition: R.main.ei0).
 const BANDS = [
@@ -6546,7 +6835,7 @@ const BANDS = [
     why: "About 25–35% below maintenance. In Garthe 2011 the faster group ate ~30% less and lost ~1% of body weight a week, but gained no lean mass.",
     cite: "Garthe I, et al. Int J Sport Nutr Exerc Metab. 2011;21(2):97-104." },
   { id: "mild", name: "Mild fat loss", lo: -0.25, hi: -0.10, mid: -0.17, goal: "steady",
-    why: "About 10–25% below maintenance. In Garthe 2011 the slower group ate ~19% less (~0.7% of body weight a week) and gained 2.1% lean mass while losing fat. A meta-regression found deficits above ~500 kcal/day erase lean-mass gains from lifting.",
+    why: "About 10–25% below maintenance. In Garthe 2011 the slower group ate ~19% less (~0.7% of body weight a week) and gained 2.1% lean mass while losing fat. A meta-regression found an energy deficit of about 500 kcal/day prevented lean-mass gains from lifting.",
     cite: "Garthe 2011 (above); Murphy C, Koehler K. Scand J Med Sci Sports. 2022;32(1):125-137." },
   { id: "recomp", name: "Recomposition", lo: -0.10, hi: -0.02, mid: -0.06, goal: "recomp",
     why: "A small deficit (about 2–10% below maintenance) with progressive lifting and high protein. Trained and untrained people can gain muscle and lose fat at the same time. Gains are slower than with a surplus.",
@@ -6816,9 +7105,9 @@ function mount3d(key, fig, person, ghost, label, opts) {
 
 function mountStrip(key, fig, persons, label) { if (fig) mount3d(key, fig, persons[0], null, label, { strip: persons }); }
 
-// ---------- v7.6.14: Gemini AI features (food photo / label reading, "See yourself at each stage", Ask Theosis, "Explain my plan") ----------
+// ---------- v7.6.14: Gemini AI features (nutrition-label reading, "See yourself at each stage", Ask Theosis, "Explain my plan") ----------
 // Everything goes through ONE Netlify Function (CONFIG.AI_ENDPOINT) that holds GEMINI_API_KEY. No key, model name or prompt lives in this page.
-// All of it is Pro-gated (aiPhoto for food, aiStages, aiChat, aiPlan), needs the "Photos and AI images" consent (revoking it deletes everything here),
+// All of it is Pro-gated (aiPhoto for nutrition-label reading, aiStages, aiChat, aiPlan), needs the "Photos and AI images" consent (revoking it deletes everything here),
 // and shows nothing at all when the function isn't deployed (Netlify Drop, file://) or has no key. AI never supplies numbers: it only explains or illustrates numbers the simulator computed.
 const AI = { avail: null, checking: null, limits: null, mock: false, adult: false,
   food: { busy: false, items: [], note: "", kind: "", err: "", status: "", ctl: null },
@@ -6903,7 +7192,7 @@ function aiRenderFood() {
   if (!aiOn()) { box.innerHTML = ""; return; }
   const locked = !aiConsentOk(), left = aiLeft("label");
   const items = F.items.map((it, i) => `<div class="ai-fcard" data-ai-item="${i}" role="group" aria-label="AI reading ${i + 1}: ${esc(it.name)}">
-    <p class="ai-flag"><b>${it.basis === "label" ? "Read from the label" : "AI estimate"}</b> · ${esc(it.confidence)} confidence. Check every number against the package or your plate, and fix anything that's off, before you add it.</p>
+    <p class="ai-flag"><b>Read from the label</b> · ${esc(it.confidence)} confidence. Check every number against the package, and fix anything that's off, before you add it.</p>
     <div class="row"><label class="field"><span class="label">Food</span><span class="control"><input type="text" data-local="1" data-ai-f="name" maxlength="80" value="${esc(it.name)}"></span></label>
     <label class="field"><span class="label">Serving</span><span class="control"><input type="text" data-local="1" data-ai-f="serving" maxlength="60" value="${esc(it.serving || "1 serving")}"></span></label></div>
     <div class="row"><label class="field"><span class="label">Serving size (g)</span><span class="control"><input type="number" data-local="1" data-ai-f="servingG" min="1" max="2000" step="1" inputmode="decimal" value="${it.servingG == null ? "" : it.servingG}" placeholder="optional"><span class="unit">g</span></span></label>
@@ -6911,9 +7200,9 @@ function aiRenderFood() {
     <div class="row ai-nrow">${[["kcal", "Calories", "kcal"], ["protein", "Protein", "g"], ["carbs", "Carbs", "g"], ["fat", "Fat", "g"]].map(([k, l, u]) => `<label class="field"><span class="label">${l}</span><span class="control"><input type="number" data-local="1" data-ai-f="${k}" min="0" step="0.1" inputmode="decimal" value="${it[k] == null ? "" : it[k]}"><span class="unit">${u}</span></span></label>`).join("")}</div>
     <p class="hint">Per serving. Fiber, sugar, saturated fat and sodium ${it.fiber != null || it.sugar != null || it.sodiumMg != null ? "are kept too" : "weren't found"}.</p>
     <div class="actions"><button type="button" class="btn btn-steel" data-ai-food-add="${i}">Add to today's log</button><button type="button" class="btn btn-ghost" data-ai-food-drop="${i}">Discard</button></div></div>`).join("");
-  box.innerHTML = `<div class="ai-food"><div class="ai-food-h"><b>Read a food photo or label with AI</b> ${aiTag("aiPhoto")}</div>
-    <p class="hint">Photograph a nutrition label (most accurate) or a meal (an estimate). The AI fills in the numbers and <b>nothing is added until you confirm and edit them</b>. The photo is sent to Google Gemini once, isn't stored, and is deleted after processing.</p>
-    ${locked ? `<p class="consent-lock">AI photo features are off. <a href="#" data-consent>Turn on "Photos and AI images" in Consent settings</a>.</p>` : `<div class="actions"><button type="button" class="btn btn-ghost" data-ai-food-pick="label" ${F.busy || !left ? "disabled" : ""}>Read a nutrition label</button><button type="button" class="btn btn-ghost" data-ai-food-pick="meal" ${F.busy || !left ? "disabled" : ""}>Estimate a meal photo</button></div>
+  box.innerHTML = `<div class="ai-food"><div class="ai-food-h"><b>Read a nutrition label with AI</b> ${aiTag("aiPhoto")}</div>
+    <p class="hint">Photograph the printed Nutrition Facts label on a package. The AI copies the numbers exactly as printed (it does not guess calories from photos of food), and <b>nothing is added until you confirm and edit them</b>. The photo is sent to Google Gemini once, isn't stored, and is deleted after processing.</p>
+    ${locked ? `<p class="consent-lock">AI photo features are off. <a href="#" data-consent>Turn on "Photos and AI images" in Consent settings</a>.</p>` : `<div class="actions"><button type="button" class="btn btn-ghost" data-ai-food-pick="label" ${F.busy || !left ? "disabled" : ""}>Read a nutrition label</button></div>
     <p class="hint">${left ? `${left} AI reading${left === 1 ? "" : "s"} left today.` : "You've used today's AI readings. Try again tomorrow, or search and type foods in."}</p>`}
     <p class="hint ai-status" role="status" aria-live="polite">${esc(F.busy ? "Reading your photo…" : F.status)}</p>${F.err ? `<p class="alert danger" role="alert">${esc(F.err)}</p>` : ""}${F.note ? `<p class="hint">${esc(F.note)}</p>` : ""}${items}</div>`;
 }
@@ -6922,7 +7211,7 @@ async function aiFoodPhoto(file, hint) {
   F.err = ""; F.status = ""; F.note = ""; F.busy = true; aiRenderFood(); F.ctl = new AbortController();
   try { const img = await aiShrink(file); const j = await aiCall("label", { image: img, hint }, F.ctl.signal); aiUseAdd("label");
     F.items = (j.items || []).slice(0, 6); F.note = j.note || ""; F.kind = j.kind;
-    if (!F.items.length) F.status = "The AI couldn't find a food or label it could read in that photo. Try a closer, sharper photo, or search for the food instead."; else F.status = `Found ${F.items.length} item${F.items.length === 1 ? "" : "s"}. Check the numbers, then add.`; }
+    if (!F.items.length) F.status = "Couldn't find a printed Nutrition Facts label in that photo. Try a closer, sharper photo of the label, scan the barcode, or search for the food instead. Theosis does not estimate calories from photos of food."; else F.status = `Found ${F.items.length} item${F.items.length === 1 ? "" : "s"}. Check the numbers, then add.`; }
   catch (e) { if (e.code !== "abort") F.err = e.message; } finally { F.busy = false; F.ctl = null; aiRenderFood(); }
 }
 function aiFoodAdd(i) {
@@ -6961,14 +7250,14 @@ async function aiStagesRun() {
   aiUseAdd("stageRuns"); G.busy = true; G.err = ""; G.run = `run-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`; G.ctl = new AbortController();
   const b0 = projectionPayload(0, { rows: R.main.rows, off: 0, c: null }), src = photo;
   G.frames = [{ start: true, img: src, numbers: `${fW(b0.startWeightKg)} · ${fP(b0.startBf)} body fat` }].concat(sp.pts.map((q) => ({ week: Math.round(q.weeks), img: null, numbers: `${fW(q.endWeightKg)} · ${fP(q.endBf)} body fat · fat ${fWd(q.fatChangeKg)}, lean ${fWd(q.leanChangeKg)}` })));
-  let done = 0;
+  let done = 0, lastErr = null;
   for (let i = 0; i < sp.pts.length; i++) {
     const q = sp.pts[i], fr = G.frames[i + 1]; G.status = `Creating week ${Math.round(q.weeks)} (${i + 1} of ${sp.pts.length})… this can take 10–30 seconds each.`; aiRenderStages();
-    try { const j = await aiCall("stage", { runId: G.run, image: await aiStageImg(src), stage: { week: q.weeks, sex: q.sex, startWeightKg: q.startWeightKg, endWeightKg: q.endWeightKg, startBf: q.startBf, endBf: q.endBf, fatChangeKg: q.fatChangeKg, leanChangeKg: q.leanChangeKg } }, G.ctl && G.ctl.signal);
+    try { const j = await aiCall("stage", { runId: G.run, image: await aiStageImg(src), stage: Object.assign({}, q, { week: q.weeks }) }, G.ctl && G.ctl.signal);
       if (!aiConsentOk() || !G.ctl) break; fr.img = j.image; aiUseAdd("stageImages"); done++; }
-    catch (e) { if (e.code === "abort") break; fr.err = e.message; if (["limit", "consent", "not_configured", "pro_required"].includes(e.code)) { G.err = e.message; for (let k = i + 1; k < sp.pts.length; k++) G.frames[k + 1].err = "Not created."; break; } }
+    catch (e) { if (e.code === "abort") break; fr.err = e.message; lastErr = e; if (["limit", "consent", "not_configured", "pro_required"].includes(e.code)) { G.err = e.message; for (let k = i + 1; k < sp.pts.length; k++) G.frames[k + 1].err = "Not created."; break; } }
   }
-  const wasCancelled = !G.ctl; G.busy = false; G.ctl = null; G.status = wasCancelled ? "Cancelled." : done ? `Done: ${done} of ${sp.pts.length} illustrations. They're kept in this tab only; nothing is stored.` : ""; if (!wasCancelled && !done && !G.err) G.err = "No illustrations could be created. Your plan is unchanged. Try again.";
+  const wasCancelled = !G.ctl; G.busy = false; G.ctl = null; G.status = wasCancelled ? "Cancelled." : done ? `Done: ${done} of ${sp.pts.length} illustrations. They're kept in this tab only; nothing is stored.` : ""; if (!wasCancelled && !done && !G.err) G.err = lastErr && lastErr.message ? lastErr.message + " Your plan is unchanged." : "No illustrations could be created. Your plan is unchanged. Try again.";
   aiRenderStages();
 }
 let aiStageImgCache = null;
@@ -7039,14 +7328,14 @@ function aiWipe() { for (const x of [AI.food.ctl, AI.stages.ctl, AI.chat.ctl]) {
 function aiInit() {
   if (window.TheosisConsent) TheosisConsent.onRevoke((k) => { if (k === "photoAi" || k === "biometric" || k === "all") aiWipe(); });
   if (window.TheosisConsent) TheosisConsent.onChange(() => aiRenderAll());
-  const pick = (kind) => { const f = $(kind === "label" ? "#ai-food-label" : "#ai-food-meal"); if (f) f.click(); };
+  const pick = () => { const f = $("#ai-food-label"); if (f) f.click(); };
   document.addEventListener("click", (ev) => { const t = ev.target.closest("button, a"); if (!t) return;
     if (t.dataset.openAsk !== undefined) { ev.preventDefault(); aiAskOpen(); } else if (t.dataset.askClose !== undefined) { const d = $("#dlg-ask"); d && d.close(); } else if (t.dataset.askIdea) aiAskSend(t.dataset.askIdea);
     else if (t.dataset.askClear !== undefined) { AI.chat.msgs = []; AI.chat.err = ""; aiRenderAsk(); }
     else if (t.dataset.aiFoodPick) pick(t.dataset.aiFoodPick); else if (t.dataset.aiFoodAdd !== undefined) aiFoodAdd(+t.dataset.aiFoodAdd); else if (t.dataset.aiFoodDrop !== undefined) { AI.food.items.splice(+t.dataset.aiFoodDrop, 1); aiRenderFood(); }
     else if (t.id === "ai-stage-go") aiStagesRun(); else if (t.dataset.aiStageClear !== undefined) { AI.stages.frames = []; AI.stages.status = "Images deleted."; aiStageImgCache = null; aiRenderStages(); } else if (t.dataset.aiStageCancel !== undefined) { try { AI.stages.ctl && AI.stages.ctl.abort(); } catch (e) { /* ignore */ } AI.stages.ctl = null; } });
   document.addEventListener("change", (ev) => { const t = ev.target;
-    if (t.id === "ai-stage-me") { AI.adult = t.checked; aiRenderStages(); } else if (t.id === "ai-food-label" || t.id === "ai-food-meal") { const f = t.files[0]; t.value = ""; aiFoodPhoto(f, t.id === "ai-food-label" ? "label" : "meal"); }
+    if (t.id === "ai-stage-me") { AI.adult = t.checked; aiRenderStages(); } else if (t.id === "ai-food-label" ) { const f = t.files[0]; t.value = ""; aiFoodPhoto(f, "label"); }
     else if (t.id === "ai-plan-opt") { /* read at print time */ } });
   document.addEventListener("submit", (ev) => { if (ev.target.id === "ask-form") { ev.preventDefault(); const q = $("#ask-q"); aiAskSend(q && q.value); } });
   document.addEventListener("keydown", (ev) => { if (ev.target.id === "ask-q" && ev.key === "Enter" && !ev.shiftKey) { ev.preventDefault(); aiAskSend(ev.target.value); } });
@@ -7054,9 +7343,10 @@ function aiInit() {
 }
 // ---------- navigation ----------
 function renderProgress() {
-  $("#progress").innerHTML = STEPS.map((n, i) => { const k = i + 1, cls = k === S.step ? "cur" : k < S.step || k <= S.maxStep ? "done" : "";
-    return `<li class="${cls}"><button type="button" data-goto="${k}" ${k <= S.maxStep ? "" : "disabled"} ${k === S.step ? 'aria-current="step"' : ""} aria-label="Step ${k}: ${n}${k === S.step ? " (current)" : ""}"><span class="num" aria-hidden="true">${k < S.step ? "✓" : k}</span><span class="lbl">${n}</span></button></li>`; }).join("");
-  $("#prog-mobile").innerHTML = `Step ${S.step} of 5 · <b>${STEPS[S.step - 1]}</b>`;
+  const ord = stepOrder(), hb = S.mode === "habits";
+  $("#progress").innerHTML = ord.map((k, i) => { const pos = i + 1, n = stepLabel(k), curPos = stepPos(S.step), reach = hb ? (S.maxPos == null ? ord.indexOf(S.maxStep) : S.maxPos) + 1 : S.maxStep, cls = k === S.step ? "cur" : pos < curPos || pos <= reach ? "done" : "";
+    return `<li class="${cls}"><button type="button" data-goto="${k}" ${pos <= reach ? "" : "disabled"} ${k === S.step ? 'aria-current="step"' : ""} aria-label="Step ${pos}: ${n}${k === S.step ? " (current)" : ""}"><span class="num" aria-hidden="true">${pos < curPos ? "✓" : pos}</span><span class="lbl">${n}</span></button></li>`; }).join("");
+  $("#prog-mobile").innerHTML = `Step ${stepPos(S.step)} of 5 · <b>${stepLabel(S.step)}</b>`;
 }
 /* v7.6.18: the medication question is required before leaving step 1; "Yes" or "Not sure" also needs the acknowledgment ticked */
 function medProblem() { const h = S.profile.health, m = h.meds; if (window.__NO_MED_GATE) return "";   // test-only hook, like __NO_FIT_GATE
@@ -7074,7 +7364,7 @@ function stepProblems(step) {
 }
 function renderNav() {
   $("#btn-next").hidden = S.step === 5;
-  $("#btn-next").textContent = S.step === 4 ? "See my projection" : "Next";
+  $("#btn-next").textContent = S.step === 4 && S.mode !== "habits" ? "See my projection" : S.step === 4 ? "Next: what your habits point toward" : S.step === 2 && S.mode === "habits" ? "See my projection" : "Next";
   $("#nav-note").textContent = "";
 }
 function go(step, focus = true) {
@@ -7083,8 +7373,8 @@ function go(step, focus = true) {
   if (step === 2 && !S.goal.touched && S.mode === "plan") { const a = E.analyze({ ...S.profile, bf: bfInfo().bf }); S.goal.type = a.category === "athletic" || a.category === "fit" ? "recomp" : "steady"; }
   if (step === 2) ensureTargets();
   // leaving the Eat step counts as "done adding foods"
-  if (S.step === 4 && step > 4 && S.food.logUsed && S.food.log.length && !S.food.logDone) { S.food.logDone = true; const t = FC.totals(S.food.log); if (t.kcal >= 300) { S.food.actualOn = true; S.food.psmf = false; S.food.mealUsed = null; S.food.actualKcal = Math.round(t.kcal / 10) * 10; if (R && R.ref) S.food.actualProtein = proteinLevelFor(t.protein, R.ref.kg); } }
-  S.step = step; S.maxStep = Math.max(S.maxStep, step);
+  if (S.step === 4 && stepPos(step) > stepPos(4) && S.food.logUsed && S.food.log.length && !S.food.logDone) { S.food.logDone = true; const t = FC.totals(S.food.log); if (t.kcal >= 300) { S.food.actualOn = true; S.food.psmf = false; S.food.mealUsed = null; S.food.actualKcal = Math.round(t.kcal / 10) * 10; if (R && R.ref) S.food.actualProtein = proteinLevelFor(t.protein, R.ref.kg); } }
+  S.step = step; S.maxStep = Math.max(S.maxStep, step); S.maxPos = Math.max(S.maxPos == null ? -1 : S.maxPos, stepOrder().indexOf(step));
   $("#entry").hidden = true; $("#wizard").hidden = false; $("#mbar").hidden = false; document.body.classList.add("has-mbar");
   $$(".step").forEach((s) => (s.hidden = +s.dataset.step !== step));
   fillInputs(); renderProgress(); update();
@@ -7105,6 +7395,8 @@ function bind() {
     if (el.matches("input[data-f]")) { if (el.dataset.f === "actualKcal") { S.food.mealUsed = null; S.food.logUsed = false; S.food.macroNoteOff = null; } onNumInput(el); }
     else if (el.matches("input[data-lab]")) { const h = S.profile.health; h.labs = h.labs || {}; const n = parseNum(el.value), k = el.dataset.lab, mx = { tc: 600, ldl: 500, hdl: 200, tg: 3000, alt: 1000, ast: 1000, fg: 600 }[k];
       h.labs[k] = n > 0 && n <= mx ? n : null; update(); }
+    else if (el.id === "hab-week-in") habWeekly(el);
+    else if (el.id === "hab-wk") { hab.weeks = Math.max(1, Math.min(104, +el.value || 26)); renderHabitsWeek(); }
     else if (el.id === "fs-q") fsOnInput();
     else if (el.id === "sd-name") sd.name = el.value;
     else if (el.id === "fs-count") fsDetailUpdate();
@@ -7147,6 +7439,7 @@ function bind() {
     else if (el.id === "fs-serving" || el.id === "fs-count") { fsDetailUpdate(); }
   });
   document.addEventListener("click", async (ev) => {
+    if (habClick(ev.target)) return;
     const t = ev.target.closest("button, a"); if (!t) return;
     if (t.dataset.mode) return start(t.dataset.mode);
     if (t.dataset.f3mode) return setFigLook(t.dataset.f3mode, null);
@@ -7227,8 +7520,8 @@ function bind() {
       S.food.mealMacros = { id: d.key, protein: Math.round(d.totals.protein), carbs: Math.round(d.totals.carbs), fat: Math.round(d.totals.fat) };
       mealStatus = `${d.dietName} · ${d.name} is now used in your projection.`; fillInputs(); update(); return; }
     switch (t.id) {
-      case "btn-next": { const pr = stepProblems(S.step); if (pr) { if (S.step === 1 && medProblem()) renderHealthCard(true); $("#nav-note").textContent = pr; const f = $(".step:not([hidden]) .field.invalid input"); f && f.focus(); return; } { const k = Math.min(5, S.step + 1); if (!gateGo(k)) go(k); } return; }
-      case "btn-back": return go(S.step - 1);
+      case "btn-next": { const pr = stepProblems(S.step); if (pr) { if (S.step === 1 && medProblem()) renderHealthCard(true); $("#nav-note").textContent = pr; const f = $(".step:not([hidden]) .field.invalid input"); f && f.focus(); return; } { const k = stepNext(S.step); if (!gateGo(k)) go(k); } return; }
+      case "btn-back": return go(stepPrev(S.step));
       case "actual-toggle": S.food.actualOn = !S.food.actualOn; if (!S.food.actualOn) { S.food.psmf = false; S.food.mealSrc = "rec"; } setSwitch(t, S.food.actualOn); fillInputs(); update(); return;
       case "planner-toggle": S.move.plannerOn = !S.move.plannerOn; if (S.move.plannerOn && S.move.planner.every((d) => !d.lift && !d.cardio)) seedPlanner(); setSwitch(t, S.move.plannerOn); update(); return;
       case "btn-print": if (!proGate("pdf", "#recap")) return; if (aiPlanWanted()) { try { await aiPlanForPrint(); } catch (e) { /* the AI section is optional */ } } buildPrint(); window.print(); return;

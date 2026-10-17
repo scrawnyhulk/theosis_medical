@@ -5,7 +5,7 @@
  * to disk, logs or a database, and are never echoed back (only generated images are returned).
  *
  * Actions (body.action):
- *   "label"  a food photo or nutrition-label photo  -> editable nutrition values (the user confirms before anything is logged)
+ *   "label"  a photo of a printed Nutrition Facts label -> editable nutrition values (never a meal/food estimate; no label -> 422 no_label) (the user confirms before anything is logged)
  *   "stage"  starting photo + projected checkpoint numbers -> ONE AI illustration (the page calls this once per checkpoint)
  *   "chat"   Ask Theosis: education-only answer using the knowledge pack (ai-pack.js) + the user's simulator numbers
  *   "plan"   "Explain my plan": narrative that may only use numbers the simulator computed
@@ -14,7 +14,7 @@
  *   GEMINI_API_KEY            required for real answers (never put it in the page)
  *   AI_MOCK=1                 canned answers, no network, no key (tests / demos)
  *   GEMINI_TEXT_MODEL         default gemini-3.8-flash      (chat, plan)
- *   GEMINI_VISION_MODEL       default gemini-3.8-flash      (food photos / labels)
+ *   GEMINI_VISION_MODEL       default gemini-3.8-flash      (nutrition labels)
  *   GEMINI_IMAGE_MODEL        default gemini-nano-banana-2.1 (stage images)
  *   ALLOWED_ORIGIN            e.g. https://theosismedical.com (CORS + origin check)
  *   AI_REQUIRE_PRO=1          reject calls without a valid Pro token (needs UNLOCK_SECRET)
@@ -166,57 +166,101 @@ const R = (n, d = 1) => Math.round(n * Math.pow(10, d)) / Math.pow(10, d);
 const NUT_RANGE = { kcal: [0, 3500], protein: [0, 250], carbs: [0, 500], fat: [0, 250], fiber: [0, 100], sugar: [0, 300], satFat: [0, 100], sodiumMg: [0, 8000] };
 function normLabel(j) {
   const items = (j && Array.isArray(j.items) ? j.items : []).slice(0, 8).map((it) => {
-    const o = { name: clean(it.name, 80), brand: clean(it.brand, 60), serving: clean(it.serving_text || it.serving, 60), basis: it.basis === "label" ? "label" : "estimate", confidence: ["high", "medium", "low"].includes(it.confidence) ? it.confidence : "low" };
+    const o = { name: clean(it.name, 80), brand: clean(it.brand, 60), serving: clean(it.serving_text || it.serving, 60), basis: "label", confidence: ["high", "medium", "low"].includes(it.confidence) ? it.confidence : "low" };
     const g = Number(it.serving_g); o.servingG = Number.isFinite(g) && g > 0 && g <= 2000 ? R(g, 0) : null;
     for (const k of Object.keys(NUT_RANGE)) { const v = it[k]; const n = v == null || v === "" ? null : Number(v); o[k] = n != null && Number.isFinite(n) && n >= NUT_RANGE[k][0] && n <= NUT_RANGE[k][1] ? R(n, 1) : null; }
     return o;
   }).filter((o) => o.name && o.kcal != null);
-  return { items, kind: ["label", "meal", "unclear"].includes(j && j.kind) ? j.kind : "unclear", note: clean(j && j.note, 200) };
+  return { items, kind: j && j.kind === "label" ? "label" : "unclear", note: clean(j && j.note, 200) };
 }
 const LABEL_PROMPT = [GUARD,
-  "TASK: Read ONE photo that is either a Nutrition Facts label or a photo of food or a meal.",
+  "TASK: Read ONE photo of a printed Nutrition Facts label (or a packaged-food nutrition panel). This is the ONLY thing you may read. NEVER estimate calories or nutrition from a photo of food, a meal or a plate.",
   "If it is a label: copy the numbers PER SERVING exactly as printed (kind 'label', basis 'label', confidence by legibility). Include the serving size text and, if the label shows grams, serving_g.",
-  "If it is a meal or food: list each distinct food you can see (max 6), estimate a typical portion in grams and the nutrition for THAT portion, kind 'meal', basis 'estimate', confidence 'low' or 'medium'. Say portion assumptions in 'note'.",
-  "If you cannot read or identify anything useful, return kind 'unclear' and an empty items list. Do not guess. Do not include names, faces or other personal details.",
-  'Return ONLY JSON: {"kind":"label|meal|unclear","note":string,"items":[{"name":string,"brand":string,"serving_text":string,"serving_g":number|null,"kcal":number,"protein":number,"carbs":number,"fat":number,"fiber":number|null,"sugar":number|null,"satFat":number|null,"sodiumMg":number|null,"basis":"label|estimate","confidence":"high|medium|low"}]}',
+  "If the photo does not clearly show a printed Nutrition Facts label with numbers you can read (for example it shows a meal, food, a package front, a person or anything else), return kind 'unclear' and an empty items list. Do not guess and do not estimate. Do not include names, faces or other personal details.",
+  'Return ONLY JSON: {"kind":"label|unclear","note":string,"items":[{"name":string,"brand":string,"serving_text":string,"serving_g":number|null,"kcal":number,"protein":number,"carbs":number,"fat":number,"fiber":number|null,"sugar":number|null,"satFat":number|null,"sodiumMg":number|null,"basis":"label","confidence":"high|medium|low"}]}',
   "Units: kcal, grams, and sodium in milligrams."].join("\n");
 
 async function doLabel(body, mock) {
+  if (body.hint === "meal") return { status: 400, code: "no_meal_estimates", message: "Meal photos are not supported. Photograph the printed Nutrition Facts label, scan the barcode, or search for the food." };
   const img = decodeImage(body.image); if (!img) return { status: 400, code: "bad_image", message: "Send a JPEG, PNG or WebP photo." }; if (img.tooBig) return { status: 413, code: "too_big", message: "That photo is too large. Try a smaller one." };
-  const hint = body.hint === "label" ? "The user says this is a nutrition label." : body.hint === "meal" ? "The user says this is a meal or food." : "";
+  const hint = "";
   if (mock) return { status: 200, data: { ...normLabel({ kind: "label", note: "Mock answer.", items: [{ name: "Mock granola bar", brand: "Test Foods", serving_text: "1 bar (40 g)", serving_g: 40, kcal: 180, protein: 6, carbs: 24, fat: 7, fiber: 3, sugar: 9, satFat: 1.5, sodiumMg: 95, basis: "label", confidence: "high" }] }), mock: true } };
   const req = { contents: [{ role: "user", parts: [{ inlineData: { mimeType: img.mime, data: img.data } }, { text: LABEL_PROMPT + (hint ? "\n" + hint : "") }] }], generationConfig: { responseMimeType: "application/json" } };
   let d; try { d = await gemini(MODELS().vision, req, "text"); }
   catch (e) { const fb = env().GEMINI_VISION_FALLBACK || "gemini-3.6-flash"; if (e.code === "upstream" && e.status !== 401 && e.status !== 403 && fb !== MODELS().vision) { console.error("label: retrying with fallback vision model"); d = await gemini(fb, req, "text"); } else throw e; }
   const j = parseJson(textOf(d)); if (!j) return { status: 502, code: "unreadable", message: "The AI answer couldn't be read. Try again or type the food in." };
-  return { status: 200, data: normLabel(j) };
+  const out = normLabel(j);
+  if (out.kind !== "label" || !out.items.length) return { status: 422, code: "no_label", message: "Couldn't find a printed Nutrition Facts label in that photo. Try a closer, sharper photo of the label, scan the barcode, or search for the food. Theosis does not estimate calories from photos of food." };
+  return { status: 200, data: out };
 }
 
-function stageNumbers(q) {
-  return { sex: q.sex === "f" ? "f" : "m", week: num(q.week, 1, 520), startWeightKg: num(q.startWeightKg, 30, 330), endWeightKg: num(q.endWeightKg, 30, 330), startBf: num(q.startBf, 3, 70), endBf: num(q.endBf, 3, 70),
-    fatChangeKg: num(q.fatChangeKg, -150, 80), leanChangeKg: num(q.leanChangeKg, -40, 25) };
-}
-/** Fixed template: every variable is a validated number or enum, never user text. */
-function stagePrompt(p) {
-  const sex = p.sex === "f" ? "woman" : "man", lb = (kg) => (Math.abs(kg) * 2.2046).toFixed(1);
-  const fatTxt = p.fatChangeKg < -0.3 ? `about ${lb(p.fatChangeKg)} lb less body fat` : p.fatChangeKg > 0.3 ? `about ${lb(p.fatChangeKg)} lb more body fat` : "about the same body fat";
-  const leanTxt = p.leanChangeKg > 0.3 ? `about ${lb(p.leanChangeKg)} lb more muscle` : p.leanChangeKg < -0.3 ? `about ${lb(p.leanChangeKg)} lb less muscle` : "about the same muscle";
-  return [`Edit this photo of a ${sex} to illustrate the same person at week ${p.week} of a nutrition and training plan.`,
-    `Body composition at week ${p.week}: ${p.endBf}% body fat (they started at ${p.startBf}%), ${fatTxt} and ${leanTxt}.`,
-    "Change ONLY body shape, in proportion to these numbers: waist, abdomen, hips, thighs, arms, face fullness, and slightly more muscle definition if muscle increases.",
-    "Keep EXACTLY the same person: face and identity, skin tone, hair, tattoos, clothing, pose, camera angle, lighting, background and framing, so a row of these images looks like the same photo at different times.",
-    "Be conservative and realistic. Small changes in the numbers must give small visual changes. Do not exaggerate leanness or muscularity, do not beautify, do not add or remove clothing, do not change age. Photorealistic, no text, no watermark."].join(" ");
-}
+/** v7.6.19: the template, validation and "no image if nothing real changes" gate live in ./stage-prompt.js (shared with preview.js). */
+const SP = require("./stage-prompt.js");
+const stageNumbers = (q) => SP.sanitize(q);
+const stagePrompt = (p) => SP.build(p);
 async function doStage(body, mock) {
   const img = decodeImage(body.image); if (!img) return { status: 400, code: "bad_image", message: "Send a JPEG, PNG or WebP photo." }; if (img.tooBig) return { status: 413, code: "too_big", message: "That photo is too large." };
   let p; try { p = stageNumbers(body.stage || {}); } catch (e) { return { status: 400, code: "bad_numbers", message: "The projection numbers are missing or out of range." }; }
-  const dBf = p.endBf - p.startBf; if (Math.abs(dBf) < 0.8 && Math.abs(p.leanChangeKg) < 0.8) return { status: 422, code: "no_change", message: "This plan doesn't change your body enough at this point to illustrate." };
+  const gt = SP.gate(p); if (gt) return { status: 422, code: gt.code, message: gt.message };
   if (mock) return { status: 200, data: { image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==", mock: true, week: p.week } };
-  const d = await gemini(MODELS().image, { contents: [{ role: "user", parts: [{ inline_data: { mime_type: img.mime, data: img.data } }, { text: stagePrompt(p) }] }], generationConfig: { responseModalities: ["TEXT", "IMAGE"] } }, "image");
-  const part = partsOf(d).find((x) => x.inlineData || x.inline_data);
-  if (!part) { console.warn("gemini returned no image:", (d.candidates && d.candidates[0] && d.candidates[0].finishReason) || (d.promptFeedback && d.promptFeedback.blockReason) || "none"); return { status: 422, code: "declined", message: "The image service declined this photo. Try a front-facing, well-lit photo in fitted or athletic clothing." }; }
-  const x = part.inlineData || part.inline_data; const mime = x.mimeType || x.mime_type || "image/png"; if (!/^image\/(png|jpeg|webp)$/.test(mime)) return { status: 502, code: "unreadable", message: "The image service returned something unexpected." };
+  const r = await runStage(p, img, mock); if (r.status !== 200) return r;
+  const x = r.part.inlineData || r.part.inline_data; const mime = x.mimeType || x.mime_type || "image/png"; if (!/^image\/(png|jpeg|webp)$/.test(mime)) return { status: 502, code: "unreadable", message: "The image service returned something unexpected." };
   return { status: 200, data: { image: `data:${mime};base64,${x.data}`, week: p.week } };
+}
+
+/** v7.6.21: classify a Gemini image response that has no image so the REAL reason is logged and a friendly, specific message reaches the user. */
+const IMG_BLOCK = {
+  IMAGE_SAFETY: ["safety", "Google's safety filter blocked this image. A fully clothed, front-facing, well-lit photo (athletic wear or a fitted t-shirt) usually works better than a shirtless or swimwear photo."],
+  IMAGE_PROHIBITED_CONTENT: ["safety", "Google's content policy blocked this image. A fully clothed, front-facing, well-lit photo usually works better."],
+  PROHIBITED_CONTENT: ["safety", "Google's content policy blocked this request. A fully clothed, front-facing, well-lit photo usually works better."],
+  SAFETY: ["safety", "Google's safety filter blocked this image. A fully clothed, front-facing, well-lit photo usually works better."],
+  BLOCKLIST: ["safety", "Google's content policy blocked this request. Try a different, fully clothed photo."],
+  SPII: ["privacy", "Google's filter flagged personal information in the photo (for example a visible name tag, ID or text). Try a photo without any text or documents in view."],
+  IMAGE_RECITATION: ["other", "Google's filter blocked this image. Try a different photo."],
+  RECITATION: ["other", "Google's filter blocked this image. Try a different photo."],
+  IMAGE_OTHER: ["other", "Google's image service returned nothing for this photo and didn't say why. Try again, or use a different front-facing, well-lit photo in fitted or athletic clothing."],
+  OTHER: ["other", "Google's image service returned nothing for this photo and didn't say why. Try again, or use a different front-facing, well-lit photo in fitted or athletic clothing."],
+  NO_IMAGE: ["other", "Google's image service didn't return a picture this time. Try again, or use a different front-facing, well-lit photo."],
+};
+/** Returns {part} when there is an image, else {reason, code, message, retry, text}. Never includes the photo. */
+function stageOutcome(d) {
+  const cand = d && d.candidates && d.candidates[0], parts = partsOf(d), part = parts.find((x) => x.inlineData || x.inline_data);
+  const finish = (cand && cand.finishReason) || "", block = (d && d.promptFeedback && d.promptFeedback.blockReason) || "";
+  const text = parts.map((x) => (x.thought ? "" : x.text || "")).join(" ").replace(/\s+/g, " ").trim().slice(0, 240);
+  const ratings = ((cand && cand.safetyRatings) || []).filter((r) => r && r.blocked).map((r) => r.category).slice(0, 4);
+  if (part) return { part, finish, block, text };
+  const key = block || (finish && finish !== "STOP" ? finish : "") || (text ? "TEXT_ONLY" : "NO_IMAGE");
+  const hard = ["IMAGE_SAFETY", "IMAGE_PROHIBITED_CONTENT", "PROHIBITED_CONTENT", "SAFETY", "BLOCKLIST", "SPII", "IMAGE_RECITATION", "RECITATION"].includes(key);   // policy blocks: never retried or worked around
+  let kind, message;
+  if (key === "TEXT_ONLY") { kind = "text_refusal"; message = "Google's image service answered with text instead of a picture, which usually means it declined to edit this photo of a person. A fully clothed, front-facing, well-lit photo in fitted or athletic clothing works best."; }
+  else { const b = IMG_BLOCK[key] || ["other", "Google's image service didn't return a picture (" + key + "). Try again or use a different photo."]; kind = b[0]; message = b[1]; }
+  return { reason: key, kind, message, hard, retry: !hard, text, finish, block, ratings };
+}
+const stageLog = (model, tag, o) => console.warn("gemini stage: no image", JSON.stringify({ model, attempt: tag, reason: o.reason, finish: o.finish || undefined, block: o.block || undefined, blocked_categories: o.ratings && o.ratings.length ? o.ratings : undefined, model_text: o.text || undefined }));   // no photo, no key
+const stageReq = (img, prompt) => ({ contents: [{ role: "user", parts: [{ inline_data: { mime_type: img.mime, data: img.data } }, { text: prompt }] }], generationConfig: { responseModalities: ["TEXT", "IMAGE"] } });
+const STAGE_BUDGET_MS = 23000;   // a Netlify function must answer in about 26 s, so a retry only starts if there is time left
+
+async function runStage(p, img, mock, now) {
+  now = now || Date.now; const t0 = now(), M = MODELS().image, FB = env().GEMINI_IMAGE_FALLBACK === undefined ? "gemini-3.1-flash-image" : env().GEMINI_IMAGE_FALLBACK;
+  const plan = [{ model: M, prompt: stagePrompt(p), tag: "standard" }, { model: M, prompt: SP.build(p, { soft: true }), tag: "soft" }];
+  if (FB && FB !== M) plan.push({ model: FB, prompt: SP.build(p, { soft: true }), tag: "fallback-model" });
+  let last = null, upstreamErr = null;
+  for (let i = 0; i < plan.length; i++) {
+    const a = plan[i]; if (i && now() - t0 > STAGE_BUDGET_MS - 8000) break;
+    let d;
+    try { d = await gemini(a.model, stageReq(img, a.prompt), "image"); }
+    catch (e) {
+      // a model that doesn't exist / isn't enabled for this key: go to the next model; anything else: surface it (never swallowed)
+      if (e.code === "upstream" && (e.status === 404 || (e.status === 400 && /not found|not supported for generateContent|unsupported/i.test(e.detail || ""))) && i < plan.length - 1) { console.error("gemini stage: model unavailable", a.model); upstreamErr = e; plan.splice(i + 1, plan.length, ...plan.slice(i + 1).filter((x) => x.model !== a.model)); continue; }
+      throw e;
+    }
+    const o = stageOutcome(d);
+    if (o.part) { if (i) console.warn("gemini stage: succeeded on", a.tag); return { status: 200, part: o.part }; }
+    stageLog(a.model, a.tag, o); last = o;
+    if (!o.retry) break;
+  }
+  if (!last && upstreamErr) throw upstreamErr;
+  return { status: 422, code: "declined", reason: last ? last.reason : "NO_IMAGE", kind: last ? last.kind : "other", message: last ? last.message : IMG_BLOCK.NO_IMAGE[1], text: last && last.text };
 }
 
 async function doChat(body, mock) {
@@ -280,12 +324,19 @@ exports.handler = async (event) => {
   const sp = spend(uid, kind); if (!sp.ok) return err(429, "limit", sp.why === "global" ? "AI features are busy right now. Try again later." : "You've reached today's limit for this AI feature. Try again tomorrow.", corsOrigin, { limit: sp.why });
   try {
     const out = await ({ label: doLabel, stage: doStage, chat: doChat, plan: doPlan })[action](body, mock);
-    if (out.status !== 200) { refund(uid, kind); return err(out.status, out.code, out.message, corsOrigin); }
+    if (out.status !== 200) { refund(uid, kind); const dbg = out.reason && isPreview(event) ? " [preview debug: Gemini reason " + out.reason + (out.text ? ' · model said: "' + String(out.text).slice(0, 160) + '"' : "") + "]" : ""; return err(out.status, out.code, out.message + dbg, corsOrigin, out.reason ? { reason: out.reason, kind: out.kind } : undefined); }
     return json(200, { ...out.data, left: sp.left }, corsOrigin);
   } catch (e) {
-    refund(uid, kind); const code = (e && e.code) || "failed"; console.error("ai failed:", action, code);   // no photo, question or personal data is logged
+    refund(uid, kind); const code = (e && e.code) || "failed"; let extra = null; console.error("ai failed:", action, code, e && e.status ? e.status : "");   // no photo, question or personal data is logged
     const map = { not_configured: [503, "AI features aren't set up on this site yet."], rate: [429, "The AI service is busy. Try again in a minute."], timeout: [504, "The AI service took too long. Try again."], network: [502, "Couldn't reach the AI service."], upstream: [502, "The AI service couldn't answer right now."] };
-    const m = map[code] || [500, "Something went wrong. Please try again."]; const dbg = (isPreview(event) && e && (e.detail || e.status)) ? " [preview debug: Gemini " + (e.status || "") + " " + (e.detail || "") + "]" : ""; return err(m[0], code, m[1] + dbg, corsOrigin);
+    let m = map[code] || [500, "Something went wrong. Please try again."];
+    // v7.6.21: say what actually went wrong upstream (still friendly, never the key or the raw message outside previews)
+    if (code === "upstream" && action === "stage") { const st = e.status, dt = String(e.detail || ""); let c2 = null;
+      if (st === 404) c2 = ["model_unavailable", "The AI image model isn't available for this site's Google account right now. This is a setup problem, not your photo."];
+      else if (st === 400 && /location is not supported|not available in your country/i.test(dt)) c2 = ["region", "Google's image service isn't available from this server's region. This is a setup problem, not your photo."];
+      else if (st === 400 && /billing|free tier|paid/i.test(dt)) c2 = ["billing", "Google's image service needs a paid plan on this site's account. This is a setup problem, not your photo."];
+      else if (st === 401 || st === 403) c2 = ["key", "The AI image service rejected this site's credentials. This is a setup problem, not your photo."];
+      if (c2) { m = [502, c2[1]]; extra = { code: c2[0] }; } } const dbg = (isPreview(event) && e && (e.detail || e.status)) ? " [preview debug: Gemini " + (e.status || "") + " " + (e.detail || "") + "]" : ""; return err(m[0], (extra && extra.code) || code, m[1] + dbg, corsOrigin);
   }
 };
-Object.assign(exports, { stagePrompt, ungrounded, readFacts, normLabel, _store: store, proStatus, linkAllow, chatSystem, MODELS });
+Object.assign(exports, { stageOutcome, runStage, stagePrompt, ungrounded, readFacts, normLabel, _store: store, proStatus, linkAllow, chatSystem, MODELS });
