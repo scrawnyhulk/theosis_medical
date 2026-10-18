@@ -484,7 +484,6 @@ canvas.fig3d:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 
 /* ===== v3: live summary rows, assumptions, food search & log, AI week picker, pro note ===== */
 .sum-rows b small{display:block;font-size:.7rem;font-weight:400;color:var(--muted);letter-spacing:0}
-.sum-fit{margin-top:.35rem;text-align:center;font-size:.72rem;letter-spacing:.06em;color:#79b4f6}
 .assume{display:inline-block;margin-left:.15rem;padding:.05rem .45rem;border-radius:999px;background:var(--accent-soft);box-shadow:inset 0 0 0 1px rgba(121,180,246,.35);color:#b9d6f8;font-size:.82em;font-weight:500}
 .foodlog{margin-top:1rem;padding-top:1rem;border-top:1px solid var(--hairline)}
 .foodlog h3{font-size:1.05rem;font-weight:600}
@@ -534,27 +533,16 @@ table.nf tr.b td{font-weight:600;color:var(--fg)}
 .ai-when .hint{margin:0 0 .4rem}
 .pro-note{margin-top:.5rem;font-size:.85rem;color:var(--warn)}
 @media(max-width:40rem){.fs-meta{max-width:40%}.fs-log li{grid-template-columns:1fr auto}.fs-log li b{grid-column:1}.fs-log .x{grid-row:1/3;grid-column:2}}
-/* v3: photo -> personal 3D */
-.pf{margin-top:1.25rem;padding-top:1.1rem;border-top:1px solid rgba(231,237,245,.08)}
-.pf h3{font-size:1.02rem;margin:0 0 .35rem;display:flex;align-items:center;gap:.5rem}
 .pill-new{font-size:.68rem;font-weight:600;letter-spacing:.04em;text-transform:uppercase;padding:.12rem .45rem;border-radius:999px;background:var(--accent-soft);color:#79b4f6}
-.pf-actions{display:flex;flex-wrap:wrap;align-items:center;gap:.6rem 1rem;margin:.6rem 0 .4rem}
-.pf-side{width:44px;height:58px;object-fit:cover;border-radius:6px;border:1px solid rgba(231,237,245,.12)}
-.pf-busy{display:flex;align-items:center;gap:.6rem;color:var(--muted);margin:.6rem 0}
 .spinner{width:1rem;height:1rem;border-radius:50%;border:2px solid rgba(121,180,246,.25);border-top-color:#79b4f6;animation:spin 0.9s linear infinite;flex-shrink:0}
 @keyframes spin{to{transform:rotate(360deg)}}
 @media (prefers-reduced-motion:reduce){.spinner{animation:none}}
-.pf-ok{display:flex;gap:.55rem;align-items:flex-start;margin:.5rem 0 .35rem}
-.pf-ok .ic{color:var(--ok);flex-shrink:0;margin-top:.15rem}
-.pf-notes{margin:.3rem 0 .2rem 1.1rem;padding:0;color:var(--muted);font-size:.85rem}
 .ai-wk{display:grid;grid-template-columns:150px 1fr;gap:1rem;align-items:center;margin-bottom:.5rem}
 .ai-wk figure{margin:0;text-align:center}
 .ai-wk figure svg.fig,.ai-wk figure canvas.fig3d{width:130px;height:200px}
 .ai-wk figcaption{font-size:.8rem;color:var(--muted)}
 hr.soft{border:0;border-top:1px solid rgba(231,237,245,.08);margin:1rem 0}
 @media (max-width:520px){.ai-wk{grid-template-columns:110px 1fr}.ai-wk figure svg.fig,.ai-wk figure canvas.fig3d{width:100px;height:160px}}
-.pf-ok .ic{width:1.15rem;height:1.15rem}
-.pf-ok:focus{outline:none}
 
 /* ===== v4: fat pattern questions, figure look (skin / see the fat, tone), regional loss ===== */
 .carry-opts{border:0;padding:0;margin:.4rem 0 0;display:grid;grid-template-columns:repeat(auto-fill,minmax(9.5rem,1fr));gap:.45rem}
@@ -1018,7 +1006,6 @@ input[type="checkbox"],input[type="radio"]{min-width:24px;min-height:24px}
 .crop-stage .guide-torso i{font-style:normal;font-size:.75rem;color:#cfe0ff;background:rgba(8,13,20,.65);padding:.1rem .4rem;border-radius:6px;align-self:center;margin:-.6rem 0}
 .crop-stage .guide-head{position:absolute;left:50%;top:5%;width:22%;aspect-ratio:3/4;transform:translateX(-50%);border:2px dashed rgba(156,195,255,.6);border-radius:50%}
 .crop-stage .guide-torso i:last-child::after{content:" (head to hips in frame)"}
-.pf-tip{display:flex;gap:.6rem;align-items:flex-start;justify-content:space-between;margin:.5rem 0;padding:.5rem .7rem;border-radius:10px;background:rgba(156,195,255,.08);font-size:.9rem}
 .scale-bf{margin:.6rem 0}.scale-bf summary{cursor:pointer;color:#9cc3ff}.goal-fix{display:inline;margin-left:.2rem;font-size:inherit}
 .gain-list{list-style:none;padding:0;margin:.5rem 0;display:grid;gap:.35rem}
 .gain-list li{border:1px solid var(--line,#ddd);border-radius:8px;padding:.45rem .6rem;font-size:.92em}
@@ -1316,7 +1303,6 @@ html.lb-open{overflow:hidden}
 .gl-chart{width:100%;height:auto;color:var(--steel)}.gl-dot,.gl-mk{display:inline-block;width:.6rem;height:.6rem;border-radius:50%;background:#6fa8ff;vertical-align:middle}.gl-mk{background:#f0b445;border-radius:2px;width:.15rem;height:.8rem}
 .entry-views{display:grid;gap:.6rem;margin:1rem 0}.entry-views:empty{display:none}
 
-.pf-cmp{display:flex;gap:.8rem;justify-content:center;margin:.4rem 0 .6rem}.pf-cmp figure{margin:0;width:42%;max-width:180px;text-align:center}.pf-cmp figcaption{font-size:.78rem;opacity:.8}.pf-delta{margin:.2rem 0 .6rem}
 
 </style>
 </head>
@@ -1531,7 +1517,7 @@ html.lb-open{overflow:hidden}
           <div class="card" id="fat-card">
             <p class="eyebrow card-eyebrow">Optional · stays on this device</p>
             <div class="section-head"><h2>Where you carry it</h2></div>
-            <p class="hint" style="margin-top:0">Shapes your 3D figure and estimates where fat tends to come off first. Skip anything you'd rather not answer. Your diabetes, A1c, fatty-liver and waist answers count too.</p>
+            <p class="hint" style="margin-top:0">Shapes your figure and estimates where fat tends to come off first. Skip anything you'd rather not answer. Your diabetes, A1c, fatty-liver and waist answers count too.</p>
             <fieldset class="carry-opts"><legend class="label">Where do you carry extra weight?</legend>
               <label class="copt"><input type="radio" name="profile.fat.carry" value="belly"><span><b>Mostly my belly</b><small>round and firm</small></span></label>
               <label class="copt"><input type="radio" name="profile.fat.carry" value="allover"><span><b>All over</b><small>soft, pinchable</small></span></label>
@@ -1564,12 +1550,6 @@ html.lb-open{overflow:hidden}
             </div>
             <p class="consent-lock" id="photo-lock" hidden>Photo features are off. <a href="#" data-consent>Turn them on in Consent settings</a> (photos and AI images, plus biometric consent).</p>
             <p class="privacy mt1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3l8 3v6c0 4.5-3.4 8.3-8 9-4.6-.7-8-4.5-8-9V6z"/><path d="M8.5 12l2.5 2.5 4.5-5"/></svg><span><strong style="color:var(--fg);font-weight:500">Your photo never leaves this device.</strong> It's cropped and shown here in your browser only. It isn't uploaded, saved or sent anywhere, and it's gone when you close the page. It's used as your "before" picture on the results.</span></p>
-            <section class="pf" id="pf-box" aria-labelledby="pf-h">
-              <h3 id="pf-h">Your 3D, shaped from your photo <span class="pill-new">New</span></h3>
-              <p class="hint">Any photo works: chest to hips is enough, and head to feet is optional (it adds your hips and thighs). Shirtless or fitted clothing is ideal. Facing the camera with your arms a little away from your sides helps, but nothing is required. The 3D figure then takes on where <em>you</em> carry fat. It's measured on this device; the photo isn't uploaded.</p>
-              <div id="pf-ui"></div>
-              <input type="file" id="file-side" accept="image/*" hidden>
-            </section>
           </div>
 
           <div class="card" aria-live="polite">
@@ -2010,7 +1990,6 @@ html.lb-open{overflow:hidden}
         <p><strong>Saved days (v5).</strong> Saved days live only in this browser (localStorage). Export and Import move them as a .json file. Nothing is uploaded.</p>
         <p><strong>Before you set Move and Food.</strong> On the Goal step the projection assumes 2–3 lifting sessions a week and adequate protein, and says so. Once you reach the Move and Food steps, your own choices replace those assumptions everywhere, including the live summary.</p>
         <p><strong>Food search.</strong> Branded products come from Open Food Facts (searched from your browser; barcodes by number or camera where the browser supports it). Generic foods come from USDA FoodData Central. Values are per serving as listed by the source, or per 100 g. Your day log adds up calories and macros; once it reaches 500 kcal it becomes the intake used in the simulation, until you type a number yourself. Database values can be wrong or out of date, so check the label.</p>
-        <p><strong>Your 3D from a photo.</strong> With a chest-to-hips (torso) or head-to-feet photo, a pose model (MediaPipe Pose Landmarker, run entirely in your browser) finds your joints and outline. We measure outline widths at the chest, waist, navel, hips and thighs as fractions of your height (and depths from an optional side photo), (a torso photo uses the shoulder-to-hip distance for scale and measures the chest, waist and navel only, so the legs keep the typical shape), then adjust three fat-distribution settings of the figure (upper body, hips and thighs, belly) until the figure's outline, measured the same way, matches. The figure's total volume still comes from your entered weight and body fat, so the photo changes only <em>where</em> it carries fat. On test renders it recovers the outline within about 1 cm on average; real photos are less exact (clothing, posture, camera angle), so treat it as an approximation. The photo is not uploaded.</p>
         <p><strong>You at week N.</strong> The week picker on the results shows the projected composition at any week, as a 3D figure (free, on your device) and, optionally, as an AI illustration of your photo. The AI image is an illustration of those numbers, not a prediction.</p>
         <p class="hint">Every reference is listed once, with its own number, on the <a href="#sources" data-info="sources">Sources &amp; Acknowledgements</a> page. Tap a bracketed number in the text to see its source.</p>
       </div>
@@ -2032,7 +2011,7 @@ html.lb-open{overflow:hidden}
 <dialog id="dlg-fit" class="fit-dlg" aria-labelledby="fit-h"><h2 id="fit-h">Check your calories against your goal</h2><div id="fit-dlg-body"></div></dialog>
 <dialog id="dlg-crop" aria-labelledby="crop-h">
   <h2 id="crop-h">Crop your photo</h2>
-  <p class="hint"><strong>Head to hips in frame.</strong> Line up the top of your head with the top of the dashed box and your hips with the bottom line (head to mid-thigh or head to feet is fine too). Keep your face in the photo: the AI illustration uses it to look like you. Drag to position, use the slider to zoom. A front-facing photo works best. The full, uncropped photo is what gets measured for the 3D figure.</p>
+  <p class="hint"><strong>Head to hips in frame.</strong> Line up the top of your head with the top of the dashed box and your hips with the bottom line (head to mid-thigh or head to feet is fine too). Keep your face in the photo: the AI illustration uses it to look like you. Drag to position, use the slider to zoom. A front-facing photo works best.</p>
   <div class="crop-stage" id="crop-stage"><canvas id="crop-canvas" width="600" height="800"></canvas><video id="cam-video" playsinline muted hidden></video><span class="guide"></span><span class="guide-torso" aria-hidden="true"><i>top of head</i><b class="guide-head"></b><i>hips</i></span></div>
   <div class="range-row mt1" id="zoom-row"><span class="small muted">Zoom</span><input type="range" id="crop-zoom" min="1" max="3" step="0.01" value="1" aria-label="Zoom"></div>
   <div class="dlg-actions"><button type="button" class="btn btn-ghost" id="crop-cancel">Cancel</button><button type="button" class="btn btn-primary" id="crop-ok">Use photo</button></div>
@@ -3946,7 +3925,7 @@ return { KEY, MEALS, MEAL_IDS, dateKey, addDays, isDate, mealFor, empty, normali
           and East/Southeast Asian adults (Lear 2007; Raji 2001; Wulan 2010; ADA BMI 23 screening cut-off for Asian Americans;
           Ntuk 2014 UK Biobank equivalent-risk BMIs), somewhat more liver fat in Hispanic/Latino adults (Browning 2004, Dallas Heart Study; liver fat only, not visceral);
           less visceral and more subcutaneous fat at the same waist in Black/African adults (Carroll 2008; Katzmarzyk 2010)
-        - self-described pattern (belly and firm vs pinchable all over / hips and thighs / arms) and the photo fit
+        - self-described pattern (belly and firm vs pinchable all over / hips and thighs / arms)
         - sex-typical partitioning is built into the depot split (men ~2x the visceral share of women)
    2) split(sex, fatKg, ph) -> depots in kg: vat (visceral), abd (abdominal subcutaneous), gf (gluteofemoral: hips,
       buttocks, thighs), up (arms, chest, upper back), rest (calves, face, neck, intermuscular), + liverPct (illustrative).
@@ -3985,7 +3964,7 @@ return { KEY, MEALS, MEAL_IDS, dateKey, addDays, isDate, mealFor, empty, normali
     arms: "Because you said you carry it on your arms and upper body, more of it is likely stored under the skin." };
   function expectedWhtr(sex, bmi) { return (sex === "f" ? 0.51 : 0.52) + 0.011 * (bmi - 25); }
   /** inputs: {sex, age, heightCm, weightKg, waistCm, diabetes ('none'|'prediabetes'|'t2'|'t1'|'other'|'unknown'), a1c,
-      fattyLiver ('yes'|'no'|'unknown'), carry (CARRY key), menopause ('pre'|'peri'|'post'|''), ancestry (ANCESTRY key), photo {belly, lower, upper}} */
+      fattyLiver ('yes'|'no'|'unknown'), carry (CARRY key), menopause ('pre'|'peri'|'post'|''), ancestry (ANCESTRY key)} */
   function phenotype(inp) {
     // v5: medical facts weigh most (diabetes / HbA1c, fatty liver, waist-to-height); the self-report blends in with a
     // smaller weight, smaller still when medical facts are present. Every factor carries a plain "because" line (ph.why).
@@ -4027,7 +4006,6 @@ return { KEY, MEALS, MEAL_IDS, dateKey, addDays, isDate, mealFor, empty, normali
     const wSelf = medical ? 0.6 : 1;
     const carry = CARRY[inp.carry || ""];
     if (carry) raw += add(carry.v * wSelf, "You said: " + carry.label.toLowerCase(), CARRY_WHY[inp.carry]);
-    else if (inp.photo) raw += add(clamp(0.3 * (+inp.photo.belly || 0) - 0.25 * (+inp.photo.lower || 0), -0.35, 0.35) * wSelf, "Your photo's shape", "Based on the shape in your photo.");
     const s = Math.tanh(raw);
     const label = s > 0.35 ? "visceral" : s < -0.35 ? "subcutaneous" : "mixed";
     const firm = clamp(0.5 + 0.5 * s + (inp.carry === "belly" ? 0.2 : inp.carry === "allover" ? -0.2 : 0), 0.05, 0.95);
@@ -4645,7 +4623,6 @@ return { KEY, MEALS, MEAL_IDS, dateKey, addDays, isDate, mealFor, empty, normali
     ["ada-standards", "ADA Standards of Care (A1c bands)", "American Diabetes Association. Classification and diagnosis of diabetes: Standards of Care in Diabetes. Diabetes Care. A1c 5.7–6.4% is the prediabetes range and 6.5% or more the diabetes range (see also the NIDDK A1c test). " + NR, "Body fat estimates and reference ranges"],
     ["acsm-equations", "ACSM metabolic equations", "American College of Sports Medicine. ACSM's Guidelines for Exercise Testing and Prescription. Metabolic equations for walking and running. " + NR, "Energy and body composition"],
     ["devine1974", "Devine 1974", "Devine BJ. Gentamicin therapy. Drug Intell Clin Pharm 1974;8:650–5 (source of the ideal body weight formula). " + NR, "Body fat estimates and reference ranges"],
-    ["blazepose2020", "Bazarevsky et al. 2020 (BlazePose)", "Bazarevsky V, Grishchenko I, Raveendran K, et al. BlazePose: on-device real-time body pose tracking. arXiv:2006.10204, 2020 (MediaPipe Pose Landmarker, Apache-2.0). " + NR, "Tools and data"],
   ];
 
   REG.push(...NEW_RAW.map((r) => [r[0], r[1], r[2], r[3], pm(r[2].split(/\.\s/).slice(1, 2).join(""))]));
@@ -4943,10 +4920,9 @@ const CONFIG = {
   FOOD_ENDPOINT: "/.netlify/functions/food",             // USDA FoodData Central via Netlify function (holds FDC_API_KEY server-side)
   FDC_PUBLIC_KEY: "DEMO_KEY",                            // used straight from the browser only when the function isn't deployed (file://, drag-and-drop)
   OFF_HOST: "us",                                        // Open Food Facts: "us" = products sold in the US, "world" = everything
-  PHOTOFIT_BASE: "photofit/",                            // on-device photo-to-3D model files (loaded only when a photo is used)
   // Monetization prep (see MONETIZATION.md). With PRO_GATING false every feature is unlocked, as now.
   PRO_GATING: false,
-  PRO_FEATURES: ["pdf", "foodlog", "aiPhoto", "photo3d", "saveProgress", "aiChat", "aiPlan", "aiStages"],
+  PRO_FEATURES: ["pdf", "foodlog", "aiPhoto", "saveProgress", "aiChat", "aiPlan", "aiStages"],
   CHECKOUT_URL: null,                                    // Stripe Payment Link / Checkout session endpoint, once set up
   PRO_KEY: "theosis-bodyplan-pro",                       // localStorage key for the signed unlock token
 };
@@ -4996,9 +4972,6 @@ const isAdv = () => S.ui && S.ui.mode === "advanced";
 function setUiMode(m) { S.ui.mode = m === "advanced" ? "advanced" : "simple"; try { localStorage.setItem(UI_KEY, JSON.stringify({ mode: S.ui.mode })); } catch (e) { /* ignore */ } applyUiMode(); }
 function applyUiMode() { document.body.classList.toggle("mode-adv", isAdv()); $$("[data-uimode]").forEach((b) => b.setAttribute("aria-checked", String(b.dataset.uimode === S.ui.mode))); }
 let photo = null;          // data URL, memory only, never persisted or uploaded
-// photo-to-3D fit state (filled in by the photo section; memory only)
-const photoFit = { shape: null, orig: null, sideImg: null, sideUrl: null, status: "", busy: false, result: null, error: null,
-  reset() { this.shape = null; this.orig = null; this.sideImg = null; if (this.sideUrl) URL.revokeObjectURL(this.sideUrl); this.sideUrl = null; this.status = ""; this.busy = false; this.result = null; this.error = null; } };
 let R = null;              // latest projection
 const invalid = new Set();
 let saveTimer = 0;
@@ -5337,7 +5310,7 @@ let fdCache = { key: null, v: null };
 function fatPattern() {
   const p = S.profile, h = p.health, b = bfInfo(), F0 = p.weightKg * b.bf / 100;
   const inp = { sex: p.sex, age: p.age, heightCm: p.heightCm, weightKg: p.weightKg, waistCm: p.waistCm, diabetes: E.diabetesStatus(h).value, diabetesFromA1c: E.diabetesStatus(h).auto, a1c: h.a1c, fattyLiver: h.fattyLiver,
-    carry: p.fat.carry, menopause: p.sex === "f" ? p.fat.menopause : "", ancestry: p.fat.ancestry, photo: photoFit.shape || null, bf: b.bf };
+    carry: p.fat.carry, menopause: p.sex === "f" ? p.fat.menopause : "", ancestry: p.fat.ancestry, bf: b.bf };
   const key = JSON.stringify([inp, F0]); if (fdCache.key === key) return fdCache.v;
   // v6.5: one continuous fat-storage phenotype from all answers (incl. evidence-based ancestry nudges in visceral tendency)
   // drives the before AND after figures and the fat loss/gain order. Skin tone is separate (user-picked only).
@@ -5865,23 +5838,22 @@ function gaugeHtml() {
     <p class="hint">A simple rules-based read of how the choices you entered fit your chosen goal. It is not a measurement, not a health score and not medical advice. ${d.frame === "cancer" ? "In cancer-treatment mode it compares intake with the ESPEN planning ranges and your logged weight trend. " : ""}It only counts habits with published support listed in Sources. It does not use labs or A1c, and it can't see your health history or medicines.</p></section>`;
 }
 function renderSummary() {
-  const d = sumData(), { st, e, b } = d, after = e ? personAt(e) : st, pf = photoFit.shape ? " (from your photo)" : "";
+  const d = sumData(), { st, e, b } = d, after = e ? personAt(e) : st;
   // v5 P11: optional small thumbnail of your photo beside the figure (memory only, never uploaded)
   $("#summary").innerHTML = `<div class="section-head" style="margin-bottom:0"><p class="eyebrow">Live summary</p><span class="sum-head-r"><span class="tag blue">${S.mode === "habits" ? "Habits" : "Plan"}</span></span></div>
   ${photo ? `<div class="sum-figs sum-ph ph2"><figure class="sum-photo sum-now-photo"><img src="${photo}" alt="Your before photo, kept on this device"><figcaption>Before</figcaption></figure>${aiState.result ? `<figure class="sum-photo sum-ai"><img src="${aiState.result.image}" alt="AI illustration at week ${aiState.result.pj.weeks}, not a prediction"><figcaption>AI illustration</figcaption></figure>` : `<figure data-f3="sum-end">${FIG.svg(after, { ghost: st, title: e ? `Projected: ${fP(e.bf)} body fat` : "Projection unavailable" })}<figcaption>${e ? `Week ${fWk(e.day)}` : "Projected"}</figcaption></figure>`}</div>${aiState.result ? `<p class="sum-aiNote">AI illustration: not a prediction.</p>` : ""}`
-  : `<div class="sum-figs"><figure data-f3="sum-now">${FIG.svg(st, { title: `Now: ${fP(b.bf)} body fat` })}<figcaption>${photoFit.shape ? "Your 3D" : "Now"}</figcaption></figure>
+  : `<div class="sum-figs"><figure data-f3="sum-now">${FIG.svg(st, { title: `Now: ${fP(b.bf)} body fat` })}<figcaption>Now</figcaption></figure>
   <figure data-f3="sum-end">${FIG.svg(after, { ghost: st, title: e ? `Projected: ${fP(e.bf)} body fat` : "Projection unavailable" })}<figcaption>${e ? `Week ${fWk(e.day)}` : "Projected"}</figcaption></figure></div>`}
-  ${photoFit.shape ? `<p class="sum-fit">Shaped from your photo · an approximation</p>` : ""}
   ${figBarHtml()}
   ${sumRowsHtml(d)}${sumNoteHtml(d)}${gaugeHtml()}`;
   $("#mbar-mini").innerHTML = `${FIG.svg(after, { title: "Projected figure" })}<span class="mt"><b>${nW(S.profile.weightKg)} → ${e ? fW(e.weightKg) : "—"}</b> · <b>${fP(b.bf)} → ${e ? fP(e.bf) : "—"}</b><br><span>${esc(mbarOutcome(d))} · ${e ? `${fK(d.kcal)} kcal · ${fWk(d.days)} wk` : "—"}</span></span>`;
   const panel = $("#mbar-panel");
-  panel.innerHTML = `<div class="sum-figs${photo ? " sum-ph ph2" : ""}">${photo ? `<figure class="sum-photo sum-now-photo"><img src="${photo}" alt="Your before photo, kept on this device"><figcaption>Before</figcaption></figure>` : `<figure data-f3="mbar-now">${FIG.svg(st, { title: `Now: ${fP(b.bf)} body fat` })}<figcaption>${photoFit.shape ? "Your 3D" : "Now"}</figcaption></figure>`}<figure data-f3="mbar-end">${FIG.svg(after, { ghost: st, title: e ? `Projected: ${fP(e.bf)} body fat` : "Projection unavailable" })}<figcaption>${e ? `Week ${fWk(e.day)}` : "Projected"}</figcaption></figure></div>${sumRowsHtml(d)}${sumNoteHtml(d)}${gaugeHtml()}`;
+  panel.innerHTML = `<div class="sum-figs${photo ? " sum-ph ph2" : ""}">${photo ? `<figure class="sum-photo sum-now-photo"><img src="${photo}" alt="Your before photo, kept on this device"><figcaption>Before</figcaption></figure>` : `<figure data-f3="mbar-now">${FIG.svg(st, { title: `Now: ${fP(b.bf)} body fat` })}<figcaption>Now</figcaption></figure>`}${photo && aiState.result ? `<figure class="sum-photo sum-ai"><img src="${aiState.result.image}" alt="AI illustration at week ${aiState.result.pj.weeks}, not a prediction"><figcaption>AI illustration</figcaption></figure>` : `<figure data-f3="mbar-end">${FIG.svg(after, { ghost: st, title: e ? `Projected: ${fP(e.bf)} body fat` : "Projection unavailable" })}<figcaption>${e ? `Week ${fWk(e.day)}` : "Projected"}</figcaption></figure>`}</div>${aiState.result && photo ? `<p class="sum-aiNote">AI illustration: not a prediction.</p>` : ""}${sumRowsHtml(d)}${sumNoteHtml(d)}${gaugeHtml()}`;
   panel.hidden = !mbarOpen; $("#mbar").classList.toggle("open", mbarOpen); $("#mbar-toggle").setAttribute("aria-expanded", String(mbarOpen)); fitMbar();
-  const shape = photoFit.shape || null, sp = { ...st, shape }, ap = { ...after, shape };
-  mount3d("sum-now", $('#summary [data-f3="sum-now"]'), sp, null, `${photoFit.shape ? "Your 3D, shaped from your photo" + pf : "Now"}: ${fP(b.bf)} body fat. 3D figure, drag or use arrow keys to turn.`);
+  const sp = st, ap = after;
+  mount3d("sum-now", $('#summary [data-f3="sum-now"]'), sp, null, `Now: ${fP(b.bf)} body fat. 3D figure, drag or use arrow keys to turn.`);
   if (e && !(photo && aiState.result)) mount3d("sum-end", $('#summary [data-f3="sum-end"]'), ap, sp, `Projected: ${fP(e.bf)} body fat. The blue glow is where you started.`, { morphFrom: true });
-  if (mbarOpen) { mount3d("mbar-now", $('#mbar-panel [data-f3="mbar-now"]'), sp, null, `Now: ${fP(b.bf)} body fat.`); if (e) mount3d("mbar-end", $('#mbar-panel [data-f3="mbar-end"]'), ap, sp, `Projected: ${fP(e.bf)} body fat.`, { morphFrom: true }); }
+  if (mbarOpen) { mount3d("mbar-now", $('#mbar-panel [data-f3="mbar-now"]'), sp, null, `Now: ${fP(b.bf)} body fat.`); if (e && !(photo && aiState.result)) mount3d("mbar-end", $('#mbar-panel [data-f3="mbar-end"]'), ap, sp, `Projected: ${fP(e.bf)} body fat.`, { morphFrom: true }); }
 }
 
 // ---------- step 1: you ----------
@@ -7031,8 +7003,8 @@ function heroHtml() {
   return `<p class="eyebrow card-eyebrow">${S.food.psmf ? "PSMF projection" : S.food.actualOn ? "Where your habits lead" : "Your plan"} · ${headingOutcome()}</p>
   <div class="result-hero mt1"><div><div class="big">${big}</div><p class="big-sub">${sub}</p></div><p class="summary">${sentence}${stopTxt}</p></div>${bandTxt}
   ${planSummaryHtml()}
-  <div class="ba"><figure data-f3="hero-now"><div class="cap-k">Now</div>${before}<figcaption><b>${fW(s.weightKg)}</b>${fP(s.bf)} body fat${b.source !== "measured" ? " (est.)" : ""}</figcaption></figure>
-  <figure data-f3="hero-end"><div class="cap-k">${heroMid && mf ? mf.k + " (midpoint)" : reached ? "At goal" : `Week ${fWk(days)}`}</div>${FIG.svg(personAt(he), { ghost: st, title: `Projected: ${fP(he.bf)} body fat` })}<figcaption><b>${fW(he.weightKg)}</b>${fP(he.bf)} body fat</figcaption></figure></div>
+  <div class="ba"><figure data-f3="hero-now"><div class="cap-k">${photo ? "Before" : "Now"}</div>${before}<figcaption><b>${fW(s.weightKg)}</b>${fP(s.bf)} body fat${b.source !== "measured" ? " (est.)" : ""}</figcaption></figure>
+  <figure data-f3="hero-end"${photo && aiState.result ? ' class="hero-ai"' : ""}><div class="cap-k">${photo && aiState.result ? `AI illustration · week ${aiState.result.pj.weeks}` : heroMid && mf ? mf.k + " (midpoint)" : reached ? "At goal" : `Week ${fWk(days)}`}</div>${photo && aiState.result ? `<img class="photo" src="${aiState.result.image}" alt="AI illustration at week ${aiState.result.pj.weeks}, not a prediction">` : FIG.svg(personAt(he), { ghost: st, title: `Projected: ${fP(he.bf)} body fat` })}<figcaption><b>${fW(he.weightKg)}</b>${fP(he.bf)} body fat</figcaption></figure></div>
   ${mf ? `<div class="hero-mid" role="group" aria-label="Which point of the plan to show"><button type="button" class="chip" data-hero-mid="0" aria-pressed="${!heroMid}">${reached ? "At goal" : "End of plan"}</button><button type="button" class="chip" data-hero-mid="1" aria-pressed="${heroMid}">Midpoint · ${mf.k}</button></div>` : ""}
   ${CONFIG.FIG3D && webgl() ? `<div class="f3-bar f3-bar-solo">${modeSegHtml()}${zoomBtnHtml("hero")}</div>${legendHtml()}${anatReadHtml(s, e)}` : ""}
   <p class="hint fig-hint" style="text-align:center;margin-top:.5rem">${photo ? "Your photo stays on this device. " : ""}<span class="h-2d">The figure is a schematic drawn from your fat and lean mass. The dashed outline is where you started.</span><span class="h-3d">The 3D figure is shaped by your fat and lean mass. The blue glow shows where you started. Drag to turn it; pinch, Ctrl + scroll or Close-up to zoom.</span></p>
@@ -7040,12 +7012,15 @@ function heroHtml() {
   ${stat("Fat", nW(s.fatKg), nW(e.fatKg), fWd(dFat), "")}${stat("Lean", nW(s.leanKg), nW(e.leanKg), fWd(dLean), "")}</div>
   <ul class="alerts">${R.warnings.map(alertHtml).join("")}</ul>`;
 }
+function renderHero() {
+  $("#proj-hero").innerHTML = heroHtml();
+  { const e = endRow(), st = startPerson(); if (!photo) mount3d("hero-now", $('#proj-hero [data-f3="hero-now"]'), st, null, `Before: ${fP(st.fatKg / (st.fatKg + st.leanKg) * 100)} body fat. 3D figure, drag or use arrow keys to turn.`);
+    { const mf = heroMidFrame(), he = heroMid && mf ? mf.row : e; if (!(photo && aiState.result)) mount3d("hero-end", $('#proj-hero [data-f3="hero-end"]'), personAt(he), st, `Projected: ${fP(he.bf)} body fat. The blue glow is where you started.`); } }
+}
 function renderProjection() {
   if (!R || R.blocked) { $("#proj-hero").innerHTML = `<p class="blocked">${(R && R.blocked ? R.blocked : ["Complete the earlier steps."]).map(esc).join("<br>")}</p><button type="button" class="btn btn-ghost mt1" data-goto="2">Go to Goal</button>`;
     ["#cta", "#chart-wrap", "#table", "#next-steps", "#recap", "#ai-body", "#proj-chips"].forEach((s) => ($(s).innerHTML = "")); $("#health-ctx").hidden = true; return; }
-  $("#proj-hero").innerHTML = heroHtml();
-  { const e = endRow(), st = startPerson(); if (!photo) mount3d("hero-now", $('#proj-hero [data-f3="hero-now"]'), { ...st, shape: photoFit.shape || null }, null, `Before: ${fP(st.fatKg / (st.fatKg + st.leanKg) * 100)} body fat. 3D figure, drag or use arrow keys to turn.`);
-    { const mf = heroMidFrame(), he = heroMid && mf ? mf.row : e; mount3d("hero-end", $('#proj-hero [data-f3="hero-end"]'), { ...personAt(he), shape: photoFit.shape || null }, { ...st, shape: photoFit.shape || null }, `Projected: ${fP(he.bf)} body fat. The blue glow is where you started.`); } }
+  renderHero();
   renderRegional(); renderPftCard(); renderStory(); renderBulkCmp(); renderExpect(); renderWeekly(); renderExpert(); renderHealthCtx(); renderProjChips();
   const cta = $("#cta"); cta.classList.toggle("hot", R.consult);
   cta.innerHTML = `<p><b>${R.consult ? "Your plan raised a flag worth a conversation" : "Want help putting this into practice?"}</b>${R.consult ? "Something in your numbers or health check is better handled with a clinician. A consult can make this plan safe for you." : "Book a consult to turn this projection into a supervised, personalized plan."}</p>
@@ -7279,12 +7254,12 @@ function renderAi() {
   const B = aiBase(); if ((B.c ? B.c.id : null) !== aiState.base) { aiState.base = B.c ? B.c.id : null; aiState.day = null; aiState.result = null; }
   const pj = projectionPayload(null, B), cur = aiDay(B), bEnd = B.rows[B.rows.length - 1];
   const opts = aiWeekOptions(B.rows).map((d) => `<option value="${d}" ${Math.abs(d - cur) < 0.5 ? "selected" : ""}>Week ${fWk(d + B.off)} · ${fDate(d + B.off)}${d === bEnd.day ? (B.r.main.reached && B.r.isTarget ? " (goal)" : " (end)") : ""}</option>`).join("");
-  const st = B.c ? ciPerson(B.c) : startPerson(), wr = rowIn(B.rows, cur), shape = photoFit.shape || null, photo = B.img;
+  const st = B.c ? ciPerson(B.c) : startPerson(), wr = rowIn(B.rows, cur), photo = B.img;
   const week = `<div class="ai-wk ai-wk-solo">
     <div><div class="row ai-when"><label class="field"><span class="label">Show me at</span><span class="control"><select id="ai-week" aria-describedby="ai-when-h">${opts}</select></span></label></div>
     <p class="hint" id="ai-when-h">At week ${pj.weeks} (${pj.date}): <strong>${fW(pj.endWeightKg)} · ${pj.endBf}% body fat</strong>, ${fWd(pj.fatChangeKg)} fat, ${fWd(pj.leanChangeKg)} lean.</p>
     ${aiRegionalHtml(wr, B)}
-    <p class="muted small">The figure${shape ? " (shaped from your photo)" : ""} ${R && !R.blocked ? ({ gain: "fills out", loss: "slims", recomp: "slims and firms up", hold: "changes" })[changeKind(R.main.rows[0], endRow())] : "changes"} to the week you pick. The blue glow is ${B.c ? `your week ${B.c.week} check-in` : "where you started"}. This part is free and runs on your device.</p></div></div>`;
+    <p class="muted small">The figure ${R && !R.blocked ? ({ gain: "fills out", loss: "slims", recomp: "slims and firms up", hold: "changes" })[changeKind(R.main.rows[0], endRow())] : "changes"} to the week you pick. The blue glow is ${B.c ? `your week ${B.c.week} check-in` : "where you started"}. This part is free and runs on your device.</p></div></div>`;
   if (!photo) { box.innerHTML = week + `<p class="muted mt1">Add a photo in Step 1 (or a check-in photo above) to also see an AI illustration of you at that week. It's optional, and your photo stays on your device unless you choose to create one.</p><button type="button" class="btn btn-ghost mt1" data-goto="1">Add a photo</button>`; aiRenderStages(); return; }
   box.innerHTML = week + `<hr class="soft">
   <p class="muted small">An AI image model can redraw your photo to <em>illustrate</em> you at week ${pj.weeks} (${fW(pj.startWeightKg)} → ${fW(pj.endWeightKg)}, ${pj.startBf}% → ${pj.endBf}% body fat). It's an illustration, not a prediction. Real bodies change differently.</p>
@@ -7298,10 +7273,10 @@ function renderAi() {
     ${aiState.result.demo ? `<p class="hint mt1">Demo mode: no AI service is connected yet, so this is a labeled placeholder made in your browser. Nothing was sent anywhere.</p>` : ""}` : ""}</div>`;
   aiRenderStages(); syncSummaryAi();
 }
-function syncSummaryAi() { const k = aiState.result ? aiState.result.image : null; if (aiState._sum !== k) { aiState._sum = k; if (typeof renderSummary === "function") renderSummary(); } }
+function syncSummaryAi() { const k = aiState.result ? aiState.result.image : null; if (aiState._sum !== k) { aiState._sum = k; if (typeof renderSummary === "function") renderSummary(); if (R && !R.blocked && photo && S.step === 5) renderHero(); } }
 function aiRegionalHtml(wr, B) { const c = FD.change(depotsAt((B ? B.rows : R.main.rows)[0].fatKg), depotsAt(wr.fatKg));
   return `<p class="hint reg-mini">Model estimate by then (not a measurement): fat around the organs <strong>${fWd(c.vat.kg)} (${fPct(c.vat.pct)})</strong>, fat under the skin <strong>${fWd(c.sub.kg)} (${fPct(c.sub.pct)})</strong>.</p>`; }
-function mountAiWeek(wr, st, shape, pj) { mount3d("ai-week", $('#ai-body [data-f3="ai-week"]'), { ...personAt(wr), shape }, { ...st, shape }, `You at week ${pj.weeks}: ${pj.endBf}% body fat. The blue glow is ${pj.fromWeek ? `your week ${pj.fromWeek} check-in` : "where you started"}.`, { morphFrom: true }); }
+function mountAiWeek(wr, st, pj) { mount3d("ai-week", $('#ai-body [data-f3="ai-week"]'), personAt(wr), st, `You at week ${pj.weeks}: ${pj.endBf}% body fat. The blue glow is ${pj.fromWeek ? `your week ${pj.fromWeek} check-in` : "where you started"}.`, { morphFrom: true }); }
 
 
 // v7.6.6: when the user's own intake doesn't match the goal, the heading names the projected outcome (by calorie band vs maintenance), not the goal
@@ -7540,69 +7515,18 @@ function bindCrop() {
   $("#crop-ok").addEventListener("click", () => {
     if (crop.mode === "camera") { const v = $("#cam-video"), c = document.createElement("canvas"); c.width = v.videoWidth; c.height = v.videoHeight; const x = c.getContext("2d"); x.translate(c.width, 0); x.scale(-1, 1); x.drawImage(v, 0, 0);
       stopCam(); const img = new Image(); img.onload = () => openCrop(img); img.src = c.toDataURL("image/jpeg", 0.92); return; }
-    photo = $("#crop-canvas").toDataURL("image/jpeg", 0.88); photoFit.orig = crop.img; photoFit.result = null; photoFit.error = null; aiState.result = null; dlg().close(); renderPhoto(); update();
+    photo = $("#crop-canvas").toDataURL("image/jpeg", 0.88); aiState.result = null; dlg().close(); renderPhoto(); update();
   });
   $("#btn-upload").addEventListener("click", () => $("#file-photo").click());
   $("#btn-camera").addEventListener("click", openCamera);
   // v7.2: photo features need the photo opt-in and written biometric consent
-  ["#file-photo", "#file-camera", "#file-side"].forEach((id) => { const el = $(id); if (el) el.addEventListener("click", (ev) => { const C = window.TheosisConsent; if (C && !(C.has("photoAi") && C.has("biometric"))) { ev.preventDefault(); C.open(true); } }); });
+  ["#file-photo", "#file-camera"].forEach((id) => { const el = $(id); if (el) el.addEventListener("click", (ev) => { const C = window.TheosisConsent; if (C && !(C.has("photoAi") && C.has("biometric"))) { ev.preventDefault(); C.open(true); } }); });
   document.addEventListener("change", (ev) => { if (ev.target && ev.target.id === "lu-file") { const f = ev.target.files[0]; ev.target.value = ""; labUpload(f); } });
   $("#file-photo").addEventListener("change", (ev) => { loadFile(ev.target.files[0]); ev.target.value = ""; });
   $("#file-camera").addEventListener("change", (ev) => { loadFile(ev.target.files[0]); ev.target.value = ""; });
-  $("#btn-photo-remove").addEventListener("click", () => { photo = null; photoFit.reset(); aiState.result = null; renderPhoto(); update(); });
+  $("#btn-photo-remove").addEventListener("click", () => { photo = null; aiState.result = null; renderPhoto(); update(); });
 }
-function renderPhoto() { const t = $("#photo-thumb"); t.hidden = !photo; if (photo) t.src = photo; else t.removeAttribute("src"); $("#btn-photo-remove").hidden = !photo; renderPhotoFit(); }
-
-// ---------- photo -> personal 3D (on-device; MediaPipe model loads only when asked) ----------
-const PF_SIZE = "about 9 MB";
-function renderPhotoFit() {
-  const box = $("#pf-ui"); if (!box) return; const P = photoFit;
-  if (!photo && !ciLatest()) { box.innerHTML = `<p class="muted small">Add a photo above to use this.</p>`; return; }
-  if (P.busy) { box.innerHTML = `<p class="pf-busy" role="status"><span class="spinner" aria-hidden="true"></span>${esc(P.status || "Working…")}</p>`; return; }
-  const sideBtn = `<button type="button" class="link-btn" id="pf-side">${P.sideImg ? "Change side photo" : "Add a side photo (optional, more accurate)"}</button>${P.sideImg ? ` <button type="button" class="link-btn" id="pf-side-clear">Remove side photo</button>` : ""}`;
-  const sideThumb = P.sideUrl ? `<img class="pf-side" src="${P.sideUrl}" alt="Your side photo">` : "";
-  if (P.result) { const r = P.result;
-    const per = ciLatest() ? ciPerson(ciLatest()) : startPerson(), d1 = r.shape ? r.fallback ? "no change (typical shape)" : `chest/upper ${r.shape.upper >= 0 ? "+" : ""}${r.shape.upper}, hips/thighs ${r.shape.lower >= 0 ? "+" : ""}${r.shape.lower}, belly ${r.shape.belly >= 0 ? "+" : ""}${r.shape.belly}` : "";
-    box.innerHTML = `<div class="pf-done"><div class="pf-cmp"><figure data-f3="pf-std">${FIG.svg(per, { title: "Standard shape for your numbers" })}<figcaption>Standard shape</figcaption></figure><figure data-f3="pf-me">${FIG.svg(per, { title: "Your 3D" })}<figcaption>Your 3D</figcaption></figure></div><p class="muted small pf-delta">${r.fallback ? "The photo couldn't be measured, so your 3D matches the standard shape (no visible change)." : `Differences from the standard shape: ${esc(d1)}. A difference under about 0.35 is too small to see.`}</p><p class="pf-ok">${ICON.check}<span><b>${r.fallback ? "No change: we couldn't measure this photo." : "Your 3D is shaped from your photo."}</b> ${esc(r.text)}</span></p>
-      <p class="muted small">This is an approximation from a 2D photo${r.side ? " plus a side photo" : ""}, measured at ${r.used.length} body levels. Your weight, body fat and the projection still come from the numbers you entered; the photo only changes <em>where</em> the figure carries fat. As you lose fat, the figure's personal pattern fades with it.</p>
-      ${r.tip && !P.tipHidden ? `<p class="pf-tip" role="note"><span>Tip: ${esc(r.tip)}</span><button type="button" class="link-btn" id="pf-tip-x" aria-label="Dismiss tip">Dismiss</button></p>` : ""}
-      <div class="pf-actions">${sideThumb}${sideBtn} <button type="button" class="link-btn" id="pf-undo">Use the standard shape instead</button></div></div>`; setTimeout(() => { mount3d("pf-std", box.querySelector('[data-f3="pf-std"]'), { ...per, shape: null }, null, "Standard shape for your numbers"); mount3d("pf-me", box.querySelector('[data-f3="pf-me"]'), { ...per, shape: r.shape }, null, "Your 3D, shaped from your photo"); }, 0); return; }
-  box.innerHTML = `${P.error ? `<ul class="alerts"><li class="alert warn">${ICON.warn}<span>${esc(P.error)}</span></li></ul>` : ""}
-    <div class="pf-actions"><button type="button" class="btn btn-ghost" id="pf-go">${P.error ? "Try again" : "Shape my 3D from this photo"}</button>${sideThumb}${sideBtn}</div>
-    <p class="muted small">Runs on this device. The first time, it downloads an on-device body model (${PF_SIZE}); after that it's cached. Nothing is uploaded.</p>`;
-}
-let pfP = null;
-function pfLoad() {
-  if (!pfP) pfP = (window.PhotoFit ? Promise.resolve() : loadScript(CONFIG.PHOTOFIT_BASE + "photofit.js")).then(() => { if (!window.PhotoFit) throw new Error("The photo model couldn't load."); window.PhotoFit.setBase(CONFIG.PHOTOFIT_BASE); });
-  pfP.catch(() => { pfP = null; }); return pfP;
-}
-async function runPhotoFit() {
-  const P = photoFit, ciL = ciLatest(); if (P.busy || (!photo && !ciL)) return;
-  if (!proGate("photo3d", "#pf-ui")) return;
-  if (location.protocol === "file:") { P.error = "The photo-to-3D feature works on the website (http/https), not from a file opened on your computer."; renderPhotoFit(); return; }
-  // v6.3: the newest check-in photo (and its stats) is the base when there is one
-  const img = ciL ? await new Promise((res) => { const im = new Image(); im.onload = () => res(im); im.src = ciL.img; }) : (P.orig || $("#photo-thumb")); const person = ciL ? ciPerson(ciL) : startPerson();
-  P.busy = true; P.error = null; P.status = window.PhotoFit ? "Measuring your photo…" : `Loading the on-device body model (${PF_SIZE}, first time only)…`; renderPhotoFit();
-  try {
-    await Promise.all([pfLoad(), f3Model(person.sex)]);
-    P.status = "Loading the on-device body model…"; renderPhotoFit(); await window.PhotoFit.load();
-    P.status = "Measuring your photo…"; renderPhotoFit(); await new Promise((r) => setTimeout(r, 30));
-    const r = await window.PhotoFit.run(person, img, P.sideImg);
-    P.result = r; P.shape = r.shape; P.tipHidden = false;
-  } catch (e) { P.error = (e && e.message) || "That photo couldn't be measured."; P.shape = null; P.result = null; }
-  P.busy = false; renderPhotoFit(); renderSummary();
-  const t = $(P.result ? "#pf-ui .pf-ok" : "#pf-ui .alert"); t && t.setAttribute("tabindex", "-1"); t && t.focus({ preventScroll: true });
-}
-function bindPhotoFit() {
-  $("#pf-ui").addEventListener("click", (ev) => { const b = ev.target.closest("button"); if (!b) return;
-    if (b.id === "pf-go") runPhotoFit();
-    if (b.id === "pf-tip-x") { photoFit.tipHidden = true; renderPhotoFit(); }
-    if (b.id === "pf-side") $("#file-side").click();
-    if (b.id === "pf-side-clear") { if (photoFit.sideUrl) URL.revokeObjectURL(photoFit.sideUrl); photoFit.sideImg = null; photoFit.sideUrl = null; if (photoFit.result) { photoFit.result = null; photoFit.shape = null; renderSummary(); } renderPhotoFit(); }
-    if (b.id === "pf-undo") { photoFit.result = null; photoFit.shape = null; renderPhotoFit(); renderSummary(); } });
-  $("#file-side").addEventListener("change", (ev) => { const f = ev.target.files[0]; ev.target.value = ""; if (!f || !/^image\//.test(f.type)) return;
-    const url = URL.createObjectURL(f), im = new Image(); im.onload = () => { if (photoFit.sideUrl) URL.revokeObjectURL(photoFit.sideUrl); photoFit.sideImg = im; photoFit.sideUrl = url; const had = !!photoFit.result; photoFit.result = null; photoFit.shape = null; renderPhotoFit(); if (had) { renderSummary(); runPhotoFit(); } }; im.src = url; });
-}
+function renderPhoto() { const t = $("#photo-thumb"); t.hidden = !photo; if (photo) t.src = photo; else t.removeAttribute("src"); $("#btn-photo-remove").hidden = !photo;}
 
 // ---------- 3D figure: lazy progressive enhancement over the SVG ----------
 // three.js + the body model load only when a figure scrolls into view and WebGL works. Until then (and on
@@ -8082,7 +8006,7 @@ async function dataImport(file) {
     S = merge(defaults(), j.state); HAD_SAVED = true; try { localStorage.setItem(CONFIG.STORAGE_KEY, JSON.stringify(S)); } catch (e) { /* ignore */ }
     FL.save(FL.normalize(j.foodlog)); FLS = FL.load(); GLS = GLU.clean(j.glucose); GLU.save(GLS);
     if (Array.isArray(j.checkins)) { await ciClearAll(); let n = 0; for (const c of j.checkins) { if (c && c.week >= 1 && typeof c.img === "string" && /^data:image\/(jpeg|png|webp);base64,/.test(c.img)) { await ciPut({ id: String(c.id || `ci-${Date.now()}-${n}`).slice(0, 40), week: Math.round(c.week), img: c.img, weightKg: c.weightKg > 0 ? +c.weightKg : null, bf: c.bf > 0 ? +c.bf : null, waistCm: c.waistCm > 0 ? +c.waistCm : null, added: +c.added || Date.now() }); n++; } } }
-    photo = typeof j.photo === "string" && /^data:image\/(jpeg|png|webp);base64,/.test(j.photo) ? j.photo : null; photoFit.reset(); aiState.result = null; aiState.day = null;
+    photo = typeof j.photo === "string" && /^data:image\/(jpeg|png|webp);base64,/.test(j.photo) ? j.photo : null; aiState.result = null; aiState.day = null;
     applyUiMode(); fillInputs(); compute(); renderPhoto(); renderSummary(); V.msg = "Imported. Your data from the file is now on this device."; renderViews(); try { renderAi(); } catch (e) { /* hidden step */ }
   } catch (e) { V.msg = e.message || "That file couldn't be read."; renderViews(); }
 }
@@ -8299,7 +8223,7 @@ function bind() {
       case "actual-toggle": S.food.actualOn = !S.food.actualOn; if (!S.food.actualOn) { S.food.psmf = false; S.food.mealSrc = "rec"; } setSwitch(t, S.food.actualOn); fillInputs(); update(); return;
       case "planner-toggle": S.move.plannerOn = !S.move.plannerOn; if (S.move.plannerOn && S.move.planner.every((d) => !d.lift && !d.cardio)) seedPlanner(); setSwitch(t, S.move.plannerOn); update(); return;
       case "btn-print": if (!proGate("pdf", "#recap")) return; if (aiPlanWanted()) { try { await aiPlanForPrint(); } catch (e) { /* the AI section is optional */ } } buildPrint(); window.print(); return;
-      case "btn-restart": { const keepUnits = S.units; S = defaults(); S.units = keepUnits; photo = null; photoFit.reset(); renderPhotoFit(); aiState = { adult: false, consent: false, busy: false, result: null, error: null, day: null }; fs.sel = null; $("#fs-q").value = ""; $("#fs-results").innerHTML = ""; $("#fs-status").textContent = ""; invalid.clear(); renderPhoto(); try { localStorage.removeItem(CONFIG.STORAGE_KEY); } catch (e) { /* ignore */ } fillInputs(); go(0); return; }
+      case "btn-restart": { const keepUnits = S.units; S = defaults(); S.units = keepUnits; photo = null; aiState = { adult: false, consent: false, busy: false, result: null, error: null, day: null }; fs.sel = null; $("#fs-q").value = ""; $("#fs-results").innerHTML = ""; $("#fs-status").textContent = ""; invalid.clear(); renderPhoto(); try { localStorage.removeItem(CONFIG.STORAGE_KEY); } catch (e) { /* ignore */ } fillInputs(); go(0); return; }
       case "ai-go": {
         const AB = aiBase(); if (!(aiState.adult && aiState.consent) || !AB.img) return;
         aiState.busy = true; aiState.error = null; renderAi();
@@ -8319,7 +8243,7 @@ document.addEventListener("fig3d-zoom", (e) => { $$(`[data-f3zoom="${e.detail.gr
   const pm = !!(F3.rt && F3.rt.panMode && F3.rt.panMode(e.detail.group)); $$(`[data-f3nav="move"][data-g="${e.detail.group}"]`).forEach((b) => b.setAttribute("aria-pressed", String(pm))); });
 function init() {
   $("#yr").textContent = today.getFullYear();
-  applyUiMode(); fillAncestry(); renderCardio(); initSteppers(); buildGoalOpts(); buildPlanner(); bindCrop(); bindPhotoFit(); bind(); flBind(); fillInputs(); compute(); renderSummary();
+  applyUiMode(); fillAncestry(); renderCardio(); initSteppers(); buildGoalOpts(); buildPlanner(); bindCrop(); bind(); flBind(); fillInputs(); compute(); renderSummary();
   ciLoad().then(() => { if (S.step === 5 && R && !R.blocked) renderAi(); });
   $("#fs-photo").addEventListener("change", (ev) => { const f = ev.target.files[0]; ev.target.value = ""; fsScanPhoto(f); });
   $("#file-ci").addEventListener("change", (ev) => { const f = ev.target.files[0]; ev.target.value = ""; ciAddFile(f); });
@@ -8334,9 +8258,8 @@ function init() {
   window.BodyPlanApp = { update, get state() { return S; }, get result() { return R; }, go, start, config: CONFIG,
     // same path as "Add to today's log" (used by tests and the saved-days loader)
     logAdd: (it) => { fsLogPush(it); fsApplyLog(); }, foodLog: { get store() { return FLS; }, reload() { FLS = FL.load(); return FLS; }, open: openFoodLog, close: closeFoodLog, render: renderFoodLog, state: fl, useAverage: flUseAverage },
-    scanner: { env: scannerEnv, photo: (f) => fsScanPhoto(f), diag: () => fs.diag, pick: async () => FL.pickScanner(await scannerEnv()), decodeCanvas: async (cv, kind) => (await makeDecoder(kind === "native" ? FL.pickScanner(await scannerEnv()) : { kind: "zxing" }))(cv), loadZxing }, setPhoto: (d) => { photo = d; renderPhoto(); update(); }, fig3d: F3,
-    isPro, canUse, projectionPayload, checkins: CI, ciAddFile, ciLoad, aiBase, ciProjection, ciPut, foodSearch: fs, photoFit, runPhotoFit, fatPattern, depotsAt, regionsAt, waistAt, startPerson, personAt, setFigLook, regionalFrames,
-    setFitPhoto(img, side) { photoFit.orig = img; if (side !== undefined) photoFit.sideImg = side; } };
+    scanner: { env: scannerEnv, photo: (f) => fsScanPhoto(f), diag: () => fs.diag, pick: async () => FL.pickScanner(await scannerEnv()), decodeCanvas: async (cv, kind) => (await makeDecoder(kind === "native" ? FL.pickScanner(await scannerEnv()) : { kind: "zxing" }))(cv), loadZxing }, setPhoto: (d) => { photo = d; renderPhoto(); update(); }, setAiResult: (r) => { aiState.result = r; renderAi(); }, fig3d: F3,
+    isPro, canUse, projectionPayload, checkins: CI, ciAddFile, ciLoad, aiBase, ciProjection, ciPut, foodSearch: fs, fatPattern, depotsAt, regionsAt, waistAt, startPerson, personAt, setFigLook, regionalFrames, };
 }
 // v7.6.3: pace chosen in the Maximum Fat Burn Calculator (#calc-pace=<share of the fat ceiling>&label=...)
 /* v7.6.11: the free Maximum Fat Burn Calculator hands its numbers to this app. Two routes carry the same fields:
@@ -8372,7 +8295,7 @@ function takeCalcPace() {
 function paintConsentLocks() { const C = window.TheosisConsent; if (!C) return; const ph = C.has("photoAi") && C.has("biometric"), l = $("#photo-lock"); if (l) l.hidden = ph; }
 if (window.TheosisConsent) {
   TheosisConsent.onRevoke(async (k) => {
-    if (k === "photoAi" || k === "biometric" || k === "all") { photo = null; photoFit.reset(); aiState.result = null; try { await ciClearAll(); } catch (e) { /* no store yet */ } CI.msg = ""; try { renderPhoto(); } catch (e) { /* ignore */ } }
+    if (k === "photoAi" || k === "biometric" || k === "all") { photo = null; aiState.result = null; try { await ciClearAll(); } catch (e) { /* no store yet */ } CI.msg = ""; try { renderPhoto(); } catch (e) { /* ignore */ } }
     if (k === "labAi" || k === "all") { LU.found = null; LU.busy = false; LU.msg = "Lab upload is off; values read from uploaded reports were deleted. Values you typed yourself stay."; const f = $("#lu-file"); if (f) f.value = ""; }
     paintConsentLocks(); update(); });
   TheosisConsent.onChange(() => { paintConsentLocks(); update(); });

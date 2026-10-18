@@ -25,14 +25,6 @@
   [headers.values]
     Cache-Control = "public, max-age=604800"
 
-[[headers]]
-  for = "/simulator/photofit/*"
-  [headers.values]
-    Cache-Control = "public, max-age=2592000"
-[[headers]]
-  for = "/simulator/photofit/*.wasm"
-  [headers.values]
-    Content-Type = "application/wasm"
 
 # Trailing slash so the simulator's relative asset paths resolve. Must precede the catch-all.
 [[redirects]]

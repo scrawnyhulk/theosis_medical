@@ -16,7 +16,6 @@ used. PFT was used only as a visual reference (soft frontal light in cutaways, l
 assets were copied. No CC BY-SA, CC BY-NC or unknown-license meshes are included.
 
 ## Other bundled components
-- MediaPipe Pose Landmarker (photo fit, on device): Apache 2.0; see `photofit/NOTICE-MediaPipe.txt`.
 
 ## Evidence used by the v6 models (cited, no content copied)
 - Diabetes / prediabetes HbA1c thresholds (6.5% / 5.7%): American Diabetes Association, Standards of Care 2025, Section 2.
