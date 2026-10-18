@@ -1296,6 +1296,23 @@ html.lb-open{overflow:hidden}
 .isec.green{--c-bar:#5ccf8a;--c-bg:rgba(92,207,138,.09);--c-edge:rgba(92,207,138,.35)}
 .isec-foot{margin-top:1.2rem;padding-top:.6rem;border-top:1px solid var(--border);color:var(--muted);font-size:.82rem}
 
+/* v7.6.36: app views (Home, Glucose log, Settings) */
+.views{max-width:60rem;margin:0 auto;padding:1rem 1rem 3rem}
+.vnav{display:flex;flex-wrap:wrap;gap:.4rem;margin:0 0 1rem;padding:.4rem;border-radius:14px;background:rgba(8,13,20,.6);box-shadow:0 0 0 1px var(--border)}
+.vn{appearance:none;border:0;background:transparent;color:var(--steel);font:inherit;font-size:.9rem;padding:.5rem .85rem;border-radius:10px;cursor:pointer;min-height:2.5rem}
+.vn:hover{background:rgba(255,255,255,.06)}.vn.on{background:rgba(111,168,255,.2);color:#fff;box-shadow:inset 0 0 0 1px rgba(111,168,255,.5)}.vn-sim{margin-left:auto;color:#9cc4f7}
+.v-card{margin:1rem 0;padding:1rem 1.1rem;border-radius:14px;background:rgba(8,13,20,.55);box-shadow:0 0 0 1px var(--border)}
+.v-card h2{margin:0 0 .4rem;font-size:1.1rem}.v-card.v-note{box-shadow:inset 4px 0 0 #6fa8ff,0 0 0 1px var(--border)}
+.v-card .row.between{display:flex;justify-content:space-between;align-items:center;gap:.8rem;flex-wrap:wrap}
+.v-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(9rem,1fr));gap:.7rem}
+.v-stats .stat{padding:.6rem .7rem;border-radius:10px;background:rgba(255,255,255,.04)}.v-stats .k{font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}.v-stats .v{font-size:1.15rem;font-weight:600}.v-stats small{font-weight:400;color:var(--muted);font-size:.72rem}
+.v-grid2{display:grid;grid-template-columns:1fr 1fr;gap:.8rem}@media(max-width:36rem){.v-grid2{grid-template-columns:1fr}}
+.v-next{list-style:none;padding:0;margin:0;display:grid;gap:.6rem}.v-next small{display:block;color:var(--muted)}
+.v-dial .gauge{margin:0}
+.gl-day{margin:.9rem 0 .2rem;font-size:.85rem;color:#9cc4f7}.gl-list{list-style:none;padding:0;margin:0}.gl-list li{padding:.5rem 0;border-bottom:1px solid var(--border)}.gl-m{display:block;color:var(--muted)}
+.gl-chart{width:100%;height:auto;color:var(--steel)}.gl-dot,.gl-mk{display:inline-block;width:.6rem;height:.6rem;border-radius:50%;background:#6fa8ff;vertical-align:middle}.gl-mk{background:#f0b445;border-radius:2px;width:.15rem;height:.8rem}
+.entry-views{display:grid;gap:.6rem;margin:1rem 0}.entry-views:empty{display:none}
+
 </style>
 </head>
 <body>
@@ -1335,6 +1352,7 @@ html.lb-open{overflow:hidden}
       <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>About 3 minutes</span>
       <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19V5M4 19h16M8 15l3-4 3 2 4-6"/></svg>Built on published research</span>
     </div>
+    <div class="entry-views" id="entry-views"></div>
     <button type="button" class="qc-card qc-landing fl-entry" data-open-log="1"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 3v8M5 3v5a3 3 0 0 0 6 0V3M8 11v10M17 3c-2 2-3 5-3 8h3v10"/></svg><span><b>Food Log</b><small>Log what you eat today: search, scan a barcode or quick-add calories. Works on its own; the simulator can use your average.</small></span><span class="qc-go" aria-hidden="true">→</span></button>
     <aside class="entry-hero" id="entry-hero" aria-label="Theosis Metabolic Simulator shield" data-print="no">
       <figure class="hero-fig"><img src="assets/shield-nick.webp" width="700" height="868" loading="lazy" decoding="async" alt="Theosis Metabolic Simulator shield"></figure>
@@ -1914,6 +1932,8 @@ html.lb-open{overflow:hidden}
   </section>
 
   <!-- ================= FOOD LOG (v7.6) ================= -->
+  <section id="views" class="views" hidden aria-label="Simulator sections"></section>
+
   <section id="flog" class="flog" hidden aria-labelledby="flog-h">
     <div class="flog-top"><button type="button" class="btn btn-ghost btn-sm" id="fl-back">← Back</button><h1 id="flog-h" tabindex="-1">Food Log</h1></div>
     <p class="hint flog-lead">Saved on this device only. Only the food searches go to Open Food Facts and USDA; the log itself is never uploaded.</p>
@@ -4870,7 +4890,7 @@ const PF = window.PFT;
 function pftInput() { const p = S.profile, h = p.health; return { sex: p.sex, weightKg: p.weightKg, heightCm: p.heightCm, waistCm: p.waistCm, a1c: h.a1c, diabetes: E.diabetesStatus(h).value, fattyLiver: h.fattyLiver, ancestry: p.fat.ancestry, labs: h.labs || {}, meds: h.meds && h.meds !== "unknown" ? h.meds : (h.glucoseMeds ? "yes" : "unknown") }; }
 const pftEst = () => PF.estimate(pftInput());
 const defaults = () => ({
-  v: 1, mode: "plan", step: 0, maxStep: 1, units: "imperial", ui: { mode: "simple" },
+  v: 1, glucoseOptIn: false, mode: "plan", step: 0, maxStep: 1, units: "imperial", ui: { mode: "simple" },
   profile: { sex: "m", age: 35, heightCm: 177.8, weightKg: 190 / LB, bfMode: "bmi", bf: 25, neckCm: null, waistCm: null, hipCm: null, dexaBf: null,
     health: { pregnant: false, bf: "none", bfMonths: 3, bfPump: false, bfMulti: false, cancer: "no", glucoseMeds: false, edHistory: false, meds: "unknown", medAck: false, diabetes: "unknown", diabetesAuto: false, diabetesPicked: false, a1c: null, fattyLiver: "unknown", labs: {} },
     fat: { carry: "", menopause: "", ancestry: "" } },
@@ -6619,6 +6639,7 @@ function flMoveSearch(toLog) {
 }
 function openFoodLog() {
   if (!fl.open) fl.from = S.step;
+  if (typeof vLeave === "function") vLeave();
   fl.open = true; FLS = FL.load(); flMoveSearch(true);
   $("#entry").hidden = true; $("#wizard").hidden = true; $("#mbar").hidden = true; document.body.classList.remove("has-mbar"); $("#flog").hidden = false;
   try { if (location.hash !== "#food-log") history.replaceState(null, "", "#food-log"); } catch (e) { /* file: or sandboxed */ }
@@ -7830,6 +7851,186 @@ function aiInit() {
   document.addEventListener("keydown", (ev) => { if (ev.target.id === "ask-q" && ev.key === "Enter" && !ev.shiftKey) { ev.preventDefault(); aiAskSend(ev.target.value); } });
   aiRenderAll(); aiCheck();
 }
+
+// ---------- v7.6.36: app views (Home dashboard, Glucose log, Settings, Export/Import). Local to this device. ----------
+const GLK = "theosis-glucose";
+const GLU = {
+  MMOL: 18.016,
+  empty: () => ({ v: 1, unit: "mgdl", items: [] }),
+  tags: [["fasting", "Fasting"], ["before", "Before meal"], ["after", "After meal"], ["bed", "Bedtime"], ["other", "Other"]],
+  clean(s) { const o = GLU.empty(); if (!s || typeof s !== "object") return o; o.unit = s.unit === "mmol" ? "mmol" : "mgdl";
+    o.items = (Array.isArray(s.items) ? s.items : []).filter((x) => x && Number.isFinite(+x.mgdl) && +x.mgdl >= 20 && +x.mgdl <= 1000 && Number.isFinite(+x.t)).slice(-5000).map((x) => ({
+      id: String(x.id || ("g" + x.t)).slice(0, 40), t: +x.t, mgdl: Math.round(+x.mgdl * 10) / 10, tag: GLU.tags.some((t) => t[0] === x.tag) ? x.tag : "", note: typeof x.note === "string" ? x.note.slice(0, 200) : "",
+      meal: x.meal && typeof x.meal.name === "string" ? { date: String(x.meal.date || "").slice(0, 10), name: x.meal.name.slice(0, 120), carbs: Number.isFinite(+x.meal.carbs) ? Math.round(+x.meal.carbs) : null, kcal: Number.isFinite(+x.meal.kcal) ? Math.round(+x.meal.kcal) : null } : null }));
+    o.items.sort((a, b) => a.t - b.t); return o; },
+  load() { try { return GLU.clean(JSON.parse(localStorage.getItem(GLK) || "null")); } catch (e) { return GLU.empty(); } },
+  save(s) { try { localStorage.setItem(GLK, JSON.stringify(s)); return true; } catch (e) { return false; } },
+  toDisp(mg, unit) { return unit === "mmol" ? (mg / GLU.MMOL).toFixed(1) : String(Math.round(mg)); },
+  fromEntry(val, unit) { const n = +String(val).replace(",", "."); if (!Number.isFinite(n) || n <= 0) return null; const mg = unit === "mmol" ? n * GLU.MMOL : n; return mg >= 20 && mg <= 1000 ? Math.round(mg * 10) / 10 : null; },
+  inRange(s, days, now) { const from = now - days * 864e5; return s.items.filter((x) => x.t >= from && x.t <= now + 864e5); },
+  summary(list) { if (!list.length) return null; const v = list.map((x) => x.mgdl); return { n: list.length, avg: v.reduce((a, b) => a + b, 0) / v.length, lo: Math.min(...v), hi: Math.max(...v) }; },
+  csv(s, unit) { const q = (x) => `"${String(x == null ? "" : x).replace(/"/g, '""')}"`, rows = [["Date", "Time", `Value (${unit === "mmol" ? "mmol/L" : "mg/dL"})`, "Tag", "Linked meal", "Note"]];
+    for (const x of s.items) { const d = new Date(x.t), p = (n) => String(n).padStart(2, "0"); rows.push([`${d.getFullYear()}-${p(d.getMonth() + 1)}-${p(d.getDate())}`, `${p(d.getHours())}:${p(d.getMinutes())}`, GLU.toDisp(x.mgdl, unit), (GLU.tags.find((t) => t[0] === x.tag) || ["", ""])[1], x.meal ? x.meal.name : "", x.note]); }
+    return rows.map((r) => r.map(q).join(",")).join("\r\n") + "\r\n"; },
+  /** Minimal one-file PDF (Helvetica, text only, Letter pages). Text is ASCII-folded. */
+  pdf(lines) { const fold = (t) => String(t).replace(/[\u2013\u2014]/g, "-").replace(/[^\x20-\x7e]/g, "?").replace(/([()\\])/g, "\\$1");
+    const per = 52, pages = []; for (let i = 0; i < lines.length; i += per) pages.push(lines.slice(i, i + per)); if (!pages.length) pages.push([""]);
+    const objs = [null, "<< /Type /Catalog /Pages 2 0 R >>", null, "<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>", "<< /Type /Font /Subtype /Type1 /BaseFont /Courier >>"], kids = [];
+    pages.forEach((pg) => { const body = "BT /F2 9 Tf 11 TL 40 752 Td " + pg.map((l, i) => (l && l[0] === "#" ? `/F1 11 Tf (${fold(l.slice(1))}) Tj T* /F2 9 Tf` : `(${fold(l)}) Tj T*`)).join(" ") + " ET";
+      objs.push(`<< /Length ${body.length} >>\nstream\n${body}\nendstream`); const c = objs.length; objs.push(`<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Contents ${c} 0 R /Resources << /Font << /F1 3 0 R /F2 4 0 R >> >> >>`); kids.push(objs.length + " 0 R"); });
+    objs[2] = `<< /Type /Pages /Kids [${kids.join(" ")}] /Count ${kids.length} >>`;
+    let out = "%PDF-1.4\n", off = [0]; for (let i = 1; i < objs.length; i++) { off[i] = out.length; out += `${i} 0 obj\n${objs[i]}\nendobj\n`; }
+    const x = out.length; out += `xref\n0 ${objs.length}\n0000000000 65535 f \n` + off.slice(1).map((o) => String(o).padStart(10, "0") + " 00000 n \n").join("") + `trailer\n<< /Size ${objs.length} /Root 1 0 R >>\nstartxref\n${x}\n%%EOF`; return out; },
+};
+window.GlucoseLog = GLU;
+let GLS = GLU.load();
+const V = { open: false, view: "home", g: { tag: "", meal: "", val: "", dt: "", note: "", range: 7, msg: "", err: "" }, msg: "" };
+const glIsDiabetic = () => { try { return ["t1", "t2", "other"].includes(E.diabetesStatus(S.profile.health).value); } catch (e) { return false; } };
+const glVisible = () => glIsDiabetic() || !!S.glucoseOptIn;
+const vDt = (d) => { const p = (n) => String(n).padStart(2, "0"); return `${d.getFullYear()}-${p(d.getMonth() + 1)}-${p(d.getDate())}T${p(d.getHours())}:${p(d.getMinutes())}`; };
+const vFmtT = (t) => new Date(t).toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" });
+const vFmtD = (t) => new Date(t).toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" });
+function vDownload(name, type, data) { const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([data], { type })); a.download = name; document.body.appendChild(a); a.click(); setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 500); }
+function vHideOthers() { $("#entry").hidden = true; $("#wizard").hidden = true; $("#mbar").hidden = true; document.body.classList.remove("has-mbar"); const f = $("#flog"); if (f) f.hidden = true; if (typeof fl !== "undefined" && fl.open) { try { flLeave(); } catch (e) { /* ignore */ } } }
+function vLeave() { if (!V.open) return; V.open = false; const v = $("#views"); if (v) v.hidden = true; try { if (/^#(home|glucose|settings)$/.test(location.hash)) history.replaceState(null, "", location.pathname + location.search); } catch (e) { /* ignore */ } }
+function openView(name) {
+  if (name === "glucose" && !glVisible()) name = "settings";
+  vHideOthers(); V.open = true; V.view = name; $("#views").hidden = false; GLS = GLU.load(); if (!V.g.dt) V.g.dt = vDt(new Date());
+  try { if (location.hash !== "#" + name) history.replaceState(null, "", "#" + name); } catch (e) { /* ignore */ }
+  renderViews(); window.scrollTo(0, 0); const h = $("#views h1"); h && h.focus({ preventScroll: true });
+}
+function vNav() {
+  const b = (k, l) => `<button type="button" class="vn${V.view === k ? " on" : ""}" data-view="${k}" ${V.view === k ? 'aria-current="page"' : ""}>${l}</button>`;
+  return `<nav class="vnav" aria-label="Simulator sections">${b("home", "Home")}<button type="button" class="vn" data-open-log="1">Food Log</button>${glVisible() ? b("glucose", "Glucose log") : ""}${b("settings", "Settings")}<button type="button" class="vn vn-sim" data-v-sim="1">${S.maxStep > 1 || S.goal.touched ? "Your plan" : "Start the simulator"}</button></nav>`;
+}
+function renderViews() { const box = $("#views"); if (!box) return; box.innerHTML = vNav() + `<div class="v-body">${V.view === "glucose" ? glucoseHtml() : V.view === "settings" ? settingsHtml() : homeHtml()}</div>`;
+  if (V.view === "glucose") { const d = $("#gl-dt"); if (d) d.value = V.g.dt; } }
+
+// ---- Home ----
+function homeHtml() {
+  const has = HAD_SAVED || S.maxStep > 1 || S.goal.touched;
+  if (!has || !R || R.blocked) return `<header class="step-head"><p class="eyebrow">Home</p><h1 tabindex="-1">Home</h1><p class="lead">Your dashboard appears here once you have a plan. It pulls from the simulator and your Food Log.</p></header>
+    <div class="v-card"><p>${R && R.blocked ? "Finish the earlier steps so the plan can be calculated." : "Start the simulator to build your plan. It takes about three minutes."}</p><div class="actions"><button type="button" class="btn btn-primary" data-v-sim="1">${has ? "Continue your plan" : "Start the simulator"}</button></div></div>`;
+  const d = sumData(), b = bfInfo(), today = FL.dateKey(new Date()), t = FL.dayTotals(FLS = FL.load(), today), n = FLS.days[today] ? FLS.days[today].items.length : 0;
+  const stat = (k, v, u) => `<div class="stat"><div class="k">${k}</div><div class="v">${v}${u ? ` <small>${u}</small>` : ""}</div></div>`;
+  const lastG = GLS.items.length ? GLS.items[GLS.items.length - 1] : null;
+  const gauge = gaugeHtml();
+  const nxt = [`<li>${n ? "✔" : "☐"} Log today's food <button type="button" class="link-btn" data-open-log="1">${n ? "Open Food Log" : "Add a meal"}</button><small>${n ? `${Math.round(t.kcal)} kcal · ${Math.round(t.protein)} g protein logged today` : "Nothing logged yet today"}</small></li>`,
+    d.e ? `<li>☐ Review your projection <button type="button" class="link-btn" data-v-sim="5">Open</button><small>${fWk(d.days)} weeks to ${fW(d.e.weightKg)} at ${fP(d.e.bf)} (model estimate)</small></li>` : ""].join("");
+  return `<header class="step-head"><p class="eyebrow">Home</p><h1 tabindex="-1">Your dashboard</h1><p class="lead">Model estimates from what you entered. Education only, not medical advice.</p></header>
+  ${glVisible() ? `<div class="v-card"><div class="row between"><div><h2>Glucose log</h2><p class="hint">${lastG ? `Last entry: ${GLU.toDisp(lastG.mgdl, GLS.unit)} ${GLS.unit === "mmol" ? "mmol/L" : "mg/dL"}${lastG.tag ? " · " + esc(GLU.tags.find((x) => x[0] === lastG.tag)[1]) : ""} · ${vFmtD(lastG.t)} ${vFmtT(lastG.t)} (your own entry)` : "No readings yet. Log only: it never changes your plan or dial."}</p></div><button type="button" class="btn btn-primary" data-view="glucose">+ Add reading</button></div></div>` : ""}
+  <div class="v-card"><div class="v-stats">${stat("Goal", esc(goalLabel()), "")}${stat("Weight", nW(S.profile.weightKg), uW())}${stat("Body fat now", fP(b.bf) + (b.source !== "measured" ? "*" : ""), "")}${d.e ? stat("At end of plan", fP(d.e.bf), `${fW(d.e.weightKg)}`) : ""}${d.e ? stat("Daily calories", fK(d.kcal), "kcal · " + esc(d.kcalTag)) : ""}${d.e ? stat("Timeline", fWk(d.days), "weeks") : ""}</div>${b.source !== "measured" ? `<p class="hint">* estimated from your inputs, not measured.</p>` : ""}</div>
+  <div class="v-card v-dial">${gauge || `<h2>How your choices fit your goal</h2><p>The dial needs what you actually eat and do. Enter your intake in the Food step or log meals in the Food Log, and it appears here with your top three tips.</p><div class="actions"><button type="button" class="btn btn-ghost" data-open-log="1">Open Food Log</button><button type="button" class="btn btn-ghost" data-v-sim="4">Go to the Food step</button></div>`}</div>
+  <div class="v-card"><h2>Next up</h2><ul class="v-next">${nxt}</ul></div>
+  <p class="hint">All figures are model estimates, not medical advice. Weight trends and weekly check-ins need logged weigh-ins, which this build doesn't collect yet, so they aren't shown.</p>`;
+}
+
+// ---- Glucose log ----
+function glMeals() { const out = [], F = FL.load(), ds = Object.keys(F.days).sort().reverse().slice(0, 7);
+  for (const dk of ds) for (const [id, label] of FL.MEALS) { const its = F.days[dk].items.filter((i) => i.meal === id); if (!its.length) continue; let c = 0, k = 0, cn = true;
+    for (const i of its) { const nu = FL.itemNutr(i); if (nu.carbs == null) cn = false; else c += nu.carbs; k += nu.kcal || 0; }
+    out.push({ key: dk + "|" + id, date: dk, name: `${label} · ${its.slice(0, 2).map((i) => i.name).join(", ")}${its.length > 2 ? " +" + (its.length - 2) : ""}`, carbs: cn ? c : null, kcal: k }); }
+  return out; }
+function glChart(list, now) {
+  const W = 320, H = 150, pl = 30, pr = 8, pt = 10, pb = 22, days = V.g.range, t0 = now - days * 864e5;
+  if (!list.length) return `<p class="hint">No readings in this period yet.</p>`;
+  const u = GLS.unit, vals = list.map((x) => +GLU.toDisp(x.mgdl, u)), lo = Math.min(...vals), hi = Math.max(...vals), span = Math.max(hi - lo, u === "mmol" ? 2 : 30), y0 = lo - span * 0.15, y1 = hi + span * 0.15;
+  const X = (t) => pl + (t - t0) / (now - t0) * (W - pl - pr), Y = (v) => pt + (1 - (v - y0) / (y1 - y0)) * (H - pt - pb);
+  const tk = [0, 0.5, 1].map((f) => y0 + (y1 - y0) * f), pts = list.map((x, i) => [X(x.t), Y(vals[i]), x]);
+  return `<svg class="chart gl-chart" viewBox="0 0 ${W} ${H}" role="img" aria-label="Your own glucose readings over ${days} days. ${list.length} readings.">
+    ${tk.map((v) => `<line x1="${pl}" x2="${W - pr}" y1="${Y(v).toFixed(1)}" y2="${Y(v).toFixed(1)}" stroke="currentColor" opacity=".12"/><text x="${pl - 4}" y="${(Y(v) + 3).toFixed(1)}" text-anchor="end" font-size="8" fill="currentColor" opacity=".7">${u === "mmol" ? v.toFixed(1) : Math.round(v)}</text>`).join("")}
+    ${pts.filter((p) => p[2].meal).map((p) => `<line x1="${p[0].toFixed(1)}" x2="${p[0].toFixed(1)}" y1="${pt}" y2="${H - pb}" stroke="#f0b445" stroke-dasharray="2 3" opacity=".8"/>`).join("")}
+    <polyline fill="none" stroke="#6fa8ff" stroke-width="1.2" opacity=".5" points="${pts.map((p) => p[0].toFixed(1) + "," + p[1].toFixed(1)).join(" ")}"/>
+    ${pts.map((p) => `<circle cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="3.2" fill="#6fa8ff"/>`).join("")}
+    <text x="${pl}" y="${H - 6}" font-size="8" fill="currentColor" opacity=".7">${new Date(t0).toLocaleDateString("en-US", { month: "short", day: "numeric" })}</text><text x="${W - pr}" y="${H - 6}" text-anchor="end" font-size="8" fill="currentColor" opacity=".7">${new Date(now).toLocaleDateString("en-US", { month: "short", day: "numeric" })}</text></svg>
+    <p class="hint gl-leg"><i class="gl-dot"></i> Your reading &nbsp; <i class="gl-mk"></i> Reading linked to a Food Log meal</p>`;
+}
+function glucoseHtml() {
+  const u = GLS.unit, ul = u === "mmol" ? "mmol/L" : "mg/dL", now = Date.now(), list = GLU.inRange(GLS, V.g.range, now), sm = GLU.summary(list), meals = glMeals(), sel = meals.find((m) => m.key === V.g.meal);
+  const days = {}; for (const x of GLS.items.slice().reverse()) { const k = vFmtD(x.t); (days[k] = days[k] || []).push(x); }
+  const tagL = (k) => (GLU.tags.find((t) => t[0] === k) || [0, ""])[1];
+  const sumc = (k, v) => `<div class="stat"><div class="k">${k}</div><div class="v">${v}</div></div>`;
+  return `<header class="step-head"><p class="eyebrow">Glucose log</p><h1 tabindex="-1">Glucose log</h1><p class="lead">Record your own blood sugar readings, especially around meals, to bring to your doctor.</p></header>
+  <div class="v-card v-note"><p><b>Log only.</b> This page stores the numbers you type in. It does not set targets, label readings, give advice or predict anything. Your doctor decides what your numbers mean.</p></div>
+  <div class="v-card"><div class="row between"><h2>Add a reading</h2><div class="chips" role="group" aria-label="Units"><button type="button" class="chip" data-gl-unit="mgdl" aria-pressed="${u === "mgdl"}">mg/dL</button><button type="button" class="chip" data-gl-unit="mmol" aria-pressed="${u === "mmol"}">mmol/L</button></div></div>
+    <div class="v-grid2"><label class="field"><span class="label">Value (${ul})</span><span class="control"><input id="gl-val" inputmode="decimal" placeholder="${u === "mmol" ? "e.g. 6.5" : "e.g. 118"}" value="${esc(V.g.val)}" data-local="1"></span></label>
+    <label class="field"><span class="label">Date and time</span><span class="control"><input id="gl-dt" type="datetime-local" data-local="1"></span></label></div>
+    <p class="label mt1">Tag</p><div class="chips" role="group" aria-label="Tag">${GLU.tags.map(([k, l]) => `<button type="button" class="chip" data-gl-tag="${k}" aria-pressed="${V.g.tag === k}">${l}</button>`).join("")}</div>
+    <label class="field mt1"><span class="label">Link to a Food Log meal <span class="g-opt">(optional)</span></span><span class="control"><select id="gl-meal" data-local="1"><option value="">No meal linked</option>${meals.map((m) => `<option value="${esc(m.key)}" ${m.key === V.g.meal ? "selected" : ""}>${esc(m.name)} (${esc(vFmtD(new Date(m.date + "T12:00:00").getTime()))})</option>`).join("")}</select></span></label>
+    ${sel ? `<p class="hint">From your Food Log: ${sel.carbs != null ? Math.round(sel.carbs) + " g carbs · " : ""}${Math.round(sel.kcal)} kcal</p>` : meals.length ? "" : `<p class="hint">Meals you add in the Food Log show up here to link.</p>`}
+    <label class="field mt1"><span class="label">Note <span class="g-opt">(optional)</span></span><span class="control"><input id="gl-note" maxlength="200" placeholder="Anything you want your doctor to see" value="${esc(V.g.note)}" data-local="1"></span></label>
+    <p class="err" role="alert">${esc(V.g.err)}</p><div class="actions"><button type="button" class="btn btn-primary" id="gl-save">Save reading</button></div>${V.g.msg ? `<p class="hint" role="status">${esc(V.g.msg)}</p>` : ""}</div>
+  <div class="v-card"><div class="row between"><h2>Your numbers</h2><div class="chips" role="group" aria-label="Period">${[7, 14, 30].map((d) => `<button type="button" class="chip" data-gl-range="${d}" aria-pressed="${V.g.range === d}">${d} days</button>`).join("")}</div></div>
+    <div class="v-stats">${sm ? sumc("Readings", sm.n) + sumc("Average", GLU.toDisp(sm.avg, u) + " " + ul) + sumc("Lowest", GLU.toDisp(sm.lo, u)) + sumc("Highest", GLU.toDisp(sm.hi, u)) : "<p class=\"hint\">Add a reading to see a summary.</p>"}</div>
+    <p class="hint">These are summaries of the numbers you entered, nothing more. They are not a measure of control and not a substitute for lab tests such as A1c.</p></div>
+  <div class="v-card"><h2>Readings and meals</h2>${glChart(list, now)}</div>
+  <div class="v-card"><h2>Log by day</h2>${GLS.items.length ? Object.keys(days).map((k) => `<h3 class="gl-day">${esc(k)}</h3><ul class="gl-list">${days[k].map((x) => `<li><b>${GLU.toDisp(x.mgdl, u)}</b> <small>${ul}</small> · ${vFmtT(x.t)}${x.tag ? ` · ${esc(tagL(x.tag))}` : ""}${x.meal ? `<small class="gl-m">Meal: ${esc(x.meal.name)}${x.meal.carbs != null ? ` · ${x.meal.carbs} g carbs` : ""}</small>` : ""}${x.note ? `<small class="gl-m">${esc(x.note)}</small>` : ""} <button type="button" class="link-btn" data-gl-del="${esc(x.id)}" aria-label="Delete the ${GLU.toDisp(x.mgdl, u)} reading at ${vFmtT(x.t)}">Delete</button></li>`).join("")}</ul>`).join("") : `<p class="hint">No readings yet.</p>`}</div>
+  <div class="v-card"><div class="row between"><h2>Export for your doctor</h2><div class="actions"><button type="button" class="btn btn-ghost" id="gl-csv" ${GLS.items.length ? "" : "disabled"}>Download CSV</button><button type="button" class="btn btn-primary" id="gl-pdf" ${GLS.items.length ? "" : "disabled"}>Download PDF</button></div></div>
+    <p class="hint">A one-page table of the readings you entered, in ${ul}. Nothing is sent anywhere; you choose how to share the file.</p></div>
+  <div class="v-card"><h2>Privacy</h2><p class="hint">Your readings stay on this device. Nothing is uploaded, and the Glucose log never changes your plan, projection or the goal-fit dial. <button type="button" class="link-btn" id="gl-clear">Delete all readings</button></p></div>`;
+}
+function glSave() {
+  const g = V.g, u = GLS.unit, mg = GLU.fromEntry(g.val, u), t = new Date(g.dt).getTime();
+  if (mg == null) { g.err = `Enter a number in ${u === "mmol" ? "mmol/L (about 1 to 55)" : "mg/dL (about 20 to 1000)"}. Check it for typos.`; g.msg = ""; return renderViews(); }
+  if (!Number.isFinite(t)) { g.err = "Pick the date and time of the reading."; return renderViews(); }
+  const m = glMeals().find((x) => x.key === g.meal), it = { id: "g" + t + "-" + Math.random().toString(36).slice(2, 6), t, mgdl: mg, tag: g.tag, note: g.note.trim(), meal: m ? { date: m.date, name: m.name, carbs: m.carbs, kcal: m.kcal } : null };
+  GLS.items.push(it); GLS = GLU.clean(GLS); if (!GLU.save(GLS)) { g.err = "Couldn't save: this browser's storage is full or turned off."; return renderViews(); }
+  g.err = ""; g.msg = "Saved on this device."; g.val = ""; g.note = ""; g.tag = ""; g.meal = ""; g.dt = vDt(new Date()); renderViews(); const i = $("#gl-val"); i && i.focus();
+}
+function glPdfLines() { const u = GLS.unit, ul = u === "mmol" ? "mmol/L" : "mg/dL", L = ["#Blood glucose log", `Self-recorded values entered by the patient. Units: ${ul}.`, `Period: ${GLS.items.length ? new Date(GLS.items[0].t).toLocaleDateString("en-US") + " - " + new Date(GLS.items[GLS.items.length - 1].t).toLocaleDateString("en-US") : "none"}`, "", "Date        Time      Value    Tag           Linked meal / note", "-".repeat(86)];
+  const pad = (s, n) => (String(s) + " ".repeat(n)).slice(0, n);
+  for (const x of GLS.items) { const d = new Date(x.t); L.push(pad(d.toLocaleDateString("en-US"), 12) + pad(vFmtT(x.t), 10) + pad(GLU.toDisp(x.mgdl, u), 9) + pad((GLU.tags.find((t) => t[0] === x.tag) || [0, ""])[1], 14) + (x.meal ? x.meal.name.slice(0, 44) : "") + (x.note ? (x.meal ? " | " : "") + x.note.slice(0, 30) : "")); }
+  L.push("", "Generated by Theosis Metabolic Simulator. A personal record, not a medical record or interpretation."); return L; }
+
+// ---- Settings (+ export / import) ----
+function settingsHtml() {
+  const dia = glIsDiabetic(), on = glVisible();
+  return `<header class="step-head"><p class="eyebrow">Settings</p><h1 tabindex="-1">Settings</h1></header>
+  <div class="v-card"><h2>Glucose log</h2><p><b>${on ? "Shown" : "Hidden"}</b></p>
+    <p class="hint">${dia ? "On because your diabetes status is set to Diabetes (answered, or set from an A1c you entered). It stays on while that is true." : "It shows automatically if your diabetes status is Diabetes. You can also switch it on yourself, for example if your care team asks you to check your blood sugar during a medicine."}</p>
+    ${dia ? "" : `<div class="actions"><button type="button" class="btn ${S.glucoseOptIn ? "btn-ghost" : "btn-primary"}" id="gl-opt" aria-pressed="${!!S.glucoseOptIn}">${S.glucoseOptIn ? "Hide Glucose log" : "Show Glucose log"}</button></div>`}
+    <p class="hint">Log only: no targets, no advice, and it never changes your plan or the dial.</p></div>
+  <div class="v-card"><h2>Move to another device</h2><p>The simulator keeps your data in this browser only. To continue on your phone or another computer, export a file here and import it there.</p>
+    <p class="hint">The file holds your inputs, plan choices, Food Log, glucose readings, check-ins and your start photo. <b>Keep it private.</b> It isn't encrypted, and nothing is uploaded. This is a stopgap until accounts exist.</p>
+    <div class="actions"><button type="button" class="btn btn-primary" id="data-export">Export my data</button><button type="button" class="btn btn-ghost" id="data-import">Import from a file</button><input type="file" id="data-file" accept="application/json,.json" hidden></div>
+    ${V.msg ? `<p class="hint" role="status">${esc(V.msg)}</p>` : ""}<p class="hint">Importing replaces what is on this device.</p></div>
+  <div class="v-card"><h2>Privacy and consent</h2><p class="hint">Your answers stay on this device. <a href="#" data-consent>Consent settings</a> controls photos and AI images, and optional lab upload.</p></div>`;
+}
+function dataExportObj() { return { app: "theosis-simulator-backup", v: 1, exported: new Date().toISOString(), state: S, foodlog: FL.load(), glucose: GLU.load(), checkins: CI.list, photo: photo || null }; }
+async function dataImport(file) {
+  try { const j = JSON.parse(await file.text()); if (!j || j.app !== "theosis-simulator-backup" || j.v !== 1 || !j.state || j.state.v !== 1) throw new Error("That isn't a Theosis simulator export file.");
+    S = merge(defaults(), j.state); HAD_SAVED = true; try { localStorage.setItem(CONFIG.STORAGE_KEY, JSON.stringify(S)); } catch (e) { /* ignore */ }
+    FL.save(FL.normalize(j.foodlog)); FLS = FL.load(); GLS = GLU.clean(j.glucose); GLU.save(GLS);
+    if (Array.isArray(j.checkins)) { await ciClearAll(); let n = 0; for (const c of j.checkins) { if (c && c.week >= 1 && typeof c.img === "string" && /^data:image\/(jpeg|png|webp);base64,/.test(c.img)) { await ciPut({ id: String(c.id || `ci-${Date.now()}-${n}`).slice(0, 40), week: Math.round(c.week), img: c.img, weightKg: c.weightKg > 0 ? +c.weightKg : null, bf: c.bf > 0 ? +c.bf : null, waistCm: c.waistCm > 0 ? +c.waistCm : null, added: +c.added || Date.now() }); n++; } } }
+    photo = typeof j.photo === "string" && /^data:image\/(jpeg|png|webp);base64,/.test(j.photo) ? j.photo : null; photoFit.reset(); aiState.result = null; aiState.day = null;
+    applyUiMode(); fillInputs(); compute(); renderPhoto(); renderSummary(); V.msg = "Imported. Your data from the file is now on this device."; renderViews(); try { renderAi(); } catch (e) { /* hidden step */ }
+  } catch (e) { V.msg = e.message || "That file couldn't be read."; renderViews(); }
+}
+function renderEntryViews() { const box = $("#entry-views"); if (!box) return; const has = HAD_SAVED || S.goal.touched || S.maxStep > 1;
+  box.innerHTML = [has ? `<button type="button" class="qc-card fl-entry" data-view="home"><span><b>Home dashboard</b><small>Your plan at a glance: goal-fit dial and top tips</small></span></button>` : "", glVisible() ? `<button type="button" class="qc-card fl-entry" data-view="glucose"><span><b>Glucose log</b><small>Log your own readings. Log only, no advice</small></span></button>` : "", `<button type="button" class="qc-card fl-entry" data-view="settings"><span><b>Settings</b><small>Glucose log option, move your data to another device</small></span></button>`].join(""); }
+document.addEventListener("click", (e) => {
+  const t = e.target.closest("[data-view],[data-v-sim],[data-gl-unit],[data-gl-tag],[data-gl-range],[data-gl-del],#gl-save,#gl-csv,#gl-pdf,#gl-clear,#gl-opt,#data-export,#data-import"); if (!t) return;
+  if (t.dataset.view) { e.preventDefault(); openView(t.dataset.view); return; }
+  if (t.dataset.vSim) { vLeave(); const s = +t.dataset.vSim, started = S.maxStep > 1 || S.goal.touched; go(s <= 1 ? (started ? Math.max(1, S.step) : 0) : Math.min(s, Math.max(1, S.maxStep))); return; }
+  if (!V.open) return;
+  if (t.dataset.glUnit) { GLS.unit = t.dataset.glUnit === "mmol" ? "mmol" : "mgdl"; GLU.save(GLS); V.g.val = ""; V.g.err = ""; renderViews(); return; }
+  if (t.dataset.glTag) { V.g.tag = V.g.tag === t.dataset.glTag ? "" : t.dataset.glTag; renderViews(); return; }
+  if (t.dataset.glRange) { V.g.range = +t.dataset.glRange; renderViews(); return; }
+  if (t.dataset.glDel) { GLS.items = GLS.items.filter((x) => x.id !== t.dataset.glDel); GLU.save(GLS); renderViews(); return; }
+  if (t.id === "gl-save") { glSave(); return; }
+  if (t.id === "gl-csv") { vDownload(`glucose-log-${vDt(new Date()).slice(0, 10)}.csv`, "text/csv", GLU.csv(GLS, GLS.unit)); return; }
+  if (t.id === "gl-pdf") { vDownload(`glucose-log-${vDt(new Date()).slice(0, 10)}.pdf`, "application/pdf", GLU.pdf(glPdfLines())); return; }
+  if (t.id === "gl-clear") { if (confirm("Delete all glucose readings from this device?")) { GLS = GLU.empty(); GLU.save(GLS); renderViews(); } return; }
+  if (t.id === "gl-opt") { S.glucoseOptIn = !S.glucoseOptIn; save(); renderViews(); return; }
+  if (t.id === "data-export") { vDownload(`theosis-simulator-data-${vDt(new Date()).slice(0, 10)}.json`, "application/json", JSON.stringify(dataExportObj())); V.msg = "Exported. Keep the file private: it contains your health inputs and photos."; renderViews(); return; }
+  if (t.id === "data-import") { $("#data-file").click(); return; }
+});
+document.addEventListener("input", (e) => { if (!V.open) return; const t = e.target; if (t.id === "gl-val") V.g.val = t.value; else if (t.id === "gl-note") V.g.note = t.value; else if (t.id === "gl-dt") V.g.dt = t.value; });
+document.addEventListener("change", (e) => { if (!V.open) return; const t = e.target; if (t.id === "gl-meal") { V.g.meal = t.value; renderViews(); } else if (t.id === "data-file") { const f = t.files[0]; t.value = ""; if (f) dataImport(f); } });
+renderEntryViews();
+{ const h = location.hash.slice(1); if (/^(home|glucose|settings)$/.test(h)) setTimeout(() => openView(h), 0); }
+window.addEventListener("hashchange", () => { const h = location.hash.slice(1); if (/^(home|glucose|settings)$/.test(h) && !(V.open && V.view === h)) openView(h); });
+window.BodyPlanViews = { open: openView, state: V, glucoseVisible: glVisible };
 // ---------- navigation ----------
 function renderProgress() {
   const ord = stepOrder(), hb = S.mode === "habits";
@@ -7858,7 +8059,8 @@ function renderNav() {
 }
 function go(step, focus = true) {
   if (fl.open) flLeave();
-  if (step === 0) { S.step = 0; $("#entry").hidden = false; $("#wizard").hidden = true; $("#mbar").hidden = true; document.body.classList.remove("has-mbar"); window.scrollTo(0, 0); save(); return; }
+  if (typeof vLeave === "function") vLeave();
+  if (step === 0) { if (typeof renderEntryViews === "function") renderEntryViews(); S.step = 0; $("#entry").hidden = false; $("#wizard").hidden = true; $("#mbar").hidden = true; document.body.classList.remove("has-mbar"); window.scrollTo(0, 0); save(); return; }
   if (step === 2 && !S.goal.touched && S.mode === "plan") { const a = E.analyze({ ...S.profile, bf: bfInfo().bf }); S.goal.type = a.category === "athletic" || a.category === "fit" ? "recomp" : "steady"; }
   if (step === 2) ensureTargets();
   // leaving the Eat step counts as "done adding foods"
