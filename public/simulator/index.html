@@ -927,7 +927,7 @@ input[type="checkbox"],input[type="radio"]{min-width:24px;min-height:24px}
 .pft-inside-dlg{width:min(1200px,calc(100% - 1rem));max-width:none}.pft-inside-dlg iframe{width:100%;height:min(78vh,900px);border:0;border-radius:10px;background:#000}
 
 /* ---------- v7.6 Food Log ---------- */
-.fl-entry{width:100%;max-width:48rem;font:inherit;text-align:left;cursor:pointer;border:0;margin-top:1rem;background:linear-gradient(135deg,rgba(42,122,224,.20),rgba(42,122,224,.06))}
+.fl-entry{width:100%;max-width:48rem;font:inherit;text-align:left;cursor:pointer;border:0;margin-top:1rem;background:linear-gradient(135deg,rgba(42,122,224,.18),rgba(231,163,75,.10))}
 .qc-landing.fl-entry + .qc-landing{margin-top:.7rem}
 .fl-nav{margin-left:auto;min-height:44px}
 .flog{max-width:46rem;margin:0 auto;padding:1rem 1rem 6rem}
@@ -1230,6 +1230,52 @@ body.has-ask{padding-bottom:4.75rem}
 .hab-wk-out{margin-top:.5rem}
 .hab-week{margin-top:.5rem}
 
+/* v7.6.24 mockup: Habits direction gauge */
+.gauge{margin-top:.85rem;padding:.8rem .9rem;border:1px solid var(--border);border-radius:var(--r-md);background:var(--surface-solid)}
+.gauge-h{margin:.1rem 0 .6rem;font-size:1rem}
+.gauge-wrap{--gc:#e3b14f;max-width:270px;margin:0 auto;padding:10px 14px 2px;border:1px solid rgba(150,200,230,.2);border-radius:14px;background:radial-gradient(120% 90% at 50% 100%,rgba(40,90,130,.22),transparent 65%),linear-gradient(180deg,rgba(10,20,32,.85),rgba(3,8,14,.95));box-shadow:inset 0 1px 0 rgba(255,255,255,.07),inset 0 0 22px rgba(0,0,0,.55),0 0 0 1px rgba(0,0,0,.4);backdrop-filter:blur(6px)}
+.gauge[data-level=against] .gauge-wrap{--gc:#ff7a66}.gauge[data-level=supportive] .gauge-wrap{--gc:#4fe39a}
+.gauge-dial{display:block;width:100%;height:auto;overflow:visible}
+.gauge-dial .ring{fill:none;stroke:rgba(150,200,230,.16);stroke-width:.5}.gauge-dial .ring.in{stroke:rgba(150,200,230,.12)}.gauge-dial .ring.in2{stroke:rgba(150,200,230,.07);stroke-dasharray:1 2}
+.sg{fill:none;stroke-width:3.2;stroke-linecap:butt;opacity:.42;transition:opacity .4s,filter .4s}
+.sg.against{stroke:#ff7a66}.sg.mixed{stroke:#e3b14f}.sg.supportive{stroke:#4fe39a}
+.gauge[data-level=against] .sg.against,.gauge[data-level=mixed] .sg.mixed,.gauge[data-level=supportive] .sg.supportive{opacity:.95;filter:drop-shadow(0 0 2px currentColor)}
+.gauge[data-level=against] .sg.against{color:#ff7a66}.gauge[data-level=mixed] .sg.mixed{color:#e3b14f}.gauge[data-level=supportive] .sg.supportive{color:#4fe39a}
+.gt{stroke:rgba(200,225,245,.3);stroke-width:.4}.gt.maj{stroke:rgba(225,240,255,.7);stroke-width:.7}
+.gneedle{transform-origin:80px 80px;transition:transform .8s cubic-bezier(.22,1.1,.36,1);filter:drop-shadow(0 0 2.5px var(--gc))}
+.gneedle .gn-body{fill:var(--gc);stroke:none}.gneedle .gn-tail{fill:rgba(220,235,250,.55)}
+.gn-cap{fill:#08121c;stroke:rgba(210,230,248,.85);stroke-width:.8}.gn-cap2{fill:var(--gc)}
+@media(prefers-reduced-motion:reduce){.gneedle,.sg{transition:none}}
+.gauge-ends{display:flex;justify-content:space-between;gap:.3rem;margin:.4rem auto 0;max-width:300px;font:600 .62rem/1.2 ui-monospace,"SFMono-Regular",Menlo,Consolas,monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);text-align:center}.gauge-ends span{flex:1}
+.gauge-why{list-style:none;margin:.7rem 0 .4rem;padding:0;display:grid;gap:.45rem}
+.gauge-why li{display:flex;gap:.5rem;font-size:.82rem;line-height:1.35;overflow-wrap:anywhere}
+.gauge-why .gm{flex:none;width:1rem;text-align:center}.gauge-why .up .gm{color:#3f8f6b}.gauge-why .dn .gm{color:#c2573f}.gauge-why .mid .gm{color:#b48a2c}
+.gauge-why small{display:block;color:var(--muted);font-size:.7rem}
+
+/* v7.6.27: recommendations under the goal-fit dial */
+.gauge-recs{margin:.8rem 0 .4rem;padding-top:.65rem;border-top:1px solid var(--border)}
+.gauge-recs-h{margin:0 0 .45rem;font:600 .68rem/1.2 ui-monospace,"SFMono-Regular",Menlo,Consolas,monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.gauge-recs-none{margin:.2rem 0;font-size:.85rem}
+.gauge-tips{margin:.3rem 0 .5rem}.gauge-tips .gm{color:#5fb3e3}
+.gauge-more{margin:.1rem 0 .5rem}
+.gauge-recs .hint{margin:.4rem 0 0}
+
+/* v7.6.33: breastfeeding and cancer-treatment mode */
+.sp-q{margin-top:.9rem;padding:.7rem .8rem;border-radius:var(--r-md);box-shadow:0 0 0 1px var(--hairline);background:rgba(8,13,20,.4)}
+.sp-q .label{display:block;margin-bottom:.4rem}
+.sp-line{margin-top:.6rem;padding:.5rem .65rem;border-radius:var(--r-sm);background:rgba(92,156,240,.1);font-size:.85rem;line-height:1.45}.sp-line small{display:block;color:var(--muted);margin-top:.2rem;font-size:.74rem}
+.sp-card h2{margin-bottom:.4rem}.sp-h3{margin:1.1rem 0 .4rem;font-size:1rem}.sp-ex{font-size:.65rem;font-weight:400;color:var(--muted);border:1px dashed var(--border-strong);border-radius:6px;padding:.05rem .35rem;margin-left:.3rem;vertical-align:middle}
+.sp-src{color:var(--muted);font-size:.72rem}
+.sp-eq{display:flex;flex-wrap:wrap;gap:.4rem;align-items:baseline;font-family:var(--font-display);font-size:1.4rem}.sp-eq small{font-family:var(--font-sans);font-size:.72rem;color:var(--muted)}.sp-add{color:var(--accent-ink)}
+.sp-note{margin:.6rem 0;padding:.65rem .8rem;border-radius:var(--r-md);box-shadow:inset 0 0 0 1px var(--border-strong);background:rgba(242,193,78,.06);font-size:.88rem}.sp-note ul{margin:.3rem 0 0 1rem}
+.sp-day{display:grid;gap:.5rem;grid-template-columns:repeat(auto-fit,minmax(11rem,1fr));margin:.5rem 0}
+.sp-meal{padding:.6rem .7rem;border-radius:var(--r-sm);background:rgba(8,13,20,.5);box-shadow:0 0 0 1px var(--hairline);font-size:.85rem;display:grid;gap:.25rem;align-content:start}.sp-meal b{font-family:var(--font-display);font-size:.95rem}.sp-meal i{font-style:normal;font-size:.72rem;color:var(--accent-ink)}
+.sp-boxes{display:grid;gap:.6rem;grid-template-columns:repeat(auto-fit,minmax(15rem,1fr));margin-top:.6rem}
+.sp-box,.sp-ev>div,.sp-watch{padding:.65rem .8rem;border-radius:var(--r-sm);box-shadow:0 0 0 1px var(--border-strong);background:rgba(8,13,20,.4);font-size:.86rem}.sp-box p{margin-top:.35rem}
+.sp-big{font-family:var(--font-display);font-size:1.15rem;margin:.3rem 0;color:var(--accent-ink)}
+.sp-ev{display:grid;gap:.6rem}.sp-ev ul{margin:.35rem 0 0;padding-left:1rem;display:grid;gap:.35rem}
+.sp-btns{display:flex;gap:.4rem;flex-wrap:wrap;margin-top:.5rem}
+
 </style>
 </head>
 <body>
@@ -1301,6 +1347,31 @@ body.has-ask{padding-bottom:4.75rem}
                 <label><input type="radio" name="profile.sex" value="m"><span>Male</span></label>
                 <label><input type="radio" name="profile.sex" value="f"><span>Female</span></label>
               </fieldset>
+              <div class="sp-q bf-q" id="bf-block" hidden>
+                <p class="label" id="bf-lbl">Are you currently breastfeeding? <span class="muted">(optional)</span></p>
+                <fieldset class="seg seg-wrap" aria-labelledby="bf-lbl"><legend class="sr-only">Breastfeeding</legend>
+                  <label><input type="radio" name="profile.health.bf" value="none"><span>No</span></label>
+                  <label><input type="radio" name="profile.health.bf" value="partly"><span>Partly</span></label>
+                  <label><input type="radio" name="profile.health.bf" value="exclusive"><span>Exclusively</span></label>
+                </fieldset>
+                <div id="bf-more" hidden>
+                  <label class="field" style="max-width:14rem;margin-top:.6rem"><span class="label">Months since birth</span>
+                    <span class="control"><select data-sel="profile.health.bfMonths" aria-label="Months since birth"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">More than 12</option></select></span></label>
+                  <label class="check" style="margin-top:.5rem"><input type="checkbox" data-check="profile.health.bfPump"><span>I'm pumping only (not nursing at the breast)</span></label>
+                  <label class="check" style="margin-top:.35rem"><input type="checkbox" data-check="profile.health.bfMulti"><span>I'm feeding twins or more</span></label>
+                </div>
+                <div class="sp-line" id="bf-line" role="status" hidden></div>
+              </div>
+              <div class="sp-q ca-q" id="ca-block">
+                <p class="label" id="ca-lbl">Are you in cancer treatment or recovering from it? <span class="muted">(optional, private, stays on this device)</span></p>
+                <fieldset class="seg seg-wrap" aria-labelledby="ca-lbl"><legend class="sr-only">Cancer treatment</legend>
+                  <label><input type="radio" name="profile.health.cancer" value="no"><span>No</span></label>
+                  <label><input type="radio" name="profile.health.cancer" value="tx"><span>In treatment</span></label>
+                  <label><input type="radio" name="profile.health.cancer" value="rec"><span>Recovering</span></label>
+                  <label><input type="radio" name="profile.health.cancer" value="skip"><span>Prefer not to say</span></label>
+                </fieldset>
+                <div class="sp-line" id="ca-line" role="status" hidden></div>
+              </div>
               <div class="row">
                 <label class="field" data-field="age"><span class="label">Age</span>
                   <span class="control"><input data-f="age" inputmode="numeric" autocomplete="off"><span class="unit">yr</span></span><span class="err"></span></label>
@@ -1403,7 +1474,7 @@ body.has-ask{padding-bottom:4.75rem}
               </div>
               <p class="hint">Waist goes under Basics. Measure midway between your lowest rib and the top of your hip bone, after a normal breath out, with the tape level.</p>
                 <div id="health-out" aria-live="polite"></div>
-                <label class="check"><input type="checkbox" data-check="profile.health.pregnant"><span>I'm pregnant or breastfeeding</span></label>
+                <label class="check"><input type="checkbox" data-check="profile.health.pregnant"><span>I'm pregnant</span></label>
                 <label class="check"><input type="checkbox" data-check="profile.health.edHistory"><span>I have a history of an eating disorder</span></label>
                 <details class="evidence"><summary>What these measurements can tell you</summary>
                   <p>A1c reflects your average glucose over about three months. It isn't an insulin-resistance score. A result in the diabetes range usually needs confirmation. Anemia, some hemoglobin variants, pregnancy and certain other conditions can make A1c less reliable. A treated A1c below 5.7% doesn't remove a previous diabetes diagnosis.</p>
@@ -1651,6 +1722,7 @@ body.has-ask{padding-bottom:4.75rem}
             <section class="target-card" id="rec-card" aria-live="polite"></section>
           </div>
           <div class="card med-card" id="med-card" hidden></div>
+          <div id="special-cards" aria-live="polite"></div>
           <div class="card">
             <button type="button" class="switch" id="actual-toggle" role="switch" aria-checked="false" aria-controls="actual-fields"><span class="track"><span class="thumb"></span></span><span><b>Simulate what I actually eat</b><small>Project your real intake instead of the recommendation</small></span></button>
             <div id="actual-fields" class="stack mt1" hidden>
@@ -1877,7 +1949,7 @@ body.has-ask{padding-bottom:4.75rem}
         <p><strong>Where you carry it.</strong> Your answers set a score from "mostly under the skin" (pinchable, hyperplastic: hips, thighs, arms, flanks, a lower-belly apron; little fat around the organs) to "mostly around the organs" (metabolic: a firm, round belly with more visceral and liver fat). It's nudged by type 2 diabetes, prediabetes or an HbA1c of 5.7% or more and by fatty liver, all tied to visceral and liver fat (Taylor &amp; Holman 2015; Neeland 2012; Fabbrini 2010). A waist large for your height and BMI is a central-fat marker (Ashwell 2012). Age (Kuk 2009) and menopause (Lovejoy 2008) also count, and so do your own description and, when there's no description, your photo's shape. Ancestry is optional and gives small, evidence-based nudges only. On average, South Asian and East/Southeast Asian adults carry more visceral fat at the same BMI (Lear 2007; Raji 2001; Wulan 2010), which is why the ADA recommends diabetes screening from BMI 23 for Asian Americans and why equivalent-risk BMIs are lower (Ntuk 2014). Hispanic/Latino adults have more liver fat on average (Browning 2004). Black/African-ancestry adults have less visceral and more subcutaneous fat at the same waist (Carroll 2008; Katzmarzyk 2010). Fat is split into visceral, belly-subcutaneous, hip-and-thigh, arm/chest/back and other depots. Men carry about twice the visceral share of women at the same fat mass, and the visceral share eases at very high fat mass.</p>
         <p><strong>Progress photos (v6.3).</strong> Check-in photos you add under <em>See it on your photo</em> are tagged with the week you're at. The newest one restarts the rest of the projection from your entered weight and body fat (or from the plan's values for that week if you leave them blank), with the same goal, food and training, and any deadline or time window shortened by the weeks already done. Photos are shrunk and kept only in this browser (IndexedDB) until you remove them; export and import use a JSON file you control.</p>
         <p><strong>Where you gain it first (v6.3).</strong> For gain goals (lean gain, build muscle, a higher target weight) the regional section shows where things go on instead. New lean mass (mostly muscle) goes where you train; with full-body lifting it is split by where skeletal muscle sits, about 55% legs and glutes and 45% upper body for men (60/40 for women; Janssen 2000), an estimate. Fat that comes with a gain follows the same power-law pattern in reverse, so it returns first to your usual storage areas: the belly and around the organs for most men, the hips and thighs for women before menopause and the belly after (Karpe &amp; Pinnick 2015; Lovejoy 2008). Recomposition shows fat coming off and muscle going on together.</p>
-        <p><strong>Where you lose it first.</strong> Each depot follows a power law of the engine's total fat mass (after Hallgreen &amp; Hall 2008), so the before, week-N and goal figures all come from the same trajectory. Visceral fat falls about 1.6–1.7× faster than total fat early on, and the gap narrows with larger losses (Chaston &amp; Dixon 2008). In kilograms, most of the fat lost still comes from under the skin (Merlotti 2017). Hip and thigh fat is the most stubborn, especially in women (Karpe &amp; Pinnick 2015). Liver fat falls fastest (Lim 2011) and is only drawn, not reported as a number. All of these are population-average estimates, not measurements. DEXA or MRI can measure them.</p>
+        <p><strong>Where you lose it first.</strong> Each depot follows a power law of the engine's total fat mass (after Hallgreen &amp; Hall 2008), so the before, week-N and goal figures all come from the same trajectory. Visceral fat falls about 1.2–1.3× faster than total fat early on (power-law exponent about 1.3 from Hallgreen &amp; Hall 2008), and the gap narrows with larger losses (Chaston &amp; Dixon 2008). In kilograms, most of the fat lost still comes from under the skin (Merlotti 2017). Hip and thigh fat is the most stubborn, especially in women (Karpe &amp; Pinnick 2015). Liver fat falls fastest (Lim 2011) and is only drawn, not reported as a number. All of these are population-average estimates, not measurements. DEXA or MRI can measure them.</p>
         <p><strong>Fat pattern: medical facts first (v5).</strong> The "where you carry it" score blends signals, with medical facts weighted more than self-report. Type 2 diabetes or an A1c of 6.5% or more pushes strongly toward fat around the organs (+0.8); prediabetes or an A1c of 5.7–6.4% moderately (+0.4); fatty liver +0.4. High body fat or BMI with a normal A1c and no diabetes points to mostly under-the-skin fat (−0.35, or −0.5 at BMI 35+ / body fat 35%+ men, 43%+ women). Waist-to-height ratio adds its own term, and 0.6 or more (a waist over 60% of your height) adds +0.25 toward organ fat (NICE NG246). Your own answers and a photo still count, at 0.6× when medical facts are present. The one-line "why" names the strongest reason.</p>
         <p><strong>Cardio types (v5).</strong> Burn = net MET × body weight (kg) × hours, where net MET is the 2011 Compendium value minus 1 (the resting part is already in your daily burn). Easy / moderate / hard: walking 2.8 / 3.5 / 5.0; incline walking 5.3 / 6.5 / 8.0 (moderate interpolated); cycling 4.8 / 6.8 / 8.8; running 8.3 / 9.8 / 11.0; rowing 4.8 / 7.0 / 8.5; swimming 5.8 / 8.3 / 9.8; HIIT 4.3 / 8.0 / 9.0; sports 4.0 / 6.0 / 8.0. In Advanced, cardio can be entered by average heart rate (Keytel 2005), by pace (ACSM walking and running equations) or as watch calories, which are used as given (watches often overestimate).</p>
         <p><strong>Advanced mode (v5).</strong> Lifting style, hard sets per week (default 10) and how close sets go to failure scale the muscle-gain rate modestly (0.5–1.2×: more weekly sets build more muscle, with diminishing returns past about 10; Schoenfeld 2017; Pelland 2026. Training closer to failure helps a little; Refalo 2023; Robinson 2024) and the lifting burn. A measured resting burn or total burn calibrates day 0 (the model keeps its adaptation from there). DEXA body fat replaces the estimate. Manual macros as % split the day's target; as grams they become what you eat. Refeed days set intake to maintenance on the last 1–2 days of each week of a fat-loss plan, which slows it honestly (Byrne 2018).</p>
@@ -2021,8 +2093,32 @@ const TAU = RHO_F / K_KG;                // ~135 days (Alpert's response time)
 const K_UNC = (25 / 4.184 / LB) / K_LB;  // ±25 kJ -> ±8.6 % of k
 const RHO_L_LOSS = 1800;                 // kcal per kg lean tissue lost (Hall 2008)
 const RHO_L_GAIN = 2500;                 // kcal per kg lean gained incl. synthesis cost (estimate, Slater 2019)
+/* v7.6.33: breastfeeding and cancer-treatment helpers. Lactation increments are the NAM 2023 net values (+404 kcal/day exclusive, months 0-6; +380 kcal/day, months 7-12).
+   NAM states them as net of an assumed slow weight loss (about 0.64 kg a month in months 0-6), so the result is an "estimated needs" figure, not strictly weight-stable.
+   No published increment exists for partial breastfeeding in months 0-6 (380 is the closest published figure, flagged) or for anything past 12 months (nothing is added, flagged). */
+function lactInfo(h, age) {
+  const o = { on: false, k: 0, mode: "none", months: null, flags: [], clinician: [], src: "" };
+  if (!h || !(h.bf === "partly" || h.bf === "exclusive")) return o;
+  const m = h.bfMonths == null || h.bfMonths === "" ? 3 : +h.bfMonths, ex = h.bf === "exclusive";
+  o.on = true; o.mode = h.bf; o.months = m;
+  if (m > 12) { o.k = 0; o.flags.push("past12"); o.src = "No published increment exists past 12 months, so nothing is added."; }
+  else if (ex && m <= 6) { o.k = 404; o.src = "NAM 2023: +404 kcal/day, exclusive breastfeeding, months 0–6."; }
+  else if (m >= 7) { o.k = 380; o.src = "NAM 2023: +380 kcal/day, breastfeeding in months 7–12."; }
+  else { o.k = 380; o.flags.push("partial06"); o.src = "NAM 2023 publishes +380 only for months 7–12. No figure exists for partial breastfeeding in months 0–6, so 380 is the closest published number."; }
+  if (h.bfPump) o.clinician.push("You said you're pumping only. The published increments weren't derived for exclusive pumping, so your needs may differ.");
+  if (h.bfMulti) o.clinician.push("You said you're feeding twins or more. The published increments are for one infant, so your needs are likely higher.");
+  if (age != null && age < 19) o.clinician.push("You're under 19. The published increments were set for adult women, and teens are still growing.");
+  if (o.flags.includes("partial06")) o.clinician.push("Partial breastfeeding in months 0–6 has no published energy figure.");
+  if (o.flags.includes("past12")) o.clinician.push("Past 12 months there is no published energy figure, so none is added.");
+  return o;
+}
+const lactKcal = (h, age) => lactInfo(h, age).k;
+const cancerOn = (h) => !!(h && (h.cancer === "tx" || h.cancer === "rec"));
+/* A profile "holds" (no fat-loss or gain goal) in pregnancy, while breastfeeding, and in cancer-treatment mode. */
+const holdsGoal = (h) => !!(h && (h.pregnant || lactInfo(h).on || cancerOn(h)));
 const FLOOR = { m: 1500, f: 1200 };      // NHLBI 1998 practical minimums without supervision
 const ESSENTIAL = { m: 5, f: 12 };       // hard minimum body fat %
+const floorOf = (p) => FLOOR[p.sex] + (p.sex === "f" ? lactKcal(p.health, p.age) : 0);   // breastfeeding raises the floor by the increment
 const VERY_LEAN = { m: 8, f: 18 };       // warning floor; fixed-intake projections stop here (see STOP)
 const BMI_STOP = 18.5;                   // fixed-intake projections stop below this BMI
 const LEAN_STOP = 0.80;                  // ...or below 80% of starting lean mass
@@ -2277,8 +2373,8 @@ function activity(p, move, fatKg, leanKg, eq) {
   let cardio;
   if (move.plannerOn && Array.isArray(move.planner)) { const cw = cardioWeek(move, p, w); cardio = t.cardioMin / 60 * cw.avgNet * w / 7; }   // planner minutes at your cardio mix
   else cardio = cardioWeek(move, p, w).kcalWeek / 7;
-  const K = cal && cal.tdeeK ? cal.tdeeK : 1, tdee = (b + living + steps + lift + cardio) * K;
-  return { bmr: b * K, living: living * K, steps: steps * K, lift: lift * K, cardio: cardio * K, tdee, multiplier: tdee / (b * K), training: t, calibrated: !!(cal && (cal.bmrK || cal.tdeeK)) };
+  const K = cal && cal.tdeeK ? cal.tdeeK : 1, lact = p.sex === "f" ? lactKcal(p.health, p.age) : 0, tdee = (b + living + steps + lift + cardio) * K + lact;   // v7.6.33: breastfeeding increment (NAM 2023)
+  return { bmr: b * K, living: living * K, steps: steps * K, lift: lift * K, cardio: cardio * K, lact, tdee, multiplier: tdee / (b * K), training: t, calibrated: !!(cal && (cal.bmrK || cal.tdeeK)) };
 }
 /** v5 Advanced: factors that make day 0 match a measured RMR (scales BMR) and/or a measured TDEE (scales the total). They then
     carry forward as weight changes, so the model keeps its shape but starts from your numbers. */
@@ -2311,6 +2407,8 @@ const PROTEIN_PER_KG = { maxloss: 2.2, steady: 2.0, targetBf: 2.0, targetWeight:
 function highBodyFat(p) { const h = p.heightCm / 100; return p.weightKg / (h * h) >= 30 || p.bf > (p.sex === "m" ? 30 : 40); }
 function proteinPlan(inp, a0, dir) {
   const p = inp.profile, g = inp.goal, lifting = weeklyTraining(inp.move).liftSessions > 0;
+  // v7.6.33 cancer-treatment mode: ESPEN 2021 B2-2, protein above 1 g/kg/day and up to 1.5 g/kg/day if possible. The macro target uses the top of that range, on current body weight.
+  if (cancerOn(p.health)) return { ref: { kg: p.weightKg, basis: "current weight" }, protein: { g: Math.round(1.5 * p.weightKg / 5) * 5, perKg: 1.5 } };
   const perKg = lifting || dir === "gain" ? 2.2 : (PROTEIN_PER_KG[g.baseType || g.type] || 1.8);
   let ref;
   if (highBodyFat(p)) {
@@ -2604,7 +2702,7 @@ function deficitFor(inp, pace, tdee, F, L, k, day) {
   const p = inp.profile, g = inp.goal, dir = goalDirection(inp);
   const ceilEnd = k * F * Math.exp(-7 * k / RHO_F);
   let def = 0;
-  if (p.health && p.health.pregnant) def = 0;
+  if (holdsGoal(p.health)) def = 0;
   else if (g.type === "maxloss") def = ceilEnd;
   else if (g.type === "steady") def = Math.min(0.6 * ceilEnd, 0.25 * tdee);
   else if (g.type === "recomp") def = Math.min(0.10 * tdee, 0.3 * ceilEnd);
@@ -2614,13 +2712,13 @@ function deficitFor(inp, pace, tdee, F, L, k, day) {
     const n = Math.max(0, (g.target + 0.15 - F - L) / Math.max(3, g.dateDay - (day || 0))), P = leanPotentialPerDay(p, inp.move, day || 0, "high", L), ln = Math.min(P, n);
     def = -Math.min(2500, ln * RHO_L_GAIN + (n - ln) * RHO_F);
   }
-  else if (dir === "gain") def = p.health && p.health.pregnant ? 0 : -surplusFor(p, inp.move, F, L, day, g.type === "bulk" ? "max" : g.gainMode);
+  else if (dir === "gain") def = holdsGoal(p.health) ? 0 : -surplusFor(p, inp.move, F, L, day, g.type === "bulk" ? "max" : g.gainMode);
   return def;
 }
 function recommendIntake(inp, pace, tdee, F, L, k, day) {
   const p = inp.profile, g = inp.goal, dir = goalDirection(inp);
   const def = deficitFor(inp, pace, tdee, F, L, k, day);
-  const floor = FLOOR[p.sex];
+  const floor = floorOf(p);
   let intake = tdee - def, floorBinds = false, noRoom = false;
   if (def > 0 && intake < floor) { if (tdee <= floor) { intake = tdee; noRoom = true; } else { intake = floor; floorBinds = true; } }
   intake = def > 0 ? Math.ceil(intake / 10) * 10 : dir === "gain" && (g.type === "bulk" || g.gainMode === "hold" || g.gainMode === "date") ? Math.round(intake) : Math.round(intake / 10) * 10;
@@ -2932,7 +3030,10 @@ function warningsFor(R) {
   const W = [], p = R.inp.profile, rows = R.main.rows, end = rows[rows.length - 1], start = rows[0];
   const h = p.health || {};
   const lbs = (kg) => (kg * LB).toFixed(1);
-  if (h.pregnant) W.push({ t: "danger", consult: true, m: "Pregnancy and breastfeeding need extra energy, so this plan holds you at maintenance. Please plan any changes with your clinician." });
+  const LI = lactInfo(h, p.age);
+  if (h.pregnant) W.push({ t: "danger", consult: true, m: "Pregnancy needs extra energy, so this plan holds you at maintenance. Please plan any changes with your clinician." });
+  if (LI.on) W.push({ t: "info", kind: "lact", consult: LI.clinician.length > 0, m: `While you're breastfeeding, your estimated needs include an extra ${LI.k.toLocaleString("en-US")} kcal a day (${LI.src}) and the app doesn't set a fat-loss target. These are estimates, and the published increment assumes a slow weight loss, so use your own weight trend as the check. If you'd like to change your weight while breastfeeding, plan it with a clinician who knows you and your baby. Education only, not medical advice.${LI.clinician.length ? " Worth raising with your clinician: " + LI.clinician.join(" ") : ""}` });
+  if (cancerOn(h)) W.push({ t: "info", kind: "cancer", consult: true, m: "Cancer-treatment mode: the goal is to maintain weight and muscle, so fat-loss goals, deficits and step or cardio targets are turned off. Needs differ person to person; talk to your care team or an oncology dietitian before changing how you eat or exercise. Education only, not medical advice." });
   const d0 = (R.main.rows[0].tdee - R.main.rows[0].intake), lowCarb = R.inp.food.style === "lowcarb" || !!R.psmf;
   R.medCard = R.health.medCheck && (d0 >= 250 || lowCarb);
   if (R.health.medCheck && (h.meds === "yes" || h.meds === "unsure" || h.glucoseMeds)) W.push({ t: "info", kind: "meds-ack", consult: true, m: "You told us you take " + (h.meds === "unsure" ? "(or aren't sure whether you take) " : "") + "medication for blood pressure or blood sugar. Lowering calories is often what helps in situations like yours, but with these medicines it has to be done more carefully, because doses may need to change as weight comes down. Talk with your prescriber before and during your plan. This tool is education only and can't adjust any medicine." });
@@ -2949,7 +3050,7 @@ function warningsFor(R) {
     if (h.diabetes === "t1" || h.edHistory) W.push({ t: "danger", consult: true, m: "With type 1 diabetes or a history of disordered eating, PSMF isn't appropriate without your specialist team." });
     if (R.horizon > 12 * 7) W.push({ t: "info", m: "PSMF phases usually last 6–12 weeks. This projection runs it longer only for comparison. Plan the transition with your clinician." });
   } else if (R.actual && fixed < 800) W.push({ t: "danger", consult: true, m: "Under 800 kcal a day is a very-low-calorie diet. It needs medical supervision and lab monitoring." });
-  else if (R.actual && fixed < FLOOR[p.sex]) W.push({ t: "warn", consult: true, m: `${fixed.toLocaleString("en-US")} kcal is below the usual unsupervised minimum of ${FLOOR[p.sex].toLocaleString("en-US")} kcal for ${p.sex === "m" ? "men" : "women"}.` });
+  else if (R.actual && fixed < floorOf(p)) W.push({ t: "warn", consult: true, m: `${fixed.toLocaleString("en-US")} kcal is below the usual unsupervised minimum of ${floorOf(p).toLocaleString("en-US")} kcal for ${p.sex === "m" ? "men" : "women"}. A plan this low starts to resemble a protein-sparing modified fast (PSMF), a very low calorie approach in the research literature that is run with clinician oversight and that includes electrolytes, fluids and vitamins and minerals. Eating this little is associated with a higher risk of losing lean mass, and possible nutrient and electrolyte gaps, even when protein is kept high. If you stay near this level, a higher protein intake is the usual way to limit that loss, and a clinician can help you decide what fits you. This is education, not medical advice.` });
   if (R.main.capWeeks > 0) W.push({ t: "warn", consult: true, kind: "overcap", m: `You can go at most 400 kcal a day below the most your fat can fuel. Your intake is below that on ${R.main.capWeeks} week${R.main.capWeeks > 1 ? "s" : ""}, so the projection raises it to that limit. The extra 400 kcal is beyond what fat can fuel and is drawn from liver glycogen and protein in this model.` });
   if (R.main.overDays > 0) {
     const of = overFuel(R.main.overKcal), leanLoss = of.conservativeLeanKg;
@@ -2961,7 +3062,7 @@ function warningsFor(R) {
     W.push({ t: "warn", consult: true, m: `The projection stops at week ${(R.main.stopped.day / 7).toFixed(1)} because ${why}. It doesn't extrapolate past that point: keeping this intake longer would cost muscle and health.` });
   }
   if (R.dir === "loss" && R.main.adaptEnd > 40) W.push({ t: "info", m: `By the end, you burn about ${Math.round(R.main.adaptEnd / 10) * 10} kcal a day less than your size alone predicts (metabolic adaptation). The projection includes it, which is one reason progress slows over time.` });
-  if (R.main.floorWeeks > 0) W.push({ t: "info", m: `Your ${FLOOR[p.sex].toLocaleString("en-US")} kcal minimum caps the deficit in ${R.main.floorWeeks} week${R.main.floorWeeks > 1 ? "s" : ""}, so progress is a little slower than the fat ceiling alone would allow.` });
+  if (R.main.floorWeeks > 0) W.push({ t: "info", m: `Your ${floorOf(p).toLocaleString("en-US")} kcal minimum caps the deficit in ${R.main.floorWeeks} week${R.main.floorWeeks > 1 ? "s" : ""}, so progress is a little slower than the fat ceiling alone would allow.` });
   if (R.main.noRoom) W.push({ t: "warn", consult: true, m: "Your estimated burn is at or below the safe minimum intake, so there's no room for a diet-only deficit. Adding steps or training creates room. A supervised plan is another option." });
   if (R.main.capped) W.push({ t: "warn", m: `Fat loss stops at essential fat (${ESSENTIAL[p.sex]}%). Past that point there's no safe fat left to lose, so the plan holds at maintenance.` });
   if (end.bf < VERY_LEAN[p.sex] && R.dir === "loss") W.push({ t: "warn", m: `${end.bf.toFixed(1)}% body fat is stage-lean. It's hard to hold and can affect hormones, sleep and mood. Plan a maintenance phase.` });
@@ -3011,14 +3112,15 @@ function nextStepsFor(R) {
   const add = (cond, title, body) => { if (cond && S.length < 3) S.push({ title, body }); };
   const ceil0 = Math.round(first.ceiling);
   if (R.actual) {
-    const minEat = Math.max(FLOOR[p.sex], Math.ceil((first.tdee - first.ceiling) / 10) * 10);
-    add(R.main.overDays > 0 || R.inp.food.actualKcal < FLOOR[p.sex], `Eat at least ${minEat.toLocaleString("en-US")} kcal a day`, `Right now your fat can cover about ${ceil0.toLocaleString("en-US")} kcal a day. A bigger gap than that comes out of muscle.`);
+    const minEat = Math.max(floorOf(p), Math.ceil((first.tdee - first.ceiling) / 10) * 10);
+    add(R.main.overDays > 0 || R.inp.food.actualKcal < floorOf(p), `Eat at least ${minEat.toLocaleString("en-US")} kcal a day`, `Right now your fat can cover about ${ceil0.toLocaleString("en-US")} kcal a day. A bigger gap than that comes out of muscle.`);
   }
-  add(tr.liftSessions === 0 && (R.inp.move || {}).noLift && !(p.health && p.health.pregnant) && R.dir !== "gain", "Keep protein high, since you're not lifting", "Without lifting, protein and a moderate deficit are your main protection for muscle. Walking and everyday activity help too. Strength work is optional, and two short sessions a week would add real protection if you ever want it.");
-  add(tr.liftSessions === 0 && !(R.inp.move || {}).noLift && !(p.health && p.health.pregnant), "Add 2–3 strength sessions a week", "Full-body basics (a squat, a push, a pull, a hinge) for 2–3 sets each. This is what tells your body to keep muscle, or build it.");
+  add(tr.liftSessions === 0 && (R.inp.move || {}).noLift && !holdsGoal(p.health) && R.dir !== "gain", "Keep protein high, since you're not lifting", "Without lifting, protein and a moderate deficit are your main protection for muscle. Walking and everyday activity help too. Strength work is optional, and two short sessions a week would add real protection if you ever want it.");
+  add(tr.liftSessions === 0 && !(R.inp.move || {}).noLift && !holdsGoal(p.health), "Add 2–3 strength sessions a week", "Full-body basics (a squat, a push, a pull, a hinge) for 2–3 sets each. This is what tells your body to keep muscle, or build it.");
   add(true, `Hit about ${R.protein.g} g of protein a day`, `That's ${R.protein.perKg} g per kg${R.protein.perKg === 2.2 ? " (1 g per lb)" : ""} of ${R.ref.basis}. Spread it over 3–4 meals (about 0.4 g/kg each), with protein at each one.`);
-  add((R.inp.move.steps || 0) < 7000 && !R.inp.move.plannerOn, "Build up to 8,000 steps a day", "Add 1,000 steps a week. It's the easiest extra burn and helps appetite and blood sugar.");
-  add(R.main.floorWeeks > 0, "Move a little more instead of eating less", "Your intake is already at the safe minimum. Extra steps or two cardio sessions a week speed things up without cutting food.");
+  const holdG = holdsGoal(p.health);
+  add(!holdG && (R.inp.move.steps || 0) < 7000 && !R.inp.move.plannerOn, "Build up to 8,000 steps a day", "Add 1,000 steps a week. It's the easiest extra burn and helps appetite and blood sugar.");
+  add(!holdG && R.main.floorWeeks > 0, "Move a little more instead of eating less", "Your intake is already at the safe minimum. Extra steps or two cardio sessions a week speed things up without cutting food.");
   add(R.horizon > 16 * 7 && !(R.inp.food.dietBreakEvery > 0) && R.dir === "loss", "Plan a maintenance week every 8–12 weeks", "Short breaks at maintenance calories help adherence and training quality on long plans.");
   add(R.inp.goal.type === "bulk", "Gain about 0.25–0.5% of your body weight a week", "Newer lifters can sit near the top of that range. Check your waist every two weeks; if it climbs faster than your weight, trim 100–150 kcal.");
   add(R.inp.goal.type === "bulk", "Plan a short cut afterwards", "A muscle-building phase adds some fat. Many lifters follow 3–6 months of building with 4–8 weeks of fat loss to show the new muscle.");
@@ -3030,7 +3132,9 @@ function nextStepsFor(R) {
   return S;
 }
 
-const api = { OVER_BUFFER_KCAL, LEAN_LOSS_CONSERVATIVE, overFuel, LIVER_GLY_G, LIVER_GLY_KCAL, LB, K_LB, K_KG, RHO_F, TAU, K_UNC, RHO_L_LOSS, RHO_L_GAIN, FLOOR, ESSENTIAL, VERY_LEAN, GAIN_RATE, GOALS,
+/* v7.6.33: ESPEN 2021 guideline ranges for cancer-treatment mode (rule of thumb when energy use is not measured; protein range). Planning ranges, not a prescription. */
+const cancerRanges = (kg) => ({ kcalLo: Math.round(kg * 25 / 5) * 5, kcalHi: Math.round(kg * 30 / 5) * 5, protLo: Math.round(kg * 1.0), protHi: Math.round(kg * 1.5) });
+const api = { cancerRanges, lactInfo, lactKcal, cancerOn, holdsGoal, floorOf, OVER_BUFFER_KCAL, LEAN_LOSS_CONSERVATIVE, overFuel, LIVER_GLY_G, LIVER_GLY_KCAL, LB, K_LB, K_KG, RHO_F, TAU, K_UNC, RHO_L_LOSS, RHO_L_GAIN, FLOOR, ESSENTIAL, VERY_LEAN, GAIN_RATE, GOALS,
   band, compareGain, BAND_SCALE, refit, params: () => ({ HALL_PA, TEF_BETA, BAND_SCALE, ADAPT_CAP: 0.25 }),
   navyBf, bmiBf, analyze, healthSummary, a1cStatus, diabetesStatus, psmfPlan, psmfFor, bulkSurplus, fastGainSurplus, FAST_GAIN_NOTE, BULK_SURPLUS, idealBodyWeight, structuralShare, AT_BETA, AT_TAU, BMI_STOP, LEAN_STOP, bmr, activity, multiplierLabel, referenceWeight, proteinTarget, proteinPlan, highBodyFat, surplusFor, deficitFor, planBands, GAIN_KCAL, holdRatio, ffmiTaper, CARDIO, cardioNetMet, cardioWeek, cardioEntries, LIFT_STYLE, liftFactors, lossFactor, LIFT_TYPES, LIFT_EFFORT, MIN_PRESET, applyOptOuts, liftRows, liftRowNet, liftCustom, liftGainFreq, liftRetention, calibrate, macrosFromInput, macros, leanPotentialPerDay,
   simulate, project, MUSCLES, MUSCLE_KEYS, MUSCLE_UPPER, MUSCLE_NAT, MUSCLE_SPILL, PRESET_GROUPS, PRESET_LABEL, defaultGroups, muscleRows, muscleRegions, EXERCISES, matchExercise, inferGroups, rowWeights, goalProblems, goalDirection, weeklyTraining, essentialFatKg };
@@ -3066,7 +3170,7 @@ function classify(inp, E) {
   const wt = E.weeklyTraining(i.move), lift = wt.liftSessions || 0;
   const gkg = i.food.actualProteinG > 0 && p.weightKg > 0 ? i.food.actualProteinG / p.weightKg : null;
   const level = i.food.actualProtein || "moderate", protOk = gkg != null ? gkg >= 1.4 : level !== "low";
-  const floor = E.FLOOR[p.sex];
+  const floor = E.floorOf(p);
   const why = [], off = [];
   // v7.6.20b: zones come from the Plan-my-goal definitions (engine.planBands / GAIN_KCAL), not separate cut-offs:
   //  maintain = within the smallest Plan surplus (lean gain, 100 kcal) of maintenance; recomp = a deficit up to the Plan's Recomp deficit (with lifting and protein);
@@ -3088,7 +3192,7 @@ function classify(inp, E) {
   if (gkg != null) why.push(`Protein is about ${gkg.toFixed(1)} g per kg of body weight${protOk ? "" : ", which is on the low side for keeping or building muscle"}.`); else why.push(`Protein is in the ${level} range.`);
   // off-track flags
   if (key === "fastgain") off.push(lift < 2 ? "A large surplus with no regular lifting is mostly stored as fat." : "That surplus is bigger than muscle can use, so a lot of it is stored as fat.");
-  if (kcal < floor) off.push(`That's under the usual unsupervised minimum of ${floor.toLocaleString("en-US")} kcal.`);
+  if (kcal < floor) off.push(`That's under the usual unsupervised minimum of ${floor.toLocaleString("en-US")} kcal. Plans this low start to resemble a protein-sparing modified fast (PSMF), which is clinician-guided, is associated with a higher risk of lean-mass loss and nutrient or electrolyte gaps, and calls for higher protein. Education, not medical advice.`);
   if (key === "crash") off.push("A deficit this large can cost muscle, energy and nutrients. It is hard to sustain.");
   if (-bal > B.recomp && lift < 2 && key !== "maintain") off.push("A big deficit without lifting costs more lean mass.");
   const near = [minG, -minG, G.moderate[1], G.fast[0], -B.recomp, -B.steady, -B.maxloss].some((t) => Math.abs(bal - t) < 0.015 * tdee);
@@ -3112,7 +3216,147 @@ function checkpoints(inp, E) {
     const cut = sim.stopped && sim.stopped.day < c.days - 3;
     return Object.assign({ cut: !!cut }, c, { weightKg: r.weightKg, fatKg: r.fatKg, leanKg: r.leanKg, bf: r.bf, dW: r.weightKg - a.weightKg, dF: r.fatKg - a.fatKg, dL: r.leanKg - a.leanKg, burn: r.tdee }); }) };
 }
-const api = { lessReliable, CHECKPOINTS, OUTCOMES, classify, pathAt, checkpoints, weeklyToDaily, fixedInput };
+
+/* v7.6.24 MOCKUP: "Habits direction" (qualitative, rules-based, NOT a score and NOT a measurement). Each input moves a tally by -2..+1; the tally maps to
+   leaning supportive / mixed / leaning against. Only inputs with a source already in the app's Sources are used (see src ids); thresholds are the app's own rules unless noted.
+   Excluded for lack of cited support or no data: steps, cardio minutes, sleep (not collected), A1c, ancestry, meal timing, fibre, alcohol. */
+function direction(inp, E) {
+  if (E.cancerOn(inp.profile.health)) return directionCancer(inp, E);
+  const c = classify(inp, E), i = fixedInput(inp), p = i.profile, items = [];
+  const high = E.highBodyFat(Object.assign({}, p)), cat = E.analyze(Object.assign({}, p)).category, aboveAvg = high || cat === "above the healthy range" || cat === "average";
+  const add = (key, v, text, src) => items.push({ key, v, text, src });
+  // 1. calorie floor (the app's unsupervised-minimum rule: 1,500 men / 1,200 women, NHLBI 1998 practical minimums; no Sources entry yet)
+  if (c.kcal < E.floorOf(p)) add("floor", -2, `Intake is under the usual unsupervised minimum (${E.floorOf(p).toLocaleString("en-US")} kcal${E.lactInfo(p.health, p.age).on ? ", raised by your breastfeeding increment" : ""}), where plans start to resemble a protein-sparing modified fast.`, "NHLBI 1998 (practical minimums; not yet listed in Sources)");
+  // 2. size of deficit / surplus vs Plan my goal bands
+  const k = c.key;
+  if (k === "crash") add("bal", -2, "The deficit is larger than your fat can fuel (past the Maximal band), so more of the loss may be lean mass.", "Alpert 2005; Forbes 2000; Hall 2007");
+  else if (k === "fatloss_f") add("bal", 0, "The deficit is in the faster band, between Steady and Maximal. It works but is harder to sustain and costs more lean mass.", "Hall 2007; Forbes 2000");
+  else if (k === "fatloss_s" || k === "recomp") add("bal", aboveAvg ? 1 : 0, aboveAvg ? "The deficit is in the Steady or Recomp band, a moderate size the model can sustain." : "A deficit is in the Steady or Recomp band; at your body fat it is a choice, not a clear benefit.", "Hall 2011; Wing 2011 (Look AHEAD)");
+  else if (k === "maintain") add("bal", 0, "Intake is near maintenance, so weight should stay about the same.", "Hall 2011");
+  else if (k === "muscle") add("bal", high ? 0 : 1, high ? "A small surplus with lifting; at higher body fat extra surplus is not the usual starting point." : "A surplus within the Lean/Moderate band, with lifting and protein, is the range studied for muscle gain.", "Helms 2023; Iraki 2019");
+  else if (k === "slowgain") add("bal", -1, "A surplus without enough lifting or protein is mostly stored as fat.", "Garthe 2013; Helms 2023");
+  else if (k === "fastgain") add("bal", -2, "The surplus is larger than muscle can use, so most of it is stored as fat.", "Garthe 2013; Helms 2023");
+  // 3. rate of weight loss (model, first 12 weeks); athlete data, so shown as a caution only
+  const wk = c.proj12.weeks || 12, rate = -c.proj12.dW / wk / p.weightKg * 100;
+  if (rate > 1) add("rate", -1, `The modelled loss is about ${rate.toFixed(1)}% of body weight a week, faster than the ~0.7%/wk that kept more lean mass in athletes.`, "Garthe 2013 (athletes; not tested in the general public)");
+  else if (rate >= 0.25 && rate <= 0.8) add("rate", 1, `The modelled loss is about ${rate.toFixed(1)}% of body weight a week, a gradual pace.`, "Garthe 2013 (athletes); Hall 2011");
+  // 4. protein per kg of body weight (not judged against when body fat is high: per-kg-of-body-weight overstates the need)
+  const deficit = c.balance < 0, lift = c.lift;
+  if (c.protGkg != null) {
+    if (c.protGkg >= 1.6) add("prot", 1, `Protein is about ${c.protGkg.toFixed(1)} g/kg, at or above ~1.6 g/kg, where the muscle benefit levels off.`, "Morton 2018; Helms 2014");
+    else if (!high && c.protGkg < 1.4 && (deficit || lift > 0)) add("prot", -1, `Protein is about ${c.protGkg.toFixed(1)} g/kg, below the app's 1.4 g/kg rule of thumb for ${deficit ? "a deficit" : "lifters"}.`, "Morton 2018; Helms 2014 (the 1.4 cut-off is the app's own rule)");
+  } else if (c.protGkg == null) { const lvl = i.food.actualProtein; if (lvl === "high") add("prot", 1, "You rated your protein as high.", "Morton 2018 (your own rating, not a measurement)"); else if (lvl === "low" && (deficit || lift > 0)) add("prot", -1, "You rated your protein as low.", "Morton 2018 (your own rating, not a measurement)"); }
+  // 5. resistance training
+  if (lift >= 2) add("lift", 1, `You lift about ${lift} times a week, enough to keep or build muscle.`, "Schoenfeld 2019; Weinheimer 2010");
+  else if (deficit && lift === 0 && -c.balance > c.bands.recomp) add("lift", -1, "A bigger deficit with no lifting leaves more of the loss as lean mass.", "Weinheimer 2010; Cava 2017");
+  const score = items.reduce((s, x) => s + x.v, 0), anyStrong = items.some((x) => x.v <= -2);
+  const level = anyStrong || score <= -1 ? "against" : score >= 2 && !items.some((x) => x.v < 0) ? "supportive" : "mixed";
+  // continuous needle position 0..1 (left = against, right = supportive); always stays inside the zone `level` names. Display only, never shown as a number.
+  const cl = (x) => Math.max(0, Math.min(1, x));
+  const pos = level === "against" ? 0.04 + 0.26 * cl((score + 4) / 3) : level === "supportive" ? 0.70 + 0.26 * cl((score - 2) / 2) : 0.37 + 0.26 * cl(score / 3);
+  return { level, pos, items, label: level === "supportive" ? "Leaning supportive" : level === "against" ? "Leaning against" : "Mixed", cls: c };
+}
+
+
+/* v7.6.33 cancer-treatment mode: "How your choices fit maintaining weight and muscle". Same display rules as direction() (qualitative, no number, no health score), but the
+   inputs are the ESPEN 2021 planning ranges (energy 25-30 kcal/kg/day if not measured, B2-1; protein above 1 g/kg and up to 1.5 g/kg if possible, B2-2) and a weight-trend flag from
+   the user's own weigh-ins (inp.weightTrend: "down" | "steady" | null). Leaning against = intake under the range or weight trending down. Never a diagnosis; A1c is not used. */
+function directionCancer(inp, E) {
+  const i = fixedInput(inp), p = i.profile, kg = p.weightKg, kcal = +i.food.actualKcal, items = [], rg = E.cancerRanges(kg);
+  const add = (key, v, text, src) => items.push({ key, v, text, src });
+  const SRC_E = "ESPEN 2021 B2-1 (guideline range, evidence level low)", SRC_P = "ESPEN 2021 B2-2 (strong recommendation, evidence moderate)";
+  if (kcal > 0) {
+    if (kcal >= rg.kcalLo && kcal <= rg.kcalHi * 1.1) add("energy", 1, `Intake is inside the planning range (about ${rg.kcalLo.toLocaleString("en-US")}–${rg.kcalHi.toLocaleString("en-US")} kcal a day).`, SRC_E);
+    else if (kcal < rg.kcalLo) add("energy", kcal < rg.kcalLo * 0.85 ? -2 : -1, `Intake is under the planning range (about ${rg.kcalLo.toLocaleString("en-US")}–${rg.kcalHi.toLocaleString("en-US")} kcal a day). Eating less than usual is worth telling your care team.`, SRC_E);
+    else add("energy", 0, `Intake is above the planning range. Whether that fits depends on your weight trend and your team's advice.`, SRC_E);
+  }
+  const gkg = i.food.actualProteinG > 0 && kg > 0 ? i.food.actualProteinG / kg : null;
+  if (gkg != null) add("prot", gkg >= 1 ? 1 : -1, gkg >= 1 ? `Protein is about ${gkg.toFixed(1)} g/kg, above the 1 g/kg guideline floor.` : `Protein is about ${gkg.toFixed(1)} g/kg, under the guideline of more than 1 g/kg (up to 1.5 if possible).`, SRC_P);
+  if (inp.weightTrend === "down") add("trend", -2, "Your logged weight is lower than a few weeks ago. Unplanned weight loss is worth telling your care team about. The app can't tell why it changed.", "ESPEN 2021 B1-1 (check weight and intake from diagnosis; evidence very low)");
+  else if (inp.weightTrend === "steady") add("trend", 1, "Your logged weight has been about steady.", "ESPEN 2021 B1-1 (evidence very low)");
+  const score = items.reduce((a, x) => a + x.v, 0), anyStrong = items.some((x) => x.v <= -2);
+  const level = anyStrong || score <= -1 ? "against" : score >= 2 && !items.some((x) => x.v < 0) ? "supportive" : "mixed";
+  const cl = (x) => Math.max(0, Math.min(1, x));
+  const pos = level === "against" ? 0.04 + 0.26 * cl((score + 4) / 3) : level === "supportive" ? 0.70 + 0.26 * cl((score - 2) / 2) : 0.37 + 0.26 * cl(score / 3);
+  return { level, pos, items, label: level === "supportive" ? "Leaning supportive" : level === "against" ? "Leaning against" : "Mixed", cls: { kcal, key: "cancer", balance: 0, bands: {}, proj12: {}, lift: 0 }, frame: "cancer", ranges: rg, gkg };
+}
+
+/* v7.6.27: ongoing recommendations under the goal-fit dial. Each candidate changes ONE entered input to the nearest value the same rules in direction() would score better,
+   re-runs direction() on that changed copy, and ranks by how far the needle position (pos, 0..1) would move. Ties: safety items (floor, deficit/crash/rate, surplus) before protein/lifting.
+   Options, not orders; education only; each uses the source already attached to the matching direction() item. No A1c, no steps (no cited target), no sleep. */
+function recommendations(inp, E) {
+  if (E.cancerOn(inp.profile.health)) return recommendationsCancer(inp, E);
+  const base = direction(inp, E), c = base.cls, i0 = fixedInput(inp), p = i0.profile, B = c.bands, deficit = c.balance < 0;
+  const srcOf = (key) => { const it = base.items.find((x) => x.key === key); return it ? it.src : null; };
+  const clone = (f) => { const i = JSON.parse(JSON.stringify(inp)); f(i); return i; };
+  const kcalAt = (k) => clone((i) => { i.food = Object.assign(i.food || {}, { actualOn: true, psmf: false, actualKcal: k }); });
+  const kc = (n) => Math.round(n).toLocaleString("en-US");
+  const cands = [];
+  const tryC = (id, pri, inp2, txt, src) => { let d; try { d = direction(inp2, E); } catch (e) { return; } const dv = Math.round((d.pos - base.pos) * 100) / 100; if (dv > 0) cands.push({ id, pri, delta: dv, to: d.level, text: txt(d.level), src: src || "" }); };
+  const toward = (lv) => (lv === base.level ? "toward supportive" : `to “${lv === "supportive" ? "Leaning supportive" : "Mixed"}”`);
+  // 1. calorie floor (priority 0)
+  const floor = E.floorOf(p);
+  if (c.kcal < floor) tryC("floor", 0, kcalAt(floor), (lv) => `Eating about ${kc(floor)} kcal a day (the usual unsupervised minimum) would move this ${toward(lv)}. A clinician can help with anything lower.`, srcOf("floor"));
+  // 2. deficit too large (crash / faster band / rate > 1%/wk): raise intake in 50 kcal steps until the deficit is in the Steady band or under 1%/wk, capped at the Steady edge
+  const wk = c.proj12.weeks || 12, rate = -c.proj12.dW / wk / p.weightKg * 100;
+  if (deficit && (c.key === "crash" || c.key === "fatloss_f" || rate > 1)) {
+    let k = c.kcal, ok = null;
+    for (let n = 0; n < 40 && k < c.tdee; n++) { k += 50; let d; try { d = direction(kcalAt(k), E); } catch (e) { break; } const dc = d.cls; if (dc.key !== "crash" && dc.key !== "fatloss_f" && !d.items.some((x) => x.key === "rate" && x.v < 0)) { ok = k; break; } }
+    if (ok != null) tryC("deficit", 1, kcalAt(ok), (lv) => `Eating about ${kc(ok - c.kcal)} kcal more (about ${kc(ok)} a day) would bring the deficit into a steadier size and move this ${toward(lv)}.`, srcOf(c.key === "crash" || c.key === "fatloss_f" ? "bal" : "rate") || srcOf("rate"));
+  }
+  // 3. surplus too large (fast gain): lower intake in 50 kcal steps until it is no longer "mostly fat"
+  if (c.key === "fastgain") {
+    let k = c.kcal, ok = null;
+    for (let n = 0; n < 40; n++) { k -= 50; let d; try { d = direction(kcalAt(k), E); } catch (e) { break; } if (d.cls.key !== "fastgain") { ok = k; break; } }
+    if (ok != null) tryC("surplus", 1, kcalAt(ok), (lv) => `Eating about ${kc(c.kcal - ok)} kcal less (about ${kc(ok)} a day) would bring the surplus to a size muscle can use and move this ${toward(lv)}.`, srcOf("bal"));
+  }
+  // 4. protein below ~1.6 g/kg (only when the rule currently doesn't count it as supportive)
+  const protItem = base.items.find((x) => x.key === "prot");
+  if (!protItem || protItem.v < 1) {
+    if (c.protGkg != null) { const target = Math.ceil(1.6 * p.weightKg / 5) * 5, add = target - i0.food.actualProteinG; if (add > 0) tryC("protein", 2, clone((i) => { i.food.actualProteinG = target; }), (lv) => `Adding about ${Math.round(add)} g of protein a day (to about ${target} g, roughly 1.6 g/kg) would move this ${toward(lv)}.`, "Morton 2018; Helms 2014"); }
+    else tryC("protein", 2, clone((i) => { i.food.actualProtein = "high"; }), (lv) => `Choosing a higher-protein pattern (your rating moved to “high”) would move this ${toward(lv)}. Entering grams gives a firmer read.`, "Morton 2018 (your own rating, not a measurement)");
+  }
+  // 5. resistance training (fewer than 2 sessions a week)
+  if (!(c.lift >= 2)) tryC("lift", 3, clone((i) => { i.move = Object.assign({}, i.move, { noLift: false, plannerOn: false, preset: "2-3" }); }), (lv) => `Adding resistance training about 2–3 times a week would move this ${toward(lv)}${deficit ? ", and helps keep more of the loss as fat rather than muscle" : ""}.`, "Schoenfeld 2019; Weinheimer 2010" + (deficit ? "; Cava 2017" : ""));
+  // 6. cardio and 7. steps (v7.6.28): extra daily burn from the app's own energy model (cardio net METs x minutes x kg; steps net 0.5 kcal/kg/km above 3,000/day). Targets: 150 min/wk moderate aerobic (WHO 2020, PAG 2018, ACSM 2009) and +2,000 steps/day (Tudor-Locke 2011, typical program increase),
+  // steps only below the mortality plateau (Paluch 2022). Not offered when extra burn would widen an already-large gap (crash, under the floor, rate > 1%/wk). Shown even if the dial doesn't move, ranked after the dial-moving tips by kcal.
+  const widening = c.key === "crash" || c.kcal < floor || rate > 1 || E.lactInfo(p.health, p.age).on;   // v7.6.33: no cardio or steps tips while breastfeeding (extra burn would widen the gap)
+  const burnTip = (id, pri, inp2, txt, src) => { if (widening) return; let d, c2; try { d = direction(inp2, E); c2 = classify(inp2, E); } catch (e) { return; } const dv = Math.round((d.pos - base.pos) * 100) / 100, kcal = Math.round((c2.tdee - c.tdee) / 5) * 5; if (dv < 0 || kcal < 5) return; cands.push({ id, pri, delta: dv, kcal, energyOnly: dv === 0, to: d.level, text: txt(d.level, kcal, dv), src }); };
+  const gap = (kcal) => (c.balance < -50 ? `with the same food, your deficit grows by about ${kcal} kcal a day` : c.balance > 50 ? `with the same food, your surplus shrinks by about ${kcal} kcal a day` : `with the same food, you would sit about ${kcal} kcal a day below maintenance`);
+  const dialNote = (lv, dv) => (dv ? ` This would also move the dial ${toward(lv)}.` : "");
+  const wt = E.weeklyTraining(i0.move), cardioNow = wt.cardioMin || 0;
+  if (cardioNow < 150) burnTip("cardio", 4, clone((i) => { const m = Object.assign({}, i.move, { noCardio: false, plannerOn: false });
+      if (!(cardioNow > 0) || !Array.isArray(m.cardio) || !m.cardio.length) m.cardio = [{ type: "walking", effort: "moderate", by: "effort" }];
+      m.cardioMin = 150; i.move = m; }),
+    (lv, kcal, dv) => `More aerobic activity burns more calories, so ${gap(kcal)} (an estimate from the app's model) if you reach about 150 minutes a week of moderate activity${cardioNow > 0 ? ` (from about ${Math.round(cardioNow)} now)` : ", and brisk walking counts"}.${dialNote(lv, dv)} The evidence caveat: at this volume, studies show only modest weight loss on its own.`,
+    "WHO 2020; PAG 2018; Donnelly 2009 (ACSM); Jakicic 2019; Swift 2014");
+  const stepsNow = +i0.move.steps || 0, plateau = p.age >= 60 ? 6000 : 8000;
+  if (stepsNow < plateau && !i0.move.plannerOn) burnTip("steps", 5, clone((i) => { i.move = Object.assign({}, i.move, { steps: stepsNow + 2000 }); }),
+    (lv, kcal, dv) => `More steps burn more calories, so ${gap(kcal)} (an estimate from the app's walking model) if you add about 2,000 steps a day (to about ${(stepsNow + 2000).toLocaleString("en-US")}).${dialNote(lv, dv)} The evidence caveat: no step count is proven for fat loss, and the link between steps and lower mortality is observational.`,
+    "Tudor-Locke 2011; Paluch 2022 (observational); Swift 2014");
+  cands.forEach((x) => { if (x.kcal == null) x.energyOnly = false; });
+  cands.sort((a, b) => (a.energyOnly - b.energyOnly) || (a.energyOnly ? b.kcal - a.kcal : b.delta - a.delta || a.pri - b.pri));
+  return { level: base.level, label: base.label, tips: cands };
+}
+
+/* v7.6.33 cancer-treatment mode tips: protein toward the range, energy toward the range, small frequent meals and "tell your care team" (ACS 2022 patient guidance), all options, no deficit,
+   cardio or step tips (ESPEN B3-2: do not restrict energy intake in people with or at risk of malnutrition). Activity: only "ask your team what activity is right for you". */
+function recommendationsCancer(inp, E) {
+  const base = direction(inp, E), i0 = fixedInput(inp), p = i0.profile, kg = p.weightKg, rg = base.ranges, kc = (n) => Math.round(n).toLocaleString("en-US");
+  const clone = (f) => { const i = JSON.parse(JSON.stringify(inp)); f(i); return i; };
+  const cands = [], kcal = base.cls.kcal;
+  const tryC = (id, pri, inp2, txt, src) => { let d; try { d = direction(inp2, E); } catch (e) { return; } const dv = Math.round((d.pos - base.pos) * 100) / 100; cands.push({ id, pri, delta: dv, to: d.level, text: txt(d.level), src }); };
+  const toward = (lv) => (lv === base.level ? "toward supportive" : `to “${lv === "supportive" ? "Leaning supportive" : "Mixed"}”`);
+  if (kcal > 0 && kcal < rg.kcalLo) tryC("energy", 0, clone((i) => { i.food.actualKcal = rg.kcalLo; }), (lv) => `Eating about ${kc(rg.kcalLo - kcal)} kcal more (to about ${kc(rg.kcalLo)} a day, the low end of the planning range) would move this ${toward(lv)}. Small, frequent, calorie-dense meals can help when appetite is low.`, "ESPEN 2021 B2-1; ACS 2022 patient guidance");
+  const g = i0.food.actualProteinG;
+  if (g > 0 && g < kg) tryC("protein", 1, clone((i) => { i.food.actualProteinG = Math.ceil(kg); }), (lv) => `Adding about ${kc(Math.ceil(kg) - g)} g of protein a day (to about ${kc(Math.ceil(kg))} g, 1 g/kg) would move this ${toward(lv)}. The guideline range goes up to about ${kc(rg.protHi)} g if possible.`, "ESPEN 2021 B2-2");
+  const out = cands.sort((a, b) => b.delta - a.delta || a.pri - b.pri);
+  out.push({ id: "team", pri: 8, delta: 0, to: base.level, text: "Tell your care team about ongoing nausea, mouth sores, trouble swallowing, or eating much less than usual. A dietitian can adjust the plan and may suggest oral nutrition supplements.", src: "ESPEN 2021; ASCO 2020 (dietitian referral); ACS 2022" });
+  out.push({ id: "activity", pri: 9, delta: 0, to: base.level, text: "Ask your team what kind of activity is right for you right now. Exercise is generally safe and helpful during treatment, but the right amount depends on your situation.", src: "ESPEN 2021 B4-1; ACSM 2019 (Campbell)" });
+  return { level: base.level, label: base.label, tips: out, frame: "cancer" };
+}
+
+const api = { direction, recommendations,  lessReliable, CHECKPOINTS, OUTCOMES, classify, pathAt, checkpoints, weeklyToDaily, fixedInput };
 if (typeof module !== "undefined" && module.exports) module.exports = api;
 root.TheosisHabits = api;
 })(typeof window !== "undefined" ? window : globalThis);
@@ -3267,11 +3511,11 @@ const AL = { yogurt: "milk", cottage: "milk", cheddar: "milk", skim: "milk", whe
   almonds: "tree nuts", walnuts: "tree nuts", pb: "peanuts", tofu: "soy", soymilk: "soy", edamame: "soy", tempeh: "soy", bread: "wheat", pita: "wheat", pasta: "wheat", seitan: "wheat" };
 const row = (id, base, min, max, step = 1) => ({ id, base, min, max, step });
 const M = (name, title, items) => ({ name, title, items });
-// Diet types: how the day's calories split (shares of kcal). Protein comes from your target, kept inside the type's range.
+// Diet types: how the day's calories split (shares of kcal). Protein is your target; the diet type shapes carbs and fat.
 const DIETS = {
-  balanced: { name: "Balanced", note: "Carbs, protein and fat in the usual ranges.", p: [0.15, 0.35], f: [0.25, 0.35], fat: 0.3 },
+  balanced: { name: "Balanced", note: "Carbs and fat in the usual ranges; protein stays at your target.", p: [0.15, 0.35], f: [0.25, 0.35], fat: 0.3 },
   lowcarb: { name: "Lower carb", note: "About 20% of calories from carbs; more from fat.", p: [0.25, 0.35], c: 0.2 },
-  highprotein: { name: "Higher protein", note: "At least a third of calories from protein.", p: [0.35, 0.4], fat: 0.25 },
+  highprotein: { name: "Higher protein", note: "Fat kept lower; protein stays at your target (foods are protein-dense).", p: [0.35, 0.4], fat: 0.25 },
   lowfat: { name: "Low fat", note: "About 18% of calories from fat; more from carbs.", p: [0.2, 0.3], fat: 0.18 },
 };
 const STYLES = {
@@ -3371,9 +3615,9 @@ function allergensOf(meals) { const tags = []; for (const m of meals) for (const
 const TEMPLATES = Object.keys(STYLES).flatMap((st) => Object.keys(DIETS).map((dt) => ({ id: st, diet: dt, key: `${st}-${dt}`, name: STYLES[st].name, tag: STYLES[st].tag, meals: T[`${st}-${dt}`], allergens: allergensOf(T[`${st}-${dt}`]) })));
 // Macro targets for a diet type from the day's calories and protein target (and, for Balanced, the recommendation's own split when it fits).
 function dietTargets(t, diet) { const d = DIETS[diet] || DIETS.balanced, k = t.kcal, cl = (v, a, b) => Math.max(a, Math.min(b, v));
-  const pRef = t.protein > 0 ? t.protein : 0.25 * k / 4, p = Math.round(cl(pRef, d.p[0] * k / 4, d.p[1] * k / 4));
+  const p = t.protein > 0 ? Math.round(t.protein) : Math.round(cl(0.25 * k / 4, d.p[0] * k / 4, d.p[1] * k / 4));   // v7.6.33: a given protein target is never clamped to the diet type's share range; the diet type shapes carbs and fat only
   let f, c;
-  if (diet === "lowcarb") { c = Math.round(d.c * k / 4); f = Math.round((k - 4 * p - 4 * c) / 9); }
+  if (diet === "lowcarb") { c = Math.round(d.c * k / 4); f = Math.max(Math.round(0.15 * k / 9), Math.round((k - 4 * p - 4 * c) / 9)); }
   else { f = diet === "balanced" && t.fat > 0 ? Math.round(cl(t.fat, d.f[0] * k / 9, d.f[1] * k / 9)) : Math.round(d.fat * k / 9); c = Math.max(0, Math.round((k - 4 * p - 9 * f) / 4)); }
   return { kcal: k, protein: p, carbs: c, fat: f }; }
 const clamp = (n, a, b) => Math.max(a, Math.min(b, n));
@@ -3391,12 +3635,13 @@ function buildDay(tp, t0) {
   const big = Math.max(1, t.kcal / 2200), small = Math.min(1, t.kcal / 1500); /* v7.6.5: small days may go under the usual minimum portions */
   // a food named in the dish title is never dropped to zero (e.g. "Tempeh salad with walnuts" keeps some walnuts)
   const named = (title, id) => TITLE_KEYS[id] && TITLE_KEYS[id].test(title);
-  const rows = tp.meals.flatMap((m, mi) => m.items.map((it) => ({ ...it, min: it.min === 0 && named(m.title, it.id) ? it.step : small < 1 ? Math.max(named(m.title, it.id) ? it.step : 0, Math.floor(it.min * small / it.step) * it.step) : it.min, max: it.max > 0 ? Math.max(it.max, Math.round(it.max * big / it.step) * it.step) : it.max, mi }))), baseE = rows.reduce((s, r) => s + FOODS[r.id].kcal * r.base, 0), scale = t.kcal / baseE;
+  let rows = tp.meals.flatMap((m, mi) => m.items.map((it) => ({ ...it, min: it.min === 0 && named(m.title, it.id) ? it.step : small < 1 ? Math.max(named(m.title, it.id) ? it.step : 0, Math.floor(it.min * small / it.step) * it.step) : it.min, max: it.max > 0 ? Math.max(it.max, Math.round(it.max * big / it.step) * it.step) : it.max, mi }))), baseE = rows.reduce((s, r) => s + FOODS[r.id].kcal * r.base, 0), scale = t.kcal / baseE;
+  const solve = (rows) => {
   const q = rows.map((r) => clamp(Math.round(r.base * scale / r.step) * r.step, r.min, r.max));
   const tot = (a) => rows.reduce((s, r, i) => { for (const k of K) s[k] += FOODS[r.id][k] * a[i]; return s; }, { kcal: 0, protein: 0, carbs: 0, fat: 0 });
   // Bounded, usable portions. Calories and protein come first; carbs/fat are a soft preference.
   // v5: carbs and fat count too now (the diet type sets them), so the day lands inside its type's ranges
-  const score = (a) => { const x = tot(a), e = (x.kcal - t.kcal) / 20, p = (x.protein - t.protein) / (x.protein > t.protein + Math.max(9, 0.065 * t.protein) ? 1.5 : 4), c = (x.carbs - t.carbs) / 8, f = (x.fat - t.fat) / 4;
+  const score = (a) => { const x = tot(a), e = (x.kcal - t.kcal) / 20, p = (x.protein - t.protein) / 1.2, c = (x.carbs - t.carbs) / (t.protein > 0 ? 14 : 8), f = (x.fat - t.fat) / (t.protein > 0 ? 8 : 4);
     let bal = 0; for (let i = 0; i < rows.length; i++) bal += Math.pow((a[i] - rows[i].base * scale) / Math.max(rows[i].base, 1), 2) * 0.04;
     const g = Math.max(0, Math.abs(x.kcal - t.kcal) - Math.min(40, 0.015 * t.kcal)) / 1.5; /* v7.6.5: calories within 2% */ return e * e + g * g + p * p + c * c + f * f + bal; };
   let cur = score(q);
@@ -3408,12 +3653,22 @@ function buildDay(tp, t0) {
       const tr = q.slice(); tr[i] = a; tr[j] = b; const sc = score(tr); if (sc < best - 1e-8) { best = sc; next = tr; } }
     if (!next) break; q.splice(0, q.length, ...next); cur = best;
   }
+  return { q, rows, cur, x: tot(q) };
+  };
+  // v7.6.33: if the usual portion limits can't land protein within a few grams of the target, relax them (no minimums except foods named in the dish, larger maximums) and keep the closer result
+  let sol = solve(rows);
+  if (t.protein > 0 && Math.abs(sol.x.protein - t.protein) > 3) {
+    const rel = rows.map((r) => ({ ...r, min: named(tp.meals[r.mi].title, r.id) ? r.step : 0, max: r.max > 0 ? Math.round(r.max * 1.8 / r.step) * r.step : r.max }));
+    const s2 = solve(rel); const e1 = Math.abs(sol.x.protein - t.protein), e2 = Math.abs(s2.x.protein - t.protein);
+    if (e2 < e1 && Math.abs(s2.x.kcal - t.kcal) <= Math.max(60, 0.04 * t.kcal)) sol = s2;
+  }
+  const q = sol.q; rows = sol.rows;
   const meals = tp.meals.map((m) => ({ name: m.name, title: m.title, foods: [], totals: null }));
   rows.forEach((r, i) => { const f = FOODS[r.id], a = q[i]; if (a <= 0) return; meals[r.mi].foods.push({ name: f.name, portion: portion(f, a), kcal: f.kcal * a, protein: f.protein * a, carbs: f.carbs * a, fat: f.fat * a }); });
   const sum = (list) => list.reduce((s, f) => { for (const k of K) s[k] += f[k]; return s; }, { kcal: 0, protein: 0, carbs: 0, fat: 0 });
   meals.forEach((m) => (m.totals = sum(m.foods)));
   const totals = sum(meals.flatMap((m) => m.foods));
-  return { id: tp.id, key: tp.key, diet: tp.diet, dietName: DIETS[tp.diet].name, name: tp.name, tag: tp.tag, allergens: tp.allergens, meals, totals, target: t, kcalDiff: totals.kcal - t.kcal, proteinDiff: totals.protein - t.protein };
+  return { id: tp.id, key: tp.key, diet: tp.diet, dietName: DIETS[tp.diet].name, name: tp.name, tag: tp.tag, allergens: tp.allergens, meals, totals, target: t, kcalDiff: totals.kcal - t.kcal, proteinDiff: totals.protein - t.protein, proteinMiss: Math.abs(totals.protein - t.protein) > 5 };
 }
 function buildDays(target, diet = "balanced") {
   if (!DIETS[diet]) diet = "balanced";
@@ -3699,7 +3954,7 @@ return { KEY, MEALS, MEAL_IDS, dateKey, addDays, isDate, mealFor, empty, normali
    2) split(sex, fatKg, ph) -> depots in kg: vat (visceral), abd (abdominal subcutaneous), gf (gluteofemoral: hips,
       buttocks, thighs), up (arms, chest, upper back), rest (calves, face, neck, intermuscular), + liverPct (illustrative).
    3) at(start, F) -> depots at total fat F along the engine's trajectory: each depot follows a power law of total fat,
-      depot = depot0 * (F/F0)^k. Visceral k = 1.7 is a MODELLING ASSUMPTION giving ~1.6-1.7x the relative loss of total fat early (direction: Chaston & Dixon 2008 and Merlotti 2017 find visceral fat falls proportionally more than subcutaneous; the power-law form is from Hallgreen & Hall 2008, whose pooled best-fit exponent was about 1.3, so 1.7 is steeper than that published value and displayed visceral changes may be on the optimistic side), narrowing with larger losses (in kg, more fat still comes from under the skin,
+      depot = depot0 * (F/F0)^k. Visceral k = 1.3 is the pooled best-fit exponent of Hallgreen & Hall 2008, giving ~1.2-1.3x the relative loss of total fat early (direction: Chaston & Dixon 2008 and Merlotti 2017 find visceral fat falls proportionally more than subcutaneous; individual responses vary widely), narrowing with larger losses (in kg, more fat still comes from under the skin,
       Merlotti 2017); gluteofemoral fat is the slowest, especially in women (k 0.7 women, 0.85 men; Karpe & Pinnick 2015). Abdominal subcutaneous and upper-body fat follow
       total fat (k ~1). 'rest' takes up the difference, so the depots always add up to the engine's fat mass.
    4) regions(sex, depots, F) -> morph inputs for the 3D figure (litres relative to a typical body of the same sex and fat). */
@@ -3708,7 +3963,7 @@ return { KEY, MEALS, MEAL_IDS, dateKey, addDays, isDate, mealFor, empty, normali
   const RHO = 0.9;                                                    // kg of fat per litre
   // sex-typical shares of total fat at the reference fat mass (rounded from published DXA/MRI ranges; men ~2x the visceral share of women)
   const BASE = { m: { vat: 0.15, abd: 0.22, gf: 0.24, up: 0.20, Fref: 20 }, f: { vat: 0.075, abd: 0.19, gf: 0.36, up: 0.19, Fref: 25 } };
-  const K = { vat: 1.7, abd: 1.05, up: 1.0, gf: { m: 0.85, f: 0.7 }, liver: 3.0 };
+  const K = { vat: 1.3, abd: 1.05, up: 1.0, gf: { m: 0.85, f: 0.7 }, liver: 3.0 };
   const ANCESTRY = {
     "": { v: 0, label: "Prefer not to say" },
     south_asian: { v: 0.3, label: "South Asian", bmiScreen: 23, note: "On average, South Asian adults carry more fat around the organs and in the liver at the same weight, so diabetes risk starts at a lower BMI (screening from BMI 23)." },
@@ -4305,6 +4560,34 @@ return { KEY, MEALS, MEAL_IDS, dateKey, addDays, isDate, mealFor, empty, normali
     ["fothergill2016", "Fothergill et al. 2016 (Biggest Loser follow-up)", "Fothergill E, Guo J, Howard L, et al. Persistent metabolic adaptation 6 years after “The Biggest Loser” competition. Obesity 2016;24:1612–9. Read in full. 14 participants; weight loss 58.3 ± 24.9 kg at 30 weeks, 41.0 ± 31.3 kg regained by 6 years; resting metabolic rate 704 ± 427 kcal/day below baseline at 6 years; metabolic adaptation (residual after body composition and age) −275 ± 207 kcal/day at 30 weeks and −499 ± 207 kcal/day at 6 years. Very small, unusual group (class III obesity, televised competition); we use it only for direction and rough size.", "Projection model (v7.6.20)", "https://pmc.ncbi.nlm.nih.gov/articles/PMC4989512/"],
     ["rosenbaum2010", "Rosenbaum & Leibel 2010 (adaptive thermogenesis)", "Rosenbaum M, Leibel RL. Adaptive thermogenesis in humans. Int J Obes 2010;34(Suppl 1):S47–55. Read in full (narrative review). Maintaining a 10% or greater lower weight lowers 24-hour expenditure about 20–25%, which is 10–15% below the prediction from tissue change. It states that responses to maintaining a higher weight are not a mirror image: a bigger effect on the thermic effect of food, less on resting expenditure; and in rodents the rise in expenditure on overfeeding faded after a few months. A narrative review, not a trial.", "Projection model (v7.6.20)", "https://pmc.ncbi.nlm.nih.gov/articles/PMC3673773/"],
     ["minnesota2008", "Minnesota starvation study (data review 2008)", "Modeling transitions in body composition: the approach to steady state for anthropometric measures and physiological functions in the Minnesota human starvation study. Dyn Med 2008;7:16. Used only to show where the model does not apply (extreme restriction).", "Projection model (v7.6.20)", "https://pmc.ncbi.nlm.nih.gov/articles/PMC2596786/"],
+    ["who2020", "WHO 2020", "Bull FC et al. World Health Organization 2020 guidelines on physical activity and sedentary behaviour. Br J Sports Med 2020;54:1451–62. Read in full. Adults: 150–300 min a week of moderate aerobic activity; some activity is better than none; measures of adiposity \"may also improve\".", "Cardio and steps (v7.6.28)", "https://pmc.ncbi.nlm.nih.gov/articles/PMC7719906/"],
+    ["pag2018", "PAG 2018", "Piercy KL et al. The Physical Activity Guidelines for Americans. JAMA 2018;320:2020–8. Read in part (key guidelines and intensity sections). Same 150–300 min a week; brisk walking at 2.5–4.0 mph is moderate intensity.", "Cardio and steps (v7.6.28)", "https://pmc.ncbi.nlm.nih.gov/articles/PMC9582631/"],
+    ["donnelly2009", "Donnelly 2009 (ACSM)", "Donnelly JE et al. ACSM Position Stand: appropriate physical activity intervention strategies for weight loss and prevention of weight regain for adults. Med Sci Sports Exerc 2009;41:459–71. Read the abstract and conclusions only. 150–250 min a week gives only modest weight loss; the benefit added to diet shrinks as the diet gets stricter.", "Cardio and steps (v7.6.28)", "https://doi.org/10.1249/MSS.0b013e3181949333"],
+    ["swift2014", "Swift 2014", "Swift DL et al. The role of exercise and physical activity in weight loss and maintenance. Prog Cardiovasc Dis 2014;56:441–7. Read in part (abstract, Table 1, key sections). Step goals alone: 0–1 kg; aerobic training at public-health volumes: up to about 2 kg, highly variable.", "Cardio and steps (v7.6.28)", "https://pmc.ncbi.nlm.nih.gov/articles/PMC3925973/"],
+    ["tudorlocke2011", "Tudor-Locke 2011", "Tudor-Locke C et al. How many steps/day are enough? For adults. Int J Behav Nutr Phys Act 2011;8:79. Read in full. Pedometer programs add about 2,000–2,500 steps a day, linked with modest weight loss; no study has tested step-goal dose-response; 100 steps/min is about moderate walking.", "Cardio and steps (v7.6.28)", "https://pmc.ncbi.nlm.nih.gov/articles/PMC3197470/"],
+    ["paluch2022", "Paluch 2022 (observational)", "Paluch AE et al. Daily steps and all-cause mortality: a meta-analysis of 15 international cohorts. Lancet Public Health 2022;7:e219–28. Read in part. Observational: lower mortality up to about 6,000–8,000 steps a day (age 60+) and 8,000–10,000 (under 60). Says nothing about fat loss.", "Cardio and steps (v7.6.28)", "https://pmc.ncbi.nlm.nih.gov/articles/PMC9289978/"],
+    ["jakicic2019", "Jakicic 2019", "Jakicic JM et al. Physical activity and the prevention of weight gain in adults: a systematic review. Med Sci Sports Exerc 2019;51:1262–9. Read in part. Weight-gain prevention is most pronounced above 150 min a week of moderate-to-vigorous activity; the exact threshold varies across studies.", "Cardio and steps (v7.6.28)", "https://pmc.ncbi.nlm.nih.gov/articles/PMC6527311/"],
+    ["nam2023", "NAM 2023 (DRI for Energy)", "National Academies of Sciences, Engineering, and Medicine. Dietary Reference Intakes for Energy. Washington, DC: National Academies Press; 2023. EXCERPTS ONLY: the lactation increments used here (+404 kcal/day for exclusive breastfeeding in months 0–6; +380 kcal/day for breastfeeding in months 7–12) were read from excerpts of the report's own pages, because the Bookshelf page could not be opened directly. The full report was not read. The report states them as net of an assumed slow weight loss (about 0.64 kg a month in months 0–6). No figure is published for partial breastfeeding in months 0–6 or beyond 12 months.", "Breastfeeding (v7.6.33)", "https://nap.nationalacademies.org/search/?term=Dietary+Reference+Intakes+for+Energy"],
+    ["ods-choline", "NIH ODS: Choline", "NIH Office of Dietary Supplements. Choline fact sheet for health professionals. Official page, excerpts read (not every section). Adequate Intake of 550 mg/day while breastfeeding (425 mg for non-lactating adult women); food sources include meat, poultry, fish, dairy, eggs, cruciferous vegetables and some beans. An AI, not an RDA.", "Breastfeeding (v7.6.33)", "https://ods.od.nih.gov/factsheets/Choline-HealthProfessional/"],
+    ["ods-iodine", "NIH ODS: Iodine", "NIH Office of Dietary Supplements. Iodine fact sheet for health professionals. Official page, excerpts read (not every section). Recommended intake of 290 mcg/day while breastfeeding; only about half of prenatal vitamins contain iodine; seaweed and kelp can be very high. The American Thyroid Association supplement advice was read only as an abstract and a summary.", "Breastfeeding (v7.6.33)", "https://ods.od.nih.gov/factsheets/Iodine-HealthProfessional/"],
+    ["fda-fish", "FDA/EPA 2021: Advice about eating fish", "U.S. Food and Drug Administration and EPA. Advice about eating fish (revised October 2021). Official page, excerpts read. For people who are pregnant or breastfeeding: 2–3 servings a week of “Best Choices” or 1 serving of “Good Choices”; avoid the highest-mercury fish (king mackerel, marlin, orange roughy, shark, swordfish, tilefish from the Gulf of Mexico, bigeye tuna).", "Breastfeeding (v7.6.33)", "https://www.fda.gov/food/consumers/advice-about-eating-fish"],
+    ["cdc-bfdiet", "CDC: Maternal diet, caffeine and alcohol while breastfeeding", "Centers for Disease Control and Prevention. Maternal diet and breastfeeding, and the alcohol and breastfeeding page. Official pages, excerpts read. Caffeine: about 300 mg a day or less (2–3 cups of coffee) is low to moderate. Alcohol: not drinking is safest; up to one drink a day is not known to be harmful; waiting at least 2 hours after a single drink. Vegetarian or vegan mothers: ask your provider about supplements.", "Breastfeeding (v7.6.33)", "https://search.cdc.gov/search/?query=maternal+diet+and+breastfeeding"],
+    ["iom-lact-protein", "IOM 2005 (protein while breastfeeding)", "Institute of Medicine. Dietary Reference Intakes for Energy, Carbohydrate, Fiber, Fat, Fatty Acids, Cholesterol, Protein, and Amino Acids. 2005. EXCERPTS ONLY: the RDA of 1.3 g/kg/day during lactation was read through the NAM and Health Canada DRI tables and a Bookshelf chapter excerpt, not from the book itself.", "Breastfeeding (v7.6.33)", "https://www.ncbi.nlm.nih.gov/books/NBK562630/"],
+    ["espen2021", "ESPEN 2021 (cancer practical guideline)", "Muscaritoli M, Arends J, Bachmann P, et al. ESPEN practical guideline: clinical nutrition in cancer. Clin Nutr 2021;40:2898–913. Full text read. Energy: if not measured, assume 25–30 kcal/kg/day (B2-1, strong, evidence low). Protein: above 1 g/kg/day, up to 1.5 g/kg/day if possible (B2-2, strong, evidence moderate). Do not restrict energy intake in people with or at risk of malnutrition (B3-2). Check intake, weight and BMI from diagnosis (B1-1, evidence very low). Physical activity (B4-1, evidence high); resistance training is a weaker recommendation (B4-2). No trials show a benefit of ketogenic diets. A planning range, not a prescription.", "Cancer-treatment mode (v7.6.33)", pm("ESPEN practical guideline: Clinical Nutrition in cancer")],
+    ["espen2017", "ESPEN 2017 (cancer guidelines)", "Arends J, Bachmann P, Baracos V, et al. ESPEN guidelines on nutrition in cancer patients. Clin Nutr 2017;36:11–48. Full text read. The energy rule of thumb over-estimates in obesity and under-estimates in severe malnutrition; no clinical trials show a benefit of a ketogenic diet; for infection risk, emphasise strict food-safety handling.", "Cancer-treatment mode (v7.6.33)", pm("ESPEN guidelines on nutrition in cancer patients")],
+    ["asco2020", "ASCO 2020 (cancer cachexia)", "Roeland EJ, Bohlke K, Baracos VE, et al. Management of cancer cachexia: ASCO guideline. J Clin Oncol 2020;38:2438–53. Full text read. Scope is advanced cancer with loss of appetite or weight. Dietitian referral, and advice against fad and other unproven or extreme diets (informal consensus; evidence quality low; strength moderate).", "Cancer-treatment mode (v7.6.33)", pm("Management of Cancer Cachexia: ASCO Guideline")],
+    ["acs2022", "ACS 2022 (nutrition and activity for cancer survivors)", "Rock CL, Thomson CA, Sullivan KR, et al. American Cancer Society nutrition and physical activity guideline for cancer survivors. CA Cancer J Clin 2022;72:230–62. Full text read. During treatment, monitor weight and adopt behaviours to maintain or gain weight; the treatment section is informed by current practice and was not subject to systematic review. The small-meals and appetite tips come from the ACS patient-language summary, read as a page excerpt only.", "Cancer-treatment mode (v7.6.33)", pm("American Cancer Society nutrition and physical activity guideline for cancer survivors")],
+    ["acsm2019", "ACSM 2019 (exercise for cancer survivors)", "Campbell KL, Winters-Stone KM, Wiskemann J, et al. Exercise guidelines for cancer survivors: consensus statement from international multidisciplinary roundtable. Med Sci Sports Exerc 2019;51:2375–90. Full text read. Exercise training was generally safe; outcomes were anxiety, depression, fatigue, function and quality of life, not muscle mass or body weight.", "Cancer-treatment mode (v7.6.33)", "https://pmc.ncbi.nlm.nih.gov/articles/PMC8576825/"],
+    ["cruk-sugar", "Cancer Research UK 2023 (sugar and cancer)", "Cancer Research UK. Sugar and cancer – what you need to know. News blog, 16 August 2023. Full text read. Organisation blog, not peer-reviewed. All cells need glucose and there is no way to give it only to healthy cells; no evidence that a sugar-free diet lowers cancer risk or improves survival; severely restricted diets can hamper recovery; the Warburg effect is real research that may lead to drugs but is still experimental.", "Cancer-treatment mode (v7.6.33)", "https://news.cancerresearchuk.org/2023/08/16/sugar-and-cancer-what-you-need-to-know/"],
+    ["wcrf-sugar", "WCRF/AICR (sugar-sweetened drinks and weight)", "World Cancer Research Fund / American Institute for Cancer Research. Evidence page for the recommendation on sugar-sweetened drinks (Third Expert Report, 2018). Full text of the web page read; the report PDF was not opened. Convincing evidence that sugar-sweetened drinks are a cause of weight gain, and greater body weight is a cause of many cancers. This is about risk, not treatment.", "Cancer-treatment mode (v7.6.33)", "https://www.wcrf.org/"],
+    ["barone2008", "Barone et al. 2008", "Barone BB, Yeh HC, Snyder CF, et al. Long-term all-cause mortality in cancer patients with preexisting diabetes mellitus: a systematic review and meta-analysis. JAMA 2008;300:2754–64. Full text read (author manuscript). Observational: HR 1.41 (95% CI 1.28–1.55). About having diabetes, not about sugar intake or glucose control.", "Cancer-treatment mode (v7.6.33)", "https://pmc.ncbi.nlm.nih.gov/articles/PMC3093051/"],
+    ["alenzi2017", "Alenzi & Kelley 2017", "Alenzi EO, Kelley GA. The association of hyperglycemia and diabetes mellitus and the risk of chemotherapy-induced neutropenia among cancer patients: a systematic review with meta-analysis. J Diabetes Complications 2017;31:267–72. Full text read. OR 1.32 (95% CI 1.06–1.64), high heterogeneity; the authors say more studies are needed. An association, not proof of cause.", "Cancer-treatment mode (v7.6.33)", "https://doi.org/10.1016/j.jdiacomp.2016.09.006"],
+    ["brunello2011", "Brunello et al. 2011 (abstract only)", "Brunello A, Kapoor R, Extermann M. Hyperglycemia during chemotherapy for hematologic and solid tumors is correlated with increased toxicity. Am J Clin Oncol 2011;34:292–6. ABSTRACT ONLY. Retrospective, 349 patients.", "Cancer-treatment mode (v7.6.33)", "https://doi.org/10.1097/coc.0b013e3181e1d0c0"],
+    ["mahin2023", "Mahin et al. 2023", "Mahin D, Lavasani SM, Cristobal L, et al. Hyperglycemia and glycemic variability associated with glucocorticoids in women without pre-existing diabetes undergoing neoadjuvant or adjuvant taxane chemotherapy for early-stage breast cancer. J Clin Med 2023;12:1906. Abstract and methods read only. Single-centre retrospective study of 100 women: steroid-induced hyperglycemia in 67%, transient in over 90%.", "Cancer-treatment mode (v7.6.33)", "https://doi.org/10.3390/jcm12051906"],
+    ["sremanakova2018", "Sremanakova et al. 2018 (abstract only)", "Sremanakova J, Sowerbutts AM, Burden S. A systematic review of the use of ketogenic diets in adult patients with cancer. J Hum Nutr Diet 2018;31:793–802. ABSTRACT ONLY. 11 studies, 102 participants; adherence was low (49%); high-quality evidence on tumour effects is lacking.", "Cancer-treatment mode (v7.6.33)", "https://doi.org/10.1111/jhn.12587"],
+    ["erickson2017", "Erickson et al. 2017 (abstract only)", "Erickson N, Boscheri A, Linke B, Huebner J. Systematic review: isocaloric ketogenic dietary regimes for cancer patients. Med Oncol 2017;34:72. ABSTRACT ONLY. Evidence supporting an effect on tumour development and progression is missing.", "Cancer-treatment mode (v7.6.33)", "https://doi.org/10.1007/s12032-017-0930-5"],
+    ["cochrane-lbd", "van Dalen et al. 2016 (Cochrane)", "van Dalen EC, Mank A, Leclercq E, et al. Low bacterial diet versus control diet to prevent infection in cancer patients treated with chemotherapy causing episodes of neutropenia. Cochrane Database Syst Rev 2016;CD006247. Full text read. Three small trials (192 participants), serious methodological limitations; “no evidence of effect”. Sonbol 2019 and Ball 2019 (meta-analyses, abstracts only) point the same way.", "Cancer-treatment mode (v7.6.33)", "https://doi.org/10.1002/14651858.CD006247.pub3"],
+    ["nci-pdq-nutr", "NCI PDQ: Nutrition in Cancer Care", "National Cancer Institute. Nutrition in cancer care (PDQ), health professional version, updated 2024-09-20. Full text read. Neutropenic-diet practices lack evidence; safe food-handling is recommended; ketogenic-diet effectiveness for symptom and disease management is unknown.", "Cancer-treatment mode (v7.6.33)", "https://www.cancer.gov/search/results?searchTerm=Nutrition+in+Cancer+Care+PDQ"],
   ];
   const byId = (id) => { const r = REG.find((x) => x[0] === id); if (r) return { id, short: r[1], full: r[2], topic: r[3], link: r[4] };
     const S = window.BodyStory && window.BodyStory.SOURCES, s = S && S.find((x) => x[0] === id);
@@ -4560,7 +4843,7 @@ const pftEst = () => PF.estimate(pftInput());
 const defaults = () => ({
   v: 1, mode: "plan", step: 0, maxStep: 1, units: "imperial", ui: { mode: "simple" },
   profile: { sex: "m", age: 35, heightCm: 177.8, weightKg: 190 / LB, bfMode: "bmi", bf: 25, neckCm: null, waistCm: null, hipCm: null, dexaBf: null,
-    health: { pregnant: false, glucoseMeds: false, edHistory: false, meds: "unknown", medAck: false, diabetes: "unknown", diabetesAuto: false, diabetesPicked: false, a1c: null, fattyLiver: "unknown", labs: {} },
+    health: { pregnant: false, bf: "none", bfMonths: 3, bfPump: false, bfMulti: false, cancer: "no", glucoseMeds: false, edHistory: false, meds: "unknown", medAck: false, diabetes: "unknown", diabetesAuto: false, diabetesPicked: false, a1c: null, fattyLiver: "unknown", labs: {} },
     fat: { carry: "", menopause: "", ancestry: "" } },
   fig: { mode: "skin", tone: 2, top: false, photoThumb: false },
   goal: { type: "steady", targetBf: null, targetWeightKg: null, deadline: null, window: 12, pace: 0.6, touched: false, gainMode: "lean", gainTargetKg: null, bfCeiling: null, exactW: null, exactBf: null, exactBy: null, exactLead: null },
@@ -4641,7 +4924,8 @@ const moveSet = () => S.maxStep >= 3;
 const foodSet = () => S.maxStep >= 4;
 const ASSUME_TXT = "Assumes 2–3 lifts/week; you'll set this next.";
 function effMove() { const m = modeMove(S.move); return moveSet() ? m : { ...m, preset: "2-3", plannerOn: false }; }
-function engineInput() {
+function engineInput() { const i = engineInput0(); const wt = typeof weightTrend === "function" ? weightTrend() : null; if (wt) i.weightTrend = wt.dir; return i; }
+function engineInput0() {
   const p = S.profile, b = bfInfo(), g = S.goal, gainT = g.type === "gain" && g.gainTargetKg > 0, isT = g.type === "targetBf" || g.type === "targetWeight" || gainT;
   if (S.food.actualKcal == null) S.food.actualKcal = Math.round(baseActivity().tdee / 50) * 50;
   const food0 = foodSet() ? S.food : { ...S.food, actualProtein: "high" }, food = { ...food0, refeedDays: isAdv() ? +S.food.refeedDays || 0 : 0 };
@@ -4874,7 +5158,7 @@ function revealExact() {
 }
 
 // ---------- update cycle ----------
-function compute() { { const h = S.profile.health, g = S.goal; if (h.pregnant && g.type !== "maintain") g.type = "maintain"; else if (h.edHistory && g.type === "maxloss") g.type = "steady"; if (S.food.psmf && ["gain", "bulk", "maintain", "recomp"].includes(g.type)) { S.food.psmf = false; S.food.psmfNote = true; } else if (S.food.psmfNote && !["gain", "bulk", "maintain", "recomp"].includes(g.type)) S.food.psmfNote = false; }   // PSMF is a fat-loss tool only   // v7.6.3 sweep: a saved or linked state can't bypass the disabled goals
+function compute() { { const h = S.profile.health, g = S.goal; if (S.profile.sex !== "f") { if (h.bf !== "none") h.bf = "none"; h.bfPump = false; h.bfMulti = false; h.pregnant = false; } if (E.holdsGoal(h) && g.type !== "maintain") g.type = "maintain"; else if (h.edHistory && g.type === "maxloss") g.type = "steady"; if (S.food.psmf && ["gain", "bulk", "maintain", "recomp"].includes(g.type)) { S.food.psmf = false; S.food.psmfNote = true; } else if (S.food.psmfNote && !["gain", "bulk", "maintain", "recomp"].includes(g.type)) S.food.psmfNote = false; }   // PSMF is a fat-loss tool only   // v7.6.3 sweep: a saved or linked state can't bypass the disabled goals
   try { R = E.project(engineInput()); manualMacros(); } catch (e) { R = { blocked: ["Something in the inputs couldn't be calculated. Check the highlighted fields."] }; }
   R.assumed = { move: !moveSet(), food: !foodSet() }; }
 // v6: diabetes status follows the A1c while the question is unanswered; explicit answers are kept, with a gentle note on a mismatch
@@ -5426,6 +5710,35 @@ function mbarOutcome(d) {
   const goalTxt = goalLabel(), same = S.food.actualOn ? ` (goal: ${goalTxt})` : "";
   return `${lab}${parts.length ? ": " + parts.join(", ") : ""}${same}`;
 }
+// v7.6.24 MOCKUP: "Habits direction" gauge (qualitative, rules-based; see TheosisHabits.direction). Below the summary rows, never on the figure.
+let gaugeRecsAll = false; // "See all" expander state survives live re-renders
+document.addEventListener("click", (ev) => { const b = ev.target.closest && ev.target.closest("[data-recs-all]"); if (!b) return; gaugeRecsAll = !gaugeRecsAll; renderSummary(); });
+function recsHtml() {
+  let r; try { r = TheosisHabits.recommendations(habInput(), E); } catch (e) { return ""; }
+  const li = (t) => `<li><span class="gm" aria-hidden="true">→</span><span>${esc(t.text)} <small>${esc(t.src)}</small></span></li>`;
+  if (!r.tips.length) return `<div class="gauge-recs" data-recs="0"><p class="gauge-recs-h">Options to consider</p><p class="gauge-recs-none" role="status">Your entered choices fit your goal well.</p></div>`;
+  const top = r.tips.slice(0, 3), rest = r.tips.slice(3);
+  return `<div class="gauge-recs" data-recs="${r.tips.length}"><p class="gauge-recs-h">Options to consider · biggest shift first</p>
+    <ul class="gauge-why gauge-tips" aria-live="polite">${top.map(li).join("")}</ul>
+    ${rest.length ? `<button type="button" class="chip chip-xs gauge-more" data-recs-all="1" aria-expanded="${gaugeRecsAll}">${gaugeRecsAll ? "Show fewer" : `See all (${rest.length} more)`}</button>${gaugeRecsAll ? `<ul class="gauge-why gauge-tips">${rest.map(li).join("")}</ul>` : ""}` : ""}
+    <p class="hint">These are options, not instructions. Each shows how this dial would move if only that one entered choice changed, using the same rules. Education only, not medical advice.</p></div>`;
+}
+let gaugeLast = null; // last needle angle, so a re-render starts the needle where it was and the CSS transition sweeps it to the new spot
+function gaugeHtml() {
+  if (!fixedOn() || !R || R.blocked) return "";
+  let d; try { d = TheosisHabits.direction(habInput(), E); } catch (e) { return ""; }
+  const GF = d.frame === "cancer" ? "How your choices fit maintaining weight and muscle" : "How your choices fit your goal", ang = (d.pos * 180 - 90), a0 = gaugeLast == null ? ang : gaugeLast, sign = (v) => (v > 0 ? "up" : v < 0 ? "dn" : "mid"), mark = (v) => (v > 0 ? "▲" : v < 0 ? "▼" : "●");
+  const items = d.items.slice().sort((a, b) => a.v - b.v);
+  const to = ang; gaugeLast = to; requestAnimationFrame(() => requestAnimationFrame(() => { document.querySelectorAll(".gneedle").forEach((n) => { n.style.transform = `rotate(${n.dataset.to}deg)`; }); }));
+  return `<section class="gauge" data-gauge data-level="${d.level}" aria-label="${GF}">
+    <p class="eyebrow">${GF} · education only</p>
+    <p class="gauge-h"><b>${esc(d.label)}</b></p>
+    <div class="gauge-wrap" role="img" aria-label="${GF}: needle in the ${esc(d.label)} zone. Rules-based, not a measurement, not a health score."><svg class="gauge-dial" viewBox="0 0 160 92" aria-hidden="true" focusable="false"><path class="ring" d="M8.00,80.00 A72,72 0 0 1 152.00,80.00"/><path class="ring in" d="M34.00,80.00 A46,46 0 0 1 126.00,80.00"/><path class="ring in2" d="M37.00,80.00 A43,43 0 0 1 123.00,80.00"/><line class="gt maj" x1="16.5" y1="80.0" x2="11.0" y2="80.0"/><line class="gt" x1="16.6" y1="76.7" x2="14.3" y2="76.6"/><line class="gt" x1="16.8" y1="73.4" x2="14.6" y2="73.1"/><line class="gt" x1="17.3" y1="70.1" x2="15.0" y2="69.7"/><line class="gt" x1="17.9" y1="66.8" x2="15.6" y2="66.3"/><line class="gt" x1="18.7" y1="63.6" x2="15.3" y2="62.7"/><line class="gt" x1="19.6" y1="60.4" x2="17.4" y2="59.7"/><line class="gt" x1="20.7" y1="57.2" x2="18.6" y2="56.4"/><line class="gt" x1="22.0" y1="54.2" x2="19.9" y2="53.2"/><line class="gt" x1="23.4" y1="51.2" x2="21.4" y2="50.1"/><line class="gt maj" x1="25.0" y1="48.2" x2="20.2" y2="45.5"/><line class="gt" x1="26.7" y1="45.4" x2="24.8" y2="44.2"/><line class="gt" x1="28.6" y1="42.7" x2="26.8" y2="41.3"/><line class="gt" x1="30.7" y1="40.0" x2="28.9" y2="38.6"/><line class="gt" x1="32.8" y1="37.5" x2="31.1" y2="36.0"/><line class="gt" x1="35.1" y1="35.1" x2="32.6" y2="32.6"/><line class="gt" x1="37.5" y1="32.8" x2="36.0" y2="31.1"/><line class="gt" x1="40.0" y1="30.7" x2="38.6" y2="28.9"/><line class="gt" x1="42.7" y1="28.6" x2="41.3" y2="26.8"/><line class="gt" x1="45.4" y1="26.7" x2="44.2" y2="24.8"/><line class="gt maj" x1="48.2" y1="25.0" x2="45.5" y2="20.2"/><line class="gt" x1="51.2" y1="23.4" x2="50.1" y2="21.4"/><line class="gt" x1="54.2" y1="22.0" x2="53.2" y2="19.9"/><line class="gt" x1="57.2" y1="20.7" x2="56.4" y2="18.6"/><line class="gt" x1="60.4" y1="19.6" x2="59.7" y2="17.4"/><line class="gt" x1="63.6" y1="18.7" x2="62.7" y2="15.3"/><line class="gt" x1="66.8" y1="17.9" x2="66.3" y2="15.6"/><line class="gt" x1="70.1" y1="17.3" x2="69.7" y2="15.0"/><line class="gt" x1="73.4" y1="16.8" x2="73.1" y2="14.6"/><line class="gt" x1="76.7" y1="16.6" x2="76.6" y2="14.3"/><line class="gt maj" x1="80.0" y1="16.5" x2="80.0" y2="11.0"/><line class="gt" x1="83.3" y1="16.6" x2="83.4" y2="14.3"/><line class="gt" x1="86.6" y1="16.8" x2="86.9" y2="14.6"/><line class="gt" x1="89.9" y1="17.3" x2="90.3" y2="15.0"/><line class="gt" x1="93.2" y1="17.9" x2="93.7" y2="15.6"/><line class="gt" x1="96.4" y1="18.7" x2="97.3" y2="15.3"/><line class="gt" x1="99.6" y1="19.6" x2="100.3" y2="17.4"/><line class="gt" x1="102.8" y1="20.7" x2="103.6" y2="18.6"/><line class="gt" x1="105.8" y1="22.0" x2="106.8" y2="19.9"/><line class="gt" x1="108.8" y1="23.4" x2="109.9" y2="21.4"/><line class="gt maj" x1="111.8" y1="25.0" x2="114.5" y2="20.2"/><line class="gt" x1="114.6" y1="26.7" x2="115.8" y2="24.8"/><line class="gt" x1="117.3" y1="28.6" x2="118.7" y2="26.8"/><line class="gt" x1="120.0" y1="30.7" x2="121.4" y2="28.9"/><line class="gt" x1="122.5" y1="32.8" x2="124.0" y2="31.1"/><line class="gt" x1="124.9" y1="35.1" x2="127.4" y2="32.6"/><line class="gt" x1="127.2" y1="37.5" x2="128.9" y2="36.0"/><line class="gt" x1="129.3" y1="40.0" x2="131.1" y2="38.6"/><line class="gt" x1="131.4" y1="42.7" x2="133.2" y2="41.3"/><line class="gt" x1="133.3" y1="45.4" x2="135.2" y2="44.2"/><line class="gt maj" x1="135.0" y1="48.3" x2="139.8" y2="45.5"/><line class="gt" x1="136.6" y1="51.2" x2="138.6" y2="50.1"/><line class="gt" x1="138.0" y1="54.2" x2="140.1" y2="53.2"/><line class="gt" x1="139.3" y1="57.2" x2="141.4" y2="56.4"/><line class="gt" x1="140.4" y1="60.4" x2="142.6" y2="59.7"/><line class="gt" x1="141.3" y1="63.6" x2="144.7" y2="62.7"/><line class="gt" x1="142.1" y1="66.8" x2="144.4" y2="66.3"/><line class="gt" x1="142.7" y1="70.1" x2="145.0" y2="69.7"/><line class="gt" x1="143.2" y1="73.4" x2="145.4" y2="73.1"/><line class="gt" x1="143.4" y1="76.7" x2="145.7" y2="76.6"/><line class="gt maj" x1="143.5" y1="80.0" x2="149.0" y2="80.0"/><path class="sg against" d="M24.01,79.12 A56,56 0 0 1 24.37,73.56"/><path class="sg against" d="M24.60,71.82 A56,56 0 0 1 25.69,66.36"/><path class="sg against" d="M26.14,64.66 A56,56 0 0 1 27.93,59.39"/><path class="sg against" d="M28.61,57.76 A56,56 0 0 1 31.07,52.77"/><path class="sg against" d="M31.95,51.24 A56,56 0 0 1 35.04,46.61"/><path class="sg against" d="M36.11,45.22 A56,56 0 0 1 39.78,41.03"/><path class="sg against" d="M41.03,39.78 A56,56 0 0 1 45.22,36.11"/><path class="sg against" d="M46.61,35.04 A56,56 0 0 1 51.24,31.95"/><path class="sg mixed" d="M52.77,31.07 A56,56 0 0 1 57.76,28.61"/><path class="sg mixed" d="M59.39,27.93 A56,56 0 0 1 64.66,26.14"/><path class="sg mixed" d="M66.36,25.69 A56,56 0 0 1 71.82,24.60"/><path class="sg mixed" d="M73.56,24.37 A56,56 0 0 1 79.12,24.01"/><path class="sg mixed" d="M80.88,24.01 A56,56 0 0 1 86.44,24.37"/><path class="sg mixed" d="M88.18,24.60 A56,56 0 0 1 93.64,25.69"/><path class="sg mixed" d="M95.34,26.14 A56,56 0 0 1 100.61,27.93"/><path class="sg mixed" d="M102.24,28.61 A56,56 0 0 1 107.23,31.07"/><path class="sg supportive" d="M108.76,31.95 A56,56 0 0 1 113.39,35.04"/><path class="sg supportive" d="M114.78,36.11 A56,56 0 0 1 118.97,39.78"/><path class="sg supportive" d="M120.22,41.03 A56,56 0 0 1 123.89,45.22"/><path class="sg supportive" d="M124.96,46.61 A56,56 0 0 1 128.05,51.24"/><path class="sg supportive" d="M128.93,52.77 A56,56 0 0 1 131.39,57.76"/><path class="sg supportive" d="M132.07,59.39 A56,56 0 0 1 133.86,64.66"/><path class="sg supportive" d="M134.31,66.36 A56,56 0 0 1 135.40,71.82"/><path class="sg supportive" d="M135.63,73.56 A56,56 0 0 1 135.99,79.12"/><g class="gneedle" style="transform:rotate(${a0.toFixed(1)}deg)" data-to="${ang.toFixed(1)}"><path class="gn-body" d="M80,20 L80.9,60 L80.7,80 L79.3,80 L79.1,60 Z"/><path class="gn-tail" d="M79.4,80 L80.6,80 L80.4,88 L79.6,88 Z"/></g><circle class="gn-cap" cx="80" cy="80" r="4.2"/><circle class="gn-cap2" cx="80" cy="80" r="1.6"/></svg></div>
+    <div class="gauge-ends" aria-hidden="true"><span>Leaning against</span><span>Mixed</span><span>Leaning supportive</span></div>
+    <ul class="gauge-why">${items.length ? items.map((x) => `<li class="${sign(x.v)}"><span class="gm" aria-hidden="true">${mark(x.v)}</span><span>${esc(x.text)} <small>${esc(x.src)}</small></span></li>`).join("") : `<li class="mid"><span class="gm" aria-hidden="true">●</span><span>Nothing here clearly pushes either way.</span></li>`}</ul>
+    ${recsHtml()}
+    <p class="hint">A simple rules-based read of how the choices you entered fit your chosen goal. It is not a measurement, not a health score and not medical advice. ${d.frame === "cancer" ? "In cancer-treatment mode it compares intake with the ESPEN planning ranges and your logged weight trend. " : ""}It only counts habits with published support listed in Sources. It does not use labs or A1c, and it can't see your health history or medicines.</p></section>`;
+}
 function renderSummary() {
   const d = sumData(), { st, e, b } = d, after = e ? personAt(e) : st, pf = photoFit.shape ? " (from your photo)" : "";
   // v5 P11: optional small thumbnail of your photo beside the figure (memory only, never uploaded)
@@ -5435,10 +5748,10 @@ function renderSummary() {
   <figure data-f3="sum-end">${FIG.svg(after, { ghost: st, title: e ? `Projected: ${fP(e.bf)} body fat` : "Projection unavailable" })}<figcaption>${e ? `Week ${fWk(e.day)}` : "Projected"}</figcaption></figure></div>
   ${photoFit.shape ? `<p class="sum-fit">Shaped from your photo · an approximation</p>` : ""}
   ${figBarHtml()}
-  ${sumRowsHtml(d)}${sumNoteHtml(d)}`;
+  ${sumRowsHtml(d)}${sumNoteHtml(d)}${gaugeHtml()}`;
   $("#mbar-mini").innerHTML = `${FIG.svg(after, { title: "Projected figure" })}<span class="mt"><b>${nW(S.profile.weightKg)} → ${e ? fW(e.weightKg) : "—"}</b> · <b>${fP(b.bf)} → ${e ? fP(e.bf) : "—"}</b><br><span>${esc(mbarOutcome(d))} · ${e ? `${fK(d.kcal)} kcal · ${fWk(d.days)} wk` : "—"}</span></span>`;
   const panel = $("#mbar-panel");
-  panel.innerHTML = `<div class="sum-figs"><figure data-f3="mbar-now">${FIG.svg(st, { title: `Now: ${fP(b.bf)} body fat` })}<figcaption>${photoFit.shape ? "Your 3D" : "Now"}</figcaption></figure><figure data-f3="mbar-end">${FIG.svg(after, { ghost: st, title: e ? `Projected: ${fP(e.bf)} body fat` : "Projection unavailable" })}<figcaption>${e ? `Week ${fWk(e.day)}` : "Projected"}</figcaption></figure></div>${sumRowsHtml(d)}${sumNoteHtml(d)}`;
+  panel.innerHTML = `<div class="sum-figs"><figure data-f3="mbar-now">${FIG.svg(st, { title: `Now: ${fP(b.bf)} body fat` })}<figcaption>${photoFit.shape ? "Your 3D" : "Now"}</figcaption></figure><figure data-f3="mbar-end">${FIG.svg(after, { ghost: st, title: e ? `Projected: ${fP(e.bf)} body fat` : "Projection unavailable" })}<figcaption>${e ? `Week ${fWk(e.day)}` : "Projected"}</figcaption></figure></div>${sumRowsHtml(d)}${sumNoteHtml(d)}${gaugeHtml()}`;
   panel.hidden = !mbarOpen; $("#mbar").classList.toggle("open", mbarOpen); $("#mbar-toggle").setAttribute("aria-expanded", String(mbarOpen)); fitMbar();
   const shape = photoFit.shape || null, sp = { ...st, shape }, ap = { ...after, shape };
   mount3d("sum-now", $('#summary [data-f3="sum-now"]'), sp, null, `${photoFit.shape ? "Your 3D, shaped from your photo" + pf : "Now"}: ${fP(b.bf)} body fat. 3D figure, drag or use arrow keys to turn.`);
@@ -5453,6 +5766,7 @@ function renderYou() {
   $$("[data-bfmode]").forEach((el) => (el.hidden = el.dataset.bfmode !== p.bfMode));
   $('[data-field="hip"]').hidden = p.sex !== "f";
   $('[data-field="waist"]').hidden = p.bfMode === "navy";
+  if (typeof renderSpecialYou === "function") renderSpecialYou();
   const est = $("#bf-estimate");
   if (b.scale) { est.hidden = false; est.innerHTML = `<b>${fP(b.bf)}</b><span>body fat from your smart-scale fat numbers (counts as measured)</span>`; }
   else if (p.bfMode === "known") { est.hidden = true; }
@@ -5509,11 +5823,13 @@ function renderGoal() {
   const g = S.goal, b = bfInfo(), p = S.profile;
   $("#goal-lead").textContent = S.mode === "habits" ? "Pick a goal to compare against. Your projection follows what you actually eat (Step 4)." : "What you want your body to do. You'll get instant feedback on whether it's realistic.";
   for (const inp of $$('input[name="goal.type"]')) {
-    const v = inp.value, dis = (v === "maxloss" && b.source === "bmi") || (p.health.pregnant && v !== "maintain") || (p.health.edHistory && v === "maxloss");
+    const v = inp.value, dis = (v === "maxloss" && b.source === "bmi") || (E.holdsGoal(p.health) && v !== "maintain") || (p.health.edHistory && v === "maxloss");
     inp.disabled = dis; inp.checked = g.type === v;
     const d = $(`[data-desc="${v}"]`), base = GOAL_OPTS.find((o) => o[0] === v)[2];
     const why = v === "maxloss" && b.source === "bmi" ? ["Needs a measured body fat (%, smart-scale fat in lb, or a tape measurement). Right now it's only a BMI guess.", "bf", "Add body fat in Step 1"]
-      : p.health.pregnant && v !== "maintain" ? ["Not available during pregnancy or breastfeeding.", "pregnant", "Change this answer in Step 1"]
+      : p.health.pregnant && v !== "maintain" ? ["Not available during pregnancy.", "pregnant", "Change this answer in Step 1"]
+      : E.lactInfo(p.health).on && v !== "maintain" ? ["Not available while breastfeeding. The app doesn't set a fat-loss or weight-gain target at this stage.", "lact", "Change this answer in Step 1"]
+      : E.cancerOn(p.health) && v !== "maintain" ? ["Not available in cancer-treatment mode. The goal here is to maintain weight and muscle.", "cancer", "Change this answer in Step 1"]
       : p.health.edHistory && v === "maxloss" ? ["Not offered with a history of an eating disorder, to keep you safe. Other goals are available.", "edHistory", "Review this answer in Step 1"] : null;
     d.innerHTML = why ? `${esc(why[0])} <button type="button" class="link-btn goal-fix" data-goal-fix="${why[1]}">${esc(why[2])} →</button>` : esc(base);
   }
@@ -5856,7 +6172,7 @@ function renderMeals() {
   <table class="tbl meal-vs" id="meal-vs" aria-label="This day's totals vs your targets"><caption>This day vs your targets</caption><thead><tr><th></th><th>This day</th><th>Target</th><th>Difference</th></tr></thead><tbody>
     ${[["Calories", "kcal", ""], ["Protein", "protein", " g"], ["Carbs", "carbs", " g"], ["Fat", "fat", " g"]].map(([n, k, u]) => { const v = Math.round(day.totals[k]), tg = Math.round(day.target[k]), d = v - tg, ok = k === "kcal" ? Math.abs(d) <= 0.02 * tg : k === "protein" ? d >= -Math.max(8, 0.09 * tg) && d <= Math.max(18, 0.13 * tg) : Math.abs(d) * (k === "fat" ? 9 : 4) <= 0.15 * day.target.kcal;
       return `<tr data-k="${k}"><th>${n}</th><td>${fK(v)}${u}</td><td>${fK(tg)}${u}</td><td>${ok ? "✓ " : ""}${d === 0 ? "on target" : `${d > 0 ? "+" : "−"}${fK(Math.abs(d))}${u}`}</td></tr>`; }).join("")}</tbody></table>
-  ${Math.abs(gap) > 100 || pg < -15 ? `<p class="hint">These portions don't fully match your targets, because each food stays within a usable range.</p>` : ""}
+  ${Math.abs(pg) > 5 ? `<p class="hint" id="meal-protein-note">With this style's foods, the day lands ${fK(Math.abs(Math.round(pg)))} g ${pg > 0 ? "above" : "below"} your ${fK(day.target.protein)} g protein target at this calorie level. Another style, or a protein shake, gets closer.</p>` : Math.abs(gap) > 100 ? `<p class="hint">These portions don't fully match your targets, because each food stays within a usable range.</p>` : ""}
   ${day.id === "glutenfree" ? `<p class="hint gf-note" id="gf-note"><strong>Gluten-free:</strong> ${esc(window.SampleDays.GF_NOTE)}</p>` : ""}
   <p class="hint">Contains: ${esc(day.allergens)} Check labels for allergens and exact nutrition. These are meal ideas, not a nutrition prescription.</p>
   <div class="actions"><button type="button" class="btn ${inUse ? "btn-ghost" : "btn-steel"}" data-meal-use="${day.key}" ${inUse ? "disabled" : ""}>${inUse ? "Used in your projection ✓" : "Use this day"}</button>
@@ -5864,17 +6180,18 @@ function renderMeals() {
   <p class="hint" role="status">${esc(mealStatus)}</p>`;
 }
 function renderFood() {
+  if (typeof renderSpecial === "function") renderSpecial();
   $("#food-lead").textContent = S.mode === "habits" ? "Enter what you really eat. You'll see where it leads and how it compares with a plan for your goal." : "One daily target, built for your goal. It adjusts as your body changes.";
   $("#actual-fields").hidden = !S.food.actualOn;
   const card = $("#rec-card"), used = $("#used-card"), med = $("#med-card");
   if (!R || R.blocked) { card.innerHTML = `<p class="blocked">Finish your goal on Step 2 to get a target.</p>`; if (used) used.innerHTML = ""; med.hidden = true; $("#psmf-prompt").innerHTML = ""; renderMeals(); return; }
-  const r0 = R.rec.rows[0], floor = E.FLOOR[S.profile.sex];
+  const r0 = R.rec.rows[0], floor = E.floorOf(S.profile);
   const lossRows = R.rec.rows.filter((r) => !r.holding && !r.dietBreak && !r.end);
   const lastPlan = lossRows[lossRows.length - 1];
   const taper = R.dir === "loss" && lastPlan && lastPlan.intake < r0.intake - 20 ? `As you lose fat, your ceiling shrinks and your metabolism adapts, so the target steps down a little each week, to about <strong>${fK(lastPlan.intake)} kcal</strong> by week ${lastPlan.week}. The Projection table lists every week.` : "";
   const rl = R.rec.rows[R.rec.rows.length - 1], ceilTxt = R.dir === "loss" ? ` <span data-fat-ceiling>Max fat burn: your fat can fuel a deficit of up to about <strong>${fK(r0.ceiling)} kcal a day</strong> now${rl && rl.ceiling < r0.ceiling - 20 ? `, shrinking to about ${fK(rl.ceiling)} by week ${Math.round(rl.day / 7)}` : ""} (Alpert 2005).</span>` : "";
   const taper2 = (taper + ceilTxt).trim();
-  const diff = r0.tdee - r0.intake, usingRec = !fixedOn();
+  const diff = r0.tdee - r0.intake, usingRec = !fixedOn(), LI = E.lactInfo(S.profile.health, S.profile.age);
   // v6.4: ONE target. Burn − deficit (or + surplus) = target; one plain line with pace and timeline; "How we got this" on tap.
   const st0 = R.main.rows[0], w0 = st0.fatKg + st0.leanKg, line = (rows, kcal) => { const e = rows[rows.length - 1], wk = Math.max(1, Math.round(e.day / 7)), dw = e.fatKg + e.leanKg - w0, per = Math.abs(dw) / wk;
     const pace = Math.abs(dw) < 0.3 ? `holds your weight` : `${dw < 0 ? "lose" : "gain"} about ${fW(per)} a week`;
@@ -5885,12 +6202,12 @@ function renderFood() {
     else if ((S.goal.type === "targetWeight" || S.goal.type === "targetBf") && S.goal.deadline) paceTxt = `Paced to reach your goal by week ${S.goal.deadline}.`; }
   const recLine = (() => { const e = R.rec.rows[R.rec.rows.length - 1], wk = Math.max(1, Math.round(e.day / 7)), dw = e.fatKg + e.leanKg - w0;
     const pace = Math.abs(dw) < 0.3 ? "keep your weight about steady" : `${dw < 0 ? "lose" : "gain"} about ${fW(Math.abs(dw) / wk)} a week`;
-    return `${diff > 5 ? `Your daily burn (${fK(r0.tdee)}) minus a ${fK(diff)} kcal deficit` : diff < -5 ? `Your daily burn (${fK(r0.tdee)}) plus a ${fK(-diff)} kcal surplus` : `About your daily burn (${fK(r0.tdee)})`}. At this target you ${pace}, reaching ${fW(e.fatKg + e.leanKg)} in about ${wk} week${wk === 1 ? "" : "s"}.`; })();
+    return `${diff > 5 ? `Your daily burn (${fK(r0.tdee)}) minus a ${fK(diff)} kcal deficit` : diff < -5 ? `Your daily burn (${fK(r0.tdee)}) plus a ${fK(-diff)} kcal surplus` : (LI.on ? `About your estimated needs (${fK(r0.tdee)} kcal, which includes +${fK(LI.k)} for breastfeeding)` : `About your daily burn (${fK(r0.tdee)})`)}. At this target you ${pace}, reaching ${fW(e.fatKg + e.leanKg)} in about ${wk} week${wk === 1 ? "" : "s"}.`; })();
   const how = `<details class="how-got"><summary>How we got this</summary><table class="how-tbl"><tbody>
-      <tr><th scope="row">Daily burn<small>resting + daily living + steps + training</small></th><td>${fK(r0.tdee)} kcal</td></tr>
+      <tr><th scope="row">Daily burn<small>resting + daily living + steps + training${LI.on ? ` + ${fK(LI.k)} for breastfeeding (NAM 2023)` : ""}</small></th><td>${fK(r0.tdee)} kcal</td></tr>
       <tr><th scope="row">${diff > 5 ? "Deficit" : diff < -5 ? "Surplus" : "Deficit / surplus"}<small>${diff > 5 ? `${esc(paceTxt)} Kept under your fat ceiling (${fK(r0.ceiling)} kcal a day). <button type="button" class="link-btn" data-info="fatceiling" id="fc-open">(What's a fat ceiling?)</button>` : diff < -5 ? "Sized to how fast you can build muscle." : "None: maintenance."}</small></th><td>${diff > 5 ? "−" : diff < -5 ? "+" : ""}${fK(Math.abs(diff))} kcal</td></tr>
       <tr class="tot"><th scope="row">= Your daily calorie target</th><td>${fK(r0.intake)} kcal</td></tr></tbody></table>
-      <p class="hint">Never below the ${fK(floor)} kcal safe minimum.${taper2 ? " " + taper2 : ""}</p></details>`;
+      <p class="hint">Never below the ${fK(floor)} kcal safe minimum${LI.on ? ` (${fK(E.FLOOR[S.profile.sex])} plus your ${fK(LI.k)} kcal breastfeeding increment)` : ""}.${taper2 ? " " + taper2 : ""}</p></details>`;
   // the one secondary line, only once foods are entered or "Simulate what I actually eat" is on
   const logKcal = S.food.logUsed && S.food.log.length && window.FoodCore ? Math.round(FoodCore.totals(S.food.log).kcal) : null;
   const eatK = fixedOn() ? fixedKcal() : logKcal, dd = eatK == null ? 0 : eatK - r0.intake;
@@ -5925,8 +6242,8 @@ function renderFood() {
   const logPending = S.food.logUsed && S.food.log.length > 0 && !S.food.logDone, fromLog = S.food.logUsed && S.food.log.length > 0;
   if (S.food.psmf) pp.innerHTML = `<div class="psmf on"><p class="eyebrow card-eyebrow">PSMF · clinician-guided</p><p class="read">The projection now uses a protein-sparing modified fast: about <strong>${fK(ps.kcal)} kcal</strong> with <strong>at least ${ps.protein} g protein</strong> a day (${psRef}), ~${ps.carbs} g carbs and ~${ps.fat} g fat. It's usually limited to 6–12 weeks under medical supervision, with electrolytes, fluids, a multivitamin, lab checks and a planned step back up to maintenance.</p><button type="button" class="btn btn-ghost mt1" data-psmf="off">Back to what I eat</button></div>`;
   else if (S.food.actualOn && S.food.actualKcal != null && S.food.actualKcal <= 1000 && !logPending && S.food.psmfNoteOff !== S.food.actualKcal) {
-    pp.innerHTML = h.pregnant || h.edHistory || h.diabetes === "t1"
-      ? `<ul class="alerts"><li class="alert danger">${ICON.warn}<span>Intakes of 1,000 kcal or less need your care team. A PSMF isn't offered here with pregnancy, type 1 diabetes or a history of disordered eating.</span></li></ul>`
+    pp.innerHTML = E.holdsGoal(h) || h.edHistory || h.diabetes === "t1"
+      ? `<ul class="alerts"><li class="alert danger">${ICON.warn}<span>Intakes of 1,000 kcal or less need your care team. A PSMF isn't offered here with pregnancy, breastfeeding, cancer treatment, type 1 diabetes or a history of disordered eating.</span></li></ul>`
       : `<div class="psmf"><p class="eyebrow card-eyebrow">A note on very low intakes</p><p class="read">${fromLog ? `Your day adds up to about <strong>${fK(S.food.actualKcal)} kcal</strong>.` : `That's about <strong>${fK(S.food.actualKcal)} kcal</strong> a day.`} If that's what you plan to eat, one option to talk over with a clinician is a <strong>protein-sparing modified fast (PSMF)</strong>: a short, supervised phase with at least <strong>${ps.protein} g protein</strong> a day (${psRef}) to protect muscle, plus electrolytes, fluids, a multivitamin and lab checks.</p>
         <div class="actions"><button type="button" class="btn btn-steel" data-psmf="on">Project a clinician-guided PSMF</button><button type="button" class="btn btn-ghost" data-psmf-off="1">Not now</button></div></div>`;
   } else pp.innerHTML = "";
@@ -6406,6 +6723,88 @@ function renderFlSim() {
       : `<p class="hint">No logged days yet. Foods added below are saved to today's Food Log too. Log a few full days (and mark them complete) to use your average here.</p>`}
     <p class="hint" id="fl-sim-status" role="status"></p></div>`;
 }
+/* v7.6.33: breastfeeding and cancer-treatment mode (education only, not medical advice). Evidence: LACTATION-EVIDENCE.md and CANCER-NUTRITION-EVIDENCE.md.
+   Step 1 questions (breastfeeding only for sex = female), Food-step cards, and a weight-trend flag from the user's own weigh-ins. Nothing here is a diagnosis. */
+const SP_SRC = (ids, label) => `<small class="sp-src">${esc(label)}</small>`;
+/* internal rule, never shown as a clinical cut-off: latest weigh-in vs one at least 4 weeks earlier (within 12 weeks). 2% or more lower = "down"; under 2% either way = "steady". */
+function weightTrend() {
+  if (!E.cancerOn(S.profile.health)) return null;
+  const L = (typeof weighIns === "function" ? weighIns() : []).filter((x) => x.weightKg > 0).slice().sort((a, b) => a.week - b.week); if (L.length < 2) return null;
+  const last = L[L.length - 1], older = L.filter((x) => last.week - x.week >= 4 && last.week - x.week <= 12); if (!older.length) return null;
+  const ref = older[0], pct = (ref.weightKg - last.weightKg) / ref.weightKg;
+  if (S.caPlanned === last.week) return { dir: null, ref, last, pct, planned: true };
+  return { dir: pct >= 0.02 ? "down" : Math.abs(pct) < 0.02 ? "steady" : null, ref, last, pct };
+}
+function renderSpecialYou() {
+  const h = S.profile.health, f = S.profile.sex === "f";
+  for (const r of $$('input[name="profile.health.bf"],input[name="profile.health.cancer"]')) r.checked = String(getPath(r.name)) === r.value;   // keep the chips in step with the saved answer (e.g. after a sex switch clears it)
+  for (const c of $$('[data-check="profile.health.bfPump"],[data-check="profile.health.bfMulti"]')) c.checked = !!getPath(c.dataset.check);
+  const sl = $('select[data-sel="profile.health.bfMonths"]'); if (sl && document.activeElement !== sl) sl.value = String(h.bfMonths);
+  const bb = $("#bf-block"); if (bb) bb.hidden = !f;
+  const preg = $('[data-check="profile.health.pregnant"]'); if (preg) preg.closest("label").hidden = !f;   // pregnancy and breastfeeding questions are for female only
+  const LI = E.lactInfo(h, S.profile.age), more = $("#bf-more"), line = $("#bf-line");
+  if (more) more.hidden = !(f && LI.on);
+  if (line) { line.hidden = !(f && LI.on); if (f && LI.on) line.innerHTML = `Added to your estimated needs: <b>+${fK(LI.k)} kcal/day</b> <small>${esc(LI.src)}</small><small>The app won't set a fat-loss target while you're breastfeeding. Education only, not medical advice.</small>${LI.clinician.length ? `<small class="sp-clin"><b>Talk with your clinician:</b> ${LI.clinician.map(esc).join(" ")}</small>` : ""}`; }
+  const cl = $("#ca-line"), on = E.cancerOn(h);
+  if (cl) { cl.hidden = !on; if (on) { const rg = E.cancerRanges(S.profile.weightKg); cl.innerHTML = `Your goal is set to <b>Maintain weight and muscle</b>. Fat-loss goals and deficit, cardio and step tips are turned off. Guideline ranges for planning: <b>${fK(rg.kcalLo)}–${fK(rg.kcalHi)} kcal/day</b> and protein <b>${fK(rg.protLo)}–${fK(rg.protHi)} g/day</b> <small>ESPEN 2021. Ask your oncology dietitian. Education only, not medical advice. Talk to your care team.</small>`; } }
+}
+const SP_MEALS_BF = [["Breakfast", 620, "Oatmeal made with milk, 2 eggs, berries, walnuts", "choline · protein · iodine · calcium"], ["Snack", 300, "Greek yogurt with banana and almonds", "calcium · iodine · protein"], ["Lunch", 700, "Salmon rice bowl with edamame, broccoli and spinach, orange", "omega-3 from fish (a “Best Choice”) · choline · iron + vitamin C"], ["Snack", 300, "Hummus, whole-grain crackers, fruit; fortified milk or soy milk", "iron · calcium · vitamin D (fortified)"], ["Dinner", 730, "Lean beef or chicken, baked potato with iodized salt, roasted Brussels sprouts, side salad", "iron · choline · iodine · protein"]];
+const SP_MEALS_CA = [["On waking", 350, "Scrambled eggs with cheese, buttered toast", "protein · energy"], ["Mid-morning", 300, "Full-fat Greek yogurt with granola and honey", "protein · energy"], ["Late morning", 350, "Milk, peanut butter and banana smoothie (add protein powder if your dietitian suggests)", "drink between meals"], ["Lunch", 450, "Chicken, rice and olive oil, a small portion of vegetables", "protein · energy"], ["Afternoon", 300, "Cheese, crackers, avocado", "energy"], ["Dinner", 500, "Baked salmon, mashed potato with butter", "protein · energy"]];
+function spMeals(list, kcal) { const tot = list.reduce((a, m) => a + m[1], 0), k = kcal / tot; return `<div class="sp-day">${list.map((m) => `<div class="sp-meal"><b>${esc(m[0])} · ~${fK(Math.round(m[1] * k / 10) * 10)} kcal</b><span>${esc(m[2])}</span><i>${esc(m[3])}</i></div>`).join("")}</div>`; }
+function bfCards(LI) {
+  const kg = S.profile.weightKg, r0 = R.rec.rows[0], tgt = Math.round(r0.intake / 10) * 10, prot = Math.ceil(1.3 * kg / 5) * 5;
+  const base = Math.round((r0.tdee - LI.k) / 10) * 10;
+  return `<div class="card sp-card" id="bf-card"><p class="eyebrow card-eyebrow">Breastfeeding · estimated needs</p><h2>Your estimated needs while breastfeeding</h2>
+  <div class="sp-eq"><span>${fK(base)} <small>kcal base</small></span> <b>+</b> <span class="sp-add">${fK(LI.k)} <small>kcal breastfeeding</small></span> <b>=</b> <span class="sp-tot">${fK(Math.round(r0.tdee / 10) * 10)} <small>kcal/day</small></span></div>
+  <p class="hint">${esc(LI.src)} The published increments are “net”: they assume a slow weight loss of about 0.64 kg (1.4 lb) a month in months 0–6, so this is a planning estimate, not a promise that weight stays flat. Your own weight trend is the better check. The calorie floor is raised by the same increment. <small class="sp-src">NAM 2023</small></p>
+  ${LI.clinician.length ? `<div class="sp-note"><b>Worth raising with your clinician</b><ul>${LI.clinician.map((c) => `<li>${esc(c)}</li>`).join("")}</ul></div>` : ""}
+  <h3 class="sp-h3">Example breastfeeding-suitable day <span class="sp-ex">example, not computed</span></h3>
+  <p class="hint">About ${fK(tgt)} kcal, scaled to your estimated needs. Calories are rounded examples; adjust portions. Nutrient amounts are not calculated here.</p>
+  ${spMeals(SP_MEALS_BF, tgt)}
+  <div class="sp-boxes"><div class="sp-box"><b>Emphasize</b><p>Protein: the RDA while breastfeeding is 1.3 g/kg a day (about ${fK(prot)} g for you). <small class="sp-src">IOM 2005, via NAM tables; excerpts</small></p><p>Choline: 550 mg a day (eggs, fish, dairy, meat, beans, cruciferous vegetables). <small class="sp-src">NIH ODS</small></p><p>Iodine: 290 mcg a day (dairy, eggs, seafood, iodized salt). <small class="sp-src">NIH ODS</small></p><p>Fish: 2–3 servings a week of lower-mercury “Best Choices” such as salmon, sardines, shrimp or cod, for omega-3 (DHA/EPA). <small class="sp-src">FDA/EPA 2021</small></p><p>Calcium, vitamin D and iron: from food. No numbers are given here because they were not fully confirmed from the source tables.</p></div>
+  <div class="sp-box"><b>Limit or use caution</b><p>Skip high-mercury fish: shark, swordfish, king mackerel, marlin, orange roughy, bigeye tuna, Gulf of Mexico tilefish. <small class="sp-src">FDA/EPA 2021</small></p><p>Caffeine: about 300 mg a day or less (2–3 cups of coffee). Alcohol: none is safest; if any, up to one drink, and wait at least 2 hours before nursing. <small class="sp-src">CDC</small></p></div>
+  <div class="sp-box"><b>Ask your clinician</b><p>Whether you need iodine, choline, vitamin D or B12 supplements, especially if you eat vegetarian or vegan. Not every prenatal vitamin contains iodine. <small class="sp-src">CDC; NIH ODS</small></p></div></div>
+  <p class="hint">Education only, not medical advice. This is an example day, not a prescription or a weight-loss plan. <button type="button" class="link-btn" data-info="sources">Sources</button></p></div>`;
+}
+function caCards() {
+  const kg = S.profile.weightKg, rg = E.cancerRanges(kg), r0 = R.rec.rows[0], tgt = Math.round(r0.intake / 10) * 10, wt = weightTrend();
+  const qs = Array.isArray(S.caQuestions) ? S.caQuestions : [];
+  const watch = wt && wt.dir === "down" ? `<div class="sp-watch" role="status"><b>Your logged weight is lower than ${Math.round(wt.last.week - wt.ref.week)} weeks ago.</b> Unplanned weight loss is worth telling your care team about, even if you feel fine. This is not a diagnosis, and the app can't tell why your weight changed.<div class="sp-btns"><button type="button" class="chip" data-ca-q="1">Add to my questions for the team</button><button type="button" class="chip" data-ca-planned="${wt.last.week}">It was planned</button></div></div>`
+    : wt && wt.dir === "steady" ? `<p class="hint" role="status">Your logged weight has been about steady over the last ${Math.round(wt.last.week - wt.ref.week)} weeks.</p>` : `<p class="hint">Log your weight in the weekly check-in and this card will say whether it is trending down. <small class="sp-src">ESPEN 2021 B1-1: check weight and intake from diagnosis (evidence very low)</small></p>`;
+  return `<div class="card sp-card" id="ca-card"><p class="eyebrow card-eyebrow">Cancer-treatment mode · education only</p><h2>Maintain weight and muscle</h2>
+  <div class="sp-note"><b>Not medical advice.</b> Cancer, treatment and nutrition needs differ person to person. Talk to your care team or an oncology dietitian before changing how you eat or exercise.</div>
+  <h3 class="sp-h3">Guideline ranges for planning</h3>
+  <div class="sp-boxes"><div class="sp-box"><b>Energy</b><div class="sp-big">${fK(rg.kcalLo)}–${fK(rg.kcalHi)} kcal/day</div><p>25–30 kcal/kg/day, a rule of thumb when energy use is not measured. <small class="sp-src">ESPEN 2021 B2-1 (strong; evidence low)</small></p></div>
+  <div class="sp-box"><b>Protein</b><div class="sp-big">above ${fK(rg.protLo)} g/day, up to about ${fK(rg.protHi)} g if possible</div><p>More than 1 g/kg/day, up to 1.5 g/kg/day if possible. Your macro target uses the top of this range. <small class="sp-src">ESPEN 2021 B2-2 (strong; evidence moderate)</small></p></div>
+  <div class="sp-box"><b>Ask your oncology dietitian</b><p>These are guideline ranges, not your prescription. The rule of thumb over-estimates in obesity and under-estimates in severe malnutrition (ESPEN 2017). Treatment, symptoms and other conditions change what is right for you.</p></div></div>
+  <h3 class="sp-h3">Weight-trend watch <span class="sp-ex">no diagnosis</span></h3>${watch}
+  ${qs.length ? `<div class="sp-note"><b>My questions for the team</b><ul>${qs.map((q, i) => `<li>${esc(q)} <button type="button" class="link-btn" data-ca-qdel="${i}">remove</button></li>`).join("")}</ul></div>` : ""}
+  <h3 class="sp-h3">Sugar and cancer: what the evidence says</h3>
+  <div class="sp-ev"><div class="sp-y"><b>Supported</b><ul><li><b>Risk:</b> sugar-sweetened drinks are a convincing cause of weight gain, and greater body weight is a cause of many cancers. This is about preventing cancer, not treating it. <small class="sp-src">WCRF/AICR</small></li><li><b>Diabetes during cancer care:</b> people with diabetes who get cancer have higher all-cause mortality in observational studies (HR 1.41), and high glucose is linked to more chemotherapy-related neutropenia (OR 1.32, with high heterogeneity) and, in one retrospective abstract, more toxicity. Association, not proof that tighter glucose changes outcomes. <small class="sp-src">Barone 2008; Alenzi &amp; Kelley 2017; Brunello 2011 (abstract only)</small></li><li><b>Steroids:</b> dexamethasone often raises blood sugar, usually temporarily. If you have diabetes or are on steroids, your team may ask for glucose checks. <small class="sp-src">Mahin 2023 (one 100-patient cohort; abstract and methods read)</small></li></ul></div>
+  <div class="sp-n"><b>Not supported in people</b><ul><li><b>“Cutting sugar starves tumors.”</b> All cells use glucose, and the body makes glucose from protein and fat. No trial shows that restricting sugar or carbohydrate treats cancer. <small class="sp-src">CRUK 2023; ESPEN 2017 and 2021; NCI PDQ</small></li><li><b>Ketogenic or very low-carb diets as treatment:</b> no clinical trials show benefit; low adherence and weight loss are reported. <small class="sp-src">ESPEN; Sremanakova 2018 and Erickson 2017 (abstracts only)</small></li><li><b>Warburg effect:</b> real biology that may lead to drugs, not a diet instruction. <small class="sp-src">CRUK 2023</small></li></ul></div>
+  <div class="sp-r"><b>Risk of restricting</b><p>Severely restricted diets can cause under-eating and loss of weight and muscle, which matter during treatment. ASCO advises against fad and extreme diets for people with advanced cancer who are losing weight. After treatment, limiting sugary drinks is part of general healthy-eating advice. <small class="sp-src">ESPEN 2021 B3-2; CRUK 2023; ASCO 2020; ACS 2022</small></p></div></div>
+  <p class="hint">Education only. Not medical advice. Ask your oncology dietitian before cutting any food group. No safe “amount of added sugar during chemo” is given because no source was found.</p>
+  <h3 class="sp-h3">Example high-calorie, high-protein small-meal day <span class="sp-ex">example, not computed</span></h3>
+  <p class="hint">For poor appetite: small amounts often, with calorie- and protein-dense foods. About ${fK(tgt)} kcal, scaled to your estimated needs; protein and calories are not calculated here. Taste changes, nausea or mouth sores will change what works.</p>
+  ${spMeals(SP_MEALS_CA, tgt)}
+  <div class="sp-boxes"><div class="sp-box"><b>Make it easier</b><p>Several small snacks rather than three large meals. Eat every few hours, not only when hungry. Drink most fluids between meals. High-calorie, high-protein drinks count. <small class="sp-src">ACS 2022 patient guidance (page excerpt)</small></p></div>
+  <div class="sp-box"><b>Food safety</b><p>No special “neutropenic diet” has proven benefit. Use standard food-safety handling: wash hands, and take care shopping, storing, preparing, thawing, cooking, serving and chilling food. Follow any specific instructions from your team. foodsafety.gov has current alerts. <small class="sp-src">Cochrane 2016; ESPEN 2017; NCI PDQ</small></p></div>
+  <div class="sp-box"><b>Tell your care team</b><p>Ongoing nausea, mouth sores, trouble swallowing or eating much less than usual. A dietitian can adjust the plan, and may suggest oral nutrition supplements. <small class="sp-src">ESPEN 2021; ASCO 2020; ACS 2022</small></p></div></div>
+  <p class="hint">Education only, not medical advice. This is an example, not a prescription or diet plan. <button type="button" class="link-btn" data-info="sources">Sources</button></p></div>`;
+}
+function renderSpecial() {
+  const box = $("#special-cards"); if (!box) return;
+  const h = S.profile.health, LI = E.lactInfo(h, S.profile.age);
+  if (!R || R.blocked || !(LI.on || E.cancerOn(h))) { box.innerHTML = ""; return; }
+  box.innerHTML = (LI.on ? bfCards(LI) : "") + (E.cancerOn(h) ? caCards() : "");
+}
+document.addEventListener("click", (ev) => {
+  const t = ev.target.closest && ev.target.closest("[data-ca-q],[data-ca-planned],[data-ca-qdel]"); if (!t) return;
+  if (t.dataset.caQ) { const wt = weightTrend(); if (!Array.isArray(S.caQuestions)) S.caQuestions = []; if (wt) S.caQuestions.push(`My logged weight went from ${fW(wt.ref.weightKg)} to ${fW(wt.last.weightKg)} over ${Math.round(wt.last.week - wt.ref.week)} weeks. Why might that be, and should anything change?`); }
+  else if (t.dataset.caPlanned) S.caPlanned = +t.dataset.caPlanned;
+  else if (t.dataset.caQdel != null && Array.isArray(S.caQuestions)) S.caQuestions.splice(+t.dataset.caQdel, 1);
+  update();
+});
 // ---------- pro features (monetization prep; everything unlocked while CONFIG.PRO_GATING is false) ----------
 /** Client-side check of a signed unlock token issued by a Netlify Function after Stripe checkout. UX only:
  *  anything that costs money (AI photo, USDA with our key) must also verify the token server-side. */
@@ -7178,7 +7577,7 @@ function aiShrink(file, max = 1600, q = 0.8) { return new Promise((res, rej) => 
   const viaImg = () => { const url = URL.createObjectURL(file), im = new Image(); im.onload = () => draw(im, im.naturalWidth || im.width, im.naturalHeight || im.height, () => URL.revokeObjectURL(url)); im.onerror = () => { URL.revokeObjectURL(url); rej(new Error("That photo couldn't be opened. If it is a HEIC photo, set the camera to JPEG (or take a screenshot of it) and try again.")); }; im.src = url; };
   if (window.createImageBitmap) createImageBitmap(file, { imageOrientation: "from-image" }).then((bm) => draw(bm, bm.width, bm.height, () => { try { bm.close(); } catch (e) { /* ignore */ } }), viaImg); else viaImg();
 }); }
-const aiSafe = (s) => String(s).replace(/[^A-Za-z0-9 .,:%+\-–−·()/'’→&#]/g, " ").replace(/\s+/g, " ").trim().slice(0, 100);
+const aiSafe = (s, n = 100) => String(s).replace(/[^A-Za-z0-9 .,:;=%+\-–−·()/'’→&#]/g, " ").replace(/\s+/g, " ").trim().slice(0, n);
 const aiTag = (feat) => `<span class="tag">Pro${CONFIG.PRO_GATING && !canUse(feat) ? " · locked" : ""}</span>`;
 
 // ----- the plan's numbers, as short plain facts (the ONLY numbers the AI may state) -----
@@ -7193,6 +7592,41 @@ function stagePlan() {
   const weeks = stageWeeks(e.day), pts = weeks.map((w) => projectionPayload(w * 7, { rows, off: 0, c: null }));
   return { ok: true, kind: dFat <= -1 ? "loss" : "gain", weeks, pts };
 }
+/* v7.6.33: Ask Theosis gets a compact snapshot of everything on screen with each message: inputs, targets, projection, the live dial and tips, the example day, the food log, weigh-ins.
+   Plain text lines only (same character whitelist the server enforces). No keys, tokens, photos or account data are ever included; only numbers and names the person entered or the app computed. */
+function aiChatFacts() {
+  const out = [], add = (t) => { const x = aiSafe(t, 240); if (x) out.push(x); }, tryAdd = (fn) => { try { fn(); } catch (e) { /* skip a section that can't be built */ } };
+  const p = S.profile, h = p.health || {}, kc = (n) => Math.round(n).toLocaleString("en-US");
+  tryAdd(() => { add(`Snapshot of the simulator right now. Mode: ${S.mode === "habits" ? "Habits (what I actually do)" : "Plan (what to do)"}; step ${S.step} of 5; units ${S.units}; simple or advanced: ${isAdv() ? "advanced" : "simple"}`);
+    add(`Profile: ${p.sex === "f" ? "female" : "male"}, age ${Math.round(p.age)}, height ${lenToDisp(p.heightCm)} ${imp() ? "in" : "cm"}, weight ${fW(p.weightKg)}, body fat ${fP(bfInfo().bf)} (${bfInfo().source})`); });
+  tryAdd(() => { const L = E.lactInfo(h, p.age), bits = [];
+    if (h.pregnant) bits.push("pregnant"); if (L.on) bits.push(`breastfeeding ${h.bf}, ${h.bfMonths > 12 ? "past 12" : h.bfMonths} months since birth, +${L.k} kcal a day added (NAM 2023)${h.bfPump ? ", pumping only" : ""}${h.bfMulti ? ", twins or more" : ""}`);
+    if (E.cancerOn(h)) bits.push(`cancer-treatment mode (${h.cancer === "tx" ? "in treatment" : "recovering"}): goal is maintain weight and muscle, ESPEN ranges ${(() => { const r = E.cancerRanges(p.weightKg); return `${kc(r.kcalLo)} to ${kc(r.kcalHi)} kcal and protein ${r.protLo} to ${r.protHi} g`; })()}`);
+    if (h.edHistory) bits.push("history of eating disorder reported"); if (h.diabetes && h.diabetes !== "unknown") bits.push(`diabetes status ${h.diabetes}`); if (h.a1c > 0) bits.push(`A1c ${+(+h.a1c).toFixed(1)}% (log only)`);
+    if (bits.length) add("Health context: " + bits.join("; ")); });
+  tryAdd(() => { const m = S.move, t = E.weeklyTraining(effMove()); add(`Movement: ${kc(m.steps || 0)} steps a day, lifting ${t.liftSessions || 0} sessions a week, cardio ${Math.round(t.cardioMin || 0)} min a week${m.noLift ? " (lifting turned off)" : ""}${m.noCardio ? " (cardio turned off)" : ""}, experience ${m.experience || "n/a"}`); });
+  if (R && !R.blocked) {
+    tryAdd(() => { const r0 = R.rec.rows[0], L = E.lactInfo(h, p.age); add(`Goal: ${goalLabel()}${S.food.actualOn ? "; projection follows what I actually eat" : ""}`);
+      add(`Targets: ${kc(r0.intake)} kcal a day, daily burn ${kc(r0.tdee)} kcal${L.on ? ` (includes +${L.k} breastfeeding)` : ""}, protein ${R.macros.protein} g, carbs ${R.macros.carbs} g, fat ${R.macros.fat} g; protein basis ${R.protein.perKg} g per kg of ${R.ref.basis}; safe minimum ${kc(E.floorOf(p))} kcal`);
+      if (S.food.actualOn) add(`What I eat (entered): ${kc(fixedKcal())} kcal${S.food.actualProteinG > 0 ? `, protein ${Math.round(S.food.actualProteinG)} g` : ""}${S.food.psmf ? ", PSMF" : ""}`); });
+    tryAdd(() => { const s0 = R.main.rows[0], e = endRow(); add(`Projection to week ${Math.round(fWk(e.day))}: weight ${fW(s0.weightKg)} to ${fW(e.weightKg)}, body fat ${fP(s0.bf)} to ${fP(e.bf)}, fat ${fWd(e.fatKg - s0.fatKg)}, lean ${fWd(e.leanKg - s0.leanKg)}${R.main.stopped ? "; the projection stops early at a safety limit" : ""}`); });
+    tryAdd(() => { for (const w of (R.warnings || []).slice(0, 5)) add(`Note shown in the app: ${w.m}`); });
+    tryAdd(() => { if (!fixedOn()) return; const d = TheosisHabits.direction(habInput(), E), r = TheosisHabits.recommendations(habInput(), E);
+      add(`Dial (${d.frame === "cancer" ? "how my choices fit maintaining weight and muscle" : "how my choices fit my goal"}): ${d.label}, rules-based and not a health score`);
+      for (const x of d.items.slice(0, 6)) add(`Dial reason (${x.v > 0 ? "supportive" : x.v < 0 ? "against" : "neutral"}): ${x.text}`);
+      for (const t of r.tips.slice(0, 5)) add(`Tip under the dial: ${t.text}`); });
+  }
+  tryAdd(() => { const b = window.SampleDays && mealsCache && mealsCache.built; if (!b || b.message || !b.days || !b.days.length) return; const day = b.days.find((d) => d.id === S.food.mealDay) || b.days[0], T = day.totals;
+    add(`Example day shown: ${day.name} ${day.dietName}, about ${kc(T.kcal)} kcal, protein ${kc(T.protein)} g, carbs ${kc(T.carbs)} g, fat ${kc(T.fat)} g (target protein ${kc(day.target.protein)} g, carbs ${kc(day.target.carbs)} g, fat ${kc(day.target.fat)} g)`);
+    for (const m of day.meals) add(`Example ${m.name} (${m.title}), ${kc(m.totals.kcal)} kcal and ${kc(m.totals.protein)} g protein: ${m.foods.map((f) => `${f.name} ${f.portion}`).join("; ")}`); });
+  tryAdd(() => { const store = FLS || FL.load(), today = flToday(), keys = Object.keys(store.days).sort().slice(-3).reverse(); if (S.food.logUsed && S.food.log && S.food.log.length) { const T = FoodCore.totals(S.food.log); add(`Foods added in Step 4 log: ${S.food.log.slice(0, 12).map((x) => `${x.name} ${x.label || x.g + " g"}`).join("; ")}; total ${kc(T.kcal)} kcal, protein ${kc(T.protein)} g`); }
+    for (const k of keys) { const d = store.days[k], T = FL.dayTotals(store, k); add(`Food log ${k === today ? "today" : k}${d.complete ? " (marked complete)" : ""}: ${kc(T.kcal || 0)} kcal, protein ${kc(T.protein || 0)} g, carbs ${kc(T.carbs || 0)} g, fat ${kc(T.fat || 0)} g`);
+      add(`Food log ${k === today ? "today" : k} items: ${d.items.slice(0, 14).map((it) => { const n = FL.itemNutr(it); return `${it.meal} ${it.name} ${it.label}${it.servings !== 1 ? " x" + it.servings : ""} ${kc(n.kcal || 0)} kcal ${kc(n.protein || 0)} g protein`; }).join("; ")}`); } });
+  tryAdd(() => { const w = weighIns().slice().sort((a, b) => a.week - b.week).slice(-8); if (w.length) add(`Weekly check-in weights: ${w.map((x) => `week ${x.week} ${fW(x.weightKg)}`).join("; ")}`); });
+  tryAdd(() => { const pe = pftEst(); if (pe && pe.over) add(`Personal fat threshold estimate (a model, not a measurement): about ${pftRangeTxt(pe)}`); });
+  return out;
+}
+
 function aiFacts() {
   if (!R || R.blocked) return [];
   const p = S.profile, s = R.main.rows[0], e = endRow(), h = p.health || {}, out = [];
@@ -7314,7 +7748,7 @@ function aiAskOpen(prefill) {
 async function aiAskSend(text) {
   const C = AI.chat; text = String(text || "").trim().slice(0, 1000); if (!text || C.busy) return; if (!aiLeft("chat")) { C.err = "You've used today's questions."; aiRenderAsk(); return; }
   C.err = ""; C.msgs.push({ role: "user", content: text }); C.busy = true; aiRenderAsk(); C.ctl = new AbortController();
-  try { const j = await aiCall("chat", { messages: C.msgs.slice(-10).map((m) => ({ role: m.role, content: m.content })), facts: aiFacts() }, C.ctl.signal); aiUseAdd("chat");
+  try { const j = await aiCall("chat", { messages: C.msgs.slice(-10).map((m) => ({ role: m.role, content: m.content })), facts: aiChatFacts() }, C.ctl.signal); aiUseAdd("chat");
     C.msgs.push({ role: "assistant", content: j.reply, links: j.links || [], beyondSite: !!j.beyondSite, uncertain: !!j.uncertain, emergency: !!j.emergency }); }
   catch (e) { if (e.code !== "abort") { C.err = e.message; C.msgs.pop(); } } finally { C.busy = false; C.ctl = null; aiRenderAsk(); const q = $("#ask-q"); if (q && C.err) q.value = text; }
 }
@@ -7448,9 +7882,10 @@ function bind() {
       if (el.name === "food.yourMacros.unit") { const m = S.food.yourMacros, src = R && R.macros && !R.blocked ? (R.autoMacros || R.macros) : null;
         if (m.unit === "g" && src) Object.assign(m, { p: src.protein, c: src.carbs, f: src.fat }); else if (m.unit === "pct") Object.assign(m, { p: 30, c: 40, f: 30 });
         fillInputs(); applyMacroGrams(); }
-      if (el.name === "profile.sex") { $$('input[data-f="hip"]').forEach(() => {}); }
+      if (el.name === "profile.sex") { $$('input[data-f="hip"]').forEach(() => {}); if (el.value !== "f") Object.assign(S.profile.health, { bf: "none", bfPump: false, bfMulti: false, pregnant: false }); }
+      if (el.name === "profile.health.cancer" || el.name === "profile.health.bf") { if (E.holdsGoal(S.profile.health)) S.goal.type = "maintain"; }
       update();
-    } else if (el.matches("input[data-check]")) { setPath(el.dataset.check, el.checked); if (S.profile.health.pregnant && S.goal.type !== "maintain") S.goal.type = "maintain"; update(); }
+    } else if (el.matches("input[data-check]")) { setPath(el.dataset.check, el.checked); if (E.holdsGoal(S.profile.health) && S.goal.type !== "maintain") S.goal.type = "maintain"; update(); }
     else if (el.matches("select[data-sel]")) { const v = el.value; if (el.dataset.sel === "profile.health.diabetes") Object.assign(S.profile.health, { diabetesAuto: false, diabetesPicked: true }); setPath(el.dataset.sel, /^\d+$/.test(v) ? +v : v); update(); }
     else if (el.matches("#planner-body select[data-pl]")) { S.move.planner[+el.dataset.pl].lift = +el.value; update(); }
     else if (el.matches("select[data-ct]")) { const e = S.move.cardio[+el.dataset.ct]; if (e) { e.type = el.value; if (e.by === "pace" && !E.CARDIO[e.type].pace) e.by = "effort"; } update(); }
@@ -7501,7 +7936,7 @@ function bind() {
     if (t.dataset.fsClear) { S.food.log = []; S.food.logUsed = false; S.food.logDone = false; renderFsLog(); save(); return; }
     if (t.dataset.goalFix) { ev.preventDefault(); const k = t.dataset.goalFix; go(1);
       setTimeout(() => { let el; if (k === "bf") { if (S.profile.bfMode === "bmi") { const r = document.querySelector('input[name="profile.bfMode"][value="known"]'); if (r) r.click(); } el = $('[data-f="bf"]'); const sd = $("#scale-bf"); if (sd) sd.open = true; }
-        else el = $(`[data-check="profile.health.${k}"]`); if (el) { el.scrollIntoView({ block: "center" }); el.focus(); } }, 60); return; }
+        else if (k === "lact" || k === "cancer") el = $(`input[name="profile.health.${k === "lact" ? "bf" : "cancer"}"]:checked`) || $(`input[name="profile.health.${k === "lact" ? "bf" : "cancer"}"]`); else el = $(`[data-check="profile.health.${k}"]`); if (el) { el.scrollIntoView({ block: "center" }); el.focus(); } }, 60); return; }
     if (t.id === "macro-use-total") { S.food.actualKcal = Math.round(+t.dataset.kcal / 10) * 10; S.food.mealUsed = null; S.food.logUsed = false; fillInputs(); update(); return; }
     if (t.id === "fs-scan") { fsScanStart(); return; }
     if (t.id === "fs-scan-stop") { fsScanStop(); return; }
@@ -7582,7 +8017,7 @@ function init() {
     else if (t.dataset.ciDel) { await ciDel(t.dataset.ciDel); CI.msg = "Check-in removed from this device."; aiState.result = null; renderAi(); } });
   window.addEventListener("online", () => { if ($("#fs-q").value.trim().length >= 2) fsSearch(true); });
   window.addEventListener("offline", () => { $("#fs-status").textContent = "You're offline. Search needs a connection; your food log still works."; });
-  window.BodyPlanApp = { get state() { return S; }, get result() { return R; }, go, start, config: CONFIG,
+  window.BodyPlanApp = { update, get state() { return S; }, get result() { return R; }, go, start, config: CONFIG,
     // same path as "Add to today's log" (used by tests and the saved-days loader)
     logAdd: (it) => { fsLogPush(it); fsApplyLog(); }, foodLog: { get store() { return FLS; }, reload() { FLS = FL.load(); return FLS; }, open: openFoodLog, close: closeFoodLog, render: renderFoodLog, state: fl, useAverage: flUseAverage },
     scanner: { env: scannerEnv, photo: (f) => fsScanPhoto(f), diag: () => fs.diag, pick: async () => FL.pickScanner(await scannerEnv()), decodeCanvas: async (cv, kind) => (await makeDecoder(kind === "native" ? FL.pickScanner(await scannerEnv()) : { kind: "zxing" }))(cv), loadZxing }, setPhoto: (d) => { photo = d; renderPhoto(); update(); }, fig3d: F3,

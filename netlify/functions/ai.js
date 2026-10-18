@@ -29,7 +29,7 @@ const env = () => process.env;
 const MODELS = () => ({ text: env().GEMINI_TEXT_MODEL || "gemini-3.8-flash", vision: env().GEMINI_VISION_MODEL || "gemini-3.8-flash", image: env().GEMINI_IMAGE_MODEL || "gemini-nano-banana-2.1" });
 const ENDPOINT = (m) => `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(m)}:generateContent`;
 const LIMITS = () => ({ chat: +env().AI_LIMIT_CHAT || 30, label: +env().AI_LIMIT_LABEL || 20, plan: +env().AI_LIMIT_PLAN || 5, stageImages: +env().AI_LIMIT_STAGE_IMAGES || 12, stageRuns: +env().AI_LIMIT_STAGE_RUNS || 3, global: +env().AI_GLOBAL_DAILY_LIMIT || 3000 });
-const MAX = { imageBytes: 4 * 1024 * 1024, body: 6 * 1024 * 1024, chatMsgs: 10, chatChars: 1000, facts: 60, factChars: 100, answerChars: 3500 };
+const MAX = { imageBytes: 4 * 1024 * 1024, body: 6 * 1024 * 1024, chatMsgs: 10, chatChars: 1000, facts: 160, factChars: 240, answerChars: 3500 };
 const MIME = ["image/jpeg", "image/png", "image/webp"];
 const TIMEOUT_MS = { text: 20000, image: 25000 };
 const FEATURES = ["label", "stage", "chat", "plan"];
@@ -143,7 +143,7 @@ function chatSystem() {
 /** "Simulator facts": short strings the page builds from numbers it computed. Only plain text characters are accepted. */
 function readFacts(raw) {
   if (!Array.isArray(raw)) return [];
-  return raw.slice(0, MAX.facts).filter((f) => typeof f === "string" && !/[<>`{}\[\]$\\]/.test(f)).map((f) => clean(f, MAX.factChars)).filter((f) => f && /^[A-Za-z0-9 .,:%+\-–−·()/'’→&#]+$/.test(f));
+  return raw.slice(0, MAX.facts).filter((f) => typeof f === "string" && !/[<>`{}\[\]$\\]/.test(f)).map((f) => clean(f, MAX.factChars)).filter((f) => f && /^[A-Za-z0-9 .,:;=%+\-–−·()/'’→&#]+$/.test(f));
 }
 const numbersIn = (s) => (String(s).match(/\d+(?:,\d{3})*(?:\.\d+)?/g) || []).map((x) => x.replace(/,/g, ""));
 const canon = (x) => String(parseFloat(x));
@@ -292,7 +292,7 @@ async function doChat(body, mock) {
   const last = msgs[msgs.length - 1].text, facts = readFacts(body.facts);
   if (EMERGENCY.test(last)) return { status: 200, data: { reply: "That sounds like it could be urgent. Please don't wait on an app: call 911 (or your local emergency number) or go to the nearest emergency department now. If you're thinking about harming yourself, call or text 988 in the US. I can help with general nutrition questions once you're safe.", links: [], emergency: true, beyondSite: false, uncertain: false } };
   if (mock) return { status: 200, data: { reply: "Mock answer: protein is filling, protects muscle in a deficit, and is a good place to start. I'm a general education tool, so check with your own clinician about your situation.", links: [LINKS().find((l) => /protein-per-pound/.test(l.url)) || LINKS()[0]].filter(Boolean), beyondSite: false, uncertain: false, mock: true } };
-  const sys = chatSystem() + (facts.length ? "\n\nSimulator facts for THIS user (the only numbers you may state as theirs):\n- " + facts.join("\n- ") : "\n\nNo simulator facts were provided; do not state personal numbers.");
+  const sys = chatSystem() + (facts.length ? "\n\nYou DO have access to this user's simulator: the lines below are a live snapshot of what is on their screen (profile, targets, projection, dial and tips, example day, food log, weigh-ins), sent with this message. Use them to answer questions about their own plan, meals and logs. Never say you cannot see their simulator; if something is not in the snapshot, say it is not in the snapshot. These are the only numbers you may state as theirs (do not recalculate):\n- " + facts.join("\n- ") : "\n\nNo simulator facts were provided; do not state personal numbers.");
   const d = await gemini(MODELS().text, { systemInstruction: { parts: [{ text: sys }] }, contents: msgs.map((m) => ({ role: m.role, parts: [{ text: m.text }] })), generationConfig: { responseMimeType: "application/json", temperature: 0.4, maxOutputTokens: 4096 } }, "text");
   let raw = textOf(d), j = parseJson(raw);
   if (!j && /^\s*\{\s*"reply"\s*:/.test(raw)) { const mm = /"reply"\s*:\s*"((?:[^"\\]|\\.)*)/.exec(raw); if (mm) { let t = mm[1]; try { t = JSON.parse('"' + t.replace(/\\$/, "") + '"'); } catch (e) { t = t.replace(/\\n/g, "\n").replace(/\\"/g, '"'); } j = { reply: t }; } }
