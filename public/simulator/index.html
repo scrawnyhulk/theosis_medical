@@ -7084,7 +7084,8 @@ function projectionExtras(B, e) {
       // generic templates (2-3 days, minimalist push + pull + leg compound, push/pull/legs, full body) are broad, even changes; only a deliberately narrowed set of groups is "targeted"
       const gs = mr.groups, generic = mv.preset === "min" || (gs.includes("back") && gs.some((k) => ["chest", "shoulders", "triceps"].includes(k)) && gs.some((k) => ["quads", "hamstrings", "glutes"].includes(k)));
       if (gs.length <= 7 && !generic) { o.train = "targeted"; o.trained = mr.groups.slice(); o.spill = E.MUSCLE_KEYS.filter((k) => !mr.trained[k] && mr.spill[k] > 0.02);
-        const sh = mr.groups.reduce((a, k) => a + mr.share[k], 0), nat = mr.groups.reduce((a, k) => a + mr.nat[k], 0); if (gain > 0 && nat > 0) o.localGrowth = +Math.min(1, Math.max(0, gain * sh / (s.leanKg * nat))).toFixed(3); }
+        const sh = mr.groups.reduce((a, k) => a + mr.share[k], 0), nat = mr.groups.reduce((a, k) => a + mr.nat[k], 0); if (gain > 0) { const mg = {}; for (const k of E.MUSCLE_KEYS) { if (mr.nat[k] > 0 && mr.share[k] > 0) { const v = gain * mr.share[k] / (s.leanKg * mr.nat[k]); if (v >= 0.005) mg[k] = +Math.min(0.5, v).toFixed(3); } } if (Object.keys(mg).length) o.muscleGrowth = mg; }
+          if (gain > 0 && nat > 0) o.localGrowth = +Math.min(1, Math.max(0, gain * sh / (s.leanKg * nat))).toFixed(3); }
       else o.train = "broad"; }
     // fat distribution (phenotype comes from every answer incl. optional ancestry, but only the label is sent) and where the change shows first
     const fp = fatPattern(); if (fp && fp.ph && ["visceral", "mixed", "subcutaneous"].includes(fp.ph.label)) o.phenotype = fp.ph.label;

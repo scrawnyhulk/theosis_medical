@@ -19,6 +19,8 @@ const optNum = (v, lo, hi) => (v === undefined || v === null ? null : num(v, lo,
 const optEnum = (v, list) => { if (v === undefined || v === null || v === "") return null; if (!list.includes(v)) throw new Error("bad enum"); return v; };
 const enumList = (v, list, max) => { if (v === undefined || v === null) return []; if (!Array.isArray(v) || v.length > max) throw new Error("bad list"); const out = []; for (const x of v) { if (!list.includes(x)) throw new Error("bad enum"); if (!out.includes(x)) out.push(x); } return out; };
 
+const growthMap = (v) => { if (v === undefined || v === null) return {}; if (typeof v !== "object" || Array.isArray(v)) throw new Error("bad map"); const o = {}; for (const k of Object.keys(v)) { if (!MUSCLE_KEYS.includes(k)) throw new Error("bad enum"); o[k] = num(v[k], 0, 0.5); } return o; };
+
 /** Validate + normalise the projection fields. Throws on anything out of range. `o.maxWeek` etc. let preview.js keep its tighter limits. */
 function sanitize(q, o) {
   q = q || {}; o = o || {};
@@ -37,6 +39,7 @@ function sanitize(q, o) {
     trained: enumList(q.trained, MUSCLE_KEYS, MUSCLE_KEYS.length),
     spill: enumList(q.spill, MUSCLE_KEYS, MUSCLE_KEYS.length),
     localGrowth: optNum(q.localGrowth, 0, 1),                // expected relative growth of the trained muscles (0.05 = 5%)
+    muscleGrowth: growthMap(q.muscleGrowth),                 // v7.6.34: per-group relative size gain from training (0.05 = 5%), computed by the app's engine
     ffmi: optNum(q.ffmi, 8, 40),
     phenotype: optEnum(q.phenotype, PHENO),
     fatFirst: enumList(q.fatFirst, FAT_REGIONS, FAT_REGIONS.length),
@@ -79,6 +82,40 @@ function muscleLevel(p) {
   if (p.ffmi == null) return null; const f = p.ffmi + (p.sex === "f" ? 3 : 0);
   return f < 17 ? "a lighter, lower-muscle build" : f < 20 ? "an average amount of muscle" : f < 22.5 ? "an above-average, muscular build" : "a very muscular build";
 }
+/** v7.6.34: concrete look of a body-fat percentage (adult, healthy build). Descriptions of the TARGET look; sex-specific. */
+function bfLook(sex, bf) {
+  const M = [[8, "very lean: clearly visible abs with deep separation, striated shoulders, visible vascularity on the arms, a sharply narrow waist, defined jaw and neck, hollower cheeks"],
+    [12, "lean and athletic: visible abs, separated chest and shoulders, a clearly narrower waist, a defined jaw and a leaner face and neck, little to no fat over the lower belly, some vein visibility on the forearms"],
+    [15, "fit: faint abs outline in good light, visible shoulder and arm shape, a flatter stomach with a slight softness lower down, a trim waist, a slightly leaner face"],
+    [20, "average to slightly soft: no visible abs, a soft rounded stomach and waist, muscles visible in shape but not separated, a fuller face and neck"],
+    [26, "soft: a rounded belly that hangs slightly over the waistband, fuller chest, arms and face, no muscle separation"],
+    [200, "high body fat: a large rounded belly, a thick waist, fuller arms, chest, face and neck, no muscle definition"]];
+  const F = [[16, "very lean and athletic: visible abdominal outline, defined shoulders and arms, a clearly narrow waist, little fat at the hips and thighs, a defined jawline"],
+    [21, "lean and fit: a flat toned stomach, defined shoulders and arms, a narrow waist, toned (not bulky) thighs, a lean face"],
+    [26, "fit: a flat to softly rounded stomach, visible arm and shoulder shape, a slim waist, smooth rounded hips and thighs"],
+    [32, "average: a softly rounded stomach, fuller hips and thighs, soft arms, no visible muscle separation"],
+    [38, "soft: a rounded belly, fuller hips, thighs and arms, a softer jaw and face"],
+    [200, "high body fat: a large rounded belly, wide hips and thighs, fuller arms, face and neck, no muscle definition"]];
+  for (const [mx, txt] of (sex === "f" ? F : M)) if (bf < mx) return txt; return "";
+}
+function visibilityWords(p) {
+  const dBf = p.startBf - p.endBf; if (dBf < 1.5) return null;
+  const amt = dBf < 4 ? "slightly" : dBf < 8 ? "noticeably" : "much";
+  const parts = [`As body fat drops, the muscle the person ALREADY has becomes ${amt} more visible: more skin-level definition, separation between muscles and (at lean levels) vascularity. This is visibility from less fat on top of the muscle, NOT new muscle size.`];
+  const regs = ["the shoulders and arms", "the chest", "the abs and waist"]; if (p.endBf < (p.sex === "f" ? 24 : 15)) regs.push("the back and legs");
+  parts.push(`Greater visibility applies by area as fat comes off: ${list(regs)}, including muscle groups that were not trained. Visibility changes how defined a muscle looks, never how big it is.`);
+  return parts.join(" ");
+}
+function grownGroups(p) {
+  const cap = Math.min(0.4, 0.008 * p.week), g = {}; for (const k of Object.keys(p.muscleGrowth || {})) g[k] = Math.min(p.muscleGrowth[k], cap);
+  return { g, ks: MUSCLE_KEYS.filter((k) => g[k] >= 0.005 && (p.train === "targeted" ? p.trained.includes(k) || g[k] >= 0.02 : true)) };
+}
+function sizeWords(p) {
+  const cap = Math.min(0.4, 0.008 * p.week), g = {}; for (const k of Object.keys(p.muscleGrowth || {})) g[k] = Math.min(p.muscleGrowth[k], cap);   // realism cap: about 0.8% per week of local size at most (about 10% in 12 weeks)
+  const ks = MUSCLE_KEYS.filter((k) => g[k] >= 0.005 && (p.train === "targeted" ? p.trained.includes(k) || g[k] >= 0.02 : true));
+  if (!ks.length) return null;
+  return `ACTUAL MUSCLE SIZE CHANGE from training (modeled; keep it realistic and modest): ${ks.map((k) => `${MUSCLE_WORD[k]} ${growthWord(g[k])} bigger and fuller (about ${Math.round(g[k] * 100)}% more size)`).join("; ")}. ${p.train === "targeted" ? "Every muscle group not listed keeps exactly its current SIZE (it may still look more defined from lower body fat)." : "Groups not listed keep their current size."} Do not exaggerate: a gain of about 5 to 10 percent in arm size is clearly visible but is not a bodybuilder look.`;
+}
 function growthWord(g) { return g < 0.01 ? "barely perceptibly" : g < 0.03 ? "slightly" : g < 0.07 ? "moderately" : "clearly"; }
 const depotChange = (a, b) => { if (a == null || b == null || a <= 0) return null; const r = (b - a) / a; return Math.abs(r) < 0.03 ? "about the same" : r < 0 ? (r > -0.12 ? "slightly lower" : r > -0.3 ? "moderately lower" : "much lower") : (r < 0.12 ? "slightly higher" : "moderately higher"); };
 
@@ -110,11 +147,13 @@ function build(p, opt) {
   if (did.length) L.push(`TRAINING over ${wk} weeks: ${did.join(". ").replace(/\.\./g, ".")}${/[.]$/.test(did[did.length - 1]) ? "" : "."}`);
   // ---- modeled result ----
   L.push(`TARGET LOOK at week ${wk}: about ${p.endBf}% body fat (from ${p.startBf}%); ${leanWords(p)}.`);
+  { const look = bfLook(p.sex, p.endBf); if (look) L.push(`WHAT ${p.endBf}% BODY FAT LOOKS LIKE on ${p.sex === "f" ? "a woman" : "a man"}: ${look}. Render this level of leanness on this person's own frame; keep the same bone structure and height.`);
+    const sz = sizeWords(p); if (sz) L.push(sz); const vis = visibilityWords(p); if (vis) L.push(`MUSCLE VISIBILITY (separate from size): ${vis}`); }
   // ---- where it shows ----
   const lose = p.fatChangeKg < -0.3, gain = p.fatChangeKg > 0.3, w = [];
   if (p.train === "targeted") {
-    const tr = list(p.trained.map((k) => MUSCLE_WORD[k]));
-    if (p.leanChangeKg >= 0.3) w.push(`New muscle appears ONLY in the ${tr}${p.localGrowth != null ? `, which look ${growthWord(p.localGrowth)} bigger and fuller` : ""}. Every other muscle must look exactly as it does in the photo.`);
+    const gk = grownGroups(p).ks, tr = list((gk.length ? gk : p.trained).map((k) => MUSCLE_WORD[k]));
+    if (p.leanChangeKg >= 0.3) w.push(`New muscle size appears ONLY in the ${tr}${p.localGrowth != null && !gk.length ? `, which look ${growthWord(p.localGrowth)} bigger and fuller` : ", each by the amount listed above"}. Every other muscle keeps exactly its current size (it may look more defined from lower body fat).`);
     else w.push(`No visible muscle change; the ${tr} look about the same.`);
   } else if (p.train === "broad") {
     if (p.leanChangeKg >= 0.3) w.push("Muscle changes are broad and even across the whole body: slightly fuller, more defined muscle everywhere in proportion, with no single area emphasised or sculpted.");
