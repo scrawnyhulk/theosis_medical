@@ -85,12 +85,14 @@ function muscleLevel(p) {
 /** v7.6.34: concrete look of a body-fat percentage (adult, healthy build). Descriptions of the TARGET look; sex-specific. */
 function bfLook(sex, bf) {
   const M = [[8, "very lean: clearly visible abs with deep separation, striated shoulders, visible vascularity on the arms, a sharply narrow waist, defined jaw and neck, hollower cheeks"],
-    [12, "lean and athletic: visible abs, separated chest and shoulders, a clearly narrower waist, a defined jaw and a leaner face and neck, little to no fat over the lower belly, some vein visibility on the forearms"],
+    [10.5, "about 10% body fat, clearly lean: a flat, tight stomach with visible upper and lower abs and no fat roll or pinch over the lower belly, NO love handles (the sides of the waist are flat and the waist is visibly narrower than the ribcage and chest), separated chest and shoulders, visible muscle lines in the shoulders and arms, a defined jaw, leaner cheeks and neck, some vein visibility on the forearms"],
+    [12.5, "lean and athletic: visible abs, separated chest and shoulders, a clearly narrower waist, a defined jaw and a leaner face and neck, little to no fat over the lower belly, some vein visibility on the forearms"],
     [15, "fit: faint abs outline in good light, visible shoulder and arm shape, a flatter stomach with a slight softness lower down, a trim waist, a slightly leaner face"],
     [20, "average to slightly soft: no visible abs, a soft rounded stomach and waist, muscles visible in shape but not separated, a fuller face and neck"],
     [26, "soft: a rounded belly that hangs slightly over the waistband, fuller chest, arms and face, no muscle separation"],
     [200, "high body fat: a large rounded belly, a thick waist, fuller arms, chest, face and neck, no muscle definition"]];
   const F = [[16, "very lean and athletic: visible abdominal outline, defined shoulders and arms, a clearly narrow waist, little fat at the hips and thighs, a defined jawline"],
+    [19, "equivalent to about 10% on a man, clearly lean: a flat toned stomach with a visible abdominal outline and no softness below the navel, a clearly narrow waist with a visible waist-to-hip curve and no side roll, defined shoulders and arms, lean (not bulky) thighs, a defined jawline and lean face; keep natural feminine proportions at the hips and chest"],
     [21, "lean and fit: a flat toned stomach, defined shoulders and arms, a narrow waist, toned (not bulky) thighs, a lean face"],
     [26, "fit: a flat to softly rounded stomach, visible arm and shoulder shape, a slim waist, smooth rounded hips and thighs"],
     [32, "average: a softly rounded stomach, fuller hips and thighs, soft arms, no visible muscle separation"],
@@ -148,6 +150,7 @@ function build(p, opt) {
   // ---- modeled result ----
   L.push(`TARGET LOOK at week ${wk}: about ${p.endBf}% body fat (from ${p.startBf}%); ${leanWords(p)}.`);
   { const look = bfLook(p.sex, p.endBf); if (look) L.push(`WHAT ${p.endBf}% BODY FAT LOOKS LIKE on ${p.sex === "f" ? "a woman" : "a man"}: ${look}. Render this level of leanness on this person's own frame; keep the same bone structure and height.`);
+    if (p.endBf != null && p.endBf <= (p.sex === "f" ? 20 : 12) && p.startBf - p.endBf >= 4) L.push(`COMMIT TO THE TARGET: image models tend to stop partway, and a result that still looks like ${p.sex === "f" ? "22-24%" : "14-15%"} body fat is wrong. At ${p.endBf}% the lower belly and the sides of the waist (love handles) must be fully lean, with no soft roll or pinch, and the waist must read clearly narrower than the start. Show the change by body area: face and neck first, then waist and lower belly, then chest and shoulders. Fat is lost from the person's own frame only; do not alter bone structure, height or identity.`);
     const sz = sizeWords(p); if (sz) L.push(sz); const vis = visibilityWords(p); if (vis) L.push(`MUSCLE VISIBILITY (separate from size): ${vis}`); }
   // ---- where it shows ----
   const lose = p.fatChangeKg < -0.3, gain = p.fatChangeKg > 0.3, w = [];
@@ -184,7 +187,7 @@ function build(p, opt) {
     : "CHANGE ONLY: body shape (overall fat level and muscle definition), in proportion to the numbers above. Do not change bone structure, proportions or height.");
   L.push("Keep EXACTLY the same person: same face and identity, expression, skin tone and all facial and ethnic features, hair, tattoos, clothing, pose, camera angle, lighting, background and image framing, so a row of these images looks like the same photo at different times.");
   if (soft) L.push("Keep the clothing exactly as in the photo and keep the image modest and non-sexual: do not remove, loosen or add any clothing, and do not emphasise or sculpt any body part. Subtle, realistic fitness progress change only.");
-  L.push("Be conservative and realistic. Small changes in the numbers must give small visual changes. Do not exaggerate leanness or muscularity, do not beautify, do not add or remove clothing, do not change age. Photorealistic. No text, labels or watermark.");
+  L.push("Be realistic: small changes in the numbers give small visual changes, and large changes in the numbers must be fully visible, matching the stated body-fat level without falling short or overshooting. Do not exaggerate muscularity beyond the numbers, do not beautify, do not add or remove clothing, do not change age. Photorealistic. No text, labels or watermark.");
   return L.join("\n");
 }
 
