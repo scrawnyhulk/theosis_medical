@@ -1304,6 +1304,8 @@ html.lb-open{overflow:hidden}
 .entry-views{display:grid;gap:.6rem;margin:1rem 0}.entry-views:empty{display:none}
 
 
+.v-card.v-help{box-shadow:inset 4px 0 0 #e5534b,0 0 0 1px var(--border)}.v-card.v-warn{box-shadow:inset 4px 0 0 #f2c14e,0 0 0 1px var(--border);margin-top:.6rem}.v-help ul{margin:.3rem 0 .4rem 1.1rem}.sp-flags{margin:.6rem 0;padding:.65rem .8rem;border-radius:var(--r-md);box-shadow:inset 4px 0 0 #e5534b,0 0 0 1px var(--border-strong);font-size:.88rem}.sp-flags ul{margin:.3rem 0 0 1rem}
+
 </style>
 </head>
 <body>
@@ -2061,13 +2063,15 @@ function lactInfo(h, age) {
   else { o.k = 380; o.flags.push("partial06"); o.src = "NAM 2023 publishes +380 only for months 7–12. No figure exists for partial breastfeeding in months 0–6, so 380 is the closest published number."; }
   if (h.bfPump) o.clinician.push("You said you're pumping only. The published increments weren't derived for exclusive pumping, so your needs may differ.");
   if (h.bfMulti) o.clinician.push("You said you're feeding twins or more. The published increments are for one infant, so your needs are likely higher.");
-  if (age != null && age < 19) o.clinician.push("You're under 19. The published increments were set for adult women, and teens are still growing.");
+  if (age != null && age < 19) o.clinician.push("You're under 19. This app is for adults 18 and over, and the published increments were set for adult women, so your needs may differ. A clinician who knows you can say what fits.");
   if (o.flags.includes("partial06")) o.clinician.push("Partial breastfeeding in months 0–6 has no published energy figure.");
   if (o.flags.includes("past12")) o.clinician.push("Past 12 months there is no published energy figure, so none is added.");
   return o;
 }
 const lactKcal = (h, age) => lactInfo(h, age).k;
-const cancerOn = (h) => !!(h && (h.cancer === "tx" || h.cancer === "rec"));
+/* v7.6.39: only "In treatment" holds the goal at maintain. "Recovering" keeps normal goals and shows a note (cancerRec). */
+const cancerOn = (h) => !!(h && h.cancer === "tx");
+const cancerRec = (h) => !!(h && h.cancer === "rec");
 /* A profile "holds" (no fat-loss or gain goal) in pregnancy, while breastfeeding, and in cancer-treatment mode. */
 const holdsGoal = (h) => !!(h && (h.pregnant || lactInfo(h).on || cancerOn(h)));
 const FLOOR = { m: 1500, f: 1200 };      // NHLBI 1998 practical minimums without supervision
@@ -2361,8 +2365,8 @@ const PROTEIN_PER_KG = { maxloss: 2.2, steady: 2.0, targetBf: 2.0, targetWeight:
 function highBodyFat(p) { const h = p.heightCm / 100; return p.weightKg / (h * h) >= 30 || p.bf > (p.sex === "m" ? 30 : 40); }
 function proteinPlan(inp, a0, dir) {
   const p = inp.profile, g = inp.goal, lifting = weeklyTraining(inp.move).liftSessions > 0;
-  // v7.6.33 cancer-treatment mode: ESPEN 2021 B2-2, protein above 1 g/kg/day and up to 1.5 g/kg/day if possible. The macro target uses the top of that range, on current body weight.
-  if (cancerOn(p.health)) return { ref: { kg: p.weightKg, basis: "current weight" }, protein: { g: Math.round(1.5 * p.weightKg / 5) * 5, perKg: 1.5 } };
+  // v7.6.39 cancer-treatment mode: ESPEN 2021 B2-2 gives protein above 1 g/kg/day and up to 1.5 g/kg/day if possible. The macro target uses 1.2 g/kg (inside that range, not its top) on current body weight; the page shows the whole 1.0-1.5 range and says a dietitian may set another number.
+  if (cancerOn(p.health)) return { ref: { kg: p.weightKg, basis: "current weight" }, protein: { g: Math.round(1.2 * p.weightKg / 5) * 5, perKg: 1.2 } };
   const perKg = lifting || dir === "gain" ? 2.2 : (PROTEIN_PER_KG[g.baseType || g.type] || 1.8);
   let ref;
   if (highBodyFat(p)) {
@@ -2987,6 +2991,7 @@ function warningsFor(R) {
   const LI = lactInfo(h, p.age);
   if (h.pregnant) W.push({ t: "danger", consult: true, m: "Pregnancy needs extra energy, so this plan holds you at maintenance. Please plan any changes with your clinician." });
   if (LI.on) W.push({ t: "info", kind: "lact", consult: LI.clinician.length > 0, m: `While you're breastfeeding, your estimated needs include an extra ${LI.k.toLocaleString("en-US")} kcal a day (${LI.src}) and the app doesn't set a fat-loss target. These are estimates, and the published increment assumes a slow weight loss, so use your own weight trend as the check. If you'd like to change your weight while breastfeeding, plan it with a clinician who knows you and your baby. Education only, not medical advice.${LI.clinician.length ? " Worth raising with your clinician: " + LI.clinician.join(" ") : ""}` });
+  if (cancerRec(h)) W.push({ t: "info", kind: "cancer-rec", consult: true, m: "You said you're recovering from cancer treatment, so the app keeps your normal goals. Your care team may have advice about weight, protein or exercise after treatment, so check any big change with them. Education only, not medical advice." });
   if (cancerOn(h)) W.push({ t: "info", kind: "cancer", consult: true, m: "Cancer-treatment mode: the goal is to maintain weight and muscle, so fat-loss goals, deficits and step or cardio targets are turned off. Needs differ person to person; talk to your care team or an oncology dietitian before changing how you eat or exercise. Education only, not medical advice." });
   const d0 = (R.main.rows[0].tdee - R.main.rows[0].intake), lowCarb = R.inp.food.style === "lowcarb" || !!R.psmf;
   R.medCard = R.health.medCheck && (d0 >= 250 || lowCarb);
@@ -3106,7 +3111,7 @@ function nextStepsFor(R) {
 
 /* v7.6.33: ESPEN 2021 guideline ranges for cancer-treatment mode (rule of thumb when energy use is not measured; protein range). Planning ranges, not a prescription. */
 const cancerRanges = (kg) => ({ kcalLo: Math.round(kg * 25 / 5) * 5, kcalHi: Math.round(kg * 30 / 5) * 5, protLo: Math.round(kg * 1.0), protHi: Math.round(kg * 1.5) });
-const api = { nextStepsFor, cancerRanges, lactInfo, lactKcal, cancerOn, holdsGoal, floorOf, OVER_BUFFER_KCAL, LEAN_LOSS_CONSERVATIVE, overFuel, LIVER_GLY_G, LIVER_GLY_KCAL, LB, K_LB, K_KG, RHO_F, TAU, K_UNC, RHO_L_LOSS, RHO_L_GAIN, FLOOR, ESSENTIAL, VERY_LEAN, GAIN_RATE, GOALS,
+const api = { nextStepsFor, cancerRanges, cancerRec, lactInfo, lactKcal, cancerOn, holdsGoal, floorOf, OVER_BUFFER_KCAL, LEAN_LOSS_CONSERVATIVE, overFuel, LIVER_GLY_G, LIVER_GLY_KCAL, LB, K_LB, K_KG, RHO_F, TAU, K_UNC, RHO_L_LOSS, RHO_L_GAIN, FLOOR, ESSENTIAL, VERY_LEAN, GAIN_RATE, GOALS,
   band, compareGain, BAND_SCALE, refit, params: () => ({ HALL_PA, TEF_BETA, BAND_SCALE, ADAPT_CAP: 0.25 }),
   navyBf, bmiBf, analyze, healthSummary, a1cStatus, diabetesStatus, psmfPlan, psmfFor, bulkSurplus, fastGainSurplus, FAST_GAIN_NOTE, BULK_SURPLUS, idealBodyWeight, structuralShare, AT_BETA, AT_TAU, BMI_STOP, LEAN_STOP, bmr, activity, multiplierLabel, referenceWeight, proteinTarget, proteinPlan, highBodyFat, surplusFor, deficitFor, planBands, GAIN_KCAL, holdRatio, ffmiTaper, CARDIO, cardioNetMet, cardioWeek, cardioEntries, LIFT_STYLE, liftFactors, lossFactor, LIFT_TYPES, LIFT_EFFORT, MIN_PRESET, applyOptOuts, liftRows, liftRowNet, liftCustom, liftGainFreq, liftRetention, calibrate, macrosFromInput, macros, leanPotentialPerDay,
   simulate, project, MUSCLES, MUSCLE_KEYS, MUSCLE_UPPER, MUSCLE_NAT, MUSCLE_SPILL, PRESET_GROUPS, PRESET_LABEL, defaultGroups, muscleRows, muscleRegions, EXERCISES, matchExercise, inferGroups, rowWeights, goalProblems, goalDirection, weeklyTraining, essentialFatKg };
@@ -4456,6 +4461,7 @@ return { KEY, MEALS, MEAL_IDS, dateKey, addDays, isDate, mealFor, empty, normali
       <li><b>No warranty.</b> The tool is provided "as is", without warranties of any kind. Results may contain errors.</li>
       <li><b>Limitation of liability.</b> To the extent the law allows, ${ORG} is not liable for any loss or harm arising from use of the tool.</li>
       <li><b>Third-party content.</b> The 3D body uses MakeHuman assets (CC0) and three.js (MIT); see the licence files included with the app.</li>
+      <li><b>US only.</b> The tool is intended for use in the United States only, and its health and privacy notices are written for US users. It is not offered for use elsewhere, including the EU and UK.</li>
       <li><b>Changes.</b> We may update these terms; continued use means you accept the current version.</li></ol>
       <p class="hint">Template wording; have it reviewed by counsel before launch.</p>` },
     fatceiling: { t: "What's a fat ceiling?", s: "Your body can burn only so much stored fat per day. Eat less than that limit allows and the gap is covered by liver glycogen and protein, so the plan keeps your deficit under it.", h: `
@@ -4753,7 +4759,7 @@ return { KEY, MEALS, MEAL_IDS, dateKey, addDays, isDate, mealFor, empty, normali
     ["estimates", "Estimates and illustrations", "I understand results, health milestones and body or organ pictures are <b>estimates and illustrations</b> based on population research, not measurements or predictions for me."],
     ["age", "Age", "I am <b>18 or older</b>."],
     ["data", "Your health data", "I understand what health information I may enter (body measurements, health answers, lab results, check-ins), that it is <b>stored on this device by default</b>, that I can delete it at any time with <b>Start over</b> or by clearing site data, and that Theosis Medical <b>does not sell</b> my data."],
-    ["terms", "Terms of use and privacy", `I have read and agree to the <a href="#terms" data-info="terms">Terms of use</a> and the <a href="#privacy" data-info="privacy">Privacy notice</a>, including the Consumer Health Data notice (Washington My Health My Data Act and similar state laws).`],
+    ["terms", "Terms of use and privacy", `I have read and agree to the <a href="#terms" data-info="terms">Terms of use</a> and the <a href="#privacy" data-info="privacy">Privacy notice</a>, including the Consumer Health Data notice (Washington My Health My Data Act and similar state laws), and I understand this tool is <b>for use in the United States only</b>.`],
   ];
   const OPT = [
     ["photoAi", "Photos and AI images (optional)", "I agree that photos I choose to add are processed <b>on this device</b> to fit the 3D figure. If I ask for an AI illustration, that one photo and my projected numbers are sent to a third-party AI provider (Google Gemini, paid tier) to make it. Along with the numbers, a few plan details are sent as fixed categories: my age and height, calorie level, steps, which muscle groups I train, my fat-storage pattern, and any measured visceral or under-the-skin fat values I entered. They are <b>not used to train AI models</b> and are <b>deleted after processing</b>. My name, lab results, medications and ancestry are <b>not</b> sent."],
@@ -4993,6 +4999,8 @@ const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&l
 const lenToDisp = (cm) => +(imp() ? cm / 2.54 : cm).toFixed(1);
 const lenFromDisp = (v) => (imp() ? v * 2.54 : v);
 const wFromDisp = (v) => (imp() ? v / LB : v);
+/* v7.6.39: shared emergency line (same wording as the medical disclaimer in trust.js) */
+const EMERGENCY_LINE = "If you have chest pain, fainting, severe shortness of breath or thoughts of self-harm, seek emergency care.";
 const ICON = { warn: '<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3 2 21h20L12 3z"/><path d="M12 10v5M12 18h.01"/></svg>',
   info: '<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7h.01"/></svg>',
   check: '<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.7 2.7L16.5 9"/></svg>' };
@@ -6843,8 +6851,8 @@ function renderSpecialYou() {
   const LI = E.lactInfo(h, S.profile.age), more = $("#bf-more"), line = $("#bf-line");
   if (more) more.hidden = !(f && LI.on);
   if (line) { line.hidden = !(f && LI.on); if (f && LI.on) line.innerHTML = `Added to your estimated needs: <b>+${fK(LI.k)} kcal/day</b> <small>${esc(LI.src)}</small><small>The app won't set a fat-loss target while you're breastfeeding. Education only, not medical advice.</small>${LI.clinician.length ? `<small class="sp-clin"><b>Talk with your clinician:</b> ${LI.clinician.map(esc).join(" ")}</small>` : ""}`; }
-  const cl = $("#ca-line"), on = E.cancerOn(h);
-  if (cl) { cl.hidden = !on; if (on) { const rg = E.cancerRanges(S.profile.weightKg); cl.innerHTML = `Your goal is set to <b>Maintain weight and muscle</b>. Fat-loss goals and deficit, cardio and step tips are turned off. Guideline ranges for planning: <b>${fK(rg.kcalLo)}–${fK(rg.kcalHi)} kcal/day</b> and protein <b>${fK(rg.protLo)}–${fK(rg.protHi)} g/day</b> <small>ESPEN 2021. Ask your oncology dietitian. Education only, not medical advice. Talk to your care team.</small>`; } }
+  const cl = $("#ca-line"), on = E.cancerOn(h), rec = E.cancerRec(h);
+  if (cl) { cl.hidden = !(on || rec); if (rec) cl.innerHTML = `Your normal goals stay on while you recover. Your care team may have advice about weight, protein or exercise, so check any big change with them. <small>Education only, not medical advice.</small>`; if (on) { const rg = E.cancerRanges(S.profile.weightKg); cl.innerHTML = `Your goal is set to <b>Maintain weight and muscle</b>. Fat-loss goals and deficit, cardio and step tips are turned off. Guideline ranges for planning: <b>${fK(rg.kcalLo)}–${fK(rg.kcalHi)} kcal/day</b> and protein <b>above ${fK(rg.protLo)} g up to about ${fK(rg.protHi)} g/day</b> (1.0–1.5 g/kg; your dietitian may set a different number) <small>ESPEN 2021. Ask your oncology dietitian. Education only, not medical advice. Talk to your care team.</small>`; } }
 }
 const SP_MEALS_BF = [["Breakfast", 620, "Oatmeal made with milk, 2 eggs, berries, walnuts", "choline · protein · iodine · calcium"], ["Snack", 300, "Greek yogurt with banana and almonds", "calcium · iodine · protein"], ["Lunch", 700, "Salmon rice bowl with edamame, broccoli and spinach, orange", "omega-3 from fish (a “Best Choice”) · choline · iron + vitamin C"], ["Snack", 300, "Hummus, whole-grain crackers, fruit; fortified milk or soy milk", "iron · calcium · vitamin D (fortified)"], ["Dinner", 730, "Lean beef or chicken, baked potato with iodized salt, roasted Brussels sprouts, side salad", "iron · choline · iodine · protein"]];
 const SP_MEALS_CA = [["On waking", 350, "Scrambled eggs with cheese, buttered toast", "protein · energy"], ["Mid-morning", 300, "Full-fat Greek yogurt with granola and honey", "protein · energy"], ["Late morning", 350, "Milk, peanut butter and banana smoothie (add protein powder if your dietitian suggests)", "drink between meals"], ["Lunch", 450, "Chicken, rice and olive oil, a small portion of vegetables", "protein · energy"], ["Afternoon", 300, "Cheese, crackers, avocado", "energy"], ["Dinner", 500, "Baked salmon, mashed potato with butter", "protein · energy"]];
@@ -6856,10 +6864,13 @@ function bfCards(LI) {
   <div class="sp-eq"><span>${fK(base)} <small>kcal base</small></span> <b>+</b> <span class="sp-add">${fK(LI.k)} <small>kcal breastfeeding</small></span> <b>=</b> <span class="sp-tot">${fK(Math.round(r0.tdee / 10) * 10)} <small>kcal/day</small></span></div>
   <p class="hint">${esc(LI.src)} The published increments are “net”: they assume a slow weight loss of about 0.64 kg (1.4 lb) a month in months 0–6, so this is a planning estimate, not a promise that weight stays flat. Your own weight trend is the better check. The calorie floor is raised by the same increment. <small class="sp-src">NAM 2023</small></p>
   ${LI.clinician.length ? `<div class="sp-note"><b>Worth raising with your clinician</b><ul>${LI.clinician.map((c) => `<li>${esc(c)}</li>`).join("")}</ul></div>` : ""}
+  <div class="sp-note"><b>Breastfeeding usually needs about 400 more calories a day</b> than before pregnancy, while months and feeding style change this. This is an estimate. If you're losing weight quickly, feel weak, or your milk supply drops, talk to your clinician or a lactation consultant.</div>
+  <div class="sp-note"><b>Check in on these</b><ul><li><b>Low milk supply:</b> if your supply drops, a lactation consultant can look at feeding and other causes with you.</li><li><b>Your baby's weight:</b> talk to your baby's clinician if your baby isn't gaining as expected.</li><li><b>Low BMI:</b> if your BMI is under 18.5, ask your clinician before cutting calories.</li><li><b>Mood after birth:</b> feeling very sad, anxious or hopeless is common and treatable. Mention it to your clinician, especially if it lasts more than two weeks. If you have thoughts of harming yourself, call or text 988 (US) now.</li></ul></div>
+  <div class="sp-flags" role="note"><b>Get help now:</b> ${esc(EMERGENCY_LINE)}</div>
   <h3 class="sp-h3">Example breastfeeding-suitable day <span class="sp-ex">example, not computed</span></h3>
   <p class="hint">About ${fK(tgt)} kcal, scaled to your estimated needs. Calories are rounded examples; adjust portions. Nutrient amounts are not calculated here.</p>
   ${spMeals(SP_MEALS_BF, tgt)}
-  <div class="sp-boxes"><div class="sp-box"><b>Emphasize</b><p>Protein: the RDA while breastfeeding is 1.3 g/kg a day (about ${fK(prot)} g for you). <small class="sp-src">IOM 2005, via NAM tables; excerpts</small></p><p>Choline: 550 mg a day (eggs, fish, dairy, meat, beans, cruciferous vegetables). <small class="sp-src">NIH ODS</small></p><p>Iodine: 290 mcg a day (dairy, eggs, seafood, iodized salt). <small class="sp-src">NIH ODS</small></p><p>Fish: 2–3 servings a week of lower-mercury “Best Choices” such as salmon, sardines, shrimp or cod, for omega-3 (DHA/EPA). <small class="sp-src">FDA/EPA 2021</small></p><p>Calcium, vitamin D and iron: from food. No numbers are given here because they were not fully confirmed from the source tables.</p></div>
+  <div class="sp-boxes"><div class="sp-box"><b>Emphasize</b><p>Protein: the RDA while breastfeeding is 1.3 g/kg a day (about ${fK(prot)} g for you). <small class="sp-src">IOM 2005, read only in secondary sources (NAM and Health Canada tables); the original was not read</small> Your own needs may differ, so ask your clinician or dietitian.</p><p>Choline: 550 mg a day (eggs, fish, dairy, meat, beans, cruciferous vegetables). <small class="sp-src">NIH ODS</small></p><p>Iodine: 290 mcg a day (dairy, eggs, seafood, iodized salt). <small class="sp-src">NIH ODS</small></p><p>Fish: 2–3 servings a week of lower-mercury “Best Choices” such as salmon, sardines, shrimp or cod, for omega-3 (DHA/EPA). <small class="sp-src">FDA/EPA 2021</small></p><p>Calcium, vitamin D and iron: from food. No numbers are given here because they were not fully confirmed from the source tables.</p></div>
   <div class="sp-box"><b>Limit or use caution</b><p>Skip high-mercury fish: shark, swordfish, king mackerel, marlin, orange roughy, bigeye tuna, Gulf of Mexico tilefish. <small class="sp-src">FDA/EPA 2021</small></p><p>Caffeine: about 300 mg a day or less (2–3 cups of coffee). Alcohol: none is safest; if any, up to one drink, and wait at least 2 hours before nursing. <small class="sp-src">CDC</small></p></div>
   <div class="sp-box"><b>Ask your clinician</b><p>Whether you need iodine, choline, vitamin D or B12 supplements, especially if you eat vegetarian or vegan. Not every prenatal vitamin contains iodine. <small class="sp-src">CDC; NIH ODS</small></p></div></div>
   <p class="hint">Education only, not medical advice. This is an example day, not a prescription or a weight-loss plan. <button type="button" class="link-btn" data-info="sources">Sources</button></p></div>`;
@@ -6867,18 +6878,19 @@ function bfCards(LI) {
 function caCards() {
   const kg = S.profile.weightKg, rg = E.cancerRanges(kg), r0 = R.rec.rows[0], tgt = Math.round(r0.intake / 10) * 10, wt = weightTrend();
   const qs = Array.isArray(S.caQuestions) ? S.caQuestions : [];
-  const watch = wt && wt.dir === "down" ? `<div class="sp-watch" role="status"><b>Your logged weight is lower than ${Math.round(wt.last.week - wt.ref.week)} weeks ago.</b> Unplanned weight loss is worth telling your care team about, even if you feel fine. This is not a diagnosis, and the app can't tell why your weight changed.<div class="sp-btns"><button type="button" class="chip" data-ca-q="1">Add to my questions for the team</button><button type="button" class="chip" data-ca-planned="${wt.last.week}">It was planned</button></div></div>`
+  const watch = wt && wt.dir === "down" ? `<div class="sp-watch" role="status"><b>Your weight is lower than ${Math.round(wt.last.week - wt.ref.week)} weeks ago.</b> If that wasn't on purpose, tell your cancer team this week. This is not a diagnosis, and the app can't tell why your weight changed.<div class="sp-btns"><button type="button" class="chip" data-ca-q="1">Add to my questions for the team</button><button type="button" class="chip" data-ca-planned="${wt.last.week}">It was planned</button></div></div>`
     : wt && wt.dir === "steady" ? `<p class="hint" role="status">Your logged weight has been about steady over the last ${Math.round(wt.last.week - wt.ref.week)} weeks.</p>` : `<p class="hint">Log your weight in the weekly check-in and this card will say whether it is trending down. <small class="sp-src">ESPEN 2021 B1-1: check weight and intake from diagnosis (evidence very low)</small></p>`;
   return `<div class="card sp-card" id="ca-card"><p class="eyebrow card-eyebrow">Cancer-treatment mode · education only</p><h2>Maintain weight and muscle</h2>
   <div class="sp-note"><b>Not medical advice.</b> Cancer, treatment and nutrition needs differ person to person. Talk to your care team or an oncology dietitian before changing how you eat or exercise.</div>
+  <div class="sp-flags" role="note"><b>Call your care team right away if you have:</b><ul><li>a fever during chemotherapy (use the number and instructions your team gave you)</li><li>vomiting you can't control, or you can't keep fluids down</li><li>black or bloody stools</li></ul><p class="hint">${esc(EMERGENCY_LINE)}</p></div>
   <h3 class="sp-h3">Guideline ranges for planning</h3>
   <div class="sp-boxes"><div class="sp-box"><b>Energy</b><div class="sp-big">${fK(rg.kcalLo)}–${fK(rg.kcalHi)} kcal/day</div><p>25–30 kcal/kg/day, a rule of thumb when energy use is not measured. <small class="sp-src">ESPEN 2021 B2-1 (strong; evidence low)</small></p></div>
-  <div class="sp-box"><b>Protein</b><div class="sp-big">above ${fK(rg.protLo)} g/day, up to about ${fK(rg.protHi)} g if possible</div><p>More than 1 g/kg/day, up to 1.5 g/kg/day if possible. Your macro target uses the top of this range. <small class="sp-src">ESPEN 2021 B2-2 (strong; evidence moderate)</small></p></div>
+  <div class="sp-box"><b>Protein</b><div class="sp-big">above ${fK(rg.protLo)} g/day (above 1 g/kg), up to about ${fK(rg.protHi)} g if possible</div><p>Many guides suggest 1.0–1.5 g protein per kg. Your dietitian may set a different number, especially with kidney or liver disease or trouble eating. Your macro target here uses 1.2 g/kg (about ${fK(Math.round(1.2 * kg / 5) * 5)} g), inside that range. <small class="sp-src">ESPEN 2021 B2-2 (strong; evidence moderate)</small></p></div>
   <div class="sp-box"><b>Ask your oncology dietitian</b><p>These are guideline ranges, not your prescription. The rule of thumb over-estimates in obesity and under-estimates in severe malnutrition (ESPEN 2017). Treatment, symptoms and other conditions change what is right for you.</p></div></div>
   <h3 class="sp-h3">Weight-trend watch <span class="sp-ex">no diagnosis</span></h3>${watch}
   ${qs.length ? `<div class="sp-note"><b>My questions for the team</b><ul>${qs.map((q, i) => `<li>${esc(q)} <button type="button" class="link-btn" data-ca-qdel="${i}">remove</button></li>`).join("")}</ul></div>` : ""}
   <h3 class="sp-h3">Sugar and cancer: what the evidence says</h3>
-  <div class="sp-ev"><div class="sp-y"><b>Supported</b><ul><li><b>Risk:</b> sugar-sweetened drinks are a convincing cause of weight gain, and greater body weight is a cause of many cancers. This is about preventing cancer, not treating it. <small class="sp-src">WCRF/AICR</small></li><li><b>Diabetes during cancer care:</b> people with diabetes who get cancer have higher all-cause mortality in observational studies (HR 1.41), and high glucose is linked to more chemotherapy-related neutropenia (OR 1.32, with high heterogeneity) and, in one retrospective abstract, more toxicity. Association, not proof that tighter glucose changes outcomes. <small class="sp-src">Barone 2008; Alenzi &amp; Kelley 2017; Brunello 2011 (abstract only)</small></li><li><b>Steroids:</b> dexamethasone often raises blood sugar, usually temporarily. If you have diabetes or are on steroids, your team may ask for glucose checks. <small class="sp-src">Mahin 2023 (one 100-patient cohort; abstract and methods read)</small></li></ul></div>
+  <div class="sp-ev"><div class="sp-y"><b>Supported</b><ul><li><b>Risk:</b> sugar-sweetened drinks are a convincing cause of weight gain, and greater body weight is a cause of many cancers. This is about preventing cancer, not treating it. <small class="sp-src">WCRF/AICR</small></li><li><b>Diabetes during cancer care:</b> People with diabetes tend to do worse during cancer care, so keep your team updated on your blood sugar. This is not a reason to cut sugar out on your own. <small class="sp-src">Barone 2008 (higher all-cause mortality in observational studies); Alenzi &amp; Kelley 2017 (neutropenia, high heterogeneity); Brunello 2011 (abstract only). Association, not proof that tighter glucose changes outcomes.</small></li><li><b>Steroids:</b> Steroids like dexamethasone can raise blood sugar. Ask your team if you need to check it. <small class="sp-src">Mahin 2023 (one 100-patient cohort; abstract and methods read)</small></li></ul></div>
   <div class="sp-n"><b>Not supported in people</b><ul><li><b>“Cutting sugar starves tumors.”</b> All cells use glucose, and the body makes glucose from protein and fat. No trial shows that restricting sugar or carbohydrate treats cancer. <small class="sp-src">CRUK 2023; ESPEN 2017 and 2021; NCI PDQ</small></li><li><b>Ketogenic or very low-carb diets as treatment:</b> no clinical trials show benefit; low adherence and weight loss are reported. <small class="sp-src">ESPEN; Sremanakova 2018 and Erickson 2017 (abstracts only)</small></li><li><b>Warburg effect:</b> real biology that may lead to drugs, not a diet instruction. <small class="sp-src">CRUK 2023</small></li></ul></div>
   <div class="sp-r"><b>Risk of restricting</b><p>Severely restricted diets can cause under-eating and loss of weight and muscle, which matter during treatment. ASCO advises against fad and extreme diets for people with advanced cancer who are losing weight. After treatment, limiting sugary drinks is part of general healthy-eating advice. <small class="sp-src">ESPEN 2021 B3-2; CRUK 2023; ASCO 2020; ACS 2022</small></p></div></div>
   <p class="hint">Education only. Not medical advice. Ask your oncology dietitian before cutting any food group. No safe “amount of added sugar during chemo” is given because no source was found.</p>
@@ -6890,11 +6902,12 @@ function caCards() {
   <div class="sp-box"><b>Tell your care team</b><p>Ongoing nausea, mouth sores, trouble swallowing or eating much less than usual. A dietitian can adjust the plan, and may suggest oral nutrition supplements. <small class="sp-src">ESPEN 2021; ASCO 2020; ACS 2022</small></p></div></div>
   <p class="hint">Education only, not medical advice. This is an example, not a prescription or diet plan. <button type="button" class="link-btn" data-info="sources">Sources</button></p></div>`;
 }
+function recCard() { return `<div class="card sp-card" id="ca-rec-card"><p class="eyebrow card-eyebrow">Recovering from cancer treatment · education only</p><h2>Your normal goals are on</h2><div class="sp-note">Because you're recovering, the app does not lock your goal to maintaining weight. You can choose any goal in Step 3. Your cancer team or an oncology dietitian may have advice about weight, protein or exercise for you, so check any big change with them. <small class="sp-src">ACS 2022 guideline for survivors (general guidance)</small></div><div class="sp-flags" role="note"><b>Get help now:</b> ${esc(EMERGENCY_LINE)}</div></div>`; }
 function renderSpecial() {
   const box = $("#special-cards"); if (!box) return;
   const h = S.profile.health, LI = E.lactInfo(h, S.profile.age);
-  if (!R || R.blocked || !(LI.on || E.cancerOn(h))) { box.innerHTML = ""; return; }
-  box.innerHTML = (LI.on ? bfCards(LI) : "") + (E.cancerOn(h) ? caCards() : "");
+  if (!R || R.blocked || !(LI.on || E.cancerOn(h) || E.cancerRec(h))) { box.innerHTML = ""; return; }
+  box.innerHTML = (LI.on ? bfCards(LI) : "") + (E.cancerOn(h) ? caCards() : "") + (E.cancerRec(h) ? recCard() : "");
 }
 document.addEventListener("click", (ev) => {
   const t = ev.target.closest && ev.target.closest("[data-ca-q],[data-ca-planned],[data-ca-qdel]"); if (!t) return;
@@ -7657,7 +7670,7 @@ function aiChatFacts() {
     add(`Profile: ${p.sex === "f" ? "female" : "male"}, age ${Math.round(p.age)}, height ${lenToDisp(p.heightCm)} ${imp() ? "in" : "cm"}, weight ${fW(p.weightKg)}, body fat ${fP(bfInfo().bf)} (${bfInfo().source})`); });
   tryAdd(() => { const L = E.lactInfo(h, p.age), bits = [];
     if (h.pregnant) bits.push("pregnant"); if (L.on) bits.push(`breastfeeding ${h.bf}, ${h.bfMonths > 12 ? "past 12" : h.bfMonths} months since birth, +${L.k} kcal a day added (NAM 2023)${h.bfPump ? ", pumping only" : ""}${h.bfMulti ? ", twins or more" : ""}`);
-    if (E.cancerOn(h)) bits.push(`cancer-treatment mode (${h.cancer === "tx" ? "in treatment" : "recovering"}): goal is maintain weight and muscle, ESPEN ranges ${(() => { const r = E.cancerRanges(p.weightKg); return `${kc(r.kcalLo)} to ${kc(r.kcalHi)} kcal and protein ${r.protLo} to ${r.protHi} g`; })()}`);
+    if (E.cancerOn(h)) bits.push(`cancer-treatment mode (in treatment): goal is maintain weight and muscle, ESPEN ranges ${(() => { const r = E.cancerRanges(p.weightKg); return `${kc(r.kcalLo)} to ${kc(r.kcalHi)} kcal and protein ${r.protLo} to ${r.protHi} g`; })()}`);
     if (h.edHistory) bits.push("history of eating disorder reported"); if (h.diabetes && h.diabetes !== "unknown") bits.push(`diabetes status ${h.diabetes}`); if (h.a1c > 0) bits.push(`A1c ${+(+h.a1c).toFixed(1)}% (log only)`);
     if (bits.length) add("Health context: " + bits.join("; ")); });
   tryAdd(() => { const m = S.move, t = E.weeklyTraining(effMove()); add(`Movement: ${kc(m.steps || 0)} steps a day, lifting ${t.liftSessions || 0} sessions a week, cardio ${Math.round(t.cardioMin || 0)} min a week${m.noLift ? " (lifting turned off)" : ""}${m.noCardio ? " (cardio turned off)" : ""}, experience ${m.experience || "n/a"}`); });
@@ -7888,7 +7901,7 @@ const GLU = {
 };
 window.GlucoseLog = GLU;
 let GLS = GLU.load();
-const V = { open: false, view: "home", g: { tag: "", meal: "", val: "", dt: "", note: "", range: 7, msg: "", err: "" }, msg: "" };
+const V = { open: false, view: "home", g: { tag: "", meal: "", val: "", dt: "", note: "", range: 7, msg: "", err: "", confirm: "" }, msg: "" };
 const glIsDiabetic = () => { try { return ["t1", "t2", "other"].includes(E.diabetesStatus(S.profile.health).value); } catch (e) { return false; } };
 const glVisible = () => glIsDiabetic() || !!S.glucoseOptIn;
 const vDt = (d) => { const p = (n) => String(n).padStart(2, "0"); return `${d.getFullYear()}-${p(d.getMonth() + 1)}-${p(d.getDate())}T${p(d.getHours())}:${p(d.getMinutes())}`; };
@@ -7955,7 +7968,16 @@ function glucoseHtml() {
   const tagL = (k) => (GLU.tags.find((t) => t[0] === k) || [0, ""])[1];
   const sumc = (k, v) => `<div class="stat"><div class="k">${k}</div><div class="v">${v}</div></div>`;
   return `<header class="step-head"><p class="eyebrow">Glucose log</p><h1 tabindex="-1">Glucose log</h1><p class="lead">Record your own blood sugar readings, especially around meals, to bring to your doctor.</p></header>
+  <div class="v-card v-help" id="gl-help"><h2>When to get help</h2>
+    <ul><li><b>Shaky, sweaty, confused or hungry all of a sudden:</b> these can be signs of low blood sugar. Follow the low-sugar plan your care team gave you, such as taking fast-acting sugar. If you don't have one or you aren't getting better, call your care team.</li>
+    <li><b>Very thirsty, passing a lot of urine, or feeling unwell:</b> call your care team the same day.</li>
+    <li><b>Call 911</b> for vomiting together with high blood sugar, trouble breathing, or confusion that doesn't clear.</li></ul>
+    <p class="hint">${EMERGENCY_LINE}</p></div>
   <div class="v-card v-note"><p><b>Log only.</b> This page stores the numbers you type in. It does not set targets, label readings, give advice or predict anything. Your doctor decides what your numbers mean.</p></div>
+  <div class="v-card v-note" id="gl-safety"><h2>Medicine and low-carb safety</h2>
+    <p><b>Insulin or sulfonylureas</b> (for example glipizide, glimepiride, glyburide) can cause low blood sugar, and eating fewer carbs or calories can raise that risk. Don't change a dose on your own. Ask your prescriber before you change how you eat.</p>
+    <p><b>Type 1 diabetes, or an SGLT2 inhibitor</b> (for example empagliflozin, dapagliflozin, canagliflozin): very low-carb eating, fasting or heavy drinking can raise the risk of ketoacidosis (DKA), which can happen even when blood sugar isn't very high. Ask your care team whether and when to check ketones. Nausea or vomiting, belly pain, fast breathing or unusual tiredness need urgent care.</p>
+    <p class="hint">Education only, not medical advice.</p></div>
   <div class="v-card"><div class="row between"><h2>Add a reading</h2><div class="chips" role="group" aria-label="Units"><button type="button" class="chip" data-gl-unit="mgdl" aria-pressed="${u === "mgdl"}">mg/dL</button><button type="button" class="chip" data-gl-unit="mmol" aria-pressed="${u === "mmol"}">mmol/L</button></div></div>
     <div class="v-grid2"><label class="field"><span class="label">Value (${ul})</span><span class="control"><input id="gl-val" inputmode="decimal" placeholder="${u === "mmol" ? "e.g. 6.5" : "e.g. 118"}" value="${esc(V.g.val)}" data-local="1"></span></label>
     <label class="field"><span class="label">Date and time</span><span class="control"><input id="gl-dt" type="datetime-local" data-local="1"></span></label></div>
@@ -7963,7 +7985,7 @@ function glucoseHtml() {
     <label class="field mt1"><span class="label">Link to a Food Log meal <span class="g-opt">(optional)</span></span><span class="control"><select id="gl-meal" data-local="1"><option value="">No meal linked</option>${meals.map((m) => `<option value="${esc(m.key)}" ${m.key === V.g.meal ? "selected" : ""}>${esc(m.name)} (${esc(vFmtD(new Date(m.date + "T12:00:00").getTime()))})</option>`).join("")}</select></span></label>
     ${sel ? `<p class="hint">From your Food Log: ${sel.carbs != null ? Math.round(sel.carbs) + " g carbs · " : ""}${Math.round(sel.kcal)} kcal</p>` : meals.length ? "" : `<p class="hint">Meals you add in the Food Log show up here to link.</p>`}
     <label class="field mt1"><span class="label">Note <span class="g-opt">(optional)</span></span><span class="control"><input id="gl-note" maxlength="200" placeholder="Anything you want your doctor to see" value="${esc(V.g.note)}" data-local="1"></span></label>
-    <p class="err" role="alert">${esc(V.g.err)}</p><div class="actions"><button type="button" class="btn btn-primary" id="gl-save">Save reading</button></div>${V.g.msg ? `<p class="hint" role="status">${esc(V.g.msg)}</p>` : ""}</div>
+    <p class="err" role="alert">${esc(V.g.err)}</p>${V.g.confirm ? `<div class="v-card v-warn" role="alert" id="gl-confirm-box"><p><b>Please check this number.</b> ${esc(V.g.confirm)} If it is correct and you feel unwell, get help now (see the box at the top of this page).</p><div class="actions"><button type="button" class="btn btn-primary" id="gl-confirm">Yes, save it as entered</button><button type="button" class="btn btn-ghost" id="gl-fix">Let me fix it</button></div></div>` : `<div class="actions"><button type="button" class="btn btn-primary" id="gl-save">Save reading</button></div>`}${V.g.msg ? `<p class="hint" role="status">${esc(V.g.msg)}</p>` : ""}</div>
   <div class="v-card"><div class="row between"><h2>Your numbers</h2><div class="chips" role="group" aria-label="Period">${[7, 14, 30].map((d) => `<button type="button" class="chip" data-gl-range="${d}" aria-pressed="${V.g.range === d}">${d} days</button>`).join("")}</div></div>
     <div class="v-stats">${sm ? sumc("Readings", sm.n) + sumc("Average", GLU.toDisp(sm.avg, u) + " " + ul) + sumc("Lowest", GLU.toDisp(sm.lo, u)) + sumc("Highest", GLU.toDisp(sm.hi, u)) : "<p class=\"hint\">Add a reading to see a summary.</p>"}</div>
     <p class="hint">These are summaries of the numbers you entered, nothing more. They are not a measure of control and not a substitute for lab tests such as A1c.</p></div>
@@ -7973,8 +7995,10 @@ function glucoseHtml() {
     <p class="hint">A one-page table of the readings you entered, in ${ul}. Nothing is sent anywhere; you choose how to share the file.</p></div>
   <div class="v-card"><h2>Privacy</h2><p class="hint">Your readings stay on this device. Nothing is uploaded, and the Glucose log never changes your plan, projection or the goal-fit dial. <button type="button" class="link-btn" id="gl-clear">Delete all readings</button></p></div>`;
 }
-function glSave() {
-  const g = V.g, u = GLS.unit, mg = GLU.fromEntry(g.val, u), t = new Date(g.dt).getTime();
+function glSave(confirmed) {
+  const g = V.g; g.confirm = "";
+  { const mg0 = GLU.fromEntry(g.val, GLS.unit); if (!confirmed && mg0 != null && (mg0 < 40 || mg0 > 500)) { g.err = ""; g.msg = ""; g.confirm = `${GLU.toDisp(mg0, GLS.unit)} ${GLS.unit === "mmol" ? "mmol/L" : "mg/dL"} is outside ${GLS.unit === "mmol" ? "2.2 to 27.8 mmol/L (40 to 500 mg/dL)" : "40 to 500 mg/dL"}, so it may be a typo.`; return renderViews(); } }
+  const u = GLS.unit, mg = GLU.fromEntry(g.val, u), t = new Date(g.dt).getTime();
   if (mg == null) { g.err = `Enter a number in ${u === "mmol" ? "mmol/L (about 1 to 55)" : "mg/dL (about 20 to 1000)"}. Check it for typos.`; g.msg = ""; return renderViews(); }
   if (!Number.isFinite(t)) { g.err = "Pick the date and time of the reading."; return renderViews(); }
   const m = glMeals().find((x) => x.key === g.meal), it = { id: "g" + t + "-" + Math.random().toString(36).slice(2, 6), t, mgdl: mg, tag: g.tag, note: g.note.trim(), meal: m ? { date: m.date, name: m.name, carbs: m.carbs, kcal: m.kcal } : null };
@@ -8013,7 +8037,7 @@ async function dataImport(file) {
 function renderEntryViews() { const box = $("#entry-views"); if (!box) return; const has = HAD_SAVED || S.goal.touched || S.maxStep > 1;
   box.innerHTML = [has ? `<button type="button" class="qc-card fl-entry" data-view="home"><span><b>Home dashboard</b><small>Your plan at a glance: goal-fit dial and top tips</small></span></button>` : "", glVisible() ? `<button type="button" class="qc-card fl-entry" data-view="glucose"><span><b>Glucose log</b><small>Log your own readings. Log only, no advice</small></span></button>` : "", `<button type="button" class="qc-card fl-entry" data-view="settings"><span><b>Settings</b><small>Glucose log option, move your data to another device</small></span></button>`].join(""); }
 document.addEventListener("click", (e) => {
-  const t = e.target.closest("[data-view],[data-v-sim],[data-gl-unit],[data-gl-tag],[data-gl-range],[data-gl-del],#gl-save,#gl-csv,#gl-pdf,#gl-clear,#gl-opt,#data-export,#data-import"); if (!t) return;
+  const t = e.target.closest("[data-view],[data-v-sim],[data-gl-unit],[data-gl-tag],[data-gl-range],[data-gl-del],#gl-save,#gl-confirm,#gl-fix,#gl-csv,#gl-pdf,#gl-clear,#gl-opt,#data-export,#data-import"); if (!t) return;
   if (t.dataset.view) { e.preventDefault(); openView(t.dataset.view); return; }
   if (t.dataset.vSim) { vLeave(); const s = +t.dataset.vSim, started = S.maxStep > 1 || S.goal.touched; go(s <= 1 ? (started ? Math.max(1, S.step) : 0) : Math.min(s, Math.max(1, S.maxStep))); return; }
   if (!V.open) return;
@@ -8022,6 +8046,8 @@ document.addEventListener("click", (e) => {
   if (t.dataset.glRange) { V.g.range = +t.dataset.glRange; renderViews(); return; }
   if (t.dataset.glDel) { GLS.items = GLS.items.filter((x) => x.id !== t.dataset.glDel); GLU.save(GLS); renderViews(); return; }
   if (t.id === "gl-save") { glSave(); return; }
+  if (t.id === "gl-confirm") { glSave(true); return; }
+  if (t.id === "gl-fix") { V.g.confirm = ""; renderViews(); const i = $("#gl-val"); i && i.focus(); return; }
   if (t.id === "gl-csv") { vDownload(`glucose-log-${vDt(new Date()).slice(0, 10)}.csv`, "text/csv", GLU.csv(GLS, GLS.unit)); return; }
   if (t.id === "gl-pdf") { vDownload(`glucose-log-${vDt(new Date()).slice(0, 10)}.pdf`, "application/pdf", GLU.pdf(glPdfLines())); return; }
   if (t.id === "gl-clear") { if (confirm("Delete all glucose readings from this device?")) { GLS = GLU.empty(); GLU.save(GLS); renderViews(); } return; }
