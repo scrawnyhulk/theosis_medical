@@ -14,6 +14,7 @@ const TIMEOUT_MS = 8000;
 const headers = (origin, extra = {}) => ({ "Content-Type": "application/json", ...(origin ? { "Access-Control-Allow-Origin": origin, "Vary": "Origin" } : {}), ...extra });
 const reply = (status, body, origin, cache) => ({ statusCode: status, headers: headers(origin, { "Cache-Control": cache || "no-store" }), body: JSON.stringify(body) });
 
+const BETA = require("../guard.js");   // v7.6.47 beta guard: per-visitor + burst limits only (no AI cost, not in the global AI caps)
 exports.handler = async (event) => {
   const allowed = process.env.ALLOWED_ORIGIN || "";
   const origin = event.headers && (event.headers.origin || event.headers.Origin);
@@ -34,6 +35,7 @@ exports.handler = async (event) => {
   const url = core.fdcSearchUrl(barcode || q, key, { branded: !!barcode || kind === "branded", all: kind === "all", n: barcode ? 5 : 10 });
   const ctl = new AbortController(); const timer = setTimeout(() => ctl.abort(), TIMEOUT_MS);
   let res;
+  const slot = await BETA.check(event, "food"); if (!slot.ok) return BETA.reply(slot, corsOrigin);
   try { res = await fetch(url, { signal: ctl.signal, headers: { Accept: "application/json" } }); }
   catch (e) { return reply(502, { error: ctl.signal.aborted ? "USDA FoodData Central took too long to answer." : "Couldn't reach USDA FoodData Central.", demoKey }, corsOrigin); }
   finally { clearTimeout(timer); }

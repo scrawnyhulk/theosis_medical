@@ -23,6 +23,7 @@
  *   AI_GLOBAL_DAILY_LIMIT     total calls per day across all users (cost circuit-breaker, default 3000)
  */
 const crypto = require("crypto");
+const BETA = require("./guard.js");   // v7.6.47: beta guard (kill switch, global daily call/$ caps, per-visitor + burst limits)
 let PACK = { pages: [] }; try { PACK = require("./ai-pack.js"); } catch (e) { /* works without a pack, just less site knowledge */ }
 
 const env = () => process.env;
@@ -134,6 +135,7 @@ function chatSystem() {
     "- If your general knowledge differs from a stated Theosis position, mention the difference openly instead of quietly choosing one.",
     "- Flag uncertainty honestly. If you do not know, say so. Do not make up studies, citations, quotes, prices or services.",
     "- When a page or hack on the site fits, point to it and name it. Only use URLs from the knowledge pack. Suggest the matching hack when it fits (e.g. protein per pound, don't drink calories).",
+    "- Naming the fast-food list: call it the Fast Food Hacks on theosismedical.com (or just a fast food hack). Never call them \"Holwey hacks\" or \"Holwey's hacks\".",
     "- No diagnosis or prescribing. For anything medical (medicines, diabetes, kidneys, pregnancy, eating disorders, chest pain...) say to check with their clinician; mention they can book a consult through theosismedical.com if they want help.",
     'Reply ONLY as JSON: {"reply": string, "links": [{"title": string, "url": string}], "beyond_site": boolean, "uncertain": boolean}. "links" holds at most 3 URLs copied exactly from the knowledge pack.',
     "\nKNOWLEDGE PACK (public pages of theosismedical.com, fetched " + (PACK.fetched || "n/a") + "):", pagesBlock(34000)].join("\n");
@@ -344,13 +346,14 @@ exports.handler = async (event) => {
   const c = body.consent || {}; if (c.photoAi !== true || c.adult !== true) return err(400, "consent", "Turn on photos and AI images in Consent settings to use AI features.", corsOrigin);
   const uid = userId(event, pro), kind = action === "stage" ? "stage" : action;
   if (action === "stage") { const runId = clean(body.runId, 40); if (!runId) return err(400, "bad_request", "Missing run id.", corsOrigin); if (!startRun(uid, runId)) return err(429, "limit", "You've reached today's limit for 'See yourself at each stage'. Try again tomorrow.", corsOrigin, { limit: "runs" }); }
-  const sp = spend(uid, kind); if (!sp.ok) return err(429, "limit", sp.why === "global" ? "AI features are busy right now. Try again later." : "You've reached today's limit for this AI feature. Try again tomorrow.", corsOrigin, { limit: sp.why });
+  const slot = mock ? { ok: true, release() {} } : await BETA.check(event, kind); if (!slot.ok) return BETA.reply(slot, corsOrigin);
+  const sp = spend(uid, kind); if (!sp.ok) { slot.release(); return err(429, "limit", sp.why === "global" ? "AI features are busy right now. Try again later." : "You've reached today's limit for this AI feature. Try again tomorrow.", corsOrigin, { limit: sp.why }); }
   try {
     const out = await ({ label: doLabel, stage: doStage, chat: doChat, plan: doPlan })[action](body, mock);
-    if (out.status !== 200) { refund(uid, kind); const dbg = out.reason && isPreview(event) ? " [preview debug: Gemini reason " + out.reason + (out.text ? ' · model said: "' + String(out.text).slice(0, 160) + '"' : "") + "]" : ""; return err(out.status, out.code, out.message + dbg, corsOrigin, out.reason ? { reason: out.reason, kind: out.kind } : undefined); }
+    if (out.status !== 200) { refund(uid, kind); slot.release(); const dbg = out.reason && isPreview(event) ? " [preview debug: Gemini reason " + out.reason + (out.text ? ' · model said: "' + String(out.text).slice(0, 160) + '"' : "") + "]" : ""; return err(out.status, out.code, out.message + dbg, corsOrigin, out.reason ? { reason: out.reason, kind: out.kind } : undefined); }
     return json(200, { ...out.data, left: sp.left }, corsOrigin);
   } catch (e) {
-    refund(uid, kind); const code = (e && e.code) || "failed"; let extra = null; console.error("ai failed:", action, code, e && e.status ? e.status : "");   // no photo, question or personal data is logged
+    refund(uid, kind); slot.release(); const code = (e && e.code) || "failed"; let extra = null; console.error("ai failed:", action, code, e && e.status ? e.status : "");   // no photo, question or personal data is logged
     const x = explainError(action, e, event); return err(x.status, x.code, x.message, corsOrigin);
   }
 };

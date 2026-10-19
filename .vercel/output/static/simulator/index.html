@@ -188,6 +188,44 @@ td.muted{color:var(--muted)}
 footer{max-width:80rem;margin:0 auto;padding:2rem 1rem 3rem;border-top:1px solid var(--border);display:flex;flex-wrap:wrap;gap:1rem;justify-content:space-between;align-items:center;font-size:.8rem;color:var(--muted)}
 @media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
 
+/* v7.6.45: main navigation (Version A). Desktop: in the header. Phone (<64rem): bottom tab bar + More sheet. */
+.site-header .in{gap:1rem}
+.topnav{display:flex;align-items:center;gap:.2rem;flex:1;min-width:0}
+.tn-i{display:inline-flex;align-items:center;gap:.45rem;min-height:2.5rem;padding:0 .85rem;border-radius:999px;color:var(--muted);font-weight:600;font-size:.9rem;background:none;border:0;cursor:pointer;white-space:nowrap}
+.tn-i svg,.tn-m svg{width:1.05rem;height:1.05rem;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
+.tn-i:hover{color:var(--fg)}.tn-i.on{color:var(--fg);background:rgba(120,150,190,.14);box-shadow:inset 0 -2px 0 var(--accent)}
+.tn-i:focus-visible,.tn-m:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.tn-more{position:relative}
+.tn-menu{position:absolute;top:calc(100% + .5rem);left:0;z-index:60;width:18.5rem;list-style:none;margin:0;padding:.45rem;border-radius:14px;background:var(--card,#111823);border:1px solid var(--border);box-shadow:0 14px 40px rgba(0,0,0,.6)}
+.tn-menu[hidden]{display:none}
+.tn-h{margin:.55rem .6rem .25rem;font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.tn-m{display:flex;width:100%;justify-content:space-between;align-items:center;gap:.6rem;min-height:2.6rem;padding:.4rem .65rem;border-radius:9px;color:var(--fg);font-size:.95rem;background:none;border:0;text-align:left;cursor:pointer}
+.tn-m:hover{background:rgba(120,150,190,.12)}.tn-m small{color:var(--muted);font-size:.78rem;font-weight:400}
+.tn-m.soon{color:#9aa6b6;cursor:default}.tn-m.soon:hover{background:none}
+.tn-badge{font-size:.7rem;font-weight:700;letter-spacing:.03em;padding:.12rem .5rem;border-radius:999px;background:#262c37;color:#c3ccd8;border:1px solid #3a4456;white-space:nowrap}
+@media(max-width:63.99rem){
+  .topnav{position:fixed;left:0;right:0;bottom:0;z-index:45;display:grid;grid-template-columns:repeat(5,1fr);gap:0;padding:.3rem 0 calc(.4rem + env(safe-area-inset-bottom));background:rgba(10,15,22,.97);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-top:1px solid var(--border)}
+  .tn-i{flex-direction:column;gap:.2rem;min-height:3.2rem;padding:.2rem 0;font-size:.72rem;border-radius:10px;justify-content:center}
+  .tn-i svg{width:1.4rem;height:1.4rem}.tn-i.on{background:none;box-shadow:none}.tn-i.on svg{color:var(--accent)}
+  .tn-more{position:static;display:flex}.tn-more>.tn-i{flex:1}
+  .tn-menu{position:fixed;left:0;right:0;top:auto;bottom:calc(3.9rem + env(safe-area-inset-bottom));width:auto;max-height:70vh;overflow:auto;border-radius:18px 18px 0 0;padding:.6rem .75rem .5rem;box-shadow:0 -14px 40px rgba(0,0,0,.6)}
+  .tn-m{min-height:2.9rem;font-size:1rem}
+  body.has-tabs{padding-bottom:4.2rem}
+  body.has-tabs .site-header{backdrop-filter:none;-webkit-backdrop-filter:none;background:rgba(10,15,22,.97)}
+  body.has-tabs .mbar{bottom:calc(3.9rem + env(safe-area-inset-bottom))}
+  body.has-tabs .ask-fab{bottom:calc(5rem + env(safe-area-inset-bottom))}
+  body.has-tabs.has-mbar .ask-fab{bottom:calc(9rem + env(safe-area-inset-bottom))}
+  body.has-tabs .prod-mark{margin-left:auto}
+}
+@media print{.topnav{display:none!important}}
+
+/* v7.6.47: beta banner (shown until dismissed; "Got it" stores theosis-beta-notice-v1 on this device) */
+.beta-bar{display:flex;gap:.75rem;align-items:center;justify-content:space-between;padding:.5rem 1rem;background:#2a2312;color:#f3e3b3;border-bottom:1px solid #5a4a1c;font-size:.9rem;line-height:1.45}
+.beta-bar[hidden]{display:none}.beta-bar p{margin:0 auto 0 0;max-width:78rem}.beta-bar a{color:#ffd98a;text-decoration:underline}
+.beta-bar button{flex:none;min-height:44px;min-width:44px;background:transparent;color:#ffd98a;border:1px solid #8a7432;border-radius:8px;padding:.2rem .8rem;cursor:pointer;font:inherit}
+.beta-bar button:focus-visible,.beta-bar a:focus-visible{outline:2px solid #ffd98a;outline-offset:2px}
+@media(max-width:40rem){.beta-bar{font-size:.85rem;padding:.5rem .75rem;align-items:flex-start}}
+@media print{.beta-bar{display:none!important}}
 
 /* ---------- Body Plan additions (same tokens as the calculator) ---------- */
 [hidden]{display:none!important}
@@ -1305,6 +1343,43 @@ html.lb-open{overflow:hidden}
 
 
 .v-card.v-help{box-shadow:inset 4px 0 0 #e5534b,0 0 0 1px var(--border)}.v-card.v-warn{box-shadow:inset 4px 0 0 #f2c14e,0 0 0 1px var(--border);margin-top:.6rem}.v-help ul{margin:.3rem 0 .4rem 1.1rem}.sp-flags{margin:.6rem 0;padding:.65rem .8rem;border-radius:var(--r-md);box-shadow:inset 4px 0 0 #e5534b,0 0 0 1px var(--border-strong);font-size:.88rem}.sp-flags ul{margin:.3rem 0 0 1rem}
+/* v7.6.40: Foods you like */
+.fav{margin:.2rem 0 .6rem;border-radius:var(--r-md);box-shadow:0 0 0 1px var(--hairline);background:rgba(8,13,20,.45);padding:.2rem .85rem}
+.fav>summary{cursor:pointer;min-height:44px;display:flex;align-items:center;gap:.5rem;font-family:var(--fd);font-weight:600;font-size:1.1rem;letter-spacing:.02em}
+.fav-body{display:grid;gap:.6rem;padding:.2rem 0 .8rem}
+.fav-search{display:flex;gap:.5rem;align-items:flex-end}.fav-search .field{flex:1;margin:0}
+.fav-grp{font-size:.7rem;text-transform:uppercase;letter-spacing:.08em;color:var(--accent-ink);margin:.3rem 0 0}
+.fav-resl,.fav-list{list-style:none;display:grid;gap:.4rem;padding:0;margin:0}
+.fav-res,.fav-chip{display:flex;justify-content:space-between;gap:.6rem;align-items:center;padding:.5rem .7rem;border-radius:var(--r-sm);background:rgba(8,13,20,.5);box-shadow:0 0 0 1px var(--hairline);font-size:.9rem}
+.fav-res.na{opacity:.7}.fav-nm{display:block;min-width:0}.fav-nm small{display:block;color:var(--muted);font-size:.75rem}.fav-nm small.inl{display:inline;margin-left:.3rem}
+.fav-rt{display:flex;gap:.5rem;align-items:center;flex-wrap:wrap;justify-content:flex-end;text-align:right}.fav-rt b{font-family:var(--fd);font-size:1.05rem;white-space:nowrap}.fav-rt small{color:var(--muted);font-size:.75rem}
+.btn.btn-xs{min-height:44px;padding:.3rem .8rem;font-size:.8rem}
+.ftag{display:inline-block;font-size:.65rem;border-radius:99px;padding:.05rem .5rem;margin-left:.2rem;white-space:normal;vertical-align:1px}
+.ftag.ok{background:rgba(62,207,142,.15);color:#3ecf8e}.ftag.ap{background:rgba(242,193,78,.15);color:#f2c14e}.ftag.us,.ftag.db{background:var(--accent-soft);color:#79b4f6}
+.fav-ctl{display:flex;gap:.4rem;align-items:center;flex-wrap:wrap;justify-content:flex-end}.fav-ctl select{min-height:44px;background:#0a1018;color:var(--fg);border:0;border-radius:6px;padding:.1rem .4rem;font-size:.8rem}
+.fav-h{font-size:1.05rem;margin:.4rem 0 0}.fav-form{display:grid;grid-template-columns:repeat(2,1fr);gap:.5rem}
+@media(max-width:40rem){.fav-res,.fav-chip{flex-direction:column;align-items:stretch}.fav-rt,.fav-ctl{justify-content:flex-start;text-align:left}.fav-form{grid-template-columns:1fr}.fav-search{flex-direction:column;align-items:stretch}}
+
+.pe{display:inline-block;width:.8rem;height:.8rem;border-radius:50%;margin:0 .2rem;vertical-align:-1px;flex:0 0 auto;border:1px solid rgba(255,255,255,.18)}
+.pe-green{background:#3ecf8e}.pe-yellow{background:#e3cf4a}.pe-orange{background:#f0943e}.pe-red{background:#e5605e}.pe-na{background:transparent;border:1px dashed var(--muted)}
+.pe-key{display:flex;flex-wrap:wrap;gap:.35rem .9rem;margin-bottom:.3rem}.pe-k{display:inline-flex;align-items:center;gap:.15rem;white-space:nowrap}
+.pe-row{display:block}.pe-legend .pe{margin:0 .1rem}
+
+.sm-save{display:block;margin-top:.5rem;font-size:.8rem}.sm-list{list-style:none;padding:0;margin:.4rem 0}.sm-item{padding:.55rem 0;border-top:1px solid var(--line,rgba(255,255,255,.1))}.sm-top b{display:block}.sm-top small{color:var(--muted);font-size:.78rem}
+.sm-foods{list-style:none;padding:0;margin:.3rem 0;font-size:.82rem}.sm-foods small{color:var(--muted)}.sm-btns{display:flex;flex-wrap:wrap;gap:.9rem}
+
+/* v7.6.42: Projection declutter. Two or three one-line takeaways, everything else under one "Why? Learn more". */
+.takeaways{list-style:none;display:grid;gap:.55rem;margin:1.1rem 0 0;padding:0}
+.take{display:flex;gap:.7rem;align-items:center;padding:.8rem 1rem;border-radius:14px;font-size:1.0625rem;line-height:1.4;font-weight:500;background:rgba(212,160,86,.10);box-shadow:inset 4px 0 0 #e0a64e,0 0 0 1px rgba(212,160,86,.25)}
+.take .ic{flex-shrink:0;width:1.5rem;height:1.5rem;color:#e0a64e}
+.take.danger{background:rgba(224,112,112,.12);box-shadow:inset 4px 0 0 #e07070,0 0 0 1px rgba(224,112,112,.3)}.take.danger .ic{color:#ef8a8a}
+.take.info{background:rgba(88,150,230,.10);box-shadow:inset 4px 0 0 #5b9be6,0 0 0 1px rgba(88,150,230,.25)}.take.info .ic{color:#79b4f6}
+.why-more{margin-top:.8rem;border-radius:14px;box-shadow:0 0 0 1px var(--border)}
+.why-more>summary{cursor:pointer;padding:.85rem 1rem;font-size:1.0625rem;font-weight:600;min-height:44px;display:flex;align-items:center}
+.why-body{padding:0 1rem 1rem;font-size:1rem;line-height:1.6}
+.why-body .alert,.why-body .hint,.why-body .plan-sum,.why-body .plan-sum dd,.why-body .plan-sum dt{font-size:1rem;line-height:1.6}
+.ba.ba-photo{max-width:34rem;margin-left:auto;margin-right:auto}.ba.ba-one{grid-template-columns:1fr;max-width:16rem}
+.ba-photo img.photo{cursor:zoom-in}
 
 </style>
 </head>
@@ -1316,6 +1391,10 @@ html.lb-open{overflow:hidden}
     <span class="prod-mark" aria-label="Theosis Metabolic Simulator"><span class="pm-full" aria-hidden="true"><span class="pm-t">Theosis</span> Metabolic Simulator</span><span class="pm-short" aria-hidden="true">Metabolic Simulator</span></span>
   </div>
 </header>
+<div class="beta-bar" id="beta-bar" role="region" aria-label="Beta notice" data-print="no" hidden>
+  <p><strong>Beta:</strong> education only, not medical advice. US only. Numbers are estimates and results vary. AI features are optional, limited per day, and can be paused. <a href="#disclaimer" data-info="disclaimer">Full disclaimer</a> · <a href="#privacy" data-info="privacy">Privacy</a> · <a href="https://theosismedical.com/contact">Send feedback</a></p>
+  <button type="button" id="beta-bar-x" aria-label="Dismiss beta notice">Got it</button>
+</div>
 
 <main id="main">
   <!-- ================= ENTRY ================= -->
@@ -1357,7 +1436,7 @@ html.lb-open{overflow:hidden}
     <p class="prog-mobile" id="prog-mobile"></p>
     <div class="mode-row"><div class="mode-sw" role="radiogroup" aria-label="Detail level">
       <button type="button" role="radio" data-uimode="simple" aria-checked="true">Simple</button><button type="button" role="radio" data-uimode="advanced" aria-checked="false">Advanced</button></div>
-      <button type="button" class="btn btn-ghost btn-sm fl-nav" data-open-log="1">Food Log</button><button type="button" class="btn btn-ghost btn-sm fl-nav" data-open-ask="1" hidden>Ask Theosis</button><span class="mode-hint adv-only">Showing training details, measured numbers and manual macros.</span></div>
+      <span class="mode-hint adv-only">Showing training details, measured numbers and manual macros.</span></div>
     <nav class="progress" aria-label="Steps"><ol id="progress"></ol></nav>
     <div class="wiz-layout">
       <div class="wiz-main">
@@ -1820,6 +1899,7 @@ html.lb-open{overflow:hidden}
           <div class="card" id="meals-card">
             <p class="eyebrow card-eyebrow">Meal ideas</p>
             <div class="section-head"><h2>Example days of eating</h2></div>
+            <div id="fav-card"></div>
             <div id="meals" aria-live="polite"></div>
           </div>
           <div class="card">
@@ -3195,7 +3275,7 @@ function checkpoints(inp, E) {
 }
 
 /* v7.6.24 MOCKUP: "Habits direction" (qualitative, rules-based, NOT a score and NOT a measurement). Each input moves a tally by -2..+1; the tally maps to
-   leaning supportive / mixed / leaning against. Only inputs with a source already in the app's Sources are used (see src ids); thresholds are the app's own rules unless noted.
+   On track / Getting there / Off track (internal keys: supportive / mixed / against). Only inputs with a source already in the app's Sources are used (see src ids); thresholds are the app's own rules unless noted.
    Excluded for lack of cited support or no data: steps, cardio minutes, sleep (not collected), A1c, ancestry, meal timing, fibre, alcohol. */
 function direction(inp, E) {
   if (E.cancerOn(inp.profile.health)) return directionCancer(inp, E);
@@ -3231,13 +3311,13 @@ function direction(inp, E) {
   // continuous needle position 0..1 (left = against, right = supportive); always stays inside the zone `level` names. Display only, never shown as a number.
   const cl = (x) => Math.max(0, Math.min(1, x));
   const pos = level === "against" ? 0.04 + 0.26 * cl((score + 4) / 3) : level === "supportive" ? 0.70 + 0.26 * cl((score - 2) / 2) : 0.37 + 0.26 * cl(score / 3);
-  return { level, pos, items, label: level === "supportive" ? "Leaning supportive" : level === "against" ? "Leaning against" : "Mixed", cls: c };
+  return { level, pos, items, label: level === "supportive" ? "On track" : level === "against" ? "Off track" : "Getting there", cls: c };
 }
 
 
 /* v7.6.33 cancer-treatment mode: "How your choices fit maintaining weight and muscle". Same display rules as direction() (qualitative, no number, no health score), but the
    inputs are the ESPEN 2021 planning ranges (energy 25-30 kcal/kg/day if not measured, B2-1; protein above 1 g/kg and up to 1.5 g/kg if possible, B2-2) and a weight-trend flag from
-   the user's own weigh-ins (inp.weightTrend: "down" | "steady" | null). Leaning against = intake under the range or weight trending down. Never a diagnosis; A1c is not used. */
+   the user's own weigh-ins (inp.weightTrend: "down" | "steady" | null). Off track (key "against") = intake under the range or weight trending down. Never a diagnosis; A1c is not used. */
 function directionCancer(inp, E) {
   const i = fixedInput(inp), p = i.profile, kg = p.weightKg, kcal = +i.food.actualKcal, items = [], rg = E.cancerRanges(kg);
   const add = (key, v, text, src) => items.push({ key, v, text, src });
@@ -3255,7 +3335,7 @@ function directionCancer(inp, E) {
   const level = anyStrong || score <= -1 ? "against" : score >= 2 && !items.some((x) => x.v < 0) ? "supportive" : "mixed";
   const cl = (x) => Math.max(0, Math.min(1, x));
   const pos = level === "against" ? 0.04 + 0.26 * cl((score + 4) / 3) : level === "supportive" ? 0.70 + 0.26 * cl((score - 2) / 2) : 0.37 + 0.26 * cl(score / 3);
-  return { level, pos, items, label: level === "supportive" ? "Leaning supportive" : level === "against" ? "Leaning against" : "Mixed", cls: { kcal, key: "cancer", balance: 0, bands: {}, proj12: {}, lift: 0 }, frame: "cancer", ranges: rg, gkg };
+  return { level, pos, items, label: level === "supportive" ? "On track" : level === "against" ? "Off track" : "Getting there", cls: { kcal, key: "cancer", balance: 0, bands: {}, proj12: {}, lift: 0 }, frame: "cancer", ranges: rg, gkg };
 }
 
 /* v7.6.27: ongoing recommendations under the goal-fit dial. Each candidate changes ONE entered input to the nearest value the same rules in direction() would score better,
@@ -3270,7 +3350,7 @@ function recommendations(inp, E) {
   const kc = (n) => Math.round(n).toLocaleString("en-US");
   const cands = [];
   const tryC = (id, pri, inp2, txt, src) => { let d; try { d = direction(inp2, E); } catch (e) { return; } const dv = Math.round((d.pos - base.pos) * 100) / 100; if (dv > 0) cands.push({ id, pri, delta: dv, to: d.level, text: txt(d.level), src: src || "" }); };
-  const toward = (lv) => (lv === base.level ? "toward supportive" : `to “${lv === "supportive" ? "Leaning supportive" : "Mixed"}”`);
+  const toward = (lv) => (lv === base.level ? "toward “On track”" : `to “${lv === "supportive" ? "On track" : "Getting there"}”`);
   // 1. calorie floor (priority 0)
   const floor = E.floorOf(p);
   if (c.kcal < floor) tryC("floor", 0, kcalAt(floor), (lv) => `Eating about ${kc(floor)} kcal a day (the usual unsupervised minimum) would move this ${toward(lv)}. A clinician can help with anything lower.`, srcOf("floor"));
@@ -3327,7 +3407,7 @@ function recommendationsCancer(inp, E) {
   const clone = (f) => { const i = JSON.parse(JSON.stringify(inp)); f(i); return i; };
   const cands = [], kcal = base.cls.kcal;
   const tryC = (id, pri, inp2, txt, src) => { let d; try { d = direction(inp2, E); } catch (e) { return; } const dv = Math.round((d.pos - base.pos) * 100) / 100; cands.push({ id, pri, delta: dv, to: d.level, text: txt(d.level), src }); };
-  const toward = (lv) => (lv === base.level ? "toward supportive" : `to “${lv === "supportive" ? "Leaning supportive" : "Mixed"}”`);
+  const toward = (lv) => (lv === base.level ? "toward “On track”" : `to “${lv === "supportive" ? "On track" : "Getting there"}”`);
   if (kcal > 0 && kcal < rg.kcalLo) tryC("energy", 0, clone((i) => { i.food.actualKcal = rg.kcalLo; }), (lv) => `Eating about ${kc(rg.kcalLo - kcal)} kcal more (to about ${kc(rg.kcalLo)} a day, the low end of the planning range) would move this ${toward(lv)}. Small, frequent, calorie-dense meals can help when appetite is low.`, "ESPEN 2021 B2-1; ACS 2022 patient guidance");
   const g = i0.food.actualProteinG;
   if (g > 0 && g < kg) tryC("protein", 1, clone((i) => { i.food.actualProteinG = Math.ceil(kg); }), (lv) => `Adding about ${kc(Math.ceil(kg) - g)} g of protein a day (to about ${kc(Math.ceil(kg))} g, 1 g/kg) would move this ${toward(lv)}. The guideline range goes up to about ${kc(rg.protHi)} g if possible.`, "ESPEN 2021 B2-2");
@@ -3455,6 +3535,36 @@ ${ghost}
 const api = { svg, dims };
 if (typeof module !== "undefined" && module.exports) module.exports = api;
 root.BodyFigure = api;
+})(typeof window !== "undefined" ? window : globalThis);
+
+</script>
+<script>
+/* Theosis Body Plan: the Fast Food Hacks from theosismedical.com, generated by tools/export-hacks.js from theosismedical.com (src/lib/hacks.ts). Do not edit by hand.
+   16 chains, 87 items. Only items with verified:true were compared with the restaurant's own page (2026-10-18); the rest are approximate. */
+(function (root) { "use strict";
+const CHAINS = ["Chick-fil-A","Chipotle","Culver’s","McDonald’s","Sonic","Wendy’s","Taco Bell","Arby’s","Burger King","Subway","Jimmy John’s","Domino’s","Pizza Hut","Wingstop","Blaze Pizza","Starbucks"];
+const ITEMS = [{"chain":"Chick-fil-A","name":"8-ct grilled nuggets","how":"No sauce, or Buffalo / mustard if you need one.","kcal":130,"protein":25,"carbs":1,"fat":3,"siteSource":"official","verified":true,"verifiedScope":"all","checkedOn":"2026-10-18"},{"chain":"Chick-fil-A","name":"12-ct grilled nuggets","how":"Same bird, more of it.","kcal":200,"protein":38,"carbs":2,"fat":4.5,"siteSource":"official","verified":true,"verifiedScope":"all","checkedOn":"2026-10-18"},{"chain":"Chick-fil-A","name":"30-ct grilled nuggets","how":"The whole bag. Split it, or don’t.","kcal":510,"protein":98,"carbs":4,"fat":11,"siteSource":"built","verified":true,"verifiedScope":"all","checkedOn":"2026-10-18"},{"chain":"Chick-fil-A","name":"Grilled chicken, no bun","how":"Filet in a tray or on lettuce.","kcal":130,"protein":23,"carbs":4,"fat":4,"siteSource":"tracker","verified":false,"verifiedScope":null,"checkedOn":null},{"chain":"Chick-fil-A","name":"Spicy grilled filet, no bun","how":"Same move as the regular filet. Spice is free.","kcal":140,"protein":25,"carbs":3,"fat":4,"siteSource":"tracker","verified":false,"verifiedScope":null,"checkedOn":null},{"chain":"Chick-fil-A","name":"Egg White Grill, no muffin","how":"Breakfast. English muffin in the trash. Black coffee.","kcal":180,"protein":26,"carbs":5,"fat":7,"siteSource":"built","verified":false,"verifiedScope":null,"checkedOn":null},{"chain":"Chick-fil-A","name":"Grilled chicken sandwich","how":"With the bun. Middle of the pack — still 29% protein.","kcal":390,"protein":28,"carbs":45,"fat":11,"siteSource":"official","verified":false,"verifiedScope":null,"checkedOn":null},{"chain":"Chipotle","name":"High-protein chicken cup","how":"Side of Adobo chicken. Eat it as a snack or dump it on anything.","kcal":180,"protein":32,"carbs":0,"fat":7,"siteSource":"official","verified":true,"verifiedScope":"kcal+protein","checkedOn":"2026-10-18"},{"chain":"Chipotle","name":"Triple chicken","how":"Three sides of chicken in a bowl. No rice. This is the actual meal.","kcal":540,"protein":96,"carbs":0,"fat":21,"siteSource":"built","verified":false,"verifiedScope":null,"checkedOn":null},{"chain":"Chipotle","name":"Steak (standard portion)","how":"Their listed steak serving. High P:E, a little less protein than chicken.","kcal":150,"protein":21,"carbs":1,"fat":6,"siteSource":"official","verified":true,"verifiedScope":"kcal+protein","checkedOn":"2026-10-18"},{"chain":"Chipotle","name":"Barbacoa (standard portion)","how":"A little saucier than steak. Still a protein order.","kcal":170,"protein":24,"carbs":2,"fat":7,"siteSource":"official","verified":false,"verifiedScope":null,"checkedOn":null},{"chain":"Chipotle","name":"Double chicken bowl, no rice","how":"Chicken ×2, fajita veg, tomato salsa, lettuce. No rice, no cheese, no chips, no sour cream.","kcal":410,"protein":64,"carbs":12,"fat":16,"siteSource":"built","verified":false,"verifiedScope":null,"checkedOn":null},{"chain":"Chipotle","name":"Double steak bowl, no rice","how":"Steak ×2, fajita veg, tomato salsa, lettuce. Same rules as chicken.","kcal":350,"protein":44,"carbs":13,"fat":13,"siteSource":"built","verified":false,"verifiedScope":null,"checkedOn":null},{"chain":"Chipotle","name":"Chicken salad, no dressing","how":"Lettuce, chicken, fajita veg, salsa. Skip the vinaigrette if you want the ratio to stay honest.","kcal":240,"protein":34,"carbs":10,"fat":8,"siteSource":"built","verified":false,"verifiedScope":null,"checkedOn":null},{"chain":"Culver’s","name":"Grilled chicken, no bun","how":"Ask for no bun. The bird is the meal.","kcal":160,"protein":34,"carbs":0,"fat":2,"siteSource":"tracker","verified":false,"verifiedScope":null,"checkedOn":null},{"chain":"Culver’s","name":"Grilled chicken sandwich","how":"Even with the bun this clears 40% protein.","kcal":390,"protein":41,"carbs":40,"fat":8,"siteSource":"tracker","verified":false,"verifiedScope":null,"checkedOn":null},{"chain":"Culver’s","name":"Grilled chicken club, no bun","how":"Bacon and cheese if they fit leftover calories. Mustard, not mayo.","kcal":250,"protein":38,"carbs":2,"fat":10,"siteSource":"tracker","verified":false,"verifiedScope":null,"checkedOn":null},{"chain":"Culver’s","name":"Pot roast, no bun","how":"The Midwest stew, minus the bread. Skip gravy if it is a sugar bomb.","kcal":220,"protein":28,"carbs":4,"fat":10,"siteSource":"tracker","verified":false,"verifiedScope":null,"checkedOn":null},{"chain":"Culver’s","name":"Double ButterBurger, no bun","how":"Two beef patties. Fattier than the chicken. Still a protein order.","kcal":400,"protein":34,"carbs":2,"fat":28,"siteSource":"tracker","verified":false,"verifiedScope":null,"checkedOn":null},{"chain":"McDonald’s","name":"Grilled chicken, no bun","how":"Ask for no bun. Mustard, not mayo. Diet drink. Not at every McDonald’s anymore.","kcal":140,"protein":29,"carbs":2,"fat":2,"siteSource":"tracker","verified":false,"verifiedScope":null,"checkedOn":null},{"chain":"McDonald’s","name":"Two hamburger patties","how":"No bun, no ketchup. Just the meat.","kcal":180,"protein":16,"carbs":0,"fat":14,"siteSource":"tracker","verified":false,"verifiedScope":null,"checkedOn":null},{"chain":"McDonald’s","name":"Egg McMuffin, no muffin","how":"Canadian bacon, egg, cheese in a tray. Black coffee.","kcal":160,"protein":12,"carbs":2,"fat":12,"siteSource":"tracker","verified":false,"verifiedScope":null,"checkedOn":null},{"chain":"McDonald’s","name":"Bacon, egg & cheese, no muffin","how":"Same breakfast move. Tray. Black coffee.","kcal":190,"protein":14,"carbs":3,"fat":14,"siteSource":"built","verified":false,"verifiedScope":null,"checkedOn":null},{"chain":"McDonald’s","name":"McDouble, no bun","how":"Plain as you like. Ketchup and mustard are fine. Diet drink.","kcal":240,"protein":17,"carbs":5,"fat":16,"siteSource":"tracker","verified":false,"verifiedScope":null,"checkedOn":null},{"chain":"McDonald’s","name":"Quarter Pounder, no bun","how":"The bigger patty. Cheese if it fits leftover calories.","kcal":370,"protein":25,"carbs":14,"fat":24,"siteSource":"tracker","verified":false,"verifiedScope":null,"checkedOn":null},{"chain":"McDonald’s","name":"Double Quarter Pounder, no bun","how":"Hungry. No bun. Diet drink. Skip the fries even harder.","kcal":540,"protein":48,"carbs":10,"fat":36,"siteSource":"built","verified":false,"verifiedScope":null,"checkedOn":null},{"chain":"Sonic","name":"Grilled chicken, no bun","how":"Ask for no bun. Mustard, not mayo. Route 44 diet.","kcal":290,"protein":26,"carbs":10,"fat":15,"siteSource":"tracker","verified":false,"verifiedScope":null,"checkedOn":null},{"chain":"Sonic","name":"Grilled chicken sandwich","how":"Even with the bun this still clears 25%. Skip mayo if you can.","kcal":440,"protein":31,"carbs":38,"fat":17,"siteSource":"tracker","verified":false,"verifiedScope":null,"checkedOn":null},{"chain":"Sonic","name":"SuperSONIC Double, no bun","how":"Two patties, cheese, no bun. Fattier. Still a protein order.","kcal":540,"protein":35,"carbs":3,"fat":43,"siteSource":"tracker","verified":false,"verifiedScope":null,"checkedOn":null},{"chain":"Sonic","name":"Jr. burger, no bun","how":"Smaller beef order when you are not that hungry. Mustard.","kcal":180,"protein":13,"carbs":2,"fat":14,"siteSource":"tracker","verified":false,"verifiedScope":null,"checkedOn":null},{"chain":"Sonic","name":"Egg & cheese, no toast","how":"Breakfast. Skip the toaster bread. Black coffee.","kcal":200,"protein":14,"carbs":4,"fat":14,"siteSource":"tracker","verified":false,"verifiedScope":null,"checkedOn":null},{"chain":"Wendy’s","name":"Grilled chicken, no bun","how":"Mustard or nothing. Side salad instead of fries.","kcal":180,"protein":31,"carbs":3,"fat":4,"siteSource":"tracker","verified":false,"verifiedScope":null,"checkedOn":null},{"chain":"Wendy’s","name":"Grilled chicken sandwich","how":"Mustard or nothing. Side salad instead of fries.","kcal":350,"protein":33,"carbs":35,"fat":8,"siteSource":"tracker","verified":false,"verifiedScope":null,"checkedOn":null},{"chain":"Wendy’s","name":"Small chili","how":"Works as a side or a small meal.","kcal":280,"protein":19,"carbs":22,"fat":11,"siteSource":"official","verified":false,"verifiedScope":null,"checkedOn":null},{"chain":"Wendy’s","name":"Large chili","how":"More of the same.","kcal":370,"protein":25,"carbs":29,"fat":15,"siteSource":"official","verified":false,"verifiedScope":null,"checkedOn":null},{"chain":"Wendy’s","name":"Dave’s Single, no bun","how":"The bigger beef patty, no bun. Cheese if it fits leftover calories.","kcal":330,"protein":25,"carbs":4,"fat":24,"siteSource":"built","verified":false,"verifiedScope":null,"checkedOn":null},{"chain":"Wendy’s","name":"Double Stack, no bun","how":"Two smaller patties. Still skip the bun and the fries.","kcal":250,"protein":20,"carbs":5,"fat":16,"siteSource":"built","verified":false,"verifiedScope":null,"checkedOn":null},{"chain":"Taco Bell","name":"Extra chicken (add-on)","how":"Order it as a side or dump it on whatever you already got.","kcal":70,"protein":11,"carbs":1,"fat":3,"siteSource":"tracker","verified":false,"verifiedScope":null,"checkedOn":null},{"chain":"Taco Bell","name":"Chicken ×3, as a plate","how":"Three extra-chicken add-ons. Diet Baja Blast. That is the meal.","kcal":210,"protein":33,"carbs":3,"fat":9,"siteSource":"built","verified":false,"verifiedScope":null,"checkedOn":null},{"chain":"Taco Bell","name":"Power Menu Bowl, chicken, no rice","how":"Chicken, lettuce, pico, salsa. No rice, no sour cream, no chips.","kcal":310,"protein":24,"carbs":12,"fat":18,"siteSource":"tracker","verified":false,"verifiedScope":null,"checkedOn":null},{"chain":"Taco Bell","name":"Power Menu Bowl, steak, no rice","how":"Same bowl, steak instead. Still no rice, no sour cream.","kcal":300,"protein":22,"carbs":11,"fat":17,"siteSource":"tracker","verified":false,"verifiedScope":null,"checkedOn":null},{"chain":"Taco Bell","name":"Cantina chicken bowl, extra chicken, no rice","how":"Customize in the app. No sour cream, no chips.","kcal":390,"protein":31,"carbs":19,"fat":22,"siteSource":"tracker","verified":false,"verifiedScope":null,"checkedOn":null},{"chain":"Taco Bell","name":"Chicken soft taco, Fresco","how":"Fresco swaps the sauce for pico. Middle of the pack — still clears 25%.","kcal":150,"protein":11,"carbs":15,"fat":5,"siteSource":"tracker","verified":false,"verifiedScope":null,"checkedOn":null},{"chain":"Taco Bell","name":"Cantina chicken taco","how":"The fancier taco. Still chicken-first. Skip creamy sauce if you can.","kcal":170,"protein":13,"carbs":13,"fat":7,"siteSource":"tracker","verified":false,"verifiedScope":null,"checkedOn":null},{"chain":"Arby’s","name":"Classic roast beef, no bun","how":"Single stack of beef in a tray. Horsey sauce if it fits leftover calories.","kcal":210,"protein":20,"carbs":2,"fat":12,"siteSource":"built","verified":false,"verifiedScope":null,"checkedOn":null},{"chain":"Arby’s","name":"Double roast beef, no bun","how":"Meat in a tray or lettuce. Horsey sauce if it fits leftover calories.","kcal":310,"protein":31,"carbs":2,"fat":20,"siteSource":"tracker","verified":false,"verifiedScope":null,"checkedOn":null},{"chain":"Arby’s","name":"Half-pound roast beef, no bun","how":"Hungry. No bun. Diet drink.","kcal":480,"protein":46,"carbs":4,"fat":30,"siteSource":"tracker","verified":false,"verifiedScope":null,"checkedOn":null},{"chain":"Arby’s","name":"Classic roast beef sandwich","how":"With the bun. Barely clears 25% protein.","kcal":360,"protein":23,"carbs":37,"fat":14,"siteSource":"official","verified":false,"verifiedScope":null,"checkedOn":null},{"chain":"Arby’s","name":"Grand Turkey Club, no bun","how":"Turkey, bacon, no bun. Skip the mayo if you want the ratio to stay honest.","kcal":350,"protein":32,"carbs":4,"fat":22,"siteSource":"tracker","verified":false,"verifiedScope":null,"checkedOn":null},{"chain":"Burger King","name":"Ham, egg & cheese, no croissant","how":"Breakfast. Tray or lettuce. Black coffee.","kcal":160,"protein":14,"carbs":2,"fat":11,"siteSource":"tracker","verified":false,"verifiedScope":null,"checkedOn":null},{"chain":"Burger King","name":"Egg & cheese, no muffin","how":"Even simpler breakfast. Black coffee.","kcal":150,"protein":12,"carbs":2,"fat":11,"siteSource":"tracker","verified":false,"verifiedScope":null,"checkedOn":null},{"chain":"Burger King","name":"Double hamburger, no bun","how":"Two patties, no ketchup if you can. Mustard is fine.","kcal":220,"protein":20,"carbs":4,"fat":16,"siteSource":"built","verified":false,"verifiedScope":null,"checkedOn":null},{"chain":"Burger King","name":"Whopper Jr., no bun","how":"Smaller flame-grilled beef. Mustard, no mayo. Diet drink.","kcal":180,"protein":15,"carbs":4,"fat":12,"siteSource":"built","verified":false,"verifiedScope":null,"checkedOn":null},{"chain":"Burger King","name":"Grilled chicken, no bun","how":"Ask for no bun. Mustard, not mayo. Not at every BK.","kcal":270,"protein":30,"carbs":1,"fat":16,"siteSource":"tracker","verified":false,"verifiedScope":null,"checkedOn":null},{"chain":"Burger King","name":"Flame-grilled chicken sandwich","how":"Even with the bun this still clears 30% protein. Skip mayo if they put it on.","kcal":410,"protein":35,"carbs":43,"fat":15,"siteSource":"tracker","verified":false,"verifiedScope":null,"checkedOn":null},{"chain":"Subway","name":"Turkey protein bowl","how":"No bread. All the vegetables. Mustard, not mayo.","kcal":160,"protein":25,"carbs":11,"fat":2,"siteSource":"tracker","verified":false,"verifiedScope":null,"checkedOn":null},{"chain":"Subway","name":"Black forest ham protein bowl","how":"Same idea. Extra ham if you are actually hungry.","kcal":140,"protein":21,"carbs":10,"fat":3,"siteSource":"tracker","verified":false,"verifiedScope":null,"checkedOn":null},{"chain":"Subway","name":"Oven-roasted chicken protein bowl","how":"Same idea. Double meat if you are actually hungry.","kcal":200,"protein":26,"carbs":9,"fat":6,"siteSource":"tracker","verified":false,"verifiedScope":null,"checkedOn":null},{"chain":"Subway","name":"Rotisserie-style chicken, extra meat","how":"Protein bowl, extra chicken, all the vegetables, mustard.","kcal":280,"protein":40,"carbs":10,"fat":8,"siteSource":"built","verified":false,"verifiedScope":null,"checkedOn":null},{"chain":"Subway","name":"Double chicken salad","how":"Salad bowl, extra chicken, no croutons, no creamy dressing.","kcal":220,"protein":36,"carbs":8,"fat":4,"siteSource":"tracker","verified":false,"verifiedScope":null,"checkedOn":null},{"chain":"Subway","name":"Sweet onion chicken teriyaki protein bowl","how":"The sauce costs you carbs. Protein still wins. 45% of calories from protein.","kcal":300,"protein":34,"carbs":33,"fat":5,"siteSource":"tracker","verified":false,"verifiedScope":null,"checkedOn":null},{"chain":"Subway","name":"6-inch turkey, double meat, no cheese, no mayo","how":"If you insist on bread. All the vegetables. Mustard.","kcal":360,"protein":34,"carbs":48,"fat":5,"siteSource":"built","verified":false,"verifiedScope":null,"checkedOn":null},{"chain":"Jimmy John’s","name":"Slim 1 ham Unwich","how":"Ham and lettuce. No mayo, no cheese.","kcal":90,"protein":15,"carbs":2,"fat":2,"siteSource":"tracker","verified":false,"verifiedScope":null,"checkedOn":null},{"chain":"Jimmy John’s","name":"Slim 4 turkey Unwich","how":"Turkey and lettuce. No mayo, no cheese. The cleanest order in the building.","kcal":80,"protein":16,"carbs":2,"fat":1,"siteSource":"tracker","verified":false,"verifiedScope":null,"checkedOn":null},{"chain":"Jimmy John’s","name":"Slim 2 roast beef Unwich","how":"Roast beef, lettuce. Same idea.","kcal":100,"protein":16,"carbs":1,"fat":3,"siteSource":"tracker","verified":false,"verifiedScope":null,"checkedOn":null},{"chain":"Jimmy John’s","name":"Turkey Unwich, extra meat","how":"Lettuce wrap. No mayo if you want the ratio to stay honest.","kcal":250,"protein":24,"carbs":4,"fat":16,"siteSource":"tracker","verified":false,"verifiedScope":null,"checkedOn":null},{"chain":"Jimmy John’s","name":"Hunter’s Club Unwich","how":"Roast beef, turkey, lettuce. Skip the mayo. 42 g of protein.","kcal":480,"protein":42,"carbs":8,"fat":28,"siteSource":"tracker","verified":false,"verifiedScope":null,"checkedOn":null},{"chain":"Jimmy John’s","name":"Bootlegger Club Unwich","how":"Roast beef, turkey, ham, lettuce. Extra meat if you want. Skip the mayo.","kcal":420,"protein":38,"carbs":6,"fat":24,"siteSource":"tracker","verified":false,"verifiedScope":null,"checkedOn":null},{"chain":"Domino’s","name":"8-pc plain bone-in wings","how":"No sauce, or a dry rub. The crust is what you are not ordering.","kcal":390,"protein":34,"carbs":5,"fat":26,"siteSource":"tracker","verified":false,"verifiedScope":null,"checkedOn":null},{"chain":"Domino’s","name":"16-pc plain bone-in wings","how":"Two people, or one very hungry person. Still skip the ranch vat.","kcal":780,"protein":68,"carbs":10,"fat":52,"siteSource":"built","verified":false,"verifiedScope":null,"checkedOn":null},{"chain":"Domino’s","name":"8-pc hot buffalo bone-in","how":"Sauce is fine. Sugar-glaze BBQ is the one that starts to wander.","kcal":410,"protein":34,"carbs":8,"fat":26,"siteSource":"tracker","verified":false,"verifiedScope":null,"checkedOn":null},{"chain":"Pizza Hut","name":"6-pc naked traditional wings","how":"Smaller order. Bone-in, unsauced.","kcal":480,"protein":54,"carbs":0,"fat":27,"siteSource":"built","verified":false,"verifiedScope":null,"checkedOn":null},{"chain":"Pizza Hut","name":"8-pc naked traditional wings","how":"Bone-in, unsauced. 9 g protein a wing, no bun hiding in the breading.","kcal":640,"protein":72,"carbs":0,"fat":36,"siteSource":"tracker","verified":false,"verifiedScope":null,"checkedOn":null},{"chain":"Pizza Hut","name":"12-pc naked traditional wings","how":"Share it or don’t. Diet drink. No breadsticks.","kcal":960,"protein":108,"carbs":0,"fat":54,"siteSource":"built","verified":false,"verifiedScope":null,"checkedOn":null},{"chain":"Wingstop","name":"6-pc Classic, Plain / Cajun / Original Hot","how":"The small order. These three flavors are the same macros. Mix and match.","kcal":540,"protein":60,"carbs":0,"fat":30,"siteSource":"tracker","verified":false,"verifiedScope":null,"checkedOn":null},{"chain":"Wingstop","name":"10-pc Classic, Plain","how":"Naked bone-in. Celery instead of fries. This is the actual meal.","kcal":900,"protein":100,"carbs":0,"fat":50,"siteSource":"tracker","verified":false,"verifiedScope":null,"checkedOn":null},{"chain":"Wingstop","name":"10-pc Classic, Cajun","how":"Dry rub. Same protein as plain. Same skip-the-fries rule.","kcal":900,"protein":100,"carbs":0,"fat":50,"siteSource":"tracker","verified":false,"verifiedScope":null,"checkedOn":null},{"chain":"Wingstop","name":"10-pc Classic, Original Hot","how":"Vinegar heat, not a sugar glaze. Still 100 g of protein.","kcal":900,"protein":100,"carbs":0,"fat":50,"siteSource":"tracker","verified":false,"verifiedScope":null,"checkedOn":null},{"chain":"Wingstop","name":"10-pc Classic, Atomic","how":"The hotter one. A little sauce, still a protein order. Diet drink.","kcal":900,"protein":100,"carbs":10,"fat":50,"siteSource":"tracker","verified":false,"verifiedScope":null,"checkedOn":null},{"chain":"Blaze Pizza","name":"11\" keto crust, chicken, light cheese, veg","how":"Keto crust, extra chicken, go easy on the cheese, pile the vegetables. Skip the flour dough and the cauliflower crust that is pretending.","kcal":660,"protein":66,"carbs":20,"fat":31,"siteSource":"tracker","verified":false,"verifiedScope":null,"checkedOn":null},{"chain":"Blaze Pizza","name":"11\" keto crust, chicken ×2","how":"Second chicken. Light cheese. Vegetables. This is the pizza-shaped protein bowl.","kcal":760,"protein":84,"carbs":20,"fat":34,"siteSource":"built","verified":false,"verifiedScope":null,"checkedOn":null},{"chain":"Blaze Pizza","name":"Salad, extra chicken, light dressing","how":"If even keto crust feels like a stretch. Vinegar-based dressing, not ranch.","kcal":320,"protein":42,"carbs":10,"fat":12,"siteSource":"tracker","verified":false,"verifiedScope":null,"checkedOn":null},{"chain":"Starbucks","name":"Egg white & red pepper bites","how":"The lighter bites. 28% protein.","kcal":170,"protein":12,"carbs":13,"fat":8,"siteSource":"official","verified":false,"verifiedScope":null,"checkedOn":null},{"chain":"Starbucks","name":"Bacon & Gruyère egg bites","how":"Just over 25% protein. More fat. Fine if it fits leftover calories.","kcal":300,"protein":19,"carbs":11,"fat":20,"siteSource":"official","verified":false,"verifiedScope":null,"checkedOn":null},{"chain":"Starbucks","name":"Kale & mushroom egg bites","how":"The other bites. Still beats a muffin.","kcal":230,"protein":15,"carbs":11,"fat":14,"siteSource":"official","verified":false,"verifiedScope":null,"checkedOn":null},{"chain":"Starbucks","name":"Turkey bacon, egg white & cheddar sandwich","how":"The sandwich that actually clears 25%. Skip the pastry case next to it.","kcal":230,"protein":17,"carbs":28,"fat":5,"siteSource":"official","verified":false,"verifiedScope":null,"checkedOn":null},{"chain":"Starbucks","name":"Chicken & quinoa protein bowl","how":"When you need a real meal and not a pastry with a protein claim.","kcal":420,"protein":27,"carbs":42,"fat":16,"siteSource":"official","verified":false,"verifiedScope":null,"checkedOn":null}];
+const ALIAS = { "Chick-fil-A": ["chick fil a", "chickfila", "cfa", "chick"], "McDonald’s": ["mcdonalds", "mcdonald", "mcd", "mickey d", "golden arches"], "Taco Bell": ["tacobell"], "Wendy’s": ["wendys", "wendy"],
+  "Culver’s": ["culvers", "culver"], "Jimmy John’s": ["jimmy johns", "jimmy john", "jj"], "Burger King": ["bk"], "Domino’s": ["dominos", "domino"], "Arby’s": ["arbys", "arby"], "Sonic": ["sonic drive in"] };
+const GENERIC = ["fast food", "drive thru", "drive through", "drivethru", "restaurant"];
+const norm = (s) => String(s || "").toLowerCase().replace(/[’']/g, "").replace(/[^a-z0-9+]+/g, " ").trim();
+function chainOf(q) { const n = norm(q); if (n.length < 3) return null; return CHAINS.find((c) => norm(c) === n || (n.length >= 3 && norm(c).startsWith(n)) || (ALIAS[c] || []).some((a) => a === n || (n.length >= 3 && a.startsWith(n)))) || null; }
+/* Matches only when the query names a chain (or alias), a generic fast-food phrase, or words from a hack item's name. General foods never match here. */
+function match(q, limit) {
+  const n = norm(q); if (n.length < 3) return { items: [], chain: null, generic: false };
+  const generic = GENERIC.some((g) => norm(g) === n || (n.length >= 4 && norm(g).startsWith(n)));
+  const chain = chainOf(n); let list = [];
+  if (chain) list = ITEMS.filter((i) => i.chain === chain);
+  else if (generic) list = ITEMS.filter((i) => i.verified);
+  else { const words = n.split(" ").filter((w) => w.length >= 3); if (words.length) list = ITEMS.filter((i) => { const h = norm(i.chain + " " + i.name); return words.every((w) => h.includes(w)); }); }
+  // a food word alone ("chicken", "steak") should not flood the list with hacks: items-by-words needs a chain word, a hack-specific word, or 2+ words
+  if (!chain && !generic && n.split(" ").length === 1 && !/nugget|unwich|mcmuffin|whopper|butterburger|quarter pounder|egg bites|power menu|barbacoa|wings|chili/.test(n)) list = [];
+  list = list.slice().sort((x, y) => (y.verified - x.verified) || (y.protein / Math.max(1, y.kcal)) - (x.protein / Math.max(1, x.kcal)));
+  return { items: list.slice(0, limit || 8), total: list.length, chain, generic };
+}
+const api = { CHAINS, ITEMS, match, norm, PAGE: "https://theosismedical.com/hacks/fast-food/" };
+if (typeof module !== "undefined" && module.exports) module.exports = api;
+root.FastFoodHacks = api;
 })(typeof window !== "undefined" ? window : globalThis);
 
 </script>
@@ -3603,23 +3713,45 @@ function dietTargets(t, diet) { const d = DIETS[diet] || DIETS.balanced, k = t.k
   return { kcal: k, protein: p, carbs: c, fat: f }; }
 const clamp = (n, a, b) => Math.max(a, Math.min(b, n));
 function qty(n) { const w = Math.floor(n), f = Math.round((n - w) * 4), fr = ["", "¼", "½", "¾"]; return f === 4 ? String(w + 1) : f ? (w ? `${w}${fr[f]}` : fr[f]) : String(w); }
-function portion(f, q) { const a = Math.round(f.amount * q * 100) / 100; const unit = a > 1 ? f.unit.replace(/^cup\b/, "cups").replace(/^slice\b/, "slices").replace(/^scoop \((\d+ g)\)/, "scoops ($1 each)") : f.unit; return `${f.unit.startsWith("g") ? a : qty(a)} ${unit}`; }
+function portion(f, q) { if (f.fixed) return `${qty(Math.round(q * 4) / 4)} × ${f.unit}`; const a = Math.round(f.amount * q * 100) / 100; const unit = a > 1 ? f.unit.replace(/^cup\b/, "cups").replace(/^slice\b/, "slices").replace(/^scoop \((\d+ g)\)/, "scoops ($1 each)") : f.unit; return `${f.unit.startsWith("g") ? a : qty(a)} ${unit}`; }
 function guard(t) {
   if (!(t.kcal > 0)) return "Choose a daily calorie target to see meal ideas.";
   if (t.psmf || t.kcal <= 1000) return "For PSMF or 1,000 kcal a day or less, your clinician should build your meals and supplement plan. This tool doesn't create an automatic very-low-calorie menu.";
   if (t.kcal > 4500) return "Example days go up to 4,500 kcal a day. A dietitian can help build a higher-calorie menu.";
   return "";
 }
-function buildDay(tp, t0) {
+/* v7.6.43: P:E as a secondary preference only. After the usual solve has met calories and macros, nudge portions toward a higher day P:E
+   (protein / (carbs + fat), grams; the generic foods list no fiber) but ONLY with moves that keep every target at least as close as the first solve
+   or inside a tight band (calories within 1.5% or 40 kcal, protein within 3 g, carbs and fat within 5% of calories; lower-fat days never raise fat
+   above target, lower-carb days never raise carbs above target), and that barely change the solver's own score. Targets always win. */
+const PE_PREF = { on: true };
+function peRefine(sol, t, diet) {
+  const rs = sol.rows, q = sol.q.slice(), tot = sol.tot, score = sol.score, x0 = tot(q), cap = sol.cur + 6;
+  const kTol = Math.max(Math.abs(x0.kcal - t.kcal), Math.min(40, 0.015 * t.kcal)), pTol = Math.max(Math.abs(x0.protein - t.protein), 3);
+  const cfTol = (k) => Math.max(Math.abs(x0[k] - t[k]), 0.05 * t.kcal / (k === "fat" ? 9 : 4));
+  const ok = (x) => Math.abs(x.kcal - t.kcal) <= kTol + 1e-9 && Math.abs(x.protein - t.protein) <= pTol + 1e-9 && Math.abs(x.carbs - t.carbs) <= cfTol("carbs") + 1e-9 && Math.abs(x.fat - t.fat) <= cfTol("fat") + 1e-9
+    && (diet !== "lowfat" || x.fat <= Math.max(x0.fat, t.fat) + 1e-9) && (diet !== "lowcarb" || x.carbs <= Math.max(x0.carbs, t.carbs) + 1e-9);
+  const pe = (x) => x.protein / Math.max(1e-6, x.carbs + x.fat);
+  let cur = pe(x0);
+  const tryIt = (tr, best) => { const x = tot(tr); if (!ok(x)) return null; const v = pe(x); if (v <= best.v + 1e-5) return null; if (score(tr) > cap) return null; return { v, tr }; };
+  for (let pass = 0; pass < 300; pass++) {
+    let best = { v: cur, tr: null };
+    for (let i = 0; i < rs.length; i++) for (const sg of [-1, 1]) { const v = q[i] + rs[i].step * sg; if (v < rs[i].min - 1e-6 || v > rs[i].max + 1e-6) continue; const tr = q.slice(); tr[i] = v; const r = tryIt(tr, best); if (r) best = r; }
+    for (let i = 0; i < rs.length; i++) for (let j = 0; j < rs.length; j++) { if (i === j) continue; const a = q[i] + rs[i].step, b = q[j] - rs[j].step; if (a > rs[i].max + 1e-6 || b < rs[j].min - 1e-6) continue; const tr = q.slice(); tr[i] = a; tr[j] = b; const r = tryIt(tr, best); if (r) best = r; }
+    if (!best.tr) break; q.splice(0, q.length, ...best.tr); cur = best.v;
+  }
+  return { ...sol, q, x: tot(q) };
+}
+function buildDay(tp, t0, FD = FOODS) {
   const t = dietTargets(t0, tp.diet);
   // bigger days allow bigger portions (each food's max grows with the day's calories, in whole steps)
   const big = Math.max(1, t.kcal / 2200), small = Math.min(1, t.kcal / 1500); /* v7.6.5: small days may go under the usual minimum portions */
   // a food named in the dish title is never dropped to zero (e.g. "Tempeh salad with walnuts" keeps some walnuts)
   const named = (title, id) => TITLE_KEYS[id] && TITLE_KEYS[id].test(title);
-  let rows = tp.meals.flatMap((m, mi) => m.items.map((it) => ({ ...it, min: it.min === 0 && named(m.title, it.id) ? it.step : small < 1 ? Math.max(named(m.title, it.id) ? it.step : 0, Math.floor(it.min * small / it.step) * it.step) : it.min, max: it.max > 0 ? Math.max(it.max, Math.round(it.max * big / it.step) * it.step) : it.max, mi }))), baseE = rows.reduce((s, r) => s + FOODS[r.id].kcal * r.base, 0), scale = t.kcal / baseE;
+  let rows = tp.meals.flatMap((m, mi) => m.items.map((it) => it.fav ? { ...it, mi } : ({ ...it, min: it.min === 0 && named(m.title, it.id) ? it.step : small < 1 ? Math.max(named(m.title, it.id) ? it.step : 0, Math.floor(it.min * small / it.step) * it.step) : it.min, max: it.max > 0 ? Math.max(it.max, Math.round(it.max * big / it.step) * it.step) : it.max, mi }))), baseE = rows.reduce((s, r) => s + FD[r.id].kcal * r.base, 0), scale = t.kcal / baseE;
   const solve = (rows) => {
   const q = rows.map((r) => clamp(Math.round(r.base * scale / r.step) * r.step, r.min, r.max));
-  const tot = (a) => rows.reduce((s, r, i) => { for (const k of K) s[k] += FOODS[r.id][k] * a[i]; return s; }, { kcal: 0, protein: 0, carbs: 0, fat: 0 });
+  const tot = (a) => rows.reduce((s, r, i) => { for (const k of K) s[k] += FD[r.id][k] * a[i]; return s; }, { kcal: 0, protein: 0, carbs: 0, fat: 0 });
   // Bounded, usable portions. Calories and protein come first; carbs/fat are a soft preference.
   // v5: carbs and fat count too now (the diet type sets them), so the day lands inside its type's ranges
   const score = (a) => { const x = tot(a), e = (x.kcal - t.kcal) / 20, p = (x.protein - t.protein) / 1.2, c = (x.carbs - t.carbs) / (t.protein > 0 ? 14 : 8), f = (x.fat - t.fat) / (t.protein > 0 ? 8 : 4);
@@ -3634,32 +3766,91 @@ function buildDay(tp, t0) {
       const tr = q.slice(); tr[i] = a; tr[j] = b; const sc = score(tr); if (sc < best - 1e-8) { best = sc; next = tr; } }
     if (!next) break; q.splice(0, q.length, ...next); cur = best;
   }
-  return { q, rows, cur, x: tot(q) };
+  return { q, rows, cur, x: tot(q), score, tot };
   };
   // v7.6.33: if the usual portion limits can't land protein within a few grams of the target, relax them (no minimums except foods named in the dish, larger maximums) and keep the closer result
   let sol = solve(rows);
   if (t.protein > 0 && Math.abs(sol.x.protein - t.protein) > 3) {
-    const rel = rows.map((r) => ({ ...r, min: named(tp.meals[r.mi].title, r.id) ? r.step : 0, max: r.max > 0 ? Math.round(r.max * 1.8 / r.step) * r.step : r.max }));
+    const rel = rows.map((r) => r.fav ? r : ({ ...r, min: named(tp.meals[r.mi].title, r.id) ? r.step : 0, max: r.max > 0 ? Math.round(r.max * 1.8 / r.step) * r.step : r.max }));
     const s2 = solve(rel); const e1 = Math.abs(sol.x.protein - t.protein), e2 = Math.abs(s2.x.protein - t.protein);
     if (e2 < e1 && Math.abs(s2.x.kcal - t.kcal) <= Math.max(60, 0.04 * t.kcal)) sol = s2;
   }
+  if (PE_PREF.on) sol = peRefine(sol, t, tp.diet);
   const q = sol.q; rows = sol.rows;
   const meals = tp.meals.map((m) => ({ name: m.name, title: m.title, foods: [], totals: null }));
-  rows.forEach((r, i) => { const f = FOODS[r.id], a = q[i]; if (a <= 0) return; meals[r.mi].foods.push({ name: f.name, portion: portion(f, a), kcal: f.kcal * a, protein: f.protein * a, carbs: f.carbs * a, fat: f.fat * a }); });
+  rows.forEach((r, i) => { const f = FD[r.id], a = q[i]; if (a <= 0) return; meals[r.mi].foods.push({ name: f.name, portion: portion(f, a), kcal: f.kcal * a, protein: f.protein * a, carbs: f.carbs * a, fat: f.fat * a, fiber: f.fiber == null ? null : f.fiber * a, ...(f.fav ? { fav: f.fav, tag: f.tag, src: f.src, unknownCF: !!f.unknownCF } : {}) }); });
   const sum = (list) => list.reduce((s, f) => { for (const k of K) s[k] += f[k]; return s; }, { kcal: 0, protein: 0, carbs: 0, fat: 0 });
   meals.forEach((m) => (m.totals = sum(m.foods)));
   const totals = sum(meals.flatMap((m) => m.foods));
   return { id: tp.id, key: tp.key, diet: tp.diet, dietName: DIETS[tp.diet].name, name: tp.name, tag: tp.tag, allergens: tp.allergens, meals, totals, target: t, kcalDiff: totals.kcal - t.kcal, proteinDiff: totals.protein - t.protein, proteinMiss: Math.abs(totals.protein - t.protein) > 5 };
 }
-function buildDays(target, diet = "balanced") {
+
+/* ---------- v7.6.40: example day built around the user's favorite foods ----------
+   Nutrition numbers come only from a food database, the bundled fast-food hacks list, or the user's own typing; nothing is estimated.
+   A favorite is { id, source: "hack"|"db"|"user", name, portion, kcal, protein, carbs, fat, slot, mode, verified?, verifiedScope? } (numbers are per ONE portion).
+   Calories and protein are required to use a favorite in the math. Carbs/fat may be null: they then count as unknown (shown as such, never guessed). */
+const SLOTS = ["Breakfast", "Lunch", "Dinner", "Snack", "Any"];
+const numOrNull = (v) => (v === null || v === undefined || v === "" || !Number.isFinite(+v) || +v < 0 ? null : +v);
+function favUsable(f) { return !!f && typeof f.name === "string" && f.name.trim() !== "" && numOrNull(f.kcal) !== null && +f.kcal > 0 && numOrNull(f.protein) !== null; }
+function favTag(f) { return f.source === "hack" ? (f.verified ? (f.verifiedScope === "all" ? "Fast food hack · verified vs restaurant page" : "Fast food hack · verified (calories, protein)") : "Fast food hack · approximate") : f.source === "user" ? "Your numbers" : "Database"; }
+function buildFavDay(target, diet, favs, baseStyle) {
+  if (!DIETS[diet]) diet = "balanced";
+  const t0 = { kcal: +target.kcal || 0, protein: Math.max(0, +target.protein || 0), carbs: Math.max(0, +target.carbs || 0), fat: Math.max(0, +target.fat || 0), psmf: !!target.psmf };
+  const message = guard(t0); if (message) return { message };
+  const all = (favs || []).slice(0, 8), usable = all.filter(favUsable), skipped = all.filter((f) => !favUsable(f)).map((f) => f.name);
+  if (!usable.length) return { message: "", empty: true, skipped };
+  const base = TEMPLATES.find((x) => x.diet === diet && x.id === (STYLES[baseStyle] ? baseStyle : "everyday")) || TEMPLATES.find((x) => x.diet === diet);
+  const FD = Object.assign({}, FOODS), where = [[], [], [], []], names = ["Breakfast", "Lunch", "Dinner", "Snack"];
+  usable.forEach((f, i) => { const id = "fav" + i; FD[id] = { name: f.name, amount: 1, unit: f.portion || "serving", fixed: true, fav: f.source, tag: favTag(f), src: f.source, kcal: +f.kcal, protein: +f.protein,
+      carbs: numOrNull(f.carbs) === null ? 0 : +f.carbs, fat: numOrNull(f.fat) === null ? 0 : +f.fat, fiber: numOrNull(f.fiber), unknownCF: numOrNull(f.carbs) === null || numOrNull(f.fat) === null };
+    let mi = names.indexOf(f.slot); if (mi < 0) { const c = where.map((w) => w.length); mi = (+f.kcal <= 250 ? [3, 1, 2, 0] : [2, 1, 0, 3]).reduce((b, k) => (c[k] < c[b] ? k : b)); } where[mi].push({ id, f }); });
+  const addon = diet === "balanced" || diet === "lowcarb" || diet === "highprotein" || diet === "lowfat" ? "whey" : "whey";
+  const vegan = /vegan/.test(baseStyle || "");
+  const meals = base.meals.map((m, mi) => { const favRows = where[mi].map(({ id, f }) => ({ ...row(id, 1, f.mode === "fits" ? 0 : 1, Math.min(4, Math.max(1, +f.max || 2)), +f.step === 0.5 ? 0.5 : 1), fav: true }));
+    const flex = m.items.map((it) => ({ ...it, min: where[mi].length ? (it.min > 0 && /greens|vegetables|broccoli|beans|cauli/.test(it.id) ? it.min : 0) : it.min, base: where[mi].length ? it.base * 0.6 : it.base }));
+    if (mi === 3 && !flex.some((it) => it.id === (vegan ? "peaprotein" : addon))) flex.push(row(vegan ? "peaprotein" : addon, 0, 0, 3, 0.5));
+    if (mi === 1 && !flex.some((it) => it.id === "chicken" || it.id === "tofu" || it.id === "tuna" || it.id === "seitan" || it.id === "lentils") && where[mi].length) flex.push(row(vegan ? "tofu" : "chicken", 0, 0, 10, vegan ? 0.5 : 1));
+    return M(m.name, where[mi].length ? "Your favorite" + (where[mi].length > 1 ? "s: " : ": ") + where[mi].map((x) => x.f.name).join(" & ") : m.title, [...favRows, ...flex]); });
+  const tp = { id: "favorites", key: "favorites-" + diet, diet, name: "Your favorites", tag: "Built around foods you like", meals, allergens: "" };
+  const day = buildDay(tp, t0, FD);
+  const flexTags = allergensOf(meals.map((m) => ({ items: m.items.filter((it) => !it.fav) })));
+  day.allergens = `${flexTags.replace(/\.$/, "")} in the added foods. Allergens in your favorites are not checked: read their labels.`;
+  day.favs = true; day.skipped = skipped; day.notes = [];
+  // titles name only the favorites that stayed in the day; an "If it fits" favorite the targets had no room for is reported, never hidden
+  const dropped = [];
+  day.meals.forEach((m, mi) => { const kept = m.foods.filter((f) => f.fav).map((f) => f.name); where[mi].forEach((x) => { if (!kept.includes(x.f.name)) dropped.push(x.f.name); });
+    m.title = kept.length ? "Your favorite" + (kept.length > 1 ? "s: " : ": ") + kept.join(" & ") : base.meals[mi].title; });
+  if (dropped.length) day.notes.push(`Left out so the day still fits your targets ("If it fits"): ${dropped.join(", ")}. Mark it "Must include" to force it in.`);
+  const must = usable.filter((f) => f.mode !== "fits"), mustK = must.reduce((s, f) => s + +f.kcal, 0), mustP = must.reduce((s, f) => s + +f.protein, 0);
+  if (mustK > t0.kcal * 1.02) day.notes.push(`The foods marked "Must include" alone come to about ${Math.round(mustK)} kcal, more than your ${Math.round(t0.kcal)} kcal target. Mark some "If it fits", or pick lighter versions.`);
+  if (mustP > day.target.protein * 1.3 && mustP > 20) day.notes.push(`The "Must include" foods alone give about ${Math.round(mustP)} g protein, well above your ${Math.round(day.target.protein)} g target.`);
+  day.unknownCF = [...new Set(day.meals.flatMap((m) => m.foods.filter((f) => f.unknownCF).map((f) => f.name)))];
+  return day;
+}
+function buildDays(target, diet = "balanced", favs, baseStyle) {
   if (!DIETS[diet]) diet = "balanced";
   const t = { kcal: +target.kcal || 0, protein: Math.max(0, +target.protein || 0), carbs: Math.max(0, +target.carbs || 0), fat: Math.max(0, +target.fat || 0), psmf: !!target.psmf };
   const message = guard(t);
-  return { target: t, diet, message, days: message ? [] : TEMPLATES.filter((tp) => tp.diet === diet).map((tp) => buildDay(tp, t)) };
+  const days = message ? [] : TEMPLATES.filter((tp) => tp.diet === diet).map((tp) => buildDay(tp, t));
+  let favNone = false; if (!message && favs && favs.length) { const fd = buildFavDay(t, diet, favs, baseStyle); if (fd && fd.empty) favNone = fd; else if (fd && !fd.message) days.push(fd); }
+  return { target: t, diet, message, days, favNone };
 }
 // Shown with the Gluten-free style (and in the recap / PDF).
 const GF_NOTE = "Anyone with celiac disease or gluten sensitivity should check every label for gluten and cross-contamination, including oats (buy only oats labeled gluten-free), protein powders, sauces and seasonings.";
-const api = { GF_NOTE, buildDays, dietTargets, FOODS, TEMPLATES, DIETS, STYLES };
+// ---- v7.6.43: P:E (protein : energy), Dr. Ted Naiman's definition ----
+// P:E = protein g / (fat g + carbohydrate g - fiber g), i.e. protein over non-fiber carbs + fat (The P:E Diet; axis of his P:E chart on proteinpercent.com).
+// Fiber unknown: total carbs are used and the result is labelled; this can only make the number lower (never flattering). Protein, carbs or fat unknown: not rated.
+// v7.6.43b: shown as a colour only (no number). Bands 2 / 1 / 0.5 are Theosis's own practical guide, not thresholds from research or from Naiman.
+function peInfo(p, c, f, fib) { p = numOrNull(p); c = numOrNull(c); f = numOrNull(f); if (p === null || c === null || f === null) return null; const fb = numOrNull(fib), hasFib = fb !== null;
+  const e = Math.max(0, c - (hasFib ? Math.min(fb, c) : 0)) + f; if (e <= 0) return p > 0 ? { pe: Infinity, fiber: hasFib } : null; return { pe: p / e, fiber: hasFib }; }
+function peRatio(p, c, f, fib) { const r = peInfo(p, c, f, fib); return r ? r.pe : null; }
+function peTone(pe) { return pe >= 2 ? "green" : pe >= 1 ? "yellow" : pe >= 0.5 ? "orange" : "red"; }
+const peText = (pe) => (pe === Infinity ? "\u221e" : pe.toFixed(1));
+const PE_CUTS = [["green", "2 or more"], ["yellow", "1 to 2"], ["orange", "0.5 to 1"], ["red", "under 0.5"]];
+const PE_WORDS = { green: "Great choice", yellow: "Good", orange: "Okay", red: "Less filling per calorie" };
+function peOfFoods(foods) { if (!foods || !foods.length || foods.some((x) => x.unknownCF)) return null; const allFib = foods.every((x) => numOrNull(x.fiber) !== null);
+  const t = foods.reduce((s, x) => ({ p: s.p + x.protein, c: s.c + x.carbs, f: s.f + x.fat, fb: s.fb + (numOrNull(x.fiber) || 0) }), { p: 0, c: 0, f: 0, fb: 0 }); return peInfo(t.p, t.c, t.f, allFib ? t.fb : null); }
+const api = { PE_WORDS, PE_PREF, peInfo, peRatio, peTone, peText, peOfFoods, PE_CUTS, GF_NOTE, buildFavDay, favUsable, favTag, SLOTS, buildDays, dietTargets, FOODS, TEMPLATES, DIETS, STYLES };
 if (typeof module !== "undefined" && module.exports) module.exports = api;
 root.SampleDays = api;
 })(typeof window !== "undefined" ? window : globalThis);
@@ -4632,6 +4823,10 @@ return { KEY, MEALS, MEAL_IDS, dateKey, addDays, isDate, mealFor, empty, normali
   ];
 
   REG.push(...NEW_RAW.map((r) => [r[0], r[1], r[2], r[3], pm(r[2].split(/\.\s/).slice(1, 2).join(""))]));
+  // v7.6.41: protein leverage reference for the P:E rating. Bibliographic details and the P : C + F wording checked against the full text of the paper (Obes Rev 2005;6:133–142; DOI 10.1111/j.1467-789X.2005.00178.x).
+  REG.push(["simpson2005", "Simpson & Raubenheimer 2005 (protein leverage)", "Simpson SJ, Raubenheimer D. Obesity: the protein leverage hypothesis. Obes Rev 2005;6:133–42. Full text read. A hypothesis and mathematical model: if protein intake is tightly regulated, diets with a lower ratio of protein to carbohydrate + fat (P : C + F, in energy terms) can drive higher total energy intake. They call for it to be tested; it is not a proven rule. Cited here for why protein density may matter; the paper does not define the P:E score used in this app (that is Naiman's) or any colour bands.", "Food choice and protein density", "https://doi.org/10.1111/j.1467-789X.2005.00178.x"]);
+  // v7.6.43: source of the P:E name and formula. The book itself was not read; see the read-level note.
+  REG.push(["naiman-pe", "Naiman & Shewfelt 2020 (The P:E Diet)", "Naiman T, Shewfelt W. The P:E Diet. 2020. Source of the P:E (protein to energy) idea and formula used behind the food colours: protein g ÷ (fat g + carbohydrate g − fiber g). The app works this out in the background and shows only a colour. Green (2 or more), yellow (1 to 2), orange (0.5 to 1) and red (under 0.5) are Theosis's own practical guide, not thresholds from research or from the book; Naiman suggests about 1.0 as a target (secondary source; not checked against the book). No published study has tested the score itself. Foods with more protein per calorie tend to keep people fuller, so they may make it easier to eat fewer calories; population studies have not shown that people who eat a higher share of protein are leaner (association studies, some found the opposite). If fiber isn't listed, total carbs are used. Read level: the book was not read; the formula's 'non-fiber carbs + fat' wording was read on Naiman's own P:E chart (proteinpercent.com, linked from thepediet.com).", "Food choice and protein density", "https://thepediet.com"]);
   // ---- v7.6.37: numbered references. One global number per source = its position in the master list (REG order, then the body-story list, then new entries). Append-only, so numbers stay stable.
   const ID_ALIAS = { hall2011: "hall2011m" };
   const canon = (id) => ID_ALIAS[id] || id;
@@ -4674,7 +4869,7 @@ return { KEY, MEALS, MEAL_IDS, dateKey, addDays, isDate, mealFor, empty, normali
    ["Hall", 2007, "hall2007m"], ["Hall", 2008, "hall2008m"], ["Hall", 2011, "hall2011m"], ["Hall", 2012, "hall2012m"], ["Forbes", 2000, "forbes2000"], ["Frankenfield", 2005, "frankenfield2005"],
    ["Thomas", 2013, "thomas2013"], ["Rosenbaum", 2010, "rosenbaum2010"], ["Fothergill", 2016, "fothergill2016"], ["Levine", 1999, "levine1999m"], ["Bray", 2012, "bray2012"], ["Riddle", 2021, "riddle2021"],
    ["Tudor-Locke", 2011, "tudorlocke2011"], ["Paluch", 2022, "paluch2022"], ["Jakicic", 2019, "jakicic2019"], ["Swift", 2014, "swift2014"], ["Barone", 2008, "barone2008"], ["Brunello", 2011, "brunello2011"],
-   ["Mahin", 2023, "mahin2023"], ["Alenzi", 2017, "alenzi2017"], ["Sremanakova", 2018, "sremanakova2018"], ["Erickson", 2017, "erickson2017"], ["Donnelly", 2009, "donnelly2009"]].forEach((a) => AL(a[0], a[1], a[2]));
+   ["Mahin", 2023, "mahin2023"], ["Alenzi", 2017, "alenzi2017"], ["Sremanakova", 2018, "sremanakova2018"], ["Erickson", 2017, "erickson2017"], ["Donnelly", 2009, "donnelly2009"], ["Simpson", 2005, "simpson2005"]].forEach((a) => AL(a[0], a[1], a[2]));
   const RX = new RegExp(ALIAS.map((a) => "(" + a[0] + ")").join("|"), "g"), PH0 = "\uE000", PH1 = "\uE001";
   // Rewrites one string: each author-year token becomes a placeholder, then tidy the punctuation around groups like "(A 2010; B 2012)".
   function citeText(str) {
@@ -4921,6 +5116,7 @@ const CONFIG = {
   AI_EXPLAIN_PLAN: true,                                 // v7.6.14: the single switch for the "Explain my plan" section of the print-to-PDF recap. Set false to remove it completely.
   LABS_ENDPOINT: "/.netlify/functions/labs",                                   // "/.netlify/functions/labs" once LABS_API_KEY (or GEMINI_API_KEY) is set on Netlify                                // "/.netlify/functions/preview" once GEMINI_API_KEY is set on Netlify
   STORAGE_KEY: "theosis-bodyplan-v1",
+  PE_DOTS: typeof window !== "undefined" && window.__PE_DOTS === 1,                                        // v7.6.47: P:E colour dots + legend hidden until the produce-friendly rating is done (code kept; the meal solver tiebreaker still uses the ratio)
   FIG3D: true,                                           // 3D figure (lazy, WebGL only); the 2D SVG stays as fallback and for print
   FIG3D_BASE: "fig3d/",                                  // asset folder next to index.html
   FOOD_ENDPOINT: "/.netlify/functions/food",             // USDA FoodData Central via Netlify function (holds FDC_API_KEY server-side)
@@ -4960,7 +5156,7 @@ const defaults = () => ({
   goal: { type: "steady", targetBf: null, targetWeightKg: null, deadline: null, window: 12, pace: 0.6, touched: false, gainMode: "lean", gainTargetKg: null, bfCeiling: null, exactW: null, exactBf: null, exactBy: null, exactLead: null },
   move: { steps: 7500, preset: "none", noLift: false, noCardio: false, presetBefore: null, cardioMin: 0, cardio: [{ type: "cycling", effort: "moderate", by: "effort" }], experience: "beginner", plannerOn: false, planner: DAYS.map(() => ({ lift: 0, cardio: 0 })), adv: { style: "mixed", sets: 10, rir: "2-3" },
     lifts: [{ type: "hypertrophy", effort: "moderate", min: 60, days: 3 }], groups: {} },
-  food: { proteinRef: "goal", actualOn: false, actualKcal: null, actualProtein: "moderate", actualProteinG: null, actualCarbsG: null, actualFatG: null, actualProteinEst: true, style: "balanced", dietBreakEvery: 0, bmrEq: "mifflin", psmf: false, mealDay: "everyday", mealDiet: "balanced", mealSrc: "rec", mealUsed: null, mealMacros: null, log: [], logUsed: false, logDone: false, psmfNoteOff: null, avgUsed: null,
+  food: { proteinRef: "goal", actualOn: false, actualKcal: null, actualProtein: "moderate", actualProteinG: null, actualCarbsG: null, actualFatG: null, actualProteinEst: true, style: "balanced", dietBreakEvery: 0, bmrEq: "mifflin", psmf: false, mealDay: "everyday", favBase: "everyday", mealDiet: "balanced", mealSrc: "rec", mealUsed: null, mealMacros: null, log: [], logUsed: false, logDone: false, psmfNoteOff: null, avgUsed: null,
     rmr: null, tdeeKnown: null, refeedDays: 0, yourMacros: { on: false, unit: "pct", p: 30, c: 40, f: 30 } },
 });
 function merge(base, extra) { if (!extra || typeof extra !== "object") return base; for (const k of Object.keys(base)) { if (!(k in extra)) continue;
@@ -5291,6 +5487,11 @@ function renderAdv() {
 }
 function renderStep() { const s = S.step; if (s === 1) { renderYou(); renderHealth(); renderPheno(); } else if (s === 2) renderGoal(); else if (s === 3) renderMove(); else if (s === 4) renderFood(); else if (s === 5) renderProjection(); renderNav(); renderHabitsAll(); }
 
+// ---------- v7.6.47: beta banner (Beta: education only, not medical advice, US only). Device-only dismissal. ----------
+(function betaBar() { const init = () => { const b = document.getElementById("beta-bar"); if (!b) return; const k = "theosis-beta-notice-v1";
+  let seen = false; try { seen = localStorage.getItem(k) === "1"; } catch (e) { /* storage off: keep showing */ } b.hidden = seen;
+  const x = document.getElementById("beta-bar-x"); x && x.addEventListener("click", () => { b.hidden = true; try { localStorage.setItem(k, "1"); } catch (e) { /* ignore */ } const m = document.getElementById("main"); m && m.focus && m.setAttribute("tabindex", "-1"); }); };
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init); else init(); })();
 // ---------- summary ----------
 // v4: every figure carries its fat distribution (visceral vs under-the-skin depots) for that point on the trajectory
 /* v5: every figure gets a waist target. With an entered waist, the person-specific difference from the body-fat-based estimate shrinks with the
@@ -5840,7 +6041,7 @@ function gaugeHtml() {
     <p class="eyebrow">${GF} · education only</p>
     <p class="gauge-h"><b>${esc(d.label)}</b></p>
     <div class="gauge-wrap" role="img" aria-label="${GF}: needle in the ${esc(d.label)} zone. Rules-based, not a measurement, not a health score."><svg class="gauge-dial" viewBox="0 0 160 92" aria-hidden="true" focusable="false"><path class="ring" d="M8.00,80.00 A72,72 0 0 1 152.00,80.00"/><path class="ring in" d="M34.00,80.00 A46,46 0 0 1 126.00,80.00"/><path class="ring in2" d="M37.00,80.00 A43,43 0 0 1 123.00,80.00"/><line class="gt maj" x1="16.5" y1="80.0" x2="11.0" y2="80.0"/><line class="gt" x1="16.6" y1="76.7" x2="14.3" y2="76.6"/><line class="gt" x1="16.8" y1="73.4" x2="14.6" y2="73.1"/><line class="gt" x1="17.3" y1="70.1" x2="15.0" y2="69.7"/><line class="gt" x1="17.9" y1="66.8" x2="15.6" y2="66.3"/><line class="gt" x1="18.7" y1="63.6" x2="15.3" y2="62.7"/><line class="gt" x1="19.6" y1="60.4" x2="17.4" y2="59.7"/><line class="gt" x1="20.7" y1="57.2" x2="18.6" y2="56.4"/><line class="gt" x1="22.0" y1="54.2" x2="19.9" y2="53.2"/><line class="gt" x1="23.4" y1="51.2" x2="21.4" y2="50.1"/><line class="gt maj" x1="25.0" y1="48.2" x2="20.2" y2="45.5"/><line class="gt" x1="26.7" y1="45.4" x2="24.8" y2="44.2"/><line class="gt" x1="28.6" y1="42.7" x2="26.8" y2="41.3"/><line class="gt" x1="30.7" y1="40.0" x2="28.9" y2="38.6"/><line class="gt" x1="32.8" y1="37.5" x2="31.1" y2="36.0"/><line class="gt" x1="35.1" y1="35.1" x2="32.6" y2="32.6"/><line class="gt" x1="37.5" y1="32.8" x2="36.0" y2="31.1"/><line class="gt" x1="40.0" y1="30.7" x2="38.6" y2="28.9"/><line class="gt" x1="42.7" y1="28.6" x2="41.3" y2="26.8"/><line class="gt" x1="45.4" y1="26.7" x2="44.2" y2="24.8"/><line class="gt maj" x1="48.2" y1="25.0" x2="45.5" y2="20.2"/><line class="gt" x1="51.2" y1="23.4" x2="50.1" y2="21.4"/><line class="gt" x1="54.2" y1="22.0" x2="53.2" y2="19.9"/><line class="gt" x1="57.2" y1="20.7" x2="56.4" y2="18.6"/><line class="gt" x1="60.4" y1="19.6" x2="59.7" y2="17.4"/><line class="gt" x1="63.6" y1="18.7" x2="62.7" y2="15.3"/><line class="gt" x1="66.8" y1="17.9" x2="66.3" y2="15.6"/><line class="gt" x1="70.1" y1="17.3" x2="69.7" y2="15.0"/><line class="gt" x1="73.4" y1="16.8" x2="73.1" y2="14.6"/><line class="gt" x1="76.7" y1="16.6" x2="76.6" y2="14.3"/><line class="gt maj" x1="80.0" y1="16.5" x2="80.0" y2="11.0"/><line class="gt" x1="83.3" y1="16.6" x2="83.4" y2="14.3"/><line class="gt" x1="86.6" y1="16.8" x2="86.9" y2="14.6"/><line class="gt" x1="89.9" y1="17.3" x2="90.3" y2="15.0"/><line class="gt" x1="93.2" y1="17.9" x2="93.7" y2="15.6"/><line class="gt" x1="96.4" y1="18.7" x2="97.3" y2="15.3"/><line class="gt" x1="99.6" y1="19.6" x2="100.3" y2="17.4"/><line class="gt" x1="102.8" y1="20.7" x2="103.6" y2="18.6"/><line class="gt" x1="105.8" y1="22.0" x2="106.8" y2="19.9"/><line class="gt" x1="108.8" y1="23.4" x2="109.9" y2="21.4"/><line class="gt maj" x1="111.8" y1="25.0" x2="114.5" y2="20.2"/><line class="gt" x1="114.6" y1="26.7" x2="115.8" y2="24.8"/><line class="gt" x1="117.3" y1="28.6" x2="118.7" y2="26.8"/><line class="gt" x1="120.0" y1="30.7" x2="121.4" y2="28.9"/><line class="gt" x1="122.5" y1="32.8" x2="124.0" y2="31.1"/><line class="gt" x1="124.9" y1="35.1" x2="127.4" y2="32.6"/><line class="gt" x1="127.2" y1="37.5" x2="128.9" y2="36.0"/><line class="gt" x1="129.3" y1="40.0" x2="131.1" y2="38.6"/><line class="gt" x1="131.4" y1="42.7" x2="133.2" y2="41.3"/><line class="gt" x1="133.3" y1="45.4" x2="135.2" y2="44.2"/><line class="gt maj" x1="135.0" y1="48.3" x2="139.8" y2="45.5"/><line class="gt" x1="136.6" y1="51.2" x2="138.6" y2="50.1"/><line class="gt" x1="138.0" y1="54.2" x2="140.1" y2="53.2"/><line class="gt" x1="139.3" y1="57.2" x2="141.4" y2="56.4"/><line class="gt" x1="140.4" y1="60.4" x2="142.6" y2="59.7"/><line class="gt" x1="141.3" y1="63.6" x2="144.7" y2="62.7"/><line class="gt" x1="142.1" y1="66.8" x2="144.4" y2="66.3"/><line class="gt" x1="142.7" y1="70.1" x2="145.0" y2="69.7"/><line class="gt" x1="143.2" y1="73.4" x2="145.4" y2="73.1"/><line class="gt" x1="143.4" y1="76.7" x2="145.7" y2="76.6"/><line class="gt maj" x1="143.5" y1="80.0" x2="149.0" y2="80.0"/><path class="sg against" d="M24.01,79.12 A56,56 0 0 1 24.37,73.56"/><path class="sg against" d="M24.60,71.82 A56,56 0 0 1 25.69,66.36"/><path class="sg against" d="M26.14,64.66 A56,56 0 0 1 27.93,59.39"/><path class="sg against" d="M28.61,57.76 A56,56 0 0 1 31.07,52.77"/><path class="sg against" d="M31.95,51.24 A56,56 0 0 1 35.04,46.61"/><path class="sg against" d="M36.11,45.22 A56,56 0 0 1 39.78,41.03"/><path class="sg against" d="M41.03,39.78 A56,56 0 0 1 45.22,36.11"/><path class="sg against" d="M46.61,35.04 A56,56 0 0 1 51.24,31.95"/><path class="sg mixed" d="M52.77,31.07 A56,56 0 0 1 57.76,28.61"/><path class="sg mixed" d="M59.39,27.93 A56,56 0 0 1 64.66,26.14"/><path class="sg mixed" d="M66.36,25.69 A56,56 0 0 1 71.82,24.60"/><path class="sg mixed" d="M73.56,24.37 A56,56 0 0 1 79.12,24.01"/><path class="sg mixed" d="M80.88,24.01 A56,56 0 0 1 86.44,24.37"/><path class="sg mixed" d="M88.18,24.60 A56,56 0 0 1 93.64,25.69"/><path class="sg mixed" d="M95.34,26.14 A56,56 0 0 1 100.61,27.93"/><path class="sg mixed" d="M102.24,28.61 A56,56 0 0 1 107.23,31.07"/><path class="sg supportive" d="M108.76,31.95 A56,56 0 0 1 113.39,35.04"/><path class="sg supportive" d="M114.78,36.11 A56,56 0 0 1 118.97,39.78"/><path class="sg supportive" d="M120.22,41.03 A56,56 0 0 1 123.89,45.22"/><path class="sg supportive" d="M124.96,46.61 A56,56 0 0 1 128.05,51.24"/><path class="sg supportive" d="M128.93,52.77 A56,56 0 0 1 131.39,57.76"/><path class="sg supportive" d="M132.07,59.39 A56,56 0 0 1 133.86,64.66"/><path class="sg supportive" d="M134.31,66.36 A56,56 0 0 1 135.40,71.82"/><path class="sg supportive" d="M135.63,73.56 A56,56 0 0 1 135.99,79.12"/><g class="gneedle" style="transform:rotate(${a0.toFixed(1)}deg)" data-to="${ang.toFixed(1)}"><path class="gn-body" d="M80,20 L80.9,60 L80.7,80 L79.3,80 L79.1,60 Z"/><path class="gn-tail" d="M79.4,80 L80.6,80 L80.4,88 L79.6,88 Z"/></g><circle class="gn-cap" cx="80" cy="80" r="4.2"/><circle class="gn-cap2" cx="80" cy="80" r="1.6"/></svg></div>
-    <div class="gauge-ends" aria-hidden="true"><span>Leaning against</span><span>Mixed</span><span>Leaning supportive</span></div>
+    <div class="gauge-ends" aria-hidden="true"><span>Off track</span><span>Getting there</span><span>On track</span></div>
     <ul class="gauge-why">${items.length ? items.map((x) => `<li class="${sign(x.v)}"><span class="gm" aria-hidden="true">${mark(x.v)}</span><span>${esc(x.text)} <small>${esc(x.src)}</small></span></li>`).join("") : `<li class="mid"><span class="gm" aria-hidden="true">●</span><span>Nothing here clearly pushes either way.</span></li>`}</ul>
     ${recsHtml()}
     <p class="hint">A simple rules-based read of how the choices you entered fit your chosen goal. It is not a measurement, not a health score and not medical advice. ${d.frame === "cancer" ? "In cancer-treatment mode it compares intake with the ESPEN planning ranges and your logged weight trend. " : ""}It only counts habits with published support listed in Sources. It does not use labs or A1c, and it can't see your health history or medicines.</p></section>`;
@@ -6258,13 +6459,13 @@ function mealsTarget() {
   return { kcal: R.rec.rows[0].intake, protein: R.macros.protein, carbs: R.macros.carbs, fat: R.macros.fat, label: "Your target" };
 }
 function renderMeals() {
-  const box = $("#meals"); if (!box) return;
+  const box = $("#meals"); if (!box) return; favBuild();
   if (!R || R.blocked || !window.SampleDays) { box.innerHTML = ""; return; }
-  const t = mealsTarget(), diet = window.SampleDays.DIETS[S.food.mealDiet] ? S.food.mealDiet : "balanced", key = JSON.stringify(t) + diet;
-  if (key !== mealsCache.key) { mealsCache = { key, built: window.SampleDays.buildDays(t, diet) }; }
+  const t = mealsTarget(), diet = window.SampleDays.DIETS[S.food.mealDiet] ? S.food.mealDiet : "balanced", favs = favList(), base = S.food.favBase || "everyday", key = JSON.stringify(t) + diet + JSON.stringify(favs) + base;
+  if (key !== mealsCache.key) { mealsCache = { key, built: window.SampleDays.buildDays(t, diet, favs, base) }; }
   const built = mealsCache.built;
   const src = fixedOn() ? `<div class="chips" role="group" aria-label="Calories for meal ideas"><button type="button" class="chip" data-meal-src="rec" aria-pressed="${S.food.mealSrc !== "used"}">My target calories</button><button type="button" class="chip" data-meal-src="used" aria-pressed="${S.food.mealSrc === "used"}">${S.food.psmf ? "PSMF" : "What I eat"}</button></div>` : "";
-  const head = `<p class="hint" style="margin-top:0">${esc(t.label)} target: <strong>${fK(t.kcal)} kcal</strong>${t.protein ? ` · <strong>${fK(t.protein)} g protein</strong>` : ""} a day. Portions use rounded generic foods, so brands and cooking change the totals.</p>`;
+  const head = `<p class="hint" style="margin-top:0">${esc(/target$/i.test(t.label) ? t.label : t.label + " target")}: <strong>${fK(t.kcal)} kcal</strong>${t.protein ? ` · <strong>${fK(t.protein)} g protein</strong>` : ""} a day. Portions use rounded generic foods, so brands and cooking change the totals.</p>`;
   if (built.message) { box.innerHTML = `${src}${head}<ul class="alerts"><li class="alert info">${ICON.info}<span>${esc(built.message)}</span></li></ul>`; return; }
   const day = built.days.find((d) => d.id === S.food.mealDay) || built.days[0];
   const gap = day.kcalDiff, pg = day.proteinDiff;
@@ -6273,16 +6474,21 @@ function renderMeals() {
   <div class="meal-pick"><span class="label">Diet type</span><div class="chips" role="group" aria-label="Diet type">${Object.entries(window.SampleDays.DIETS).map(([k, d]) => `<button type="button" class="chip" data-meal-diet="${k}" aria-pressed="${k === diet}">${esc(d.name)}</button>`).join("")}</div></div>
   <div class="meal-pick"><span class="label">Style</span><div class="chips" role="group" aria-label="Style">${built.days.map((d) => `<button type="button" class="chip" data-meal="${d.id}" aria-pressed="${d.id === day.id}">${esc(d.name)} <small class="muted">· ${esc(d.tag)}</small></button>`).join("")}</div></div>
   <p class="hint meal-diet-note">${esc(window.SampleDays.DIETS[diet].note)} Targets for this day: P ${fK(day.target.protein)} g · C ${fK(day.target.carbs)} g · F ${fK(day.target.fat)} g.</p>
-  <div class="meal-grid">${day.meals.map((m) => `<article class="meal"><header><span class="eyebrow">${m.name}</span><small>${fK(m.totals.kcal)} kcal · ${fK(m.totals.protein)} g protein</small></header><h3>${esc(m.title)}</h3><ul>${m.foods.map((f) => `<li><span>${esc(f.name)}</span><b>${esc(f.portion)}</b></li>`).join("")}</ul></article>`).join("")}</div>
+  <div class="meal-grid">${day.meals.map((m) => `<article class="meal"><header><span class="eyebrow">${m.name}</span><small>${fK(m.totals.kcal)} kcal · ${fK(m.totals.protein)} g protein</small><small class="pe-row">${peBadge(window.SampleDays.peOfFoods(m.foods), "Carbs or fat are not listed for a food in this meal, so P:E isn't rated. Nothing is guessed.")}</small></header><h3>${esc(m.title)}</h3><ul>${m.foods.map((f) => `<li><span>${esc(f.name)}${f.tag ? ` <span class="ftag ${f.src === "hack" ? (/verified/.test(f.tag) ? "ok" : "ap") : f.src === "user" ? "us" : "db"}">${esc(f.tag)}</span>` : ""}</span><b>${esc(f.portion)}</b></li>`).join("")}</ul><button type="button" class="link-btn sm-save" data-meal-save="${day.meals.indexOf(m)}">Save this meal</button></article>`).join("")}</div>
+  <div id="saved-meals"></div>
   <table class="tbl meal-vs" id="meal-vs" aria-label="This day's totals vs your targets"><caption>This day vs your targets</caption><thead><tr><th></th><th>This day</th><th>Target</th><th>Difference</th></tr></thead><tbody>
     ${[["Calories", "kcal", ""], ["Protein", "protein", " g"], ["Carbs", "carbs", " g"], ["Fat", "fat", " g"]].map(([n, k, u]) => { const v = Math.round(day.totals[k]), tg = Math.round(day.target[k]), d = v - tg, ok = k === "kcal" ? Math.abs(d) <= 0.02 * tg : k === "protein" ? d >= -Math.max(8, 0.09 * tg) && d <= Math.max(18, 0.13 * tg) : Math.abs(d) * (k === "fat" ? 9 : 4) <= 0.15 * day.target.kcal;
       return `<tr data-k="${k}"><th>${n}</th><td>${fK(v)}${u}</td><td>${fK(tg)}${u}</td><td>${ok ? "✓ " : ""}${d === 0 ? "on target" : `${d > 0 ? "+" : "−"}${fK(Math.abs(d))}${u}`}</td></tr>`; }).join("")}</tbody></table>
-  ${Math.abs(pg) > 5 ? `<p class="hint" id="meal-protein-note">With this style's foods, the day lands ${fK(Math.abs(Math.round(pg)))} g ${pg > 0 ? "above" : "below"} your ${fK(day.target.protein)} g protein target at this calorie level. Another style, or a protein shake, gets closer.</p>` : Math.abs(gap) > 100 ? `<p class="hint">These portions don't fully match your targets, because each food stays within a usable range.</p>` : ""}
+  ${CONFIG.PE_DOTS ? "" : "<!-- P:E dots off (CONFIG.PE_DOTS) -->"}<p class="hint pe-day" id="meal-pe"${CONFIG.PE_DOTS ? "" : " hidden"}><b>This day overall:</b> ${peBadge(window.SampleDays.peOfFoods(day.meals.flatMap((m) => m.foods)), "Carbs or fat are not listed for a food in this day, so the day's P:E isn't rated. Nothing is guessed.")}</p>
+  ${peLegend()}
+  ${Math.abs(pg) > 5 ? `<p class="hint" id="meal-protein-note">${day.favs ? "With these favorites" : "With this style's foods"}, the day lands ${fK(Math.abs(Math.round(pg)))} g ${pg > 0 ? "above" : "below"} your ${fK(day.target.protein)} g protein target at this calorie level. ${day.favs ? (pg < 0 ? "Your favorites are never changed behind your back. A higher-protein version of a favorite (a fast food hack from theosismedical.com, where one exists), a protein shake, or marking a lower-protein favorite \"If it fits\" gets closer." : "Marking a favorite \"If it fits\" or choosing a smaller portion gets closer.") : "Another style, or a protein shake, gets closer."}</p>` : Math.abs(gap) > 100 ? `<p class="hint">These portions don't fully match your targets, because each food stays within a usable range.</p>` : ""}
+  ${day.favs ? `${(day.notes || []).map((n) => `<p class="hint fav-note" role="status">${esc(n)}</p>`).join("")}${day.unknownCF && day.unknownCF.length ? `<p class="hint">Carbs and fat are not listed for ${esc(day.unknownCF.join(", "))}, so they count as unknown (not guessed). The carbs and fat rows above leave them out.</p>` : ""}${day.skipped && day.skipped.length ? `<p class="hint">Skipped, because calories and protein are both needed and nothing is estimated: ${esc(day.skipped.join(", "))}.</p>` : ""}<p class="hint">Restaurant and database numbers vary. Check the restaurant's page or the label.</p>` : ""}
   ${day.id === "glutenfree" ? `<p class="hint gf-note" id="gf-note"><strong>Gluten-free:</strong> ${esc(window.SampleDays.GF_NOTE)}</p>` : ""}
   <p class="hint">Contains: ${esc(day.allergens)} Check labels for allergens and exact nutrition. These are meal ideas, not a nutrition prescription.</p>
   <div class="actions"><button type="button" class="btn ${inUse ? "btn-ghost" : "btn-steel"}" data-meal-use="${day.key}" ${inUse ? "disabled" : ""}>${inUse ? "Used in your projection ✓" : "Use this day"}</button>
     <span class="hint" style="margin:0">${inUse ? "" : `Projects this exact day (${fK(Math.round(day.totals.kcal / 10) * 10)} kcal, ${fK(day.totals.protein)} g protein) as what you eat. You can change it any time.`}</span></div>
   <p class="hint" role="status">${esc(mealStatus)}</p>`;
+  smRender();
 }
 function renderFood() {
   if (typeof renderSpecial === "function") renderSpecial();
@@ -6498,10 +6704,13 @@ function sdSave() { const name = sd.name.trim() || `My day ${savedDays().length 
 function sdLoad(id) { const d = savedDays().find((x) => x.id === id); if (!d) return; S.food.log = d.items.map((x) => ({ ...x })); S.food.logUsed = true; S.food.logDone = true; S.food.psmfNoteOff = null;
   sd.status = `Loaded "${d.name}".`; fsApplyLog(); }
 function sdDelete(id) { if (sd.del !== id) { sd.del = id; renderFsLog(); return; } const a = savedDays(), d = a.find((x) => x.id === id); putDays(a.filter((x) => x.id !== id)); sd.del = null; sd.status = d ? `Deleted "${d.name}".` : ""; renderFsLog(); }
-function sdExport() { const a = savedDays(); if (!a.length) return; const blob = new Blob([JSON.stringify({ app: "theosis-bodyplan", kind: "saved-days", version: 1, exported: new Date().toISOString(), days: a }, null, 2)], { type: "application/json" });
+function sdExport() { const a = savedDays(), fv = favList(), ml = smList(); if (!a.length && !fv.length && !ml.length) return; const blob = new Blob([JSON.stringify({ app: "theosis-bodyplan", kind: "saved-days", version: 1, exported: new Date().toISOString(), days: a, favorites: fv, meals: ml }, null, 2)], { type: "application/json" });
   const url = URL.createObjectURL(blob), l = document.createElement("a"); l.href = url; l.download = "my-saved-days.json"; document.body.appendChild(l); l.click(); l.remove(); setTimeout(() => URL.revokeObjectURL(url), 60000); sd.status = `Exported ${a.length} day${a.length > 1 ? "s" : ""}.`; renderFsLog(); }
 function sdImportText(txt) { let j; try { j = JSON.parse(txt); } catch (e) { sd.status = "That file isn't valid JSON."; renderFsLog(); return; }
-  const list = (Array.isArray(j) ? j : j && Array.isArray(j.days) ? j.days : []).map(sdDay).filter(Boolean); if (!list.length) { sd.status = "No saved days found in that file."; renderFsLog(); return; }
+  const list = (Array.isArray(j) ? j : j && Array.isArray(j.days) ? j.days : []).map(sdDay).filter(Boolean), fin = j && Array.isArray(j.favorites) ? j.favorites.map(favClean).filter(Boolean) : [], min = j && Array.isArray(j.meals) ? j.meals.map(smClean).filter(Boolean) : [];
+  if (min.length) { const cur = smList(), ids = new Set(cur.map((x) => x.id)); for (const m of min) if (!ids.has(m.id) && cur.length < SM_MAX) { cur.push(m); ids.add(m.id); } smPut(cur); smRender(); }
+  if (fin.length) { const cur = favList(), ids = new Set(cur.map((x) => x.id)); for (const f of fin) if (!ids.has(f.id) && cur.length < FAV_MAX) { cur.push(f); ids.add(f.id); } favPut(cur); }
+  if (!list.length && !fin.length && !min.length) { sd.status = "No saved days found in that file."; renderFsLog(); return; }
   const a = savedDays(), have = new Set(a.map((x) => x.id)); let added = 0; for (const d of list) if (!have.has(d.id)) { a.push(d); have.add(d.id); added++; }
   if (putDays(a)) sd.status = `Imported ${added} day${added === 1 ? "" : "s"}${list.length > added ? ` (${list.length - added} already saved)` : ""}.`; renderFsLog(); }
 function renderSavedDays() {
@@ -6512,7 +6721,7 @@ function renderSavedDays() {
   const list = a.length ? `<ul class="sd-list">${a.map((d) => { const t = FC.totals(d.items); return `<li><span><b>${esc(d.name)}</b><small>${fK(t.kcal)} kcal · ${fK(t.protein)} g protein · ${d.items.length} food${d.items.length > 1 ? "s" : ""}${d.saved ? ` · ${esc(new Date(d.saved).toLocaleDateString("en-US", { month: "short", day: "numeric" }))}` : ""}</small></span>
       <span class="sd-btns"><button type="button" class="link-btn" data-sd-load="${esc(d.id)}">Load</button><button type="button" class="link-btn ${sd.del === d.id ? "danger" : ""}" data-sd-del="${esc(d.id)}">${sd.del === d.id ? "Confirm delete" : "Delete"}</button></span></li>`; }).join("")}</ul>` : `<p class="hint" style="margin:.2rem 0 0">No saved days yet. Log a day, then tap Save this day.</p>`;
   box.innerHTML = `${save}<details class="sd" ${a.length && (sd.open || sd.status) ? "open" : ""}><summary>My saved days (${a.length})</summary>${list}
-    <div class="actions sd-io"><button type="button" class="btn btn-ghost btn-sm" data-sd-export="1" ${a.length ? "" : "disabled"}>Export (.json)</button><button type="button" class="btn btn-ghost btn-sm" data-sd-import="1">Import (.json)</button></div>
+    <div class="actions sd-io"><button type="button" class="btn btn-ghost btn-sm" data-sd-export="1" ${a.length || favList().length || smList().length ? "" : "disabled"}>Export (.json)</button><button type="button" class="btn btn-ghost btn-sm" data-sd-import="1">Import (.json)</button></div>
     <p class="hint">Saved on this device only. Export a file to move them to another browser.</p></details><p class="hint" role="status">${esc(sd.status)}</p>`;
   const det = box.querySelector("details.sd"); det.addEventListener("toggle", () => (sd.open = det.open));
 }
@@ -6685,6 +6894,204 @@ async function fsScanPhoto(file) {
   finally { URL.revokeObjectURL(url); }
 }
 function fsScanStop(why) { fs.scanRun = (fs.scanRun || 0) + 1; fs.opening = false; clearTimeout(fs.scanTimer); if (fs.diag && why) { fs.diag.stopped = why; } if (fs.stream) fs.stream.getTracks().forEach((t) => t.stop()); fs.stream = null; const v = $("#fs-video"); if (v) v.srcObject = null; const b = $("#fs-scan-box"); if (b) b.hidden = true; }
+// ---------- v7.6.40: Foods you like (favorites for example days) ----------
+// Numbers come only from a food database (USDA / Open Food Facts), the Fast Food Hacks list from theosismedical.com (bundled, tagged verified or approximate) or what the person types. Nothing is estimated and no AI is called.
+const FAV_KEY = "theosis-favorites", FAV_MAX = 8;
+const fav = { seq: 0, ctl: null, timer: 0, res: null, sel: null, manual: null, status: "", built: false, open: false };
+function favClean(x) {
+  if (!x || typeof x.name !== "string" || !x.name.trim()) return null;
+  const n = (v) => (v === null || v === undefined || v === "" || !isFinite(+v) || +v < 0 ? null : Math.round(+v * 10) / 10);
+  const source = ["hack", "db", "user"].includes(x.source) ? x.source : "user", kcal = n(x.kcal), protein = n(x.protein);
+  return { id: typeof x.id === "string" && x.id ? x.id.slice(0, 60) : "f" + Date.now().toString(36) + Math.random().toString(36).slice(2, 6), source, name: x.name.trim().slice(0, 100), portion: String(x.portion || "serving").slice(0, 60),
+    kcal, protein, carbs: n(x.carbs), fat: n(x.fat), fiber: n(x.fiber), slot: ["Breakfast", "Lunch", "Dinner", "Snack", "Any"].includes(x.slot) ? x.slot : "Any", mode: x.mode === "fits" ? "fits" : "must",
+    step: +x.step === 0.5 ? 0.5 : 1, max: Math.min(4, Math.max(1, Math.round(+x.max) || 2)), verified: !!x.verified, verifiedScope: x.verifiedScope === "all" || x.verifiedScope === "kcal+protein" ? x.verifiedScope : null };
+}
+function favList() { try { const a = JSON.parse(localStorage.getItem(FAV_KEY) || "[]"); return Array.isArray(a) ? a.map(favClean).filter(Boolean).slice(0, FAV_MAX) : []; } catch (e) { return []; } }
+function favPut(a) { try { localStorage.setItem(FAV_KEY, JSON.stringify(a.slice(0, FAV_MAX))); } catch (e) { fav.status = "Couldn't save: this browser's storage is full or turned off."; } favChanged(); }
+function favChanged() { if (S.food) S.food.mealDay = "favorites"; favRenderChips(); mealsCache = { key: "", built: null }; renderMeals(); save(); }
+// v7.6.43b: colour-only badge. The ratio (Naiman: protein / (fat + carbs - fiber)) is worked out in the background; no number or "P:E" term is shown.
+// Accessible: role="img" with an aria-label and title in plain words, so colour is never the only cue for screen readers or on hover.
+function peBadge(r, why) { if (!CONFIG.PE_DOTS) return ""; const SD = window.SampleDays;
+  if (r === null || r === undefined || typeof r !== "object") { const w = why || "Not rated: carbs or fat not listed. Nothing is guessed."; return `<span class="pe pe-na" role="img" aria-label="${esc(w)}" title="${esc(w)}"></span>`; }
+  const t = SD.peTone(r.pe), w = `Protein for the calories: ${SD.PE_WORDS[t].toLowerCase()}${r.fiber ? "" : " (fiber not listed, so this may be a little better than shown)"}`; return `<span class="pe pe-${t}" data-tone="${t}" role="img" aria-label="${esc(w)}" title="${esc(w)}"></span>`; }
+const peOf = (x) => window.SampleDays.peInfo(x.protein, x.carbs, x.fat, x.fiber);
+const peRank = (r) => (r ? (r.pe >= 2 ? 3 : r.pe >= 1 ? 2 : r.pe >= 0.5 ? 1 : 0) : -1);
+function peLegend() { if (!CONFIG.PE_DOTS) return ""; const SD = window.SampleDays, T = window.TheosisSources; return `<p class="hint pe-legend" data-pe-legend="1"><span class="pe-key">${SD.PE_CUTS.map(([t]) => `<span class="pe-k"><span class="pe pe-${t}" aria-hidden="true"></span>${esc(SD.PE_WORDS[t])}</span>`).join("")}<span class="pe-k"><span class="pe pe-na" aria-hidden="true"></span>Not rated</span></span>
+  Colours show how much protein a food gives for its calories, based on Dr. Ted Naiman's P:E idea${T ? T.fn("naiman-pe") : ""}. Foods with more protein per calorie tend to keep people fuller${T ? T.fn("simpson2005") : ""}. The colour cut-offs are Theosis's own guide, not research thresholds, and hitting your calorie and protein targets matters more than the colour.</p>`; }
+const FAV_TAGCLS = (f) => f.source === "hack" ? (f.verified ? "ok" : "ap") : f.source === "user" ? "us" : "db";
+const favTagText = (f) => window.SampleDays.favTag(f);
+function favBuild() {
+  const box = $("#fav-card"); if (!box || fav.built) return; fav.built = true;
+  box.innerHTML = `<details class="fav" id="fav-d"><summary>Foods you like <span class="adv-tag" id="fav-count"></span></summary>
+    <div class="fav-body">
+      <p class="hint">Add foods you actually like, and the example day is rebuilt around them to still reach your calorie and protein targets. Search any food (USDA FoodData Central and Open Food Facts). Typing a restaurant name, like Chick-fil-A, Chipotle or Taco Bell, also shows fast food hacks from theosismedical.com as an extra group. Up to ${FAV_MAX} foods.</p>
+      <div class="fav-search"><label class="field fs-q"><span class="sr-only">Search foods you like</span><span class="control"><input type="search" id="fav-q" data-local="1" maxlength="80" autocomplete="off" placeholder="Search any food or a restaurant, e.g. salmon, Greek yogurt, Chipotle"></span></label><button type="button" class="btn btn-steel" id="fav-go">Search</button></div>
+      <p class="hint" id="fav-status" role="status"></p>
+      <div id="fav-results"></div><div id="fav-detail"></div><div id="fav-manual"></div>
+      <div id="fav-chips"></div>
+      ${peLegend()}<p class="hint">Meal ideas, not a nutrition prescription. Restaurant numbers vary: check the restaurant's page. Foods you type in show as "Your numbers". Nothing is guessed, and your list stays on this device.</p>
+    </div></details>`;
+  favRenderChips();
+}
+function favRenderChips() {
+  const a = favList(), box = $("#fav-chips"); if (!box) return;
+  const c = $("#fav-count"); if (c) c.textContent = a.length ? `${a.length} added` : "";
+  const sk = a.filter((f) => !window.SampleDays.favUsable(f)).map((f) => f.name);
+  box.innerHTML = (a.length ? `<h3 class="fav-h">Your favorites <span class="muted small">(max ${FAV_MAX})</span></h3><ul class="fav-list">${a.map((f, i) => `<li class="fav-chip"><span class="fav-nm">${esc(f.name)} <span class="ftag ${FAV_TAGCLS(f)}">${esc(favTagText(f))}</span><small>${esc(f.portion)} · ${f.kcal == null ? "?" : fK(f.kcal)} kcal · ${f.protein == null ? "?" : +f.protein.toFixed(1)} g protein ${peBadge(peOf(f))}</small></span>
+      <span class="fav-ctl"><select data-fav-slot="${i}" aria-label="Meal for ${esc(f.name)}">${["Any", "Breakfast", "Lunch", "Dinner", "Snack"].map((s) => `<option ${s === f.slot ? "selected" : ""}>${s}</option>`).join("")}</select>
+      <select data-fav-mode="${i}" aria-label="How strictly to keep ${esc(f.name)}"><option value="must" ${f.mode === "must" ? "selected" : ""}>Must include</option><option value="fits" ${f.mode === "fits" ? "selected" : ""}>If it fits</option></select>
+      <button type="button" class="link-btn danger" data-fav-del="${i}" aria-label="Remove ${esc(f.name)}">Remove</button></span></li>`).join("")}</ul>
+      <p class="hint">"Must include" keeps at least one portion. "If it fits" lets the day drop it when it would break your targets.</p>` : "")
+    + (sk.length ? `<p class="hint fav-skip" role="status">Skipped (calories and protein are both needed, and nothing is estimated): ${esc(sk.join(", "))}.</p>` : "");
+}
+function favSetStatus(t) { fav.status = t; const s = $("#fav-status"); if (s) s.textContent = t; }
+const favSearchTerm = () => ($("#fav-q") ? $("#fav-q").value.trim().replace(/\s+/g, " ").slice(0, 80) : "");
+function favOnInput() { clearTimeout(fav.timer); fav.timer = setTimeout(() => favSearch(false), 400); }
+async function favSearch() {
+  const q = favSearchTerm(); if (fav.ctl) fav.ctl.abort();
+  fav.sel = null; favRenderDetail();
+  if (q.length < 2) { fav.res = null; favRenderResults(); favSetStatus(""); return; }
+  const hacks = window.FastFoodHacks ? window.FastFoodHacks.match(q, 8) : { items: [] };
+  fav.res = { hacks: hacks.items, hackChain: hacks.chain, db: [], dbDone: false, errs: [] }; favRenderResults();
+  if (!proGate("foodlog", "#fav-status")) return;
+  if (navigator.onLine === false) { fav.res.dbDone = true; fav.res.errs.push("You're offline: the food databases need a connection."); favRenderResults(); favSetStatus(hacks.items.length ? "Offline. Showing fast-food hacks only." : ""); return; }
+  const seq = ++fav.seq, ctl = (fav.ctl = new AbortController()), lists = { off: [], usda: [] }, errs = [], notes = [];
+  const mix = () => { const a = lists.usda, b = lists.off, out = []; for (let i = 0; i < Math.max(a.length, b.length); i++) { if (a[i]) out.push(a[i]); if (b[i]) out.push(b[i]); } return out; };
+  const done = (src) => (r) => { lists[src] = r.items; if (r.note) notes.push(r.note); if (seq === fav.seq) { fav.res.db = mix(); favRenderResults(); } };
+  const fail = (src) => (e) => { if (e.name !== "AbortError") errs.push(e.message || `${src} search failed.`); };
+  favSetStatus("Searching the food databases…");
+  const timeout = setTimeout(() => ctl.abort(), 12000);
+  await Promise.all([fsOff(q, ctl.signal).then(done("off"), fail("Open Food Facts")), fsUsda(q, "all", ctl.signal).then(done("usda"), fail("USDA"))]);
+  clearTimeout(timeout); if (seq !== fav.seq) return;
+  if (ctl.signal.aborted && !fav.res.db.length) errs.push("The food databases took too long to answer. Try again.");
+  fav.res.dbDone = true; fav.res.errs = errs; favRenderResults();
+  const n = fav.res.db.length + fav.res.hacks.length;
+  favSetStatus([n ? `${fav.res.db.length} food${fav.res.db.length === 1 ? "" : "s"}${fav.res.hacks.length ? ` and ${fav.res.hacks.length} fast-food hack${fav.res.hacks.length === 1 ? "" : "s"}` : ""} found.` : `Nothing found for "${q}". Try a simpler name, or add your own numbers.`, ...errs, ...notes].join(" "));
+}
+function favRenderResults() {
+  const box = $("#fav-results"); if (!box) return; const r = fav.res; if (!r) { box.innerHTML = ""; return; }
+  const row = (cls, main, sub, right) => `<li class="fav-res ${cls}"><span class="fav-nm">${main}<small>${sub}</small></span><span class="fav-rt">${right}</span></li>`;
+  const hkOrd = r.hacks.map((h, i) => [h, i]).sort((x, y) => peRank(peOf(y[0])) - peRank(peOf(x[0])) || x[1] - y[1]);
+  const hk = hkOrd.map(([h, i]) => row("", `${esc(h.chain)} · ${esc(h.name)} <span class="ftag ${h.verified ? "ok" : "ap"}">${h.verified ? (h.verifiedScope === "all" ? "verified vs restaurant page" : "verified (calories, protein)") : "approximate"}</span>`, `${esc(h.how)} · Fast food hack`,
+    `<b>${fK(h.kcal)} kcal</b><small>${h.protein} g protein</small><small>${peBadge(peOf(h))}</small><button type="button" class="btn btn-ghost btn-xs" data-fav-hack="${i}">Add</button>`)).join("");
+  const dbOrd = r.db.slice(0, 14).map((f, i) => [f, i, f.per100.kcal != null && f.per100.protein != null ? peRank(peOf(f.per100)) : -2]).sort((x, y) => y[2] - x[2] || x[1] - y[1]);
+  const db = dbOrd.map(([f, i]) => { const s = f.servings[0], n = FC.scale(f.per100, s.g), usable = f.per100.kcal != null && f.per100.protein != null;
+    return usable ? row("", `${esc(f.name)}${f.brand ? ` <small class="inl">${esc(f.brand)}</small>` : ""}`, `${f.src === "off" ? "Open Food Facts" : "USDA FoodData Central"} · ${esc(s.g === 100 && s.label === "100 g" ? "per 100 g" : s.label)}`, `<b>${fK(FC.labelKcal(n.kcal))} kcal</b><small>${+n.protein.toFixed(1)} g protein</small><small>${peBadge(peOf(n))}</small><button type="button" class="btn btn-ghost btn-xs" data-fav-db="${i}">Add</button>`)
+      : row("na", `${esc(f.name)}${f.brand ? ` <small class="inl">${esc(f.brand)}</small>` : ""}`, `${f.src === "off" ? "Open Food Facts" : "USDA"} · ${f.per100.protein == null ? "no protein listed" : "no calories listed"}`, `<small>can't use in the math</small><button type="button" class="btn btn-ghost btn-xs" data-fav-own="${esc(f.name)}">Enter my numbers</button>`); }).join("");
+  box.innerHTML = (hk ? `<p class="fav-grp">Fast-food hacks${r.hackChain ? ` · ${esc(r.hackChain)}` : ""}</p><ul class="fav-resl">${hk}</ul><p class="hint">Hacks are healthier orders from the Fast Food Hacks on <a href="${window.FastFoodHacks.PAGE}" target="_blank" rel="noopener">theosismedical.com</a>. Only items tagged "verified" were compared with the restaurant's own page; the rest are approximate, so check the restaurant's page.</p>` : "")
+    + `<p class="fav-grp">Foods${r.dbDone ? "" : " · searching…"}</p><ul class="fav-resl">${db || (r.dbDone ? `<li class="fav-res na"><span class="fav-nm">No database results<small>${esc(r.errs[0] || "Try a simpler name.")}</small></span></li>` : "")}</ul>`
+    + `<ul class="fav-resl"><li class="fav-res"><span class="fav-nm">Can't find it?<small>Add your own calories and protein, or skip it. Nothing is guessed.</small></span><span class="fav-rt"><button type="button" class="btn btn-ghost btn-xs" data-fav-own="${esc(favSearchTerm())}">Add my own</button></span></li></ul>`;
+}
+function favPick(kind, i) {
+  const r = fav.res; if (!r) return;
+  if (kind === "hack") { const h = r.hacks[+i]; if (!h) return; fav.sel = { kind, name: `${h.chain} ${h.name}`, source: "hack", servings: [{ label: "1 order", kcal: h.kcal, protein: h.protein, carbs: h.carbs, fat: h.fat }], si: 0, verified: h.verified, verifiedScope: h.verifiedScope, step: 1, max: 2, note: h.how }; }
+  else { const f = r.db[+i]; if (!f) return; const generic = f.src === "usda" && f.dataType && f.dataType !== "Branded";
+    const sv = f.servings.filter((s) => s.label !== "1 g").map((s) => { const n = FC.scale(f.per100, s.g); return { label: s.label, kcal: n.kcal, protein: n.protein, carbs: n.carbs, fat: n.fat, fiber: n.fiber }; });
+    fav.sel = { kind, name: f.brand ? `${f.name} (${f.brand})` : f.name, source: "db", servings: sv, si: 0, step: generic ? 0.5 : 1, max: generic ? 3 : 2, note: f.src === "off" ? "Open Food Facts" : "USDA FoodData Central" }; }
+  fav.manual = null; favRenderManual(); favRenderDetail(); const d = $("#fav-detail .fs-card"); d && d.focus();
+}
+function favRenderDetail() {
+  const box = $("#fav-detail"); if (!box) return; const s = fav.sel; if (!s) { box.innerHTML = ""; return; } const v = s.servings[s.si];
+  box.innerHTML = `<div class="fs-card" tabindex="-1" aria-label="Add ${esc(s.name)}"><div class="fs-card-h"><div><b>${esc(s.name)}</b><small>${esc(s.note)}</small></div><span class="ftag ${s.source === "hack" ? (s.verified ? "ok" : "ap") : "db"}">${s.source === "hack" ? (s.verified ? "verified" : "approximate") : "Database"}</span></div>
+    <div class="row fs-amt">${s.servings.length > 1 ? `<label class="field"><span class="label">One portion is</span><span class="control"><select id="fav-serv">${s.servings.map((x, i) => `<option value="${i}" ${i === s.si ? "selected" : ""}>${esc(x.label)}</option>`).join("")}</select></span></label>` : `<p class="hint" style="margin:0">One portion is ${esc(v.label)}.</p>`}
+      <label class="field"><span class="label">Meal</span><span class="control"><select id="fav-slot">${["Any", "Breakfast", "Lunch", "Dinner", "Snack"].map((x) => `<option>${x}</option>`).join("")}</select></span></label>
+      <label class="field"><span class="label">Keep it</span><span class="control"><select id="fav-mode"><option value="must">Must include</option><option value="fits">If it fits</option></select></span></label></div>
+    <p class="hint" id="fav-nums">${fK(v.kcal)} kcal · ${+v.protein.toFixed(1)} g protein${v.carbs == null || v.fat == null ? " · carbs or fat not listed (counted as unknown, not guessed)" : ""} per portion. ${peBadge(peOf(v))}</p>
+    <div class="actions"><button type="button" class="btn btn-steel" data-fav-add="1">Add to my favorites</button><button type="button" class="btn btn-ghost" data-fav-cancel="1">Cancel</button></div></div>`;
+}
+function favAdd() {
+  const s = fav.sel; if (!s) return; const a = favList(); if (a.length >= FAV_MAX) { favSetStatus(`You can keep up to ${FAV_MAX} favorites. Remove one first.`); return; }
+  const v = s.servings[s.si], f = favClean({ source: s.source, name: s.name, portion: s.source === "hack" ? "order" : v.label.replace(/^1 /, ""), kcal: v.kcal, protein: v.protein, carbs: v.carbs, fat: v.fat, fiber: v.fiber, slot: $("#fav-slot").value, mode: $("#fav-mode").value, step: s.step, max: s.max, verified: s.verified, verifiedScope: s.verifiedScope });
+  if (!f || !window.SampleDays.favUsable(f)) { favSetStatus("That food has no usable calories and protein, so it was skipped. Nothing is estimated."); return; }
+  a.push(f); fav.sel = null; favRenderDetail(); favSetStatus(`Added ${f.name}. Your example day now includes it.`); favPut(a);
+}
+function favRenderManual() {
+  const box = $("#fav-manual"); if (!box) return; const m = fav.manual; if (!m) { box.innerHTML = ""; return; }
+  box.innerHTML = `<div class="fs-card fav-man" aria-label="Add your own numbers"><div class="fs-card-h"><div><b>Your own numbers</b><small>Not in the database? Enter what you know from the label or your recipe. We won't guess.</small></div><span class="ftag us">Your numbers</span></div>
+    <div class="fav-form"><label class="field"><span class="label">Name</span><span class="control"><input id="fm-name" data-local="1" maxlength="100" value="${esc(m.name)}"></span></label>
+      <label class="field"><span class="label">Portion (for example 1 square, about 300 g)</span><span class="control"><input id="fm-portion" data-local="1" maxlength="60" value="${esc(m.portion || "")}"></span></label>
+      <label class="field"><span class="label">Calories (required)</span><span class="control"><input id="fm-kcal" data-local="1" inputmode="decimal"></span></label>
+      <label class="field"><span class="label">Protein, g (required)</span><span class="control"><input id="fm-protein" data-local="1" inputmode="decimal"></span></label>
+      <label class="field"><span class="label">Carbs, g (optional)</span><span class="control"><input id="fm-carbs" data-local="1" inputmode="decimal"></span></label>
+      <label class="field"><span class="label">Fat, g (optional)</span><span class="control"><input id="fm-fat" data-local="1" inputmode="decimal"></span></label>
+      <label class="field"><span class="label">Meal</span><span class="control"><select id="fm-slot">${["Any", "Breakfast", "Lunch", "Dinner", "Snack"].map((x) => `<option>${x}</option>`).join("")}</select></span></label></div>
+    <p class="hint" id="fm-msg" role="status">Blank calories or protein: the food is skipped. Nothing is estimated.</p>
+    <div class="actions"><button type="button" class="btn btn-steel" data-fav-useown="1">Use my numbers</button><button type="button" class="btn btn-ghost" data-fav-skip="1">Skip this food</button></div></div>`;
+}
+function favUseOwn() {
+  const g = (id) => ($(id) ? $(id).value.trim() : ""), num = (v) => (v === "" ? null : parseNum(v)), name = g("#fm-name");
+  const kcal = num(g("#fm-kcal")), protein = num(g("#fm-protein")), carbs = num(g("#fm-carbs")), fat = num(g("#fm-fat")), msg = $("#fm-msg");
+  if (!name) { msg.textContent = "Give the food a name."; return; }
+  if (!(kcal > 0) || protein === null || !(protein >= 0) || (carbs !== null && !(carbs >= 0)) || (fat !== null && !(fat >= 0))) { msg.textContent = "Skipped: calories and protein are both needed (numbers, zero or more). Nothing is estimated. Fill both in, or use Skip."; return; }
+  const a = favList(); if (a.length >= FAV_MAX) { msg.textContent = `You can keep up to ${FAV_MAX} favorites. Remove one first.`; return; }
+  const f = favClean({ source: "user", name, portion: g("#fm-portion") || "serving", kcal, protein, carbs, fat, slot: $("#fm-slot").value, mode: "must", step: 1, max: 2 });
+  a.push(f); fav.manual = null; favRenderManual(); favSetStatus(`Added ${f.name} (your numbers).`); favPut(a);
+}
+function favInit() {
+  document.addEventListener("click", (ev) => { const t = ev.target.closest && ev.target.closest("[data-fav-hack],[data-fav-db],[data-fav-own],[data-fav-add],[data-fav-cancel],[data-fav-useown],[data-fav-skip],[data-fav-del],#fav-go"); if (!t) return;
+    if (t.id === "fav-go") { clearTimeout(fav.timer); favSearch(true); return; }
+    if (t.dataset.favHack != null) favPick("hack", t.dataset.favHack); else if (t.dataset.favDb != null) favPick("db", t.dataset.favDb);
+    else if (t.dataset.favOwn != null) { fav.sel = null; favRenderDetail(); fav.manual = { name: t.dataset.favOwn, portion: "" }; favRenderManual(); const i = $("#fm-kcal"); i && i.focus(); }
+    else if (t.dataset.favAdd) favAdd();
+    else if (t.dataset.favCancel) { fav.sel = null; favRenderDetail(); const q = $("#fav-q"); q && q.focus(); }
+    else if (t.dataset.favUseown) favUseOwn();
+    else if (t.dataset.favSkip) { fav.manual = null; favRenderManual(); favSetStatus("Skipped. Nothing was added."); }
+    else if (t.dataset.favDel != null) { const a = favList(), gone = a.splice(+t.dataset.favDel, 1)[0]; favSetStatus(gone ? `Removed ${gone.name}.` : ""); favPut(a); } });
+  document.addEventListener("input", (ev) => { if (ev.target.id === "fav-q") favOnInput(); });
+  document.addEventListener("keydown", (ev) => { if (ev.target.id === "fav-q" && ev.key === "Enter") { ev.preventDefault(); clearTimeout(fav.timer); favSearch(true); } });
+  document.addEventListener("change", (ev) => { const el = ev.target;
+    if (el.id === "fav-serv" && fav.sel) { fav.sel.si = +el.value; const v = fav.sel.servings[fav.sel.si]; $("#fav-nums").textContent = `${fK(v.kcal)} kcal · ${+v.protein.toFixed(1)} g protein${v.carbs == null || v.fat == null ? " · carbs or fat not listed (counted as unknown, not guessed)" : ""} per portion.`; $("#fav-nums").insertAdjacentHTML("beforeend", " " + peBadge(peOf(v))); }
+    else if (el.dataset && (el.dataset.favSlot != null || el.dataset.favMode != null)) { const a = favList(), i = +(el.dataset.favSlot != null ? el.dataset.favSlot : el.dataset.favMode); if (!a[i]) return; if (el.dataset.favSlot != null) a[i].slot = el.value; else a[i].mode = el.value; favPut(a); } });
+}
+favInit();
+// ---------- v7.6.41: Save this meal (on this device only) ----------
+// A saved meal keeps the foods, portions and numbers exactly as shown in the example meal. Nothing is estimated and no AI is called.
+// It can be added to the food log, used as a favorite in example days (calories and protein are needed), and is included in the saved-days export/import.
+const SM_KEY = "theosis-saved-meals", SM_MAX = 30, sm = { status: "", del: null, open: false };
+const smNum = (v) => (v === null || v === undefined || v === "" || !isFinite(+v) || +v < 0 ? null : Math.round(+v * 10) / 10);
+function smClean(m) {
+  if (!m || typeof m.name !== "string" || !m.name.trim() || !Array.isArray(m.foods)) return null;
+  const foods = m.foods.map((f) => { if (!f || typeof f.name !== "string" || !f.name.trim()) return null; const kcal = smNum(f.kcal), protein = smNum(f.protein); if (kcal === null || protein === null) return null;
+    return { name: f.name.trim().slice(0, 100), portion: String(f.portion || "").slice(0, 60), kcal, protein, carbs: smNum(f.carbs), fat: smNum(f.fat), fiber: smNum(f.fiber), tag: String(f.tag || "").slice(0, 80) }; }).filter(Boolean).slice(0, 20);
+  if (!foods.length || foods.length !== m.foods.length) return null;
+  return { id: typeof m.id === "string" && m.id ? m.id.slice(0, 40) : "m" + Date.now().toString(36) + Math.random().toString(36).slice(2, 6), name: m.name.trim().slice(0, 80), saved: typeof m.saved === "string" ? m.saved.slice(0, 30) : new Date().toISOString(), slot: ["Breakfast", "Lunch", "Dinner", "Snack", "Any"].includes(m.slot) ? m.slot : "Any", foods };
+}
+function smList() { try { const a = JSON.parse(localStorage.getItem(SM_KEY) || "[]"); return Array.isArray(a) ? a.map(smClean).filter(Boolean).slice(0, SM_MAX) : []; } catch (e) { return []; } }
+function smPut(a) { try { localStorage.setItem(SM_KEY, JSON.stringify(a.slice(0, SM_MAX))); return true; } catch (e) { sm.status = "Couldn't save: this browser's storage is full or turned off."; return false; } }
+function smTotals(m) { const t = m.foods.reduce((s, f) => ({ kcal: s.kcal + f.kcal, protein: s.protein + f.protein, carbs: s.carbs + (f.carbs || 0), fat: s.fat + (f.fat || 0) }), { kcal: 0, protein: 0, carbs: 0, fat: 0 }); t.unknownCF = m.foods.some((f) => f.carbs === null || f.fat === null); return t; }
+const smPe = (m) => window.SampleDays.peOfFoods(m.foods.map((f) => ({ ...f, unknownCF: f.carbs === null || f.fat === null })));
+function smSaveFrom(mealIdx) {
+  const b = mealsCache && mealsCache.built, day = b && b.days && b.days.find((d) => d.id === S.food.mealDay) || (b && b.days && b.days[0]), meal = day && day.meals[+mealIdx]; if (!meal || !meal.foods.length) return;
+  const a = smList(); if (a.length >= SM_MAX) { sm.status = `You can keep up to ${SM_MAX} saved meals. Delete one first.`; smRender(); return; }
+  const m = smClean({ name: `${meal.name}: ${meal.title}`.slice(0, 80), slot: meal.name, foods: meal.foods.map((f) => ({ name: f.name, portion: f.portion, kcal: f.kcal, protein: f.protein, carbs: f.unknownCF ? null : f.carbs, fat: f.unknownCF ? null : f.fat, fiber: f.fiber, tag: f.tag })) });
+  if (!m) { sm.status = "That meal has no usable numbers, so it wasn't saved."; smRender(); return; }
+  a.unshift(m); if (smPut(a)) { sm.status = `Saved "${m.name}" on this device.`; sm.open = true; } smRender();
+}
+function smToFavorite(id) {
+  const m = smList().find((x) => x.id === id); if (!m) return; const t = smTotals(m), a = favList();
+  if (a.length >= FAV_MAX) { sm.status = `Your favorites are full (${FAV_MAX}). Remove one first.`; smRender(); return; }
+  if (a.some((x) => x.id === "sm-" + m.id)) { sm.status = "That meal is already in your favorites."; smRender(); return; }
+  const f = favClean({ id: "sm-" + m.id, source: "user", name: m.name, portion: "saved meal (" + m.foods.length + " food" + (m.foods.length > 1 ? "s" : "") + ")", kcal: t.kcal, protein: t.protein, carbs: t.unknownCF ? null : t.carbs, fat: t.unknownCF ? null : t.fat, slot: m.slot, mode: "must", step: 1, max: 1 });
+  if (!f || !window.SampleDays.favUsable(f)) { sm.status = "That meal has no usable calories and protein, so it can't be used."; smRender(); return; }
+  a.push(f); sm.status = `Added "${m.name}" to your favorites. Your example day now includes it.`; favPut(a);
+}
+function smToLog(id) {
+  const m = smList().find((x) => x.id === id); if (!m) return; const t = smTotals(m), per100 = { kcal: t.kcal, protein: t.protein }; if (!t.unknownCF) { per100.carbs = t.carbs; per100.fat = t.fat; }
+  fsLogPush({ name: m.name, brand: "", src: "user", per100, g: 100, unit: "g", label: "1 saved meal", servings: 1 }); fsApplyLog(); sm.status = `Added "${m.name}" to your food log${t.unknownCF ? " (carbs and fat not listed for some foods, so they are left out)" : ""}.`; smRender(); renderFsLog();
+}
+function smDelete(id) { if (sm.del !== id) { sm.del = id; smRender(); return; } const a = smList(), m = a.find((x) => x.id === id); smPut(a.filter((x) => x.id !== id)); sm.del = null; sm.status = m ? `Deleted "${m.name}".` : ""; smRender(); }
+function smRender() {
+  const box = $("#saved-meals"); if (!box) return; const a = smList(), SD = window.SampleDays;
+  const li = a.map((m) => { const t = smTotals(m), pe = smPe(m);
+    return `<li class="sm-item"><span class="sm-top"><b>${esc(m.name)}</b><small>${fK(t.kcal)} kcal · ${fK(t.protein)} g protein ${peBadge(pe, "Carbs or fat are not listed for a food in this meal, so P:E isn't rated. Nothing is guessed.")}${m.saved ? ` · ${esc(new Date(m.saved).toLocaleDateString("en-US", { month: "short", day: "numeric" }))}` : ""}</small></span>
+      <ul class="sm-foods">${m.foods.map((f) => `<li>${esc(f.name)}${f.portion ? ` <small>${esc(f.portion)}</small>` : ""} <small>· ${fK(f.kcal)} kcal · ${+f.protein.toFixed(1)} g P ${peBadge(SD.peInfo(f.protein, f.carbs, f.fat, f.fiber))}</small></li>`).join("")}</ul>
+      <span class="sm-btns"><button type="button" class="link-btn" data-sm-log="${esc(m.id)}">Add to food log</button><button type="button" class="link-btn" data-sm-fav="${esc(m.id)}">Use in example days</button><button type="button" class="link-btn ${sm.del === m.id ? "danger" : ""}" data-sm-del="${esc(m.id)}">${sm.del === m.id ? "Confirm delete" : "Delete"}</button></span></li>`; }).join("");
+  box.innerHTML = `<details class="sd sm" ${a.length && (sm.open || sm.status) ? "open" : ""}><summary>My saved meals (${a.length})</summary>${a.length ? `<ul class="sm-list">${li}</ul>` : `<p class="hint" style="margin:.2rem 0 0">No saved meals yet. Tap "Save this meal" on any meal above.</p>`}
+    <p class="hint">Saved on this device only, with the numbers exactly as shown (nothing is guessed). They are included when you export saved days.</p></details><p class="hint" aria-live="polite" id="sm-status">${esc(sm.status)}</p>`;
+  const det = box.querySelector("details.sm"); det.addEventListener("toggle", () => (sm.open = det.open));
+}
+document.addEventListener("click", (ev) => { const t = ev.target.closest && ev.target.closest("[data-meal-save],[data-sm-log],[data-sm-fav],[data-sm-del]"); if (!t) return;
+  if (t.dataset.mealSave != null) smSaveFrom(t.dataset.mealSave); else if (t.dataset.smLog) smToLog(t.dataset.smLog); else if (t.dataset.smFav) smToFavorite(t.dataset.smFav); else if (t.dataset.smDel) smDelete(t.dataset.smDel); });
 // ---------- v7.6: standalone Food Log (shared with the simulator's food step; on this device only) ----------
 const FL = window.FoodLog;
 let FLS = FL.load();
@@ -6994,6 +7401,75 @@ function planSummaryHtml() {
 }
 let heroMid = false;
 function heroMidFrame() { try { const f = regionalFrames(); return f.length > 2 ? f[1] : null; } catch (x) { return null; } }
+// v7.6.42: declutter. Figures only when there is a photo (Before + AI illustration, enlargeable); the Live Summary already shows the figures.
+function photoPairHtml() {
+  if (!photo) return "";
+  const he = heroMid && heroMidFrame() ? heroMidFrame().row : endRow();
+  const ai = aiState.result;
+  return `<div class="ba ba-photo${ai ? "" : " ba-one"}"><figure><div class="cap-k">Before</div><img class="photo" src="${photo}" alt="Your photo (before)"><figcaption><b>${fW(startRow0().weightKg)}</b>${fP(startRow0().bf)} body fat</figcaption></figure>${ai ? `<figure class="hero-ai"><div class="cap-k">AI illustration · week ${ai.pj.weeks}</div><img class="photo" src="${ai.image}" alt="AI illustration at week ${ai.pj.weeks}, not a prediction"><figcaption><b>${fW(he.weightKg)}</b>${fP(he.bf)} body fat</figcaption></figure>` : ""}</div><p class="hint fig-hint" style="text-align:center;margin-top:.5rem">Your photo stays on this device. Tap a photo to enlarge it.</p>`;
+}
+function startRow0() { return R.main.rows[0]; }
+// one-line plain-language version of each note; the full existing text stays word-for-word in "Why? Learn more"
+const TAKE_RULES = [
+  [/^Pregnancy needs extra energy/, "Pregnancy: the plan holds you at maintenance. Plan changes with your clinician."],
+  [/^While you're breastfeeding/, "Breastfeeding raises your calorie needs, so there's no fat-loss target."],
+  [/^You said you're recovering from cancer/, "Check any big change in weight, protein or exercise with your care team."],
+  [/^Cancer-treatment mode/, "Cancer-treatment mode: the goal is to keep weight and muscle."],
+  [/^You told us you take/, "Medicine doses may need to change as weight comes down. Talk with your prescriber."],
+  [/^Check medications first/, "Medications first: eating less can change what you need. Talk to your clinician."],
+  [/^With a history of disordered eating/, "Dieting is best done with your care team."],
+  [/isn't possible without losing muscle/, "That deadline would cost muscle, so the fastest safer timeline is shown."],
+  [/^Reaching this goal weight in/, "That fast a gain would be mostly fat, not muscle."],
+  [/isn't reachable within 5 years/, "This target isn't reachable at these settings. Try a closer one."],
+  [/^PSMF is a short-term/, "PSMF is short-term and clinician-guided only."],
+  [/^PSMF is generally reserved/, "PSMF isn't usually for your BMI. A standard plan is safer."],
+  [/^With type 1 diabetes or a history/, "PSMF isn't appropriate without your specialist team."],
+  [/^PSMF phases usually last/, "PSMF usually lasts 6–12 weeks. This runs longer only to compare."],
+  [/^Under 800 kcal/, "Under 800 kcal needs medical supervision."],
+  [/is below the usual unsupervised minimum/, "That's a very low calorie level. Get clinician oversight."],
+  [/^You can go at most 400 kcal/, "Your intake is lower than your fat can fuel, so the plan raises it."],
+  [/^On \d+ of \d+ days your deficit is bigger/, "On some days your deficit is bigger than your fat can supply, so some muscle may be lost."],
+  [/^The projection stops at week/, "The projection stops early at a safety limit."],
+  [/^By the end, you burn about/, "Your burn drops as you lose weight, so progress slows over time."],
+  [/minimum caps the deficit/, "Your calorie minimum slows progress a little."],
+  [/^Your estimated burn is at or below/, "No room for a diet-only deficit. Add steps or training."],
+  [/^Fat loss stops at essential fat/, "There's no safe fat left to lose past this point."],
+  [/is stage-lean/, "That body fat is very lean and hard to hold. Plan a maintenance phase."],
+  [/^Week-one pace is/, "Very fast pace: protect muscle with protein and lifting."],
+  [/^You've turned off both lifting and cardio/, "Lifting and cardio are off. Steps and food drive this plan."],
+  [/^Cardio is turned off/, "Cardio is off. Food and steps carry most of a fat-loss plan."],
+  [/^Without lifting, more of the weight/, "Without lifting, more of the loss can be muscle."],
+  [/^Lifting is turned off, so the projection/, "Lifting is off, so a surplus is stored almost entirely as fat."],
+  [/^A large deficit on top of a lot of training/, "Big deficit plus heavy training can hurt recovery."],
+  [/^Without resistance training, a surplus/, "Add lifting so some of the gain is muscle."],
+  [/^Muscle gain needs resistance training/, "Add lifting. Without it this plan holds at maintenance."],
+  [/^Even a moderate surplus adds some fat/, "Some of the gain will be fat. That's expected."],
+  [/^Faster gain is on/, "Faster gain adds noticeably more fat than muscle."],
+  [/^You'd reach your body-fat ceiling/, "You'd hit your body-fat ceiling before the target weight."],
+  [/^Recomposition depends on/, "Recomposition needs resistance training."],
+  [/^This projection loses about/, "This plan loses some lean mass. Protein and lifting protect it."],
+  [/^Body fat was estimated from BMI/, "Your body fat is a rough estimate. A tape measure or scan would sharpen it."],
+  [/^Body fat is a tape-measure estimate/, "Your body fat is a tape estimate (about ±3–4 points)."],
+  [/^That's more than a year of dieting/, "That's over a year of dieting. Maintenance breaks help."],
+  [/^Your BMI is/, "Check your own targets with your clinician."],
+  [/body fat is above the range usually linked/, "That body fat is above the range linked with the best metabolic health."],
+  [/^That's a big gain/, "That's a big gain. Many people do it in phases."],
+  [/^This plan would take your BMI/, "This plan raises your BMI. Check targets with your clinician."]
+];
+function takeShort(w) {
+  for (const [re, t] of TAKE_RULES) if (re.test(w.m)) return t;
+  const f = String(w.m).split(/(?<=[.!?])\s/)[0]; return f.length > 110 ? f.slice(0, 107).replace(/\s+\S*$/, "") + "…" : f;
+}
+// the 3 most important: danger first, then warn, then info; engine order is kept inside a level
+function takeawaysHtml(bandTxt) {
+  // v7.6.46: safety notes about medicines always make the top 3 (medication notes are "info" level in the engine but must never hide behind Learn more)
+  const pri = (w) => (w.t === "danger" ? 0 : w.kind === "meds" || w.kind === "meds-ack" ? 0.5 : w.t === "warn" ? 1 : 2);
+  const ws = R.warnings.map((w, i) => ({ w, i })).sort((x, y) => (pri(x.w) - pri(y.w)) || (x.i - y.i)).slice(0, 3).map((x) => x.w);
+  const ico = { danger: ICON.warn, warn: ICON.warn, info: ICON.info };
+  const top = ws.length ? `<ul class="takeaways" aria-label="Most important points">${ws.map((w) => `<li class="take ${w.t}">${ico[w.t]}<span>${esc(takeShort(w))}</span></li>`).join("")}</ul>` : "";
+  const full = R.warnings.length ? `<ul class="alerts">${R.warnings.map(alertHtml).join("")}</ul>` : "";
+  return `${top}<details class="why-more" id="why-more"><summary>Why? Learn more</summary><div class="why-body">${planSummaryHtml()}${bandTxt}${full}</div></details>`;
+}
 function heroHtml() {
   const s = R.main.rows[0], e = endRow(), st = startPerson(), b = bfInfo();
   const mf = heroMidFrame(); if (!mf) heroMid = false; const he = heroMid && mf ? mf.row : e;
@@ -7014,21 +7490,15 @@ function heroHtml() {
   const stopTxt = R.main.stopped ? ` The projection stops at week ${fWk(R.main.stopped.day)}; see the note below.` : "";
   const stat = (k, a, z, d, dd) => `<div class="stat"><div class="k">${k}</div><div class="v">${a}<span class="arrow">→</span>${z}</div><div class="d">${d}${dd ? " · " + dd : ""}</div></div>`;
   return `<p class="eyebrow card-eyebrow">${S.food.psmf ? "PSMF projection" : S.food.actualOn ? "Where your habits lead" : "Your plan"} · ${headingOutcome()}</p>
-  <div class="result-hero mt1"><div><div class="big">${big}</div><p class="big-sub">${sub}</p></div><p class="summary">${sentence}${stopTxt}</p></div>${bandTxt}
-  ${planSummaryHtml()}
-  <div class="ba"><figure data-f3="hero-now"><div class="cap-k">${photo ? "Before" : "Now"}</div>${before}<figcaption><b>${fW(s.weightKg)}</b>${fP(s.bf)} body fat${b.source !== "measured" ? " (est.)" : ""}</figcaption></figure>
-  <figure data-f3="hero-end"${photo && aiState.result ? ' class="hero-ai"' : ""}><div class="cap-k">${photo && aiState.result ? `AI illustration · week ${aiState.result.pj.weeks}` : heroMid && mf ? mf.k + " (midpoint)" : reached ? "At goal" : `Week ${fWk(days)}`}</div>${photo && aiState.result ? `<img class="photo" src="${aiState.result.image}" alt="AI illustration at week ${aiState.result.pj.weeks}, not a prediction">` : FIG.svg(personAt(he), { ghost: st, title: `Projected: ${fP(he.bf)} body fat` })}<figcaption><b>${fW(he.weightKg)}</b>${fP(he.bf)} body fat</figcaption></figure></div>
-  ${mf ? `<div class="hero-mid" role="group" aria-label="Which point of the plan to show"><button type="button" class="chip" data-hero-mid="0" aria-pressed="${!heroMid}">${reached ? "At goal" : "End of plan"}</button><button type="button" class="chip" data-hero-mid="1" aria-pressed="${heroMid}">Midpoint · ${mf.k}</button></div>` : ""}
-  ${CONFIG.FIG3D && webgl() ? `<div class="f3-bar f3-bar-solo">${modeSegHtml()}${zoomBtnHtml("hero")}</div>${legendHtml()}${anatReadHtml(s, e)}` : ""}
-  <p class="hint fig-hint" style="text-align:center;margin-top:.5rem">${photo ? "Your photo stays on this device. " : ""}<span class="h-2d">The figure is a schematic drawn from your fat and lean mass. The dashed outline is where you started.</span><span class="h-3d">The 3D figure is shaped by your fat and lean mass. The blue glow shows where you started. Drag to turn it; pinch, Ctrl + scroll or Close-up to zoom.</span></p>
+  <div class="result-hero mt1"><div><div class="big">${big}</div><p class="big-sub">${sub}</p></div><p class="summary">${sentence}${stopTxt}</p></div>
+  ${photoPairHtml()}
   <div class="stats">${stat("Weight", nW(s.weightKg), nW(e.weightKg), fWd(e.weightKg - s.weightKg), "")}${stat("Body fat", fP(s.bf), fP(e.bf), `${(e.bf - s.bf > 0 ? "+" : "")}${(e.bf - s.bf).toFixed(1)} points`, "")}
   ${stat("Fat", nW(s.fatKg), nW(e.fatKg), fWd(dFat), "")}${stat("Lean", nW(s.leanKg), nW(e.leanKg), fWd(dLean), "")}</div>
-  <ul class="alerts">${R.warnings.map(alertHtml).join("")}</ul>`;
+  ${CONFIG.FIG3D && webgl() ? anatReadHtml(s, e) : ""}
+  ${takeawaysHtml(bandTxt)}`;
 }
 function renderHero() {
   $("#proj-hero").innerHTML = heroHtml();
-  { const e = endRow(), st = startPerson(); if (!photo) mount3d("hero-now", $('#proj-hero [data-f3="hero-now"]'), st, null, `Before: ${fP(st.fatKg / (st.fatKg + st.leanKg) * 100)} body fat. 3D figure, drag or use arrow keys to turn.`);
-    { const mf = heroMidFrame(), he = heroMid && mf ? mf.row : e; if (!(photo && aiState.result)) mount3d("hero-end", $('#proj-hero [data-f3="hero-end"]'), personAt(he), st, `Projected: ${fP(he.bf)} body fat. The blue glow is where you started.`); } }
 }
 function renderProjection() {
   if (!R || R.blocked) { $("#proj-hero").innerHTML = `<p class="blocked">${(R && R.blocked ? R.blocked : ["Complete the earlier steps."]).map(esc).join("<br>")}</p><button type="button" class="btn btn-ghost mt1" data-goto="2">Go to Goal</button>`;
@@ -7682,7 +8152,7 @@ function aiChatFacts() {
     tryAdd(() => { for (const w of (R.warnings || []).slice(0, 5)) add(`Note shown in the app: ${w.m}`); });
     tryAdd(() => { if (!fixedOn()) return; const d = TheosisHabits.direction(habInput(), E), r = TheosisHabits.recommendations(habInput(), E);
       add(`Dial (${d.frame === "cancer" ? "how my choices fit maintaining weight and muscle" : "how my choices fit my goal"}): ${d.label}, rules-based and not a health score`);
-      for (const x of d.items.slice(0, 6)) add(`Dial reason (${x.v > 0 ? "supportive" : x.v < 0 ? "against" : "neutral"}): ${x.text}`);
+      for (const x of d.items.slice(0, 6)) add(`Dial reason (${x.v > 0 ? "helps: On track" : x.v < 0 ? "pulls toward Off track" : "neutral"}): ${x.text}`);
       for (const t of r.tips.slice(0, 5)) add(`Tip under the dial: ${t.text}`); });
   }
   tryAdd(() => { const b = window.SampleDays && mealsCache && mealsCache.built; if (!b || b.message || !b.days || !b.days.length) return; const day = b.days.find((d) => d.id === S.food.mealDay) || b.days[0], T = day.totals;
@@ -7920,7 +8390,7 @@ function vNav() {
   const b = (k, l) => `<button type="button" class="vn${V.view === k ? " on" : ""}" data-view="${k}" ${V.view === k ? 'aria-current="page"' : ""}>${l}</button>`;
   return `<nav class="vnav" aria-label="Simulator sections">${b("home", "Home")}<button type="button" class="vn" data-open-log="1">Food Log</button>${glVisible() ? b("glucose", "Glucose log") : ""}${b("settings", "Settings")}<button type="button" class="vn vn-sim" data-v-sim="1">${S.maxStep > 1 || S.goal.touched ? "Your plan" : "Start the simulator"}</button></nav>`;
 }
-function renderViews() { const box = $("#views"); if (!box) return; box.innerHTML = vNav() + `<div class="v-body">${V.view === "glucose" ? glucoseHtml() : V.view === "settings" ? settingsHtml() : homeHtml()}</div>`;
+function renderViews() { const box = $("#views"); if (!box) return; box.innerHTML = `<div class="v-body">${V.view === "glucose" ? glucoseHtml() : V.view === "settings" ? settingsHtml() : homeHtml()}</div>`;
   if (V.view === "glucose") { const d = $("#gl-dt"); if (d) d.value = V.g.dt; } }
 
 // ---- Home ----
@@ -8061,6 +8531,79 @@ renderEntryViews();
 { const h = location.hash.slice(1); if (/^(home|glucose|settings)$/.test(h)) setTimeout(() => openView(h), 0); }
 window.addEventListener("hashchange", () => { const h = location.hash.slice(1); if (/^(home|glucose|settings)$/.test(h) && !(V.open && V.view === h)) openView(h); });
 window.BodyPlanViews = { open: openView, state: V, glucoseVisible: glVisible };
+// ---------- v7.6.45: main navigation (Version A, approved by Nick) ----------
+// Desktop: top bar in the header (Simulator, Dashboard, Food log, Progress, More ▾).
+// Phone (< 64rem): the same nav docks as a bottom tab bar; More opens a sheet above it.
+// Unbuilt pages are listed greyed with "Coming soon" and can't be activated. Partly built pages jump to their section in Projection.
+const TN_ICON = {
+  sim: '<path d="M3 3v18h18"/><path d="M7 15l4-4 3 3 5-6"/>', home: '<path d="M3 11l9-8 9 8v10H5V11"/>',
+  food: '<path d="M8 3v8M5 3v5a3 3 0 0 0 6 0V3M8 11v10M17 3c-2 2-3 5-3 8h3v10"/>', prog: '<rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="11" r="2"/><path d="M21 17l-5-5-8 7"/>',
+  more: '<circle cx="5" cy="12" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="19" cy="12" r="1.5"/>' };
+const tnSvg = (k) => `<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">${TN_ICON[k]}</svg>`;
+const TN_MORE = [
+  ["Logs", [["glucose", "Glucose log"], ["checkin", "Weekly check-in", "in Projection"], ["soon", "Workout log"]]],
+  ["Your plan", [["timeline", "Projection timeline", "Step 5"], ["pdf", "Plan & PDF", "in Projection"], ["health", "Health context", "in Projection"], ["soon", "Past goals"]]],
+  ["App", [["settings", "Settings"], ["soon", "Resources"], ["soon", "Account"]]]];
+const TN = { open: false };
+function tnActive() {
+  if (typeof V !== "undefined" && V.open) return V.view === "home" ? "home" : "more";
+  const f = $("#flog"); if (f && !f.hidden) return "food";
+  if (!$("#wizard").hidden) return TN.prog ? "prog" : "sim";
+  return "";
+}
+function tnHtml() {
+  const a = tnActive(), it = (k, ic, l) => `<button type="button" class="tn-i${a === k ? " on" : ""}" data-tn="${k}"${a === k ? ' aria-current="page"' : ""}>${tnSvg(ic)}<span>${l}</span></button>`;
+  const more = TN_MORE.map(([h, items]) => `<li class="tn-h">${h}</li>` + items.map(([k, l, note]) => k === "soon"
+    ? `<li><span class="tn-m soon" aria-disabled="true">${l}<span class="tn-badge">Coming soon</span></span></li>`
+    : `<li><button type="button" class="tn-m" data-tn="${k}">${l}${(k === "glucose" && typeof glVisible === "function" && !glVisible()) ? "<small>turn on in Settings</small>" : note ? `<small>${note}</small>` : ""}</button></li>`).join("")).join("");
+  return `${it("sim", "sim", "Simulator")}${it("home", "home", "Dashboard")}${it("food", "food", "Food log")}${it("prog", "prog", "Progress")}
+  <div class="tn-more"><button type="button" class="tn-i${a === "more" ? " on" : ""}" id="tn-more-btn" aria-expanded="${TN.open}" aria-controls="tn-menu">${tnSvg("more")}<span>More</span></button>
+  <ul class="tn-menu" id="tn-menu" aria-label="More pages"${TN.open ? "" : " hidden"}>${more}</ul></div>`;
+}
+function renderTopNav() { const n = $("#topnav"); if (!n) return; const f = document.activeElement && document.activeElement.closest && document.activeElement.closest("#topnav") ? document.activeElement.dataset.tn || document.activeElement.id : null;
+  n.innerHTML = tnHtml(); if (f) { const el = f === "tn-more-btn" ? $("#tn-more-btn") : n.querySelector(`[data-tn="${f}"]`); el && el.focus({ preventScroll: true }); } }
+function tnClose(focusBtn) { if (!TN.open) return; TN.open = false; renderTopNav(); if (focusBtn) { const b = $("#tn-more-btn"); b && b.focus(); } }
+// jump to a section of the Projection step (opening its <details> when needed)
+function tnToProj(sel, openSel) {
+  const started = S.maxStep > 1 || S.goal.touched; if (!started) { go(0); return; }
+  go(Math.max(1, Math.min(5, S.maxStep >= 5 ? 5 : S.maxStep)));
+  if (S.step !== 5) return;
+  requestAnimationFrame(() => { if (openSel) { const d = $(openSel); if (d) d.open = true; } const el = $(sel); if (el && !el.hidden) { el.scrollIntoView({ block: "start" }); const h = el.querySelector("h2, summary"); if (h) { h.setAttribute("tabindex", "-1"); h.focus({ preventScroll: true }); } } });
+}
+function tnGo(k) {
+  TN.open = false; TN.prog = false;
+  if (k === "sim") { if (typeof vLeave === "function") vLeave(); const started = S.maxStep > 1 || S.goal.touched; go(started ? Math.max(1, S.step || 1) : 0); }
+  else if (k === "home") openView("home");
+  else if (k === "food") openFoodLog();
+  else if (k === "glucose") openView("glucose");
+  else if (k === "settings") openView("settings");
+  else if (k === "prog") { TN.prog = true; tnToProj("#ai-card"); }
+  else if (k === "checkin") tnToProj("#weekly-card", "#proj-more-tips");
+  else if (k === "timeline") tnToProj("#chart-wrap");
+  else if (k === "pdf") tnToProj("#recap");
+  else if (k === "health") { tnToProj("#health-ctx", "#proj-more-health"); }
+  renderTopNav();
+}
+document.addEventListener("click", (e) => {
+  const b = e.target.closest("#topnav [data-tn], #tn-more-btn");
+  if (b) { e.preventDefault(); if (b.id === "tn-more-btn") { TN.open = !TN.open; renderTopNav(); if (TN.open) { const f = $("#tn-menu .tn-m:not(.soon)"); f && f.focus(); } } else tnGo(b.dataset.tn); return; }
+  if (TN.open && !e.target.closest("#tn-menu")) tnClose(false);
+  // any other navigation in the app: keep the active state in sync
+  if (e.target.closest("[data-view],[data-v-sim],[data-open-log],[data-goto],#btn-next,#btn-back,#progress button")) { TN.prog = false; setTimeout(renderTopNav, 0); }
+});
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape" && TN.open) { e.preventDefault(); tnClose(true); return; }
+  if (!TN.open || !e.target.closest("#tn-menu")) return;
+  if (e.key === "ArrowDown" || e.key === "ArrowUp") { e.preventDefault(); const l = [...document.querySelectorAll("#tn-menu .tn-m:not(.soon)")], i = l.indexOf(e.target); const n = l[(i + (e.key === "ArrowDown" ? 1 : l.length - 1)) % l.length]; n && n.focus(); }
+});
+document.addEventListener("focusin", (e) => { if (TN.open && !e.target.closest(".tn-more")) tnClose(false); });
+function tnInit() { const h = $(".site-header .in"); if (!h || $("#topnav")) return; const n = document.createElement("nav"); n.id = "topnav"; n.className = "topnav"; n.setAttribute("aria-label", "Main"); n.setAttribute("data-print", "no");
+  const pm = h.querySelector(".prod-mark"); h.insertBefore(n, pm); document.body.classList.add("has-tabs"); renderTopNav(); }
+if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", tnInit); else tnInit();
+window.addEventListener("hashchange", () => setTimeout(renderTopNav, 0));
+// keep the active tab right however the page changed (step buttons, hash links, closing the Food Log, ...)
+(function tnWatch() { const ids = ["#entry", "#wizard", "#views", "#flog"]; const mo = new MutationObserver(() => { clearTimeout(TN.t); TN.t = setTimeout(() => { if ($("#topnav") && !TN.open) { const a = tnActive(), cur = $("#topnav .tn-i.on"); if (!cur || cur.dataset.tn !== a) renderTopNav(); } }, 30); });
+  const start = () => ids.forEach((s) => { const el = $(s); if (el) mo.observe(el, { attributes: true, attributeFilter: ["hidden"] }); }); if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", start); else start(); })();
 // ---------- navigation ----------
 function renderProgress() {
   const ord = stepOrder(), hb = S.mode === "habits";
@@ -8179,7 +8722,7 @@ function bind() {
     if (t.dataset.psmf) { S.food.psmf = t.dataset.psmf === "on"; if (S.food.psmf) S.food.actualOn = true; mealStatus = ""; update(); return; }
     if (t.dataset.mealSrc) { S.food.mealSrc = t.dataset.mealSrc; mealStatus = ""; renderMeals(); save(); return; }
     if (t.dataset.mealDiet) { S.food.mealDiet = t.dataset.mealDiet; mealStatus = ""; renderMeals(); save(); return; }
-    if (t.dataset.meal) { S.food.mealDay = t.dataset.meal; mealStatus = ""; renderMeals(); save(); return; }
+    if (t.dataset.meal) { S.food.mealDay = t.dataset.meal; if (t.dataset.meal !== "favorites") S.food.favBase = t.dataset.meal; mealStatus = ""; renderMeals(); save(); return; }
     if (t.dataset.fsKind) { fs.kind = t.dataset.fsKind; $$("[data-fs-kind]").forEach((c) => c.setAttribute("aria-pressed", String(c === t))); fsSearch(true); return; }
     if (t.dataset.fsPick) { fsSelect(t.dataset.fsPick); return; }
     if (t.dataset.fsAdd) { fsAdd(); return; }

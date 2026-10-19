@@ -33,6 +33,7 @@ function convert(k, v, unit) {
   const r = RANGE[k]; if (!r || x < r[0] || x > r[1]) return null;
   return k === "a1c" ? Math.round(x * 10) / 10 : Math.round(x);
 }
+const BETA = require("./guard.js");   // v7.6.47 beta guard
 exports.handler = async (event) => {
   const allowed = process.env.ALLOWED_ORIGIN || "", origin = event.headers && (event.headers.origin || event.headers.Origin);
   const cors = allowed && origin === allowed ? allowed : null;
@@ -45,14 +46,15 @@ exports.handler = async (event) => {
   if (!body.consent || body.consent.labAi !== true) return json(400, { error: "Consent for AI lab reading is required." }, cors);
   const m = /^data:([a-z/+.-]+);base64,([A-Za-z0-9+/=]+)$/.exec(body.file || ""); if (!m || !MIME.includes(m[1])) return json(400, { error: "Please upload a JPEG, PNG, WebP or PDF." }, cors);
   if (m[2].length * 0.75 > MAX_BYTES) return json(413, { error: "That file is too large (8 MB max)." }, cors);
+  const slot = await BETA.check(event, "labs"); if (!slot.ok) return BETA.reply(slot, cors);
   try {
     const res = await fetch(ENDPOINT(MODEL), { method: "POST", headers: { "Content-Type": "application/json", "x-goog-api-key": key },
       body: JSON.stringify({ contents: [{ role: "user", parts: [{ text: PROMPT }, { inline_data: { mime_type: m[1], data: m[2] } }] }], generationConfig: { temperature: 0, responseMimeType: "application/json", maxOutputTokens: 2048 } }) });
-    if (!res.ok) return json(502, { error: "The lab reader is busy. Please type your values." }, cors);
+    if (!res.ok) { slot.release(); return json(502, { error: "The lab reader is busy. Please type your values." }, cors); }
     const out = await res.json(), text = (((out.candidates || [])[0] || {}).content || { parts: [] }).parts.map((p) => p.text || "").join("");
     let parsed; try { parsed = JSON.parse(text); } catch (e) { return json(502, { error: "Couldn't read the report. Please type your values." }, cors); }
     const values = {}; for (const k of Object.keys(RANGE)) { const e = parsed && parsed.values && parsed.values[k]; if (e && e.value != null) { const x = convert(k, e.value, e.unit); if (x != null) values[k] = x; } }
     return json(200, { values, units_note: "Converted to US units (A1c %, mg/dL, U/L). Check every value against your report." }, cors);
-  } catch (e) { return json(502, { error: "The lab reader isn't available right now. Please type your values." }, cors); }
+  } catch (e) { slot.release(); return json(502, { error: "The lab reader isn't available right now. Please type your values." }, cors); }
 };
 exports._convert = convert;
