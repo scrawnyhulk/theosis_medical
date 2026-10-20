@@ -1425,6 +1425,35 @@ body.fq-dragging{cursor:grabbing;user-select:none}
 .meal-dlg .actions{margin-top:.8rem}.meal-dlg [data-fq-cancel]{width:100%}
 @media (max-width:600px){.meal-dlg{width:100vw;max-width:100vw;margin:auto 0 0;border-radius:18px 18px 0 0;padding:1.25rem 1rem calc(1.25rem + env(safe-area-inset-bottom))}}
 
+/* v7.6.52: pick several (long press or "Pick several") + stacked drag */
+.fq-top{display:flex;align-items:baseline;justify-content:space-between;gap:.5rem}.fq-several{font-size:1rem;min-height:2.75rem}
+.fq-item{-webkit-touch-callout:none}
+.fq-check{flex:none;display:grid;place-items:center;width:2rem;height:2rem;border-radius:50%;border:2px solid var(--muted);font-weight:800;font-size:1.1rem;color:#fff}
+.fq-sel{border-color:var(--accent,#6fb3ff);background:rgba(111,179,255,.1)}.fq-sel .fq-check{background:var(--accent,#3b82f6);border-color:var(--accent,#3b82f6)}
+.fq-bar{position:sticky;bottom:calc(.5rem + env(safe-area-inset-bottom));z-index:5;display:flex;gap:.6rem;margin-top:.8rem;padding:.6rem;border-radius:14px;background:var(--surface,#101820);box-shadow:0 0 0 1px var(--border-strong),0 10px 30px rgba(0,0,0,.5)}
+.fq-bar .btn-big{flex:1;white-space:nowrap;padding-left:.6rem;padding-right:.6rem}.fq-bar [data-fq-done]{min-width:5.5rem}
+body.has-mbar .fq-bar{bottom:calc(5.5rem + env(safe-area-inset-bottom))}
+.fq-stack{box-shadow:6px 6px 0 -1px var(--surface,#101820),6px 6px 0 1px var(--border-strong),12px 12px 0 -1px var(--surface,#101820),12px 12px 0 1px var(--border-strong),0 18px 36px rgba(0,0,0,.6)}
+.fq-badge{position:absolute;top:-.7rem;right:-.7rem;min-width:1.9rem;height:1.9rem;padding:0 .4rem;border-radius:1rem;background:var(--accent,#3b82f6);color:#fff;font-weight:800;display:grid;place-items:center}
+.fq-going{opacity:.35}
+
+/* v7.6.52: move logged foods + edit nutrition + My foods */
+[data-fq-lid]{touch-action:none;-webkit-touch-callout:none;user-select:none;-webkit-user-select:none}
+.fq-going{opacity:.35}.fq-lg-ghost{padding:.6rem .8rem;border-radius:12px;border:2px solid var(--accent,#6fb3ff);background:var(--surface,#101820);color:var(--fg);list-style:none}
+.fq-lg{display:flex;align-items:center;gap:.4rem;justify-content:space-between}.fq-lg-b{flex:1;cursor:grab;padding:.25rem 0}.fq-lg-e{font-size:.9rem;min-height:2.2rem}
+.fq ul li{display:flex;gap:.5rem;align-items:center}.fq ul li .fq-item{flex:1;margin-top:.5rem}.fq-edit{margin-top:.5rem;min-height:3.5rem;min-width:4rem}
+.fq-dropzone{text-align:center;position:fixed;left:.75rem;right:.75rem;top:4.75rem;z-index:900;margin:0;padding:.7rem;box-shadow:0 10px 30px rgba(0,0,0,.5)}.fq-dropzone h3{font-size:1.05rem}.fq-dropzone .hint{margin:.2rem 0 0}
+.fe-tag{font-size:.72rem;margin-left:.35rem;vertical-align:middle;background:rgba(111,179,255,.15);color:var(--accent-ink,#9cc8ff)}
+.food-dlg{width:min(30rem,94vw)}.food-dlg .field{margin:.4rem 0}.food-dlg input{font-size:1.1rem;min-height:3rem}
+.fe-row{display:grid;grid-template-columns:1fr 1fr;gap:.6rem}.fe-grid{display:grid;grid-template-columns:1fr 1fr;gap:.2rem .6rem}.fe-sub{margin:.6rem 0 0}
+.fe-warn{min-height:1.2rem;margin:.5rem 0 0;font-weight:600}.fe-warn.fe-err{color:#ff8a8a}.fe-warn.fe-soft{color:#ffd36b}
+.fe-actions{display:flex;gap:.6rem}.fe-actions .btn{flex:1}.fe-reset{display:block;margin:.7rem auto 0;min-height:2.75rem}
+.fe-new-row{margin:.4rem 0 .2rem}.fe-new-row .link-btn{font-size:1rem;min-height:2.75rem}
+@media (max-width:600px){.food-dlg{max-height:92vh;overflow:auto}}
+
+/* v7.6.52: every photo input offers camera and library (Android opened only the file picker) */
+.photo-pair{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin:.5rem 0}.photo-btn{min-height:3.5rem;font-size:1.05rem;width:100%;justify-content:center;text-align:center}.photo-q{margin:.6rem 0 0}
+
 </style>
 </head>
 <body>
@@ -1461,7 +1490,7 @@ body.fq-dragging{cursor:grabbing;user-select:none}
         <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg></span>
         <b>Where are my habits taking me?</b>
         <span class="d">See where the way you eat and move now could take you in the weeks and months ahead.</span>
-        <span class="d d-sub">No goal needed. Just answer a few easy questions.</span>
+        <ul class="d-list"><li>How much you eat compared with what you burn each day</li><li>How your activity is helping or holding you back</li><li>Not what you expected? Make a new plan</li></ul>
         <span class="go">See where I'm headed <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
       </button>
     </div>
@@ -1900,12 +1929,13 @@ body.fq-dragging{cursor:grabbing;user-select:none}
                   <label class="field fs-q"><span class="sr-only">Search foods or enter a barcode</span><span class="control"><svg class="fs-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input id="fs-q" type="search" placeholder="e.g. greek yogurt, Cheerios, 0894700010137" autocomplete="off" spellcheck="false" enterkeyhint="search" aria-describedby="fs-status" aria-controls="fs-results"></span></label>
                   <button type="button" class="btn btn-ghost" id="fs-scan"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 7V4h3M17 4h3v3M20 17v3h-3M7 20H4v-3M7 8v8M10 8v8M13 8v8M16 8v8"/></svg>Scan barcode</button>
                 </div>
+                <p class="fe-new-row"><button type="button" class="link-btn" data-fe-new="1">+ Make my own food</button></p>
                 <div class="chips fs-kind" role="group" aria-label="Which foods to search">
                   <button type="button" class="chip" data-fs-kind="all" aria-pressed="true">All foods</button><button type="button" class="chip" data-fs-kind="brands" aria-pressed="false">Brands</button><button type="button" class="chip" data-fs-kind="generic" aria-pressed="false">Generic (USDA)</button>
                 </div>
                 <div class="fs-scan" id="fs-scan-box" hidden><div class="fs-view"><video id="fs-video" playsinline muted autoplay aria-label="Camera view for barcode scanning"></video><div class="fs-guide" aria-hidden="true"></div></div><div class="fs-scan-bar"><span class="hint" id="fs-scan-msg" role="status"></span><button type="button" class="btn btn-ghost" id="fs-scan-stop">Stop camera</button></div></div>
-                <label class="btn btn-ghost fs-photo" for="fs-photo">Take photo / upload image</label><input type="file" id="fs-photo" accept="image/*" capture="environment" class="sr-only">
-                <div id="ai-food"></div><input type="file" id="ai-food-label" accept="image/*" capture="environment" class="sr-only" tabindex="-1" aria-hidden="true">
+                <p class="photo-q"><b>Photo of a barcode</b></p><div class="photo-pair" role="group" aria-label="Barcode photo"><label class="btn btn-ghost btn-big photo-btn" for="fs-photo-cam">📷 Take a photo</label><label class="btn btn-ghost btn-big photo-btn" for="fs-photo">🖼 Choose a photo</label></div><input type="file" id="fs-photo-cam" accept="image/*" capture="environment" class="sr-only"><input type="file" id="fs-photo" accept="image/*" class="sr-only">
+                <div id="ai-food"></div><input type="file" id="ai-food-label" accept="image/*" capture="environment" class="sr-only" tabindex="-1" aria-hidden="true"><input type="file" id="ai-food-label-lib" accept="image/*" class="sr-only" tabindex="-1" aria-hidden="true">
                 <p class="hint fs-status" id="fs-status" role="status" aria-live="polite"></p>
                 <details class="fs-diag" id="fs-scan-diag-wrap" hidden><summary>Scanner details</summary><p class="hint" id="fs-scan-diag"></p></details>
                 <ul class="fs-results" id="fs-results" aria-label="Search results"></ul>
@@ -2013,7 +2043,7 @@ body.fq-dragging{cursor:grabbing;user-select:none}
             <p class="eyebrow card-eyebrow">Optional · AI illustration</p>
             <div class="section-head"><h2>See it on your photo</h2></div>
             <div id="ci-box" class="ci-box"></div>
-            <input type="file" id="file-ci" accept="image/*" hidden>
+            <input type="file" id="file-ci" accept="image/*" hidden><input type="file" id="file-ci-cam" accept="image/*" capture="environment" hidden>
             <input type="file" id="file-ci-import" accept="application/json,.json" hidden>
             <div id="ai-body"></div>
             <div id="ai-stages"></div>
@@ -4045,6 +4075,9 @@ function cleanItem(it) {
     per100, g: Math.min(5000, +it.g), unit: it.unit === "ml" ? "ml" : "g", label: typeof it.label === "string" ? it.label.slice(0, 60) : `${+it.g} g`, servings: Math.min(50, +it.servings) };
   if (Array.isArray(it.servingsList)) o.servingsList = it.servingsList.filter((s) => s && +s.g > 0 && typeof s.label === "string").slice(0, 10).map((s) => ({ label: s.label.slice(0, 60), g: Math.min(5000, +s.g), unit: s.unit === "ml" ? "ml" : "g" }));
   if (it.quick) o.quick = true;
+  if (it.edited) o.edited = true;   // v7.6.52: nutrition edited by the user; orig keeps the database values for "Reset to original"
+  if (it.orig && it.orig.per100 && +it.orig.g > 0) { const op = {}; for (const k of NUTR) if (it.orig.per100[k] != null && isFinite(+it.orig.per100[k])) op[k] = Math.max(0, +it.orig.per100[k]);
+    o.orig = { name: String(it.orig.name || o.name).slice(0, 120), label: String(it.orig.label || "").slice(0, 60), g: Math.min(5000, +it.orig.g), per100: op }; }
   return o;
 }
 function cleanFood(f) { const it = cleanItem({ ...f, servings: 1, g: f && f.g || 100 }); if (!it) return null; delete it.meal; it.key = foodKey(it); return it; }
@@ -6682,13 +6715,14 @@ async function fsSearch(force) {
   const q = $("#fs-q").value.trim().replace(/\s+/g, " ").slice(0, 80), st = $("#fs-status");
   if (fs.ctl) fs.ctl.abort();
   if (q.length < 2) { fs.results = []; renderFsResults(); st.textContent = ""; return; }
+  { const mine = myFoodsMatch(q); if (mine.length) { fs.results = mine; renderFsResults(); } }
   if (!proGate("foodlog", "#fs-status")) return;
   if (navigator.onLine === false) { st.textContent = "You're offline. Search needs a connection; your food log still works."; return; }
   const seq = ++fs.seq, ctl = (fs.ctl = new AbortController()), bc = FC.isBarcode(q);
   const useOff = fs.kind !== "generic", useUsda = true;
   fsErrClear(); st.textContent = bc ? `Looking up barcode ${q}…` : "Searching…";
   const errs = [], notes = [], lists = { off: [], usda: [] };
-  const mix = () => { const a = lists.usda, b = lists.off, out = []; for (let i = 0; i < Math.max(a.length, b.length); i++) { if (b[i]) out.push(b[i]); if (a[i]) out.push(a[i]); } return out; };
+  const mix = () => { const a = lists.usda, b = lists.off, out = myFoodsMatch(q); for (let i = 0; i < Math.max(a.length, b.length); i++) { if (b[i]) out.push(b[i]); if (a[i]) out.push(a[i]); } return out; };
   const done = (src) => (r) => { lists[src] = r.items; if (r.note) notes.push(r.note); if (seq === fs.seq) { fs.results = mix(); renderFsResults(); } };
   const fail = (src) => (e) => { if (e.name !== "AbortError") errs.push(e.message || `${src} search failed.`); };
   const timeout = setTimeout(() => ctl.abort(), 12000);
@@ -6698,13 +6732,13 @@ async function fsSearch(force) {
   if (ctl.signal.aborted && !fs.results.length) errs.push("The food databases took too long to answer. Try again.");
   const n = fs.results.length;
   if (!n && bc && errs.length) { st.textContent = `Lookup failed for barcode ${q}: the food databases couldn't be reached. Check your connection and try again, or search by name.`; renderFsResults(); return; }
-  st.textContent = [n ? `${n} result${n === 1 ? "" : "s"}${bc ? ` for barcode ${q}` : ""}.` : bc ? `No product found for barcode ${q}. Try searching by name.` : `No results for "${q}". Try a simpler name.`, ...errs, ...notes].join(" ");
+  st.textContent = [n ? `${n} result${n === 1 ? "" : "s"}${bc ? ` for barcode ${q}` : ""}.` : bc ? `No product found for barcode ${q}. Try searching by name.` : `No results for "${q}". Try a simpler name, or tap "Make my own food".`, ...errs, ...notes].join(" ");
   renderFsResults();
 }
 const fsPerServing = (f) => { const s = f.servings[0]; return { s, n: FC.scale(f.per100, s.g) }; };
 function renderFsResults() {
   $("#fs-results").innerHTML = fs.results.slice(0, 16).map((f, i) => { const { s, n } = fsPerServing(f);
-    return `<li><button type="button" class="fs-item" data-fs-pick="${i}"><span class="fs-name">${esc(f.name)}${f.brand ? `<small>${esc(f.brand)}</small>` : ""}</span><span class="fs-meta"><b>${fK(FC.labelKcal(n.kcal))} kcal</b><small>${s.g === 100 && s.label === "100 g" ? "per 100 g" : esc(s.label)} · ${f.src === "off" ? "Open Food Facts" : "USDA"}</small></span></button></li>`; }).join("");
+    return `<li><button type="button" class="fs-item" data-fs-pick="${i}"><span class="fs-name">${esc(f.name)}${f.brand ? `<small>${esc(f.brand)}</small>` : ""}</span><span class="fs-meta"><b>${fK(FC.labelKcal(n.kcal))} kcal</b><small>${s.g === 100 && s.label === "100 g" ? "per 100 g" : esc(s.label)} · ${f.mine ? "My food" : f.src === "off" ? "Open Food Facts" : "USDA"}</small></span></button></li>`; }).join("");
 }
 function fsSelect(i) { const f = fs.results[+i]; if (!f) return; fs.sel = { f, si: 0, count: 1 }; renderFsDetail(); const d = $("#fs-detail .fs-card"); d && d.focus(); }
 function fsAmount() { const sel = fs.sel, sv = sel.f.servings[sel.si]; return { sv, grams: sv.g * sel.count, n: FC.scale(sel.f.per100, sv.g * sel.count) }; }
@@ -6713,7 +6747,7 @@ function renderFsDetail() {
   const box = $("#fs-detail"); if (!fs.sel) { box.innerHTML = ""; return; }
   const { f } = fs.sel, { sv, grams, n } = fsAmount();
   box.innerHTML = `<div class="fs-card" tabindex="-1" aria-label="${esc(f.name)} nutrition facts">
-    <div class="fs-card-h"><div><b>${esc(f.name)}</b>${f.brand ? `<small>${esc(f.brand)}</small>` : ""}</div><span class="tag">${f.src === "off" ? "Open Food Facts" : `USDA${f.dataType ? " · " + esc(f.dataType) : ""}`}</span></div>
+    <div class="fs-card-h"><div><b>${esc(f.name)}</b>${f.brand ? `<small>${esc(f.brand)}</small>` : ""}</div><span class="tag">${f.mine ? "My food" : f.src === "off" ? "Open Food Facts" : `USDA${f.dataType ? " · " + esc(f.dataType) : ""}`}</span></div>
     <div class="row fs-amt"><label class="field"><span class="label">Serving</span><span class="control"><select id="fs-serving">${f.servings.map((s, i) => `<option value="${i}" ${i === fs.sel.si ? "selected" : ""}>${esc(s.label)}</option>`).join("")}</select></span></label>
       <label class="field"><span class="label">How many</span><span class="control"><input id="fs-count" inputmode="decimal" value="${fs.sel.count}" aria-describedby="fs-amt-h"></span><span class="hint" id="fs-amt-h">${(+grams.toFixed(1)).toLocaleString("en-US")} ${sv.unit === "ml" ? "ml" : "g"} total</span></label></div>
     <div id="fs-nf" aria-live="polite">${fsFactsHtml()}</div>
@@ -7175,50 +7209,170 @@ function fqLoad() { try { const a = JSON.parse(localStorage.getItem(FQ_KEY) || "
 function fqSave(a) { try { localStorage.setItem(FQ_KEY, JSON.stringify(a.slice(0, 40))); } catch (e) { /* storage off: the list just won't survive a reload */ } }
 function fqPush(item, svList) { const a = fqLoad(); a.push({ item: { ...item }, svList: svList || null }); fqSave(a); }
 const fqMealName = (k) => (FL.MEALS.find((m) => m[0] === k) || [k, k])[1];
+const fqSel = { on: false, set: new Set() };   /* v7.6.52: multi-select ("Pick several" or long press) */
+function fqSelExit() { fqSel.on = false; fqSel.set.clear(); }
 function fqRender() {
   const box = $("#fq"); if (!box) return; const a = fqLoad();
-  box.innerHTML = !a.length ? "" : `<div class="fq" aria-labelledby="fq-h"><h3 id="fq-h">To sort (${a.length})</h3><p class="hint">Drag each food onto a meal. Or tap it to pick the meal.</p>
-    <ul>${a.map((e, i) => { const n = FC.scale(e.item.per100, e.item.g * e.item.servings); return `<li><button type="button" class="fq-item" data-fq-i="${i}" aria-haspopup="dialog" aria-label="${esc(e.item.name)}, ${fK(n.kcal)} kcal. Choose a meal"><span class="fq-grip" aria-hidden="true">⠿</span><span class="fq-n"><b>${esc(e.item.name)}</b><small>${+e.item.servings} × ${esc(e.item.label)}</small></span><span class="fq-k"><b>${fK(n.kcal)}</b><small>kcal</small></span></button></li>`; }).join("")}</ul></div>`;
+  if (!a.length) fqSelExit(); [...fqSel.set].forEach((i) => { if (i >= a.length) fqSel.set.delete(i); });
+  const on = fqSel.on, n = fqSel.set.size;
+  box.innerHTML = !a.length ? (fqDrag.s && fqDrag.s.kind === "logged" && fqDrag.s.ghost ? `<div class="fq fq-dropzone" data-fq-drop="queue"><h3>To sort</h3><p class="fq-drop-msg" aria-hidden="true"></p><p class="hint">Drop a food here to sort it later.</p></div>` : "") : `<div class="fq${on ? " fq-selmode" : ""}" data-fq-drop="queue" aria-labelledby="fq-h"><div class="fq-top"><h3 id="fq-h">To sort (${a.length})</h3>${a.length > 1 && !on ? `<button type="button" class="link-btn fq-several" data-fq-several="1">Pick several</button>` : ""}</div>
+    <p class="hint">${on ? "Tap foods to pick them. Then add them all at once, or drag them together onto a meal." : "Drag each food onto a meal. Or tap it to pick the meal."}</p>
+    <ul>${a.map((e, i) => { const nn = FC.scale(e.item.per100, e.item.g * e.item.servings), sel = fqSel.set.has(i); return `<li><button type="button" class="fq-item${sel ? " fq-sel" : ""}" data-fq-i="${i}" ${on ? `aria-pressed="${sel}"` : `aria-haspopup="dialog"`} aria-label="${esc(e.item.name)}, ${fK(nn.kcal)} kcal. ${on ? (sel ? "Picked" : "Not picked") : "Choose a meal"}">${on ? `<span class="fq-check" aria-hidden="true">${sel ? "✓" : ""}</span>` : `<span class="fq-grip" aria-hidden="true">⠿</span>`}<span class="fq-n"><b>${esc(e.item.name)}</b>${feTag(e.item)}<small>${+e.item.servings} × ${esc(e.item.label)}</small></span><span class="fq-k"><b>${fK(nn.kcal)}</b><small>kcal</small></span></button>${on ? "" : `<button type="button" class="btn btn-ghost btn-sm fq-edit" data-fq-edit="${i}" aria-label="Edit ${esc(e.item.name)}">Edit</button>`}</li>`; }).join("")}</ul>
+    ${on ? `<div class="fq-bar" role="group" aria-label="Picked foods"><button type="button" class="btn btn-steel btn-big" data-fq-addsel="1" ${n ? "" : "disabled"}>${n ? `Add ${n} food${n === 1 ? "" : "s"} to…` : "Pick foods above"}</button><button type="button" class="btn btn-ghost" data-fq-done="1">Done</button></div>` : ""}</div>`;
   const mb = $("#fq-meals"); if (!mb) return;
   if (fs.target === "log") { mb.innerHTML = ""; return; }      // the Food Log page has its own meal cards
   const d = FLS.days[flToday()], items = d ? d.items : [];
   mb.innerHTML = `<div class="fq-meals" aria-label="Today's meals">${FL.MEALS.map(([k, l]) => { const its = items.filter((x) => x.meal === k), kc = its.reduce((s, x) => s + (FL.itemNutr(x).kcal || 0), 0);
-    return `<section class="fq-meal" data-fq-drop="${k}"><h4>${l}${its.length ? ` <small class="hint">${fK(kc)} kcal</small>` : ""}</h4><p class="fq-drop-msg" aria-hidden="true">Let go to add to ${l}</p>${its.length ? `<ul>${its.map((x) => `<li>${esc(x.name)}</li>`).join("")}</ul>` : `<p class="hint">Nothing yet</p>`}</section>`; }).join("")}</div>`;
+    return `<section class="fq-meal" data-fq-drop="${k}"><h4>${l}${its.length ? ` <small class="hint">${fK(kc)} kcal</small>` : ""}</h4><p class="fq-drop-msg" aria-hidden="true">Let go to add to ${l}</p>${its.length ? `<ul>${its.map((x) => `<li class="fq-lg"><span class="fq-lg-b" data-fq-lid="${esc(x.id)}" role="button" tabindex="-1" aria-label="${esc(x.name)}. Drag to another meal">${esc(x.name)}${feTag(x)}</span><button type="button" class="link-btn fq-lg-e" data-fe-logged="${esc(x.id)}" aria-label="Edit ${esc(x.name)}">Edit</button></li>`).join("")}</ul>` : `<p class="hint">Nothing yet</p>`}</section>`; }).join("")}</div>`;
 }
-function fqAssign(i, meal) {
-  const a = fqLoad(), e = a[+i]; if (!e || !FL.MEALS.some((m) => m[0] === meal)) return; a.splice(+i, 1); fqSave(a);
-  const msg = `Added ${e.item.name} to ${fqMealName(meal).toLowerCase()}.`;
-  if (fs.target === "log") { const keep = fl.meal; fl.meal = meal; flAddFood({ ...e.item, servingsList: e.svList || undefined }); fl.meal = keep; renderFoodLog(); }
-  else { fsLogPush({ ...e.item }, e.svList, meal); fsApplyLog(); }
+function fqAssign(idx, meal) {
+  const ids = [...new Set([].concat(idx).map(Number))].sort((x, y) => y - x), a = fqLoad(); if (!FL.MEALS.some((m) => m[0] === meal)) return;
+  const got = ids.map((i) => a[i]).filter(Boolean).reverse(); if (!got.length) return; ids.forEach((i) => { if (a[i]) a.splice(i, 1); }); fqSave(a); fqSelExit();
+  const msg = got.length === 1 ? `Added ${got[0].item.name} to ${fqMealName(meal).toLowerCase()}.` : `Added ${got.length} foods to ${fqMealName(meal).toLowerCase()}.`;
+  if (fs.target === "log") { const keep = fl.meal; fl.meal = meal; got.forEach((e) => flAddFood({ ...e.item, servingsList: e.svList || undefined })); fl.meal = keep; fl.status = msg; renderFoodLog(); }
+  else { got.forEach((e) => fsLogPush({ ...e.item }, e.svList, meal)); fsApplyLog(); }
   const st = $("#fs-status"); if (st) st.textContent = msg; fqRender();
 }
 let fqDlgI = null;
-function fqDlg(i) {
-  const e = fqLoad()[+i]; if (!e) return; fqDlgI = +i; let d = $("#meal-dlg");
+function fqDlg(idx) {
+  const a = fqLoad(), ids = [].concat(idx).map(Number).filter((i) => a[i]); if (!ids.length) return; fqDlgI = ids; let d = $("#meal-dlg");
   if (!d) { d = document.createElement("dialog"); d.id = "meal-dlg"; d.className = "meal-dlg"; d.setAttribute("aria-labelledby", "meal-dlg-h"); document.body.appendChild(d);
     d.addEventListener("click", (ev) => { if (ev.target === d) { d.close(); return; } const t = ev.target.closest("button"); if (!t) return;
       if (t.dataset.fqTo) { d.close(); fqAssign(fqDlgI, t.dataset.fqTo); }
       else if (t.dataset.fqCancel) d.close(); }); }
-  d.innerHTML = `<h2 id="meal-dlg-h">Which meal?</h2><p class="hint">${esc(e.item.name)}</p><div class="fs-meal-grid">${FL.MEALS.map(([k, l]) => `<button type="button" class="btn btn-ghost fs-meal-btn" data-fq-to="${k}">${l}</button>`).join("")}</div><div class="actions"><button type="button" class="btn btn-ghost btn-big" data-fq-cancel="1">Cancel</button></div>`;
+  const sub = ids.length === 1 ? esc(a[ids[0]].item.name) : `${ids.length} foods: ${ids.map((i) => esc(a[i].item.name)).join(", ")}`;
+  d.innerHTML = `<h2 id="meal-dlg-h">Which meal?</h2><p class="hint">${sub}</p><div class="fs-meal-grid">${FL.MEALS.map(([k, l]) => `<button type="button" class="btn btn-ghost fs-meal-btn" data-fq-to="${k}">${l}</button>`).join("")}</div><div class="actions"><button type="button" class="btn btn-ghost btn-big" data-fq-cancel="1">Cancel</button></div>`;
   if (!d.open) d.showModal(); const b = d.querySelector(".fs-meal-btn"); if (b) b.focus();
 }
-// drag (mouse, pen and touch through pointer events). A short press without moving is a tap and opens the pop-up.
+/* Gestures (pointer events: mouse, pen, touch). Quick tap: "Which meal?" (in pick mode: pick/unpick). Press and move > 8 px before 500 ms: drag
+   (all picked foods if this one is picked, else just this one). Hold still 500 ms: pick mode with this food picked (short vibration). */
 const fqDrag = { s: null, swallow: false };
-function fqHot(x, y) { const g = fqDrag.s && fqDrag.s.ghost; if (g) g.style.display = "none"; const el = document.elementFromPoint(x, y); if (g) g.style.display = "";
-  const t = el && el.closest && el.closest("[data-fq-drop]"); $$("[data-fq-drop].fq-hot").forEach((m) => { if (m !== t) m.classList.remove("fq-hot"); }); if (t) t.classList.add("fq-hot"); return t; }
+function fqHot(x, y) { const s = fqDrag.s, g = s && s.ghost; if (g) g.style.display = "none"; const el = document.elementFromPoint(x, y); if (g) g.style.display = "";
+  let t = el && el.closest && el.closest("[data-fq-drop]");
+  if (t && s) { const k = t.dataset.fqDrop; if (s.kind === "logged" ? k === s.meal : k === "queue") t = null; }
+  $$("[data-fq-drop].fq-hot").forEach((m) => { if (m !== t) m.classList.remove("fq-hot"); });
+  if (t) { t.classList.add("fq-hot"); const n = s && s.ids ? s.ids.length : 1, k = t.dataset.fqDrop, nm = fqMealName(k), m = t.querySelector(".fq-drop-msg");
+    if (m) m.textContent = s && s.kind === "logged" ? (k === "queue" ? "Let go to put it back in To sort" : `Let go to move to ${nm}`) : n > 1 ? `Let go to add ${n} foods to ${nm}` : `Let go to add to ${nm}`; }
+  return t; }
 function fqAuto() { const s = fqDrag.s; if (!s || !s.ghost) return; const m = 70; if (s.y < m) scrollBy(0, -14); else if (s.y > innerHeight - m) scrollBy(0, 14); fqHot(s.x, s.y); s.raf = requestAnimationFrame(fqAuto); }
-document.addEventListener("pointerdown", (ev) => { const b = ev.target.closest && ev.target.closest(".fq-item"); if (!b || ev.button > 0) return;
-  const r = b.getBoundingClientRect(); fqDrag.s = { b, i: +b.dataset.fqI, x0: ev.clientX, y0: ev.clientY, x: ev.clientX, y: ev.clientY, dx: ev.clientX - r.left, dy: ev.clientY - r.top, w: r.width, ghost: null, id: ev.pointerId }; });
-document.addEventListener("pointermove", (ev) => { const s = fqDrag.s; if (!s || ev.pointerId !== s.id) return; s.x = ev.clientX; s.y = ev.clientY;
-  if (!s.ghost) { if (Math.hypot(s.x - s.x0, s.y - s.y0) < 8) return;
-    const ph = document.createElement("div"); ph.className = "fq-ph"; s.b.parentNode.insertBefore(ph, s.b); s.ph = ph; s.ghost = s.b; s.b.classList.add("fq-ghost"); s.b.style.width = Math.min(s.w, 300) + "px"; document.body.classList.add("fq-dragging"); s.raf = requestAnimationFrame(fqAuto); }
-  ev.preventDefault(); s.ghost.style.left = Math.max(4, Math.min(innerWidth - s.ghost.offsetWidth - 4, s.x - 40)) + "px"; s.ghost.style.top = Math.max(4, s.y - s.ghost.offsetHeight - 18) + "px"; /* float above the finger so the meal card stays readable */ fqHot(s.x, s.y); }, { passive: false });
-function fqEnd(ev, cancel) { const s = fqDrag.s; if (!s || (ev && ev.pointerId !== s.id)) return; fqDrag.s = null; if (!s.ghost) return;
+function fqLong() { const s = fqDrag.s; if (!s || s.ghost) return; s.long = true; fqSel.on = true; fqSel.set.add(s.i); try { if (navigator.vibrate) navigator.vibrate(40); } catch (e) { /* ignore */ }
+  fqDrag.swallow = true; fqRender(); const nb = $(`#fq [data-fq-i="${s.i}"]`); if (nb) s.b = nb; }   /* keep the press alive: moving now drags the picked foods */
+document.addEventListener("pointerdown", (ev) => { if (ev.button > 0 || !ev.target.closest) return;
+  const lg = ev.target.closest("[data-fq-lid]"); if (lg) { const f = FL.findItem(FLS, lg.dataset.fqLid); if (!f) return; const r = lg.getBoundingClientRect();
+    fqDrag.s = { kind: "logged", b: lg, id: f.item.id, meal: f.item.meal, x0: ev.clientX, y0: ev.clientY, x: ev.clientX, y: ev.clientY, w: r.width, ghost: null, pid: ev.pointerId }; return; }
+  const b = ev.target.closest(".fq-item"); if (!b) return;
+  const r = b.getBoundingClientRect(); fqDrag.s = { b, i: +b.dataset.fqI, x0: ev.clientX, y0: ev.clientY, x: ev.clientX, y: ev.clientY, dx: ev.clientX - r.left, dy: ev.clientY - r.top, w: r.width, ghost: null, pid: ev.pointerId };
+  fqDrag.s.t = setTimeout(fqLong, 500); });
+document.addEventListener("pointermove", (ev) => { const s = fqDrag.s; if (!s || ev.pointerId !== s.pid) return; s.x = ev.clientX; s.y = ev.clientY;
+  if (!s.ghost) { if (Math.hypot(s.x - s.x0, s.y - s.y0) < 8) return; clearTimeout(s.t);
+    if (s.kind === "logged") { const g = s.b.cloneNode(true); g.removeAttribute("data-fq-lid"); g.classList.add("fq-ghost", "fq-lg-ghost"); g.style.width = Math.min(Math.max(s.w, 180), 300) + "px"; document.body.appendChild(g); s.ghost = g; s.b.classList.add("fq-going");
+      document.body.classList.add("fq-dragging"); if (!fqLoad().length) fqRender(); s.raf = requestAnimationFrame(fqAuto); }
+    else {
+    s.ids = fqSel.on && fqSel.set.has(s.i) ? [...fqSel.set] : [s.i];
+    const ph = document.createElement("div"); ph.className = "fq-ph"; s.b.parentNode.insertBefore(ph, s.b); s.ph = ph; s.ghost = s.b; s.b.classList.add("fq-ghost"); s.b.style.width = Math.min(s.w, 300) + "px";
+    if (s.ids.length > 1) { s.b.classList.add("fq-stack"); s.b.insertAdjacentHTML("beforeend", `<span class="fq-badge" aria-hidden="true">${s.ids.length}</span>`); const nm = s.b.querySelector(".fq-n b"); if (nm) nm.textContent = `${s.ids.length} foods`; const sm = s.b.querySelector(".fq-n small"); if (sm) sm.textContent = "Dragging together"; const kk = s.b.querySelector(".fq-k b"), A = fqLoad(); if (kk) kk.textContent = fK(s.ids.reduce((t, i) => t + (A[i] ? FC.scale(A[i].item.per100, A[i].item.g * A[i].item.servings).kcal : 0), 0)); }
+    $$(".fq-item.fq-sel").forEach((x) => { if (x !== s.b && s.ids.length > 1) x.classList.add("fq-going"); });
+    document.body.classList.add("fq-dragging"); s.raf = requestAnimationFrame(fqAuto); } }
+  ev.preventDefault(); s.ghost.style.left = Math.max(4, Math.min(innerWidth - s.ghost.offsetWidth - 4, s.x - 40)) + "px"; s.ghost.style.top = Math.max(4, s.y - s.ghost.offsetHeight - 18) + "px"; fqHot(s.x, s.y); }, { passive: false });
+function fqEnd(ev, cancel) { const s = fqDrag.s; if (!s || (ev && ev.pointerId !== s.pid)) return; fqDrag.s = null; clearTimeout(s.t); if (!s.ghost) { if (s.long) setTimeout(() => (fqDrag.swallow = false), 60); return; }
   cancelAnimationFrame(s.raf); fqDrag.swallow = true; setTimeout(() => (fqDrag.swallow = false), 50); document.body.classList.remove("fq-dragging");
   const t = !cancel && fqHot(s.x, s.y); $$("[data-fq-drop].fq-hot").forEach((m) => m.classList.remove("fq-hot"));
-  if (t) fqAssign(s.i, t.dataset.fqDrop); else fqRender(); }
+  if (s.kind === "logged") { s.ghost.remove(); s.b.classList.remove("fq-going"); if (t) fqMoveLogged(s.id, t.dataset.fqDrop); else { fqRender(); } return; }
+  if (t) fqAssign(s.ids, t.dataset.fqDrop); else fqRender(); }
+/* v7.6.52: move a logged food to another meal (same amounts, so day totals don't change), or back to To sort */
+function fqMoveLogged(id, to) {
+  FLS = FL.load(); const f = FL.findItem(FLS, id); if (!f) return; const it = f.item; let msg;
+  if (to === "queue") { FL.removeItem(FLS, f.date, id); flSave(); const was = (S.food.log || []).length; S.food.log = (S.food.log || []).filter((x) => x.lid !== id);
+    const item = { ...it }; delete item.id; delete item.meal; const sv = item.servingsList || null; delete item.servingsList; fqPush(item, sv); msg = `${it.name} is back in To sort.`;
+    if (S.food.log.length !== was && typeof fsApplyLog === "function") fsApplyLog(); }
+  else { if (!FL.MEALS.some((m) => m[0] === to) || to === it.meal) return; FL.updateItem(FLS, f.date, id, { meal: to }); flSave(); msg = `Moved ${it.name} to ${fqMealName(to).toLowerCase()}.`; }
+  if (fl.open) { fl.status = msg; renderFoodLog(); } else renderFsLog();
+  fqRender(); const st = $("#fs-status"); if (st) st.textContent = msg; }
+/* a drag must never also count as a tap on the food (edit, delete, Which meal?) */
+document.addEventListener("click", (ev) => { if (fqDrag.swallow && ev.target.closest && ev.target.closest("[data-fq-lid]")) { fqDrag.swallow = false; ev.stopImmediatePropagation(); ev.preventDefault(); } }, true);
 document.addEventListener("pointerup", (ev) => fqEnd(ev, false)); document.addEventListener("pointercancel", (ev) => fqEnd(ev, true));
-document.addEventListener("click", (ev) => { const b = ev.target.closest && ev.target.closest(".fq-item"); if (!b) return; if (fqDrag.swallow) { fqDrag.swallow = false; return; } fqDlg(b.dataset.fqI); });
+document.addEventListener("contextmenu", (ev) => { if (ev.target.closest && ev.target.closest(".fq-item")) ev.preventDefault(); });
+document.addEventListener("click", (ev) => { const t = ev.target.closest && ev.target.closest(".fq-item,[data-fq-several],[data-fq-addsel],[data-fq-done]"); if (!t) return;
+  if (t.dataset.fqSeveral) { fqSel.on = true; fqRender(); const f = $("#fq .fq-item"); if (f) f.focus(); return; }
+  if (t.dataset.fqDone) { fqSelExit(); fqRender(); return; }
+  if (t.dataset.fqAddsel) { if (fqSel.set.size) fqDlg([...fqSel.set].sort((x, y) => x - y)); return; }
+  if (fqDrag.swallow) { fqDrag.swallow = false; return; }
+  const i = +t.dataset.fqI; if (fqSel.on) { if (fqSel.set.has(i)) fqSel.set.delete(i); else fqSel.set.add(i); fqRender(); const b = $(`#fq [data-fq-i="${i}"]`); if (b) b.focus(); return; }
+  fqDlg(i); });
+// ---------- v7.6.52: edit a food's nutrition (queued or logged) + "Make my own food" (saved to My foods in this browser) ----------
+const MYF_KEY = "theosis-myfoods";
+function myFoods() { try { const a = JSON.parse(localStorage.getItem(MYF_KEY) || "[]"); return Array.isArray(a) ? a.filter((f) => f && typeof f.name === "string" && f.per100 && +f.g > 0).slice(0, 200) : []; } catch (e) { return []; } }
+function myFoodsSave(a) { try { localStorage.setItem(MYF_KEY, JSON.stringify(a.slice(0, 200))); return true; } catch (e) { return false; } }
+/** My foods that match a search, as search results (shown first). */
+function myFoodsMatch(q) { const w = String(q || "").toLowerCase().split(/\s+/).filter(Boolean); if (!w.length) return [];
+  return myFoods().filter((f) => w.every((x) => f.name.toLowerCase().includes(x))).map((f) => ({ name: f.name, brand: "", src: "mine", mine: true, per100: { ...f.per100 }, servings: [{ label: f.label, g: f.g, unit: "g" }] })); }
+const FE_F = [["kcal", "Calories", "kcal"], ["protein", "Protein", "g"], ["carbs", "Carbs", "g"], ["fat", "Fat", "g"], ["fiber", "Fiber", "g"]];
+const fe = { ctx: null };
+const feOne = (per100, g, k) => (per100 && per100[k] != null ? Math.round(per100[k] * g / 100 * 10) / 10 : "");
+function feSource(it) { return it && !it.quick && it.src !== "mine" && it.src !== "ai" ? true : false; }
+/** ctx: { kind: "queue", i } | { kind: "logged", id } | { kind: "new" } */
+function feOpen(ctx) {
+  let it = null;
+  if (ctx.kind === "queue") { const e = fqLoad()[+ctx.i]; if (!e) return; it = e.item; }
+  else if (ctx.kind === "logged") { const f = FL.findItem(FLS, ctx.id); if (!f) return; it = f.item; }
+  fe.ctx = ctx; let d = $("#food-dlg");
+  if (!d) { d = document.createElement("dialog"); d.id = "food-dlg"; d.className = "meal-dlg food-dlg"; d.setAttribute("aria-labelledby", "food-dlg-h"); document.body.appendChild(d);
+    d.addEventListener("click", (ev) => { const t = ev.target.closest("button"); if (!t) return; if (t.dataset.feSave) feSave(); else if (t.dataset.feCancel) d.close(); else if (t.dataset.feReset) feReset(); });
+    d.addEventListener("input", feCheck); }
+  const g = it ? +it.g : 100, nw = ctx.kind === "new", unit = it && it.unit === "ml" ? "ml" : "g";
+  const fld = (id, lab, val, extra) => `<label class="field fe-f"><span class="label">${lab}</span><span class="control"><input id="${id}" ${extra || 'inputmode="decimal"'} value="${esc(String(val))}"></span></label>`;
+  d.innerHTML = `<h2 id="food-dlg-h">${nw ? "Make my own food" : "Edit this food"}</h2>
+    <p class="hint">${nw ? "Type what's on the label. We'll save it in My foods on this device." : "Change any number. Use the label if you have it."}</p>
+    ${fld("fe-name", "Name", it ? it.name : "", 'type="text" autocomplete="off" maxlength="120"')}
+    <div class="fe-row">${fld("fe-label", "Serving", it ? it.label : "1 serving", 'type="text" maxlength="60"')}${fld("fe-g", `Weight of 1 serving (${unit})`, it ? g : "")}</div>
+    <p class="fe-sub"><b>In 1 serving</b></p>
+    <div class="fe-grid">${FE_F.map(([k, l, u]) => fld("fe-" + k, `${l} (${u})`, it ? feOne(it.per100, g, k) : "")).join("")}</div>
+    <p class="fe-warn" id="fe-warn" role="status"></p>
+    <div class="actions fe-actions"><button type="button" class="btn btn-steel btn-big" data-fe-save="1">${nw ? "Save my food" : "Save"}</button><button type="button" class="btn btn-ghost btn-big" data-fe-cancel="1">Cancel</button></div>
+    ${it && it.edited && it.orig ? `<button type="button" class="link-btn fe-reset" data-fe-reset="1">Reset to original</button>` : ""}`;
+  if (!d.open) d.showModal(); feCheck(); const n = $("#fe-name"); if (n) n.focus();
+}
+function feRead() {
+  const v = (id) => { const t = ($("#" + id).value || "").trim(); return t === "" ? null : parseNum(t); };
+  const o = { name: $("#fe-name").value.trim(), label: $("#fe-label").value.trim() || "1 serving", g: v("fe-g") }; FE_F.forEach(([k]) => (o[k] = v("fe-" + k))); return o;
+}
+/** Hard errors block saving; the 4/4/9 check is only a soft warning. */
+function feCheck() {
+  const o = feRead(), err = [], warn = $("#fe-warn"); if (!warn) return { o, err };
+  if (!o.name) err.push("Give the food a name.");
+  if (!(o.g > 0) || o.g > 5000) err.push("Enter the weight of 1 serving (more than 0).");
+  if (o.kcal == null || !(o.kcal >= 0) || o.kcal > 10000) err.push("Enter the calories (0 or more).");
+  FE_F.forEach(([k, l]) => { if (o[k] != null && (isNaN(o[k]) || o[k] < 0)) err.push(`${l} can't be negative.`); });
+  let soft = "";
+  if (!err.length) { const m = 4 * (o.protein || 0) + 4 * (o.carbs || 0) + 9 * (o.fat || 0);
+    if (m > 0 && Math.abs(m - o.kcal) > Math.max(40, 0.25 * Math.max(m, o.kcal))) soft = `Check the numbers: the protein, carbs and fat add up to about ${fK(m)} calories, not ${fK(o.kcal)}. You can still save.`; }
+  warn.textContent = err.length ? err[0] : soft; warn.classList.toggle("fe-err", !!err.length); warn.classList.toggle("fe-soft", !err.length && !!soft);
+  return { o, err };
+}
+function fePer100(o) { const p = {}; FE_F.forEach(([k]) => { if (o[k] != null) p[k] = Math.round(o[k] / o.g * 100 * 1000) / 1000; }); return p; }
+function feAfter(msg) { const d = $("#food-dlg"); if (d && d.open) d.close(); if (typeof fl !== "undefined" && fl.open) { fl.status = msg; renderFoodLog(); } else { renderFsLog(); } fqRender(); const st = $("#fs-status"); if (st) st.textContent = msg; }
+function fePatch(it, o) { const orig = it.orig || (feSource(it) ? { name: it.name, label: it.label, g: it.g, per100: { ...it.per100 } } : null);
+  const p = { name: o.name, label: o.label, g: o.g, per100: fePer100(o), edited: true }; if (orig) p.orig = orig; return p; }
+function feSyncSim(id, patch) { let hit = false; (S.food.log || []).forEach((x) => { if (x.lid === id) { Object.assign(x, patch); hit = true; } }); if (hit && typeof fsApplyLog === "function") fsApplyLog(); }
+function feSave() {
+  const { o, err } = feCheck(); if (err.length) { $("#fe-warn").focus && $("#fe-warn").scrollIntoView({ block: "nearest" }); return; }
+  const c = fe.ctx;
+  if (c.kind === "new") { const a = myFoods(), f = { name: o.name, label: o.label, g: o.g, per100: fePer100(o) }; a.unshift(f); myFoodsSave(a);
+    fqPush({ name: f.name, brand: "", src: "mine", per100: f.per100, g: f.g, unit: "g", label: f.label, servings: 1 }, [{ label: f.label, g: f.g, unit: "g" }]);
+    feAfter(`Saved ${f.name} in My foods. It's in To sort now.`); return; }
+  if (c.kind === "queue") { const a = fqLoad(), e = a[+c.i]; if (!e) return; Object.assign(e.item, fePatch(e.item, o)); fqSave(a); feAfter(`Updated ${o.name}.`); return; }
+  if (c.kind === "logged") { const f = FL.findItem(FLS, c.id); if (!f) return; const p = fePatch(f.item, o); FL.updateItem(FLS, f.date, c.id, p); flSave(); feSyncSim(c.id, p); feAfter(`Updated ${o.name}.`); }
+}
+function feReset() {
+  const c = fe.ctx, back = (it) => ({ name: it.orig.name, label: it.orig.label, g: it.orig.g, per100: { ...it.orig.per100 }, edited: false, orig: null });
+  if (c.kind === "queue") { const a = fqLoad(), e = a[+c.i]; if (!e || !e.item.orig) return; Object.assign(e.item, back(e.item)); delete e.item.orig; delete e.item.edited; fqSave(a); feAfter(`Back to the original numbers for ${e.item.name}.`); return; }
+  if (c.kind === "logged") { const f = FL.findItem(FLS, c.id); if (!f || !f.item.orig) return; const p = back(f.item); FL.updateItem(FLS, f.date, c.id, p); flSave(); feSyncSim(c.id, { ...p, edited: undefined, orig: undefined }); feAfter(`Back to the original numbers for ${p.name}.`); }
+}
+const feTag = (it) => (it && it.edited ? ` <span class="tag fe-tag">Edited by you</span>` : "");
+document.addEventListener("click", (ev) => { const t = ev.target.closest && ev.target.closest("[data-fe-new],[data-fq-edit],[data-fe-logged]"); if (!t) return;
+  if (t.dataset.feNew) { ev.preventDefault(); feOpen({ kind: "new" }); const n = $("#fe-name"), q = $("#fs-q"); if (n && q && q.value.trim() && !/^\d+$/.test(q.value.trim())) n.value = q.value.trim(); return; }
+  if (t.dataset.fqEdit) { feOpen({ kind: "queue", i: +t.dataset.fqEdit }); return; }
+  if (t.dataset.feLogged) { feOpen({ kind: "logged", id: t.dataset.feLogged }); } });
 // ---------- v7.6: standalone Food Log (shared with the simulator's food step; on this device only) ----------
 const FL = window.FoodLog;
 let FLS = FL.load();
@@ -7253,15 +7407,15 @@ function flTotalsHtml(t, cls = "") {
 }
 function flItemRow(it) {
   const n = FL.itemNutr(it), ed = fl.edit === it.id;
-  const main = `<span class="fl-it-n">${esc(it.name)}${it.brand ? ` <small>${esc(it.brand)}</small>` : ""}<small>${it.quick ? "Quick add" : `${+it.servings} × ${esc(it.label)}`}</small></span><span class="fl-it-k"><b>${fK(n.kcal)}</b><small>kcal · ${fK(n.protein || 0)} g P</small></span>`;
-  if (!ed) return `<li class="fl-it"><button type="button" class="fl-it-b" data-fl-edit="${esc(it.id)}" aria-label="Edit ${esc(it.name)}, ${fK(n.kcal)} kcal">${main}</button></li>`;
+  const main = `<span class="fl-it-n">${esc(it.name)}${feTag(it)}${it.brand ? ` <small>${esc(it.brand)}</small>` : ""}<small>${it.quick ? "Quick add" : `${+it.servings} × ${esc(it.label)}`}</small></span><span class="fl-it-k"><b>${fK(n.kcal)}</b><small>kcal · ${fK(n.protein || 0)} g P</small></span>`;
+  if (!ed) return `<li class="fl-it"><button type="button" class="fl-it-b" data-fl-edit="${esc(it.id)}" data-fq-lid="${esc(it.id)}" aria-label="Edit ${esc(it.name)}, ${fK(n.kcal)} kcal">${main}</button></li>`;
   const sv = it.servingsList && it.servingsList.length ? it.servingsList : null, si = sv ? Math.max(0, sv.findIndex((s) => Math.abs(s.g - it.g) < 0.01 && s.label === it.label)) : 0;
   return `<li class="fl-it editing"><div class="fl-edit" role="group" aria-label="Edit ${esc(it.name)}">${main}
     <div class="row fl-edit-row">${it.quick ? `<label class="field"><span class="label">Calories</span><span class="control"><input id="fle-kcal" inputmode="decimal" data-local="1" value="${+it.per100.kcal}"><span class="unit">kcal</span></span></label>`
       : `${sv ? `<label class="field"><span class="label">Serving</span><span class="control"><select id="fle-sv">${sv.map((s, i) => `<option value="${i}" ${i === si ? "selected" : ""}>${esc(s.label)}</option>`).join("")}</select></span></label>` : ""}
       <label class="field"><span class="label">How many</span><span class="control"><input id="fle-n" inputmode="decimal" data-local="1" value="${+it.servings}"></span></label>`}
       <label class="field"><span class="label">Meal</span><span class="control"><select id="fle-meal">${FL.MEALS.map(([k, l]) => `<option value="${k}" ${k === it.meal ? "selected" : ""}>${l}</option>`).join("")}</select></span></label></div>
-    <div class="actions"><button type="button" class="btn btn-steel" data-fl-esave="${esc(it.id)}">Save</button><button type="button" class="btn btn-ghost" data-fl-edel="${esc(it.id)}">Delete</button>
+    <div class="actions"><button type="button" class="btn btn-steel" data-fl-esave="${esc(it.id)}">Save</button><button type="button" class="btn btn-ghost" data-fe-logged="${esc(it.id)}">Edit nutrition</button><button type="button" class="btn btn-ghost" data-fl-edel="${esc(it.id)}">Delete</button>
       ${it.quick ? "" : `<button type="button" class="btn btn-ghost" data-fl-fav="${esc(it.id)}" aria-pressed="${FL.isFav(FLS, it)}">${FL.isFav(FLS, it) ? "★ Favorite" : "☆ Add to favorites"}</button>`}<button type="button" class="btn btn-ghost" data-fl-ecancel="1">Cancel</button></div></div></li>`;
 }
 function flListPane() {
@@ -7748,7 +7902,7 @@ function renderCheckins() {
     ${tiles.length ? `<div class="ci-strip" role="list">${tiles.map((t) => `<div role="listitem">${t}</div>`).join("")}</div>` : `<p class="hint">No photos yet. Add your start photo in Step 1, or a check-in photo here.</p>`}
     ${B.c ? `<p class="hint ci-base"><span class="ci-ok">${ICON.check}</span> Using your <b>week ${B.c.week}</b> check-in${ciStats(B.c).entered ? " and the numbers you entered" : " (plan values for that week, since you didn't enter any)"}: about <b>${fWk(endRowB.day)} more weeks</b> to ${fW(endRowB.weightKg)} · ${fP(endRowB.bf)}${B.r.isTarget && B.r.main.reached ? " (goal)" : ""}.</p>` : ""}
     ${B.blockedCi ? `<ul class="alerts"><li class="alert info">${ICON.info}<span>From your week ${B.cBlocked.week} check-in: ${esc(B.blockedCi[0])} The projection below still uses your start.</span></li></ul>` : ""}
-    ${form || `<div class="actions"><button type="button" class="btn btn-steel" id="ci-add">+ Add a check-in photo</button>${CI.list.length ? `<button type="button" class="btn btn-ghost" id="ci-export">Export check-ins (JSON)</button>` : ""}<button type="button" class="btn btn-ghost" id="ci-import">Import</button>${CI.list.length ? `<button type="button" class="link-btn" id="ci-clear">Remove all check-ins</button>` : ""}</div>`}
+    ${form || `<div class="actions"><p class="photo-q"><b>Add a check-in photo</b></p><div class="photo-pair" role="group" aria-label="Check-in photo"><button type="button" class="btn btn-steel btn-big photo-btn" id="ci-add-cam">📷 Take a photo</button><button type="button" class="btn btn-ghost btn-big photo-btn" id="ci-add">🖼 Choose a photo</button></div>${CI.list.length ? `<button type="button" class="btn btn-ghost" id="ci-export">Export check-ins (JSON)</button>` : ""}<button type="button" class="btn btn-ghost" id="ci-import">Import</button>${CI.list.length ? `<button type="button" class="link-btn" id="ci-clear">Remove all check-ins</button>` : ""}</div>`}
     ${CI.msg ? `<p class="hint" role="status">${esc(CI.msg)}</p>` : ""}
     <p class="muted small ci-privacy">Private: check-in photos and numbers are saved only in this browser on this device${CI.mem ? " (this browser blocks storage here, so they last until you close the page)" : ""}. Nothing is uploaded, except one photo if you choose to create an AI illustration. Export makes a JSON file you can import on another device or browser. Remove deletes a photo for good.</p>`;
 }
@@ -8333,7 +8487,7 @@ function aiRenderFood() {
     <div class="actions"><button type="button" class="btn btn-steel" data-ai-food-add="${i}">Add to today's log</button><button type="button" class="btn btn-ghost" data-ai-food-drop="${i}">Discard</button></div></div>`).join("");
   box.innerHTML = `<div class="ai-food"><div class="ai-food-h"><b>Read a nutrition label with AI</b> ${aiTag("aiPhoto")}</div>
     <p class="hint">Photograph the printed Nutrition Facts label on a package. The AI copies the numbers exactly as printed (it does not guess calories from photos of food), and <b>nothing is added until you confirm and edit them</b>. The photo is sent to Google Gemini once, isn't stored, and is deleted after processing.</p>
-    ${locked ? `<p class="consent-lock">AI photo features are off. <a href="#" data-consent>Turn on "Photos and AI images" in Consent settings</a>.</p>` : `<div class="actions"><button type="button" class="btn btn-ghost" data-ai-food-pick="label" ${F.busy || !left ? "disabled" : ""}>Read a nutrition label</button></div>
+    ${locked ? `<p class="consent-lock">AI photo features are off. <a href="#" data-consent>Turn on "Photos and AI images" in Consent settings</a>.</p>` : `<p class="photo-q"><b>Read a nutrition label</b></p><div class="photo-pair" role="group" aria-label="Nutrition label photo"><button type="button" class="btn btn-ghost btn-big photo-btn" data-ai-food-pick="cam" ${F.busy || !left ? "disabled" : ""}>📷 Take a photo</button><button type="button" class="btn btn-ghost btn-big photo-btn" data-ai-food-pick="lib" ${F.busy || !left ? "disabled" : ""}>🖼 Choose a photo</button></div>
     <p class="hint">${left ? `${left} AI reading${left === 1 ? "" : "s"} left today.` : "You've used today's AI readings. Try again tomorrow, or search and type foods in."}</p>`}
     <p class="hint ai-status" role="status" aria-live="polite">${esc(F.busy ? "Reading your photo…" : F.status)}</p>${F.err ? `<p class="alert danger" role="alert">${esc(F.err)}</p>` : ""}${F.note ? `<p class="hint">${esc(F.note)}</p>` : ""}${items}</div>`;
 }
@@ -8459,14 +8613,14 @@ function aiWipe() { for (const x of [AI.food.ctl, AI.stages.ctl, AI.chat.ctl]) {
 function aiInit() {
   if (window.TheosisConsent) TheosisConsent.onRevoke((k) => { if (k === "photoAi" || k === "biometric" || k === "all") aiWipe(); });
   if (window.TheosisConsent) TheosisConsent.onChange(() => aiRenderAll());
-  const pick = () => { const f = $("#ai-food-label"); if (f) f.click(); };
+  const pick = (k) => { const f = $(k === "lib" ? "#ai-food-label-lib" : "#ai-food-label"); if (f) f.click(); };   // v7.6.52: camera or photo library
   document.addEventListener("click", (ev) => { const t = ev.target.closest("button, a"); if (!t) return;
     if (t.dataset.openAsk !== undefined) { ev.preventDefault(); aiAskOpen(); } else if (t.dataset.askClose !== undefined) { const d = $("#dlg-ask"); d && d.close(); } else if (t.dataset.askIdea) aiAskSend(t.dataset.askIdea);
     else if (t.dataset.askClear !== undefined) { AI.chat.msgs = []; AI.chat.err = ""; aiRenderAsk(); }
     else if (t.dataset.aiFoodPick) pick(t.dataset.aiFoodPick); else if (t.dataset.aiFoodAdd !== undefined) aiFoodAdd(+t.dataset.aiFoodAdd); else if (t.dataset.aiFoodDrop !== undefined) { AI.food.items.splice(+t.dataset.aiFoodDrop, 1); aiRenderFood(); }
     else if (t.id === "ai-stage-go") aiStagesRun(); else if (t.dataset.aiStageClear !== undefined) { AI.stages.frames = []; AI.stages.status = "Images deleted."; aiStageImgCache = null; aiRenderStages(); } else if (t.dataset.aiStageCancel !== undefined) { try { AI.stages.ctl && AI.stages.ctl.abort(); } catch (e) { /* ignore */ } AI.stages.ctl = null; } });
   document.addEventListener("change", (ev) => { const t = ev.target;
-    if (t.id === "ai-stage-me") { AI.adult = t.checked; aiRenderStages(); } else if (t.id === "ai-food-label" ) { const f = t.files[0]; t.value = ""; aiFoodPhoto(f, "label"); }
+    if (t.id === "ai-stage-me") { AI.adult = t.checked; aiRenderStages(); } else if (t.id === "ai-food-label" || t.id === "ai-food-label-lib") { const f = t.files[0]; t.value = ""; aiFoodPhoto(f, "label"); }
     else if (t.id === "ai-plan-opt") { /* read at print time */ } });
   document.addEventListener("submit", (ev) => { if (ev.target.id === "ask-form") { ev.preventDefault(); const q = $("#ask-q"); aiAskSend(q && q.value); } });
   document.addEventListener("keydown", (ev) => { if (ev.target.id === "ask-q" && ev.key === "Enter" && !ev.shiftKey) { ev.preventDefault(); aiAskSend(ev.target.value); } });
@@ -8955,11 +9109,11 @@ function init() {
   $("#yr").textContent = today.getFullYear();
   applyUiMode(); fillAncestry(); renderCardio(); initSteppers(); buildGoalOpts(); buildPlanner(); bindCrop(); bind(); flBind(); fillInputs(); compute(); renderSummary();
   ciLoad().then(() => { if (S.step === 5 && R && !R.blocked) renderAi(); });
-  $("#fs-photo").addEventListener("change", (ev) => { const f = ev.target.files[0]; ev.target.value = ""; fsScanPhoto(f); });
-  $("#file-ci").addEventListener("change", (ev) => { const f = ev.target.files[0]; ev.target.value = ""; ciAddFile(f); });
+  ["#fs-photo", "#fs-photo-cam"].forEach((id) => $(id).addEventListener("change", (ev) => { const f = ev.target.files[0]; ev.target.value = ""; fsScanPhoto(f); }));
+  ["#file-ci", "#file-ci-cam"].forEach((id) => $(id).addEventListener("change", (ev) => { const f = ev.target.files[0]; ev.target.value = ""; ciAddFile(f); }));
   $("#file-ci-import").addEventListener("change", (ev) => { const f = ev.target.files[0]; ev.target.value = ""; if (f) ciImport(f); });
   $("#ai-card").addEventListener("click", async (ev) => { const t = ev.target.closest("button"); if (!t) return;
-    if (t.id === "ci-add") $("#file-ci").click(); else if (t.id === "ci-import") $("#file-ci-import").click(); else if (t.id === "ci-export") ciExport();
+    if (t.id === "ci-add") $("#file-ci").click(); else if (t.id === "ci-add-cam") $("#file-ci-cam").click(); else if (t.id === "ci-import") $("#file-ci-import").click(); else if (t.id === "ci-export") ciExport();
     else if (t.id === "ci-save") await ciSaveDraft(); else if (t.id === "ci-cancel") { CI.draft = null; renderCheckins(); }
     else if (t.id === "ci-clear") { if (confirm("Remove all check-in photos from this device?")) { await ciClearAll(); CI.msg = "All check-ins removed."; aiState.result = null; renderAi(); } }
     else if (t.dataset.ciDel) { await ciDel(t.dataset.ciDel); CI.msg = "Check-in removed from this device."; aiState.result = null; renderAi(); } });
