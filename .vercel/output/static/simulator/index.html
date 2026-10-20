@@ -1454,6 +1454,18 @@ body.has-mbar .fq-bar{bottom:calc(5.5rem + env(safe-area-inset-bottom))}
 /* v7.6.52: every photo input offers camera and library (Android opened only the file picker) */
 .photo-pair{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin:.5rem 0}.photo-btn{min-height:3.5rem;font-size:1.05rem;width:100%;justify-content:center;text-align:center}.photo-q{margin:.6rem 0 0}
 
+/* v7.6.53: Home to-do list before the simulator has run */
+.v-todo{list-style:none;margin:.5rem 0 1rem;padding:0;display:grid;gap:.5rem}
+.v-todo-b{display:flex;align-items:center;gap:.75rem;width:100%;text-align:left;padding:.8rem;border:0;border-radius:12px;background:rgba(255,255,255,.04);box-shadow:0 0 0 1px var(--border-strong);font:inherit;color:var(--fg);cursor:pointer;min-height:56px}
+.v-todo-b[aria-disabled=true]{cursor:default}.v-todo-b[aria-disabled=true] .v-todo-t{opacity:.7}
+.v-todo-c{flex:0 0 26px;height:26px;border:2px solid currentColor;border-radius:50%;display:grid;place-items:center;font-size:.9rem}
+.v-todo-i.done .v-todo-c{background:#2f7d4f;border-color:#2f7d4f;color:#fff}
+.v-todo-t{flex:1;display:flex;flex-direction:column}.v-todo-t small{opacity:.75;margin-top:2px}
+.v-todo-st{font-size:.78rem;font-weight:700;padding:.2rem .5rem;border-radius:999px;white-space:nowrap}
+.v-todo-st.ok{background:rgba(47,158,90,.18);color:#7fe0a3;border:1px solid #3fae6a}
+.v-todo-st.no{background:rgba(229,83,75,.16);color:#ff9a94;border:1px solid #e5534b}
+.v-todo-t small{color:var(--muted)}
+
 </style>
 </head>
 <body>
@@ -8682,10 +8694,23 @@ function renderViews() { const box = $("#views"); if (!box) return; box.innerHTM
   if (V.view === "glucose") { const d = $("#gl-dt"); if (d) d.value = V.g.dt; } }
 
 // ---- Home ----
+// v7.6.53: to-do list shown on Home until the simulator has been run (the person has reached the Projection step).
+function homeTodo() {
+  const o = stepOrder(), pos = S.maxPos != null ? S.maxPos : o.indexOf(S.maxStep || 1);
+  const info = { 1: ["you", "Tell us about yourself", "Age, height, weight and a few health questions"], 2: ["goal", "Pick a goal", "Like losing weight, getting stronger, or improving your health overall"],
+    3: ["move", "How you move", "Your steps and any exercise"], 4: ["food", "What you eat", "A typical day of eating, or use our suggestion"] };
+  return o.filter((k) => info[k]).map((k) => ({ k: info[k][0], s: k, label: info[k][1], sub: info[k][2], done: pos > o.indexOf(k), open: pos >= o.indexOf(k) }));
+}
+function homeTodoHtml() {
+  const L = homeTodo(), left = L.filter((x) => !x.done).length, next = L.find((x) => !x.done);
+  const li = (x) => { const open = x.done || x.open; return `<li class="v-todo-i${x.done ? " done" : ""}" data-todo="${x.k}"><button type="button" class="v-todo-b" data-v-sim="${x.s}" ${open ? "" : 'aria-disabled="true"'}><span class="v-todo-c" aria-hidden="true">${x.done ? "✔" : ""}</span><span class="v-todo-t"><b>${x.label}</b><small>${x.done ? "Done. Tap to change it" : open ? x.sub : "Opens after the step above"}</small></span><span class="v-todo-st ${x.done ? "ok" : "no"}">${x.done ? "✔ Complete" : "✕ Not done yet"}</span></button></li>`; };
+  return `<header class="step-head"><p class="eyebrow">Home</p><h1 tabindex="-1">Your to-do list</h1><p class="lead">For your full dashboard, finish these steps. It takes about three minutes.</p></header>
+  <div class="v-card"><h2>${left ? `${left} of ${L.length} steps left` : "All steps done"}</h2><ul class="v-todo">${L.map(li).join("")}</ul>
+  <div class="actions"><button type="button" class="btn btn-primary" data-v-sim="${next ? next.s : 5}" id="v-todo-run">${S.maxStep > 1 || S.goal.touched ? "Keep going with the simulator" : "Run the simulator"}</button></div>
+  <p class="hint">Once you run the simulator, this page shows your plan at a glance. Everything is a model estimate for education only, not medical advice. Your answers stay on this device.</p></div>`;
+}
 function homeHtml() {
-  const has = HAD_SAVED || S.maxStep > 1 || S.goal.touched;
-  if (!has || !R || R.blocked) return `<header class="step-head"><p class="eyebrow">Home</p><h1 tabindex="-1">Home</h1><p class="lead">Your dashboard appears here once you have a plan. It pulls from the simulator and your Food Log.</p></header>
-    <div class="v-card"><p>${R && R.blocked ? "Finish the earlier steps so the plan can be calculated." : "Start the simulator to build your plan. It takes about three minutes."}</p><div class="actions"><button type="button" class="btn btn-primary" data-v-sim="1">${has ? "Continue your plan" : "Start the simulator"}</button></div></div>`;
+  if (S.maxStep < 5 || !R || R.blocked) return homeTodoHtml();   // v7.6.53: before the simulator has run, show a to-do list instead of the dashboard
   const d = sumData(), b = bfInfo(), today = FL.dateKey(new Date()), t = FL.dayTotals(FLS = FL.load(), today), n = FLS.days[today] ? FLS.days[today].items.length : 0;
   const stat = (k, v, u) => `<div class="stat"><div class="k">${k}</div><div class="v">${v}${u ? ` <small>${u}</small>` : ""}</div></div>`;
   const lastG = GLS.items.length ? GLS.items[GLS.items.length - 1] : null;
@@ -8802,7 +8827,7 @@ function renderEntryViews() { const box = $("#entry-views"); if (!box) return; c
 document.addEventListener("click", (e) => {
   const t = e.target.closest("[data-view],[data-v-sim],[data-gl-unit],[data-gl-tag],[data-gl-range],[data-gl-del],#gl-save,#gl-confirm,#gl-fix,#gl-csv,#gl-pdf,#gl-clear,#gl-opt,#data-export,#data-import"); if (!t) return;
   if (t.dataset.view) { e.preventDefault(); openView(t.dataset.view); return; }
-  if (t.dataset.vSim) { vLeave(); const s = +t.dataset.vSim, started = S.maxStep > 1 || S.goal.touched; go(s <= 1 ? (started ? Math.max(1, S.step) : 0) : Math.min(s, Math.max(1, S.maxStep))); return; }
+  if (t.dataset.vSim) { if (t.getAttribute("aria-disabled") === "true") return; vLeave(); const s = +t.dataset.vSim, started = S.maxStep > 1 || S.goal.touched; go(s <= 1 ? (started ? Math.max(1, S.step) : 0) : Math.min(s, Math.max(1, S.maxStep))); return; }
   if (!V.open) return;
   if (t.dataset.glUnit) { GLS.unit = t.dataset.glUnit === "mmol" ? "mmol" : "mgdl"; GLU.save(GLS); V.g.val = ""; V.g.err = ""; renderViews(); return; }
   if (t.dataset.glTag) { V.g.tag = V.g.tag === t.dataset.glTag ? "" : t.dataset.glTag; renderViews(); return; }
