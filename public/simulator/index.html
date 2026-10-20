@@ -1380,6 +1380,13 @@ html.lb-open{overflow:hidden}
 .why-body .alert,.why-body .hint,.why-body .plan-sum,.why-body .plan-sum dd,.why-body .plan-sum dt{font-size:1rem;line-height:1.6}
 .ba.ba-photo{max-width:34rem;margin-left:auto;margin-right:auto}.ba.ba-one{grid-template-columns:1fr;max-width:16rem}
 .ba-photo img.photo{cursor:zoom-in}
+/* v7.6.48c: Methods & references compact, sits at the bottom just above the footer */
+.methods-wrap{margin-top:3.5rem;display:flex;flex-direction:column}
+.methods-wrap .method{order:2;margin-top:.75rem;padding:.55rem .9rem;background:transparent;box-shadow:0 0 0 1px var(--border);border-radius:var(--r-md)}
+.methods-wrap .method summary h2{font-size:.85rem;font-weight:500;letter-spacing:.02em;color:var(--muted);margin:0;font-family:inherit}
+.methods-wrap .method summary::after{font-size:1rem;color:var(--muted)}
+.methods-wrap .method .body{font-size:.85rem;margin-top:.75rem}
+.methods-wrap .disclaimer{order:1;margin-top:0}
 
 </style>
 </head>
@@ -1425,7 +1432,6 @@ html.lb-open{overflow:hidden}
       <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19V5M4 19h16M8 15l3-4 3 2 4-6"/></svg>Built on published research</span>
     </div>
     <div class="entry-views" id="entry-views"></div>
-    <button type="button" class="qc-card qc-landing fl-entry" data-open-log="1"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 3v8M5 3v5a3 3 0 0 0 6 0V3M8 11v10M17 3c-2 2-3 5-3 8h3v10"/></svg><span><b>Food Log</b><small>Log what you eat today: search, scan a barcode or quick-add calories. Works on its own; the simulator can use your average.</small></span><span class="qc-go" aria-hidden="true">→</span></button>
     <aside class="entry-hero" id="entry-hero" aria-label="Theosis Metabolic Simulator shield" data-print="no">
       <figure class="hero-fig"><img src="assets/shield-nick.webp" width="700" height="868" loading="lazy" decoding="async" alt="Theosis Metabolic Simulator shield"></figure>
     </aside>
@@ -2038,6 +2044,7 @@ html.lb-open{overflow:hidden}
 
   <!-- ================= METHODS ================= -->
   <div class="methods-wrap">
+    <p class="disclaimer"><strong>Educational tool, not medical advice.</strong> <a href="#disclaimer" data-info="disclaimer">Full disclaimer</a> · <a href="#science" data-info="science">The science</a> · These are estimates from population research. Your results will differ. Using this tool doesn't create a patient relationship. If you're pregnant or breastfeeding, under 18, have diabetes, heart, kidney or liver disease, take prescription medicines, or have a history of disordered eating, talk with your clinician before changing how you eat or train.</p>
     <details class="card method" id="methods">
       <summary><h2>Methods &amp; references</h2></summary>
       <div class="body">
@@ -2076,7 +2083,6 @@ html.lb-open{overflow:hidden}
         <p class="hint">Every reference is listed once, with its own number, on the <a href="#sources" data-info="sources">Sources &amp; Acknowledgements</a> page. Tap a bracketed number in the text to see its source.</p>
       </div>
     </details>
-    <p class="disclaimer"><strong>Educational tool, not medical advice.</strong> <a href="#disclaimer" data-info="disclaimer">Full disclaimer</a> · <a href="#science" data-info="science">The science</a> · These are estimates from population research. Your results will differ. Using this tool doesn't create a patient relationship. If you're pregnant or breastfeeding, under 18, have diabetes, heart, kidney or liver disease, take prescription medicines, or have a history of disordered eating, talk with your clinician before changing how you eat or train.</p>
   </div>
 </main>
 
@@ -2103,7 +2109,7 @@ html.lb-open{overflow:hidden}
 
 <footer>
   <span>© <span id="yr"></span> Theosis Medical, LLC · Health Hacks · All rights reserved</span>
-  <nav class="foot-links" aria-label="About this tool"><a href="#science" data-info="science">The science</a><a href="#disclaimer" data-info="disclaimer">Medical disclaimer</a><a href="#privacy" data-info="privacy">Privacy</a><a href="#food-log" data-open-log="1">Food Log</a><a href="#" data-open-ask="1" hidden>Ask Theosis</a><a href="#" data-intro>Intro tour</a><a href="#" data-consent>Consent settings</a><a href="#about" data-info="about">About &amp; credentials</a><a href="#terms" data-info="terms">Terms of use</a><a href="#sources" data-info="sources">Sources &amp; Acknowledgements</a></nav>
+  <nav class="foot-links" aria-label="About this tool"><a href="#science" data-info="science">The science</a><a href="#disclaimer" data-info="disclaimer">Medical disclaimer</a><a href="#privacy" data-info="privacy">Privacy</a><a href="#food-log" data-open-log="1">Food Log</a><a href="#" data-open-ask="1" hidden>Ask Theosis</a><a href="#" data-intro>Intro tour</a><a href="#settings" data-view="settings">Settings</a><a href="#" data-consent>Consent settings</a><a href="#about" data-info="about">About &amp; credentials</a><a href="#terms" data-info="terms">Terms of use</a><a href="#sources" data-info="sources">Sources &amp; Acknowledgements</a></nav>
   <span>Questions? <a href="https://theosismedical.com/#contact">Contact</a></span>
 </footer>
 <dialog id="info-dlg" class="info-dlg" aria-labelledby="info-title"><div class="info-head"><h2 id="info-title" tabindex="-1"></h2><button type="button" class="x" id="info-close" aria-label="Close">×</button></div><div id="info-body" class="info-body"></div></dialog>
@@ -4716,7 +4722,7 @@ return { KEY, MEALS, MEAL_IDS, dateKey, addDays, isDate, mealFor, empty, normali
     ["assume-deficit", "Assumption: the 14% deficit adaptation coefficient", "ESTIMATE, not a published constant. The model lowers expenditure by 14% of the cut in intake (from starting maintenance), over about 2 weeks, beyond what tissue loss explains. Full texts read: Rosenbaum & Leibel 2010 (holding a 10% lower weight: 24-hour expenditure about 20–25% lower, 10–15% below what lean and fat change predict; a formerly obese person needs roughly 300–400 fewer kcal/day) and Fothergill 2016 (14 Biggest Loser contestants: extra slowing −275 kcal/day at the end of the 30-week competition and −499 ± 207 kcal/day at 6 years; people who kept more weight off had more slowing; very large individual differences). Those describe holding a reduced weight, not a per-kcal coefficient, so 14% is our modelling choice in that direction. Dulloo 2012 (Br J Nutr) says how large adaptive thermogenesis is remains uncertain (abstract only). Rosenbaum & Leibel also note that responses to weight gain are not a mirror image of weight loss.", "Projection model (v7.6.20)", ""],
     ["fothergill2016", "Fothergill et al. 2016 (Biggest Loser follow-up)", "Fothergill E, Guo J, Howard L, et al. Persistent metabolic adaptation 6 years after “The Biggest Loser” competition. Obesity 2016;24:1612–9. Read in full. 14 participants; weight loss 58.3 ± 24.9 kg at 30 weeks, 41.0 ± 31.3 kg regained by 6 years; resting metabolic rate 704 ± 427 kcal/day below baseline at 6 years; metabolic adaptation (residual after body composition and age) −275 ± 207 kcal/day at 30 weeks and −499 ± 207 kcal/day at 6 years. Very small, unusual group (class III obesity, televised competition); we use it only for direction and rough size.", "Projection model (v7.6.20)", "https://pmc.ncbi.nlm.nih.gov/articles/PMC4989512/"],
     ["rosenbaum2010", "Rosenbaum & Leibel 2010 (adaptive thermogenesis)", "Rosenbaum M, Leibel RL. Adaptive thermogenesis in humans. Int J Obes 2010;34(Suppl 1):S47–55. Read in full (narrative review). Maintaining a 10% or greater lower weight lowers 24-hour expenditure about 20–25%, which is 10–15% below the prediction from tissue change. It states that responses to maintaining a higher weight are not a mirror image: a bigger effect on the thermic effect of food, less on resting expenditure; and in rodents the rise in expenditure on overfeeding faded after a few months. A narrative review, not a trial.", "Projection model (v7.6.20)", "https://pmc.ncbi.nlm.nih.gov/articles/PMC3673773/"],
-    ["minnesota2008", "Minnesota starvation study (data review 2008)", "Modeling transitions in body composition: the approach to steady state for anthropometric measures and physiological functions in the Minnesota human starvation study. Dyn Med 2008;7:16. Used only to show where the model does not apply (extreme restriction).", "Projection model (v7.6.20)", "https://pmc.ncbi.nlm.nih.gov/articles/PMC2596786/"],
+    ["minnesota2008", "Minnesota starvation study (data review 2008)", "Hargrove JL, Heinz G, Heinz O. Modeling transitions in body composition: the approach to steady state for anthropometric measures and physiological functions in the Minnesota human starvation study. Dyn Med 2008;7:16. Used only to show where the model does not apply (extreme restriction).", "Projection model (v7.6.20)", "https://pmc.ncbi.nlm.nih.gov/articles/PMC2596786/"],
     ["who2020", "WHO 2020", "Bull FC et al. World Health Organization 2020 guidelines on physical activity and sedentary behaviour. Br J Sports Med 2020;54:1451–62. Read in full. Adults: 150–300 min a week of moderate aerobic activity; some activity is better than none; measures of adiposity \"may also improve\".", "Cardio and steps (v7.6.28)", "https://pmc.ncbi.nlm.nih.gov/articles/PMC7719906/"],
     ["pag2018", "PAG 2018", "Piercy KL et al. The Physical Activity Guidelines for Americans. JAMA 2018;320:2020–8. Read in part (key guidelines and intensity sections). Same 150–300 min a week; brisk walking at 2.5–4.0 mph is moderate intensity.", "Cardio and steps (v7.6.28)", "https://pmc.ncbi.nlm.nih.gov/articles/PMC9582631/"],
     ["donnelly2009", "Donnelly 2009 (ACSM)", "Donnelly JE et al. ACSM Position Stand: appropriate physical activity intervention strategies for weight loss and prevention of weight regain for adults. Med Sci Sports Exerc 2009;41:459–71. Read the abstract and conclusions only. 150–250 min a week gives only modest weight loss; the benefit added to diet shrinks as the diet gets stricter.", "Cardio and steps (v7.6.28)", "https://doi.org/10.1249/MSS.0b013e3181949333"],
@@ -4786,7 +4792,7 @@ return { KEY, MEALS, MEAL_IDS, dateKey, addDays, isDate, mealFor, empty, normali
     ["roberts2020", "Roberts et al. 2020", "Roberts BM, Nuckols G, Krieger JW. Sex differences in resistance training: a systematic review and meta-analysis. J Strength Cond Res 2020;34:1448–60. " + NR, "Muscle, protein and training"],
     ["garthe2011", "Garthe et al. 2011", "Garthe I, Raastad T, Refsnes PE, Koivisto A, Sundgot-Borgen J. Effect of two different weight-loss rates on body composition and strength and power-related performance in elite athletes. Int J Sport Nutr Exerc Metab 2011;21:97–104. " + AB, "Diet strategy and rate of change"],
     ["campbell2020", "Campbell et al. 2020", "Campbell BI, Aguilar D, Conlin L, et al. Intermittent energy restriction attenuates the loss of fat free mass in resistance trained individuals: a randomized controlled trial. J Funct Morphol Kinesiol 2020;5:19. " + FT, "Diet strategy and rate of change"],
-    ["peos2021", "Peos et al. 2021", "Peos JJ, Helms ER, Fournier PA, et al. Continuous versus intermittent moderate energy restriction for increased fat mass loss and fat free mass retention in adult athletes: the ICECAP randomized trial. Med Sci Sports Exerc 2021;53:1685–98. " + FT, "Diet strategy and rate of change"],
+    ["peos2021", "Peos et al. 2021", "Peos JJ, Helms ER, Fournier PA, et al. Continuous versus intermittent dieting for fat loss and fat-free mass retention in resistance-trained adults: the ICECAP trial. Med Sci Sports Exerc 2021;53:1685–98. " + FT, "Diet strategy and rate of change"],
     ["byrne2018", "Byrne et al. 2018", "Byrne NM, Sainsbury A, King NA, Hills AP, Wood RE. Intermittent energy restriction improves weight loss efficiency in obese men: the MATADOR study. Int J Obes 2018;42:129–38. " + NR, "Diet strategy and rate of change"],
     ["bistrian1978", "Bistrian 1978", "Bistrian BR. Clinical use of a protein-sparing modified fast. JAMA 1978;240:2299–302. " + NR, "Diet strategy and rate of change"],
     ["chang2014", "Chang & Kashyap 2014", "Chang J, Kashyap SR. The protein-sparing modified fast for obese patients with type 2 diabetes: what to expect. Cleve Clin J Med 2014;81:557–65. " + AB, "Diet strategy and rate of change"],
@@ -4814,7 +4820,7 @@ return { KEY, MEALS, MEAL_IDS, dateKey, addDays, isDate, mealFor, empty, normali
     ["neeland2012", "Neeland et al. 2012", "Neeland IJ, Turer AT, Ayers CR, et al. Dysfunctional adiposity and the risk of prediabetes and type 2 diabetes in obese adults (Dallas Heart Study). JAMA 2012;308:1150–9. " + FT, "Fat distribution and organ fat"],
     ["shulman1990", "Shulman et al. 1990", "Shulman GI, Rothman DL, Jue T, et al. Quantitation of muscle glycogen synthesis in normal subjects and subjects with non-insulin-dependent diabetes by 13C nuclear magnetic resonance spectroscopy. N Engl J Med 1990;322:223–8. " + NR, "Fat distribution and organ fat"],
     ["hamman2006", "Hamman et al. 2006", "Hamman RF, Wing RR, Edelstein SL, et al. Effect of weight loss with lifestyle intervention on risk of diabetes. Diabetes Care 2006;29:2102–7. " + FT, "Remission and prevention"],
-    ["taylor2023", "Taylor et al. (ReTUNE)", "Taylor R, et al. Aetiology of type 2 diabetes in people with a 'normal' body mass index: testing the personal fat threshold hypothesis (the ReTUNE study). Clin Sci (Lond) 2023, doi:10.1042/CS20230586. 14 of 20 (70%) with BMI under 27 reached remission after a median weight loss of 6.5%. " + EX, "Remission and prevention"],
+    ["taylor2023", "Taylor et al. (ReTUNE)", "Taylor R, et al. Aetiology of type 2 diabetes in people with a 'normal' body mass index: testing the personal fat threshold hypothesis (the ReTUNE study). Clin Sci (Lond) 2023;137:1333–46, doi:10.1042/CS20230586. 14 of 20 (70%) with BMI under 27 reached remission after a median weight loss of 6.5%. " + EX, "Remission and prevention"],
     ["forbes1987", "Forbes 1987", "Forbes GB. Human Body Composition: Growth, Aging, Nutrition, and Activity. New York: Springer-Verlag; 1987. Read level: no accessible text.", "Energy and body composition"],
     ["fabbrini2010", "Fabbrini et al. 2010", "Fabbrini E, Sullivan S, Klein S. Obesity and nonalcoholic fatty liver disease: biochemical, metabolic, and clinical implications. Hepatology 2010;51:679–89. " + NR, "Fat distribution and organ fat"],
     ["ada-standards", "ADA Standards of Care (A1c bands)", "American Diabetes Association. Classification and diagnosis of diabetes: Standards of Care in Diabetes. Diabetes Care. A1c 5.7–6.4% is the prediabetes range and 6.5% or more the diabetes range (see also the NIDDK A1c test). " + NR, "Body fat estimates and reference ranges"],
@@ -4898,7 +4904,7 @@ return { KEY, MEALS, MEAL_IDS, dateKey, addDays, isDate, mealFor, empty, normali
       .observe(document.body, { childList: true, subtree: true, characterData: true }); }
   const byId = (id) => { const r = REG.find((x) => x[0] === id); if (r) return { id, short: r[1], full: r[2], topic: r[3], link: r[4] };
     const S = window.BodyStory && window.BodyStory.SOURCES, s = S && S.find((x) => x[0] === id);
-    return s ? { id, short: s[1].split(/\.\s/)[0].replace(/ et al$/, " et al."), full: s[1], topic: "Your body's story", link: pm(s[1].split(/\.\s/).slice(1, 2).join("")) } : null; };
+    return s ? { id, short: s[1].split(/\.\s/)[0].replace(/ et al$/, " et al."), full: s[1], topic: "Your body's story", link: fixLink(id, pm(s[1].split(/\.\s/).slice(1, 2).join(""))) } : null; };
   const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
   const strip = (s) => String(s).replace(/<[^>]+>/g, "");
   function fn(id) { id = canon(id); const e = byId(id), n = numOf(id); if (!e || !n) return `<sup class="fn-sup">[?]</sup>`;
@@ -4924,7 +4930,7 @@ return { KEY, MEALS, MEAL_IDS, dateKey, addDays, isDate, mealFor, empty, normali
   function pageHtml() {
     const ids = master(), S = (window.BodyStory && window.BodyStory.SOURCES) || [];
     const lis = ids.map((id, i) => { const r = REG.find((x) => x[0] === id), st = S.find((x) => x[0] === id);
-      const full = r ? r[2] : st ? st[1] : id, topic = r ? r[3] : "Your body's story", link = r ? r[4] : pm(full.split(/\.\s/).slice(1, 2).join(""));
+      const full = r ? r[2] : st ? st[1] : id, topic = r ? r[3] : "Your body's story", link = r ? r[4] : fixLink(id, pm(full.split(/\.\s/).slice(1, 2).join("")));
       return `<li value="${i + 1}" id="srcp-${id}"><span class="src-topic">${esc(topic)}</span> ${esc(full)} ${link ? `<a href="${esc(link)}" target="_blank" rel="noopener">Find it</a>` : ""}</li>`; });
     let h = `<p>Every number and claim in this tool traces back to a published source. Each source has one number. Tap a bracketed number like <b>[1]</b> in the text to see its source; this page lists them all in order.</p>`;
     h += `<ol class="src-list src-num">${lis.join("")}</ol>`;
@@ -4937,6 +4943,13 @@ return { KEY, MEALS, MEAL_IDS, dateKey, addDays, isDate, mealFor, empty, normali
     return h; }
   function openPage(id) { if (!window.TheosisInfo) return; window.TheosisInfo.PAGES.sources.h = pageHtml(); window.TheosisInfo.open("sources");
     if (id) { const li = document.getElementById("srcp-" + id); if (li) { li.classList.add("src-hit"); li.setAttribute("tabindex", "-1"); li.scrollIntoView({ block: "center" }); li.focus(); } } }
+  // v7.6.48 citation audit: verified PubMed IDs replace title searches (a title search for a non-paper entry, "mcdonald", redirected to an unrelated wound-care paper, PMID 20424292). Each PMID below was matched on first author, year, volume and first page. See REFERENCE-AUDIT.md.
+  const PMID = {"acg2017": "27995906", "acs2022": "35294043", "ainsworth2011": "21681120", "alpert2005": "15615615", "androulakis2020": "31797219", "antonio2014": "24834017", "antonio2015": "26500462", "antonio2016": "26778925", "asco2020": "32432946", "ashwell2012": "22106927", "bickel2011": "21131862", "bistrian1978": "702762", "browning2004": "15565570", "byrne2018": "28925405", "campbell2020": "33467235", "carroll2008": "18239557", "cava2017": "28507015", "chang2014": "25183847", "chaston2008": "18180786", "deurenberg1991": "2043597", "direct2018": "29221645", "dpp2002": "11832527", "dulloo1998": "9734736", "espen2017": "27637832", "espen2021": "33946039", "fabbrini2009": "19706383", "fabbrini2010": "20041406", "forbes2000": "10865771", "frankenfield2005": "15883556", "fyfe2022": "34822137", "garthe2011": "21558571", "garthe2013": "23679146", "grundy2019": "30586774", "hall2011": "21872751", "hallgreen2008": "18087265", "hamman2006": "16936160", "helms2014a": "24864135", "helms2014b": "24092765", "helms2023": "37914977", "iraki2019": "31247944", "iversen2021": "34125411", "jager2017": "28642676", "janssen2000": "10904038", "jensen2008": "18987271", "karpe2015": "25365922", "katzmarzyk2010": "19828714", "kelly2009": "19753111", "keytel2005": "15966347", "kouri1995": "7496846", "kuk2009": "19576300", "lear2007": "17684205", "lim2011": "21656330", "longland2016": "26817506", "lookahead2014": "24307184", "lovejoy2008": "18332882", "magkos2016": "26916363", "mclaughlin2003": "14623617", "merlotti2017": "28148928", "mifflin1990": "2305711", "morton2018": "28698222", "murphy2022": "34623696", "neeland2012": "22990274", "nhlbi1998": "9813653", "ntuk2014": "24974975", "patel2016": "27582882", "pelland2026": "41343037", "peos2021": "33587549", "perreault2012": "22683134", "raji2001": "11701707", "refalo2023": "36334240", "riddle2021": "34462270", "roberts2020": "32218059", "robinson2024": "38970765", "schoenfeld2017": "27433992", "schoenfeld2018": "29497353", "schoenfeld2019": "30558493", "schorr2018": "29950175", "shulman1990": "2403659", "slater2019": "31482093", "stefan2019": "30174213", "tang2013": "23382291", "taylor2008": "18726585", "taylor2015": "25515001", "taylor2018": "30078554", "taylor2023": "37593846", "thomas2013": "23628852", "vilargomez2015": "25865049", "villareal2017": "28514618", "weinheimer2010": "20591106", "wing2011": "21593294", "woolcott2018": "30030479", "wulan2010": "20079586"};
+  // Books, reports and non-PubMed items: a PubMed title search lands on unrelated papers, so no link is shown (flagged in REFERENCE-AUDIT.md).
+  const NOLINK = new Set(["mcdonald", "hodgdon1984", "idf2006", "nice-ng246", "keys1950", "forbes1987", "ada-standards", "acsm-equations", "devine1974"]);
+  const DOI = { barakat2020: "10.1519/SSC.0000000000000584" }; // verified via Crossref (title, authors, Strength Cond J 2020;42:7-21)
+  const fixLink = (id, link) => NOLINK.has(id) ? "" : PMID[id] ? "https://pubmed.ncbi.nlm.nih.gov/" + PMID[id] + "/" : DOI[id] ? "https://doi.org/" + DOI[id] : link;
+  REG.forEach((r) => { r[4] = fixLink(r[0], r[4]); });
   window.TheosisSources = { fn, byId, REG, pageHtml, openPage, closePop, linkify, citeText, numOf, master, ALIAS };
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", startLinkify); else startLinkify();
 })();
@@ -8379,7 +8392,7 @@ const vFmtT = (t) => new Date(t).toLocaleTimeString("en-US", { hour: "numeric", 
 const vFmtD = (t) => new Date(t).toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" });
 function vDownload(name, type, data) { const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([data], { type })); a.download = name; document.body.appendChild(a); a.click(); setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 500); }
 function vHideOthers() { $("#entry").hidden = true; $("#wizard").hidden = true; $("#mbar").hidden = true; document.body.classList.remove("has-mbar"); const f = $("#flog"); if (f) f.hidden = true; if (typeof fl !== "undefined" && fl.open) { try { flLeave(); } catch (e) { /* ignore */ } } }
-function vLeave() { if (!V.open) return; V.open = false; const v = $("#views"); if (v) v.hidden = true; try { if (/^#(home|glucose|settings)$/.test(location.hash)) history.replaceState(null, "", location.pathname + location.search); } catch (e) { /* ignore */ } }
+function vLeave() { if (!V.open) return; V.open = false; const v = $("#views"); if (v) v.hidden = true; try { if (/^#(home|glucose|settings|progress)$/.test(location.hash)) history.replaceState(null, "", location.pathname + location.search); } catch (e) { /* ignore */ } }
 function openView(name) {
   if (name === "glucose" && !glVisible()) name = "settings";
   vHideOthers(); V.open = true; V.view = name; $("#views").hidden = false; GLS = GLU.load(); if (!V.g.dt) V.g.dt = vDt(new Date());
@@ -8390,7 +8403,7 @@ function vNav() {
   const b = (k, l) => `<button type="button" class="vn${V.view === k ? " on" : ""}" data-view="${k}" ${V.view === k ? 'aria-current="page"' : ""}>${l}</button>`;
   return `<nav class="vnav" aria-label="Simulator sections">${b("home", "Home")}<button type="button" class="vn" data-open-log="1">Food Log</button>${glVisible() ? b("glucose", "Glucose log") : ""}${b("settings", "Settings")}<button type="button" class="vn vn-sim" data-v-sim="1">${S.maxStep > 1 || S.goal.touched ? "Your plan" : "Start the simulator"}</button></nav>`;
 }
-function renderViews() { const box = $("#views"); if (!box) return; box.innerHTML = `<div class="v-body">${V.view === "glucose" ? glucoseHtml() : V.view === "settings" ? settingsHtml() : homeHtml()}</div>`;
+function renderViews() { const box = $("#views"); if (!box) return; box.innerHTML = `<div class="v-body">${V.view === "glucose" ? glucoseHtml() : V.view === "settings" ? settingsHtml() : V.view === "progress" ? progressHtml() : homeHtml()}</div>`;
   if (V.view === "glucose") { const d = $("#gl-dt"); if (d) d.value = V.g.dt; } }
 
 // ---- Home ----
@@ -8480,6 +8493,11 @@ function glPdfLines() { const u = GLS.unit, ul = u === "mmol" ? "mmol/L" : "mg/d
   for (const x of GLS.items) { const d = new Date(x.t); L.push(pad(d.toLocaleDateString("en-US"), 12) + pad(vFmtT(x.t), 10) + pad(GLU.toDisp(x.mgdl, u), 9) + pad((GLU.tags.find((t) => t[0] === x.tag) || [0, ""])[1], 14) + (x.meal ? x.meal.name.slice(0, 44) : "") + (x.note ? (x.meal ? " | " : "") + x.note.slice(0, 30) : "")); }
   L.push("", "Generated by Theosis Metabolic Simulator. A personal record, not a medical record or interpretation."); return L; }
 
+// ---- v7.6.48: Progress (not built yet: Coming soon placeholder) ----
+function progressHtml() {
+  return `<header class="step-head"><p class="eyebrow">Progress <span class="tn-badge">Coming soon</span></p><h1 tabindex="-1">Progress</h1></header>
+  <div class="v-card"><h2>Coming soon</h2><p>A page to track how you're doing over time: weight, waist and body-fat trends, your check-in photos, and how your progress compares with your projection.</p><p class="hint">For now, weekly check-ins live in your plan. <a href="#" data-v-sim="1">Go to your plan</a></p></div>`;
+}
 // ---- Settings (+ export / import) ----
 function settingsHtml() {
   const dia = glIsDiabetic(), on = glVisible();
@@ -8505,7 +8523,7 @@ async function dataImport(file) {
   } catch (e) { V.msg = e.message || "That file couldn't be read."; renderViews(); }
 }
 function renderEntryViews() { const box = $("#entry-views"); if (!box) return; const has = HAD_SAVED || S.goal.touched || S.maxStep > 1;
-  box.innerHTML = [has ? `<button type="button" class="qc-card fl-entry" data-view="home"><span><b>Home dashboard</b><small>Your plan at a glance: goal-fit dial and top tips</small></span></button>` : "", glVisible() ? `<button type="button" class="qc-card fl-entry" data-view="glucose"><span><b>Glucose log</b><small>Log your own readings. Log only, no advice</small></span></button>` : "", `<button type="button" class="qc-card fl-entry" data-view="settings"><span><b>Settings</b><small>Glucose log option, move your data to another device</small></span></button>`].join(""); }
+  box.innerHTML = [has ? `<button type="button" class="qc-card fl-entry" data-view="home"><span><b>Home dashboard</b><small>Your plan at a glance: goal-fit dial and top tips</small></span></button>` : "", glVisible() ? `<button type="button" class="qc-card fl-entry" data-view="glucose"><span><b>Glucose log</b><small>Log your own readings. Log only, no advice</small></span></button>` : ""].join(""); }
 document.addEventListener("click", (e) => {
   const t = e.target.closest("[data-view],[data-v-sim],[data-gl-unit],[data-gl-tag],[data-gl-range],[data-gl-del],#gl-save,#gl-confirm,#gl-fix,#gl-csv,#gl-pdf,#gl-clear,#gl-opt,#data-export,#data-import"); if (!t) return;
   if (t.dataset.view) { e.preventDefault(); openView(t.dataset.view); return; }
@@ -8546,7 +8564,7 @@ const TN_MORE = [
   ["App", [["settings", "Settings"], ["soon", "Resources"], ["soon", "Account"]]]];
 const TN = { open: false };
 function tnActive() {
-  if (typeof V !== "undefined" && V.open) return V.view === "home" ? "home" : "more";
+  if (typeof V !== "undefined" && V.open) return V.view === "home" ? "home" : V.view === "progress" ? "prog" : "more";
   const f = $("#flog"); if (f && !f.hidden) return "food";
   if (!$("#wizard").hidden) return TN.prog ? "prog" : "sim";
   return "";
@@ -8577,7 +8595,7 @@ function tnGo(k) {
   else if (k === "food") openFoodLog();
   else if (k === "glucose") openView("glucose");
   else if (k === "settings") openView("settings");
-  else if (k === "prog") { TN.prog = true; tnToProj("#ai-card"); }
+  else if (k === "prog") openView("progress");
   else if (k === "checkin") tnToProj("#weekly-card", "#proj-more-tips");
   else if (k === "timeline") tnToProj("#chart-wrap");
   else if (k === "pdf") tnToProj("#recap");
