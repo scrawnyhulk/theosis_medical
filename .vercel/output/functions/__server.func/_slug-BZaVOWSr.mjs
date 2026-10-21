@@ -14,7 +14,7 @@ function MinutePage() {
 	const { slug } = Route$7.useParams();
 	const minute = getMinute(slug);
 	(0, import_react.useEffect)(() => {
-		if (minute?.slug === "create-diabetic") window.location.replace("/personal-fat-threshold.html");
+		if (minute?.slug === "create-diabetic") window.location.replace("/simulator/pft-inside/");
 	}, [minute?.slug]);
 	if (!minute) return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(SiteShell, { children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 		className: "mx-auto max-w-3xl px-5 py-24 sm:px-8",
@@ -76,7 +76,7 @@ function MinutePage() {
 					className: "text-lg text-muted",
 					children: "The interactive is its own page so it can actually run."
 				}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("a", {
-					href: "/personal-fat-threshold.html",
+					href: "/simulator/pft-inside/",
 					className: "mt-6 inline-flex min-h-11 items-center rounded-sm bg-accent px-5 text-sm font-medium text-accent-fg",
 					children: "Open Create a Diabetic"
 				})]

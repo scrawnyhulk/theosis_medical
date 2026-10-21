@@ -44,7 +44,7 @@ function MinuteCard({ minute, featured }) {
 			]
 		});
 		if (minute.slug === "create-diabetic") return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("a", {
-			href: "/personal-fat-threshold.html",
+			href: "/simulator/pft-inside/",
 			className,
 			children: body
 		});

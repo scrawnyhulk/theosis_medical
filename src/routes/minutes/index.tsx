@@ -74,7 +74,7 @@ function MinuteCard({ minute, featured }: { minute: Minute; featured?: boolean }
     );
     if (minute.slug === "create-diabetic") {
       return (
-        <a href="/personal-fat-threshold.html" className={className}>
+        <a href="/simulator/pft-inside/" className={className}>
           {body}
         </a>
       );
