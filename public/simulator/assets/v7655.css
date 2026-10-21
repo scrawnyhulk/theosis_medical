@@ -56,3 +56,11 @@ body[data-hab-way=macros] #foodlog{display:none}
 /* habits path: food step asks only what you eat (no targets, maintenance, deficit/surplus) */
 body.path-habits [data-step="4"] :is(#rec-wrap,#fit-banner-4,#actual-cmp,#h-prot,#adv-food,#food-adv-card,#psmf-prompt){display:none!important}
 .hab-maint{margin:.5rem 0;padding:.65rem .85rem;border-radius:10px;background:rgba(63,193,165,.12);box-shadow:inset 3px 0 0 #3fc1a5}
+/* v7.6.56: A1c on the ADA reference ranges (static reference, not a label) */
+.a1c-ref{margin:.5rem 0}.a1c-bar{position:relative;display:flex;height:14px;border-radius:7px;overflow:visible;margin:1.6rem 0 .2rem}
+.a1c-seg{display:block;height:100%}.a1c-seg.a1c-n,.a1c-keys i.a1c-n{background:#3fc1a5}.a1c-seg.a1c-p,.a1c-keys i.a1c-p{background:#e8b84a}.a1c-seg.a1c-d,.a1c-keys i.a1c-d{background:#e0675a}
+.a1c-seg:first-child{border-radius:7px 0 0 7px}.a1c-seg:nth-child(3){border-radius:0 7px 7px 0}
+.a1c-mark{position:absolute;top:-4px;width:3px;height:22px;background:#fff;box-shadow:0 0 0 2px #0b1220;transform:translateX(-50%)}.a1c-mark b{position:absolute;bottom:24px;left:50%;transform:translateX(-50%);font-size:.8rem;white-space:nowrap}
+.a1c-ticks{position:relative;height:1rem;font-size:.7rem;color:var(--muted)}.a1c-ticks span{position:absolute;transform:translateX(-50%)}
+.a1c-keys{display:flex;flex-wrap:wrap;gap:.3rem .9rem;font-size:.75rem;color:var(--muted)}.a1c-keys i{display:inline-block;width:.7rem;height:.7rem;border-radius:2px;margin-right:.3rem;vertical-align:-1px}
+.hstat-wide{grid-column:1/-1}

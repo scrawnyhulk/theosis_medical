@@ -10,7 +10,7 @@ function f3dStart() { const s = typeof pftInsideStage === "function" ? pftInside
 function f3dRows() { return R && !R.blocked && R.main && R.main.rows ? R.main.rows : null; }
 function f3dShell() {
   return `<p class="eyebrow card-eyebrow">See how this works in a body like yours</p>
-  <label class="f3d-sl" for="f3d-range"><span>Today</span><b id="f3d-wk">Today</b><span id="f3d-end">Plan end</span></label>
+  <label class="f3d-sl" for="f3d-range"><span>Today</span><b id="f3d-wk">Slide to see later weeks</b><span id="f3d-end">Plan end</span></label>
   <input type="range" id="f3d-range" min="0" max="1" value="0" aria-label="Move from today to the end of the plan">
   <div id="f3d-pfe"></div>
   <div class="f3d-ro"><span>Weight</span><b id="f3d-w">–</b></div><div class="f3d-ro"><span>Body fat</span><b id="f3d-f">–</b></div>
@@ -40,7 +40,7 @@ function f3dApply() {
   const rows = f3dRows(), r = $("#f3d-range"); if (!rows || !r) return;
   r.max = String(rows.length - 1); if (F3D.i > rows.length - 1) F3D.i = rows.length - 1; r.value = String(F3D.i);
   const x = rows[F3D.i], st = f3dStart(), load = Math.max(0, Math.min(100, st.load * x.fatKg / rows[0].fatKg)), end = rows[rows.length - 1];
-  $("#f3d-wk").textContent = F3D.i === 0 ? "Today" : `Week ${fWk(x.day)}`; $("#f3d-end").textContent = `Week ${fWk(end.day)}`;
+  $("#f3d-wk").textContent = F3D.i === 0 ? "Slide to see later weeks" : `Showing week ${fWk(x.day)}`; $("#f3d-end").textContent = `Week ${fWk(end.day)}`;
   $("#f3d-w").textContent = `${fW(rows[0].weightKg)} → ${fW(x.weightKg)}`; $("#f3d-f").textContent = `${fP(rows[0].bf)} → ${fP(x.bf)}`;
   if (F3D.api && F3D.api.ready()) F3D.api.set({ start: st.load, end: load, s: F3D.i ? 100 : 0, capacity: st.cap });
 }

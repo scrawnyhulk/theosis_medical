@@ -8,7 +8,7 @@
 <meta name="application-name" content="Metabolic Sim">
 <meta name="apple-mobile-web-app-title" content="Metabolic Sim">
 <link rel="apple-touch-icon" href="icons/icon-180.png">
-<meta name="description" content="See where your body is headed. The Theosis Metabolic Simulator: a guided, evidence-based body composition and metabolic health simulator from Nick Holwey, PA-C, Theosis Medical. It's built on Alpert's limit on how fast fat can be lost without losing muscle.">
+<meta name="description" content="See where your habits could lead. The Theosis Metabolic Simulator: a guided, evidence-based body composition and metabolic health simulator from Nick Holwey, PA-C, Theosis Medical. It's built on Alpert's limit on how fast fat can be lost without losing muscle.">
 <meta name="theme-color" content="#080d14">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23080d14'/%3E%3Cpath fill='%23143a7c' stroke='%23cfd6e0' stroke-width='1.5' d='M16 3.5 26 7.2v9.2c0 5.4-4.2 9.8-10 11.1C10.2 26.2 6 21.8 6 16.4V7.2Z'/%3E%3Cpath fill='none' stroke='%23e7edf5' stroke-linecap='round' stroke-width='2.2' d='M16 9.2v12.2M11.8 13.6h8.4'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -1506,7 +1506,7 @@ li.fx-fav{box-shadow:inset 3px 0 0 #f5c542;background:linear-gradient(90deg,rgba
   <section id="entry" class="entry" aria-labelledby="entry-h">
     <div class="title-art"><img class="title-gfx" src="assets/title-nick-1600.webp" srcset="assets/title-nick-800.webp 800w, assets/title-nick-1600.webp 1600w" sizes="(max-width:36rem) 92vw, 36rem" width="1600" height="300" alt="Theosis Metabolic Simulator" decoding="async" fetchpriority="high"></div>
     <h1 id="entry-h" class="sr-only">Theosis Metabolic Simulator</h1>
-    <p class="lead">See where your body is headed, in <strong>fat and muscle</strong>, not just pounds. Five short steps. Every answer comes with a sensible default, so you can click straight through and fine-tune later.</p>
+    <p class="lead">See where your habits could lead, in <strong>fat and muscle</strong>, not just pounds. Five short steps. Every answer comes with a sensible default, so you can click straight through and fine-tune later.</p>
     <div class="entry-mode"><span id="entry-mode-l">Detail level:</span><div class="mode-sw" role="radiogroup" aria-labelledby="entry-mode-l">
       <button type="button" role="radio" data-uimode="simple" aria-checked="true">Simple</button><button type="button" role="radio" data-uimode="advanced" aria-checked="false">Advanced</button></div>
       <span class="hint">Simple keeps it short. Advanced adds training details, measured numbers and manual macros. You can switch any time.</span></div>
@@ -1598,7 +1598,7 @@ li.fx-fav{box-shadow:inset 3px 0 0 #f5c542;background:linear-gradient(90deg,rgba
             </div>
             <div class="section">
               <div class="section-head"><h2>Body fat</h2></div>
-              <fieldset class="seg sm"><legend class="sr-only">How do you know your body fat?</legend>
+              <fieldset class="seg sm"><legend class="sr-only">How do you know the body fat number?</legend>
                 <label><input type="radio" name="profile.bfMode" value="known"><span>I know it</span></label>
                 <label><input type="radio" name="profile.bfMode" value="navy"><span>Tape measure</span></label>
                 <label><input type="radio" name="profile.bfMode" value="bmi"><span>I don't know</span></label>
@@ -1675,7 +1675,7 @@ li.fx-fav{box-shadow:inset 3px 0 0 #f5c542;background:linear-gradient(90deg,rgba
                 <div class="lab-upload" id="lab-upload"></div>
               </div>
               <div class="labs" id="labs-box" hidden>
-                <p class="hint">From a recent blood test, in US units. They sharpen your threshold estimate and your body's story. They stay on this device.</p>
+                <p class="hint">From a recent blood test, in US units. They sharpen your threshold estimate and the story in your numbers. They stay on this device.</p>
                 <div class="lab-grid">
                     <label class="field"><span class="label">Total cholesterol</span><span class="control"><input data-lab="tc" inputmode="decimal" placeholder="e.g. 190"><span class="unit">mg/dL</span></span></label>
                     <label class="field"><span class="label">LDL</span><span class="control"><input data-lab="ldl" inputmode="decimal" placeholder="e.g. 110"><span class="unit">mg/dL</span></span></label>
@@ -1693,7 +1693,7 @@ li.fx-fav{box-shadow:inset 3px 0 0 #f5c542;background:linear-gradient(90deg,rgba
                 <label class="check"><input type="checkbox" data-check="profile.health.pregnant"><span>I'm pregnant</span></label>
                 <label class="check"><input type="checkbox" data-check="profile.health.edHistory"><span>I have a history of an eating disorder</span></label>
                 <details class="evidence"><summary>What these measurements can tell you</summary>
-                  <p>A1c reflects your average glucose over about three months. It isn't an insulin-resistance score. A result in the diabetes range usually needs confirmation. Anemia, some hemoglobin variants, pregnancy and certain other conditions can make A1c less reliable. A treated A1c below 5.7% doesn't remove a previous diabetes diagnosis.</p>
+                  <p>A1c reflects your average glucose over about three months. It isn't an insulin-resistance score. This simulator never sets or labels diabetes status from an A1c; diagnosis requires a confirmed test and a healthcare provider. Anemia, some hemoglobin variants, pregnancy and certain other conditions can make A1c less reliable. A treated A1c below 5.7% doesn't remove a previous diabetes diagnosis.</p>
                   <p>Waist-to-height ratio describes central body size, not a measured visceral-fat volume. NICE uses 0.5 and 0.6 as rising central-adiposity risk bands for adults with a BMI under 35.</p>
                   <p>Type 2 diabetes remission is a clinical outcome, not a promised weight-loss result: HbA1c below 6.5% for at least three months without the usual glucose-lowering medication, assessed by your clinician. This simulator doesn't forecast your A1c or remission.</p>
                   <p class="links"><a href="https://www.niddk.nih.gov/health-information/diagnostic-tests/a1c-test" target="_blank" rel="noopener">NIDDK: A1c test</a> · <a href="https://www.nice.org.uk/guidance/ng246" target="_blank" rel="noopener">NICE NG246: waist</a> · <a href="https://diabetes.org/newsroom/international-experts-outline-diabetes-remission-diagnosis-criteria" target="_blank" rel="noopener">Remission consensus</a></p>
@@ -1748,7 +1748,7 @@ li.fx-fav{box-shadow:inset 3px 0 0 #f5c542;background:linear-gradient(90deg,rgba
 
         <!-- STEP 2: GOAL -->
         <section class="step" data-step="2" aria-labelledby="h-goal" hidden>
-          <header class="step-head"><p class="eyebrow">Step 2 of 5</p><h1 id="h-goal" tabindex="-1">Goal</h1><p class="lead" id="goal-lead">What you want your body to do. You'll get instant feedback on whether it's realistic.</p></header>
+          <header class="step-head"><p class="eyebrow">Step 2 of 5</p><h1 id="h-goal" tabindex="-1">Goal</h1><p class="lead" id="goal-lead">What you'd like to work toward. You'll get instant feedback on whether it's realistic.</p></header>
           <div class="card hab-read" id="hab-read" aria-live="polite" hidden></div>
           <div class="card">
             <p class="eyebrow card-eyebrow">Choose one</p>
@@ -1927,7 +1927,7 @@ li.fx-fav{box-shadow:inset 3px 0 0 #f5c542;background:linear-gradient(90deg,rgba
 
         <!-- STEP 4: FOOD -->
         <section class="step" data-step="4" aria-labelledby="h-food" hidden>
-          <header class="step-head"><p class="eyebrow">Step 4 of 5</p><h1 id="h-food" tabindex="-1">Food</h1><p class="lead" id="food-lead">One daily target, built for your goal. It adjusts as your body changes.</p></header>
+          <header class="step-head"><p class="eyebrow">Step 4 of 5</p><h1 id="h-food" tabindex="-1">Food</h1><p class="lead" id="food-lead">One daily target, built for your goal. It adjusts as your numbers change.</p></header>
           <div id="fit-banner-4" class="fit-wrap" hidden></div>
           <div class="card" id="rec-wrap">
             <section class="target-card" id="rec-card" aria-live="polite"></section>
@@ -2029,7 +2029,7 @@ li.fx-fav{box-shadow:inset 3px 0 0 #f5c542;background:linear-gradient(90deg,rgba
                 <label class="field"><span class="label">BMR equation</span>
                   <span class="control"><select data-sel="food.bmrEq">
                     <option value="mifflin">Mifflin-St Jeor (age, height, sex)</option><option value="katch">Katch-McArdle (uses your lean mass)</option>
-                  </select></span><span class="hint">Mifflin-St Jeor is the general standard. Katch-McArdle fits better when your body fat % is measured accurately.</span></label>
+                  </select></span><span class="hint">Mifflin-St Jeor is the general standard. Katch-McArdle fits better when body fat % is measured accurately.</span></label>
               </div>
             </details>
           </div>
@@ -2067,7 +2067,7 @@ li.fx-fav{box-shadow:inset 3px 0 0 #f5c542;background:linear-gradient(90deg,rgba
               <button type="button" class="btn btn-ghost mt1" id="pft-inside-open">Open the inside view</button></section>
             <div class="card health-ctx" id="health-ctx" hidden></div>
           </details>
-          <details class="card proj-more" id="proj-more-story"><summary><b>Your body's story</b><small>What these changes mean for you, step by step</small></summary>
+          <details class="card proj-more" id="proj-more-story"><summary><b>The story in your numbers</b><small>What these changes mean for you, step by step</small></summary>
             <div class="card story-card" id="story-card" hidden></div>
           </details>
           <details class="card proj-more" id="proj-more-tips"><summary><b>Tips, weekly check-ins and what to expect</b></summary>
@@ -2174,7 +2174,7 @@ li.fx-fav{box-shadow:inset 3px 0 0 #f5c542;background:linear-gradient(90deg,rgba
         <p><strong>Cardio types (v5).</strong> Burn = net MET × body weight (kg) × hours, where net MET is the 2011 Compendium value minus 1 (the resting part is already in your daily burn). Easy / moderate / hard: walking 2.8 / 3.5 / 5.0; incline walking 5.3 / 6.5 / 8.0 (moderate interpolated); cycling 4.8 / 6.8 / 8.8; running 8.3 / 9.8 / 11.0; rowing 4.8 / 7.0 / 8.5; swimming 5.8 / 8.3 / 9.8; HIIT 4.3 / 8.0 / 9.0; sports 4.0 / 6.0 / 8.0. In Advanced, cardio can be entered by average heart rate (Keytel 2005), by pace (ACSM walking and running equations) or as watch calories, which are used as given (watches often overestimate).</p>
         <p><strong>Advanced mode (v5).</strong> Lifting style, hard sets per week (default 10) and how close sets go to failure scale the muscle-gain rate modestly (0.5–1.2×: more weekly sets build more muscle, with diminishing returns past about 10; Schoenfeld 2017; Pelland 2026. Training closer to failure helps a little; Refalo 2023; Robinson 2024) and the lifting burn. A measured resting burn or total burn calibrates day 0 (the model keeps its adaptation from there). DEXA body fat replaces the estimate. Manual macros as % split the day's target; as grams they become what you eat. Refeed days set intake to maintenance on the last 1–2 days of each week of a fat-loss plan, which slows it honestly (Byrne 2018).</p>
         <p><strong>Anatomy views (v6).</strong> Under the figure, <em>Body</em> is the default; <em>Fat + muscle</em> peels the fat under the skin off one side to show the muscle; <em>Inside</em> opens a window into the abdomen showing fat around the organs (yellow lobules over the gut), the liver and the fat layer; <em>Muscle</em> hides the fat. Everything is driven by the same fat-pattern engine as the rest of the plan: visceral fat in kg, fat under the skin, and liver fat (%) for each body, now and at goal, so the visceral and liver fat visibly fall first (visceral about 1.2–1.3× faster than total fat early on; hips and thighs last; Merlotti 2017, Hallgreen &amp; Hall 2008). Liver fat is graded with MRI-PDFF bands (under 5% normal, 5–17.4% mild, 17.4–22.1% moderate, above 22.1% severe; Tang 2013); the liver turns patchy, mottled pale yellow-tan with fine fat droplets as it rises (steatosis), and fat around the organs is drawn as lobules with fine septa and vessels. When zoomed in (+, Close-up, pinch or Ctrl + scroll), dragging moves the view; <em>Move</em> switches drag between moving and rotating (Shift-drag does the other) and <em>Reset</em> recenters. Teal dots show glycogen (stored carbohydrate) in muscle and liver: fuller with more carbohydrate per kg of lean mass, lower in the liver during a deficit, and blunted by liver fat (insulin resistance; Shulman 1990). These are illustrations from your estimates, not a scan. Organs are generated in code (no scanned or Z-Anatomy meshes).</p>
-        <p><strong>Diabetes status from A1c (v6).</strong> If you leave the diabetes question unanswered and enter an A1c, the answer is set from it (6.5% or more: diabetes, assumed type 2; 5.7–6.4%: prediabetes; under 5.7%: no diabetes) with a note, and you can change it. If you answered and your A1c points elsewhere, your answer is kept and a gentle note says so. A result in the diabetes range needs clinical confirmation; a treated A1c below the range doesn't remove a diagnosis.</p>
+        <p><strong>Diabetes status (v7.6.56).</strong> Diabetes status is only what you select (no diabetes, prediabetes, type 2, type 1 or another type). An A1c you enter is never used to set or label it. It's shown on a bar of the American Diabetes Association reference ranges (below 5.7% normal, 5.7–6.4% prediabetes, 6.5% or higher diabetes) for reference only. The simulator doesn't forecast A1c.</p>
         <p><strong>Lifting (v6).</strong> Quick choices: None, <em>Minimalist</em>, 2–3 or 4+ a week. Minimalist is the minimum effective dose: twice a week, one rest-pause set to failure each of a push, a pull and a leg movement (about 10–20 minutes). It keeps muscle in a deficit about as well as 2–3 full sessions and builds it at roughly 55–75% of their rate (a model estimate, not a trial result), with little calorie burn. A single hard set can raise strength in trained men Androulakis-Korakakis 2020. Reviews of minimal doses suggest about 4 or more weekly sets per muscle for growth Iversen 2021, Fyfe 2022. Keeping muscle takes much less volume than building it Bickel 2011, and more sets tend to bring more growth Schoenfeld 2017. Advanced adds <em>Custom</em> rows like cardio: type (heavy strength, hypertrophy, circuit / CrossFit-style, bodyweight, machines, Minimalist), effort, minutes a session and days a week. Burn = days × minutes × (Compendium MET − 1) × kg (2011 Compendium 02020–02054; e.g. vigorous resistance training 6.0, moderate 3.5–5.0, circuit 8.0). Afterburn (EPOC) adds only about 5–15% of a session's burn, so it is left out. Each row adds a weekly training stimulus (sessions × type × effort × session length); about 2+ solid sessions a week per muscle reach the full gain rate for your level, fewer give less, and none gives no gain and more lean loss in a deficit. A separate retention score weights intensity, since keeping muscle needs much less volume than building it. With custom rows, the Advanced style / sets / reps-in-reserve settings are not applied (no double counting).</p>
         <p><strong>Smoother figure (v6).</strong> Fat growth is diffused across the mesh before use, so regions blend into each other instead of meeting at creases, and the belly grows round rather than pointed; the chest is kept smooth and neutral. A light volume-preserving smoothing pass runs on the shown surface, stronger at higher body fat. Volumes are re-measured after smoothing so the figure still matches your fat and lean mass.</p>
         <p><strong>Exact goals and your daily calorie target (v6.4).</strong> On Maximal or Steady fat loss you can enter an exact goal weight or goal body fat % in the <b>Exact goal</b> box right under the goal cards (it scrolls into view and lights up when you pick a goal). The plan then runs to that target at the goal's pace: Maximal uses your full fat ceiling, Steady about 60% of it. The Food step shows one number, <b>Your daily calorie target</b>: your daily burn minus the deficit (or plus the surplus). Tap <b>How we got this</b> for the breakdown. Once you enter foods or turn on <b>Simulate what I actually eat</b>, a line shows how many calories you're eating and how far over or under your target that is; with simulate on, the projection follows what you eat.</p>
@@ -2336,22 +2336,17 @@ const WAIST_LABEL = { high: "High central-adiposity range (≥0.60)", increased:
    disagrees with the A1c band we return a gentle mismatch note instead. */
 function a1cStatus(a1c) { return a1c == null || !(a1c >= 2 && a1c <= 25) ? null : a1c >= 6.5 ? "t2" : a1c >= 5.7 ? "prediabetes" : "none"; }
 const DM_BAND = (v) => (["t1", "t2", "other"].includes(v) ? "diabetes" : v === "prediabetes" ? "prediabetes" : v === "none" ? "normal" : null);
+/* v7.6.56 (legal review): the A1c never sets or labels diabetes status. Status is only what the person selects. */
 function diabetesStatus(h) {
   h = h || {}; const a1c = (h.a1c === null || h.a1c === undefined || h.a1c === "" || !Number.isFinite(+h.a1c)) ? null : +h.a1c;
-  const implied = a1cStatus(a1c), ans = h.diabetes || "unknown", band = DM_BAND(implied), pct = a1c == null ? "" : (Math.abs(a1c * 10 - Math.round(a1c * 10)) < 1e-9 ? a1c.toFixed(1) : String(+a1c.toFixed(2))) + "%";
-  // auto-set while the question is unanswered (a deliberate "Prefer not to say" pick is respected) or was set from the A1c before
-  const auto = !!implied && (!!h.diabetesAuto || (ans === "unknown" && !h.diabetesPicked));
-  const value = auto ? implied : h.diabetesAuto ? "unknown" : ans;
-  let note = "", mismatch = false;
-  if (auto) note = `Set from your A1c (${pct})` + (implied === "t2" ? ": diabetes range, type 2 assumed. A result in this range usually needs confirming. Change it if it isn't right."
-    : implied === "prediabetes" ? ": prediabetes range. Change it if it isn't right." : ": below the prediabetes range. Change it if it isn't right.");
-  else if (implied && ans !== "unknown" && DM_BAND(ans) && DM_BAND(ans) !== band) { mismatch = true; const ab = DM_BAND(ans);
-    note = ab === "normal" ? `You answered no diabetes or prediabetes, but an A1c of ${pct} is in the ${band} range. We've kept your answer; it may be worth checking with your clinician.`
-      : ab === "prediabetes" && band === "diabetes" ? `You answered prediabetes, but an A1c of ${pct} is in the diabetes range. We've kept your answer; a result in this range usually needs confirming with your clinician.`
-      : ab === "prediabetes" ? `You answered prediabetes, but an A1c of ${pct} is below the prediabetes range. That can happen as things improve. We've kept your answer.`
-      : `Your A1c of ${pct} is below the diabetes range. With treatment that's common and it doesn't remove a diagnosis, so we've kept your answer.`; }
-  return { value, implied, auto, mismatch, note, a1c };
+  return { value: h.diabetes || "unknown", implied: null, auto: false, mismatch: false, note: "", a1c };
 }
+/* v7.6.56: static ADA reference ranges for a logged A1c (education, not a label). Bar spans 4–8%. */
+function a1cFmt(a1c) { return Math.abs(a1c * 10 - Math.round(a1c * 10)) < 1e-9 ? a1c.toFixed(1) : String(+a1c.toFixed(2)); }
+const A1C_REF_TEXT = (a1c) => `Your A1c: ${a1cFmt(a1c)}%. For reference, the American Diabetes Association lists below 5.7% as normal, 5.7–6.4% as prediabetes, and 6.5% or higher as diabetes. Diagnosis requires a confirmed test and a healthcare provider.`;
+function a1cRefHtml(a1c) { if (a1c == null || !(a1c >= 2 && a1c <= 25)) return "";
+  const lo = 4, hi = 8, pos = (v) => Math.max(0, Math.min(100, (v - lo) / (hi - lo) * 100)), m = pos(a1c);
+  return `<div class="a1c-ref" data-a1c-ref="${a1cFmt(a1c)}"><div class="a1c-bar" role="img" aria-label="A1c ${a1cFmt(a1c)}% marked on the ADA reference ranges"><span class="a1c-seg a1c-n" style="width:${pos(5.7)}%"></span><span class="a1c-seg a1c-p" style="width:${pos(6.5) - pos(5.7)}%"></span><span class="a1c-seg a1c-d" style="width:${100 - pos(6.5)}%"></span><span class="a1c-mark" style="left:${m}%"><b>${a1cFmt(a1c)}%</b></span></div><div class="a1c-ticks" aria-hidden="true"><span style="left:${pos(5.7)}%">5.7</span><span style="left:${pos(6.5)}%">6.5</span></div><div class="a1c-keys" aria-hidden="true"><span><i class="a1c-n"></i>Below 5.7%</span><span><i class="a1c-p"></i>5.7–6.4%</span><span><i class="a1c-d"></i>6.5% or higher</span></div><p class="hint a1c-ref-t">${A1C_REF_TEXT(a1c)}</p></div>`; }
 function healthSummary(p) {
   const h = p.health || {}, num = (v) => (v === null || v === undefined || v === "" || !Number.isFinite(+v)) ? null : +v;
   const a1c = num(h.a1c), a1cOk = a1c != null && a1c >= 2 && a1c <= 25;
@@ -2364,21 +2359,18 @@ function healthSummary(p) {
   const known = ["t1", "t2", "other"].includes(diabetes);
   // v7.6.49: plain-language wording. goalDetail = goal sentence (results page); infoDetail = what the answer means (intake step, not a goal).
   let goalDetail = "", infoDetail = "";
-  const dxRange = "An A1c of 6.5% or higher is in the diabetes range. A clinician should confirm this.";
-  if (diabetes === "t1") { goalDetail = "Plan your food and exercise with your diabetes care team. Losing weight does not make type 1 diabetes go away."; infoDetail = "Type 1 diabetes is cared for with your diabetes care team. Losing weight does not make type 1 diabetes go away."; }
-  else if (diabetes === "t2" && dst.auto) { goalDetail = "This A1c is in the diabetes range. See a clinician to confirm it before you treat it as diabetes."; infoDetail = dxRange; }
-  else if (diabetes === "t2") { goalDetail = "Work toward better blood sugar. Ask your clinician if putting type 2 diabetes into remission is a good goal for you."; infoDetail = "You told us you have type 2 diabetes. Your clinician can help you decide what is right for you."; }
-  else if (diabetes === "other") { goalDetail = "Ask your clinician for an eating and activity plan that fits your type of diabetes."; infoDetail = "You told us you have another type of diabetes. Your clinician can tell you what fits your type."; }
-  else if (a1cBand === "diabetes") { goalDetail = "This A1c is in the diabetes range. See a clinician to confirm it before you treat it as diabetes."; infoDetail = dxRange; }
-  else if (diabetes === "prediabetes" || a1cBand === "prediabetes") { goalDetail = "Help bring your blood sugar back toward the usual range and lower your risk of type 2 diabetes."; infoDetail = a1cBand === "prediabetes" ? "An A1c of 5.7 to 6.4% is called prediabetes." : "Prediabetes means your blood sugar is higher than usual, but not in the diabetes range."; }
+  if (diabetes === "t1") { goalDetail = "Plan food and exercise with a diabetes care team. Losing weight does not make type 1 diabetes go away."; infoDetail = "Type 1 diabetes is cared for with a diabetes care team. Losing weight does not make type 1 diabetes go away."; }
+  else if (diabetes === "t2") { goalDetail = "Work toward better blood sugar. A healthcare provider can say whether type 2 diabetes remission is a sensible goal."; infoDetail = "You selected type 2 diabetes. A healthcare provider can help decide what is right for you."; }
+  else if (diabetes === "other") { goalDetail = "A healthcare provider can suggest an eating and activity plan that fits your type of diabetes."; infoDetail = "You selected another type of diabetes. A healthcare provider can say what fits your type."; }
+  else if (diabetes === "prediabetes") { goalDetail = "Help bring blood sugar back toward the usual range and lower the chance of type 2 diabetes."; infoDetail = "You selected prediabetes. Prediabetes means blood sugar is higher than usual, but not in the diabetes range."; }
   else if (liver === "yes") { goalDetail = "Ask your clinician how eating, activity and weight fit your fatty liver care."; infoDetail = "You told us you have fatty liver. Your clinician can tell you what this means for you."; }
   const notes = [];
-  if (known && a1cOk && a1c < 6.5) notes.push("A result below 6.5% can reflect treatment or other changes. It does not establish remission or remove your diagnosis.");
+  if (known && a1cOk) notes.push("An A1c result can reflect treatment or other changes. It does not establish remission or remove a diagnosis.");
   if (liver === "yes") notes.push("Fatty liver is recorded as a reported finding. This tool doesn't grade it or predict how it changes.");
-  const risk = known || diabetes === "prediabetes" || a1cBand === "prediabetes" || a1cBand === "diabetes" || liver === "yes" || waistBand === "increased" || waistBand === "high";
+  const risk = known || diabetes === "prediabetes" || liver === "yes" || waistBand === "increased" || waistBand === "high";
   const medCheck = meds === "yes" || meds === "unsure" || (meds === "unknown" && known);
   const answered = a1cOk || diabetes !== "unknown" || liver !== "unknown" || meds !== "unknown" || whtr != null;
-  return { a1c: a1cOk ? a1c : null, a1cInvalid: a1c != null && !a1cOk, a1cBand, a1cLabel: A1C_LABEL[a1cBand], whtr, waistBand, waistLabel: waistBand ? WAIST_LABEL[waistBand] : null,
+  return { a1c: a1cOk ? a1c : null, a1cInvalid: a1c != null && !a1cOk, a1cBand, a1cLabel: a1cOk ? A1C_REF_TEXT(a1c) : A1C_LABEL.unknown, a1cRef: a1cOk ? a1cRefHtml(a1c) : "", whtr, waistBand, waistLabel: waistBand ? WAIST_LABEL[waistBand] : null,
     diabetes, diabetesAuto: dst.auto, diabetesNote: dst.note, diabetesMismatch: dst.mismatch, meds, fattyLiver: liver, knownDiabetes: known, canDiscussRemission: diabetes === "t2", goalDetail, infoDetail, notes, hasRisk: risk, medCheck, answered };
 }
 
@@ -2996,7 +2988,7 @@ function goalProblems(inp) {
   if (g.type === "gain" && g.target > 0) {
     if (g.target <= p.weightKg + 0.25) errs.push("For muscle gain, the target weight has to be above your current weight. Leave it blank to just see the next weeks.");
   }
-  if ((g.type === "gain" || (g.type === "targetWeight" && g.target > p.weightKg)) && g.bfCeiling > 0 && g.bfCeiling <= p.bf) errs.push("Your body-fat ceiling has to be above where you are now.");
+  if ((g.type === "gain" || (g.type === "targetWeight" && g.target > p.weightKg)) && g.bfCeiling > 0 && g.bfCeiling <= p.bf) errs.push("The body-fat ceiling has to be above where you are now.");
   if (g.weeks != null && (!(g.weeks >= 1) || g.weeks > 260)) errs.push("Use a timeframe from 1 to 260 weeks.");
   return errs;
 }
@@ -3249,7 +3241,7 @@ function warningsFor(R) {
     }
     if (R.dir === "gain" && end.weightKg > p.weightKg * 1.25) W.push({ t: "info", m: `That's a big gain (${lbs(end.weightKg - p.weightKg)} lb, ${Math.round(100 * (end.weightKg / p.weightKg - 1))}%). Many people do it in phases of 3–6 months with a check-in between. The projection shows it as one continuous plan.` });
   }
-  if (R.dir === "gain" && R.feas.status === "ceiling") W.push({ t: "info", m: "You'd reach your body-fat ceiling before the target weight. Many lifters then run a short cut (4–8 weeks) and start the next lean phase from there." });
+  if (R.dir === "gain" && R.feas.status === "ceiling") W.push({ t: "info", m: "You'd reach the body-fat ceiling before the target weight. Many lifters then run a short cut (4–8 weeks) and start the next lean phase from there." });
   if (R.inp.goal.type === "recomp" && tr.liftSessions === 0) W.push({ t: "warn", m: "Recomposition depends on resistance training. Without it, a small deficit just means slow fat loss." });
   const leanChange = end.leanKg - start.leanKg;
   if (leanChange < -1) W.push({ t: "warn", m: `This projection loses about ${lbs(-leanChange)} lb of lean mass. More protein, lifting, or a smaller deficit would protect it.` });
@@ -3276,7 +3268,7 @@ function nextStepsFor(R) {
     add(R.main.overDays > 0 || R.inp.food.actualKcal < floorOf(p), `Eat at least ${minEat.toLocaleString("en-US")} kcal a day`, `Right now your fat can cover about ${ceil0.toLocaleString("en-US")} kcal a day. A bigger gap than that comes out of muscle.`);
   }
   add(tr.liftSessions === 0 && (R.inp.move || {}).noLift && !holdsGoal(p.health) && R.dir !== "gain", "Keep protein high, since you're not lifting", "Without lifting, protein and a moderate deficit are your main protection for muscle. Walking and everyday activity help too. Strength work is optional, and two short sessions a week would add real protection if you ever want it.");
-  add(tr.liftSessions === 0 && !(R.inp.move || {}).noLift && !holdsGoal(p.health), "Add 2–3 strength sessions a week", "Full-body basics (a squat, a push, a pull, a hinge) for 2–3 sets each. This is what tells your body to keep muscle, or build it.");
+  add(tr.liftSessions === 0 && !(R.inp.move || {}).noLift && !holdsGoal(p.health), "Add 2–3 strength sessions a week", "Full-body basics (a squat, a push, a pull, a hinge) for 2–3 sets each. This is what signals the body to keep muscle, or build it.");
   add(true, `Hit about ${R.protein.g} g of protein a day`, `That's ${R.protein.perKg} g per kg${R.protein.perKg === 2.2 ? " (1 g per lb)" : ""} of ${R.ref.basis}. Spread it over 3–4 meals (about 0.4 g/kg each), with protein at each one.`);
   const holdG = holdsGoal(p.health);
   add(!holdG && (R.inp.move.steps || 0) < 7000 && !R.inp.move.plannerOn, "Build up to 8,000 steps a day", "Add 1,000 steps a week. It's the easiest extra burn and helps appetite and blood sugar.");
@@ -3293,7 +3285,7 @@ function nextStepsFor(R) {
       : `Extra steps or cardio burn more calories, so with the same food your daily deficit grows by ${k < full ? "up to " : ""}about ${k} kcal a day (an estimate from the app's model, for ${what}${k < full ? "; that is the most your stored fat can fuel, so eat the rest back" : ""}). Your intake is already at the safe minimum, so this speeds things up without cutting food.` + cav);
   }
   add(R.horizon > 16 * 7 && !(R.inp.food.dietBreakEvery > 0) && R.dir === "loss", "Plan a maintenance week every 8–12 weeks", "Short breaks at maintenance calories help adherence and training quality on long plans.");
-  add(R.inp.goal.type === "bulk", "Gain about 0.25–0.5% of your body weight a week", "Newer lifters can sit near the top of that range. Check your waist every two weeks; if it climbs faster than your weight, trim 100–150 kcal.");
+  add(R.inp.goal.type === "bulk", "Gain about 0.25–0.5% of body weight a week", "Newer lifters can sit near the top of that range. Check your waist every two weeks; if it climbs faster than your weight, trim 100–150 kcal.");
   add(R.inp.goal.type === "bulk", "Plan a short cut afterwards", "A muscle-building phase adds some fat. Many lifters follow 3–6 months of building with 4–8 weeks of fat loss to show the new muscle.");
   add(R.dir === "gain" && R.inp.goal.gainMode === "moderate", "Aim for about 0.25–0.5% body-weight gain per week", "Check your waist every two weeks; if it climbs, switch to Lean.");
   add(R.dir === "gain" && R.inp.goal.gainMode === "lean", "Aim for about 0.25% body-weight gain per week (less if you're advanced)", "If the scale climbs faster than that, trim 100–150 kcal. Most of the extra would be fat.");
@@ -3307,7 +3299,7 @@ function nextStepsFor(R) {
 const cancerRanges = (kg) => ({ kcalLo: Math.round(kg * 25 / 5) * 5, kcalHi: Math.round(kg * 30 / 5) * 5, protLo: Math.round(kg * 1.0), protHi: Math.round(kg * 1.5) });
 const api = { nextStepsFor, cancerRanges, cancerRec, lactInfo, lactKcal, cancerOn, holdsGoal, floorOf, OVER_BUFFER_KCAL, LEAN_LOSS_CONSERVATIVE, overFuel, LIVER_GLY_G, LIVER_GLY_KCAL, LB, K_LB, K_KG, RHO_F, TAU, K_UNC, RHO_L_LOSS, RHO_L_GAIN, FLOOR, ESSENTIAL, VERY_LEAN, GAIN_RATE, GOALS,
   band, compareGain, BAND_SCALE, refit, params: () => ({ HALL_PA, TEF_BETA, BAND_SCALE, ADAPT_CAP: 0.25 }),
-  navyBf, bmiBf, analyze, healthSummary, a1cStatus, diabetesStatus, psmfPlan, psmfFor, bulkSurplus, fastGainSurplus, FAST_GAIN_NOTE, BULK_SURPLUS, idealBodyWeight, structuralShare, AT_BETA, AT_TAU, BMI_STOP, LEAN_STOP, bmr, activity, multiplierLabel, referenceWeight, proteinTarget, proteinPlan, highBodyFat, surplusFor, deficitFor, planBands, GAIN_KCAL, holdRatio, ffmiTaper, CARDIO, cardioNetMet, cardioWeek, cardioEntries, LIFT_STYLE, liftFactors, lossFactor, LIFT_TYPES, LIFT_EFFORT, MIN_PRESET, applyOptOuts, liftRows, liftRowNet, liftCustom, liftGainFreq, liftRetention, calibrate, macrosFromInput, macros, leanPotentialPerDay,
+  navyBf, bmiBf, analyze, healthSummary, a1cStatus, diabetesStatus, a1cRefHtml, A1C_REF_TEXT, psmfPlan, psmfFor, bulkSurplus, fastGainSurplus, FAST_GAIN_NOTE, BULK_SURPLUS, idealBodyWeight, structuralShare, AT_BETA, AT_TAU, BMI_STOP, LEAN_STOP, bmr, activity, multiplierLabel, referenceWeight, proteinTarget, proteinPlan, highBodyFat, surplusFor, deficitFor, planBands, GAIN_KCAL, holdRatio, ffmiTaper, CARDIO, cardioNetMet, cardioWeek, cardioEntries, LIFT_STYLE, liftFactors, lossFactor, LIFT_TYPES, LIFT_EFFORT, MIN_PRESET, applyOptOuts, liftRows, liftRowNet, liftCustom, liftGainFreq, liftRetention, calibrate, macrosFromInput, macros, leanPotentialPerDay,
   simulate, project, MUSCLES, MUSCLE_KEYS, MUSCLE_UPPER, MUSCLE_NAT, MUSCLE_SPILL, PRESET_GROUPS, PRESET_LABEL, defaultGroups, muscleRows, muscleRegions, EXERCISES, matchExercise, inferGroups, rowWeights, goalProblems, goalDirection, weeklyTraining, essentialFatKg };
 if (typeof module !== "undefined" && module.exports) module.exports = api;
 root.BodyEngine = api;
@@ -3358,7 +3350,7 @@ function classify(inp, E) {
   else if (-bal <= B.steady) key = "fatloss_s";
   else if (-bal <= B.maxloss) key = "fatloss_f";
   else key = "crash";
-  why.push(`You eat about ${Math.round(kcal).toLocaleString("en-US")} kcal a day against roughly ${Math.round(tdee / 10) * 10} that your body burns (${bal >= 0 ? "+" : "−"}${Math.abs(Math.round(pct * 100))}%).`);
+  why.push(`You eat about ${Math.round(kcal).toLocaleString("en-US")} kcal a day against roughly ${(Math.round(tdee / 10) * 10).toLocaleString("en-US")} that a body like this tends to burn (${bal >= 0 ? "+" : "−"}${Math.abs(Math.round(pct * 100))}%).`);
   why.push(lift >= 2 ? `You lift about ${lift} time${lift === 1 ? "" : "s"} a week.` : lift > 0 ? "You lift less than twice a week." : "You don't do resistance training.");
   if (gkg != null) why.push(`Protein is about ${gkg.toFixed(1)} g per kg of body weight${protOk ? "" : ", which is on the low side for keeping or building muscle"}.`); else why.push(`Protein is in the ${level} range.`);
   // off-track flags
@@ -3402,7 +3394,7 @@ function direction(inp, E) {
   const k = c.key;
   if (k === "crash") add("bal", -2, "The deficit is larger than your fat can fuel (past the Maximal band), so more of the loss may be lean mass.", "Alpert 2005; Forbes 2000; Hall 2007");
   else if (k === "fatloss_f") add("bal", 0, "The deficit is in the faster band, between Steady and Maximal. It works but is harder to sustain and costs more lean mass.", "Hall 2007; Forbes 2000");
-  else if (k === "fatloss_s" || k === "recomp") add("bal", aboveAvg ? 1 : 0, aboveAvg ? "The deficit is in the Steady or Recomp band, a moderate size the model can sustain." : "A deficit is in the Steady or Recomp band; at your body fat it is a choice, not a clear benefit.", "Hall 2011; Wing 2011 (Look AHEAD)");
+  else if (k === "fatloss_s" || k === "recomp") add("bal", aboveAvg ? 1 : 0, aboveAvg ? "The deficit is in the Steady or Recomp band, a moderate size the model can sustain." : "A deficit is in the Steady or Recomp band; at this body fat it is a choice, not a clear benefit.", "Hall 2011; Wing 2011 (Look AHEAD)");
   else if (k === "maintain") add("bal", 0, "Intake is near maintenance, so weight should stay about the same.", "Hall 2011");
   else if (k === "muscle") add("bal", high ? 0 : 1, high ? "A small surplus with lifting; at higher body fat extra surplus is not the usual starting point." : "A surplus within the Lean/Moderate band, with lifting and protein, is the range studied for muscle gain.", "Helms 2023; Iraki 2019");
   else if (k === "slowgain") add("bal", -1, "A surplus without enough lifting or protein is mostly stored as fat.", "Garthe 2013; Helms 2023");
@@ -4295,16 +4287,16 @@ return { KEY, MEALS, MEAL_IDS, dateKey, addDays, isDate, mealFor, empty, normali
     const a1c = inp.a1c != null && inp.a1c !== "" && isFinite(+inp.a1c) ? +inp.a1c : null;
     let met = 0, metTxt = "", metWhy = "";
     // v6: a status set from the A1c (not a diagnosis the user gave) is explained by the A1c lines below, same strength
-    const dx = inp.diabetesFromA1c ? "" : inp.diabetes;
-    if (dx === "t2") { met = 0.8; metTxt = "Type 2 diabetes is closely tied to fat around the organs and in the liver"; metWhy = `Because you have type 2 diabetes, ${ORG} and liver.`; }
-    else if (dx === "prediabetes") { met = 0.4; metTxt = "Prediabetes is linked to fat around the organs and in the liver"; metWhy = `Because you have prediabetes, ${ORG}.`; }
-    if (a1c != null && inp.diabetes !== "t1") { if (a1c >= 6.5 && met < 0.8) { met = 0.8; metTxt = "An HbA1c in the diabetes range is closely tied to organ and liver fat"; metWhy = `Because your A1c is in the diabetes range, ${ORG}.`; }
+    const dx = inp.diabetes;   /* v7.6.56: self-selected status only */
+    if (dx === "t2") { met = 0.8; metTxt = "Type 2 diabetes is closely tied to fat around the organs and in the liver"; metWhy = `Because you selected type 2 diabetes, ${ORG} and liver.`; }
+    else if (dx === "prediabetes") { met = 0.4; metTxt = "Prediabetes is linked to fat around the organs and in the liver"; metWhy = `Because you selected prediabetes, ${ORG}.`; }
+    if (false) { if (a1c >= 6.5 && met < 0.8) {   /* v7.6.56: the A1c no longer labels or sets status */ met = 0.8; metTxt = "An HbA1c in the diabetes range is closely tied to organ and liver fat"; metWhy = `Because your A1c is in the diabetes range, ${ORG}.`; }
       else if (a1c >= 5.7 && a1c < 6.5 && met < 0.4) { met = 0.4; metTxt = "An HbA1c in the prediabetes range is linked to organ and liver fat"; metWhy = `Because your A1c is in the prediabetes range, ${ORG}.`; } }
     raw += add(met, metTxt, metWhy);
     const liver = inp.fattyLiver === "yes";
     if (liver) raw += add(0.4, "Fatty liver usually travels with fat around the organs", `Because you have a fatty liver, ${ORG}.`);
     // normal glucose (no diabetes and a normal A1c, or a normal A1c with no diagnosis given) at a high body fat / BMI -> subcutaneous lean
-    const normGlu = inp.diabetes !== "t2" && inp.diabetes !== "t1" && inp.diabetes !== "prediabetes" && ((inp.diabetes === "none" && (a1c == null || a1c < 5.7)) || (a1c != null && a1c < 5.7));
+    const normGlu = inp.diabetes !== "t2" && inp.diabetes !== "t1" && inp.diabetes !== "prediabetes" && inp.diabetes === "none"   /* v7.6.56: self-selected status only, never the A1c */;
     const bf = +inp.bf || 0, hiBf = bf >= (sex === "f" ? 38 : 28), vhiBf = bf >= (sex === "f" ? 43 : 35);
     let subq = 0;
     if (normGlu && (bmi >= 35 || vhiBf)) subq = -0.5; else if (normGlu && (bmi >= 30 || hiBf)) subq = -0.35;
@@ -4444,20 +4436,20 @@ return { KEY, MEALS, MEAL_IDS, dateKey, addDays, isDate, mealFor, empty, normali
   function estimate(inp) {
     const a1c = num(inp.a1c), w = +inp.weightKg, cut = waistCut(inp.sex, inp.ancestry), waist = num(inp.waistCm);
     const L = labsDerived(inp.labs, inp.sex), fg = L.fg;
-    const dm = inp.diabetes === "t2" || (a1c != null && a1c >= 6.5) || (a1c == null && fg != null && fg >= 126), pre = !dm && (inp.diabetes === "prediabetes" || (a1c != null && a1c >= 5.7) || (fg != null && fg >= 100)), liver = inp.fattyLiver === "yes";
+    const dm = inp.diabetes === "t2" || (fg != null && fg >= 126), pre = !dm && (inp.diabetes === "prediabetes" || (fg != null && fg >= 100)), liver = inp.fattyLiver === "yes";
     const t1 = inp.diabetes === "t1";
     const markers = [], need = [], why = [];
-    if (dm && !t1) { const extra = a1c != null ? clamp((a1c - 6.5) * 0.015, 0, 0.05) : 0.02; need.push([0.10 + extra, 0.15 + extra]); markers.push("a1c-dm");
-      why.push(`Type 2 diabetes range${a1c != null ? ` (A1c ${a1c})` : ""}: in DiRECT, remission was seen in 57% of people who lost 10–15 kg and 86% of those who lost 15 kg or more (about 10–15% of body weight or more).`); }
-    else if (pre) { need.push([0.05, 0.08]); markers.push("a1c-pre"); why.push(`Prediabetes range${a1c != null ? ` (A1c ${a1c})` : ""}: losing about 5–7% cut the chance of diabetes by more than half (DPP).`); }
+    if (dm && !t1) { const extra = 0.02;   /* v7.6.56: the A1c no longer sizes this */ need.push([0.10 + extra, 0.15 + extra]); markers.push("a1c-dm");
+      why.push(`${inp.diabetes === "t2" ? "Type 2 diabetes (as you selected)" : "Fasting glucose of 126 or more"}: in DiRECT, remission was seen in 57% of people who lost 10–15 kg and 86% of those who lost 15 kg or more (about 10–15% of body weight or more).`); }
+    else if (pre) { need.push([0.05, 0.08]); markers.push("a1c-pre"); why.push(`${inp.diabetes === "prediabetes" ? "Prediabetes (as you selected)" : "Fasting glucose of 100–125"}: in the DPP, losing about 5–7% cut the chance of diabetes by more than half (DPP).`); }
     if (liver) { need.push([0.07, 0.10]); markers.push("liver"); why.push("Fatty liver: in a 1-year study, losing 7–10% resolved liver inflammation in about two-thirds (Vilar-Gomez 2015)."); }
     if (!liver && inp.fattyLiver !== "no" && L.altHigh) { need.push([0.05, 0.10]); markers.push("alt"); why.push(`ALT ${L.alt} U/L is above the healthy range (ACG 2017). Fatty liver is the most common cause, but not the only one; ask your clinician.`); }
     if (L.tgHdl != null && L.tgHdl >= 3) { need.push([0.05, 0.07]); markers.push("tghdl"); why.push(`Triglyceride/HDL ratio ${L.tgHdl.toFixed(1)} (3 or more is a common sign of insulin resistance; McLaughlin 2003). Losing 5–7% usually improves it (DPP).`); }
     let waistLossCm = 0;
     if (waist != null && waist > cut) { waistLossCm = waist - cut; const f = clamp(waistLossCm / w, 0, 0.3); need.push([f * 0.8, f * 1.2]); markers.push("waist");
       why.push(`Waist ${Math.round(waist)} cm is above the ${cut} cm cut-off; about 1 cm comes off per kg lost.`); }
-    if (!need.length) return { over: false, markers, why: a1c != null || inp.fattyLiver === "no" ? ["Your markers are in the normal range: you're likely under your personal fat threshold."] : ["Not enough information: add your A1c, fatty liver status or waist to estimate it."],
-      known: a1c != null || inp.fattyLiver !== "unknown" || waist != null, waistTarget: cut };
+    if (!need.length) return { over: false, markers, why: inp.fattyLiver === "no" || ["none"].includes(inp.diabetes) ? ["Nothing you entered points above a personal fat threshold. This is a rough estimate."] : ["Not enough information: add your diabetes status, fatty liver status or waist to estimate it."],
+      known: ["none", "t2", "prediabetes"].includes(inp.diabetes) || inp.fattyLiver !== "unknown" || waist != null, waistTarget: cut };
     const lo = Math.max(...need.map((n) => n[0])), hi = Math.max(...need.map((n) => n[1])), mid = (lo + hi) / 2;
     return { over: true, markers, why, lossPct: { lo: lo * 100, mid: mid * 100, hi: hi * 100 }, weightKg: { lo: w * (1 - hi), mid: w * (1 - mid), hi: w * (1 - lo) },
       waistTarget: cut, waistLossCm, confidence: markers.filter((m) => m !== "tghdl" && m !== "alt").length >= 2 ? "moderate" : "low", known: true };
@@ -4491,8 +4483,8 @@ return { KEY, MEALS, MEAL_IDS, dateKey, addDays, isDate, mealFor, empty, normali
   /** v7.1 heart and artery risk factors present (general, never a plaque estimate) */
   function cvFactors(inp) {
     const L = labsDerived(inp.labs, inp.sex), a1c = num(inp.a1c), f = [];
-    if (inp.diabetes === "t2" || (a1c != null && a1c >= 6.5) || L.fgCat === "dm") f.push("Diabetes-range blood sugar");
-    else if ((a1c != null && a1c >= 5.7) || L.fgCat === "pre" || inp.diabetes === "prediabetes") f.push("Prediabetes-range blood sugar");
+    if (inp.diabetes === "t2") f.push("Type 2 diabetes (as you selected)"); else if (L.fgCat === "dm") f.push("Fasting glucose of 126 or more");
+    else if (inp.diabetes === "prediabetes") f.push("Prediabetes (as you selected)"); else if (L.fgCat === "pre") f.push("Fasting glucose of 100–125");
     if (inp.fattyLiver === "yes") f.push("Fatty liver");
     if (L.ldlVeryHigh) f.push("LDL cholesterol 190 or higher"); else if (L.ldlHigh) f.push("LDL cholesterol 130 or higher");
     if (L.tgHigh) f.push("Triglycerides 150 or higher"); if (L.hdlLow) f.push("Low HDL cholesterol");
@@ -4528,8 +4520,8 @@ return { KEY, MEALS, MEAL_IDS, dateKey, addDays, isDate, mealFor, empty, normali
   /** v7.1 heart and artery risk factors present (general, never a plaque estimate) */
   function cvFactors(inp) {
     const L = labsDerived(inp.labs, inp.sex), a1c = num(inp.a1c), f = [];
-    if (inp.diabetes === "t2" || (a1c != null && a1c >= 6.5) || L.fgCat === "dm") f.push("Diabetes-range blood sugar");
-    else if ((a1c != null && a1c >= 5.7) || L.fgCat === "pre" || inp.diabetes === "prediabetes") f.push("Prediabetes-range blood sugar");
+    if (inp.diabetes === "t2") f.push("Type 2 diabetes (as you selected)"); else if (L.fgCat === "dm") f.push("Fasting glucose of 126 or more");
+    else if (inp.diabetes === "prediabetes") f.push("Prediabetes (as you selected)"); else if (L.fgCat === "pre") f.push("Fasting glucose of 100–125");
     if (inp.fattyLiver === "yes") f.push("Fatty liver");
     if (L.ldlVeryHigh) f.push("LDL cholesterol 190 or higher"); else if (L.ldlHigh) f.push("LDL cholesterol 130 or higher");
     if (L.tgHigh) f.push("Triglycerides 150 or higher"); if (L.hdlLow) f.push("Low HDL cholesterol");
@@ -4544,12 +4536,11 @@ return { KEY, MEALS, MEAL_IDS, dateKey, addDays, isDate, mealFor, empty, normali
     if (!rows || !rows.length) return [];
     const w0 = rows[0].weightKg, a0 = num(inp.a1c), need = est && est.over ? est.lossPct.mid / 100 : 0.05, out = [], seen = {}, v0 = rows[0].vatKg, l0 = rows[0].liverPct;
     const hit = (key, label, day, val) => { if (!seen[key]) { seen[key] = 1; out.push({ key, label, day, val, weightKg: rowAt(day).weightKg }); } }, rowAt = (d) => rows.find((r) => r.day === d) || rows[0];
-    for (const r of rows) { const lf = (w0 - r.weightKg) / w0, a = a1cAt(a0, lf, need);
+    for (const r of rows) {
       if (l0 >= 5 && r.liverPct <= l0 * 0.7) hit("liver30", "Liver fat down about 30% (the drop linked to liver healing on MRI studies)", r.day, r.liverPct);
       if (l0 >= 5 && r.liverPct < 5) hit("liver", "Liver fat likely back in the normal range (< 5%)", r.day, r.liverPct);
       if (v0 > 0 && r.vatKg <= v0 * 0.75) hit("vat25", "Fat around the organs down about 25%", r.day, r.vatKg);
-      if (a0 != null && a0 >= 6.5 && a != null && a < 6.5) hit("a1c65", "A1c likely below 6.5 (out of the diabetes range)", r.day, a);
-      if (a0 != null && a0 >= 5.7 && a != null && a < 5.7) hit("a1c57", "A1c likely below 5.7 (normal range)", r.day, a);
+      /* v7.6.56: no A1c forecasts */
       if (est && est.waistTarget && rows[0].waistCm > est.waistTarget && r.waistCm <= est.waistTarget) hit("waist", `Waist below ${est.waistTarget} cm`, r.day, r.waistCm);
       if (est && est.over && r.weightKg <= est.weightKg.mid) hit("pft", "Likely under your personal fat threshold (estimate)", r.day, r.weightKg); }
     return out.sort((a, b) => a.day - b.day);
@@ -4572,9 +4563,7 @@ return { KEY, MEALS, MEAL_IDS, dateKey, addDays, isDate, mealFor, empty, normali
   function goals(inp, opt) {
     const o = opt || {}, L = labsDerived(inp.labs, inp.sex), a1c = num(inp.a1c), est = o.est || null, steps = [];
     const lab = (key, label, marker, now, target, unit) => steps.push(Object.assign({ key, kind: "lab", label, marker, now, target, unit }, EVID[key]));
-    if (a1c != null && a1c >= 6.5) lab("a1c65", "A1c under 6.5%", "a1c", a1c, 6.5, "%");
-    if (a1c != null && a1c >= 5.7) { lab("a1c57", "A1c under 5.7% (normal range)", "a1c", a1c, 5.7, "%");
-      if (a1c >= 6.5) Object.assign(steps[steps.length - 1], { lossPct: null, cite: "DiRECT (Lean 2018)", text: "A stretch goal beyond 6.5%. Some people go on to reach the normal range, but studies report it less consistently." }); }
+    /* v7.6.56 (legal review): no personal A1c targets or milestones */
     if (L.fg != null && L.fg >= 100) lab("fg", "Fasting glucose under 100 mg/dL", "fg", L.fg, 100, "mg/dL");
     if (L.homa != null && L.homa >= 2) lab("homa", "HOMA-IR under about 2 (cut-offs vary)", "homa", +L.homa.toFixed(1), 2, "");
     if (L.tg != null && L.tg >= 150) lab("tg", "Triglycerides under 150 mg/dL", "tg", L.tg, 150, "mg/dL");
@@ -4611,7 +4600,7 @@ return { KEY, MEALS, MEAL_IDS, dateKey, addDays, isDate, mealFor, empty, normali
 
 </script>
 <script>
-/* v7.1 "Your body's story": a short, personalized explainer of how fat, liver, pancreas and insulin connect (the twin-cycle
+/* v7.1 "The story in your numbers": a short, personalized explainer of how fat, liver, pancreas and insulin connect (the twin-cycle
    hypothesis) and what can lead to remission. All wording is paraphrased from the sources in SOURCES; numbers are population results,
    never a personal prediction. Pure functions -> HTML strings (window.BodyStory). */
 (function (root, factory) { const api = factory(); if (typeof module === "object" && module.exports) module.exports = api; else root.BodyStory = api; })(typeof self !== "undefined" ? self : this, function () {
@@ -4675,7 +4664,7 @@ return { KEY, MEALS, MEAL_IDS, dateKey, addDays, isDate, mealFor, empty, normali
       li.push(`<li><b>Your goal:</b> ${esc(me.goal)}${me.pace ? ` at a ${me.pace} pace` : ""}: ${me.wNow} → <b>${me.wEnd}</b> in about ${me.weeks} weeks (body fat ${me.bfNow} → ${me.bfEnd}; fat ${me.dFat}, lean ${me.dLean}).</li>`);
       if (me.phenoTxt) li.push(`<li><b>Where you store fat:</b> ${esc(me.phenoTxt)}.${vis ? ` ${like} reach their threshold at a lower weight than BMI suggests.` : sub ? ` ${like} carry more weight before blood sugar changes, but the threshold still exists.` : ""}</li>`);
       if (me.waist) li.push(`<li><b>Waist:</b> ${me.waist}${me.whtr ? ` (waist-to-height ${me.whtr}${me.whtrHigh ? `, at or above 0.5. ${like} carry more fat around the organs` : `, under 0.5`})` : ""}.${cite("ashwell2012")}</li>`);
-      if (c.a1c != null) li.push(`<li><b>A1c ${c.a1c}%:</b> ${dm ? "in the diabetes range" : pre ? "in the prediabetes range" : "in the normal range"}.</li>`);
+      if (c.a1c != null) li.push(`<li><b>A1c ${c.a1c}%:</b> for reference, the American Diabetes Association lists below 5.7% as normal, 5.7–6.4% as prediabetes, and 6.5% or higher as diabetes. Diagnosis requires a confirmed test and a healthcare provider.</li>`);
       if (L.alt != null || L.tgHdl != null) li.push(`<li><b>Labs:</b> ${[L.alt != null ? `ALT ${L.alt} U/L${L.altHigh ? " (above the usual limit)" : ""}` : "", L.tgHdl != null ? `TG/HDL ${L.tgHdl.toFixed(1)}${L.tgHdl >= 3 ? " (insulin-resistance range)" : ""}` : ""].filter(Boolean).join(" · ")}.</li>`);
       if (me.range) li.push(`<li><b>Estimated threshold range:</b> about ${me.range}. Your plan ${me.reachesRange ? `reaches that range by week ${me.weeks}` : `doesn't reach it within ${me.weeks} weeks; a longer plan would`}.</li>`);
       if (me.milestones.length) li.push(`<li><b>Milestones on your timeline:</b> ${me.milestones.map((m) => `week ${m.wk}: ${esc(m.label.toLowerCase())}`).join("; ")}.</li>`);
@@ -4694,7 +4683,7 @@ return { KEY, MEALS, MEAL_IDS, dateKey, addDays, isDate, mealFor, empty, normali
       ${L.tgHdl != null ? `<p>Your triglyceride-to-HDL ratio is <b>${L.tgHdl.toFixed(1)}</b>. A ratio of 3 or more is a common sign of insulin resistance.${cite("mclaughlin2003")} ${L.tgHdl >= 3 ? "Yours is in that range. It usually improves within weeks of steady fat loss." : "Yours is below that, which is reassuring."}</p>` : ""}` });
     // 3. pancreas + insulin
     out.push({ id: "pancreas", title: "Your pancreas and insulin", html: `<p>When the liver sends out extra fat, some of it settles in the pancreas. Over years, that fat weakens the cells that release insulin, especially the quick burst right after a meal. A liver that ignores insulin plus a pancreas that makes less of it is the "twin cycle" that drives blood sugar up into the type 2 diabetes range.${cite("taylor2008")}</p>
-      ${dm ? `<p>Your answers put you in the diabetes range${c.a1c != null ? ` (A1c ${c.a1c})` : ""}. In small MRI studies (Counterpoint, DiRECT), people who lost about 15 kg (33 lb) saw liver fat fall first, then pancreas fat. The quick insulin response came back within weeks to months in many of them.${cite("lim2011", "taylor2018")}</p>` : pre ? `<p>Your answers put you in the prediabetes range${c.a1c != null ? ` (A1c ${c.a1c})` : ""}: the cycle has started, and glucose can often return to the normal range. Losing 5–7% cut the chance of developing diabetes by more than half.${cite("dpp2002")}</p>` : `<p>${c.a1c != null || L.fg != null ? "Your blood sugar is in the normal range today." : "Add an A1c or fasting glucose to see where you are."} Staying under your threshold keeps the cycle from starting.</p>`}
+      ${dm ? `<p>You selected type 2 diabetes. In small MRI studies (Counterpoint, DiRECT), people who lost about 15 kg (33 lb) saw liver fat fall first, then pancreas fat. The quick insulin response came back within weeks to months in many of them.${cite("lim2011", "taylor2018")}</p>` : pre ? `<p>You selected prediabetes. In people with prediabetes, glucose can often return to the normal range. Losing 5–7% cut the chance of developing diabetes by more than half.${cite("dpp2002")}</p>` : `<p>${c.a1c != null || L.fg != null ? "Your blood sugar is in the normal range today." : "Add an A1c or fasting glucose to see where you are."} Staying under your threshold keeps the cycle from starting.</p>`}
       ${L.fg != null ? `<p>Your fasting glucose is <b>${L.fg} mg/dL</b> (${L.fgCat === "dm" ? "126 or higher is in the diabetes range" : L.fgCat === "pre" ? "100–125 is in the prediabetes range" : "under 100 is normal"}).</p>` : ""}` });
     // 4. what can put it into remission (consensus wording: remission = A1c < 6.5% for 3+ months off glucose-lowering medicine)
     const st = (c.stages || []).filter((s) => s.key !== "unknown");
@@ -4731,14 +4720,14 @@ return { KEY, MEALS, MEAL_IDS, dateKey, addDays, isDate, mealFor, empty, normali
       <p class="hint">Papers behind this section (numbers match the Sources page): Taylor & Holman 2015; Lean 2018; Knowler 2002; Vilar-Gomez 2015; Chaston & Dixon 2008; Karpe & Pinnick 2015; Kelly 2009; Lear 2007.</p>
       <h3>What we do and don't estimate</h3>
       <p>We don't predict values nobody has measured for you, such as your liver fat, organ fat or a future A1c. The inside view and diagrams show typical patterns, not scans. Health milestones are things you can measure (labs, waist, weight). They're ticked only when you enter a real result. Any timing is either what happened in studies at a given % weight loss (with the study named) or when your own plan reaches that % loss. Neither is a personal forecast.</p>
-      <h3>Your body's story, labs, uncertainty and muscle gain</h3>
+      <h3>The story in your numbers, labs, uncertainty and muscle gain</h3>
       <p>Paraphrased from these papers; no text or figures are copied. Muscle-gain rates by training age (McDonald, Aragon) are practitioner rules of thumb, labelled as such.</p>
       <p>Every paper behind these topics is listed once, with its own number, on the <a href="#sources" data-info="sources">Sources &amp; Acknowledgements</a> page. Tap a bracketed number in the text to see it.</p>
       <p>Validation against the Hall model and published trials is summarised in VALIDATION.md shipped with the app.</p>
       <p>The full method notes are in <b>Methods &amp; references</b> at the bottom of the main page.</p>` },
     disclaimer: { s: "Education only, not medical advice. Check with your clinician before big changes, especially with a health condition.", t: "Medical disclaimer", h: `
       <p><b>This tool is for education. It is not medical advice, diagnosis or treatment</b>, and using it does not create a clinician–patient relationship.</p>
-      <p>Results are estimates based on population research. Your body will respond differently. Do not start, stop or change any medicine because of this tool.</p>
+      <p>Results are estimates based on population research. Real results will differ from person to person. Do not start, stop or change any medicine because of this tool.</p>
       <p>Talk with your clinician before changing how you eat or train if you are pregnant or breastfeeding, under 18, have diabetes (especially on insulin or sulfonylureas, which can cause low blood sugar as you lose weight), heart, kidney or liver disease, take prescription medicines, or have a history of disordered eating.</p>
       <p>The personal fat threshold is an estimated weight range from population studies, not a test result. Health milestones are measurable goals you check with real lab tests and measurements. The app doesn't estimate your liver fat, organ fat or future lab values, and its organ pictures are illustrations of typical patterns.</p>
       <p>If you have chest pain, fainting, severe shortness of breath or thoughts of self-harm, seek emergency care.</p>` },
@@ -4772,9 +4761,9 @@ return { KEY, MEALS, MEAL_IDS, dateKey, addDays, isDate, mealFor, empty, normali
       <li><b>US only.</b> The tool is intended for use in the United States only, and its health and privacy notices are written for US users. It is not offered for use elsewhere, including the EU and UK.</li>
       <li><b>Changes.</b> We may update these terms; continued use means you accept the current version.</li></ol>
       <p class="hint">Template wording; have it reviewed by counsel before launch.</p>` },
-    fatceiling: { t: "What's a fat ceiling?", s: "Your body can burn only so much stored fat per day. Eat less than that limit allows and the gap is covered by liver glycogen and protein, so the plan keeps your deficit under it.", h: `
+    fatceiling: { t: "What's a fat ceiling?", s: "A body can burn only so much stored fat per day. Eat less than that limit allows and the gap is covered by liver glycogen and protein, so the plan keeps your deficit under it.", h: `
       <section class="isec blue"><h3>The ceiling</h3>
-      <p>Your body can only release so much stored fat as fuel each day. That limit is your <b>fat ceiling</b>.</p>
+      <p>A body can only release so much stored fat as fuel each day. That limit is your <b>fat ceiling</b>.</p>
       <p>It is about <b>31 kcal of deficit per pound of body fat per day</b> (Alpert 2005), so it is higher when you carry more fat and shrinks as you lose it.</p>
       <p>A deficit bigger than the ceiling can't be covered by fat alone. The body then draws on <b>liver glycogen</b> and on <b>protein</b>. These overlap; they are not a clean sequence.</p></section>
       <section class="isec amber"><h3>Liver glycogen</h3>
@@ -4787,7 +4776,7 @@ return { KEY, MEALS, MEAL_IDS, dateKey, addDays, isDate, mealFor, empty, normali
       <p>That's why your daily calorie target is capped to keep the deficit under your ceiling. As the ceiling shrinks with fat loss, the target steps down gradually.</p>
       <p>A minimum applies too (1,500 kcal a day for men, 1,200 for women), and the target never goes below it.</p>
       <p>To be conservative the projection counts this extra as possible lean loss (an assumption, not a measurement) and never plans a deficit more than 400 kcal a day beyond what fat can fuel.</p></section>
-      <footer class="isec-foot"><p>The glycogen and protein split here is a simple illustration, not a measurement of what your body does.</p>
+      <footer class="isec-foot"><p>The glycogen and protein split here is a simple illustration, not a measurement of what any real body does.</p>
       <p>The fat-burn limit is based on published research Alpert 2005. Education only, not medical advice. Talk with your clinician before a large change in how you eat.</p></footer>` },
     sources: { t: "Sources & Acknowledgements", h: "" },
   };
@@ -5019,7 +5008,7 @@ return { KEY, MEALS, MEAL_IDS, dateKey, addDays, isDate, mealFor, empty, normali
       .observe(document.body, { childList: true, subtree: true, characterData: true }); }
   const byId = (id) => { const r = REG.find((x) => x[0] === id); if (r) return { id, short: r[1], full: r[2], topic: r[3], link: r[4] };
     const S = window.BodyStory && window.BodyStory.SOURCES, s = S && S.find((x) => x[0] === id);
-    return s ? { id, short: s[1].split(/\.\s/)[0].replace(/ et al$/, " et al."), full: s[1], topic: "Your body's story", link: fixLink(id, pm(s[1].split(/\.\s/).slice(1, 2).join(""))) } : null; };
+    return s ? { id, short: s[1].split(/\.\s/)[0].replace(/ et al$/, " et al."), full: s[1], topic: "The story in your numbers", link: fixLink(id, pm(s[1].split(/\.\s/).slice(1, 2).join(""))) } : null; };
   const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
   const strip = (s) => String(s).replace(/<[^>]+>/g, "");
   const LBL = /^\s*\((?:[A-Z][A-Za-z-]*(?:\s[A-Z][A-Za-z-]*)?|[a-z]+(?:\s[a-z]+)?)\)/;   // one- or two-word label in brackets, e.g. (DiRECT), (Look AHEAD), (athletes)
@@ -5047,7 +5036,7 @@ return { KEY, MEALS, MEAL_IDS, dateKey, addDays, isDate, mealFor, empty, normali
   function pageHtml() {
     const ids = master(), S = (window.BodyStory && window.BodyStory.SOURCES) || [];
     const lis = ids.map((id, i) => { const r = REG.find((x) => x[0] === id), st = S.find((x) => x[0] === id);
-      const full = r ? r[2] : st ? st[1] : id, topic = r ? r[3] : "Your body's story", link = r ? r[4] : fixLink(id, pm(full.split(/\.\s/).slice(1, 2).join("")));
+      const full = r ? r[2] : st ? st[1] : id, topic = r ? r[3] : "The story in your numbers", link = r ? r[4] : fixLink(id, pm(full.split(/\.\s/).slice(1, 2).join("")));
       return `<li value="${i + 1}" id="srcp-${id}"><span class="src-topic">${esc(topic)}</span> ${esc(full)} ${link ? `<a href="${esc(link)}" target="_blank" rel="noopener">Find it</a>` : ""}</li>`; });
     let h = `<p>Every number and claim in this tool traces back to a published source. Each source has one number. Tap a bracketed number like <b>[1]</b> in the text to see its source; this page lists them all in order.</p>`;
     h += `<ol class="src-list src-num">${lis.join("")}</ol>`;
@@ -5174,13 +5163,13 @@ return { KEY, MEALS, MEAL_IDS, dateKey, addDays, isDate, mealFor, empty, normali
       <p>We show the underlying physiology in a way anyone can understand, because once you know how something works, it's easier to see what's gone wrong and how to fix it.</p>` },
     { id: "picture", title: "Everyone is different", html: `<p>Everyone is at a different stage of health. Using as much as you're comfortable sharing (waist and height, activity, food, lab results, and soon genetic data if you've had it mapped), the <b>Theosis Metabolic Simulator</b> builds an <i>estimate</i> of where your metabolic health likely stands and what would move it in the right direction.</p>
       <p class="intro-mission"><b>Our mission is to reverse type 2 diabetes one person at a time, safely and in a way that fits each person's lifestyle and biology.</b></p>
-      <p>Not diabetic? The same tools help reverse prediabetes and insulin resistance, or simply help you understand your body and reach your own goals.</p>
+      <p>Not diabetic? The same tools help reverse prediabetes and insulin resistance, or simply help you understand how bodies work and reach your own goals.</p>
       <p class="hint">Everything you share is optional and stays on this device. It's an educational estimate built on published research, not a diagnosis.</p>` },
     { id: "stats", title: "If this is currently you, you're far from alone", html: `<p>Blood-sugar problems are common, and they often develop quietly, without symptoms. In the US:</p><ul class="intro-stats">
         <li><b>38.4 million</b> people have diabetes, and <b>8.7 million</b> of them don't know it.${F("cdc2024", 2)}</li>
         <li><b>97.6 million</b> adults (38%) have prediabetes, and most have never been told.${F("cdc2024", 2)}</li>
         <li><b>40.3%</b> of adults had obesity in August 2021–August 2023.${F("nchs508", 3)}</li></ul>
-      <p>Whether you're healthy and want to stay that way, or you're working to improve your numbers, seeing how your body works can help.</p>
+      <p>Whether you're healthy and want to stay that way, or you're working to improve your numbers, seeing how the body works can help.</p>
       <p>Already healthy with a different goal, like building muscle, getting leaner or simply staying well? The simulator plans for that too. It doesn't assume you want to lose weight.</p>` },
     { id: "reverse", title: "Remission is possible for many", html: `<p>In the <b>DiRECT</b> trial, almost half of people with type 2 diabetes (diagnosed within 6 years) were in remission after a year of weight loss. Among those who lost 15 kg or more, 86% were.${F("direct2018", 4)}</p>
       <p><b>Remission</b> means an A1c under 6.5% at least 3 months after stopping glucose-lowering medicine. Lower numbers while taking medicine mean diabetes is <b>well controlled</b>, which is also a real achievement.${F("riddle2021", 5)}</p>
@@ -5190,7 +5179,7 @@ return { KEY, MEALS, MEAL_IDS, dateKey, addDays, isDate, mealFor, empty, normali
         <tr><th scope="row">Questions</th><td>A few, with sensible defaults</td><td>Every detail: cardio, lifting, macros, measured RMR</td></tr>
         <tr><th scope="row">Time</th><td>About 2 minutes</td><td>5–10 minutes</td></tr>
         <tr><th scope="row">Best for</th><td>Most people, first visit</td><td>People who track food or training closely</td></tr>
-        <tr><th scope="row">Extras</th><td>The plan, your body's story, labs</td><td>Plus raw numbers and model settings (Expert)</td></tr></tbody></table>
+        <tr><th scope="row">Extras</th><td>The plan, the story in your numbers, labs</td><td>Plus raw numbers and model settings (Expert)</td></tr></tbody></table>
       <p class="hint">Every claim has a small source number you can tap. All of them are on the <a href="#sources" data-info="sources">Sources &amp; Acknowledgements</a> page.</p>
       <p><b>Our recommendation: start with Simple.</b> You can switch any time at the top of the page, and nothing you enter is lost.</p>
       <div class="intro-pick"><button type="button" class="btn btn-primary" data-intro-mode="simple">Start in Simple</button><button type="button" class="btn btn-ghost" data-intro-mode="advanced">Use Advanced</button></div>` },
@@ -5270,7 +5259,7 @@ const GOAL_OPTS = [
   ["maintain", "Maintain & tone", "Hold your weight while you train."],
   ["targetWeight", "Reach a target weight", "Pick a number and get a realistic timeline."],
   ["targetBf", "Reach a target body fat %", "Pick any body fat %, lower or higher than today. Go lower to lean out, or higher to gain weight."],
-  ["pft", "Get under my fat threshold", "Lose to the weight where blood sugar and liver fat are likely to return to normal (estimate from your A1c, waist and liver)."],
+  ["pft", "Get under my fat threshold", "Lose to the weight where blood sugar and liver fat are likely to return to normal (a rough estimate from the diabetes status you select, your waist and liver)."],
 ];
 /* v7: personal fat threshold (pft.js) */
 const PF = window.PFT;
@@ -5581,7 +5570,7 @@ function compute() { { const h = S.profile.health, g = S.goal; if (S.profile.sex
   try { R = E.project(engineInput()); manualMacros(); } catch (e) { R = { blocked: ["Something in the inputs couldn't be calculated. Check the highlighted fields."] }; }
   R.assumed = { move: !moveSet(), food: !foodSet() }; }
 function syncDiabetes() { const h = S.profile.health, st = E.diabetesStatus(h);
-  if (st.auto) { h.diabetes = st.implied; h.diabetesAuto = true; } else if (h.diabetesAuto) { h.diabetes = "unknown"; h.diabetesAuto = false; }
+  if (h.diabetesAuto) { h.diabetes = "unknown"; h.diabetesAuto = false; }   /* v7.6.56: an old A1c-set status is cleared; the person picks it */
   for (const sel of $$('select[data-sel="profile.health.diabetes"]')) if (sel.value !== h.diabetes) sel.value = h.diabetes;
   const n = $("#dm-note"); if (n) { n.textContent = st.note; n.hidden = !st.note; n.className = "hint dm-note " + (st.mismatch ? "dm-mismatch" : "dm-auto"); } }
 function update() { syncDiabetes(); compute(); renderSummary(); renderStep(); renderAdv(); renderFit(); try { renderSnapshot(); } catch (e) { /* v7.6.55 */ } try { if (S.step >= 1) f3dMount(); } catch (e) { /* 3D figure falls back to 2D */ } save(); }
@@ -5724,7 +5713,7 @@ function renderRegional() {
       hint: "Estimates from published averages (visceral fat drops about 1.5–2× faster than total fat early on; hip and thigh fat is the most stubborn, especially in women). They're not measurements, and individual results vary. A scan (DEXA or MRI) can measure them." },
     gain: { eb: "Where it goes on · estimate", h: "Where muscle builds, and where fat would add",
       tbody: musRows + (Math.abs(eR.fatKg - s0.fatKg) > 0.05 ? fatHead("Fat") + fatRows : ""),
-      read: `${dLean > 0.1 ? `Muscle goes on where you train it: ${mr && mr.groups.length < 11 ? `you train ${esc(andList(mr.groups.map(musName).map((x) => x.toLowerCase())))}, so most of it lands there; ` : "with full-body lifting "}about ${Math.round(muscleSplit(sex, 1).lo * 100)}% of new lean mass lands in the legs and glutes (with the core) and ${Math.round(muscleSplit(sex, 1).up * 100)}% in the upper body, where it often <em>shows</em> first. ` : lifts ? "" : "Without lifting, the gain is mostly fat; muscle needs training (Move step). "}${eR.fatKg - s0.fatKg > 0.05 ? `Fat that comes with it (${fWd(eR.fatKg - s0.fatKg)}, ${fPct(totPct)}) tends to go first to your usual storage areas, for you mostly ${esc(usual)}; in this estimate the biggest single share goes ${REG_NAME[firstUp]}. It comes back in roughly the reverse of the order you'd lose it: ${esc(gOrd.map((g) => g.name.replace(/ \(.*\)/, "")).join(", then "))}. Liver fat typically ${liverWord}.` : "Your body fat stays about where it is, so fat barely changes."}`,
+      read: `${dLean > 0.1 ? `Muscle goes on where you train it: ${mr && mr.groups.length < 11 ? `you train ${esc(andList(mr.groups.map(musName).map((x) => x.toLowerCase())))}, so most of it lands there; ` : "with full-body lifting "}about ${Math.round(muscleSplit(sex, 1).lo * 100)}% of new lean mass lands in the legs and glutes (with the core) and ${Math.round(muscleSplit(sex, 1).up * 100)}% in the upper body, where it often <em>shows</em> first. ` : lifts ? "" : "Without lifting, the gain is mostly fat; muscle needs training (Move step). "}${eR.fatKg - s0.fatKg > 0.05 ? `Fat that comes with it (${fWd(eR.fatKg - s0.fatKg)}, ${fPct(totPct)}) tends to go first to your usual storage areas, for you mostly ${esc(usual)}; in this estimate the biggest single share goes ${REG_NAME[firstUp]}. It comes back in roughly the reverse of the order you'd lose it: ${esc(gOrd.map((g) => g.name.replace(/ \(.*\)/, "")).join(", then "))}. Liver fat typically ${liverWord}.` : "Body fat stays about where it is, so fat barely changes."}`,
       hint: "Estimates from published averages: muscle grows in the muscles you train (Schoenfeld 2017); regained fat follows your usual pattern, men toward the belly and organs, women toward the hips and thighs until menopause (Karpe & Pinnick 2015; Lovejoy 2008). Not measurements; a scan (DEXA or MRI) can measure them." },
     recomp: { eb: "Where it changes · estimate", h: "Where you lose fat and gain muscle",
       tbody: musRows + fatHead("Fat") + fatRows,
@@ -5756,9 +5745,9 @@ function expectItems() {
   else if (!mr) out.push(["mus", dL < -0.3 ? `<b>Without lifting you'd lose some muscle</b> (about ${fWd(dL)}), spread across the body. Adding lifting on the Move step protects it.` : `<b>No lifting is planned</b>, so little new muscle is expected. Add lifting on the Move step to see where it would show.`]);
   if (dF > 0.1) out.push(["fat", `<b>Fat would come on first ${esc(ord[0].name)}</b>, then ${esc(andList(ord.slice(1, 3).map((g) => g.name.replace(/ \(.*\)/, ""))))}${ord[3] ? `, and last ${esc(ord[3].name.replace(/ \(.*\)/, ""))}` : ""}: roughly the reverse of the order you'd lose it (about ${fWd(dF)} of fat in this plan).`]);
   else if (dF < -0.1) out.push(["fat", `<b>Fat should come off first around the organs</b> (the waist shrinks early), then the belly and upper body; ${sex === "f" ? "hips, bottom and thighs" : "the lower belly and love handles"} usually go last (about ${fWd(dF)} of fat in this plan).`]);
-  else out.push(["fat", "<b>Your body fat stays about the same</b>, so where you carry fat changes little."]);
+  else out.push(["fat", "<b>Body fat stays about the same</b>, so where you carry fat changes little."]);
   if (phLook.why) out.push(["why", `Why this order: ${esc(phLook.why.replace(/^./, (c) => c.toLowerCase()))}`]);
-  out.push(["cav", "These are estimates from population averages, not a prediction for your body. Genetics vary a lot, and sleep, hormones, medications and how consistently you train all change where it shows. Your own photos, waist and strength are the best guide."]);
+  out.push(["cav", "These are estimates from population averages, not a prediction for any one person. Genetics vary a lot, and sleep, hormones, medications and how consistently you train all change where it shows. Your own photos, waist and strength are the best guide."]);
   return out;
 }
 /* v6.5: personalised recommendations driven by the projection. Each one runs the engine again with the change applied and
@@ -5939,7 +5928,7 @@ async function labUpload(f) {
   } catch (e) { LU.msg = e.message || "Upload failed. Please type your values."; }
   LU.busy = false; renderLabUpload();
 }
-/* v7.1 Your body's story */
+/* v7.1 The story in your numbers */
 function storyCtx() {
   const p = S.profile, h = p.health, e = pftEst(), L = pftLadder();
   return { sex: p.sex, pheno: fatPattern().ph, est: e, labs: PF.labsDerived(h.labs, p.sex), a1c: +h.a1c || null, dm: E.diabetesStatus(h).value, fattyLiver: h.fattyLiver,
@@ -5959,7 +5948,7 @@ function storyMe(e, L) {
 function renderStory() {
   const box = $("#story-card"); if (!box) return; if (!R || R.blocked) { box.hidden = true; return; } box.hidden = false;
   const sec = BodyStory.build(storyCtx()), open = S.ui.storyOpen || 0, i = Math.min(open, sec.length - 1);
-  box.innerHTML = `<p class="eyebrow card-eyebrow">Explainer · personalized</p><h2>Your body's story</h2>
+  box.innerHTML = `<p class="eyebrow card-eyebrow">Explainer · personalized</p><h2>The story in your numbers</h2>
     <div class="story-tabs" role="tablist">${sec.map((x, j) => `<button type="button" role="tab" id="st-${x.id}" aria-selected="${j === i}" aria-controls="story-panel" data-story="${j}">${j + 1}. ${esc(x.title)}</button>`).join("")}</div>
     <div class="story-panel" id="story-panel" role="tabpanel" aria-labelledby="st-${sec[i].id}" data-sec="${sec[i].id}">${sec[i].html}</div>
     <div class="story-nav">${i > 0 ? `<button type="button" class="btn btn-ghost" data-story="${i - 1}">← Back</button>` : "<span></span>"}${i < sec.length - 1 ? `<button type="button" class="btn btn-primary" data-story="${i + 1}">Next: ${esc(sec[i + 1].title)} →</button>` : `<button type="button" class="btn btn-ghost" data-info="science">See all sources</button>`}</div>`;
@@ -6214,7 +6203,7 @@ function renderHealth() {
   const b = bfInfo(), hs = E.healthSummary({ ...S.profile, bf: b.bf }), rows = [];
   if (!hs.answered) { out.innerHTML = ""; return; }
   rows.push(`<div class="hstat"><span>Waist ÷ height</span><b>${hs.whtr != null ? hs.whtr.toFixed(2) : "—"}</b><small>${hs.whtr != null ? esc(hs.waistLabel) : "Add your waist under Basics"}</small></div>`);
-  rows.push(`<div class="hstat"><span>Reported HbA1c</span><b>${hs.a1c != null ? hs.a1c + "%" : "—"}</b><small>${esc(hs.knownDiabetes ? hs.a1cLabel.replace(/; confirm clinically/, "") : hs.a1cLabel)}</small></div>`);
+  rows.push(`<div class="hstat"><span>Reported HbA1c</span><b>${hs.a1c != null ? hs.a1c + "%" : "—"}</b><small>${hs.a1c != null ? "See the reference ranges below" : esc(hs.a1cLabel)}</small></div>`); if (hs.a1cRef) rows.push(`<div class="hstat hstat-wide">${hs.a1cRef}</div>`);
   const notes = [hs.infoDetail, ...hs.notes].filter(Boolean);
   if (hs.medCheck) notes.push("Before cutting calories or carbohydrate substantially, review medications and monitoring with your clinician. Don't stop or change medication based on this simulator.");
   out.innerHTML = `<div class="hgrid">${rows.join("")}</div>${notes.length ? `<ul class="alerts">${notes.map((n) => alertHtml({ t: "info", m: n })).join("")}</ul>` : ""}`;
@@ -6228,12 +6217,12 @@ function buildGoalOpts() {
 const lean0 = () => S.profile.weightKg * (1 - bfInfo().bf / 100);
 function renderGoal() {
   const g = S.goal, b = bfInfo(), p = S.profile;
-  $("#goal-lead").textContent = S.mode === "habits" ? "Pick a goal to compare against. Your projection follows what you actually eat (Step 4)." : "What you want your body to do. You'll get instant feedback on whether it's realistic.";
+  $("#goal-lead").textContent = S.mode === "habits" ? "Pick a goal to compare against. Your projection follows what you actually eat (Step 4)." : "What you'd like to work toward. You'll get instant feedback on whether it's realistic.";
   for (const inp of $$('input[name="goal.type"]')) {
     const v = inp.value, dis = (v === "maxloss" && b.source === "bmi") || (E.holdsGoal(p.health) && v !== "maintain") || (p.health.edHistory && v === "maxloss");
     inp.disabled = dis; inp.checked = g.type === v;
     const d = $(`[data-desc="${v}"]`), base = GOAL_OPTS.find((o) => o[0] === v)[2];
-    const why = v === "maxloss" && b.source === "bmi" ? ["🔒 Locked for now. This pace is sized from your body fat, and right now that's only a guess from BMI. Add a measured body fat (%, smart-scale fat, or a tape measurement) to unlock it.", "bf", "Add your body fat to unlock"]
+    const why = v === "maxloss" && b.source === "bmi" ? ["🔒 Locked for now. This pace is sized from body fat, and right now that's only a guess from BMI. Add a measured body fat (%, smart-scale fat, or a tape measurement) to unlock it.", "bf", "Add a body fat number to unlock"]
       : p.health.pregnant && v !== "maintain" ? ["Not available during pregnancy.", "pregnant", "Change this answer in Step 1"]
       : E.lactInfo(p.health).on && v !== "maintain" ? ["Not available while breastfeeding. The app doesn't set a fat-loss or weight-gain target at this stage.", "lact", "Change this answer in Step 1"]
       : E.cancerOn(p.health) && v !== "maintain" ? ["Not available in cancer-treatment mode. The goal here is to maintain weight and muscle.", "cancer", "Change this answer in Step 1"]
@@ -6360,7 +6349,7 @@ function feasHtml0() {
     if (R.dir === "loss") return `<div class="feas"><b>About ${fWk(reachD)} weeks</b> at a ${R.pace >= 0.99 ? "maximal" : R.pace >= 0.8 ? "firm" : "steady"} pace (around ${fDate(reachD)}). ${R.pace < 0.99 ? `The fastest route designed to limit muscle loss is ${fast} weeks.` : "That's the fastest muscle-sparing route."}${habitNote}</div>`;
     const gm = R.inp.goal.gainMode, mo = reachD / 30.44;
     if (f.dateDriven) return `<div class="feas"><b>Reaching ${fW(R.inp.goal.target)} by week ${R.inp.goal.weeks}:</b> about ${fWd(re.leanKg - s.leanKg)} lean and ${fWd(re.fatKg - s.fatKg)} fat (${gainShare(s, re)} of the gain is muscle), <b>ending at ${fP(re.bf)} body fat</b> (from ${fP(s.bf)}; estimates). The surplus is sized to make your date, so anything beyond your muscle-gain rate is stored as fat.${fastGainNoteHtml(f)}${habitNote}</div>`;
-    return `<div class="feas ${gm === "fast" ? "warn" : ""}"><b>About ${fWk(reachD)} weeks</b>${mo >= 3 ? ` (≈ ${mo < 10 ? mo.toFixed(1) : Math.round(mo)} months)` : ""} of ${gm === "fast" ? "faster" : gm === "hold" ? "lean gain at your body fat %" : "lean"}${gm === "fast" ? " gain" : gm === "hold" ? "" : " gain"} (around ${fDate(reachD)}): about ${fWd(re.leanKg - s.leanKg)} lean and ${fWd(re.fatKg - s.fatKg)} fat, so ${gainShare(s, re)} of the gain is muscle, <b>ending at ${fP(re.bf)} body fat</b> (from ${fP(s.bf)}; estimates).${habitNote}</div>`;
+    return `<div class="feas ${gm === "fast" ? "warn" : ""}"><b>About ${fWk(reachD)} weeks</b>${mo >= 3 ? ` (≈ ${mo < 10 ? mo.toFixed(1) : Math.round(mo)} months)` : ""} of ${gm === "fast" ? "faster" : gm === "hold" ? "lean gain at the current body fat %" : "lean"}${gm === "fast" ? " gain" : gm === "hold" ? "" : " gain"} (around ${fDate(reachD)}): about ${fWd(re.leanKg - s.leanKg)} lean and ${fWd(re.fatKg - s.fatKg)} fat, so ${gainShare(s, re)} of the gain is muscle, <b>ending at ${fP(re.bf)} body fat</b> (from ${fP(s.bf)}; estimates).${habitNote}</div>`;
   }
   const assumed = R.assumed && R.assumed.move, noLift = !assumed && E.weeklyTraining(S.move).liftSessions === 0;
   const as = assumed ? ` <span class="assume">${ASSUME_TXT}</span>` : "";
@@ -6369,7 +6358,7 @@ function feasHtml0() {
   if (g.type === "bulk") { const sur = R.rec.rows[0].intake - Math.round(R.rec.rows[0].tdee);
     return `<div class="feas ${noLift ? "warn" : ""}">${noLift ? "<b>Muscle gain needs resistance training.</b> Add it on the Move step; without it the plan holds at maintenance." : `<b>Over ${swk} weeks: ${fWd(slean)} lean and ${fWd(sfat)} fat</b> (estimates), ending near ${fP(showE.bf)} body fat (from ${fP(s.bf)}). A surplus of about ${fK(Math.max(0, sur))} kcal a day, sized to your training experience; muscle can only grow so fast, so the rest is stored as fat.`}${as}${habitNote}</div>`; }
   if (g.type === "gain") { const ceil = R.main.ceilingHit ? ` You reach your ${fP(g.bfCeiling)} body-fat ceiling around week ${fWk(R.main.ceilingHit)}, so the plan holds there.` : "";
-    return `<div class="feas ${noLift || g.gainMode === "fast" ? "warn" : ""}">${noLift && g.gainMode !== "fast" ? "<b>Muscle gain needs resistance training.</b> Add it on the Move step." : `<b>Over ${swk} weeks: ${fWd(slean)} lean and ${fWd(sfat)} fat</b> (estimates), ${gainShare(s, showE)} of the gain as muscle, <b>ending at ${fP(showE.bf)} body fat</b> (from ${fP(s.bf)}), on a ${g.gainMode === "fast" ? "larger surplus that adds more fat" : gainModeOf(g) === "hold" ? "small surplus that keeps your body fat % steady" : "small surplus sized to your muscle-gain rate"}.${ceil}${as}`}${habitNote}</div>`; }
+    return `<div class="feas ${noLift || g.gainMode === "fast" ? "warn" : ""}">${noLift && g.gainMode !== "fast" ? "<b>Muscle gain needs resistance training.</b> Add it on the Move step." : `<b>Over ${swk} weeks: ${fWd(slean)} lean and ${fWd(sfat)} fat</b> (estimates), ${gainShare(s, showE)} of the gain as muscle, <b>ending at ${fP(showE.bf)} body fat</b> (from ${fP(s.bf)}), on a ${g.gainMode === "fast" ? "larger surplus that adds more fat" : gainModeOf(g) === "hold" ? "small surplus that keeps body fat % steady" : "small surplus sized to your muscle-gain rate"}.${ceil}${as}`}${habitNote}</div>`; }
   return `<div class="feas"><b>Holding steady for ${swk} weeks:</b> ${fWd(sfat)} fat, ${fWd(slean)} lean${noLift || assumed ? "" : " from your training"}.${as}${habitNote}</div>`;
 }
 
@@ -6601,7 +6590,7 @@ function renderMeals() {
 }
 function renderFood() {
   if (typeof renderSpecial === "function") renderSpecial();
-  $("#food-lead").textContent = S.mode === "habits" ? "Just tell us what you eat on a normal day. Pick one way below." : "One daily target, built for your goal. It adjusts as your body changes.";
+  $("#food-lead").textContent = S.mode === "habits" ? "Just tell us what you eat on a normal day. Pick one way below." : "One daily target, built for your goal. It adjusts as your numbers change.";
   $("#actual-fields").hidden = !S.food.actualOn;
   const card = $("#rec-card"), used = $("#used-card"), med = $("#med-card");
   if (!R || R.blocked) { card.innerHTML = `<p class="blocked">Finish your goal on Step 2 to get a target.</p>`; if (used) used.innerHTML = ""; med.hidden = true; $("#psmf-prompt").innerHTML = ""; renderMeals(); return; }
@@ -6669,7 +6658,7 @@ function renderFood() {
     $("#actual-cmp").innerHTML = `<div class="cmp"><div><div class="label">${S.food.psmf ? "PSMF" : "You eat"}</div><div class="big" style="font-size:2rem">${fK(k)}</div><div class="hint">${d > 0 ? "+" : d < 0 ? "−" : "±"}${fK(Math.abs(d))} vs plan</div></div>
       <div><div class="label">Plan</div><div class="big" style="font-size:2rem">${fK(r0.intake)}</div><div class="hint">for ${esc(goalLabel().toLowerCase())}</div></div></div>
       <p class="read">After <strong>${fWk(a.day)} weeks</strong> of eating this way you'd be about <strong>${fW(a.weightKg)} at ${fP(a.bf)}</strong> body fat (${fWd(a.fatKg - R.main.rows[0].fatKg)} fat, ${fWd(a.leanKg - R.main.rows[0].leanKg)} lean).${R.main.stopped ? " The projection stops there (see the note on the Projection step)." : ""} Following the plan for ${R.main.stopped ? fWk(b.day) : "the same"}${R.main.stopped ? " weeks" : " time"}: <strong>${fW(b.weightKg)} at ${fP(b.bf)}</strong>.</p>
-      ${R.main.overDays > 0 ? `<ul class="alerts"><li class="alert warn">${ICON.warn}<span>This intake creates a deficit bigger than your fat can supply on ${R.main.overDays} days. Your body slows down to cover part of it. Past that, the body leans on liver glycogen (roughly 100 g, about 400 kcal, approximate) and then more and more protein, including organ protein. Protein loss is never zero and is larger in leaner people.</span></li></ul>` : ""}`;
+      ${R.main.overDays > 0 ? `<ul class="alerts"><li class="alert warn">${ICON.warn}<span>This intake creates a deficit bigger than your fat can supply on ${R.main.overDays} days. The body tends to slow down to cover part of it. Past that, the body leans on liver glycogen (roughly 100 g, about 400 kcal, approximate) and then more and more protein, including organ protein. Protein loss is never zero and is larger in leaner people.</span></li></ul>` : ""}`;
   }
   renderMeals(); renderFsLog();
 }
@@ -7738,11 +7727,11 @@ const TAKE_RULES = [
   [/^Muscle gain needs resistance training/, "Add lifting. Without it this plan holds at maintenance."],
   [/^Even a moderate surplus adds some fat/, "Some of the gain will be fat. That's expected."],
   [/^Faster gain is on/, "Faster gain adds noticeably more fat than muscle."],
-  [/^You'd reach your body-fat ceiling/, "You'd hit your body-fat ceiling before the target weight."],
+  [/^You'd reach the body-fat ceiling/, "You'd hit the body-fat ceiling before the target weight."],
   [/^Recomposition depends on/, "Recomposition needs resistance training."],
   [/^This projection loses about/, "This plan loses some lean mass. Protein and lifting protect it."],
-  [/^Body fat was estimated from BMI/, "Your body fat is a rough estimate. A tape measure or scan would sharpen it."],
-  [/^Body fat is a tape-measure estimate/, "Your body fat is a tape estimate (about ±3–4 points)."],
+  [/^Body fat was estimated from BMI/, "The body fat number is a rough estimate. A tape measure or scan would sharpen it."],
+  [/^Body fat is a tape-measure estimate/, "The body fat number is a tape estimate (about ±3–4 points)."],
   [/^That's more than a year of dieting/, "That's over a year of dieting. Maintenance breaks help."],
   [/^Your BMI is/, "Check your own targets with your clinician."],
   [/body fat is above the range usually linked/, "That body fat is above the range linked with the best metabolic health."],
@@ -7812,7 +7801,7 @@ function renderHealthCtx() {
   const show = hs && (hs.hasRisk || hs.goalDetail);
   box.hidden = !show; if (!show) { box.innerHTML = ""; return; }
   const bits = [];
-  if (hs.a1c != null) bits.push(`<span class="wchip"><strong>${hs.a1c}%</strong>HbA1c · ${esc(hs.a1cLabel.split(" (")[0].toLowerCase())}</span>`);
+  if (hs.a1c != null) bits.push(`<span class="wchip"><strong>${hs.a1c}%</strong>HbA1c (logged)</span>`);
   if (hs.whtr != null) bits.push(`<span class="wchip"><strong>${hs.whtr.toFixed(2)}</strong>waist ÷ height at the start</span>`);
   if (hs.fattyLiver === "yes") bits.push(`<span class="wchip"><strong>Yes</strong>fatty liver (reported)</span>`);
   box.innerHTML = `<p class="eyebrow card-eyebrow">Your health context</p><h2>Beyond the scale</h2>
@@ -8092,7 +8081,7 @@ function renderHabitsPath() {
   let cp; try { cp = TheosisHabits.checkpoints(habInput(), E); } catch (e) { box.hidden = true; return; }
   const cell = (r) => `<div class="hab-cp${r.cut ? " cut" : ""}"><span class="hab-cp-l">${esc(r.label)}</span><strong>${esc(fW(r.weightKg))}</strong><span class="hab-cp-d">${esc(habFmtChange(r.dW))} · ${esc(fP(r.bf))} body fat</span><span class="hab-cp-s">fat ${esc(habFmtChange(r.dF))} · lean ${esc(habFmtChange(r.dL))}</span>${r.cut ? `<span class="hab-cp-s">Projection stopped earlier (safety limit)</span>` : ""}</div>`;
   box.innerHTML = `<p class="eyebrow card-eyebrow">Your path over time</p><h2>If you keep these habits</h2>
-  <p class="hint">Model estimate at each checkpoint, starting from ${esc(fW(cp.start.weightKg))} and ${esc(fP(cp.start.bf))} body fat. It assumes you keep exactly the food and training you entered, and it is not a guarantee. Change slows over time because your body burns more or less as your weight changes.</p>
+  <p class="hint">Model estimate at each checkpoint, starting from ${esc(fW(cp.start.weightKg))} and ${esc(fP(cp.start.bf))} body fat. It assumes you keep exactly the food and training you entered, and it is not a guarantee. Change slows over time because a body burns more or less as your weight changes.</p>
   ${cp.lessReliable ? `<p class="hint hab-less" role="note"><b>These numbers are less reliable at this size.</b> A surplus this large is beyond what the studies behind the model covered, so treat the checkpoints as rough, not exact.</p>` : ""}
   <div class="hab-cps" id="hab-cps">${cp.rows.map(cell).join("")}</div>
   <div class="hab-slide"><label for="hab-wk" class="label">Pick your own week: <b id="hab-wk-n">${hab.weeks}</b> weeks</label><input type="range" id="hab-wk" min="1" max="104" step="1" value="${hab.weeks}" aria-describedby="hab-wk-out"><div id="hab-wk-out" class="hab-wk-out" aria-live="polite"></div></div>
@@ -8230,7 +8219,7 @@ function buildPrint() {
   const s = R.main.rows[0], e = endRow(), st = startPerson();
   const rows = R.main.rows.length > 40 ? R.main.rows.filter((r, i) => i % Math.ceil(R.main.rows.length / 40) === 0 || r.end) : R.main.rows;
   $("#print-sheet").innerHTML = `<div class="ph"><img src="${$(".lockup").src}" alt="Theosis Medical"><span style="font-family:var(--font-display);letter-spacing:.16em;text-transform:uppercase;font-size:11pt">Theosis Metabolic Simulator · Health Hacks</span></div>
-  <h1>Your body composition plan</h1><p>${esc(goalLabel())} · prepared ${fDate(0, true)} · ${S.food.psmf ? "PSMF projection (clinician-guided)" : S.food.actualOn ? "projection of current habits" : "recommended plan"}</p>
+  <h1>Body composition plan</h1><p>${esc(goalLabel())} · prepared ${fDate(0, true)} · ${S.food.psmf ? "PSMF projection (clinician-guided)" : S.food.actualOn ? "projection of current habits" : "recommended plan"}</p>
   <div class="grid" style="margin-top:10px"><div><h2>Recap</h2><table>${recapPairs().map(([k, v]) => `<tr><td style="text-align:left;width:28%"><b>${esc(k)}</b></td><td style="text-align:left">${esc(v)}</td></tr>`).join("")}</table></div>
   <div><h2>Projection</h2><div class="figs">${FIG.svg(st)}${FIG.svg(personAt(e), { ghost: st })}</div>
   <p><b>${fW(s.weightKg)} · ${fP(s.bf)}</b> → <b>${fW(e.weightKg)} · ${fP(e.bf)}</b> in ${fWk(e.day)} weeks (${fDate(e.day, true)}). Fat ${fWd(e.fatKg - s.fatKg)}, lean ${fWd(e.leanKg - s.leanKg)}.</p>${printRegional(s, e)}</div></div>
@@ -8402,7 +8391,7 @@ function stageWeeks(endDay) {
 function stagePlan() {
   if (!R || R.blocked) return { ok: false, why: "Finish your answers to see a projection first." };
   const rows = R.main.rows, s = rows[0], e = rows[rows.length - 1], dFat = e.fatKg - s.fatKg, dLean = e.leanKg - s.leanKg;
-  if (!(dFat <= -1 || dFat >= 1 || dLean >= 1)) return { ok: false, why: "This plan keeps your body about the same, so there's nothing meaningful to illustrate. Choose a fat-loss, muscle-gain or recomposition goal with a real deficit or surplus to see stages." };
+  if (!(dFat <= -1 || dFat >= 1 || dLean >= 1)) return { ok: false, why: "This plan keeps things about the same, so there's nothing meaningful to illustrate. Choose a fat-loss, muscle-gain or recomposition goal with a real deficit or surplus to see stages." };
   const weeks = stageWeeks(e.day), pts = weeks.map((w) => projectionPayload(w * 7, { rows, off: 0, c: null }));
   return { ok: true, kind: dFat <= -1 ? "loss" : "gain", weeks, pts };
 }
@@ -8769,7 +8758,7 @@ function settingsHtml() {
   const dia = glIsDiabetic(), on = glVisible();
   return `<header class="step-head"><p class="eyebrow">Settings</p><h1 tabindex="-1">Settings</h1></header>
   <div class="v-card"><h2>Glucose log</h2><p><b>${on ? "Shown" : "Hidden"}</b></p>
-    <p class="hint">${dia ? "On because your diabetes status is set to Diabetes (answered, or set from an A1c you entered). It stays on while that is true." : "It shows automatically if your diabetes status is Diabetes. You can also switch it on yourself, for example if your care team asks you to check your blood sugar during a medicine."}</p>
+    <p class="hint">${dia ? "On because your diabetes status is set to Diabetes (as you selected it). It stays on while that is true." : "It shows automatically if your diabetes status is Diabetes. You can also switch it on yourself, for example if your care team asks you to check your blood sugar during a medicine."}</p>
     ${dia ? "" : `<div class="actions"><button type="button" class="btn ${S.glucoseOptIn ? "btn-ghost" : "btn-primary"}" id="gl-opt" aria-pressed="${!!S.glucoseOptIn}">${S.glucoseOptIn ? "Hide Glucose log" : "Show Glucose log"}</button></div>`}
     <p class="hint">Log only: no targets, no advice, and it never changes your plan or the On-track score.</p></div>
   <div class="v-card"><h2>Move to another device</h2><p>The simulator keeps your data in this browser only. To continue on your phone or another computer, export a file here and import it there.</p>
