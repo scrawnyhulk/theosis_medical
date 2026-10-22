@@ -161,7 +161,7 @@
         diffuseColor.rgb=mix(diffuseColor.rgb,vec3(.15,.62,.55),gl*.10*(1.-.8*uLiver));diffuseColor.rgb=mix(diffuseColor.rgb,vec3(.30,.85,.75),gl*.12*smoothstep(.45,.75,n2*.6+n3*.4));`,
       normal:"normal=pftBump(normal,lw*.25+(uLiver>.02?(1.-smoothstep(.1,.34,pftCell(vPos*300.).x))*.5*uLiver:0.),.0006);"});
     M.pancreas=patch(organ(0xd29a62,.42),"pancreas",{uniforms:pancU,fdecl:"uniform float uPanc;\n",
-      color:"vec2 pc=pftCell(vPos*120.);float lob=smoothstep(.0,.5,pc.y-pc.x);float lo=.55*lob+.25*pftNoise(vPos*40.);float dep=smoothstep(.0,.06,pftNoise(vPos*55.)-(.68-uPanc*.3))*min(1.,uPanc*3.);diffuseColor.rgb=mix(mix(vec3(.70,.42,.27),vec3(.88,.62,.40),lo),vec3(.99,.86,.42),dep);",
+      color:"vec2 pc=pftCell(vPos*120.);float lob=smoothstep(.0,.5,pc.y-pc.x);float lo=.55*lob+.25*pftNoise(vPos*40.);float dep=smoothstep(.0,.06,pftNoise(vPos*55.)-(.68-uPanc*.3))*min(1.,uPanc*3.);vec3 pk=mix(vec3(.78,.50,.40),vec3(.93,.71,.55),lo);pk*=mix(.80,1.,smoothstep(.0,.12,pc.y-pc.x));diffuseColor.rgb=mix(pk,vec3(.99,.86,.42),dep);",
       normal:"vec2 pc2=pftCell(vPos*120.);normal=pftBump(normal,smoothstep(.0,.5,pc2.y-pc2.x)*(1.-.3*pc2.x)+dep*2.,.00035);"});
     // V26: visceral (omental) fat as lobulated yellow fat with pinkish septa and fine vessels, draped over the
     // bowel (thinner between lobules, so loops show through) instead of one smooth yellow mass.
