@@ -2995,6 +2995,7 @@ function leanShare(F, L, ctx) {
 function goalDirection(inp) {
   const g = inp.goal;
   if (g.type === "gain" || g.type === "bulk") return "gain";
+  if (g.type === "targetWeight" && g.fatGoalKg > 0) return "loss";   // v7.6.71: both goals, fat comes down
   if (g.type === "targetWeight") return g.target < inp.profile.weightKg ? "loss" : "gain";
   if (g.type === "targetBf" && g.target > inp.profile.bf + 0.05) return "gain";   // v7.6.15: a goal body fat above today's is a gain plan, never blocked
   if (g.type === "targetBf" || GOALS[g.type].loss) return "loss";
@@ -3167,6 +3168,9 @@ function simulate(inp, o = {}) {
 function targetFnFor(inp) {
   const g = inp.goal;
   if (g.type === "targetBf") return goalDirection(inp) === "gain" ? (F, L) => 100 * F / (F + L) >= g.target - 1e-9 : (F, L) => 100 * F / (F + L) <= g.target + 1e-9;
+  // v7.6.71: goal weight AND goal body fat both typed (fat-loss direction): the plan runs until fat mass reaches the goal's fat (goal weight x goal %).
+  // Lean mass follows the plan's own training model; the UI reports honestly how close that lands to the goal's lean mass.
+  if (g.type === "targetWeight" && g.fatGoalKg > 0) return (F) => F <= g.fatGoalKg + 1e-9;
   if (g.type === "targetWeight") return goalDirection(inp) === "loss" ? (F, L) => F + L <= g.target + 1e-9 : (F, L) => F + L >= g.target - 1e-9;
   if (g.type === "gain" && g.target > 0) return (F, L) => F + L >= g.target - 1e-9;
   return null;
@@ -5468,7 +5472,7 @@ function engineInput0() {
     return est.over ? { profile: prof, goal: { type: "targetWeight", baseType: "pft", target: est.weightKg.mid, weeks: g.deadline || null, pace: +g.pace || 0.6, gainMode: "lean", bfCeiling: null }, move: mv, food, mode: S.mode }
       : { profile: prof, goal: { type: "steady", baseType: "pft", target: null, weeks: g.window, pace: g.calcPace ? +g.pace : 0.6, calcPace: !!g.calcPace, gainMode: "lean", bfCeiling: null }, move: mv, food, mode: S.mode }; }
   if (X) return { profile: { sex: p.sex, age: p.age, heightCm: p.heightCm, weightKg: p.weightKg, bf: b.bf, bfSource: b.source, waistCm: p.waistCm, health: p.health, cal: calFor(mv, fat0, p.weightKg - fat0) },
-    goal: { type: X.type, baseType: g.type, target: X.target, weeks: g.deadline || null, pace: g.calcPace ? +g.pace : g.type === "maxloss" ? 1 : 0.6, calcPace: !!g.calcPace, gainMode: gainModeOf(g), bfCeiling: g.bfCeiling || null, bfGoal: X.type === "targetWeight" && X.bf > 0 ? X.bf : undefined },
+    goal: { type: X.type, baseType: g.type, target: X.target, weeks: g.deadline || null, pace: g.calcPace ? +g.pace : g.type === "maxloss" ? 1 : 0.6, calcPace: !!g.calcPace, gainMode: gainModeOf(g), bfCeiling: g.bfCeiling || null, bfGoal: X.type === "targetWeight" && X.bf > 0 && !X.dual ? X.bf : undefined, fatGoalKg: X.dual ? X.fatKg : undefined },
     move: mv, food, mode: S.mode };
   return { profile: { sex: p.sex, age: p.age, heightCm: p.heightCm, weightKg: p.weightKg, bf: b.bf, bfSource: b.source, waistCm: p.waistCm, health: p.health, cal: calFor(mv, fat0, p.weightKg - fat0) },
     goal: { type: g.type, target: g.type === "bulk" ? null : g.type === "targetBf" ? g.targetBf : g.type === "targetWeight" ? g.targetWeightKg : gainT ? g.gainTargetKg : null, weeks: isT ? (g.deadline || null) : g.window, pace: +g.pace, calcPace: !!g.calcPace,
@@ -5483,8 +5487,11 @@ function bothLead() { const g = S.goal; if (g.exactLead === "bf" || g.exactLead 
 function exactGoal() {
   const g = S.goal; if (!EXACT_TYPES.includes(g.type)) return null;
   if (g.exactBy === "both" && g.exactW > 0 && g.exactBf > 0) {   // v7.6.11: both typed. Fat-loss direction (goal % below today's) runs on the body fat target; the implied lean change is reported separately
-    const cur = bfInfo().bf, lead = bothLead();   // v7.6.22: when the two goals disagree, the plan follows the one you pick (default: your goal weight) and says so
-    return g.exactBf < cur - 0.05 && lead === "bf" ? { type: "targetBf", target: g.exactBf, by: "both", w: g.exactW, lead } : { type: "targetWeight", target: g.exactW, by: "both", w: g.exactW, bf: g.exactBf, lead }; }
+    const cur = bfInfo().bf, p = S.profile, fat0 = p.weightKg * cur / 100, fatG = g.exactW * g.exactBf / 100;
+    // v7.6.71: both goals are honoured. When the goal has less fat than today, the plan runs until fat reaches the goal's fat mass
+    // (goal weight x goal %); lean mass follows the plan's training, and the note says how close that lands. Otherwise (fat goes up) as before.
+    if (fatG < fat0 - 0.45) return { type: "targetWeight", target: g.exactW, by: "both", w: g.exactW, bf: g.exactBf, fatKg: fatG, dual: true };
+    return { type: "targetWeight", target: g.exactW, by: "both", w: g.exactW, bf: g.exactBf }; }
   if (g.exactBy === "w" && g.exactW > 0) return { type: "targetWeight", target: g.exactW, by: "w" };
   if (g.exactBy === "bf" && g.exactBf > 0) return { type: "targetBf", target: g.exactBf, by: "bf" };
   return null;
@@ -6395,11 +6402,19 @@ function renderExact(g, b, p, X, exOn) {
   $("#g-exact-clear").hidden = !X;
   $("#g-exact-msg").innerHTML = (both ? leadHtml(g, b, p, X) : "") + (both ? impliedHtml(g, b, p) : "") + (X ? `<p class="hint g-exact-note">${g.deadline ? `Paced to reach <b>${xLab(X)}</b> by week ${g.deadline}. Clear <b>By when</b> to go at the ${g.type === "maxloss" ? "maximal" : "steady"} pace instead.` : `${g.type === "maxloss" ? "Maximal" : "Steady"} pace until you reach <b>${xLab(X)}</b>. Add a date under <b>By when</b> below if you have one.`}</p>` : "");
 }
-function leadHtml(g, b, p, X) {
-  const C = bothConflict(); if (!C) return ""; const lead = X.lead || bothLead(), e = R && !R.blocked ? endRow() : null;
-  const now = e ? ` On this plan you end at about <b>${fW(e.weightKg)}</b> and <b>${fP(e.bf)}</b> body fat.` : "";
-  const btn = (k, l) => `<button type="button" class="link-btn g-lead-b" data-lead="${k}" aria-pressed="${lead === k}"${lead === k ? ' style="font-weight:700;text-decoration:underline"' : ""}>${l}</button>`;
-  return `<p class="feas warn g-lead" id="g-lead" data-lead-now="${lead}"><b>Your two goals don't match.</b> ${fP(g.exactBf)} body fat at today's lean mass is about ${fW(C.wBf)}, not ${fW(C.wTyped)}. The plan follows your <b>${lead === "w" ? "goal weight (" + fW(g.exactW) + ")" : "goal body fat (" + fP(g.exactBf) + ")"}</b>.${now} Hitting both would mean ${C.diff > 0 ? "adding" : "losing"} about ${fW(Math.abs(C.diff))} of lean mass along the way. Follow: ${btn("w", "goal weight")} · ${btn("bf", "goal body fat")}</p>`; }
+function leadHtml(g, b, p, X) {   // v7.6.71: both goals honoured (no more "follow one" switch); honest about the lean mass it takes
+  if (!X || !X.dual) return "";
+  const T = 0.45, lean0 = p.weightKg * (1 - b.bf / 100), fat0 = p.weightKg - lean0, leanG = X.w * (1 - X.bf / 100), dL = leanG - lean0, dF = fat0 - X.fatKg;
+  const e = R && !R.blocked ? endRow() : null, wk = e ? Math.max(1, Math.round(e.day / 7)) : null;
+  let need = `To reach both <b>${fW(X.w)}</b> and <b>${fP(X.bf)}</b> body fat, you'd need to `
+    + (dL > T ? `add about <b>${fW(dL)}</b> of lean mass while losing about <b>${fW(dF)}</b> of fat.` : dL < -T ? `lose about <b>${fW(dF)}</b> of fat and also about <b>${fW(-dL)}</b> of lean mass (muscle and other non-fat weight).` : `lose about <b>${fW(dF)}</b> of fat while keeping your lean mass about the same.`);
+  if (!e) return `<p class="feas g-lead" id="g-lead" data-dual="1">${need}</p>`;
+  const eL = e.leanKg, gap = leanG - eL, end = `about <b>${fW(e.weightKg)}</b> at <b>${fP(e.bf)}</b> body fat`;
+  let more, warn = false;
+  if (dL > T && gap > T) { warn = true; more = ` That's more muscle than this plan's training is likely to build in ${wk} week${wk === 1 ? "" : "s"}${eL - lean0 > T ? ` (it adds about ${fW(eL - lean0)})` : `; while losing fat, it mostly keeps the lean mass you have`}. A longer timeline, more lifting or a gentler pace would help. By the end, this plan reaches ${end}.`; }
+  else if (dL < -T && eL - leanG > T) { warn = true; more = ` This plan works to keep your muscle, so it doesn't aim to lose lean mass. By the end it reaches ${end}. Keeping your muscle, ${fP(X.bf)} body fat lands nearer ${fW(eL / (1 - X.bf / 100))}.`; }
+  else more = ` This plan gets you there: about ${fW(e.weightKg)} at ${fP(e.bf)} body fat in about ${wk} week${wk === 1 ? "" : "s"}.`;
+  return `<p class="feas${warn ? " warn" : ""} g-lead" id="g-lead" data-dual="1">${need}${more}</p>`; }
 function impliedGoal(g, b, p) {
   const W = +g.exactW, BF = +g.exactBf; if (!(W > 0 && BF > 0)) return null;
   const lean0 = p.weightKg * (1 - b.bf / 100), fat0 = p.weightKg - lean0, lean1 = W * (1 - BF / 100), fat1 = W - lean1, dL = lean1 - lean0, dF = fat1 - fat0, T = 0.45;   // 0.45 kg ≈ 1 lb: below that it is rounding
@@ -6467,7 +6482,7 @@ function feasHtml0() {
     if (f.status === "fits" && R.dir === "loss") return `<div class="feas"><b>Doable.</b> To arrive by week ${g.deadline}, the plan runs at about <b>${Math.round(R.pace * 100)}% of your fat ceiling</b>. The fastest route designed to limit muscle loss would take ${fast} weeks.${habitNote}</div>`;
     if (R.dir === "loss") return `<div class="feas"><b>About ${fWk(reachD)} weeks</b> at a ${R.pace >= 0.99 ? "maximal" : R.pace >= 0.8 ? "firm" : "steady"} pace (around ${fDate(reachD)}). ${R.pace < 0.99 ? `The fastest route designed to limit muscle loss is ${fast} weeks.` : "That's the fastest muscle-sparing route."}${habitNote}</div>`;
     const gm = R.inp.goal.gainMode, mo = reachD / 30.44;
-    if (f.dateDriven) return `<div class="feas"><b>Reaching ${fW(R.inp.goal.target)} by week ${R.inp.goal.weeks}:</b> about ${fWd(re.leanKg - s.leanKg)} lean and ${fWd(re.fatKg - s.fatKg)} fat (${gainShare(s, re)} of the gain is muscle), <b>ending at ${fP(re.bf)} body fat</b> (from ${fP(s.bf)}; estimates). The surplus is sized to make your date, so anything beyond your muscle-gain rate is stored as fat.${fastGainNoteHtml(f)}${habitNote}</div>`;
+    if (f.dateDriven) return `<div class="feas"><b>Reaching ${R.inp.goal.fatGoalKg > 0 && exactGoal() ? xLab(exactGoal()) : fW(R.inp.goal.target)} by week ${R.inp.goal.weeks}:</b> about ${fWd(re.leanKg - s.leanKg)} lean and ${fWd(re.fatKg - s.fatKg)} fat (${gainShare(s, re)} of the gain is muscle), <b>ending at ${fP(re.bf)} body fat</b> (from ${fP(s.bf)}; estimates). The surplus is sized to make your date, so anything beyond your muscle-gain rate is stored as fat.${fastGainNoteHtml(f)}${habitNote}</div>`;
     return `<div class="feas ${gm === "fast" ? "warn" : ""}"><b>About ${fWk(reachD)} weeks</b>${mo >= 3 ? ` (≈ ${mo < 10 ? mo.toFixed(1) : Math.round(mo)} months)` : ""} of ${gm === "fast" ? "faster" : gm === "hold" ? "lean gain at the current body fat %" : "lean"}${gm === "fast" ? " gain" : gm === "hold" ? "" : " gain"} (around ${fDate(reachD)}): about ${fWd(re.leanKg - s.leanKg)} lean and ${fWd(re.fatKg - s.fatKg)} fat, so ${gainShare(s, re)} of the gain is muscle, <b>ending at ${fP(re.bf)} body fat</b> (from ${fP(s.bf)}; estimates).${habitNote}</div>`;
   }
   const assumed = R.assumed && R.assumed.move, noLift = !assumed && E.weeklyTraining(S.move).liftSessions === 0;
