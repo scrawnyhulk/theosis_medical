@@ -58,10 +58,13 @@ FT.unitServing = function (it, food) {
 };
 FT.servingMath = function (it, food) {
   const q = +it.quantity > 0 ? +it.quantity : 1, u = sing(String(it.unit || "serving").toLowerCase()), c = +it.count > 1 ? +it.count : null;
-  const us = !CONTAINER.test(u) && u !== "serving" ? FT.unitServing(it, food) : null;
+  const drink = u === "serving" && !it.brand && /\b(coffee|tea|juice|milk|latte|soda|cola|smoothie|lemonade|cocoa)\b/i.test(it.food || "");
+  const us = drink ? FT.unitServing({ ...it, unit: "cup" }, food) : !CONTAINER.test(u) && u !== "serving" ? FT.unitServing(it, food) : null;
   if (us) { const sv = food.servings[us.idx]; return { sv: us.idx, servings: r4(q) || 1, sure: us.sure, note: us.est ? `${q} × ${sv.label}. Typical weight, so check the amount.` : `${q} × ${sv.label}. Please check.` }; }
-  if (food && food.servings && food.servings.length && /^1?\s*(100 g|1 g)$/.test(food.servings[0].label) && u !== "serving" && !CONTAINER.test(u)) {
-    return { sv: 0, servings: 1, sure: false, note: `No household size for "${u}" in this entry, so 100 g is shown. Check the amount.` }; }
+  if (food && food.servings && food.servings.length && /^1?\s*(100 g|1 g)$/.test(food.servings[0].label) && !CONTAINER.test(u)) {
+    return { sv: 0, servings: u === "serving" ? r4(q) || 1 : 1, sure: false, note: u === "serving" ? "This entry has no serving size, so 100 g is shown. Check the amount." : `No household size for "${u}" in this entry, so 100 g is shown. Check the amount.` }; }
+  if (u === "serving" && food && food.src !== "web" && !(food.servings && food.servings[0] && /^1 serving/.test(food.servings[0].label))) {
+    return { sv: 0, servings: r4(q) || 1, sure: false, note: `Counted as ${r4(q) || 1} × ${food.servings[0].label}. Check the amount.` }; }
   const sv = food && food.servings && food.servings[0], pp = sv ? FT.piecesPerServing(sv.label) : null;
   let pieces = null, what = "";
   if (CONTAINER.test(u)) { if (c) { pieces = q * c; what = `${q} ${plural(q, u)} of ${c} = ${pieces} pieces`; } }
@@ -73,7 +76,7 @@ FT.servingMath = function (it, food) {
 };
 const GENERIC_T = /^(foundation|sr legacy|survey)/i;
 // Words USDA uses to describe a plain food; they don't count as "added" words.
-const DESCR = new Set("raw cooked boiled baked broiled roasted grilled fried scrambled poached hard soft brewed prepared plain regular ns as to type form made from fresh frozen canned large medium small grade enriched unenriched ready drink beverage commercial home homemade restaurant style hot cold water oil fat added salt without no not specified table light fluid sliced toasted toast slice white wheat yellow us sauce tomato dry instant ground or by".split(" "));
+const DESCR = new Set("raw cooked boiled baked broiled roasted grilled fried scrambled poached hard soft brewed prepared plain regular ns as to type form made from fresh frozen canned large medium small grade enriched unenriched ready drink beverage commercial home homemade restaurant style hot cold water oil fat added salt without no not specified table light fluid sliced toasted toast slice wheat yellow us sauce tomato dry instant ground or by".split(" "));
 // Rank database foods for one parsed item: brand words count most, then food words, then flavor.
 FT.score = function (it, f) {
   const hay = new Set(toks((f.brand || "") + " " + (f.name || ""))), hit = (ws) => ws.filter((w) => hay.has(w)).length;
@@ -111,7 +114,9 @@ FT.parse = async function (text) {
 async function search(q, kind) {
   if (location.protocol === "file:") { const C = window.FoodCore, k = (window.BodyPlanApp && window.BodyPlanApp.config && window.BodyPlanApp.config.FDC_PUBLIC_KEY) || "DEMO_KEY";
     const d = await J(C.fdcSearchUrl(q, k, { branded: kind === "branded", all: kind === "all", n: 10 })); return (d.foods || []).map(C.normFDC).filter(Boolean); }
-  const d = await J(`${FOOD}?q=${encodeURIComponent(q)}&kind=${kind}`); return Array.isArray(d.items) ? d.items : [];
+  // v7.6.63: USDA FoodData Central sometimes answers 400/5xx once and then works; retry once before giving up.
+  for (let i = 0; ; i++) { try { const d = await J(`${FOOD}?q=${encodeURIComponent(q)}&kind=${kind}`); return Array.isArray(d.items) ? d.items : []; }
+    catch (e) { if (i || e.status === 429 || (e.status && e.status < 500)) throw e; await new Promise((ok) => setTimeout(ok, 500)); } }
 }
 async function offSearch(q) {   // v7.6.59: Open Food Facts via the food function (new search API, then the old one); from disk, straight to the old one
   if (location.protocol !== "file:") { let d = null; try { d = await J(`${FOOD}?src=off&q=${encodeURIComponent(q)}`); } catch (e) { d = null; } if (d && Array.isArray(d.items)) return d.items; }
