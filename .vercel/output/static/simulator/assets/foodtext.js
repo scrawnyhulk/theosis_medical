@@ -17,10 +17,16 @@ const toks = (s) => String(s || "").toLowerCase().replace(/[^a-z0-9 ]+/g, " ").s
 /* ---------- pure helpers (also used by the test suite) ---------- */
 // Fallback reader: split on "and", commas, "+", ";" and "then"; a leading number or number word becomes the quantity.
 FT.splitText = function (text) {
-  return String(text || "").replace(/^\s*(i\s+(had|ate|have)|for \w+ i (had|ate))\s+/i, "").split(/,|;|\+|\band\b|\bthen\b|\balso\b/i).map((s) => s.trim()).filter((s) => toks(s).length).slice(0, 12).map((s) => {
+  const out = [];
+  for (let s of String(text || "").replace(/^\s*(i\s+(had|ate|have)|for \w+ i (had|ate))\s+/i, "").split(/,|;|\+|\band\b|\bthen\b|\balso\b/i)) {
+    s = s.trim().replace(/^(the|some)\s+/i, ""); if (!toks(s).length) continue;
+    // "..., the cinnamon flavor" belongs to the food before it
+    if (out.length && /\bflavou?r(ed)?\b/i.test(s) && toks(s).length <= 3) { out[out.length - 1].food = (out[out.length - 1].food + " " + s.replace(/\bflavou?r(ed)?\b/ig, "")).replace(/\s+/g, " ").trim().slice(0, 80); continue; }
     const m = /^(\d+(?:\.\d+)?|a|an|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|half|dozen)\s+(.+)$/i.exec(s);
-    return { brand: "", food: (m ? m[2] : s).slice(0, 80), flavor: "", quantity: m ? (NUMW[m[1].toLowerCase()] || +m[1]) : 1, unit: "serving", count: null, raw: true };
-  });
+    const food = (m ? m[2] : s).replace(/^(whole\s+)?(bag|box|package|pack)\s+of\s+(the\s+)?/i, "").replace(/\b(brand|with the|with)\b/ig, " ").replace(/\s+/g, " ").trim();
+    out.push({ brand: "", food: food.slice(0, 80), flavor: "", quantity: m ? (NUMW[m[1].toLowerCase()] || +m[1]) : 1, unit: "serving", count: null, raw: true });
+  }
+  return out.slice(0, 12);
 };
 // How many pieces one serving holds, read from a USDA serving label like "1 serving (2 Pastries (96g), 96 g)" or "1 serving (1 patty, 85 g)".
 FT.piecesPerServing = function (label) {
@@ -47,7 +53,7 @@ FT.servingMath = function (it, food) {
 FT.score = function (it, f) {
   const hay = new Set(toks((f.brand || "") + " " + (f.name || ""))), hit = (ws) => ws.filter((w) => hay.has(w)).length;
   const b = toks(it.brand), fd = toks(it.food), fl = toks(it.flavor);
-  return hit(b) * 3 + hit(fd) * 2 + hit(fl) + (b.length && hit(b) === b.length ? 2 : 0) + (fd.length && hit(fd) === fd.length ? 2 : 0) - (f.src === "usda" && f.dataType !== "Branded" && b.length ? 1 : 0);
+  return (fd.length && !hit(fd) ? -4 : 0) + hit(b) * 3 + hit(fd) * 2 + hit(fl) + (b.length && hit(b) === b.length ? 2 : 0) + (fd.length && hit(fd) === fd.length ? 2 : 0) - (f.src === "usda" && f.dataType !== "Branded" && b.length ? 1 : 0);
 };
 FT.rank = function (it, foods) {
   const seen = new Set(), out = [];
@@ -64,9 +70,11 @@ FT.entry = function (f, svIdx, servings) {
 /* ---------- network ---------- */
 const J = async (url, opt) => { const r = await fetch(url, opt); let d = null; try { d = await r.json(); } catch (e) { d = null; } if (!r.ok) { const e = new Error((d && d.error) || "HTTP " + r.status); e.status = r.status; throw e; } return d || {}; };
 FT.parse = async function (text) {
-  try { const d = await J(PARSE, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ text }) });
-    if (Array.isArray(d.items) && d.items.length) return { items: d.items.slice(0, 12), ai: !d.mock, mock: !!d.mock }; }
-  catch (e) { /* reader off or failed: plain search below */ }
+  for (let i = 0; i < 2; i++) {   // one retry: the AI service sometimes fails once and then answers
+    try { const d = await J(PARSE, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ text }) });
+      if (Array.isArray(d.items) && d.items.length) return { items: d.items.slice(0, 12), ai: !d.mock, mock: !!d.mock }; break; }
+    catch (e) { if (!e.status || (e.status >= 400 && e.status < 500) || e.status === 503) break; }   /* reader off / limit: plain search below */
+  }
   return { items: FT.splitText(text), ai: false };
 };
 async function search(q, kind) {
