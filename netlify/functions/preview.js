@@ -42,7 +42,8 @@ exports.handler = async (event) => {
 
   let body;
   try { body = JSON.parse(event.body || "{}"); } catch { return json(400, { error: "Invalid JSON." }, corsOrigin); }
-  if (!body.consent || body.consent.adult !== true || body.consent.consent !== true) return json(400, { error: "Consent and 18+ confirmation are required." }, corsOrigin);
+  { const c = body.consent || {}; if (!require("./aiconsent.js").aiConsentOk(c) || c.photoAi !== true || c.biometric !== true) return json(403, { error: "AI illustrations need the AI features and face and body photo consents. Nothing was sent.", code: "consent" }, corsOrigin); }   // v7.6.67
+  if (body.consent.adult !== true) return json(400, { error: "Consent and 18+ confirmation are required." }, corsOrigin);   // v7.6.67: consent record checked above
 
   const m = /^data:(image\/[a-z+]+);base64,([A-Za-z0-9+/=]+)$/.exec(body.image || "");
   if (!m || !ALLOWED_MIME.includes(m[1])) return json(400, { error: "Send a JPEG, PNG or WebP photo." }, corsOrigin);

@@ -104,7 +104,11 @@ FT.rank = function (it, foods) {
   for (const f of foods || []) { if (!f || !f.id || seen.has(f.id)) continue; seen.add(f.id); out.push({ f, s: FT.score(it, f) }); }
   return out.sort((a, b) => b.s - a.s).map((x) => Object.assign(x.f, { _score: x.s }));
 };
-FT.query = (it) => [it.brand, it.flavor, it.food].filter(Boolean).join(" ").replace(/\s+/g, " ").trim().slice(0, 80);
+FT.query = (it) => (it.q || [it.brand, it.flavor, it.food].filter(Boolean).join(" ")).replace(/\s+/g, " ").trim().slice(0, 80);
+// v7.6.67: plain "toast" searches USDA generic toasted bread (white unless whole wheat/wheat is said), never Melba toast
+const TOAST = /^(?:a\s+)?(?:(white|whole[- ]wheat|wheat|whole[- ]grain)\s+)?toast$/i;
+FT.toastQ = (it) => { const m = !it.brand && TOAST.exec(String(it.food || "").trim()); if (!m) return it; const w = m[1] ? (/white/i.test(m[1]) ? "white" : "whole wheat") : "white";
+  return { ...it, q: `bread ${w} toasted`, unit: !it.unit || it.unit === "serving" || it.unit === "piece" ? "slice" : it.unit }; };
 // The log entry for a chosen food + amount (same shape the search adds).
 FT.entry = function (f, svIdx, servings) {
   const sv = f.servings[svIdx] || f.servings[0];
@@ -115,7 +119,7 @@ FT.entry = function (f, svIdx, servings) {
 const J = async (url, opt) => { const r = await fetch(url, opt); let d = null; try { d = await r.json(); } catch (e) { d = null; } if (!r.ok) { const e = new Error((d && d.error) || "HTTP " + r.status); e.status = r.status; throw e; } return d || {}; };
 FT.parse = async function (text) {
   for (let i = 0; i < 2; i++) {   // one retry: the AI service sometimes fails once and then answers
-    try { const d = await J(PARSE, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ text }) });
+    try { const d = await J(PARSE, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ text, consent: window.TheosisConsent ? TheosisConsent.proof() : null }) });
       if (Array.isArray(d.items) && d.items.length) return { items: d.items.slice(0, MAXROWS), ai: !d.mock, mock: !!d.mock }; break; }
     catch (e) { if (!e.status && !navigator.onLine) return { items: [], net: true }; if (!e.status || (e.status >= 400 && e.status < 500) || e.status === 503) break; }   /* reader off / limit: plain search below */
   }
@@ -139,7 +143,7 @@ FT.lookup = async function (it, checked) {
   for (const [qq, k, nm] of tries) { if (qq.length < 2) continue; try { foods = foods.concat(await search(qq, k)); checked.push(nm); } catch (e) { checked.push(nm + " (unavailable)"); if (e.status === 429) rate = e; } }
   if (q.length >= 2) { try { foods = foods.concat(await offSearch(q)); checked.push("Open Food Facts"); } catch (e) { checked.push("Open Food Facts (unavailable)"); } }
   if (!foods.length && rate) throw rate;
-  return FT.rank(it, foods).slice(0, 6);
+  return FT.rank(it.q ? { ...it, food: it.q } : it, foods).slice(0, 6);
 };
 /* v7.6.58: brand not in USDA -> grounded web lookup of that product's label (server-side). Only brand/food/flavor are sent. */
 const WEB = "/.netlify/functions/foodweb";
@@ -155,7 +159,7 @@ FT.webFood = function (r) {
   return { id: "web:" + (r.brand + r.product).toLowerCase().replace(/[^a-z0-9]+/g, "-").slice(0, 60), src: "web", name: r.product, brand: r.brand, per100, servings: [{ label: label.slice(0, 60), g, unit: "g" }], sources: r.sources.slice(0, 3), _score: 99 };
 };
 FT.web = async function (it) {
-  try { const d = await J(WEB, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ brand: it.brand, food: it.food, flavor: it.flavor || "" }) }); return FT.webFood(d && d.result); }
+  try { const d = await J(WEB, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ brand: it.brand, food: it.food, flavor: it.flavor || "", consent: window.TheosisConsent ? TheosisConsent.proof() : null }) }); return FT.webFood(d && d.result); }
   catch (e) { return null; }
 };
 /* v7.6.58: offline queue. The typed text is kept on THIS device only (localStorage) until the connection is back; never auto-added. */
@@ -226,6 +230,7 @@ const PHOTO_NOTICE = "Food photos only. Snap a meal or nutrition label and we'll
 FT.photoCheck = function () { if (FT._pc || location.protocol === "file:") return; FT._pc = 1;
   fetch(PHOTO_EP).then((r) => r.json()).then((d) => { const on = !!(d && d.enabled && d.configured); if (on !== PHOTO_ON) { PHOTO_ON = on; draw(); } }).catch(() => {}); };
 if (window.TheosisConsent) TheosisConsent.onChange(() => { if (st.lock) { st.lock = ""; draw(); } });
+if (window.TheosisConsent && TheosisConsent.onRevoke) TheosisConsent.onRevoke((k) => { if (k === "ai" || k === "all") { st.rows = []; st.busy = false; st.msg = "AI features are off. Nothing more will be sent."; try { FT.pending.clear(); } catch (e) { /* ignore */ } draw(); } });
 // v7.6.66: AI parts of the food log need the "AI features" consent; if it's off, say so inline with a button to that consent.
 const aiOk = () => { const C = window.TheosisConsent; return !C || !!(C.get() && C.has("ai")); };
 const aiLockGo = (f) => { st.busy = false; st.lock = f; st.msg = ""; draw(); };
@@ -249,7 +254,7 @@ async function photoGo(file) {
   if (!aiOk()) return aiLockGo("Food photos"); st.lock = "";
   st.busy = true; st.rows = []; st.msg = "Looking at the photo for foods…"; draw();
   let items = null, err = "";
-  try { const image = await FT.shrink(file); const d = await J(PHOTO_EP, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ image, consent: { foodPhoto: true } }) }); items = Array.isArray(d.items) ? d.items : []; }
+  try { const image = await FT.shrink(file); const d = await J(PHOTO_EP, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ image, consent: window.TheosisConsent ? TheosisConsent.proof() : null }) }); items = Array.isArray(d.items) ? d.items : []; }
   catch (e) { err = e.message || "Couldn't read that photo."; }
   st.busy = false;
   if (!items) { st.msg = err + " You can type what you ate instead."; draw(); return; }
@@ -276,10 +281,14 @@ async function go() {
 }
 // v7.6.63: "coffee with cream" = coffee + a cream add-in (1 tbsp unless an amount was said).
 const ADDIN = /^(.*?\b(?:coffee|tea|latte|espresso|americano))\s+(?:with|w\/|and|plus)\s+(?:a\s+(?:splash|bit|little)\s+of\s+)?(cream|half[- ]and[- ]half|milk|whole milk|skim milk|oat milk|almond milk|sugar|honey|creamer)$/i;
+const SPREAD = /^(.*?\b(?:toast|bread|bagel|english muffin|biscuit))\s+(?:with|w\/|and|plus)\s+(?:a\s+(?:pat|bit|little)\s+of\s+)?(butter|margarine|jam|jelly|peanut butter|cream cheese)$/i;
 FT.splitAddins = function (items) {
   const out = [];
   for (const it of items || []) { const m = !it.brand && ADDIN.exec(String(it.food || "").trim());
-    if (!m) { out.push(it); continue; }
+    const s = !m && !it.brand && SPREAD.exec(String(it.food || "").trim());
+    if (s) { out.push(FT.toastQ({ ...it, food: s[1].trim() })); const sp = s[2].toLowerCase(), pat = /^(butter|margarine)$/.test(sp);
+      out.push({ brand: "", food: sp === "butter" ? "butter, salted" : sp, flavor: "", quantity: 1, unit: pat ? "pat" : "tbsp", count: null, meal: it.meal, addin: true }); continue; }
+    if (!m) { out.push(FT.toastQ(it)); continue; }
     out.push({ ...it, food: m[1].trim() });
     const add = m[2].toLowerCase(), sweet = /sugar|honey/.test(add);
     out.push({ brand: "", food: /cream$|half/.test(add) && !/creamer/.test(add) ? (/half/.test(add) ? "half and half" : "cream, fluid, light") : add, flavor: "", quantity: sweet ? 1 : 1, unit: sweet ? "tsp" : "tbsp", count: null, meal: it.meal, addin: true }); }

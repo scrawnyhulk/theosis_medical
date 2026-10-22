@@ -7,6 +7,7 @@
  * Privacy: the typed text is held in memory for this one request, sent to the model, and never written to logs, disk or a database.
  * Error logs carry only an error code. Key: GEMINI_API_KEY (environment only, never in the page). AI_MOCK=1 = rule-based answer, no network.
  */
+const CONSENT = require("./aiconsent.js");
 const BETA = require("./guard.js");
 const env = () => process.env;
 const MODEL = () => env().GEMINI_TEXT_MODEL || "gemini-3.8-flash";
@@ -67,7 +68,8 @@ exports.handler = async (event) => {
   if (event.httpMethod !== "POST") return out(405, { error: "Use POST.", code: "method" }, co);
   if (!configured) return out(503, { error: "Reading typed foods isn't set up here yet. Plain search still works.", code: "not_configured" }, co);
   if (String(event.body || "").length > 8000) return out(413, { error: "That's too long. Try a shorter list.", code: "too_big" }, co);
-  let text; try { text = str(JSON.parse(event.body || "{}").text, MAXCH + 1); } catch (e) { return out(400, { error: "Invalid request.", code: "bad_json" }, co); }
+  let text, b0; try { b0 = JSON.parse(event.body || "{}"); text = str(b0.text, MAXCH + 1); } catch (e) { return out(400, { error: "Invalid request.", code: "bad_json" }, co); }
+  if (!CONSENT.aiConsentOk(b0.consent)) return out(403, { error: CONSENT.MSG, code: "consent" }, co);   // v7.6.67
   if (text.length < 2) return out(400, { error: "Type what you ate first.", code: "empty" }, co);
   if (text.length > MAXCH) return out(413, { error: `Please keep it under ${MAXCH} characters.`, code: "too_big" }, co);
   if (mock) return out(200, { items: tidy(mockParse(text)), ai: true, mock: true }, co);

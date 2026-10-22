@@ -6,6 +6,7 @@
  * Privacy: the image is held in memory for this one request only; never written to disk, logs or a database, never echoed back.
  * The page downscales and re-encodes the photo (which drops EXIF/location) before sending. Errors log only a code.
  */
+const CONSENT = require("./aiconsent.js");
 const BETA = require("./guard.js");
 const env = () => process.env;
 const MODEL = () => env().GEMINI_VISION_MODEL || "gemini-3.8-flash";
@@ -39,7 +40,7 @@ exports.handler = async (event) => {
   if (!configured) return out(503, { error: "Food photos aren't available here.", code: "off" }, co);
   if (String(event.body || "").length > MAXB64 + 2000) return out(413, { error: "That photo is too large.", code: "too_big" }, co);
   let b; try { b = JSON.parse(event.body || "{}"); } catch (e) { return out(400, { error: "Invalid request.", code: "bad_json" }, co); }
-  if (!(b.consent && b.consent.foodPhoto === true)) return out(400, { error: "Please read the food photo note and tap to agree first.", code: "consent" }, co);
+  if (!CONSENT.aiConsentOk(b.consent)) return out(403, { error: CONSENT.MSG, code: "consent" }, co);   // v7.6.67: the stored AI features consent, not an auto-sent flag
   const m = /^data:(image\/(jpeg|png|webp));base64,([A-Za-z0-9+/=]+)$/.exec(String(b.image || ""));
   if (!m || m[3].length > MAXB64) return out(400, { error: "That photo couldn't be read.", code: "bad_image" }, co);
   if (mock) return out(200, { items: tidy({ items: [{ brand: "", food: "scrambled eggs", quantity: 2, unit: "egg" }, { brand: "", food: "toast", quantity: 1, unit: "slice" }] }), mock: true }, co);

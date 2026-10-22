@@ -5,6 +5,7 @@
  * ONLY when the answer is grounded in web sources; the source URLs come from the grounding metadata, never from the model's text.
  * Nothing is logged except an error code. Key: GEMINI_API_KEY (env only). AI_MOCK=1 = canned answer, no network.
  */
+const CONSENT = require("./aiconsent.js");
 const BETA = require("./guard.js");
 const env = () => process.env;
 const MODEL = () => env().GEMINI_SEARCH_MODEL || "gemini-3.1-flash-lite";   // grounded in ~3 s in testing; 3.8-flash took 10-14 s
@@ -68,7 +69,7 @@ exports.handler = async (event) => {
   if (event.httpMethod !== "POST") return out(405, { error: "Use POST.", code: "method" }, co);
   if (!mock && !env().GEMINI_API_KEY) return out(503, { error: "Web lookup isn't set up here.", code: "not_configured" }, co);
   if (String(event.body || "").length > 1000) return out(413, { error: "Too long.", code: "too_big" }, co);
-  let q; try { const b = JSON.parse(event.body || "{}"); q = { brand: str(b.brand, 60), food: str(b.food, 80), flavor: str(b.flavor, 40) }; } catch (e) { return out(400, { error: "Invalid request.", code: "bad_json" }, co); }
+  let q; try { const b = JSON.parse(event.body || "{}"); if (!CONSENT.aiConsentOk(b.consent)) return out(403, { error: CONSENT.MSG, code: "consent" }, co); q = { brand: str(b.brand, 60), food: str(b.food, 80), flavor: str(b.flavor, 40) }; } catch (e) { return out(400, { error: "Invalid request.", code: "bad_json" }, co); }
   if (q.brand.length < 2 || q.food.length < 2) return out(400, { error: "A brand and a food are needed.", code: "empty" }, co);
   if (mock) return out(200, { result: accept(MOCK), mock: true }, co);
   const slot = await BETA.check(event, "web"); if (!slot.ok) return BETA.reply(slot, co);

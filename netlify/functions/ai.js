@@ -22,6 +22,7 @@
  *   AI_LIMIT_CHAT / AI_LIMIT_LABEL / AI_LIMIT_PLAN / AI_LIMIT_STAGE_IMAGES / AI_LIMIT_STAGE_RUNS   per user per day (defaults below)
  *   AI_GLOBAL_DAILY_LIMIT     total calls per day across all users (cost circuit-breaker, default 3000)
  */
+const CONSENT = require("./aiconsent.js");
 const crypto = require("crypto");
 const BETA = require("./guard.js");   // v7.6.47: beta guard (kill switch, global daily call/$ caps, per-visitor + burst limits)
 let PACK = { pages: [] }; try { PACK = require("./ai-pack.js"); } catch (e) { /* works without a pack, just less site knowledge */ }
@@ -347,7 +348,9 @@ exports.handler = async (event) => {
   const pro = proStatus(h["x-theosis-pro"] || h["X-Theosis-Pro"]);
   if (env().AI_REQUIRE_PRO === "1" && !(pro.checked && pro.ok)) return err(402, "pro_required", "This is a Pro feature.", corsOrigin);
   // consent: every AI call needs the user's AI-photo consent flag plus 18+ (the page also checks it locally)
-  const c = body.consent || {}; if (c.photoAi !== true || c.adult !== true) return err(400, "consent", "Turn on photos and AI images in Consent settings to use AI features.", corsOrigin);
+  // v7.6.67: every AI call needs the stored "AI features" consent (version + timestamp); AI illustrations also need the photo + biometric consents and 18+
+  const c = body.consent || {}; if (!CONSENT.aiConsentOk(c)) return err(403, "consent", CONSENT.MSG, corsOrigin);
+  if (action === "stage" && (c.photoAi !== true || c.biometric !== true || c.adult !== true)) return err(403, "consent", "AI illustrations need the face and body photo consent. Nothing was sent.", corsOrigin);
   const uid = userId(event, pro), kind = action === "stage" ? "stage" : action;
   if (action === "stage") { const runId = clean(body.runId, 40); if (!runId) return err(400, "bad_request", "Missing run id.", corsOrigin); if (!startRun(uid, runId)) return err(429, "limit", "You've reached today's limit for 'See yourself at each stage'. Try again tomorrow.", corsOrigin, { limit: "runs" }); }
   const slot = mock ? { ok: true, release() {} } : await BETA.check(event, kind); if (!slot.ok) return BETA.reply(slot, corsOrigin);
