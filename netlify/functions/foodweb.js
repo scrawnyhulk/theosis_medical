@@ -7,7 +7,7 @@
  */
 const BETA = require("./guard.js");
 const env = () => process.env;
-const MODEL = () => env().GEMINI_SEARCH_MODEL || env().GEMINI_TEXT_MODEL || "gemini-3.8-flash";
+const MODEL = () => env().GEMINI_SEARCH_MODEL || "gemini-2.5-flash";   // grounding test: 2.5 Flash has a free grounded tier
 const TIMEOUT = () => +env().FOODWEB_TIMEOUT_MS || 24000;   // grounded search is slow; needs a function timeout above 10 s
 const hdr = (o) => ({ "Content-Type": "application/json", "Cache-Control": "no-store", ...(o ? { "Access-Control-Allow-Origin": o, Vary: "Origin" } : {}) });
 const out = (s, b, o) => ({ statusCode: s, headers: hdr(o), body: JSON.stringify(b) });
