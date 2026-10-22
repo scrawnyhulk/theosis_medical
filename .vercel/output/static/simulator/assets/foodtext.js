@@ -82,7 +82,8 @@ async function search(q, kind) {
     const d = await J(C.fdcSearchUrl(q, k, { branded: kind === "branded", all: kind === "all", n: 10 })); return (d.foods || []).map(C.normFDC).filter(Boolean); }
   const d = await J(`${FOOD}?q=${encodeURIComponent(q)}&kind=${kind}`); return Array.isArray(d.items) ? d.items : [];
 }
-async function offSearch(q) {   // Open Food Facts straight from the browser, like the main search; US first, then world; down = []
+async function offSearch(q) {   // v7.6.59: Open Food Facts via the food function (new search API, then the old one); from disk, straight to the old one
+  if (location.protocol !== "file:") { let d = null; try { d = await J(`${FOOD}?src=off&q=${encodeURIComponent(q)}`); } catch (e) { d = null; } if (d && Array.isArray(d.items)) return d.items; }
   const C = window.FoodCore; for (const host of ["us", "world"]) { try { const d = await J(C.offSearchUrl(q, 12, host)); return (d.products || []).map(C.normOFF).filter(Boolean); } catch (e) { /* try world, then give up */ } } throw new Error("off down");
 }
 // Every database the food search uses: USDA branded + generic (FoodData Central) and Open Food Facts. r.checked lists what answered.
@@ -96,6 +97,9 @@ FT.lookup = async function (it, checked) {
 };
 /* v7.6.58: brand not in USDA -> grounded web lookup of that product's label (server-side). Only brand/food/flavor are sent. */
 const WEB = "/.netlify/functions/foodweb";
+// v7.6.59: the web lookup runs unless a database food has the typed brand AND the food words AND the flavor (exact product).
+// A brand-only match (other flavor/variety) stays in the list as a database option; the web result, if sourced, is proposed first.
+FT.exactFound = (it, f) => { if (!f) return false; const hay = toks((f.brand || "") + " " + f.name), all = (ws) => ws.every((w) => hay.includes(w)); return FT.brandFound(it, f) && all(toks(it.food)) && all(toks(it.flavor)); };
 FT.brandFound = (it, f) => { const bw = toks(it.brand), hay = toks((f && (f.brand || "") + " " + f.name) || ""); return !bw.length || (!!f && bw.every((w) => hay.includes(w))); };
 FT.webFood = function (r) {
   if (!r || r.kcal == null || !Array.isArray(r.sources) || !r.sources.length) return null;   // no source, no numbers
@@ -153,19 +157,19 @@ function drawNow() {
   const on = st.rows.filter((r) => r.on && r.matches && r.matches[r.pick]).length, any = st.rows.length;
   box.innerHTML = `<div class="ft-box"><label class="ft-l" for="ft-in">Type what you ate</label>
     <textarea id="ft-in" data-local="1" maxlength="500" placeholder="e.g. two scrambled eggs, a slice of toast and a coffee with milk">${esc(st.text)}</textarea>
-    <p class="ft-note">Write it the way you'd say it, with amounts if you know them. What you type is sent to an AI service only to pick out the foods; it isn't saved. Matches come from the USDA food database, and you check each one before anything is added.</p>
+    <p class="ft-note">Write it the way you'd say it, with amounts if you know them. What you type is sent to an AI service only to pick out the foods; it isn't saved. Matches come from the USDA and Open Food Facts databases, or, if a brand isn't there, from its label found on the web. You check each one before anything is added.</p>
     <div class="ft-acts"><button type="button" class="btn btn-steel" id="ft-go" ${st.busy ? "disabled" : ""}>${st.busy ? "Finding…" : "Find these foods"}</button>${any ? `<button type="button" class="btn btn-ghost" id="ft-clear">Start over</button>` : ""}</div>
     ${st.queued ? `<div class="ft-acts ft-pend"><button type="button" class="btn btn-ghost" id="ft-retry">Try now</button><button type="button" class="btn btn-ghost" id="ft-unqueue">Clear saved text</button></div>` : ""}
     ${st.msg ? `<p class="ft-msg hint" role="status">${esc(st.msg)}</p>` : ""}
     ${any ? `<ul class="ft-list" aria-label="Foods found">${st.rows.map(rowHtml).join("")}</ul>
       <div class="ft-acts"><button type="button" class="btn btn-steel" id="ft-add" ${on && !st.busy ? "" : "disabled"}>Add ${on} food${on === 1 ? "" : "s"} to ${esc(mealName())}</button><button type="button" class="btn btn-ghost" id="ft-cancel">Cancel</button></div>
-      <p class="ft-note">Estimates from the USDA database. Packages differ, so check amounts against the label.</p>` : ""}</div>`;
+      <p class="ft-note">Estimates from food databases or labels found on the web. Packages differ, so check amounts against the label.</p>` : ""}</div>`;
 }
 function setMatch(r, j) { r.pick = j; const f = r.matches[j]; if (!f) return; const m = FT.servingMath(r.item, f); r.sv = 0; r.n = m.servings; r.note = m.note; }
 async function lookRow(r, q) {
   r.loading = true; draw();
   try { r.checked = []; r.matches = await FT.lookup(q ? { brand: "", food: q, flavor: "" } : r.item, r.checked); r.err = "";
-    if (!q && r.item.brand && !r.matches.some((m) => FT.brandFound(r.item, m))) { r.webBusy = true; draw(); const w = await FT.web(r.item); r.webBusy = false; r.checked.push(w ? "Web search (label found)" : "Web search (no sourced label)"); if (w) r.matches.unshift(w); else r.webMiss = true; } }
+    if (!q && r.item.brand && !r.matches.some((m) => FT.exactFound(r.item, m))) { r.webBusy = true; draw(); const w = await FT.web(r.item); r.webBusy = false; r.checked.push(w ? "Web search (label found)" : "Web search (no sourced label)"); if (w) r.matches.unshift(w); else r.webMiss = true; } }
   catch (e) { r.matches = []; r.err = e.status === 429 ? "The food database is busy right now. Try again in a minute." : "Couldn't reach the food database."; }
   r.loading = false; setMatch(r, 0); r.on = !!r.matches.length; draw();
 }
