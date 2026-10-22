@@ -8,6 +8,25 @@
 [build.environment]
   NODE_VERSION = "22"
 
+# Health Hacks moved to theosishealth.com (permanent).
+[[redirects]]
+  from = "/hacks"
+  to = "https://theosishealth.com/hacks"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/hacks/"
+  to = "https://theosishealth.com/hacks"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/hacks/*"
+  to = "https://theosishealth.com/hacks/:splat"
+  status = 301
+  force = true
+
 # Missing hashed files must 404 — never fall through to index.html as text/html
 # or the browser refuses to run the page and the header stops working.
 [[redirects]]

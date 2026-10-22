@@ -518,13 +518,13 @@ export function VisitFlow({
               <p>Until a live Sesame listing exists, the Health Hacks are the same 80/20, free.</p>
             </div>
             <div className="mt-8 flex flex-wrap gap-3">
-              <Link
-                to="/hacks"
+              <a
+                href="https://theosishealth.com/hacks"
                 className="inline-flex min-h-11 items-center justify-center gap-2 rounded-full bg-sesame-lime px-6 text-sm font-semibold text-sesame-lime-ink hover:brightness-95"
               >
                 Open the hacks
                 <ArrowRight className="size-4" />
-              </Link>
+              </a>
               <GhostButton onClick={restart}>Run the live demo again</GhostButton>
             </div>
             <p className="mt-6">

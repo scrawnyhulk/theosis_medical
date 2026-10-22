@@ -12,9 +12,7 @@ function AboutParagraph({ text }: { text: string }) {
     <p>
       {pieces.map((piece, i) =>
         piece === "[[hacks]]" ? (
-          <Link key={i} to="/hacks" className="font-medium text-accent hover:text-fg">
-            changes
-          </Link>
+          <span key={i}>changes</span>
         ) : (
           <span key={i}>{piece}</span>
         ),

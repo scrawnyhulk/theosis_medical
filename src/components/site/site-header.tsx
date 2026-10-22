@@ -3,7 +3,6 @@ import { Link } from "@tanstack/react-router";
 import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { LogoLockup } from "@/components/site/logo-lockup";
-import { HolweyHacksMark } from "@/components/site/holwey-hacks-mark";
 import { QuickFind } from "@/components/site/quick-find";
 import { nav } from "@/lib/content";
 import { SHOW_VISIT_DEMO } from "@/lib/demo";
@@ -41,14 +40,6 @@ export function SiteHeader() {
               activeProps={{ className: "text-fg" }}
             >
               Medical Minutes
-            </Link>
-            <Link
-              to="/hacks"
-              className="group shrink-0"
-              activeProps={{ className: "group" }}
-              aria-label="Health Hacks"
-            >
-              <HolweyHacksMark />
             </Link>
             {SHOW_VISIT_DEMO ? (
               <Link
@@ -107,14 +98,6 @@ export function SiteHeader() {
             onClick={close}
           >
             Medical Minutes
-          </Link>
-          <Link
-            to="/hacks"
-            className="group flex min-h-12 items-center border-b border-border py-2"
-            onClick={close}
-            aria-label="Holwey Health Hacks"
-          >
-            <HolweyHacksMark />
           </Link>
           {SHOW_VISIT_DEMO ? (
             <Link

@@ -1,8 +1,8 @@
-import { Link } from "@tanstack/react-router";
+const HEALTH = "https://theosishealth.com/hacks";
 
 const tokens: Record<
   string,
-  | { kind: "hack"; slug: "where-to-start" | "fast-food"; hash?: string; label: string }
+  | { kind: "hack"; slug: string; hash?: string; label: string }
   | { kind: "nerd"; topic: string; label: string }
 > = {
   hormozi: { kind: "hack", slug: "where-to-start", hash: "hormozi", label: "Go back here" },
@@ -33,26 +33,23 @@ export function NerdParagraph({ text }: { text: string }) {
         if (!token) return <span key={i}>{piece}</span>;
         if (token.kind === "nerd") {
           return (
-            <Link
+            <a
               key={i}
-              to="/hacks/nerd-out/$topic"
-              params={{ topic: token.topic }}
+              href={`${HEALTH}/nerd-out/${token.topic}`}
               className="font-medium text-accent hover:text-fg"
             >
               {token.label}
-            </Link>
+            </a>
           );
         }
         return (
-          <Link
+          <a
             key={i}
-            to="/hacks/$slug"
-            params={{ slug: token.slug }}
-            hash={token.hash}
+            href={`${HEALTH}/${token.slug}${token.hash ? `#${token.hash}` : ""}`}
             className="font-medium text-accent hover:text-fg"
           >
             {token.label}
-          </Link>
+          </a>
         );
       })}
     </p>

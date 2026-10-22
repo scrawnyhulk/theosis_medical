@@ -9,9 +9,9 @@ export function PlaygroundBanner() {
         How to contact
       </Link>
       {" · "}
-      <Link to="/hacks" className="text-accent hover:text-ink-fg">
+      <a href="https://theosishealth.com/hacks" className="text-accent hover:text-ink-fg">
         Health Hacks
-      </Link>
+      </a>
     </p>
   );
 }

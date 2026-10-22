@@ -5,13 +5,12 @@ import { createPortal } from "react-dom";
 import { Link } from "@tanstack/react-router";
 import { ChevronDown, Search, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { hacks, nerdGroups, nerdTopics } from "@/lib/hacks";
 import { minutes } from "@/lib/minutes";
 import { nav } from "@/lib/content";
 import { searchSite, type SearchHit } from "@/lib/site-search";
 import { cn } from "@/lib/utils";
 
-type Section = "minutes" | "hacks" | "nerd" | null;
+type Section = "minutes" | null;
 
 export function QuickFind() {
   const [open, setOpen] = useState(false);
@@ -135,76 +134,6 @@ export function QuickFind() {
                   </Link>
                 ))}
               </SectionBlock>
-
-              <SectionBlock
-                open={section === "hacks"}
-                label="Holwey Health Hacks"
-                onToggle={() => setSection((v) => (v === "hacks" ? null : "hacks"))}
-              >
-                <Link to="/hacks" onClick={close} className="flex min-h-11 items-center px-3 text-sm text-accent">
-                  All Health Hacks
-                </Link>
-                {hacks.map((h) =>
-                  h.slug === "nerd-out" ? (
-                    <Link
-                      key={h.slug}
-                      to="/hacks/nerd-out"
-                      onClick={close}
-                      className="flex min-h-11 items-center gap-3 px-3 text-sm leading-snug text-fg hover:bg-fg/10"
-                    >
-                      <span className="font-display text-lg font-semibold text-accent">{h.n}</span>
-                      {h.title}
-                    </Link>
-                  ) : (
-                    <Link
-                      key={h.slug}
-                      to="/hacks/$slug"
-                      params={{ slug: h.slug }}
-                      onClick={close}
-                      className="flex min-h-11 items-center gap-3 px-3 text-sm leading-snug text-fg hover:bg-fg/10"
-                    >
-                      <span className="font-display text-lg font-semibold text-accent">{h.n}</span>
-                      {h.title}
-                    </Link>
-                  ),
-                )}
-              </SectionBlock>
-
-              <SectionBlock
-                open={section === "nerd"}
-                label="Nutritional Nerd Out"
-                onToggle={() => setSection((v) => (v === "nerd" ? null : "nerd"))}
-              >
-                <Link
-                  to="/hacks/nerd-out"
-                  onClick={close}
-                  className="flex min-h-11 items-center px-3 text-sm text-accent"
-                >
-                  All Nutritional Nerd Out
-                </Link>
-                {nerdGroups.map((group) => (
-                  <div key={group.id} className="mb-3">
-                    <p className="px-3 py-2 text-xs font-medium tracking-widest text-accent uppercase">
-                      {group.title}
-                    </p>
-                    {group.topicIds.map((id) => {
-                      const topic = nerdTopics.find((t) => t.id === id);
-                      if (!topic) return null;
-                      return (
-                        <Link
-                          key={id}
-                          to="/hacks/nerd-out/$topic"
-                          params={{ topic: id }}
-                          onClick={close}
-                          className="flex min-h-11 items-center px-3 text-sm leading-snug text-fg hover:bg-fg/10"
-                        >
-                          {topic.title}
-                        </Link>
-                      );
-                    })}
-                  </div>
-                ))}
-              </SectionBlock>
             </>
           )}
         </div>
@@ -262,36 +191,8 @@ function HitLink({ hit, onPick }: { hit: SearchHit; onPick: () => void }) {
       </Link>
     );
   }
-  if (hit.hrefKind === "minute") {
-    return (
-      <Link to="/minutes/$slug" params={{ slug: hit.slug }} onClick={onPick} className={className}>
-        {inner}
-      </Link>
-    );
-  }
-  if (hit.hrefKind === "hacks") {
-    return (
-      <Link to="/hacks" onClick={onPick} className={className}>
-        {inner}
-      </Link>
-    );
-  }
-  if (hit.hrefKind === "hack") {
-    return (
-      <Link to="/hacks/$slug" params={{ slug: hit.slug }} onClick={onPick} className={className}>
-        {inner}
-      </Link>
-    );
-  }
-  if (hit.hrefKind === "nerd-hub") {
-    return (
-      <Link to="/hacks/nerd-out" onClick={onPick} className={className}>
-        {inner}
-      </Link>
-    );
-  }
   return (
-    <Link to="/hacks/nerd-out/$topic" params={{ topic: hit.topic }} onClick={onPick} className={className}>
+    <Link to="/minutes/$slug" params={{ slug: hit.slug }} onClick={onPick} className={className}>
       {inner}
     </Link>
   );

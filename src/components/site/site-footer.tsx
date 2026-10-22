@@ -15,9 +15,6 @@ export function SiteFooter() {
           <Link to="/minutes" className="text-sm text-ink-muted hover:text-ink-fg">
             Medical Minutes
           </Link>
-          <Link to="/hacks" className="text-sm text-ink-muted hover:text-ink-fg">
-            Holwey’s Handy Health Hacks
-          </Link>
           <Link to="/install" className="text-sm text-ink-muted hover:text-ink-fg">
             Add to Home Screen
           </Link>

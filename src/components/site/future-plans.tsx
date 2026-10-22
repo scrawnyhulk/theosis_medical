@@ -27,12 +27,6 @@ export function FuturePlans() {
           ))}
         </div>
         <div className="mt-8 flex flex-wrap gap-3">
-          <Button asChild size="lg">
-            <Link to="/hacks">
-              Holwey’s Handy Health Hacks
-              <ArrowRight />
-            </Link>
-          </Button>
           <Button asChild size="lg" variant="outline">
             <a href="#suggest">
               Share a Suggestion
@@ -52,14 +46,6 @@ export function FuturePlans() {
                 {card.title}
               </h3>
               <p className="mt-3 flex-1 leading-relaxed text-muted">{card.body}</p>
-              {card.n === "01" ? (
-                <Button asChild className="mt-6 w-fit" size="sm">
-                  <Link to="/hacks">
-                    Open the hacks
-                    <ArrowRight />
-                  </Link>
-                </Button>
-              ) : null}
               {SHOW_VISIT_DEMO && card.n === "01" ? (
                 <Button asChild className="mt-3 w-fit" size="sm" variant="outline">
                   <Link to="/visits/$kind" params={{ kind: "lifestyle" }}>
