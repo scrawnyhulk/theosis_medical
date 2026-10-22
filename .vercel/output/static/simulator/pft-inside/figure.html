@@ -1,0 +1,446 @@
+<!doctype html>
+<html lang="en" class="pft-figure-only">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#05080d">
+<meta name="pft-build" content="V22 — photoreal rendered figure series, realistic lazy 3D anatomy">
+<meta name="pft-model-version" content="v15-twin-cycle-order">
+<meta name="robots" content="noindex">
+<title>Personal Fat Threshold: How Type 2 Diabetes Develops · Theosis Health</title>
+<meta name="description" content="Personal fat threshold: how type 2 diabetes develops. Explore glycogen, fat under the skin, muscle insulin resistance, liver and pancreas fat, and the path back to remission in an illustrative anatomy model from Theosis Health, founded by Nick Holwey, PA-C.">
+<link rel="icon" type="image/svg+xml" href="assets/img/favicon.svg">
+<link rel="stylesheet" href="assets/css/pft.css">
+<script src="assets/js/pft-config.js"></script>
+</head>
+<body>
+<main class="app" id="pft-app">
+  <header class="workbench-header">
+    <div class="title-row">
+      <div>
+        <p class="eyebrow brand">Health Hacks · Nick Holwey, PA-C</p>
+        <h1><span class="title-main">Personal fat threshold</span><span class="title-colon">:</span> <span class="title-subtitle">How type 2 diabetes develops</span></h1>
+        <p class="intro intro-lead">An interactive model of how overflowing fat storage can lead to type 2 diabetes, and how that path can run in reverse.</p>
+      </div>
+      <div class="view-actions">
+        <details class="intro-details" id="how-it-works"><summary>What does this mean?</summary><div class="intro-story" tabindex="0">
+    <p class="model-note">Choose a threshold, then slide upward to add fuel: glycogen first, then fat under the skin, muscle, around the organs, the liver and the pancreas in this teaching sequence. Higher thresholds delay glucose changes in this fictional example. The scale is not time, calories, or pounds.</p>
+        </div></details>
+        <button type="button" id="become-diabetic" aria-describedby="become-help">Become diabetic</button>
+        <button type="button" id="reverse-diabetes" aria-describedby="become-help">Reverse diabetes</button><span class="sr-only" id="become-help">Animates the fuel slider over a few seconds. Any key or drag on the slider stops it.</span>
+        <button type="button" id="story-start" aria-controls="story-panel" aria-expanded="false">Guided story</button>
+        <button type="button" id="expand-view" aria-pressed="false">Full screen</button>
+      </div>
+    </div>
+    <div class="capacity threshold-controls">
+        <label for="capacity-select">1. Choose a personal threshold</label>
+        <select id="capacity-select" aria-describedby="capacity-note"><option value="0.72">Lower threshold</option><option value="1" selected>Moderate threshold</option><option value="1.1">Larger threshold</option><option value="2">Extreme threshold · Hyperplasia</option></select>
+        <p id="capacity-note">A fuller body and more fat stored under the skin before the internal changes rise. Fictional example; body size does not identify a personal threshold.</p>
+      </div>
+  </header>
+  <section class="art-sec" id="arteries" aria-labelledby="art-title">
+    <div class="art-head">
+      <div><p class="art-kicker">Arteries · moves with the fuel slider</p><h2 id="art-title">In the bloodstream</h2></div>
+      <button type="button" class="art-toggle" id="art-toggle" aria-expanded="true" aria-controls="art-body">Hide</button>
+    </div>
+    <div class="art-body" id="art-body">
+      <div class="art-copy">
+        <p class="art-caption" id="art-caption">Normal circulation. After meals, glucose and fat pass through the arteries into fat cells, liver and muscle. A normal amount of insulin moves them in.</p>
+        <div class="art-meters" id="art-meters">
+          <div class="art-vial" data-k="glu" style="--lvl:.12"><div class="vial" aria-hidden="true"><i></i></div><div class="vial-txt"><span class="art-sw glu" aria-hidden="true"></span><strong>Glucose</strong><b id="art-glu-val">HbA1c 5.2%</b><small id="art-glu-word">Normal</small></div></div>
+          <div class="art-vial" data-k="tg" style="--lvl:.1"><div class="vial" aria-hidden="true"><i></i></div><div class="vial-txt"><span class="art-sw tg" aria-hidden="true"></span><strong>Fats <span class="art-sub">(triglycerides)</span></strong><b id="art-tg-val">Low</b><small id="art-tg-word">Normal</small></div></div>
+          <div class="art-vial" data-k="ins" style="--lvl:.25"><div class="vial" aria-hidden="true"><i></i></div><div class="vial-txt"><span class="art-sw ins" aria-hidden="true"></span><strong>Insulin</strong><b id="art-ins-val">Normal</b><small id="art-ins-word">Keeping up</small></div></div>
+        </div>
+        <p class="art-note" id="art-note">Illustrative levels from the same teaching model as the slider, not lab values.</p>
+      </div>
+      <div class="art-visual">
+        <svg class="art-tree" id="art-tree" viewBox="0 0 200 440" aria-hidden="true" focusable="false">
+          <ellipse class="art-skin" cx="100" cy="30" rx="16" ry="19"/>
+          <path class="art-skin" d="M92,48 C92,56 90,60 84,64 C70,68 60,70 56,78 C50,92 48,120 46,150 C44,175 40,200 36,226 L42,230 C48,205 54,178 58,152 C60,130 62,112 66,100 C68,130 68,160 70,200 C70,230 74,280 78,330 C80,370 80,400 78,428 L94,428 C94,400 96,360 98,320 L100,250 L102,320 C104,360 106,400 106,428 L122,428 C120,400 120,370 122,330 C126,280 130,230 130,200 C132,160 132,130 134,100 C138,112 140,130 142,152 C146,178 152,205 158,230 L164,226 C160,200 156,175 154,150 C152,120 150,92 144,78 C140,70 130,68 116,64 C110,60 108,56 108,48 Z"/>
+          <g class="art-vessels"><path d="M101,88 C99,70 96,56 95,40"/><path d="M104,86 C106,70 105,56 106,40"/><path d="M100,88 C88,80 70,78 62,90 C56,110 52,140 48,170 C46,190 42,210 40,226"/><path d="M104,88 C112,80 130,78 138,90 C144,110 148,140 152,170 C154,190 158,210 160,226"/><path d="M101,104 C99,88 108,82 104,100 L101,204"/><path d="M101,158 L88,163"/><path d="M101,158 L114,163"/><path d="M101,180 L94,186"/><path d="M101,204 C94,214 88,224 86,240 C84,280 86,320 88,350 C88,380 87,405 86,424"/><path d="M101,204 C108,214 114,224 116,240 C118,280 116,320 114,350 C114,380 115,405 116,424"/></g>
+          <g class="art-glowline"><path d="M101,88 C99,70 96,56 95,40"/><path d="M104,86 C106,70 105,56 106,40"/><path d="M100,88 C88,80 70,78 62,90 C56,110 52,140 48,170 C46,190 42,210 40,226"/><path d="M104,88 C112,80 130,78 138,90 C144,110 148,140 152,170 C154,190 158,210 160,226"/><path d="M101,104 C99,88 108,82 104,100 L101,204"/><path d="M101,158 L88,163"/><path d="M101,158 L114,163"/><path d="M101,180 L94,186"/><path d="M101,204 C94,214 88,224 86,240 C84,280 86,320 88,350 C88,380 87,405 86,424"/><path d="M101,204 C108,214 114,224 116,240 C118,280 116,320 114,350 C114,380 115,405 116,424"/></g>
+          <g class="art-pulse rbc"><path d="M101,88 C99,70 96,56 95,40"/><path d="M104,86 C106,70 105,56 106,40"/><path d="M100,88 C88,80 70,78 62,90 C56,110 52,140 48,170 C46,190 42,210 40,226"/><path d="M104,88 C112,80 130,78 138,90 C144,110 148,140 152,170 C154,190 158,210 160,226"/><path d="M101,104 C99,88 108,82 104,100 L101,204"/><path d="M101,158 L88,163"/><path d="M101,158 L114,163"/><path d="M101,180 L94,186"/><path d="M101,204 C94,214 88,224 86,240 C84,280 86,320 88,350 C88,380 87,405 86,424"/><path d="M101,204 C108,214 114,224 116,240 C118,280 116,320 114,350 C114,380 115,405 116,424"/></g>
+          <g class="art-pulse glu"><path d="M101,88 C99,70 96,56 95,40"/><path d="M104,86 C106,70 105,56 106,40"/><path d="M100,88 C88,80 70,78 62,90 C56,110 52,140 48,170 C46,190 42,210 40,226"/><path d="M104,88 C112,80 130,78 138,90 C144,110 148,140 152,170 C154,190 158,210 160,226"/><path d="M101,104 C99,88 108,82 104,100 L101,204"/><path d="M101,158 L88,163"/><path d="M101,158 L114,163"/><path d="M101,180 L94,186"/><path d="M101,204 C94,214 88,224 86,240 C84,280 86,320 88,350 C88,380 87,405 86,424"/><path d="M101,204 C108,214 114,224 116,240 C118,280 116,320 114,350 C114,380 115,405 116,424"/></g>
+          <g class="art-pulse tg"><path d="M101,88 C99,70 96,56 95,40"/><path d="M104,86 C106,70 105,56 106,40"/><path d="M100,88 C88,80 70,78 62,90 C56,110 52,140 48,170 C46,190 42,210 40,226"/><path d="M104,88 C112,80 130,78 138,90 C144,110 148,140 152,170 C154,190 158,210 160,226"/><path d="M101,104 C99,88 108,82 104,100 L101,204"/><path d="M101,158 L88,163"/><path d="M101,158 L114,163"/><path d="M101,180 L94,186"/><path d="M101,204 C94,214 88,224 86,240 C84,280 86,320 88,350 C88,380 87,405 86,424"/><path d="M101,204 C108,214 114,224 116,240 C118,280 116,320 114,350 C114,380 115,405 116,424"/></g>
+          <path class="art-heart" d="M104,94 C98,88 92,94 96,100 L104,108 L112,100 C116,94 110,88 104,94 Z"/>
+          <circle class="art-lens-ring" cx="116" cy="268" r="13"/>
+          <path class="art-lens-lead" d="M129,268 L200,268"/>
+        </svg>
+        <figure class="art-lens">
+          <canvas id="art-canvas" role="img" aria-label="Cut-open artery close-up: red blood cells with normal amounts of glucose and fat flowing past."></canvas>
+          <span class="art-wall-chip" id="art-lens-cap" aria-hidden="true">Thigh artery wall: smooth</span>
+          <figcaption><span class="sr-only">Thigh artery, cut open.</span><span class="art-legend" aria-hidden="true"><i class="lg rbc"></i>Red cells <i class="lg glu"></i>Glucose <i class="lg tg"></i>Fat particles <i class="lg ins"></i>Insulin <i class="lg plq"></i>Plaque</span></figcaption>
+        </figure>
+      </div>
+      <div class="art-gauge" id="art-gauge" role="group" aria-labelledby="art-gauge-title" data-band="normal">
+        <p class="gauge-title" id="art-gauge-title">Estimated average glucose <span>(from A1c)</span></p>
+        <svg class="gauge-dial" id="art-gauge-dial" viewBox="0 0 160 92" aria-hidden="true" focusable="false">
+          <g class="gauge-bands"></g><g class="gauge-ticks"></g><g class="gauge-labels"></g>
+          <g class="gauge-needle" id="art-gauge-needle" transform="rotate(-51.71 80 80)"><path class="gn-body" d="M80,15 L82.4,30 L83,80 L77,80 L77.6,30 Z"/><path class="gn-tip" d="M80,15 L82.4,30 L77.6,30 Z"/><circle class="gn-cap" cx="80" cy="80" r="5"/><circle class="gauge-hub" cx="80" cy="80" r="1.8"/><circle class="gn-tipmark" cx="80" cy="15" r=".01"/></g>
+        </svg>
+        <div class="gauge-readout">
+          <div class="gauge-lcd" aria-hidden="true"><b id="art-gauge-num">103</b><span id="art-gauge-unit">mg/dL</span></div>
+          <div class="gauge-units" role="group" aria-label="Glucose units"><button type="button" data-unit="mgdl" aria-pressed="true">mg/dL</button><button type="button" data-unit="mmol" aria-pressed="false">mmol/L</button></div>
+        </div>
+        <p class="gauge-foot" id="art-gauge-foot">HbA1c 5.2% · Normal range</p>
+        <p class="sr-only" id="art-gauge-sr">Estimated average glucose from HbA1c 5.2%: 103 mg/dL, normal range.</p>
+        <p class="sr-only" id="art-gauge-live" aria-live="polite" aria-atomic="true"></p>
+      </div>
+    </div>
+  </section>
+  <noscript>This interactive model needs JavaScript. The personal fat threshold describes individual susceptibility to excess fat. Fat under the skin, around organs, and within organs can increase together. Type 2 diabetes can develop when insulin production no longer meets the body's needs.</noscript>
+  <div class="mobile-dock" id="mobile-dock" role="group" aria-label="Fuel slider and current stage">
+    <div class="dock-top"><span class="dock-chip" id="dock-chip"><i aria-hidden="true"></i><span id="dock-stage">First · Glycogen reserves</span></span><span class="dock-a1c" id="dock-a1c" data-state="normal">HbA1c <b id="dock-a1c-num">5.2%</b> <span id="dock-a1c-label">Normal</span></span></div>
+    <div class="dock-slider"><div class="dock-range-host" id="dock-range-host"><div class="dock-spectrum" aria-hidden="true"></div><div class="dock-ticks" id="dock-ticks" aria-hidden="true"></div></div></div>
+    <div class="dock-foot"><span>Baseline</span><output id="dock-output" for="fat-range">0 / 100</output><span>More fat</span></div>
+  </div>
+  <div class="workspace">
+    <!-- BEGIN ABDOMINAL PANEL -->
+    <aside class="ct-panel" aria-labelledby="ct-title">
+      <h2 id="ct-title">Inside the abdomen</h2>
+      <p class="ct-intro">Transverse view · Same slice and scale</p>
+      <div class="ct-views">
+        <figure class="ct-scan"><figcaption><strong>Normal</strong><span>Fixed reference</span></figcaption><canvas id="ct-baseline" width="720" height="560" role="img" aria-label="Illustrative fixed normal axial abdominal section labeled Liver, Pancreas, Visceral Fat, and Subcutaneous Fat.">Baseline abdominal cross-section.</canvas></figure>
+        <figure class="ct-scan"><figcaption><strong>Current</strong><span id="ct-current-value">0 / 100</span></figcaption><canvas id="ct-current" width="720" height="560" role="img" aria-label="Illustrative labeled abdominal cross-section responding to the same fuel slider as the person model.">The outer fat layer and deep abdominal compartment expand with the model.</canvas></figure>
+      </div>
+      <div class="ct-legend">
+        <div><i class="ct-key" aria-hidden="true"></i><div><strong>Under the skin</strong><small id="ct-outer-value">Baseline</small></div></div>
+        <div><i class="ct-key vis" aria-hidden="true"></i><div><strong>Around the organs</strong><small id="ct-inner-value">Baseline</small></div></div>
+        <div><i class="ct-key organ" aria-hidden="true"></i><div><strong>Liver + pancreas fat</strong><small id="ct-organ-fat-value">Both baseline</small></div></div>
+      </div>
+      <p class="ct-caption">CT-style teaching illustration</p>
+      <p id="ct-render-status" class="ct-caption" role="status" aria-live="polite" hidden></p>
+    </aside>
+
+    <!-- END ABDOMINAL PANEL -->
+    <section class="visual" aria-label="Human anatomy and fuel storage control">
+      <div class="visual-header"><strong>Where the fuel goes</strong><div class="pft-renderer-toggle" role="group" aria-label="Figure display mode" id="renderer-toggle" hidden>
+            <button type="button" class="active" data-renderer-mode="2d" aria-pressed="true">2D</button>
+            <button type="button" data-renderer-mode="3d" aria-pressed="false">3D</button>
+          </div><div class="pft3d-notice" id="pft3d-notice" role="alert" hidden><span class="pft3d-notice-text"></span><button type="button" class="pft3d-notice-close" aria-label="Dismiss 3D message" onclick="this.parentNode.hidden=true">×</button></div></div>
+      <div class="anatomy-layout">
+        <div class="human-3d-stage" id="pft3d-stage" data-mode="fat" data-renderer="2d">
+          <canvas class="pft3d-canvas" id="pft3d-canvas" tabindex="0" role="img" aria-label="Rotatable three-dimensional teaching model of body-fat distribution, illustrating typical patterns, not your own organs. Drag to rotate, use the mouse wheel or trackpad to zoom, and use the view buttons for front, three-quarter, side, or back views. When zoomed in, drag moves the view; right-drag, Shift-drag, two fingers or Shift plus arrow keys also move it. Press 0 to reset the view."></canvas>
+          <div class="pft3d-loading">Loading 3D anatomy…</div>
+          <div class="pft3d-trouble" id="pft3d-trouble" role="alert" hidden><span class="pft3d-trouble-text">Having trouble loading? Try 2D view</span><button type="button" data-trouble-2d>Switch to 2D</button><button type="button" class="ghost" data-trouble-wait>Keep 3D</button></div>
+          
+          <div class="pft3d-hud">
+            <strong><i class="pft3d-live-dot"></i> 3D anatomy</strong>
+            <span id="pft3d-profile">Moderate threshold</span>
+            <div class="pft3d-metrics" id="pft3d-metrics">
+              <div class="pft3d-metric"><span>Under skin</span><span class="pft3d-mini-bar sat"><i id="pft3d-sat-bar"></i></span><b id="pft3d-sat-text">Baseline</b></div>
+              <div class="pft3d-metric"><span>Visceral</span><span class="pft3d-mini-bar vis"><i id="pft3d-vis-bar"></i></span><b id="pft3d-vis-text">Baseline</b></div>
+              <div class="pft3d-metric"><span>Added fat stage</span><span></span><b id="pft3d-depth-text">Glycogen</b></div>
+            </div>
+            <div id="pft3d-renderer-state" class="sr-only"></div>
+          </div>
+          <div class="pft3d-modebar" aria-label="3D tissue view">
+            <button type="button" data-pft3d-mode="skin" aria-pressed="false">Body surface</button>
+            <button type="button" class="active" data-pft3d-mode="fat" aria-pressed="true">Fat + muscle</button>
+            <button type="button" data-pft3d-mode="cut" aria-pressed="false">Inside abdomen</button>
+          </div>
+          <div class="pft3d-side-hint" id="pft3d-side-hint">Use <strong>Side</strong> or drag the body to see the forward abdominal projection caused by central adiposity.</div>
+          <div class="pft3d-compartment-key" aria-hidden="true"><span><i class="k-core"></i>Lean core</span><span><i class="k-sat"></i>Subcutaneous fat</span><span><i class="k-vis"></i>Visceral fat</span><span><i class="k-organ"></i>Organs</span></div>
+          <div class="gly-legend" id="gly-legend"><i aria-hidden="true"></i><span><b>Teal speckle</b> = glycogen stored in muscle and liver</span><button type="button" class="pft3d-glytoggle" id="pft3d-glytoggle" aria-pressed="false" title="Hide or show the glycogen speckle on muscle and liver (3D)">Hide speckle</button></div><div class="pft3d-status" id="pft3d-status">Preparing 3D…</div>
+          <div class="pft3d-selection" id="pft3d-selection">Select an anatomical structure to identify it.</div>
+          <div class="pft3d-sequence" id="pft3d-sequence">Glycogen prelude · no added fat yet</div>
+          <div class="pft3d-nav" id="pft3d-nav" role="group" aria-label="Zoom and move the 3D view"><button type="button" id="pft3d-zoomout" aria-label="Zoom out" title="Zoom out">−</button><button type="button" id="pft3d-zoomin" aria-label="Zoom in" title="Zoom in">+</button><button type="button" id="pft3d-move" aria-pressed="false" title="Drag to move the view instead of rotating (turns on by itself when you zoom in)"><span aria-hidden="true">✥</span><span class="nav-txt">Move</span></button><button type="button" id="pft3d-reset" title="Reset zoom, position and rotation"><span aria-hidden="true">⟲</span><span class="nav-txt">Reset</span></button></div><button type="button" class="pft3d-vessels" id="pft3d-vessels" aria-pressed="true" title="Show or hide the arterial tree">Arteries</button><button type="button" class="pft3d-vessels pft3d-muscles" id="pft3d-muscles" aria-pressed="false" title="Hide the muscle layer to see the arteries and skeleton">Hide muscles</button><label class="pft3d-opacity-row" id="pft3d-opacity-row" for="pft3d-opacity">Fat visibility <input type="range" id="pft3d-opacity" min="0" max="1" value="0.86" step="0.01" aria-label="Visibility of the teaching fat layer, not fat quantity"></label>
+          
+          <div class="pft3d-viewbar" aria-label="3D camera view">
+            <button type="button" data-pft3d-view="front" aria-pressed="false">Front</button>
+            <button type="button" class="active" data-pft3d-view="three" aria-pressed="true">¾ view</button>
+            <button type="button" data-pft3d-view="side" aria-pressed="false">Side</button>
+            <button type="button" data-pft3d-view="back" aria-pressed="false">Back</button>
+            <button type="button" id="pft3d-auto" aria-pressed="false">Auto rotate</button><button type="button" id="pft3d-framing" aria-pressed="false">Zoom abdomen</button>
+          </div>
+          <p class="sr-only" id="pft3d-description">This three-dimensional teaching model separates generalized fat under the skin from visceral fat inside the abdomen. It is not a patient scan or a prediction of an individual person's body shape.</p>
+          <svg class="human" id="human-svg" viewBox="0 0 720 1080" role="img" aria-labelledby="human-title human-desc">
+          <title id="human-title">Glycogen and fat storage in a realistic anatomical figure</title>
+          <desc id="human-desc">A rendered anatomical figure with translucent skin over muscle and a window into the abdomen showing the heart, liver, pancreas and intestines. As fuel is added, yellow fat builds under the skin in the usual pads, the greater omentum thickens with visceral fat, and the liver and pancreas turn paler and yellower. Teal highlights show glycogen replenishing in the liver and muscles first. Illustrative, not a patient image.</desc>
+          <defs id="anatomy-defs">
+            <radialGradient id="heart-glow-grad"><stop offset="0" stop-color="#ff4a3a" stop-opacity=".34"/><stop offset=".55" stop-color="#ff2a1a" stop-opacity=".10"/><stop offset="1" stop-color="#ff2a1a" stop-opacity="0"/></radialGradient>
+            <image id="uploaded-person" x="0" y="0" width="720" height="1080" preserveAspectRatio="none" href="assets/img/figure/moderate-0-720.webp"/>
+            <image id="heart-source" x="298" y="249" width="94" height="94" href="assets/img/standin-heart.webp"/>
+            <filter id="heart-tissue-light" color-interpolation-filters="sRGB"><feComponentTransfer><feFuncR type="table" tableValues="0 .24 .50 .73 .94"/><feFuncG type="table" tableValues="0 .23 .48 .70 .91"/><feFuncB type="table" tableValues="0 .22 .45 .67 .86"/></feComponentTransfer></filter>
+            <filter id="heart-silhouette"><feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0"/></filter>
+            <mask id="heart-surface-mask" maskUnits="userSpaceOnUse" x="298" y="249" width="94" height="94" style="mask-type:alpha"><use href="#heart-source"/></mask>
+            <mask id="behind-heart-mask" maskUnits="userSpaceOnUse" x="0" y="0" width="720" height="1080" style="mask-type:luminance"><rect width="720" height="1080" fill="white"/><use href="#heart-source" filter="url(#heart-silhouette)"/></mask>
+            <!-- A full material sample, independent of any second anatomy image.
+                 Mirrored repeats avoid abrupt edges without blurring the tissue. -->
+            <image id="adipose-source" x="0" y="0" width="192" height="192" href="assets/img/standin-adipose.webp"/>
+            <pattern id="adipose-texture" patternUnits="userSpaceOnUse" width="192" height="192">
+              <use href="#adipose-source"/><use href="#adipose-source" transform="translate(192 0) scale(-1 1)"/>
+              <use href="#adipose-source" transform="translate(0 192) scale(1 -1)"/><use href="#adipose-source" transform="translate(192 192) scale(-1 -1)"/>
+            </pattern>
+            <pattern id="visceral-adipose-texture" href="#adipose-texture" patternTransform="scale(.72)"/>
+            <pattern id="cardiac-adipose-texture" href="#adipose-texture" patternTransform="scale(.38)"/>
+            <filter id="adipose-material-tone" color-interpolation-filters="sRGB"><feColorMatrix type="saturate" values=".62"/><feComponentTransfer><feFuncR type="gamma" exponent="1.03" amplitude=".94" offset=".01"/><feFuncG type="gamma" exponent="1.06" amplitude=".90" offset=".005"/><feFuncB type="gamma" exponent="1.08" amplitude=".82" offset="0"/></feComponentTransfer></filter>
+            <radialGradient id="adipose-soft-light" cx=".38" cy=".28" r=".86"><stop stop-color="#fff7e5" stop-opacity=".11"/><stop offset=".34" stop-color="#e8cfaa" stop-opacity=".035"/><stop offset=".66" stop-color="#463322" stop-opacity="0"/><stop offset="1" stop-color="#18120e" stop-opacity=".18"/></radialGradient>
+            <filter id="soft-tissue-lighting" x="-10%" y="-5%" width="120%" height="110%"><feGaussianBlur stdDeviation="1.35"/></filter>
+            <filter id="fat-depth" x="-15%" y="-5%" width="130%" height="110%"><feDropShadow dx=".26" dy=".82" stdDeviation=".95" flood-color="#0d0b08" flood-opacity=".24"/></filter>
+            <radialGradient id="lipid-particle"><stop offset="0" stop-color="#fff5c0"/><stop offset=".62" stop-color="#f3cf7c"/><stop offset="1" stop-color="#b99342"/></radialGradient>
+            <linearGradient id="glucose-particle" x2="1" y2="1"><stop stop-color="#e6fcff"/><stop offset="1" stop-color="#7bd6f3"/></linearGradient>
+            <clipPath id="arterial-lumen-clip" clipPathUnits="userSpaceOnUse"></clipPath>
+            <filter id="vessel-surface-grain" x="-3%" y="-3%" width="106%" height="106%" color-interpolation-filters="sRGB"><feTurbulence type="fractalNoise" baseFrequency=".37 .83" numOctaves="2" seed="17" result="grain"/><feColorMatrix in="grain" type="saturate" values="0"/><feComponentTransfer><feFuncR type="linear" slope=".22" intercept=".81"/><feFuncG type="linear" slope=".22" intercept=".81"/><feFuncB type="linear" slope=".22" intercept=".81"/><feFuncA type="linear" slope="0" intercept="1"/></feComponentTransfer><feComposite operator="in" in2="SourceAlpha" result="surface"/><feBlend in="SourceGraphic" in2="surface" mode="multiply"/></filter>
+            <linearGradient id="portrait-fade-x"><stop stop-color="white" stop-opacity="0"/><stop offset=".12" stop-color="white"/><stop offset=".88" stop-color="white"/><stop offset="1" stop-color="white" stop-opacity="0"/></linearGradient>
+            <linearGradient id="portrait-fade-y" x1="0" y1="0" x2="0" y2="1"><stop stop-color="white" stop-opacity="0"/><stop offset=".025" stop-color="white"/><stop offset=".96" stop-color="white"/><stop offset="1" stop-color="white" stop-opacity="0"/></linearGradient>
+            <mask id="portrait-mask-x"><rect width="720" height="1080" fill="url(#portrait-fade-x)"/></mask>
+            <mask id="portrait-mask-y"><rect width="720" height="1080" fill="url(#portrait-fade-y)"/></mask>
+            <mask id="body-silhouette-mask" maskUnits="userSpaceOnUse" x="0" y="0" width="720" height="1080" style="mask-type:luminance">
+              <path id="body-silhouette-shape" d="M346.0 50.0 C339.7 50.0 332.5 51.0 327.0 54.0 C321.5 57.0 316.3 61.7 313.0 68.0 C309.7 74.3 308.0 84.0 307.0 92.0 C306.0 100.0 306.5 108.3 307.0 116.0 C307.5 123.7 308.5 131.3 310.0 138.0 C311.5 144.7 313.7 150.5 316.0 156.0 C318.3 161.5 321.7 166.7 324.0 171.0 C326.3 175.3 329.3 177.5 330.0 182.0 C330.7 186.5 328.8 192.7 328.0 198.0 C327.2 203.3 329.0 209.5 325.0 214.0 C321.0 218.5 312.2 222.0 304.0 225.0 C295.8 228.0 285.0 229.7 276.0 232.0 C267.0 234.3 257.5 236.5 250.0 239.0 C242.5 241.5 236.3 243.2 231.0 247.0 C225.7 250.8 221.3 255.5 218.0 262.0 C214.7 268.5 213.5 277.0 211.0 286.0 C208.5 295.0 205.8 306.2 203.0 316.0 C200.2 325.8 197.0 335.3 194.0 345.0 C191.0 354.7 188.0 364.7 185.0 374.0 C182.0 383.3 178.3 391.7 176.0 401.0 C173.7 410.3 172.3 420.5 171.0 430.0 C169.7 439.5 168.7 447.3 168.0 458.0 C167.3 468.7 166.7 482.7 167.0 494.0 C167.3 505.3 170.2 517.7 170.0 526.0 C169.8 534.3 167.3 537.3 166.0 544.0 C164.7 550.7 162.5 558.3 162.0 566.0 C161.5 573.7 161.8 582.7 163.0 590.0 C164.2 597.3 166.7 605.3 169.0 610.0 C171.3 614.7 174.3 617.7 177.0 618.0 C179.7 618.3 183.0 616.3 185.0 612.0 C187.0 607.7 188.0 599.3 189.0 592.0 C190.0 584.7 191.2 575.7 191.0 568.0 C190.8 560.3 189.7 551.8 188.0 546.0 C186.3 540.2 181.0 539.8 181.0 533.0 C181.0 526.2 186.3 513.3 188.0 505.0 C189.7 496.7 189.2 491.2 191.0 483.0 C192.8 474.8 196.7 464.8 199.0 456.0 C201.3 447.2 203.2 438.5 205.0 430.0 C206.8 421.5 208.5 412.7 210.0 405.0 C211.5 397.3 211.7 392.2 214.0 384.0 C216.3 375.8 221.2 364.5 224.0 356.0 C226.8 347.5 229.0 341.3 231.0 333.0 C233.0 324.7 234.5 313.2 236.0 306.0 C237.5 298.8 237.3 291.0 240.0 290.0 C242.7 289.0 248.8 295.0 252.0 300.0 C255.2 305.0 257.8 310.7 259.0 320.0 C260.2 329.3 258.8 340.8 259.0 356.0 C259.2 371.2 260.3 397.0 260.0 411.0 C259.7 425.0 257.8 431.0 257.0 440.0 C256.2 449.0 255.5 456.0 255.0 465.0 C254.5 474.0 254.0 485.5 254.0 494.0 C254.0 502.5 255.8 509.2 255.0 516.0 C254.2 522.8 251.3 527.7 249.0 535.0 C246.7 542.3 243.5 548.7 241.0 560.0 C238.5 571.3 234.3 588.0 234.0 603.0 C233.7 618.0 236.0 634.8 239.0 650.0 C242.0 665.2 248.2 681.0 252.0 694.0 C255.8 707.0 261.3 718.3 262.0 728.0 C262.7 737.7 258.8 743.7 256.0 752.0 C253.2 760.3 247.2 766.0 245.0 778.0 C242.8 790.0 242.7 808.0 243.0 824.0 C243.3 840.0 246.2 861.3 247.0 874.0 C247.8 886.7 248.0 891.7 248.0 900.0 C248.0 908.3 247.7 917.0 247.0 924.0 C246.3 931.0 245.5 936.3 244.0 942.0 C242.5 947.7 238.3 953.3 238.0 958.0 C237.7 962.7 238.3 967.2 242.0 970.0 C245.7 972.8 253.0 974.5 260.0 975.0 C267.0 975.5 278.7 975.2 284.0 973.0 C289.3 970.8 291.0 966.8 292.0 962.0 C293.0 957.2 291.3 950.0 290.0 944.0 C288.7 938.0 283.7 935.7 284.0 926.0 C284.3 916.3 289.5 901.3 292.0 886.0 C294.5 870.7 297.5 849.7 299.0 834.0 C300.5 818.3 301.0 804.3 301.0 792.0 C301.0 779.7 298.8 769.3 299.0 760.0 C299.2 750.7 302.5 745.2 302.0 736.0 C301.5 726.8 297.7 714.8 296.0 705.0 C294.3 695.2 291.3 689.2 292.0 677.0 C292.7 664.8 297.8 646.3 300.0 632.0 C302.2 617.7 303.2 603.0 305.0 591.0 C306.8 579.0 307.5 564.2 311.0 560.0 C314.5 555.8 320.2 564.2 326.0 566.0 C331.8 567.8 339.3 571.0 346.0 571.0 C352.7 571.0 360.2 567.8 366.0 566.0 C371.8 564.2 377.5 555.8 381.0 560.0 C384.5 564.2 385.2 579.0 387.0 591.0 C388.8 603.0 389.8 617.7 392.0 632.0 C394.2 646.3 399.3 664.8 400.0 677.0 C400.7 689.2 397.7 695.2 396.0 705.0 C394.3 714.8 390.5 726.8 390.0 736.0 C389.5 745.2 392.8 750.7 393.0 760.0 C393.2 769.3 391.0 779.7 391.0 792.0 C391.0 804.3 391.5 818.3 393.0 834.0 C394.5 849.7 397.5 870.7 400.0 886.0 C402.5 901.3 407.7 916.3 408.0 926.0 C408.3 935.7 403.3 938.0 402.0 944.0 C400.7 950.0 399.0 957.2 400.0 962.0 C401.0 966.8 402.7 970.8 408.0 973.0 C413.3 975.2 425.0 975.5 432.0 975.0 C439.0 974.5 446.3 972.8 450.0 970.0 C453.7 967.2 454.3 962.7 454.0 958.0 C453.7 953.3 449.5 947.7 448.0 942.0 C446.5 936.3 445.7 931.0 445.0 924.0 C444.3 917.0 444.0 908.3 444.0 900.0 C444.0 891.7 444.2 886.7 445.0 874.0 C445.8 861.3 448.7 840.0 449.0 824.0 C449.3 808.0 449.2 790.0 447.0 778.0 C444.8 766.0 438.8 760.3 436.0 752.0 C433.2 743.7 429.3 737.7 430.0 728.0 C430.7 718.3 436.2 707.0 440.0 694.0 C443.8 681.0 450.0 665.2 453.0 650.0 C456.0 634.8 458.3 618.0 458.0 603.0 C457.7 588.0 453.5 571.3 451.0 560.0 C448.5 548.7 445.3 542.3 443.0 535.0 C440.7 527.7 437.8 522.8 437.0 516.0 C436.2 509.2 438.0 502.5 438.0 494.0 C438.0 485.5 437.5 474.0 437.0 465.0 C436.5 456.0 435.8 449.0 435.0 440.0 C434.2 431.0 432.3 425.0 432.0 411.0 C431.7 397.0 432.8 371.2 433.0 356.0 C433.2 340.8 431.8 329.3 433.0 320.0 C434.2 310.7 436.8 305.0 440.0 300.0 C443.2 295.0 449.3 289.0 452.0 290.0 C454.7 291.0 454.5 298.8 456.0 306.0 C457.5 313.2 459.0 324.7 461.0 333.0 C463.0 341.3 465.2 347.5 468.0 356.0 C470.8 364.5 475.7 375.8 478.0 384.0 C480.3 392.2 480.5 397.3 482.0 405.0 C483.5 412.7 485.2 421.5 487.0 430.0 C488.8 438.5 490.7 447.2 493.0 456.0 C495.3 464.8 499.2 474.8 501.0 483.0 C502.8 491.2 502.3 496.7 504.0 505.0 C505.7 513.3 511.0 526.2 511.0 533.0 C511.0 539.8 505.7 540.2 504.0 546.0 C502.3 551.8 501.2 560.3 501.0 568.0 C500.8 575.7 502.0 584.7 503.0 592.0 C504.0 599.3 505.0 607.7 507.0 612.0 C509.0 616.3 512.3 618.3 515.0 618.0 C517.7 617.7 520.7 614.7 523.0 610.0 C525.3 605.3 527.8 597.3 529.0 590.0 C530.2 582.7 530.5 573.7 530.0 566.0 C529.5 558.3 527.3 550.7 526.0 544.0 C524.7 537.3 522.2 534.3 522.0 526.0 C521.8 517.7 524.7 505.3 525.0 494.0 C525.3 482.7 524.7 468.7 524.0 458.0 C523.3 447.3 522.3 439.5 521.0 430.0 C519.7 420.5 518.3 410.3 516.0 401.0 C513.7 391.7 510.0 383.3 507.0 374.0 C504.0 364.7 501.0 354.7 498.0 345.0 C495.0 335.3 491.8 325.8 489.0 316.0 C486.2 306.2 483.5 295.0 481.0 286.0 C478.5 277.0 477.3 268.5 474.0 262.0 C470.7 255.5 466.3 250.8 461.0 247.0 C455.7 243.2 449.5 241.5 442.0 239.0 C434.5 236.5 425.0 234.3 416.0 232.0 C407.0 229.7 396.2 228.0 388.0 225.0 C379.8 222.0 371.0 218.5 367.0 214.0 C363.0 209.5 364.8 203.3 364.0 198.0 C363.2 192.7 361.3 186.5 362.0 182.0 C362.7 177.5 365.7 175.3 368.0 171.0 C370.3 166.7 373.7 161.5 376.0 156.0 C378.3 150.5 380.5 144.7 382.0 138.0 C383.5 131.3 384.5 123.7 385.0 116.0 C385.5 108.3 386.0 100.0 385.0 92.0 C384.0 84.0 382.3 74.3 379.0 68.0 C375.7 61.7 370.5 57.0 365.0 54.0 C359.5 51.0 352.3 50.0 346.0 50.0Z" fill="white"/>
+            </mask>
+            <clipPath id="organ-window"><path d="M278 334 Q332 321 398 337 Q411 354 410 389 L407 438 Q409 480 383 506 Q355 528 326 518 Q293 506 281 472 Q271 441 270 403Z"/></clipPath>
+            <clipPath id="organ-core">
+              <path d="M277 377 C273 349 298 330 332 332 L393 337 Q402 342 385 361 Q371 377 349 379 Q312 405 280 417 Q275 399 277 377Z"/>
+              <path d="M309 404 Q326 390 349 385 L400 372 Q408 378 398 388 Q374 407 338 424 Q312 433 307 419Z"/>
+              <path d="M298 393 C306 382 320 379 338 383 C356 381 378 387 390 400 C399 412 398 430 397 448 C398 470 390 493 375 507 C361 520 337 521 318 512 C301 503 293 485 290 465 C287 443 288 409 298 393Z"/>
+            </clipPath>
+            <clipPath id="liver-region"><path id="liver-region-shape" d="M298.7 375.9 L298.8 373.4 L299.2 369.3 L299.4 367.8 L300.0 364.5 L300.9 360.6 L301.4 359.0 L302.3 356.5 L303.0 354.8 L304.3 352.6 L305.4 350.8 L307.1 348.7 L308.8 346.9 L310.9 345.1 L312.8 343.6 L315.0 342.3 L317.4 341.1 L319.5 340.2 L322.0 339.4 L324.2 338.9 L326.7 338.4 L329.3 338.1 L333.7 337.9 L335.1 337.9 L336.5 338.0 L338.2 338.2 L381.5 343.6 L384.6 344.1 L387.6 344.8 L390.5 345.7 L393.0 346.7 L395.2 347.7 L397.2 348.9 L398.2 349.5 L399.8 350.6 L403.4 353.2 L405.1 354.6 L407.0 356.7 L407.5 357.3 L407.8 357.7 L409.0 359.9 L409.3 360.5 L408.5 363.0 L407.9 363.9 L407.1 364.8 L398.3 374.7 L393.7 379.1 L390.7 381.9 L387.4 384.8 L385.5 386.3 L383.4 387.7 L381.3 389.0 L379.3 390.2 L304.5 427.2 L304.3 427.2 L303.5 427.0 L302.9 426.2 L302.6 425.3 L299.3 390.9 L299.1 388.7 L299.0 386.6 L298.9 384.4 L298.8 381.7 L298.7 378.8Z"/></clipPath><mask id="vessel-mask-v23" maskUnits="userSpaceOnUse" x="0" y="0" width="720" height="1080"><image href="assets/img/figure/mask-body.webp" x="0" y="0" width="720" height="1080" preserveAspectRatio="none"/></mask><mask id="gly-muscle-mask-v23" maskUnits="userSpaceOnUse" x="0" y="0" width="720" height="1080"><image class="gm-base" href="assets/img/figure/mask-muscle-moderate.webp" x="0" y="0" width="720" height="1080" preserveAspectRatio="none"/><g id="gm-arm-r"><image class="gm-arm" data-side="r" href="assets/img/figure/mask-muscle-moderate-arm-r.webp" x="0" y="0" width="720" height="1080" preserveAspectRatio="none"/></g><g id="gm-arm-l"><image class="gm-arm" data-side="l" href="assets/img/figure/mask-muscle-moderate-arm-l.webp" x="0" y="0" width="720" height="1080" preserveAspectRatio="none"/></g></mask><mask id="gly-liver-mask-v23" maskUnits="userSpaceOnUse" x="0" y="0" width="720" height="1080"><image href="assets/img/figure/mask-liver.webp" x="0" y="0" width="720" height="1080" preserveAspectRatio="none"/></mask><pattern id="gly-dots" width="18" height="18" patternUnits="userSpaceOnUse" patternTransform="rotate(24)"><circle cx="12.82" cy="15.12" r="1.5" fill="#ffffff"/><circle cx="3.93" cy="3.01" r="1.5" fill="#a6f7e6"/><circle cx="12.08" cy="1.65" r="1.5" fill="#a6f7e6"/><circle cx="14.51" cy="5.10" r="1.7" fill="#effffb"/><circle cx="7.94" cy="15.58" r="0.7" fill="#effffb"/><circle cx="2.08" cy="9.30" r="1.05" fill="#effffb"/><circle cx="1.53" cy="13.69" r="0.8" fill="#ffffff"/><circle cx="5.50" cy="9.76" r="1.3" fill="#a6f7e6"/><circle cx="8.81" cy="5.11" r="0.8" fill="#a6f7e6"/><circle cx="8.63" cy="12.07" r="1.5" fill="#c4fcef"/><circle cx="16.29" cy="0.61" r="1.05" fill="#a6f7e6"/><circle cx="16.29" cy="18.61" r="1.05" fill="#a6f7e6"/></pattern><pattern id="gly-dots-fine" width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(-38)"><circle cx="1.4" cy="1.6" r=".85" fill="#c4fcef"/></pattern><filter id="v22-feather" x="-10%" y="-10%" width="120%" height="120%"><feGaussianBlur stdDeviation="7"/></filter><mask id="muscle-mask-v22" maskUnits="userSpaceOnUse" x="0" y="0" width="720" height="1080"><use href="#muscle-region-shape" fill="white" filter="url(#v22-feather)"/></mask><mask id="liver-mask-v22" maskUnits="userSpaceOnUse" x="0" y="0" width="720" height="1080"><use href="#liver-region-shape" fill="white" filter="url(#v22-feather)"/></mask><clipPath id="organ-window-v22"><path d="M426.7 447.9 L426.4 431.3 L425.8 419.7 L424.8 409.6 L423.4 400.4 L421.6 392.0 L419.4 384.3 L416.8 377.2 L413.8 370.7 L410.4 364.9 L406.7 359.6 L402.5 354.9 L398.0 350.9 L393.0 347.4 L387.7 344.6 L381.8 342.4 L375.3 340.8 L367.9 339.8 L357.3 339.5 L346.7 339.8 L339.3 340.8 L332.8 342.4 L326.9 344.6 L321.5 347.4 L316.6 350.9 L312.1 354.9 L307.9 359.6 L304.2 364.9 L300.8 370.7 L297.8 377.2 L295.2 384.3 L293.0 392.0 L291.2 400.4 L289.8 409.6 L288.7 419.7 L288.1 431.3 L287.9 447.9 L288.1 464.5 L288.7 476.1 L289.8 486.2 L291.2 495.4 L293.0 503.8 L295.2 511.5 L297.8 518.6 L300.8 525.0 L304.2 530.9 L307.9 536.2 L312.1 540.8 L316.6 544.9 L321.5 548.4 L326.9 551.2 L332.8 553.4 L339.3 555.0 L346.7 555.9 L357.3 556.3 L367.9 555.9 L375.3 555.0 L381.8 553.4 L387.7 551.2 L393.0 548.4 L398.0 544.9 L402.5 540.8 L406.7 536.2 L410.4 530.9 L413.8 525.0 L416.8 518.6 L419.4 511.5 L421.6 503.8 L423.4 495.4 L424.8 486.2 L425.8 476.1 L426.4 464.5Z"/></clipPath>
+            <clipPath id="pancreas-region"><path d="M335.4 411.2 L336.1 407.8 L336.4 407.0 L341.5 398.1 L341.9 397.5 L347.6 394.3 L350.8 393.4 L352.5 393.1 L391.9 386.7 L393.0 386.6 L394.2 386.9 L396.3 387.5 L396.9 387.7 L397.6 388.4 L399.0 390.7 L399.1 391.4 L399.1 391.5 L398.8 392.3 L398.4 393.2 L397.8 394.2 L396.8 395.0 L354.1 424.0 L351.4 424.7 L348.4 425.4 L347.5 425.5 L344.9 425.7 L343.1 425.5 L341.0 425.2 L339.7 424.9 L337.6 423.7 L336.7 422.8 L336.4 421.9 L336.3 421.2 L335.5 412.9Z"/></clipPath>
+            <clipPath id="muscle-region"><path id="muscle-region-shape" d="M274.2 639.0 L274.3 633.6 L277.8 553.5 L278.2 550.7 L347.5 550.8 L348.6 551.3 L348.9 554.7 L349.2 559.9 L349.3 565.1 L349.3 579.4 L349.2 612.3 L348.9 670.7 L348.7 676.0 L341.1 730.0 L340.8 730.6 L336.7 731.8 L316.6 732.2 L289.5 731.7 L287.7 730.8 L284.8 722.7 L283.4 718.3 L282.0 712.9 L281.4 710.2 L279.8 702.5 L277.9 691.7 L277.0 686.3 L276.4 681.5 L275.6 674.9 L275.3 672.0 L274.9 666.4 L274.5 659.7 L274.3 655.8 L274.2 652.9Z M370.7 565.1 L370.8 559.9 L371.1 554.7 L371.4 551.3 L372.5 550.8 L441.8 550.7 L442.2 553.5 L445.7 633.6 L445.8 639.0 L445.8 652.9 L445.7 655.8 L445.5 659.7 L445.1 666.4 L444.7 672.0 L444.4 674.9 L443.6 681.5 L443.0 686.3 L442.1 691.7 L440.2 702.5 L438.6 710.2 L438.0 712.9 L436.6 718.3 L435.2 722.7 L432.3 730.8 L430.5 731.7 L403.4 732.2 L383.3 731.8 L379.2 730.6 L378.9 730.0 L371.3 676.0 L371.1 670.7 L370.8 612.3 L370.7 579.4Z M242.0 371.3 L242.6 346.5 L250.1 287.1 L250.5 285.2 L252.2 279.4 L262.8 267.4 L264.6 266.7 L265.5 266.6 L266.1 266.6 L269.3 267.5 L269.1 284.1 L267.6 349.5 L263.8 363.0 L258.1 375.9 L253.4 380.7Z M450.7 267.5 L453.9 266.6 L454.5 266.6 L455.4 266.7 L457.2 267.4 L467.8 279.4 L469.5 285.2 L469.9 287.1 L477.4 346.5 L478.0 371.3 L466.6 380.7 L461.9 375.9 L456.2 363.0 L452.4 349.5 L450.9 284.1Z"/></clipPath>
+            <filter id="liver-fat-tone" color-interpolation-filters="sRGB"><feColorMatrix type="matrix" values=".68 .20 .08 0 .13 .36 .44 .08 0 .10 .18 .17 .42 0 .04 0 0 0 1 0"/></filter>
+            <filter id="pancreas-fat-tone" color-interpolation-filters="sRGB"><feColorMatrix type="matrix" values=".78 .14 .08 0 .08 .17 .69 .14 0 .07 .12 .16 .72 0 .05 0 0 0 1 0"/></filter>
+            <linearGradient id="liver-fat-wash" x1=".12" y1=".06" x2=".88" y2=".95"><stop stop-color="#fff1b6" stop-opacity=".78"/><stop offset=".47" stop-color="#e9c77c" stop-opacity=".48"/><stop offset="1" stop-color="#a77a38" stop-opacity=".22"/></linearGradient>
+            <linearGradient id="pancreas-fat-wash" x1=".08" y1=".2" x2=".95" y2=".75"><stop stop-color="#fff4c8" stop-opacity=".82"/><stop offset=".5" stop-color="#e6c77f" stop-opacity=".54"/><stop offset="1" stop-color="#a87939" stop-opacity=".24"/></linearGradient>
+            <radialGradient id="organ-fat-droplet" cx=".34" cy=".28" r=".75"><stop offset="0" stop-color="#fff8cf"/><stop offset=".52" stop-color="#f1d287"/><stop offset="1" stop-color="#9a7138"/></radialGradient>
+            <filter id="organ-fat-soften" x="-8%" y="-8%" width="116%" height="116%"><feGaussianBlur stdDeviation=".55"/></filter>
+            <filter id="glycogen-tissue-tone" color-interpolation-filters="sRGB"><feColorMatrix type="matrix" values=".30 .30 .05 0 .01 .20 .60 .20 0 .18 .10 .55 .40 0 .15 0 0 0 1 0"/></filter>
+            <filter id="muscle-fat-texture" color-interpolation-filters="sRGB"><feColorMatrix type="luminanceToAlpha" result="fibres"/><feComponentTransfer in="fibres" result="fine-fibres"><feFuncA type="linear" slope="3.5" intercept="-1.2"/></feComponentTransfer><feFlood flood-color="#e0cf9d" flood-opacity=".86" result="tissue-colour"/><feComposite in="tissue-colour" in2="fine-fibres" operator="in"/></filter>
+            <g id="body-source">
+          <g mask="url(#portrait-mask-x)">
+            <g mask="url(#portrait-mask-y)" aria-hidden="true">
+              <g id="photo-series" data-v22="figure"><g id="ps-prev" opacity="0"><image id="ps-prev-a" x="0" y="0" width="720" height="1080" preserveAspectRatio="none"/><image id="ps-prev-b" x="0" y="0" width="720" height="1080" preserveAspectRatio="none" opacity="0"/></g><g id="ps-cur"><image id="ps-a" x="0" y="0" width="720" height="1080" preserveAspectRatio="none" href="assets/img/figure/moderate-0-720.webp"/><image id="ps-b" x="0" y="0" width="720" height="1080" preserveAspectRatio="none" opacity="0"/></g></g>
+              <g id="muscle-glycogen" mask="url(#gly-muscle-mask-v23)"><g id="muscle-glycogen-fill" class="gly-fill" opacity="0"><rect width="720" height="1080" fill="#3fd9bd" class="gly-tint"/><rect width="720" height="1080" fill="url(#gly-dots)" class="gly-dots"/><rect width="720" height="1080" fill="url(#gly-dots-fine)" class="gly-dots-fine"/></g><use id="muscle-glycogen-tone" href="#uploaded-person" filter="url(#glycogen-tissue-tone)" opacity="0"/><g id="muscle-glycogen-granules" transform="matrix(.78 0 0 .948 91.7 32.1)"></g></g>
+              <g id="deep-abdominal-fat" display="none" data-v22="baked" filter="url(#fat-depth)">
+                <path id="deep-abdominal-fat-tissue" fill="url(#visceral-adipose-texture)" fill-rule="evenodd" filter="url(#adipose-material-tone)" d="M0 0Z"/>
+                <path id="deep-abdominal-fat-shade" fill="url(#adipose-soft-light)" fill-rule="evenodd" d="M0 0Z"/>
+                <path id="deep-abdominal-fat-edge" fill="none" stroke="#b29971" stroke-opacity=".4" stroke-width="1.7" d="M0 0Z"/>
+              </g>
+              <g id="subcutaneous-fat" display="none" data-v22="baked" filter="url(#fat-depth)"></g>
+              <!-- One registered organ window, always taken from the baseline.
+                   Ectopic tints use these same pixels, never another liver. -->
+              <g id="fixed-organs" display="none" data-v22="baked" clip-path="url(#organ-core)"><use href="#uploaded-person"/></g>
+              <g clip-path="url(#organ-window-v22)"><g id="liver-glycogen" mask="url(#gly-liver-mask-v23)"><g id="liver-glycogen-fill" class="gly-fill" opacity="0"><rect width="720" height="1080" fill="#3fd9bd" class="gly-tint"/><rect width="720" height="1080" fill="url(#gly-dots)" class="gly-dots"/></g><use id="liver-glycogen-tone" href="#uploaded-person" filter="url(#glycogen-tissue-tone)" opacity="0"/><g id="liver-glycogen-granules" transform="matrix(.85 0 0 1 68.5 7)"></g></g></g>
+              <g id="liver-tissue" display="none" data-v22="baked" clip-path="url(#liver-region)" opacity="0"><use href="#uploaded-person" filter="url(#liver-fat-tone)"/></g>
+              <g id="pancreas-tissue" display="none" data-v22="baked" clip-path="url(#pancreas-region)" opacity="0"><use href="#uploaded-person" filter="url(#pancreas-fat-tone)"/></g>
+              <g id="muscle-tissue" display="none" data-v22="baked" clip-path="url(#muscle-region)" opacity="0"><use href="#uploaded-person" filter="url(#muscle-fat-texture)"/></g>
+              <g id="visceral-fat" display="none" data-v22="baked" clip-path="url(#organ-window)" filter="url(#fat-depth)" opacity=".62"><g filter="url(#adipose-material-tone)"><path id="visceral-left" fill="url(#visceral-adipose-texture)"/><path id="visceral-right" fill="url(#visceral-adipose-texture)"/><path id="visceral-apron" fill="url(#visceral-adipose-texture)"/></g><path id="visceral-left-shade" fill="url(#adipose-soft-light)"/><path id="visceral-right-shade" fill="url(#adipose-soft-light)"/><path id="visceral-apron-shade" fill="url(#adipose-soft-light)"/></g>
+              <!-- Fat within an organ changes its tissue appearance, not its size. -->
+              <g id="liver-fat-visual" display="none" data-v22="baked" clip-path="url(#liver-region)" opacity="0" data-fat-level="0">
+                <rect id="liver-fat-wash-rect" x="270" y="326" width="142" height="98" fill="url(#liver-fat-wash)" filter="url(#organ-fat-soften)"/>
+                <g id="liver-fat-droplets"></g>
+                <path id="liver-fat-edge" d="M277 377 C273 349 298 330 332 332 L393 337 Q402 342 385 361 Q371 377 349 379 Q312 405 280 417 Q275 399 277 377Z" fill="none" stroke="#f2d58e" stroke-width="1.15" stroke-opacity="0"/>
+              </g>
+              <g id="pancreas-fat-visual" display="none" data-v22="baked" clip-path="url(#pancreas-region)" opacity="0" data-fat-level="0">
+                <rect id="pancreas-fat-wash-rect" x="303" y="369" width="109" height="69" fill="url(#pancreas-fat-wash)" filter="url(#organ-fat-soften)"/>
+                <g id="pancreas-fat-droplets"></g>
+                <path id="pancreas-fat-edge" d="M309 404 Q326 390 349 385 L400 372 Q408 378 398 388 Q374 407 338 424 Q312 433 307 419Z" fill="none" stroke="#f5dda0" stroke-width="1.05" stroke-opacity="0"/>
+              </g>
+            </g>
+          </g>
+          <g mask="url(#vessel-mask-v23)" id="vessel-clip-v23"><g aria-hidden="true" class="functional-overlays" transform="matrix(.98 0 0 .984 20.9 48.8)">
+            <g id="cardiac-anatomy" display="none" data-v22="baked" filter="url(#heart-depth)"><use id="photo-heart" href="#heart-source" filter="url(#heart-tissue-light)"/><g id="epicardial-fat" mask="url(#heart-surface-mask)"></g></g>
+            <g id="vascular-trace" stroke-linecap="round" stroke-linejoin="round" opacity=".20"><g id="arterial-shadows"></g><g id="arterial-walls"></g><g id="arterial-lumens"></g><g id="arterial-materials" filter="url(#vessel-surface-grain)"></g><g id="arterial-highlights" fill="none"></g></g>
+            <g id="body-blood-particles"></g>
+          </g></g>
+            </g>
+          </defs>
+          <use id="body-anatomy" href="#body-source" aria-hidden="true"/>
+          <circle id="heart-glow" cx="373.5" cy="318.6" r="46" fill="url(#heart-glow-grad)" aria-hidden="true"/>
+          <g aria-hidden="true" class="anatomy-labels">
+            <g class="heart-callout"><path d="M373.5 318.6 L538 240 L598 240" class="callout-line"/><circle cx="373.5" cy="318.6" r="3" class="callout-dot"/><text x="608" y="247" class="callout">Heart</text></g>
+            <path d="M319.5 372.4 L208 313 L97 313" class="callout-line"/><circle cx="319.5" cy="372.4" r="3" class="callout-dot"/>
+            <circle cx="78" cy="313" r="16" fill="var(--liver)"/><text x="78" y="313" class="label-num">4</text>
+            <text x="78" y="353" text-anchor="middle" class="callout">Liver</text>
+            <path d="M280.8 518.6 L146 456 L97 456" class="callout-line"/><circle cx="280.8" cy="518.6" r="3" class="callout-dot"/>
+            <circle cx="78" cy="456" r="16" fill="var(--sat)"/><text x="78" y="456" class="label-num">1</text>
+            <text x="78" y="496" text-anchor="middle" class="callout">Under skin</text>
+            <path d="M362.7 483.1 L165 571 L97 603" class="callout-line"/><circle cx="362.7" cy="483.1" r="3" class="callout-dot"/>
+            <circle cx="78" cy="603" r="16" fill="var(--vis)"/><text x="78" y="603" class="label-num">3</text>
+            <text x="78" y="643" text-anchor="middle" class="callout">Visceral</text>
+            <path d="M376.3 407.1 L552 369 L623 369" class="callout-line"/><circle cx="376.3" cy="407.1" r="3" class="callout-dot"/>
+            <circle cx="642" cy="369" r="16" fill="var(--pancreas)"/><text x="642" y="369" class="label-num">5</text>
+            <text x="642" y="409" text-anchor="middle" class="callout">Pancreas</text>
+            <path d="M503.3 529.3 L568 541 L623 541" class="callout-line"/><circle cx="503.3" cy="529.3" r="3" class="callout-dot"/>
+            <circle cx="642" cy="541" r="16" fill="var(--blood)"/><text x="642" y="541" class="label-num">6</text>
+            <text x="642" y="581" text-anchor="middle" class="callout">Bloodstream</text>
+            <path d="M416.6 658.6 L552 729 L623 729" class="callout-line"/><circle cx="416.6" cy="658.6" r="3" class="callout-dot"/>
+            <circle cx="642" cy="729" r="16" fill="var(--muscle)"/><text x="642" y="729" class="label-num">2</text>
+            <text x="642" y="769" text-anchor="middle" class="callout">Muscle</text>
+          </g>
+        </svg>
+        </div>
+        <div class="slider-panel">
+          <div class="a1c-card" id="a1c-card" data-state="normal">
+            <div class="a1c-reading">
+              <span class="a1c-label">HbA1c</span>
+              <small>Illustrative</small>
+              <output id="a1c-output" for="fat-range capacity-select" aria-describedby="a1c-help"><span id="a1c-number">5.2</span><span class="a1c-unit">%</span></output>
+              <span class="a1c-status" id="a1c-status">Normal range</span>
+            </div>
+            <div class="a1c-thresholds" aria-label="Clinical HbA1c category thresholds">
+              <div id="a1c-prediabetes" class="a1c-threshold"><strong>5.7%</strong><span>Prediabetes</span></div>
+              <div id="a1c-diabetes" class="a1c-threshold"><strong>6.5%</strong><span>Diabetes</span></div>
+            </div>
+          </div>
+          <span class="scale-end high">More fat</span>
+          <div class="slider-guide">
+            <button type="button" class="guide-chip guide-up" id="guide-up" aria-label="Add fuel: step toward type 2 diabetes"><span class="guide-arrow" aria-hidden="true">↑</span><span class="guide-text">Toward<br>diabetes</span></button>
+            <button type="button" class="guide-chip guide-down" id="guide-down" aria-label="Lose fat: step toward remission"><span class="guide-arrow" aria-hidden="true">↓</span><span class="guide-text">Toward<br>remission</span></button>
+          </div>
+          <div class="rail">
+            <div class="spectrum" aria-hidden="true"></div>
+            <div class="range-wrap">
+              <input id="fat-range" type="range" min="0" max="100" step="1" value="0" aria-label="Added fuel, illustrative scale" aria-describedby="range-help" aria-orientation="vertical">
+            </div>
+            <div class="ticks" id="ticks" aria-hidden="true"><div class="tick glycogen-tick" id="glycogen-tick" style="bottom:12%"><b>G</b><span class="tick-name">Glycogen</span></div></div>
+          </div>
+          <span class="scale-end low">Baseline</span>
+        </div>
+      </div>
+      <div class="scale-label">
+        <div><label for="fat-range">Fuel accumulation</label><small id="range-help">Drag or use ↑ / ↓ · Illustrative scale</small></div>
+        <output for="fat-range" id="fat-output">0 <span>/ 100</span></output>
+      </div>
+
+
+    </section>
+    <aside class="detail" aria-label="What changes as fuel accumulates">
+      <div class="overlay-cards">
+        <div class="story-panel" id="story-panel" role="region" aria-labelledby="story-title" aria-live="polite" hidden>
+          <div class="story-progress" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+          <p class="story-step" id="story-step">Stop 1 of 5</p>
+          <h3 id="story-title">Fuel tanks fill first</h3>
+          <p id="story-text"></p>
+          <p class="story-cite" id="story-cite"></p>
+          <div class="story-actions"><button type="button" id="story-prev">Back</button><button type="button" id="story-next" class="primary">Next</button><button type="button" id="story-exit" class="ghost">Exit story</button></div>
+        </div>
+        <div class="remission-note" id="remission-note" role="note" aria-labelledby="remission-title" hidden>
+          <button type="button" class="note-close" id="remission-close" aria-label="Close the remission note">×</button>
+          <strong id="remission-title">Reversal in real life</strong>
+          <p>In the DiRECT trial, an ~850 kcal/day diet-replacement programme put <b>46%</b> of people in remission at 12 months and <b>36%</b> at 24 months (HbA1c below 6.5% off all diabetes medicines).</p>
+          <p class="remission-caveat">Best odds: diabetes for under 6 years, losing 15 kg or more (86% remission), and beta cells that recover. Remission is not a cure; keep checking A1c.</p>
+          <small>Lean et al., Lancet 2018; Lancet Diabetes Endocrinol 2019 · Taylor et al., Cell Metab 2018. The slider cannot predict remission.</small>
+        </div>
+      </div>
+      <div class="stage-block">
+        <div class="stage-heading"><span class="stage-dot"></span><span id="stage-kicker">First · Glycogen reserves</span></div>
+        <h2 id="stage-title">Room for stored carbohydrate</h2>
+
+
+      </div>
+      <div class="distribution">
+        <div class="hyperplasia-panel" id="hyperplasia-panel" hidden>
+          <strong>New fat cells add capacity</strong>
+          <span id="hyperplasia-status">Starting cells</span>
+          <svg id="hyperplasia-svg" class="hyperplasia-svg" viewBox="0 0 320 86" role="img" aria-label="Schematic starting population of fat cells">
+            <defs><radialGradient id="adipocyte-fill" cx=".35" cy=".3" r=".75"><stop stop-color="#f4dfaa"/><stop offset=".65" stop-color="#c8aa69"/><stop offset="1" stop-color="#8b744b"/></radialGradient></defs>
+            <g id="adipocyte-cells"></g>
+          </svg>
+
+
+        </div>
+        <div class="section-label">Illustrative fuel stores</div>
+        <div class="glycogen-stores" id="glycogen-stores">
+          <div class="glycogen-row active" id="glycogen-liver-row"><span class="depot-number">G</span><div><div class="depot-name">Liver glycogen</div><div class="meter" id="glycogen-liver-meter" role="meter" aria-label="Illustrative liver glycogen reserve" aria-valuemin="0" aria-valuemax="100" aria-valuenow="25"><i id="glycogen-liver-bar" style="width:25%"></i></div></div><span class="depot-value" id="glycogen-liver-value">Starting</span></div>
+          <div class="glycogen-row active" id="glycogen-muscle-row"><span class="depot-number">G</span><div><div class="depot-name">Muscle glycogen</div><div class="meter" id="glycogen-muscle-meter" role="meter" aria-label="Illustrative muscle glycogen reserve" aria-valuemin="0" aria-valuemax="100" aria-valuenow="25"><i id="glycogen-muscle-bar" style="width:25%"></i></div></div><span class="depot-value" id="glycogen-muscle-value">Starting</span></div>
+
+        </div>
+        <div class="depots" id="depots">
+          <div class="depot-row" data-depot="sat" style="--c:var(--sat)"><span class="depot-number">1</span><div><div class="depot-name">Under the skin</div><div class="meter"><i></i></div></div><span class="depot-value">Baseline</span></div>
+          <div class="depot-row" data-depot="muscle" style="--c:var(--muscle)"><span class="depot-number">2</span><div><div class="depot-name">Within muscle</div><div class="meter"><i></i></div></div><span class="depot-value">Baseline</span></div>
+          <div class="depot-row" data-depot="vis" style="--c:var(--vis)"><span class="depot-number">3</span><div><div class="depot-name">Around organs</div><div class="meter"><i></i></div></div><span class="depot-value">Baseline</span></div>
+          <div class="depot-row" data-depot="liver" style="--c:var(--liver)"><span class="depot-number">4</span><div><div class="depot-name">Within the liver</div><div class="meter"><i></i></div></div><span class="depot-value">Baseline</span></div>
+          <div class="depot-row" data-depot="pancreas" style="--c:var(--pancreas)"><span class="depot-number">5</span><div><div class="depot-name">Within the pancreas</div><div class="meter"><i></i></div></div><span class="depot-value">Baseline</span></div>
+        </div>
+      </div>
+      <div class="fuel-reserve" id="fuel-reserve" data-state="available" data-profile="moderate" data-fill="0" data-overflow="0">
+        <div class="fuel-reserve-head"><strong>Fuel reserve</strong><span id="fuel-reserve-status">Storage available</span></div>
+        <svg id="fuel-reserve-svg" class="fuel-reserve-svg" viewBox="0 0 320 112" role="meter" aria-labelledby="fuel-reserve-title fuel-reserve-desc" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" preserveAspectRatio="xMidYMid meet">
+          <title id="fuel-reserve-title">Illustrative personal fuel reserve</title>
+          <desc id="fuel-reserve-desc">An empty hypothetical reserve tank with storage available.</desc>
+          <defs>
+            <linearGradient id="reserve-shell" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#78949f"/><stop offset=".11" stop-color="#314651"/><stop offset=".33" stop-color="#10212b"/><stop offset=".55" stop-color="#07141d"/><stop offset=".79" stop-color="#1e3440"/><stop offset="1" stop-color="#829da7"/></linearGradient>
+            <linearGradient id="reserve-glass" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#bdd3d8" stop-opacity=".36"/><stop offset=".16" stop-color="#8aa3ad" stop-opacity=".08"/><stop offset=".52" stop-color="#041018" stop-opacity=".54"/><stop offset=".84" stop-color="#526b75" stop-opacity=".12"/><stop offset="1" stop-color="#d3e5e7" stop-opacity=".34"/></linearGradient>
+            <linearGradient id="reserve-fuel" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#ffe18a"/><stop offset=".42" stop-color="#eab45f"/><stop offset="1" stop-color="#a65b39"/></linearGradient>
+            <linearGradient id="reserve-danger" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#ffb26f" stop-opacity=".34"/><stop offset="1" stop-color="#b22d48" stop-opacity=".82"/></linearGradient>
+            <radialGradient id="reserve-puddle" cx=".5" cy=".42" r=".7"><stop stop-color="#f5bd68" stop-opacity=".78"/><stop offset=".48" stop-color="#c96a47" stop-opacity=".68"/><stop offset="1" stop-color="#772c45" stop-opacity=".06"/></radialGradient>
+            <clipPath id="reserve-interior-clip"><path d="M88 27 C88 19.5 232 19.5 232 27 L232 82 C232 91 88 91 88 82Z"/></clipPath>
+            <filter id="reserve-shadow" x="-20%" y="-25%" width="140%" height="165%"><feDropShadow dx="0" dy="3" stdDeviation="3" flood-color="#000" flood-opacity=".55"/></filter>
+            <filter id="reserve-soft-glow" x="-50%" y="-80%" width="200%" height="260%"><feGaussianBlur stdDeviation="1.7"/></filter>
+          </defs>
+          <g id="fuel-puddle-back" opacity="0">
+            <path d="M101 87 C113 81 132 82 144 85 C154 79 176 80 188 85 C206 80 223 84 230 90 C221 98 199 99 184 96 C168 102 144 101 130 96 C116 99 99 95 94 91Z" fill="url(#reserve-puddle)"/>
+            <ellipse cx="160" cy="91" rx="57" ry="8" fill="#f1a75a" fill-opacity=".2" filter="url(#reserve-soft-glow)"/>
+          </g>
+          <g id="tank-capacity-group" filter="url(#reserve-shadow)">
+            <path d="M88 27 C88 19.5 232 19.5 232 27 L232 82 C232 91 88 91 88 82Z" fill="#07131b"/>
+            <g clip-path="url(#reserve-interior-clip)">
+              <rect id="fuel-tank-fill" x="88" y="84" width="144" height="0" fill="url(#reserve-fuel)"/>
+              <rect id="fuel-tank-danger-fill" x="88" y="27" width="144" height="57" fill="url(#reserve-danger)" opacity="0"/>
+              <ellipse id="fuel-tank-surface" cx="160" cy="84" rx="72" ry="6.2" fill="#ffd980" opacity="0"/>
+              <ellipse id="fuel-tank-surface-glint" cx="151" cy="82.8" rx="50" ry="2.1" fill="#fff2b2" opacity="0"/>
+            </g>
+            <path d="M88 27 C88 19.5 232 19.5 232 27 L232 82 C232 91 88 91 88 82Z" fill="url(#reserve-glass)"/>
+            <ellipse cx="160" cy="27" rx="72" ry="7.3" fill="#07151e" fill-opacity=".5" stroke="#78939e" stroke-width="1.55"/>
+            <path d="M89 28 L89 81 C89 88 231 88 231 81 L231 28" fill="none" stroke="url(#reserve-shell)" stroke-width="2.4"/>
+            <path d="M91 81 C101 89 219 89 229 81" fill="none" stroke="#6f8994" stroke-opacity=".68" stroke-width="1.15"/>
+            <path d="M94 31 L94 77" stroke="#c4d6da" stroke-opacity=".24" stroke-width="1.1"/>
+            <g stroke="#9bb1b9" stroke-opacity=".68" stroke-width="1">
+              <path d="M220 39h7"/><path d="M220 51h7"/><path d="M220 63h7"/><path d="M220 75h7"/>
+            </g>
+            <g id="fuel-overflow-rim" opacity="0" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M91 27 C108 21 132 21 147 24" fill="none" stroke="#ffe093" stroke-width="2.3"/>
+              <path d="M173 23 C194 20 218 22 229 27" fill="none" stroke="#f4b96a" stroke-width="2.3"/>
+              <path d="M91 28 C88 35 90 42 88 49" fill="none" stroke="#e7a15c" stroke-width="3.1"/>
+              <path d="M230 28 C234 36 230 46 233 54" fill="none" stroke="#d66d52" stroke-width="3.3"/>
+              <path d="M115 24 C113 31 116 36 113 42" fill="none" stroke="#efb866" stroke-width="2.3"/>
+              <path d="M204 23 C207 30 204 35 207 41" fill="none" stroke="#e59059" stroke-width="2.5"/>
+              <circle cx="88" cy="54" r="2.5" fill="#df8858" stroke="none"/>
+              <circle cx="233" cy="59" r="2.8" fill="#c95451" stroke="none"/>
+              <circle cx="112" cy="47" r="1.8" fill="#eaa962" stroke="none"/>
+              <circle cx="208" cy="46" r="2" fill="#dc7a56" stroke="none"/>
+            </g>
+          </g>
+          <g id="fuel-puddle-front" opacity="0">
+            <path d="M104 90 C118 88 128 91 139 93 C151 89 169 89 181 94 C194 90 215 91 224 95 C217 102 195 104 180 100 C166 106 142 105 129 100 C116 103 101 99 98 95Z" fill="url(#reserve-puddle)"/>
+            <path d="M119 96 C136 100 150 98 160 96 C176 101 191 100 203 97" fill="none" stroke="#ffd086" stroke-opacity=".42" stroke-width="1.1"/>
+          </g>
+                  <g id="hyperplasia-tank-cluster" opacity="0" aria-hidden="true"></g>
+        </svg>
+        <div class="fuel-reserve-note" id="fuel-reserve-note">Moderate reserve · hypothetical capacity</div>
+      </div>
+      <div class="blood-section">
+        <div class="blood-head"><strong>6 · In the bloodstream</strong><span id="blood-status">Normal circulation</span></div>
+        <svg class="blood-svg" viewBox="0 0 340 67" role="img" aria-label="Normal amounts of glucose and fats circulate in the blood" id="blood-svg">
+          <defs><linearGradient id="tube-fill" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#472330"/><stop offset=".5" stop-color="#2b1b2c"/><stop offset="1" stop-color="#472330"/></linearGradient><clipPath id="tube-clip"><rect x="0" y="7" width="340" height="53" rx="12"/></clipPath></defs>
+          <rect x="0" y="7" width="340" height="53" rx="12" fill="url(#tube-fill)" stroke="#8b4b60" stroke-width="1"/>
+          <g clip-path="url(#tube-clip)">
+            <g fill="#ab4b61" stroke="#d17b8e" stroke-width=".65" opacity=".6"><ellipse cx="27" cy="25" rx="10" ry="6" transform="rotate(-15 27 25)"/><ellipse cx="96" cy="46" rx="10" ry="6" transform="rotate(20 96 46)"/><ellipse cx="181" cy="23" rx="10" ry="6" transform="rotate(-20 181 23)"/><ellipse cx="250" cy="45" rx="10" ry="6"/><ellipse cx="315" cy="24" rx="10" ry="6" transform="rotate(18 315 24)"/></g>
+            <g id="blood-fat-particles"></g><g id="blood-glucose-particles"></g>
+          </g>
+        </svg>
+        <div class="blood-legend"><span><i class="dot-fat"></i>Circulating fats</span><span><i class="dot-glucose"></i>Glucose</span></div>
+
+      </div>
+    </aside>
+  </div>
+  <p class="live-footnote">Move the lever upward to add fuel. Teal = glycogen · HbA1c and storage levels are illustrative, not personal predictions. Organs, liver and fat are <strong>illustrations of typical patterns</strong>, not predictions of your own organs; a personal fat threshold differs between people and cannot be given as an exact number.</p>
+  <details class="reading-details">
+    <summary>What this stage means &amp; how to read the views</summary>
+    <div class="reading-columns">
+      <div><p class="stage-copy" id="stage-copy">Liver and muscle hold glucose as glycogen. This example starts with partly stocked reserves. Move the slider to watch the teal glycogen highlights build before added fat appears.</p><p class="takeaway" id="takeaway">Replenishing glycogen is normal. It is not a step into diabetes.</p><p><strong>Extreme threshold / hyperplasia.</strong> Adipocyte hyperplasia adds fat cells that can store energy. This helps explain why a person with substantial obesity may not have diabetes. This is a possible phenotype, not a guarantee of lasting protection or absence of other health risks. The cell counts are schematic.</p></div>
+      <div><p class="abdomen-caption" id="abdomen-caption">The outer layer grows with fat under the skin; moderate visceral fat also rounds the abdomen from the inside.</p><p id="a1c-help" class="a1c-help">HbA1c reflects average glucose over about 3 months. This readout is a fictional example assuming sustained levels, not an estimate from body fat.</p><p class="glycogen-help"><strong>Teal highlights = glycogen.</strong> Stored carbohydrate in liver and muscle; levels are illustrative.</p><p class="blood-caption" id="blood-caption">Body arteries are shown through tissue. Glucose and lipid symbols are enlarged; counts are illustrative.</p><p>The pale abdominal muscle wall separates outer subcutaneous fat from deep visceral fat. Fat is dark on CT; added colors identify compartments. A larger belly can reflect both types of fat and does not diagnose diabetes.</p></div>
+    </div>
+  </details>
+  <div id="view-status" class="sr-only" role="status"></div>
+
+  <div class="sr-only" id="live-summary" aria-live="polite" aria-atomic="true"></div>
+<script src="assets/js/pft-arteries.js"></script>
+<script src="assets/js/pft-glucose.js"></script>
+<script src="assets/js/pft.js"></script>
+<script src="assets/js/pft-extras.js"></script>
+<script src="assets/js/pft-figure.js"></script>
+</body>
+</html>
