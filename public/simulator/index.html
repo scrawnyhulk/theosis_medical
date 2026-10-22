@@ -5138,7 +5138,18 @@ return { KEY, MEALS, MEAL_IDS, dateKey, addDays, isDate, mealFor, empty, normali
   const NAMES = { ai: "AI features", photoAi: "face and body photos and AI images", biometric: "biometric (body-shape) consent", labAi: "lab upload and AI reading" }, WHAT = { ai: "AI answers and drafts", photoAi: "your start photo, check-in photos and AI images", biometric: "body-shape estimates from photos", labAi: "lab values read from uploaded reports" };
   const name = (k) => NAMES[k] || k, what = (k) => WHAT[k] || k;
   const revokers = []; const onRevoke = (fn) => revokers.push(fn); const fire = (k) => revokers.forEach((f) => { try { f(k); } catch (e) {} });
-  let confirmFn = (m) => window.confirm(m);
+  // v7.6.67e: the app's own large-type dialog instead of the browser's confirm(). Returns a Promise<boolean>.
+  function ask(msg, yes, no) { return new Promise((res) => {
+    if (!document.getElementById("th-ask-css")) { const st = document.createElement("style"); st.id = "th-ask-css"; st.textContent = ".th-ask{max-width:min(520px,calc(100vw - 32px));border:1px solid rgba(120,170,255,.35);border-radius:18px;padding:26px 24px 20px;background:#141b26;color:#eef3fa;box-shadow:0 0 0 1px rgba(120,170,255,.08),0 10px 40px rgba(0,0,0,.5),0 0 32px rgba(90,150,255,.18)}.th-ask::backdrop{background:rgba(5,8,14,.6)}.th-ask .th-ask-brand{margin:0 0 8px;font-size:14px;letter-spacing:.06em;text-transform:uppercase;color:#9fb8dc}.th-ask .th-ask-msg{margin:0 0 22px;font-size:20px;line-height:1.5}.th-ask .th-ask-btns{display:flex;flex-wrap:wrap;gap:12px;justify-content:flex-end}.th-ask .btn{font-size:18px;min-height:52px;padding:12px 20px}"; document.head.appendChild(st); }
+    const d = document.createElement("dialog"); d.className = "th-ask"; d.setAttribute("role", "alertdialog"); d.setAttribute("aria-labelledby", "th-ask-msg");
+    d.innerHTML = `<p class="th-ask-brand">Theosis Health</p><p class="th-ask-msg" id="th-ask-msg"></p><div class="th-ask-btns"><button type="button" class="btn btn-ghost" data-ask="no"></button><button type="button" class="btn btn-primary" data-ask="yes"></button></div>`;
+    d.querySelector(".th-ask-msg").textContent = msg; d.querySelector('[data-ask="yes"]').textContent = yes || "Yes, turn it off"; d.querySelector('[data-ask="no"]').textContent = no || "No, keep it on";
+    let done = false; const end = (v) => { if (done) return; done = true; try { d.close(); } catch (e) {} d.remove(); res(v); };
+    d.addEventListener("click", (e) => { const b = e.target.closest("[data-ask]"); if (b) end(b.dataset.ask === "yes"); });
+    d.addEventListener("cancel", (e) => { e.preventDefault(); end(false); });
+    document.body.appendChild(d); try { d.showModal(); } catch (e) { d.setAttribute("open", ""); } d.querySelector('[data-ask="no"]').focus(); }); }
+  let confirmFn = (m, y, n) => ask(m, y, n);
+  const then = (r, f) => (r && typeof r.then === "function" ? r.then(f) : f(r));   // works with a sync test confirm or the async dialog
   // v7.6.66: face/body photo steps appear only when the server has photo AI on (PHOTO_AI_ENABLED), or in tests.
   let photoOn = false; const photoAvail = () => !!(photoOn || (typeof window !== "undefined" && window.__PHOTO_AI_TEST));
   const UNLOCK = { ai: "Unlocks Tell us what you ate, web label lookup, food photos, Ask Theosis and the AI plan note.", photo: "Unlocks adding your photo to the figure, check-in photos and AI illustrations.", labAi: "Unlocks reading values from a lab report you upload." };
@@ -5185,16 +5196,20 @@ return { KEY, MEALS, MEAL_IDS, dateKey, addDays, isDate, mealFor, empty, normali
     dlg.querySelector("#consent-accept").addEventListener("click", () => {
       const all = dlg.querySelector("#consent-agree").checked, err = dlg.querySelector(".consent-err");
       if (!all) { err.hidden = false; focusStep("terms"); dlg.querySelector("#consent-agree").focus(); return; }
-      err.hidden = true; const prev = (read() || {}).opt || {}, opt = {};
-      OPT.forEach(([k]) => { const x = dlg.querySelector(`[data-opt="${k}"]`); opt[k] = x ? !!(x.checked && !x.disabled) : (k === "photoAi" || k === "biometric") ? false : !!prev[k]; });
-      const off = OPT.map(([k]) => k).filter((k) => prev[k] && !opt[k]);
-      if (off.length && !confirmFn(`Turning off ${off.map(name).join(" and ")} will delete the related data stored on this device (${off.map(what).join("; ")}). Continue?`)) {
-        off.forEach((k) => { const x = dlg.querySelector(`[data-opt="${k}"]`); if (x) x.checked = true; }); sync(); dlg.querySelector("#consent-msg").textContent = "Nothing changed."; return; }
-      save(opt); off.forEach((k) => fire(k)); dlg.close(); if (lastFocus && lastFocus.focus) lastFocus.focus(); });
+      err.hidden = true;
+      // v7.6.67e: only a stored record for THIS version, opened from Settings > Privacy and consents, counts as "previously granted".
+      // First-run / re-prompt saves never ask to withdraw. Steps not shown (e.g. face/body photos while PHOTO_AI_ENABLED is off) are left unrecorded, not saved as false.
+      const c0 = read(), managing = !!(dlg._manage && c0 && c0.version === VERSION && c0.req), prev = managing ? (c0.opt || {}) : {}, opt = {};
+      OPT.forEach(([k]) => { const x = dlg.querySelector(`[data-opt="${k}"]`), st = x && x.closest(".consent-step"); if (x && !(st && st.hidden)) opt[k] = !!(x.checked && !x.disabled); else if (managing && k in prev) opt[k] = prev[k]; });
+      const off = managing ? OPT.map(([k]) => k).filter((k) => prev[k] === true && opt[k] === false) : [];
+      const go = () => { save(opt); off.forEach((k) => fire(k)); dlg.close(); if (lastFocus && lastFocus.focus) lastFocus.focus(); };
+      if (!off.length) return go();
+      then(confirmFn(`Turning off ${off.map(name).join(" and ")} will delete the related data stored on this device (${off.map(what).join("; ")}). Continue?`, "Yes, turn off and delete", "No, keep it on"), (ok) => {
+        if (ok) return go(); off.forEach((k) => { const x = dlg.querySelector(`[data-opt="${k}"]`); if (x) x.checked = true; }); sync(); dlg.querySelector("#consent-msg").textContent = "Nothing changed."; }); });
     dlg.querySelector("#consent-withdraw").addEventListener("click", () => {
-      if (!confirmFn("Withdraw all consent? This deletes the data stored on this device for photos, body-shape estimates and lab uploads, and returns you to the consent screen. Your other entries stay until you choose Start over.")) return;
+      then(confirmFn("Withdraw all consent? This deletes the data stored on this device for photos, body-shape estimates and lab uploads, and returns you to the consent screen. Your other entries stay until you choose Start over.", "Yes, withdraw all", "No, keep my choices"), (ok) => { if (!ok) return;
       try { localStorage.removeItem(KEY); const log = JSON.parse(localStorage.getItem(LOG) || "[]"); log.push({ withdrawn: true, ts: new Date().toISOString() }); localStorage.setItem(LOG, JSON.stringify(log.slice(-50))); } catch (e) {}
-      OPT.forEach(([k]) => fire(k)); fire("all"); subs.forEach((f) => { try { f(null); } catch (e) {} }); dlg.close(); open(false); });
+      OPT.forEach(([k]) => fire(k)); fire("all"); subs.forEach((f) => { try { f(null); } catch (e) {} }); dlg.close(); open(false);  }); });
     dlg._sync = sync; return dlg;
   }
   const O = (k) => OPT.find((o) => o[0] === k);
@@ -5208,7 +5223,7 @@ return { KEY, MEALS, MEAL_IDS, dateKey, addDays, isDate, mealFor, empty, normali
     d.querySelectorAll(".consent-step.hi").forEach((x) => x.classList.remove("hi")); s.classList.add("hi"); try { s.scrollIntoView({ block: "start" }); } catch (e) {}
     const x = s.querySelector('[data-opt="biometric"]:not(:checked):not(:disabled)') || s.querySelector("[data-opt]"); if (x) x.focus({ preventScroll: true }); }
   function open(manage, focus) {
-    const d = build(), c = read(); lastFocus = document.activeElement; paintSteps(d);
+    const d = build(), c = read(); d._manage = !!manage; lastFocus = document.activeElement; paintSteps(d);
     d.querySelector("#consent-agree").checked = !!(manage && c && c.version === VERSION && c.req); d.querySelector(".consent-err").hidden = true; d.scrollTop = 0;
     d.querySelectorAll("[data-opt]").forEach((x) => { x.checked = !!(c && c.version === VERSION && c.opt && c.opt[x.dataset.opt]); });
     d.querySelector("#consent-title").textContent = manage ? "Privacy and consents" : (c && c.version !== VERSION ? "We've updated our terms. Please review" : "Before you start");
@@ -5220,8 +5235,9 @@ return { KEY, MEALS, MEAL_IDS, dateKey, addDays, isDate, mealFor, empty, normali
   }
   /** Withdraw one optional consent from Settings: turns the feature off and deletes its data on this device. */
   function withdraw(k) { const c = get(); if (!c) return false; const keys = k === "photo" ? ["photoAi", "biometric"] : [k];
-    if (!confirmFn(`Withdraw consent for ${name(keys[0])}? This turns it off and deletes ${what(keys[0])} stored on this device.`)) return false;
-    const opt = Object.assign({}, c.opt); keys.forEach((x) => (opt[x] = false)); save(opt); keys.forEach(fire); return true; }
+    if (!keys.some((x) => c.opt && c.opt[x] === true)) return false;   // never granted: nothing to withdraw, no dialog
+    return then(confirmFn(`Withdraw consent for ${name(keys[0])}? This turns it off and deletes ${what(keys[0])} stored on this device.`, "Yes, turn off and delete", "No, keep it on"), (ok) => { if (!ok) return false;
+    const opt = Object.assign({}, c.opt); keys.forEach((x) => (opt[x] = false)); save(opt); keys.forEach(fire); return true; }); }
   /** Inline "it's off because you didn't consent" prompt with a button that opens that consent. */
   const lockHtml = (k, feature) => `<div class="consent-lock consent-lock2" role="status"><p><b>${feature} is off</b> because ${k === "photo" ? "face and body photo consent" : k === "labAi" ? "lab upload consent" : "AI features"} ${k === "ai" ? "weren't" : "wasn't"} turned on when you agreed to the terms. Nothing was sent.</p><button type="button" class="btn btn-primary" data-consent="${k}">Review and turn on</button></div>`;
   function init() {
@@ -8869,7 +8885,7 @@ function pcCard() { const C = window.TheosisConsent; if (!C) return ""; const c 
   <ul class="pc-list"><li><div class="pc-h"><b>Terms (required)</b><span class="pc-on">Agreed${c.ts && c.ts !== "test" ? " " + esc(new Date(c.ts).toLocaleDateString()) : ""}</span></div></li>${C.STEPS().map(row).join("")}</ul>
   ${C.photoAvailable() ? "" : `<p class="hint">Face and body photos are coming later. Nothing about your face or body is collected.</p>`}
   <div class="actions"><button type="button" class="btn btn-ghost" data-consent="terms">Review all consents</button></div></div>`; }
-document.addEventListener("click", (e) => { const t = e.target.closest("[data-pc-withdraw]"); if (!t || !window.TheosisConsent) return; e.preventDefault(); if (TheosisConsent.withdraw(t.dataset.pcWithdraw)) { try { renderViews(); } catch (x) { /* ignore */ } } });
+document.addEventListener("click", (e) => { const t = e.target.closest("[data-pc-withdraw]"); if (!t || !window.TheosisConsent) return; e.preventDefault(); Promise.resolve(TheosisConsent.withdraw(t.dataset.pcWithdraw)).then((ok) => { if (ok) { try { renderViews(); } catch (x) { /* ignore */ } } }); });
 function dataExportObj() { return { app: "theosis-simulator-backup", v: 1, exported: new Date().toISOString(), state: S, foodlog: FL.load(), glucose: GLU.load(), checkins: CI.list, photo: photo || null }; }
 async function dataImport(file) {
   try { const j = JSON.parse(await file.text()); if (!j || j.app !== "theosis-simulator-backup" || j.v !== 1 || !j.state || j.state.v !== 1) throw new Error("That isn't a Theosis simulator export file.");
