@@ -765,7 +765,7 @@ details.sd>summary{cursor:pointer;font-size:.78rem;letter-spacing:.12em;text-tra
 .sum-photo{align-self:start;margin:0}
 .sum-photo img{display:block;width:100%;aspect-ratio:3/4;object-fit:cover;border-radius:8px;box-shadow:0 0 0 1px var(--border)}
 .sum-photo figcaption{font-size:.58rem!important;letter-spacing:.06em!important}
-.mbar-panel{min-height:0}
+.mbar-panel{min-height:0}.mbar:not(.open) #f3d-mbar{display:none!important}#f3d-mbar{overflow:auto;max-height:44vh;background:var(--bg,#14171c);padding:0 .9rem .6rem}.f3d-fbfig{margin:0;text-align:center}.f3d-fbfig img{width:100%;height:auto;border-radius:12px;display:block}.f3d-fbfig figcaption{font-size:.75rem;color:var(--muted);margin-top:.35rem}
 
 /* v6: diabetes status set from A1c / mismatch note */
 .dm-note{display:block;margin-top:.3rem}.dm-note.dm-auto{color:var(--accent,#2f7d6d)}.dm-note.dm-mismatch{color:#8a5a00;background:rgba(240,180,40,.12);border-radius:6px;padding:.3rem .45rem}
@@ -2398,6 +2398,7 @@ body{background-color:var(--bg);background-image:var(--app-bg-image);background-
 <div class="mbar" id="mbar" hidden>
   <button type="button" class="mbar-head" id="mbar-toggle" aria-expanded="false" aria-controls="mbar-panel"><span id="mbar-mini"></span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m6 15 6-6 6 6"/></svg><span class="sr-only">Show live summary details</span></button>
   <div class="mbar-panel" id="mbar-panel" hidden></div>
+  <div class="f3d f3d-mbar" id="f3d-mbar" hidden></div>
 </div>
 
 <dialog id="dlg-uw" class="fit-dlg" aria-labelledby="uw-h"><h2 id="uw-h">Before you continue</h2><p id="uw-msg"></p>
@@ -6257,7 +6258,7 @@ function gaugeHtml() {
 }
 function renderSummary() {
   const d = sumData(), { st, e, b } = d, after = e ? personAt(e) : st;
-  const F3S = window.BodyPlanFig3D && window.BodyPlanFig3D.state, oldFig = !!(window.__NO_PFT_FIG || (F3S && F3S.failed)), leg = !!window.__NO_PFT_FIG; document.body.classList.toggle("f3d-old", oldFig);
+  const F3S = window.BodyPlanFig3D && window.BodyPlanFig3D.state, oldFig = !!window.__NO_PFT_FIG /* v7.6.70b: never fall back to the old Now/Projected pair */, leg = !!window.__NO_PFT_FIG; document.body.classList.toggle("f3d-old", oldFig);
   $("#summary").innerHTML = `<div class="section-head" style="margin-bottom:0"><p class="eyebrow">Live summary</p><span class="sum-head-r"><span class="tag blue">${S.mode === "habits" ? "Habits" : "Plan"}</span></span></div>
   ${photo ? `<div class="sum-figs sum-ph ph2"><figure class="sum-photo sum-now-photo"><img src="${photo}" alt="Your before photo, kept on this device"><figcaption>Before</figcaption></figure>${aiState.result ? `<figure class="sum-photo sum-ai"><img src="${aiState.result.image}" alt="AI illustration at week ${aiState.result.pj.weeks}, not a prediction"><figcaption>AI illustration</figcaption></figure>` : `<figure data-f3="sum-end">${FIG.svg(after, { ghost: st, title: e ? `Projected: ${fP(e.bf)} body fat` : "Projection unavailable" })}<figcaption>${e ? `Week ${fWk(e.day)}` : "Projected"}</figcaption></figure>`}</div>${aiState.result ? `<p class="sum-aiNote">AI illustration: not a prediction.</p>` : ""}`
   : !oldFig ? "" : `<div class="sum-figs"><figure data-f3="sum-now">${FIG.svg(st, { title: `Now: ${fP(b.bf)} body fat` })}<figcaption>Now</figcaption></figure>
@@ -6265,7 +6266,7 @@ function renderSummary() {
   ${leg ? figBarHtml() : ""}
   ${sumRowsHtml(d)}${sumNoteHtml(d)}${d.rd.proj ? gaugeHtml() : ""}`;
   const U = SUM_UNSET, rdy = d.rd;
-  $("#mbar-mini").innerHTML = `${FIG.svg(after, { title: "Projected figure" })}<span class="mt"><b>${rdy.you ? `${nW(S.profile.weightKg)} → ${e ? fW(e.weightKg) : U}` : U}</b> · <b>${rdy.you ? `${fP(b.bf)} → ${e ? fP(e.bf) : U}` : U}</b><br><span>${e ? `${esc(mbarOutcome(d))} · ${fK(d.kcal)} kcal · ${fWk(d.days)} wk` : "Your numbers appear as you finish each step"}</span></span>`;
+  $("#mbar-mini").innerHTML = `${leg ? FIG.svg(after, { title: "Projected figure" }) : `<svg class="mbar-ico" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#4587c6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 4v16h18"/><path d="m6 8 4 4 3-2 6 6"/></svg>`}<span class="mt"><b>${rdy.you ? `${nW(S.profile.weightKg)} → ${e ? fW(e.weightKg) : U}` : U}</b> · <b>${rdy.you ? `${fP(b.bf)} → ${e ? fP(e.bf) : U}` : U}</b><br><span>${e ? `${esc(mbarOutcome(d))} · ${fK(d.kcal)} kcal · ${fWk(d.days)} wk` : "Your numbers appear as you finish each step"}</span></span>`;
   const panel = $("#mbar-panel");
   panel.innerHTML = `${!photo && !oldFig ? "" : `<div class="sum-figs${photo ? " sum-ph ph2" : ""}">${photo ? `<figure class="sum-photo sum-now-photo"><img src="${photo}" alt="Your before photo, kept on this device"><figcaption>Before</figcaption></figure>` : `<figure data-f3="mbar-now">${FIG.svg(st, { title: `Now: ${fP(b.bf)} body fat` })}<figcaption>Now</figcaption></figure>`}${photo && aiState.result ? `<figure class="sum-photo sum-ai"><img src="${aiState.result.image}" alt="AI illustration at week ${aiState.result.pj.weeks}, not a prediction"><figcaption>AI illustration</figcaption></figure>` : `<figure data-f3="mbar-end">${FIG.svg(after, { ghost: st, title: e ? `Projected: ${fP(e.bf)} body fat` : "Projection unavailable" })}<figcaption>${e ? `Week ${fWk(e.day)}` : "Projected"}</figcaption></figure>`}</div>`}${aiState.result && photo ? `<p class="sum-aiNote">AI illustration: not a prediction.</p>` : ""}${sumRowsHtml(d)}${sumNoteHtml(d)}${d.rd.proj ? gaugeHtml() : ""}`;
   panel.hidden = !mbarOpen; $("#mbar").classList.toggle("open", mbarOpen); $("#mbar-toggle").setAttribute("aria-expanded", String(mbarOpen)); fitMbar();
@@ -8333,7 +8334,7 @@ function renderSnapshot() { if (typeof window.renderSnapshotNow === "function") 
 function a1cCardHtml() { if (typeof window.a1cCardHtmlNow === "function") return window.a1cCardHtmlNow(); lazyLoad("assets/a1c-log.js?v=7655").then(() => { if (V.open && V.view === "home") renderViews(); }, () => {}); return `<div class="v-card a1-card" id="a1-card"><h2>A1c log</h2><p class="hint">Loading…</p></div>`; }
 window.BodyPlanFig3D = window.BodyPlanFig3D || { state: { on: false, failed: false, where: null } };
 function f3dMount() { if (window.__NO_PFT_FIG) return; if (typeof window.f3dMountNow === "function") return window.f3dMountNow(); if (!R || R.blocked) return;
-  lazyLoad("assets/fig3d-pft.js?v=7670b").then(() => window.f3dMountNow(), () => { window.BodyPlanFig3D.state.failed = true; }); }
+  lazyLoad("assets/fig3d-pft.js?v=7670c").then(() => window.f3dMountNow(), () => { window.BodyPlanFig3D.state.failed = true; const h = document.getElementById("sum-pft"); if (h && !h.innerHTML) { h.hidden = false; h.innerHTML = `<figure class="f3d-fbfig"><img src="assets/f3d-ct-fallback.webp" alt="Example cross-section through the middle of the model" width="720" height="560"><figcaption>Example cross-section. The 3D model can't load on this device.</figcaption></figure>`; } }); }
 function printRegional(s, e) { const k = changeKind(s, e), c = FD.change(depotsAt(s.fatKg), depotsAt(e.fatKg)), m = muscleSplit(S.profile.sex, e.leanKg - s.leanKg);
   const fat = `around the organs ${fWd(c.vat.kg)} (${fPct(c.vat.pct)}), under the skin ${fWd(c.sub.kg)} (${fPct(c.sub.pct)})`, mus = `upper body ${fWd(m.up)}, legs &amp; glutes ${fWd(m.lo)}`;
   return `<p class="small"><b>${{ loss: "Where fat comes off first", gain: "Where muscle builds, and where fat would add", recomp: "Where you lose fat and gain muscle", hold: "Where things shift" }[k]} (estimate):</b> ${k === "gain" ? `lean (mostly muscle): ${mus}; fat: ${fat}.` : k === "recomp" ? `fat: ${fat}; lean (mostly muscle): ${mus}.` : `fat ${fat}.`}</p>`; }

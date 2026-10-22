@@ -38,7 +38,7 @@ window.PFTEmbed=function(host,opt){
  fr.addEventListener('load',()=>{let d,w;try{d=D();w=W();if(!d||!w.document)throw 0}catch(e){api.failed=true;if(opt.onFail)opt.onFail('blocked');return}
   const s=d.createElement('style');s.textContent='html,body{background:#05080d!important;overflow:hidden!important}body *{visibility:hidden!important}#ct-current{position:fixed!important;left:0!important;top:0!important;width:1100px!important;height:auto!important;max-width:none!important}#pft3d-canvas{visibility:visible!important;position:fixed!important;inset:0!important;width:100vw!important;height:100vh!important;z-index:2147483647;max-width:none!important;max-height:none!important}';d.head.appendChild(s);
   w.addEventListener('message',e=>{if(e.data&&e.data.type==='pft-set'){if(e.data.skin)skinIn(e.data.skin);if(e.data.load!=null)w.PFTAtlas.setState(e.data.load,e.data.capacity)}});
-  let tries=0;const wait=()=>{if(!w.__pft3d){if(++tries>120){api.failed=true;if(opt.onFail)opt.onFail('timeout');return}return setTimeout(wait,100)}try{boot()}catch(e){api.failed=true;if(opt.onFail)opt.onFail('boot')}};wait();});
+  let tries=0;const wait=()=>{if(!w.__pft3d){if(++tries>300){api.failed=true;if(opt.onFail)opt.onFail('timeout');return}return setTimeout(wait,100)}try{boot()}catch(e){api.failed=true;if(opt.onFail)opt.onFail('boot')}};wait();});
  function skinIn(hex){try{const w=W();if(!w||!w.__pft3d||!hex)return false;w.__pft3d.meshes.forEach(m=>{if(m.userData.role==='skin'&&m.material&&m.material.color)m.material.color.set(hex)});st.skin=hex;host.dataset.skin=hex;if(ready)apply();return true}catch(e){return false}}
  api.setSkin=hex=>{st.skin=hex;return skinIn(hex)};
  function boot(){const w=W(),{meshes,T,scene}=w.__pft3d;
