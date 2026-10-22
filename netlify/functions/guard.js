@@ -12,13 +12,13 @@ const crypto = require("crypto");
 const env = () => process.env;
 const DAY = () => new Date().toISOString().slice(0, 10);
 // rough USD per call. These are ESTIMATES for the circuit breaker, not billing. Check current Gemini pricing and tune.
-const COST = { chat: 0.002, label: 0.01, plan: 0.01, stage: 0.05, preview: 0.05, labs: 0.02, food: 0, prompt: 0 };
+const COST = { chat: 0.002, label: 0.01, plan: 0.01, stage: 0.05, preview: 0.05, labs: 0.02, food: 0, prompt: 0, parse: 0.001 };
 // v7.6.47: food search (USDA / Open Food Facts, no AI cost) and stage-prompt (text only, no model call) are rate-limited per visitor
 // but do not count toward the global AI call / $ caps, and have their own, larger burst allowance (typing a search makes many calls).
 const NO_GLOBAL = new Set(["food", "prompt"]);
 const BURST = { food: 60, prompt: 30 };
 const cost = (k) => { const o = parseFloat(env()["BETA_COST_" + k.toUpperCase()]); return Number.isFinite(o) && o >= 0 ? o : k in COST ? COST[k] : 0.05; };
-const PER_USER = { chat: 30, label: 20, plan: 5, stage: 12, preview: 4, labs: 5, food: 400, prompt: 60 };   // per visitor per day
+const PER_USER = { chat: 30, label: 20, plan: 5, stage: 12, preview: 4, labs: 5, food: 400, prompt: 60, parse: 60 };   // per visitor per day
 const userCap = (k) => { const o = parseInt(env()["BETA_LIMIT_" + k.toUpperCase()], 10); return Number.isFinite(o) && o >= 0 ? o : PER_USER[k] || 5; };
 const caps = () => ({ calls: parseInt(env().BETA_DAILY_CALLS, 10) || 1500, usd: parseFloat(env().BETA_DAILY_BUDGET_USD) || 5, burst: parseInt(env().BETA_BURST_PER_MIN, 10) || 10 });
 
@@ -40,7 +40,7 @@ const MSG = {
 };
 const refuse = (status, code, why, extra) => ({ ok: false, status, code, why, message: MSG[why], ...(extra || {}) });
 
-/** Call BEFORE the Gemini request. kind: chat|label|plan|stage|preview|labs|food|prompt. Returns {ok:true, release()} or {ok:false,status,code,message}. */
+/** Call BEFORE the Gemini request. kind: chat|label|plan|stage|preview|labs|food|prompt|parse (v7.6.57 free-text food parse). Returns {ok:true, release()} or {ok:false,status,code,message}. */
 async function check(event, kind, opts) {
   if (env().BETA_KILL_SWITCH === "1" && !NO_GLOBAL.has(kind)) return refuse(503, "paused", "paused");
   roll(); const C = caps(), id = visitor(event), c = cost(kind), now = Date.now();
