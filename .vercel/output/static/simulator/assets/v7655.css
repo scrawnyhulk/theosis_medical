@@ -1,5 +1,5 @@
 /* v7.6.55: 3D PFT figure (from mockups/mission-shared.css) */
-.pfe-stage{position:relative;height:330px;margin:.4rem 0}.pfe-stage iframe{position:absolute;left:68px;right:68px;top:0;width:calc(100% - 136px);height:100%;border:0;border-radius:10px;background:#05080d}
+.pfe-stage{position:relative;height:clamp(380px,60vh,560px);margin:.4rem 0}.pfe-stage iframe{position:absolute;inset:0;width:100%;height:100%;border:0;border-radius:10px;background:#05080d}
 .pfe-ov{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}.pfe-lab{position:absolute;inset:0;pointer-events:none}.pfe-t{position:absolute;pointer-events:auto;display:inline-flex;align-items:center;gap:4px;font:600 11.5px/1 Barlow,sans-serif;color:#e7edf5;background:rgba(8,13,20,.82);border:1px solid rgba(231,237,245,.18);border-radius:999px;padding:4px 7px;white-space:nowrap;cursor:pointer;min-height:24px}.pfe-t i{width:7px;height:7px;border-radius:50%;flex:none}
 .pfe-load{position:absolute;inset:0;display:grid;place-items:center;color:var(--muted);font-size:.85rem}.pfe-meta{font-size:.72rem;color:var(--muted);text-align:center;margin:.2rem 0}
 .pfe-list{list-style:none;font-size:.85rem;margin:.4rem 0;padding:0}.pfe-list li{padding-left:.5rem;margin:.35rem 0}.pfe-list span{color:var(--muted)}.pfe-list li.hl{background:rgba(42,122,224,.16);border-radius:0 8px 8px 0}
@@ -9,7 +9,8 @@
 .f3d-ro{display:flex;justify-content:space-between;font-size:.9rem;padding:.3rem 0;border-bottom:1px solid var(--border)}
 .f3d-btns{display:flex;flex-wrap:wrap;gap:.5rem;margin:.6rem 0}.f3d-lbl{font-weight:700;color:#f2c14e;margin:.3rem 0}#f3d-ctimg{width:100%;border-radius:8px;background:#000}
 #sum-aside{max-height:calc(100vh - 6rem);overflow:auto}#sum-pft{margin-bottom:1rem;padding-bottom:.8rem;border-bottom:1px solid var(--border)}
-body.f3d-on #summary .sum-figs:not(.sum-ph),body.f3d-on #summary .f3-bar{display:none}
+/* v7.6.61: wider desktop sidebar so the 3D window is usable; the live figure stays visible next to it (responds to height, weight, waist) */
+@media(min-width:64rem){.wiz-layout{grid-template-columns:minmax(0,1fr) clamp(22rem,34vw,30rem)}}
 /* v7.6.55: Health snapshot */
 .hs-score{display:flex;align-items:center;gap:1rem;margin:.4rem 0}.hs-ring{width:104px;height:104px;border-radius:50%;background:conic-gradient(transparent calc(var(--p)*1%),rgba(20,28,38,.92) 0),conic-gradient(#ff7a66,#f29a4a 33%,#e9cf4f 55%,#4fe39a);display:grid;place-items:center;flex:none}.hs-ring b{width:82px;height:82px;border-radius:50%;background:#0b121b;display:grid;place-items:center;font:700 2rem var(--font-display,sans-serif)}
 .hs-band{font:700 1.35rem/1.1 var(--font-display,sans-serif)}.hs-doc{margin:.6rem 0;padding:.55rem .7rem;border-left:3px solid #f2c14e;background:rgba(242,193,78,.08);border-radius:0 8px 8px 0;font-size:.9rem}

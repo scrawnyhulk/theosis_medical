@@ -6006,7 +6006,9 @@ function pftInsideStage() {
   const key = !e || !e.known ? null : !e.over || w <= e.weightKg.lo ? "under" : w <= e.weightKg.hi ? "near" : "above";
   const ph = fatPattern().ph, cap = ph && ph.label === "visceral" ? "0.72" : ph && ph.label === "subcutaneous" ? "1.1" : "1";
   const fuel = dm === "t2" ? 88 : key === "above" ? 80 : key === "near" ? 55 : key === "under" ? 25 : null;
-  return { key, cap, fuel };
+  const P = S.profile, wh = P.waistCm > 0 && P.heightCm > 0 ? P.waistCm / P.heightCm : 0.5, span = e && e.known && e.weightKg ? Math.max(1, e.weightKg.hi - e.weightKg.lo) : 0;
+  let load = span ? 25 + 55 * (w - e.weightKg.lo) / span : 30 + 120 * (wh - 0.45); load += (wh - 0.5) * 60; load = Math.round(Math.max(8, Math.min(dm === "t2" ? 97 : 92, dm === "t2" ? Math.max(load, 85) : load)));
+  return { key, cap, fuel, load };
 }
 function pftInsidePlace() {
   const f = $("#pft-inside-frame"), s = pftInsideStage(); if (!f || !s) return;
@@ -8210,12 +8212,12 @@ document.addEventListener("change", (ev) => { if (ev.target && ev.target.id === 
 const LAZY = {};
 window.__BP = { get S() { return S; }, get R() { return R; }, get V() { return V; }, $, esc, fK, fW, fP, fWk, E, effMove, pftInsideStage, rampColor, renderViews: () => renderViews() };
 function lazyLoad(src) { if (LAZY[src]) return LAZY[src]; LAZY[src] = new Promise((res, rej) => { const s = document.createElement("script"); s.src = src; s.onload = res; s.onerror = rej; document.head.appendChild(s); }); return LAZY[src]; }
-(function () { const l = document.createElement("link"); l.rel = "stylesheet"; l.href = "assets/v7655.css?v=7655"; document.head.appendChild(l); })();
+(function () { const l = document.createElement("link"); l.rel = "stylesheet"; l.href = "assets/v7655.css?v=7661"; document.head.appendChild(l); })();
 function renderSnapshot() { if (typeof window.renderSnapshotNow === "function") return window.renderSnapshotNow(); const b = $("#hs-card"); if (b && R && !R.blocked) lazyLoad("assets/health-snapshot.js?v=7655").then(() => window.renderSnapshotNow(), () => {}); }
 function a1cCardHtml() { if (typeof window.a1cCardHtmlNow === "function") return window.a1cCardHtmlNow(); lazyLoad("assets/a1c-log.js?v=7655").then(() => { if (V.open && V.view === "home") renderViews(); }, () => {}); return `<div class="v-card a1-card" id="a1-card"><h2>A1c log</h2><p class="hint">Loading…</p></div>`; }
 window.BodyPlanFig3D = window.BodyPlanFig3D || { state: { on: false, failed: false, where: null } };
 function f3dMount() { if (window.__NO_PFT_FIG) return; if (typeof window.f3dMountNow === "function") return window.f3dMountNow(); if (!R || R.blocked) return;
-  lazyLoad("assets/fig3d-pft.js?v=7655").then(() => window.f3dMountNow(), () => { window.BodyPlanFig3D.state.failed = true; }); }
+  lazyLoad("assets/fig3d-pft.js?v=7661").then(() => window.f3dMountNow(), () => { window.BodyPlanFig3D.state.failed = true; }); }
 function printRegional(s, e) { const k = changeKind(s, e), c = FD.change(depotsAt(s.fatKg), depotsAt(e.fatKg)), m = muscleSplit(S.profile.sex, e.leanKg - s.leanKg);
   const fat = `around the organs ${fWd(c.vat.kg)} (${fPct(c.vat.pct)}), under the skin ${fWd(c.sub.kg)} (${fPct(c.sub.pct)})`, mus = `upper body ${fWd(m.up)}, legs &amp; glutes ${fWd(m.lo)}`;
   return `<p class="small"><b>${{ loss: "Where fat comes off first", gain: "Where muscle builds, and where fat would add", recomp: "Where you lose fat and gain muscle", hold: "Where things shift" }[k]} (estimate):</b> ${k === "gain" ? `lean (mostly muscle): ${mus}; fat: ${fat}.` : k === "recomp" ? `fat: ${fat}; lean (mostly muscle): ${mus}.` : `fat ${fat}.`}</p>`; }

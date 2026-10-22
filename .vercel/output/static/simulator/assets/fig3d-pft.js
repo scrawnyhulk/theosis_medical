@@ -6,7 +6,7 @@ with (window.__BP) {
 // (proportional to fat mass from the app's PFT stage), not a measurement.
 const F3D = { api: null, host: null, where: null, on: false, failed: false, i: 0, ct: false };
 const f3dWide = () => !!(window.matchMedia && window.matchMedia("(min-width:64rem)").matches);
-function f3dStart() { const s = typeof pftInsideStage === "function" ? pftInsideStage() : null; return { load: s && s.fuel != null ? s.fuel : 55, cap: s ? +s.cap : 1 }; }
+function f3dStart() { const s = typeof pftInsideStage === "function" ? pftInsideStage() : null; return { load: s && s.load != null ? s.load : s && s.fuel != null ? s.fuel : 55, cap: s ? +s.cap : 1 }; }
 function f3dRows() { return R && !R.blocked && R.main && R.main.rows ? R.main.rows : null; }
 function f3dShell() {
   return `<p class="eyebrow card-eyebrow">See how this works in a body like yours</p>
@@ -14,14 +14,14 @@ function f3dShell() {
   <input type="range" id="f3d-range" min="0" max="1" value="0" aria-label="Move from today to the end of the plan">
   <div id="f3d-pfe"></div>
   <div class="f3d-ro"><span>Weight</span><b id="f3d-w">–</b></div><div class="f3d-ro"><span>Body fat</span><b id="f3d-f">–</b></div>
-  <div class="f3d-btns"><button type="button" class="btn btn-ghost" id="f3d-ct" aria-expanded="false">See it like a CT scan</button><button type="button" class="btn btn-ghost" id="f3d-full">Open the full model</button></div>
-  <div id="f3d-ctbox" hidden><p class="f3d-lbl">Illustration, not your scan.</p><img id="f3d-ctimg" alt="CT-style slice from the body model (illustration, not your scan)"><ul id="f3d-ctl" class="pfe-list"></ul>
-    <p class="hint">A CT scan is an X-ray picture that shows a slice through the middle of the body, like a slice of bread. Fat looks darker than muscle and organs. This slice comes from the model, not from you.</p></div>
-  <p class="hint">Illustration, not your scan. The model follows the fat the plan projects; how that maps onto the model is our own illustrative choice, not a measurement. This is for learning. Talk with your healthcare provider.</p>`;
+  <div class="f3d-btns"><button type="button" class="btn btn-ghost" id="f3d-ct" aria-expanded="false">See a cross-section</button><button type="button" class="btn btn-ghost" id="f3d-full">Open the full model</button></div>
+  <div id="f3d-ctbox" hidden><p class="f3d-lbl">Illustration only.</p><img id="f3d-ctimg" alt="Cross-section slice from the model (illustration)"><ul id="f3d-ctl" class="pfe-list"></ul>
+    <p class="hint">A cross-section shows a slice through the middle, like a slice of bread. Fat looks darker than muscle and organs. This slice comes from the model, not from you.</p></div>
+  <p class="hint">Illustration only. The model follows the fat the plan projects; how that maps onto the model is our own illustrative choice, not a measurement. This is for learning. Talk with your healthcare provider.</p>`;
 }
 let f3dLib = null;   // assets/pft-embed.js is loaded on demand (keeps index.html small)
 function f3dLoadLib() { if (typeof PFTEmbed === "function") return Promise.resolve(); if (f3dLib) return f3dLib;
-  f3dLib = new Promise((res, rej) => { const s = document.createElement("script"); s.src = "assets/pft-embed.js?v=7655"; s.onload = res; s.onerror = rej; document.head.appendChild(s); }); return f3dLib; }
+  f3dLib = new Promise((res, rej) => { const s = document.createElement("script"); s.src = "assets/pft-embed.js?v=7661"; s.onload = res; s.onerror = rej; document.head.appendChild(s); }); return f3dLib; }
 function f3dMountNow() {
   if (window.__NO_PFT_FIG || F3D.failed) return;   // __NO_PFT_FIG: legacy test suites that check the older 2D/3D mannequin figure
   if (typeof PFTEmbed !== "function") { f3dLoadLib().then(() => f3dMountNow(), () => { F3D.failed = true; }); return; }

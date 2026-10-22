@@ -60,7 +60,7 @@ window.PFTEmbed=function(host,opt){
    html+=`<button type="button" class="pfe-t" data-k="${k}" style="${sd=='L'?'left:2px':'right:2px'};top:${y-10}px;opacity:${Math.max(.35,P.a).toFixed(2)}" aria-label="${TXT[k].t}: show explanation"><i style="background:${col}"></i>${SHORT[k]}</button>`})}
   ov.setAttribute('viewBox',`0 0 ${Wd} ${H}`);ov.innerHTML=svg;lab.innerHTML=html;api.pts=pts;}
  function apply(){if(!ready)return;const w=W();if(st.s!=null&&st.start!=null){st.load=st.start+(st.end-st.start)*st.s/100;st.later=st.s>0}
-  w.PFTAtlas.setState(st.load,st.capacity);
+  w.PFTAtlas.setState(st.load,st.capacity);host.dataset.load=Math.round(st.load);
   const m=w.PFTAtlas.model(st.load,st.capacity),c=w.PFTAtlas.compartments(st.load,st.capacity);api.model=m;api.comp=c;
   const lvl={liver:c.liver,pan:c.pancreas,vis:c.visceral/0.2,skin:c.subcutaneous/0.32},dir=st.end<st.start?'down':'up';
   const c0=w.PFTAtlas.compartments(st.start??st.load,st.capacity),lv0={liver:c0.liver,pan:c0.pancreas,vis:c0.visceral/0.2,skin:c0.subcutaneous/0.32};
@@ -78,6 +78,6 @@ window.PFTEmbed=function(host,opt){
  api.ctList=()=>['liver','pan','vis','skin'].map(k=>[COL[k],CTT[k][words[k]||'low'],TXT[k][words[k]||'low'],cite(k,words[k]||'low')]);
  api.ct=()=>{try{return D().getElementById('ct-current').toDataURL('image/png')}catch(e){return ''}};
  api.rotate=async(px)=>{const c=D().getElementById('pft3d-canvas'),r=c.getBoundingClientRect(),x=r.width/2,y=r.height/2,ev=(t,X)=>c.dispatchEvent(new (W().PointerEvent)(t,{bubbles:true,clientX:X,clientY:y,pointerId:1,pointerType:'mouse',button:0,buttons:t=='pointerup'?0:1,isPrimary:true}));ev('pointerdown',x);for(let i=1;i<=10;i++){ev('pointermove',x+px*i/10);await new Promise(r=>setTimeout(r,30))}ev('pointerup',x+px)};
- api.openFull=()=>{const w=window.open('pft-inside/index.html?view=3d','_blank');if(!w)return null;const go=()=>{try{if(w.PFTAtlas){w.PFTAtlas.setState(st.load,st.capacity);return}}catch(e){}setTimeout(go,150)};go();return w};
+ api.openFull=()=>{const w=window.open('pft-inside/index.html?view=3d','_blank');if(!w)return null;const go=()=>{try{if(w.PFTAtlas){w.PFTAtlas.setState(st.load,st.capacity);host.dataset.load=Math.round(st.load);return}}catch(e){}setTimeout(go,150)};go();return w};
  window.addEventListener('resize',apply);api.destroy=()=>{window.removeEventListener('resize',apply);host.innerHTML=''};return api};
 })();
