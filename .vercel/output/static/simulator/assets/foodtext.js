@@ -179,7 +179,7 @@ const CSS = `.ft-box textarea{width:100%;min-height:5.2rem;font:inherit;font-siz
 .ft-row{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin-top:.55rem}.ft-math{font-size:.84rem;color:var(--muted);margin:.45rem 0 0}.ft-kcal{margin:.45rem 0 0;font-weight:600}
 .ft-again{display:flex;gap:.5rem;margin-top:.55rem}.ft-again input{flex:1;padding:.5rem .65rem;border-radius:10px;border:1px solid rgba(207,214,224,.28);background:rgba(0,0,0,.18);color:inherit}.ft-inc{display:flex;align-items:center;gap:.45rem;margin-top:.55rem;font-size:.92rem;min-height:40px}.ft-inc input{width:22px;height:22px}
 .ft-alt{display:flex;flex-wrap:wrap;align-items:center;gap:.5rem;margin-top:.7rem}.ft-alt-l{color:var(--muted);font-size:.9rem}.ft-alt .btn{min-height:46px}.ft-alt .btn.is-off{opacity:.5;pointer-events:none}.ft-alt .btn[disabled]{opacity:.55;cursor:not-allowed}.ft-alt small{font-weight:400}
-.ft-grp{font-size:.8rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:1rem 0 -.3rem}.ft-meal{margin-top:.55rem}.ft-phn{font-size:.84rem;margin:.6rem 0 .3rem;padding:.55rem .7rem;border-left:3px solid #9cc3ff;background:rgba(80,140,220,.08);border-radius:0 8px 8px 0}.ft-phok{display:flex;gap:.45rem;align-items:flex-start;font-size:.88rem;margin:.3rem 0}.ft-phok{min-height:44px;align-items:center}.ft-phok input{width:24px;min-height:44px;flex:none;margin:0}.fl-adding .link-btn{min-height:44px}
+.ft-grp{font-size:.8rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:1rem 0 -.3rem}.ft-meal{margin-top:.55rem}.ft-phn{font-size:1rem;line-height:1.55;color:#e7edf5;margin:.8rem 0 .5rem;padding:.85rem 1rem;border:1.5px solid rgba(121,180,246,.6);background:rgba(42,122,224,.12);border-radius:12px}.ft-phn b{display:block;font-size:1.05rem;margin-bottom:.3rem;color:#cfe3ff}.ft-phok{display:flex;gap:.45rem;align-items:flex-start;font-size:.88rem;margin:.3rem 0}.ft-phok{min-height:44px;align-items:center}.ft-phok input{width:24px;min-height:44px;flex:none;margin:0}.fl-adding .link-btn{min-height:44px}
 .ft-acts{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:.9rem}.ft-acts .btn{min-height:48px}.ft-msg{margin:.7rem 0 0}
 @media (max-width:560px){.ft-row{grid-template-columns:1fr}}`;
 function css() { if (document.getElementById("ft-css")) return; const s = document.createElement("style"); s.id = "ft-css"; s.textContent = CSS; document.head.appendChild(s); }
@@ -212,6 +212,7 @@ function drawNow() {
     <div class="ft-alt" role="group" aria-label="Other ways to add"><span class="ft-alt-l">Or:</span><button type="button" class="btn btn-ghost" id="ft-scan">▦ Scan a barcode</button></div>${photoHtml()}
     ${st.queued ? `<div class="ft-acts ft-pend"><button type="button" class="btn btn-ghost" id="ft-retry">Try now</button><button type="button" class="btn btn-ghost" id="ft-unqueue">Clear saved text</button></div>` : ""}
     ${st.msg ? `<p class="ft-msg hint" role="status">${esc(st.msg)}</p>` : ""}
+    ${st.lock && window.TheosisConsent ? TheosisConsent.lockHtml("ai", st.lock) : ""}
     ${any ? `${MEALS.filter((m) => st.rows.some((r) => r.meal === m)).map((m) => `<h3 class="ft-grp">${MEAL_L[m]}</h3><ul class="ft-list" aria-label="${MEAL_L[m]} foods">${st.rows.map((r, i) => (r.meal === m ? rowHtml(r, i) : "")).join("")}</ul>`).join("")}
       <div class="ft-acts"><button type="button" class="btn btn-steel" id="ft-add" ${on && !st.busy ? "" : "disabled"}>Add ${on} food${on === 1 ? "" : "s"}${new Set(st.rows.filter((r) => r.on).map((r) => r.meal)).size > 1 ? " to their meals" : " to " + esc(MEAL_L[(st.rows.find((r) => r.on) || {}).meal] || mealName())}</button><button type="button" class="btn btn-ghost" id="ft-cancel">Cancel</button></div>
       <p class="ft-note">Estimates from food databases or labels found on the web. Packages differ, so check amounts against the label.</p>` : ""}</div>`;
@@ -224,10 +225,14 @@ const PHOTO_EP = "/.netlify/functions/foodphoto";
 const PHOTO_NOTICE = "Food photos only. Snap a meal or nutrition label and we'll send the image to Google's Gemini AI to identify the foods. Please keep people, faces, and anything private out of the shot. We don't store your photo. Google processes it under its paid API terms, which don't use it to train models. Check the results before saving: estimates are for education and can be wrong, so don't rely on them for allergies or medical diets.";   // exact text approved by Lawyer Bot (v7.6.63)
 FT.photoCheck = function () { if (FT._pc || location.protocol === "file:") return; FT._pc = 1;
   fetch(PHOTO_EP).then((r) => r.json()).then((d) => { const on = !!(d && d.enabled && d.configured); if (on !== PHOTO_ON) { PHOTO_ON = on; draw(); } }).catch(() => {}); };
+if (window.TheosisConsent) TheosisConsent.onChange(() => { if (st.lock) { st.lock = ""; draw(); } });
+// v7.6.66: AI parts of the food log need the "AI features" consent; if it's off, say so inline with a button to that consent.
+const aiOk = () => { const C = window.TheosisConsent; return !C || !!(C.get() && C.has("ai")); };
+const aiLockGo = (f) => { st.busy = false; st.lock = f; st.msg = ""; draw(); };
 function photoHtml() {
   FT.photoCheck();
   if (!PHOTO_ON) return "";
-  return `<div class="ft-ph"><p class="ft-phn" id="ft-ph-note">${esc(PHOTO_NOTICE)}</p>
+  return `<div class="ft-ph"><p class="ft-phn" id="ft-ph-note"><b>About food photos</b>${esc(PHOTO_NOTICE)}</p>
     <div class="ft-alt"><label class="btn btn-ghost" for="ft-ph-cam">📷 Take a food photo</label><label class="btn btn-ghost" for="ft-ph-lib">🖼 Choose a food photo</label></div>
     <input type="file" id="ft-ph-cam" accept="image/*" capture="environment" class="sr-only"><input type="file" id="ft-ph-lib" accept="image/*" class="sr-only"></div>`;
 }
@@ -241,6 +246,7 @@ FT.shrink = async function (file, max = 1024) {
 };
 async function photoGo(file) {
   if (navigator.onLine === false) { st.msg = "You're offline. Food photos need a connection; nothing was saved."; draw(); return; }
+  if (!aiOk()) return aiLockGo("Food photos"); st.lock = "";
   st.busy = true; st.rows = []; st.msg = "Looking at the photo for foods…"; draw();
   let items = null, err = "";
   try { const image = await FT.shrink(file); const d = await J(PHOTO_EP, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ image, consent: { foodPhoto: true } }) }); items = Array.isArray(d.items) ? d.items : []; }
@@ -253,7 +259,7 @@ function setMatch(r, j) { r.pick = j; const f = r.matches[j]; if (!f) return; co
 async function lookRow(r, q) {
   r.loading = true; draw();
   try { r.checked = []; r.matches = await FT.lookup(q ? { brand: "", food: q, flavor: "" } : r.item, r.checked); r.err = "";
-    if (!q && r.item.brand && !r.matches.some((m) => FT.exactFound(r.item, m)) && (st.webUsed = (st.webUsed || 0) + 1) <= WEB_MAX) { r.webBusy = true; draw(); const w = await FT.web(r.item); r.webBusy = false; r.checked.push(w ? "Web search (label found)" : "Web search (no sourced label)"); if (w) r.matches.unshift(w); else r.webMiss = true; } }
+    if (!q && aiOk() && r.item.brand && !r.matches.some((m) => FT.exactFound(r.item, m)) && (st.webUsed = (st.webUsed || 0) + 1) <= WEB_MAX) { r.webBusy = true; draw(); const w = await FT.web(r.item); r.webBusy = false; r.checked.push(w ? "Web search (label found)" : "Web search (no sourced label)"); if (w) r.matches.unshift(w); else r.webMiss = true; } }
   catch (e) { r.matches = []; r.err = e.status === 429 ? "The food database is busy right now. Try again in a minute." : "Couldn't reach the food database."; }
   r.loading = false; setMatch(r, 0); r.on = !!r.matches.length; draw();
 }
@@ -261,6 +267,7 @@ async function go() {
   const ta = document.getElementById("ft-in"); st.text = ta ? ta.value.trim().slice(0, MAXCH) : st.text;
   if (st.text.length < 2) { st.msg = "Type what you ate first, for example: two eggs and a banana."; draw(); return; }
   if (navigator.onLine === false) { FT.pending.set(st.text); st.queued = true; st.rows = []; st.msg = OFFMSG; draw(); return; }
+  if (!aiOk()) return aiLockGo("Tell us what you ate"); st.lock = "";
   st.busy = true; st.msg = "Reading what you typed…"; st.rows = []; st.queued = false; draw();
   const p = await FT.parse(st.text); st.ai = p.ai;
   if (p.net) { FT.pending.set(st.text); st.queued = true; st.busy = false; st.msg = OFFMSG; draw(); return; }

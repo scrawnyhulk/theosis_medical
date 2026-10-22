@@ -264,7 +264,7 @@ function stageOutcome(d) {
   else { const b = IMG_BLOCK[key] || ["other", "Google's image service didn't return a picture (" + key + "). Try again or use a different photo."]; kind = b[0]; message = b[1]; }
   return { reason: key, kind, message, hard, retry: !hard, text, finish, block, ratings };
 }
-const stageLog = (model, tag, o) => console.warn("gemini stage: no image", JSON.stringify({ model, attempt: tag, reason: o.reason, finish: o.finish || undefined, block: o.block || undefined, blocked_categories: o.ratings && o.ratings.length ? o.ratings : undefined, model_text: o.text || undefined }));   // no photo, no key
+const stageLog = (model, tag, o) => console.warn("gemini stage: no image", JSON.stringify({ model, attempt: tag, reason: o.reason, finish: o.finish || undefined, block: o.block || undefined, blocked_categories: o.ratings && o.ratings.length ? o.ratings : undefined, model_text_len: o.text ? String(o.text).length : undefined }));   // no photo, no key, no model text (it could describe the person)
 const stageReq = (img, prompt) => ({ contents: [{ role: "user", parts: [{ inline_data: { mime_type: img.mime, data: img.data } }, { text: prompt }] }], generationConfig: { responseModalities: ["TEXT", "IMAGE"] } });
 const STAGE_BUDGET_MS = 23000;   // a Netlify function must answer in about 26 s, so a retry only starts if there is time left
 

@@ -62,7 +62,7 @@ exports.handler = async (event) => {
     const out = await AIM.runStage(p, { mime: m[1], data: m[2] }, false);
     if (out.status !== 200) {
       slot.release();
-      console.warn("preview: no image", JSON.stringify({ reason: out.reason, kind: out.kind, model_text: out.text || undefined }));
+      console.warn("preview: no image", JSON.stringify({ reason: out.reason, kind: out.kind, model_text_len: out.text ? String(out.text).length : undefined }));
       const dbg = AIM.isPreview(event) && out.reason ? " [preview debug: Gemini reason " + out.reason + (out.text ? ' · model said: "' + String(out.text).slice(0, 160) + '"' : "") + "]" : "";
       return json(out.status, { error: out.message + dbg, code: out.code, reason: out.reason, kind: out.kind }, corsOrigin);
     }

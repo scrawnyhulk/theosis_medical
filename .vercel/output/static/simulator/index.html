@@ -3,12 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Theosis Metabolic Simulator | Theosis Medical</title>
+<title>Theosis Metabolic Simulator | Theosis Health</title>
 <link rel="manifest" href="manifest.webmanifest">
 <meta name="application-name" content="Metabolic Sim">
 <meta name="apple-mobile-web-app-title" content="Metabolic Sim">
 <link rel="apple-touch-icon" href="icons/icon-180.png">
-<meta name="description" content="See where your habits could lead. The Theosis Metabolic Simulator: a guided, evidence-based body composition and metabolic health simulator from Nick Holwey, PA-C, Theosis Medical. It's built on Alpert's limit on how fast fat can be lost without losing muscle.">
+<meta name="description" content="See where your habits could lead. The Theosis Metabolic Simulator: a guided, evidence-based body composition and metabolic health simulator from Theosis Health, founded by Nick Holwey, PA-C. It's built on Alpert's limit on how fast fat can be lost without losing muscle.">
 <meta name="theme-color" content="#080d14">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23080d14'/%3E%3Cpath fill='%23143a7c' stroke='%23cfd6e0' stroke-width='1.5' d='M16 3.5 26 7.2v9.2c0 5.4-4.2 9.8-10 11.1C10.2 26.2 6 21.8 6 16.4V7.2Z'/%3E%3Cpath fill='none' stroke='%23e7edf5' stroke-linecap='round' stroke-width='2.2' d='M16 9.2v12.2M11.8 13.6h8.4'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -49,7 +49,7 @@ a:hover{color:var(--fg)}
 /* header, same pattern as the site: sticky, blurred, hairline border */
 .site-header{position:sticky;top:0;z-index:40;border-bottom:1px solid var(--border);background:var(--bg-80);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
 .site-header .in{max-width:80rem;margin:0 auto;height:4rem;display:flex;align-items:center;justify-content:space-between;gap:.75rem;padding:0 1rem}
-.lockup{height:3rem;width:auto}
+.lockup{height:35px;width:auto;max-width:none}@media(min-width:40rem){.lockup{height:46px}}
 .hh-tag{display:inline-flex;align-items:center;padding:.4rem .65rem;border:1px solid rgba(255,255,255,.1);border-radius:3px;transform:rotate(-2deg);
   background:rgba(8,13,20,.72);box-shadow:2px 3px 0 0 rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.16);
   font-family:var(--font-display);font-weight:600;font-size:15px;letter-spacing:.16em;text-transform:uppercase;line-height:1}
@@ -1485,6 +1485,32 @@ li.fx-fav{box-shadow:inset 3px 0 0 #f5c542;background:linear-gradient(90deg,rgba
 .fq-tray .fq{border:0;padding:0;margin:0}
 @media (max-width:699px){.fq-meals{grid-template-columns:1fr}}@media (min-width:700px){.fq-meals{grid-template-columns:repeat(2,minmax(0,1fr))}}
 .fq-lg{flex-wrap:nowrap}.fq-lg>.fq-lg-b{overflow-wrap:anywhere}.fq-lg .fx-star,.fq-lg .fx-del{min-width:40px;min-height:40px}
+/* v7.6.66: consents in full on the page (no inner scroll box), numbered steps, big type and tap targets */
+.consent-dlg.consent-v2[open]{display:block;overflow-y:auto;max-height:calc(100dvh - 1rem);max-width:760px}
+.consent-v2 .consent-form{display:block}
+.consent-v2 .consent-body{overflow:visible;padding:.2rem 1.4rem 1rem;border:0}
+.consent-v2,.consent-v2 p,.consent-v2 li,.consent-v2 .check span{font-size:1rem;line-height:1.55;color:#e7edf5}
+.consent-v2 .consent-sum{font-size:1.05rem;margin:.5rem 0}
+.consent-step{margin:1.1rem 0;padding:1rem 1.1rem;border-radius:12px;background:rgba(255,255,255,.035);box-shadow:0 0 0 1px rgba(121,180,246,.35)}
+.consent-step.hi{box-shadow:0 0 0 3px #79b4f6}
+.consent-step h3{display:flex;align-items:center;gap:.6rem;font-size:1.2rem;margin:0 0 .4rem}
+.consent-step h4{font-size:1.02rem;margin:.9rem 0 .25rem}
+.consent-n{display:inline-grid;place-items:center;width:2rem;height:2rem;border-radius:50%;background:#2a7ae0;color:#fff;font-weight:700;flex:none}
+.consent-what{font-weight:600;color:#cfe3ff!important;margin:0 0 .5rem}
+.consent-v2 .check.consent-big{display:flex;gap:.8rem;align-items:flex-start;margin:.8rem 0;padding:.75rem .85rem;min-height:48px;border-radius:10px;background:rgba(42,122,224,.12);box-shadow:0 0 0 1px rgba(121,180,246,.45);cursor:pointer}
+.consent-v2 .check.consent-big input{width:28px!important;height:28px!important;margin:.1rem 0 0;flex:0 0 auto;accent-color:#2a7ae0}
+.consent-v2 .check input:disabled+span{opacity:.6}
+.consent-ul{margin:.4rem 0 .4rem 1.1rem;padding:0}.consent-bipa,.consent-bipa-box{display:block;margin:.4rem 0}
+.consent-no{display:flex;justify-content:flex-end}.consent-no .btn,.consent-summary .btn,.consent-v2 .consent-actions .btn{min-height:48px;min-width:48px;font-size:1rem}
+.consent-v2 .consent-foot{padding:.6rem 1.4rem 1.2rem;border-top:1px solid rgba(255,255,255,.12)}
+.consent-summary{list-style:none;margin:.3rem 0 .6rem;padding:0;display:grid;gap:.45rem}
+.consent-summary li{display:flex;align-items:center;justify-content:space-between;gap:.6rem;padding:.35rem .7rem;border-radius:10px;background:rgba(255,255,255,.05)}
+.consent-summary b.on{color:#7fd6a5}.consent-summary b.off{color:#f0c36a}
+.consent-lock2{font-size:1rem}.consent-lock2 p{margin:0 0 .55rem}.consent-lock2 .btn{min-height:48px}
+.pc-list{list-style:none;padding:0;margin:.5rem 0;display:grid;gap:.6rem}.pc-list li{padding:.7rem .85rem;border-radius:10px;background:rgba(255,255,255,.04);box-shadow:0 0 0 1px rgba(121,180,246,.3)}
+.pc-list .pc-h{display:flex;justify-content:space-between;gap:.6rem;font-size:1rem}.pc-list .actions{margin-top:.5rem}.pc-list .btn{min-height:48px}
+@media (max-width:480px){.consent-dlg.consent-v2[open]{width:100%;max-width:100%;max-height:100dvh;margin:0;border-radius:0}.consent-v2 .consent-body,.consent-v2 .consent-foot,.consent-v2 .consent-head{padding-left:.9rem;padding-right:.9rem}.consent-step{padding:.85rem .8rem}}
+.pc-on{color:#7fd6a5;font-weight:700}.pc-off{color:#f0c36a;font-weight:700}
 
 </style>
 </head>
@@ -1492,12 +1518,12 @@ li.fx-fav{box-shadow:inset 3px 0 0 #f5c542;background:linear-gradient(90deg,rgba
 <a class="skip" href="#main">Skip to content</a>
 <header class="site-header">
   <div class="in">
-    <a href="https://theosismedical.com/" aria-label="Theosis Medical home"><img class="lockup" src="data:image/webp;base64,UklGRpQ/AABXRUJQVlA4WAoAAAAQAAAATgEAbwAAQUxQSNUZAAAB/yckSPD/eGtEpO4TENs2kiRZrtq9x5V/wtPdg5kIIvo/AbpWv/JS0Hoh6wCPGczazyWXH/AAijRKEglJII0FspMEIM7NKroLxnYtnJ8TBbAnSSS7Qba9MsvYtpLEBuKmRmDbAh9JySIJpKEkKCdAqXYjllKuspaJWarbBKhaJZ6VF7OJuhtMVemQJKVZKFkgdbddN57segVDQds2Uswf9v2HICImAPrZN8YvbD6zZ7Dl3kiKydwZpX6owuxw1kFK13dQaTRTWbdIpVFTjao0nbQ90V16bN1lO1Nv2LYd2xv/37Yf53U/SFLbNqYaW53p0rFt27Zt27an+HzqDjs1Mk3dlFHTJM9939d57i8u3E9GeV5GxAT4rbbNkSTbtt7XYkbVHM3PKcbkETmpKdCkpwBTrslDblIYY1Aowj/CzH4z90gBImICuHTKhM0C8v2faWuhKGCrT/hjYS0QZfae5YX5gB2QFoAqtrxDGqdyP/bYi1oLPREcejAWVYY97pWIhZ0EL9oXg6iIvPiuO1Ji4SYSe//QJQQSoJpDjlUJLdBE5o73IDfpA1AG/PIg6rQQkzJ7P3RnLOrOU/d63BLqtNCSgqmHPYBxMLFz2eoRj6lw0gJKBBz/hB1MMJ+p5g7PuD+FtFCSAu7xSzMSzYA1FCPu/cpjp6DSwoeS4J4/Kx5F0BQ7Q2MedPqTZyAlLWQoKuDYH488HmU2bnhsn/fGPYEqtEARFbDjs07PHs/VeWNZaTSyb/zO47cDImmhQUGGRXd8zPF78ThuIOcGxMVTcPkpPzt7NZCwvSAgCTIMjjr+IUeIYbtBTpOxCwO48sxfn7PMoGRsbcpJ4Qyww2HHHnvADHVOkouXogGsueyMs8+9MtNMsakWBWCw3aF3PeqwvaDUCuQunhNLgIsq4JYrLrrokitXDNh0T9sedOjhBxywAzAuEQKwBE4JW12sAcDcjf///UcSm2Sbv+Nue22TgLEJIbojW4MDs6XpYhTJ/gbpP5f+l9nzgiUu2YrAotvIyeFce/34K8R/rv9p9z57awcguo0geBKWjCaBob+2iTaYDTHB2XFUDLADBmyaKwApuOC2sAkrERBTm2gpWcIMLVw+XUCK1aZaRU+p+gpEqtN4k2wmoQ55+YUpNs2nVMCAvIXBwgBtkg3ANC8hOYsYHJlN80WYplw3njGNEHiT7A5e7bIVm+bvAJTFeFo8TZt2rxjPgoQbsZHcUEQ05DJZtMioTbExXOZBoRZ7o4R6SRNI8yWpj4277pcKOLlilWiWjUTQP8pSu+mZN8bkUQU9U9I8KVzoryqph/D8RMWkSqG2r0iWgqPgGs4CTgK4FmoMdqss2bHZSZikXEBydT3A7MGHHCiJRXMXsFrtP8hWFbUCgbTN4QM5JckOj0uWokrKSs6Dc6+U+yQBOxy2866bj2+5/uabgYh5UBTYefeDd91qs+nx+ttuuP6qnQVE6mCHzQmPpTLTJwSx9/5777blTIzX3XrzFdesuhFI0bhzpiyG2qrsTRzyNSzko92MJMKmomQ5VNI1D6HioetuX0tAyh9+ZyuJfW6csWSTPtCoeOHn2IgnPIiekeCwN/122fpZmquX//DZu0NokgT7PuSBh+4adI+vOu2jj9+Z9uA+V0iyZe5FalPA3T96+kHb0HPdzVf/5YGb09pwJZVi7MgJslMAW1a5KiYRxkZgAVjj6R8zzVM9zBjqRU+exdr+awiV7NBfofFiD1PDahHGAqw82AJ3JTj2p+tt1y5ARNgrv3Y3SLXEPl96/OZQFwsZo2TbN3z7oYNG4gMepRLTzlNb0S6476+y7doIDI4U4Ms+e68A3nFuHExPkNUIKRoDm2aYinYDlOrbTPGUsmGMIHmdV/ZeGYawdUrbC5QSFhhhIGFAOFJBbgv2+l7tMhqOagEYj0b23Je251YJnnGzXSOBAAyMh3Mju9yBaLw1Ayo4bYkaYvZjY9fDUYhOY9tje3QkwX3NWJFhHMjm1IIMUyCwkAC1ie4AQyQgKSSAjdViVZqmhqkARLsBkKEwneKY+6dxnaokuiPFKE/f/470FNts51ElJpSi1IwyrVXYmk3dmqZc9qzqUiUxqeu50YVbIN6htSAb5dwFmU4lgFlMA7dMKuMGCCCsh4AYqRr9BezGMlUX+21HCSZXqtl9D9TB9dRJ9DXIkvHgtEqlMWQ+1ZCmxtTBvNZDv44K7rzdagyMW+bXahHzny1jt6UuWRapa6BRiHlV1FVNa+GEq6pCpwWmYYH1dYLmuCWzKC+it1GPcblxFwS38wJYiBBPCgqk1JhRXbWYhLAaLg1DnTOQ+mTFTudEVLmuWtadc8GAWQqi06WAItpALjdRgGrlB0RnLgqp2JbCKtNLL1dpUUs/DSjv+tqB7YazwkCxkoChv0AA7yE1FyKAxMn2WBFAVFVj+dwiOl2MaCZ6JsSgLaArog+QGqZOs8z/LDJw3m2JzuwBrTm7DVe3/F2AvnziVO4I8JioAOosD75EcktpBCGAxJN3ztBQgGtUAeSMhqN7KwF3AkmhHBQkXD/SmnXK/V+0qJKlVN1lcaFZ0mWXzBDjWlHnn1NwG5CsNB2URuE3P1libPEkJHeStGaeyvFHgLj0lFQaxq5Yfu7SFbM7HXa0KrdhffO6KCqPv2bgFqcLfnPJqrUMlmy/555HHZJIq05QoTtIRuaOrhHgcsMv/n7LBseinXbf76i9xdB/mQ6AAEi2FHO93gDmrKfQFDN/O7hEi37wjiqr0F4Q2JHNAyEI5EEAGKgbZtljAwyEXhPERAZMKp8qGBAE57zp6bcCzB751A3hthJrvy/HqodsEM08+Pqz6Ln59LHH7/N5IreNACJQgfLMbsoGVO/yzG/QvflB93/IYeffg5ZbFzzF4CuUQjNwiwWoAQkoaohCt3B8ADgACsCQeW40C71zAOEAgww++WdTmVZz0o9vRSGc4SeraXeuvnducMGxKi2Oy1956u2AUqiMzz/hlA1QaIoaRJTW6VkKQJW/du4b/rIaUCVGMNhvM0TzayDzZEcQIXiBIJCRDg6GNkF3FvUECCjV0sd9aE80QVLU+/0gBAhuq7YdYBeihQSJkNAk3TxHlD3u7WjkkT8MSTQVg5OPv74qGBS+75ZZ5ciTrAZOnH3m+Zcvv3EIUE0LMXlQYzSkXbni7yefd/m1K4cAg5IJ+joK62EsctnQhzYqymCBYWzXKhDt9cMgiSBwFYeA0pp49LtHAQIJx8AEjDz7xVdFcMy2dcvQf4gU9Kz+8ZQNMoDqfY9GedtfTRc1KB5AveHaq64+55//BAbRo8YBBCbmVtgtRGYA47U3XbP0wiuWXgNVx63DAZCSgA6QcfCsGARxKQ3oNhMWekYYapq2jNWAJQOQxHzmtB+Ye6jQHNf3I9G3Hpzym5QbUeJQKPHtXYbRAtkRATC+6f/eehikrhHzaXD4z+oASo5IAPnWC/7wW0gtDcJU1gUH88iZwcgwPB8rg6rHeJLoY9K1GISD5aI66I5dJlNAYR/UyD5nIPoXfZ/AgNgbuzz+wcPkNsAUm1TZa39+L5Laxm0JFZD55i2VuzAYF0UFq798AKnxinEWNwB28PHTSrAx1AUEDMj0V0MM6N3oGwSRKnC1HRJgf5Y0ic+8qbJatsO5DJ4NQm1GgPFwLnv8RqSW3IZMYZyueG8au5cA4+KBb3k8FfBlxR26AkQgMAlOkPmHT6RWpR71JGLyIMC9MgKIfkUBYUBTiJY3TwRrrqVzCkqw157gaOuZcz0c+7NES4F0MADI6VPfnnHu6DbIG4qfRcAHQirj1HoXAu5Z/M9TltRRJpmah7GFgZDQaiyjeRjXgMcYsPxWTWK8HhswQyjg4Y1Mj4iQUZ+c66FfkKOjV9Sg6DkfY+BxsfpgUD0aj48j8R+kqCOBAI6UnZFTwz85cTRJ6uGSiTCgoBdKA1K2aGZkF8AlA5QNNCV/kZgAtBmdq1EBWHXCtbvB2Fazo855nJfvWALIKMNosUevftDpabpSBiQ1DCLXQ/9tVvyHN/tWNEGVOuTDSiOTxHIeAG4bfZmNWIHKzS1ocMmrVPrF+Okbkg1Y19AasN1j7n3MPjTrgiTRjPFOxyP6qwUrMXjYF8+ZmwYo2ZJooGp85F3MX8meBHBX8AKF5ROIQRd8WglEgNOKE44coRGnKMF29+mSSeE3b5wdhYUrFxlKkEMiUj34OUS+DDfCvG9d9CrVBV+MDIbgvBZFVQHbHnDg4XvuucPWA/A4gQD5XjTdkkCFG0RMBSw56OiDd9tzp223AMYBCHA8AH5Dg2yQFzdczaRJ7sqKjDMXPYnFvc8zDFvMjWzckvgr0SCnZSejPvD125IBytSNt2Laq8gZYPGO2+52yF3vtlkBbKN9KUBu6QdCgAAG07Ruu9POB97tHjsXI1r3h998avRJar0nBM8i8qUTDaqOrFXHqR0gRIYoMwgoRANiYM1frimccUXlBsRVayBsQBHMLU+2G+n/SGOkxZ9+227AACiZ5mHveJRpitnKPewqA/LdvvfWfSAGwrkA7PCCNyYJbNgM/vS7W5DFDOSlq5XX4QkiAAPyXDnANuduLtcGJMwLG9lp1e+p3QKjnakJyRl2nZWhEf4aQOLp9k2f/ME/5gCURC4cfCGtZm0toG4BqQSIJZfat3zhXolmhJzN348aJzr96685AKwEQJNCcBYheFrR9csnE0ACfFmpFlbrIoCQG8EdX5Cdc6BKpQQ4B+Akl3T6t2X01bmg+45P3veGdcDmBz95BwzY5JnfR4xBU3/O6+zxxaecfcV1a+dqmNn66NffzSDAVxGY0iZEI/yQsn7Ors/+xFkXr1yzDmKzLZ/wtmkBknwtt/ySdOgkGgDJJMg0DM+DCzakSaYqJIDwILX3I0OeqBild0Pc4ctsxNPuDVn/+OZg3GG2fc2ly1ZU2+57OCVE0zF8HwGJB+dxPR5GBSy/ac1t48Vb7LkTdQACnUlnGBpQiWd6WI+HY5v61utWjDS73e5bUmi66EzCT3EwD2CHTsoBg1zwDCYUKQAB8mDREWZymT5QN2D0tbEEqGgS1VPrAax3XD2dO2Jk0axL0KLxog8RNQTf9FxdZxeIRPtIQdPpxt/gNoHAbAXhY+5T1znnPBwqEu3jUEupVp6MOWsuud/JASR4WhoeQvSDFAaQRZ4kd4AmGiSb1tw2SCmQQUycUt1APnD7LuRSQAqBJJC/l5Ig2HdNHtc5A9jGIAW2Ieodn7w8FaAgwHQ/Z2pYCTBg2yIksCCNt34mMssunsRzIHLFUv11Fk2UCiBgsgC3GUtiKtGpNgFCngdDaSHYc1auMCAwot2y+MWMBFS8zcM6txgEWDQN8PhFKvRVi/LOx5WiBhhEu2mKe08bV3OnUtzrpeOMD1ExaQgxz0F3zf6OpoWYXBBtgNemuRQgi54q9TSrlhCAtPgSrx/WLbiXnGF6V8sNtwFTieABuw6l1CG6hLNZtFUBzP+VRH8vFWtTU5X7kyaimHZrkuI2OU+UcADCg7ZZm/5GgIUx3Wbp5UcyjJBRR8l5mmtPvB3RVPXcK+08HIXo71KmuWI1FFrcYixRdMYvHlIxLhGiv4unuGqMgMLZN1butzO4bbPy4OIZJh8EnSqTTKnNSpNVtIumWCIJBLghYbdIGnQBF77gJbvjnBWAbVXTuuWHpxKie8dXnb3extlGgEEppll60kpEu4QFkhYnzBWPvMtTHro7kLOlFqMUcMlvVtDqWPE7CpBk3+VtvkOaxCy7dO9aDd2+ZpJLx9iolLIaS2blLTsWBKXcgsBcOSq1DKJIhgJhotj17PWoy7DD4x5x11l6rj3t01+8HpnuBNz51T+6005T9C3Lf/Gpb9cUWs2tKzYvoLrU566TEX9i23ve984HLgn61tee8dvfEW5B/CgHIG9oteIHxCRF/7zrvmGLFKsupVQyXztqCSXSyIMredZ01b13qIuSScswZH50h+moSnZEnaKmuGhgVXV2GVyBu3BkdPDRRx+41eJBXrviin88972Xk0zvSAK22Gv/PXbaaduZyuvXX33RZed+djWJzqIL7rS9i9LIXDoETCJD2vXAvXbZaevFU9TrVt+w7MKLbwOZ9qKzLkoF0NcLNsrgD1cmJrZW/4359oX0TAlzBT0NUC5lo/YBpRpg0VQqw/VQSC5MHFUUmhoEQwMoFXdhrmDSjIJMe0UpNCMyPROv85DrBrs4MLWp6q/S1kBnZRKiK2FSqcOmNeYtIsTEkSrRVEpivhWpqpIARdjOk7pOksFYNQmgJgllsdtN9XGdccB9efqEKngzS0d3mbf5V5N/QQGlZh7DqRK2Jj7hx6vsVf1x0ispItoUEb0k2u0+0WJPogi1dUdKockioqM7ICm9pthnFVnKabK9nvkZMX6lphpiUpeO/qUFpQlcmDDRGppAzGPhTQy+cHusBEj2BdnuavRp5NcRW9z1XgcjEFvd74FH/cMd8q77lsgD1XHNMnniEVuEPbrmOqKP2P8e990a9Qg47LFPve/WoJI45MGHoV7yId/8/Ks/mVeT9v5nstDrCdLHQpzkqe8SY143cb88XHUnBTHzh+K/32ud3BL5qe8bpSLG0199XuSB+eobh49lrzvrOKLXB07zo0hdifv8cZ1dX/fprbEQ2uuGvHx3RQ956vPf44c/vj1ejcSPbk9SUvrgnj7AjjJY8TmZnnqdZPQgr/N3SYlHeYP/Rt8ZHAOYZXN6tsAVbHm8X0Hqgin5cT2Ch815ZDv7jK10lnib1/n1pB6ggXydUG3XStoivvFbMkgG48iJsyDVMngPqe5z/cRxZW40d0/SzJllvf9S+oDmbprL45nL+yRg+frpHQfDfCyph/FjuoIDVuU5X/63m+1TN29MpS0vzRvKFVtLfcik8RbeygP2qqUGZZkL2RRq4gd3ZC722EUYIjOQqMs9B8YGzoSDWraiFF1xkwxQK5j+6JL84ruNgkJ1PVO/eAwZIHeVwu3HXjF75MdrnzUdPeYgTBNf8Yb1L1wUu3zs3N3okXii5zzn15H6BNRLTB9BHckRCmcHEB+Pdns6e7bKtU3leqASlHG+ZtVE6wm4AVrYG+wCSCfFqL/9racUg589ZJwwMoEobgGDYCNEkRHOUz96SuRGQjG84xM3e10tERyFTH3UNz3Ol38k0+2a8aoNa05++u151cFEVwInYrPzi19PCBYjuqUTy+0/XV+WbiF1hIT+wWO+NgqEkGxkwCMYTJKNJUpg4fHgfe+ZoLLPXXJqY2sKxUifivLs96kHvz92fQUgLNM0AGoDWWBIizHtZqq84YfbUxVqKQ6od30ysHQwJ3cU4ySqi053vj+pVybBHjd59f6RUBB0J+6+wRdtfq79NFKHQch9YItPb6gADEgFi0CakS3RaoCoZraiKO66Q63GKwd3u+vCaffkX3YGdVSX33rXPY/Lt5w0wFRNBBMLckH22faD+ghaYd/byq37pkQI9fqyfcZD/mCfMgi1hQSSpB7pU/xLT/cBHgi6UtzA/lsdUhaPecTQhZA8LhI12AxGRoXpPC4xCEw9fSJuCTT3zp+UdelLJyRSjgJU5/xwqsRlI9wViQqXcs/19YZj+vQOdrx65CcTQWyDOoJ9Vubh3Hg4HI0fQGqDPGHWdoc58xXZRTGqRXE1GCE2xIJVXFXOrqLOGsQo6+u95C32IXYFN2yMes+9zEuXloK3PvP91aKrP7oETDWIcz8EDKY30K1g0Y6bL7rjZ0v++6zU5T4kfcMbbnn4Iu3/w38eQrQlPuINbm7wyVW0GYXNN4+alBqFc/g3Vtl+f9wGBBeCNXnmYLSWZIRlgUGRGMQIC4PanGl1gc0+deGGt62VsZWK4SPPs1nyq1en3BHhqR+tn93LQz+BRLdIIbjLaDSu/3bqrfZF20uNYMfrRvmP3/z+d/7sDfmBpJYA1I87w8WDuxEASm7IXcaaEUZgBKWUEPvMHLPUqgGcYamwE+ItHET21O3H3fl7KjLlgfPmh0NOe9DTyHvjXOW3InpW9pgRPGvoOXs09B+2aUu8yvXFi4EtLhnnnyhagJR6i8PA2hE1zL/5FjNFHW6qhhV24j9C4kHZV+8oqHiVffodRym/4f21ilym1/YZr6PKsOKvP0Hmwa/MsAeJB55yu+3rPzCFaCqdY7+aqRjwbPu2vVCL0okxFQXlKvMfUWxfGQywKYCEMKyIzZL5zzhzzF0PTyjElne++/7M5W0OnTPhWLyU0maGT9yGiHLTlZTFnveuF1O6CHT4E5913O4g2tPR977LrAAN7vbAO87SLg7cdX0YSf8g/0cwi7ER1eAKiAQZ2oaCKPwXdRuwjNaodboHIZpJ/BeeIugfcKkusINBQv8xUoo2pRQlRYcLPUMNl5VIFNNbkVIK+kZKalFKqU+oo/g/hRiXCcgk7gEsVtSY/86F/3nNLQqXTpYoYnVhAVOsWR9nuACu5q4mFjIMN13PsS8r5rZrWPi85CrC80VIComl1yIvdJj1y6jyJOkE0UlJXHYtC6HWutPWyO630SVWnHY7ZSEEi6svo3KHuwDRmSuuuIAw/2Pqv5ln4OD8s0mlramAzJ182jLCLJgW1p20DJWuxSyWnngbhYVUJ845lUGZj3yp6t/+nWQ2sS34Elgs/8WlRJ7owftzf38rmAVXE9t/uXhY9yqk8Yl/pir8V9f/aJDgAX9xyV0uU5z++7XYLNAqseiNqxSlpYibf34WqbCAG3DYmVTFuB7wx99n2SzoquKC71xKZKfzf7qMMAu+KTjp5HE1fN//EzYLwDm49dffuuPmRGGBOCf++JxzM/8j+18LAFZQOCCYJQAA8HEAnQEqTwFwAD49GopDIiGhFst9sCADxLEWlIHJ++u6/P/9v5uVm/zH4w5UYxPZv/Z+7z5q/7P/Mexv9P+wB+qH/B/vX947Hf9u/4P4q/AT+l/4L/hf6L3cf+b+2Huo/qf+p9gT+o/7f//+tr7E37g+wT+xPpqftz8G/9b/3P7ffAf/P/8F/7fYA9AD0AOwL/kX4Z+4Hut+0/j95s/i/zT90/rP+K/2v94/aT4qcdfoX8N5t/y/75frv7r+5/919yP99/gvGv4Of4vqEfkX82/y39y/cH+8fud7k/9R3Ge5/6z/o+oX7W/Uf9R/ev3K/wvo7f5/oz9d/+17gH8x/pX+4/vn7v/Hn+w/5nkdfiv87/zPcH/lX9o/4/+X/eD/ZfTB/O/9T/Nf6b9vPbv+bf4P/qf5z8ofsI/lH9J/1v98/yv/o/yP///7n3kexr9r/ZO/Y5sI1R0Dzmu6FtoYjBj4YftrCMiFJOaF7mqNb/M1rWta1rWtX/D+oxJ/iGWV9QcFhl+feDe5iVdNjOs73UTr2gW11bTvY7kIzLyC5mVjGMYxjGMYrZfhyOXKbkL6Qf7LOFuxT8fMeVzgzR++uUZnIVud0PeLsxGnvCzdPWguFjk0VBzpEBNdBahWMFlynmVlpIX+Spc2rCLSlua0iL8pdXF5txPn0F+P928qoIntxkxMDxEbzIlwLUAFPGHf9/IsGlH0qqEhP9efirau9o3o6aLqKXJ1bRSXXUt0XRBHJf/eDFSx8eJbPC6U9UoKCVtm9ekf/oGO/MlYaYlE8vHGjEg21WVX+feJPjZMbSMx0bxGxgQyyr91L9qAXGDeKUVNfwn+FSrB9U6D33pyQju9ORqV4UJrO56Azr57X5z9TEkdt3/QnYC8RBhr19Mrxt3S+1Dlshk2ZdbfV24xl3+DD+yi+ch7T/CGRHOM8eomijBhBMqle6FKOs1KG0x5nacHUV9SCojRR47/gUK4rzVQVP8YgQ2dnbt+F+OdgrPuf/MVcWSusW5jzCLj6o59KhBaDb1rUro224wwZqV/5/uHOrM7PBCBlN7AZp3GbnKFIi+pu2kpxc2bd95qd+tKDcLcR+TR/UPIQ1p+qO9OE9dyorAbldKHcZeyrr7lUi2aQeYMNep9xrM+8rDfRJzfNR9P9SCU5RNnBlS8wN1QH456bNMOpvD7chrBgILJvSQnKEy1f/1XWr/ikED5m224OX334TnJ8YAA/v9gHKxuDn5lchT7PcCMvhq5WeWrdJwm0yKBj6RhmvOpge9eMkMPgRUsOvk3YWETtcAqM1Xc+SGsqX4F06L5Brrp0IrqvpagHkATrIJYZ5Drgnwj788v06nVGTKgEWmO1HaEhaJJXHJi+ojqwEvbXHm/llvsO48IiWh5fNUZwfpupyjWf0e4V9rOQYhelgyvYunHRh02mFMsujyhqyoHexwiF3iA3Jna9vHHahex06Jvl9XMGDufoliokIsD6sZUJSqaFCCyVaSRqOkob6S6ZXYi8AUSlXcTWSTnoDlISec+gKUZMm/xzzkAJ1KZSKnoydQlnO6vTYD4ZwQ+4ECjPrW1OL69W6Neo2frMNVttlMUsJwQe4Aq1/zl37Jqs0wCdgfjaTZSCCgVkIhPUyuJh8/U1R2bfPhdZfti24IMKmccJfl5xd3TGeR0OchSuibkN98cJDvlxRTIIN+kdZLnRuyHdHjp/y0Qq/6Iz1GWCekzKNTKwr8A11P+vxjRZ7SqlV762NehqzZJFIblgrf/VDQAAATiS1sdYKxN0RNQ2eHNFTO6XpTMZjSMtgnBreXoMX+JZ2xRGe8oYoxeucpSMEyCc9ggaJEvx8bKDfrCjXLhhBLtyYfbG2L0/63qd/3WkPpBYLVfZJzARPwbFm2NznU254GZ3tl6uBDoR57h7/mHLcw0A1pGX1MBAYqS7GpMrnGp3PyKqrPgM8TS/nVwmYsQqUyvL39+139nvF3h+V0uK42r+Kz0xhuyoe2BV0KytdDMciSqhDnjUQgpWvc18kIXewroSTvZoYdU3xKvHEjAcdJXPKBMWww0QvPAnmlTKP+7uU+mvUhC4PX6XQgOSIpRD76vP6ttzXt52fhdH/Zmf5RlUXYNCsekyu7jsG+nnLlLoDHZUw8Ph5PkErqdUn8FZ0B5Z2enkLuHyE2dW063UfAwlELJQPhhqCp+YuUWDer+3Cz2nMtAyEjMglguro+b3iKGRHu5f5k3we+xd9//sf7yv4yeuIa8u8GE7LP5CMtaQEQ2KYt8CjZ9rkN4B/DquhHD4KQyzF0Atj36P0RLoWAXsyaxc3zm7aw9JyVRIwPcxS8hqxL1QbMPRXoLOt2ZSWZHNyjkV4d10OdHDGT0s0J7HCjf/Cs61tSZdBdZhos2c1eLZn7t0Fhcm/cF+M2Lsne/HWuIGh//MbJU6+/PWNYeMOY0SRhxCuPPdw8i+CnIW+qkUhGKfNVopItXdCMbCjlFyeLBK/4GXlCAbzS47IHUXVhWOpGhYhsxsI9A79xjwW7nn9Eha8oAe8bpd0cTM+IWWTL34mspDFMVLiQ3nWyYxMIkkiyTAXhNgm5J2W0kUEFi0okX651M+6Jleb+39WAn+Ml0reZjoQjOGEofojIF1c4Y5cGLrx2vUq/IA+gAAAR44EUWBp0Mh3nBQl/oRRyXAjIYBL7LrtZeJYsNsmDY/WupB2AIwEj7Nn8hhBvrw1evr1/F1lE2+noW3iuKaAcff3nl38y9Hm/Dcmo1snd/UNYji6DvIZyTI5ljyWg5pPI0oNzYm+w2KBXEhQmQixuhd2YFT26HutNvaYU4xLE0AgqM0Jl1wRJqIykjrMxutKcXBsEWwZ/twt2anNcMHe/hKZB4cZEIDCoLM0I6b0RSoeYdKmJlFfshjGY43Nn2z1WaNEPQ6DCYT6aKIZgNSLSfY8V7Inx18egwxWZC8bvGC8kqtaxxeFmz1YmEd3WQtaQu/JGPr4+8wVLRS+TLlG7FqcZIzkDeaLnAZSmd/Ha8VpBSZXvjfunbQ6u96tFv8o4PDrD8EmvioOkGbuFwkusYp4jy9INryKqCE76aIlHX/O2o2TfwcMioYhse3czpp6Q3/pxZQUTpnN+cn2Z1Py4PHECycGBM2rwSoQd5db2I5bOIYIie/f6ftnYao58+22C0q5HXigj+Y1hgjJykFzYI00eYLPeFnQkIZZOAkQWOB3ULOpXoPDfWCfKxP8Z5Y+h/aaEuO3j2oxRv1wzw8YI2LoIiFSNNJMvaGpnPiFK7yQmNS3lzPCiRk/vZsnVzmQVPPWGVd86/EZktR3tUd3icA4l6rdg8x7zhT6R6HtI226caPQXLgSJ7NsznMZBmZgwPq63mYV4WTPVXmvBDuAJwmg6lyVtFnyNRxPJqBF7cZowx3GydXf8dpvVf1vXHC1LMnb21KeCpJpadK0ts4pWG6YZ729AUnhB8Tl2vcu+5nT1ReI7poDYvhyqpFe1/Q/gUocWewGEtzz+OqOlrs3940qeldckf1ZejKYQBJPhy5Rxlvy4AfYX2ubj45StglLfN6UfdBHwWPUUirgnijCH3ZMGaLdBdT1omEZcDLZ6K7NRuqJz9IO8fA+O7B2tLT2szm6noashxzRm9GH8oH/TDZ0/cb/cyesBJahncW4wZJi5YLxezhZPvfY9hYRlrVS79G7tGAIcs5tGXR8QCjR9u6cv/IBoeOQJsK0mZZ9KY6rZqq6nr3yq4Q9i21k73ils9BxHRlcrICriYpBC3n3sWdDkGBQ6x7Bfz3HapMLPSAehN5ZutzEEDaM175uoRh6Th6iX/GYK62nWVX9tlgdwr2+zNhMjilOnRBHwV9KsR7/lh7ZNc5g1xLXUCpPWN0ermyPNK4NavkOVlQ6Y0DcAaSeUQe3awhmEe7gsnX1xtMxfh2ztLFbOgnFKAxtveVOyZsb+IdkaIXHhpn2sXvgEgkgCuC0aKHP/CssV/fIEBKfy4LST7ed2MJSvgVatNt2+ATl8D71cLNFt1D6Lg/8fl6Bw/s35varcO3AhK9GZH7KJdM5+WZtRSaP//9KP8bSC5SsacrS1wOKe9Aw168/1RgZ0CekcU1tymoXRE7BdGMH526gP1czZB6gSlgjhoxQUfw3XdtE1VTUWoc5Hc3pSFQ8JhUx+3f7A7sFex0vrwinzqhp4+ZQ2leDnZbVTsoWRzNSRpyieDp0NUMeiM1zhF5EmE3Gbj2hOfOL3QpiW+G+af9beDnBnjxRiWegz7xwk+GdlDCw5TF6Gn/rQJH3Wg343JVODwCZ8Lh3kfCq9nu1uWiTWuGadgklXW0IKcVOMHErqutStyJtsbva+tZOfJCr6SYMvRmvhyZ+It3VyV8eOG6uS7ex5Blya9VdTK895jJc+h20TzTVaXR7KoFU+o8i6UTT0J2OzslkfPGL5oJsBHIMztWQS+3UCFXQQ0aCf5q/yzpv2gQqouxwqDnezVxHhWFj+6hVfAmexlnd+ErFRRY4ZC6Km1TyrRZUr/GiRK/jZDBkPTWjmadSX12O71A1QeYx8zdqLqB2wbbN2ju9tXamGsOLfBCRwFvQG1J7wvPivD8stcKeCE45WBF5PQHoAGKs+IYP0yPeCBxgxn9XBj8CdvKLW0cLOONd6WrfGqwgXmE9MNNHz2+UIdikWz3PYd7LEw02GqkjuxPwwSd1aeG4bOIYsWDGrYuJmcMOrC5dbPkuptNSSs56BwXAE8ifzHtJLnJP4AQjbd8RhoaMLFrICLz8h8hkFl1+tuwPTyuGQR0c/nu47/Ofp2LzOIfq/TTBXcZOh97IDjHyr5GfTvbC0UzuVo0KknhG4FHJUbZpCpcVk1NWe6/ia/mbz9S32EvFAgTSNLTmnmsN2ow09rFqPKrZ49fSHJ+rscw7cqcCFZa1DVMnuanfBK7MuuQKMSLv+B3sZ1NZkbIzkDXYhAF6frxBESwjJvTRSS42J2Pbq4IQNZv/oMwtLqpExWUzazTlZBj50aetCX/ebTwNreMsCRmSdzYZI0q5y/PdIG1PqiAtfp4UASavMd3MrlS1yM7IulhhACcsQZAiBYYWB7Rp50HP8EcdBCNhOh28UaULsES7zvrsrx4BPq4PLMXpyo2vXzk8FkiRyLOx0Rkfs/xcc0CNNDR1djYf5Q/7Cw6Yf4Swxlr1trF5T45M7jGNt14K/ZTptuvnMZXfQ6l4w7WHiD12YzlDm7HiiQRRzvmSggYAE/qfJILrvtKa9+Mgryw8nX2FhNwbsg/i7b3M0b2JJOIzCmcPP/6KJz/CcXca+YhKHez4X7LVEmf/cS+KL68oUwsvOHnLoRGmzqdAmSpoeX/Gcsqk7PnUFVtjl4HiLh23PpgDYpZ8J4PACkm1HDavqnPK85VXP7gFTBA3uYrS09Qm2ZL2KYrbbb5w7TS7SWlM5HYeF/FiukZHHB99d7ZQ/u3duIqyXcGDNs9kyTgT4DM27JpoK2DXP/s+itx7BVrZIGKuCpuMkDLSdzi5mydOasbKYhyw+knp1ox2KPyNuiurO1rD1aQDIBP/1A3eElwfGV2KzOGJcBbtOP1X8QXpgSlbyuXLvlX+yged19dfknoNPm7EELMl1hMzLFU63hFgK6xga2jx5XNWwIWlXxKedY1QBpFM8GPfOhZvDK5rqbTNhSiVuF0eVScmTIPUU4EyMep9Wj3F5fl5zMGViSd3GLnKeDYTR6hbGKmzxGXNwLGU1GUTipBkHgFrErvH5VQz4MEsOlkEtGKhljcm5VtMvqH+Ywx+cGRBJeDMekVNMsATJaKxalZO0aU99PsRfY2rqH6Ks59gRwnOuXyx0VLoaUn9Us1xWO3HyoytqR9hnBeb+P+ws3GzJKRxai4f+VfveabZONTOyrYak0WFNW+76a/ab+MGH0M3tgGVViqBgdjE6+IzrcVzqwzg3A1LIUlN7bDa2q2xEbcUzG6dE1ndejxJIvYlm34H3fsjmcvsVBOSGbLdRnCd6DS5pc3dmtpPJOI0xYsltHMVNODB119JIG0WHBklpP7+544038OatgZTkaNlGt5vvOGsKbF9suMlox8hTCw9iZEv64odv+xA7r6nvF1tKBT5aSpUrr4jd1JcPxaL4I2kfY/HxF3d0Mx6EGZlM8ytACROU4nxKQeDXHSgA2bOXNTEuLyhjMkpS+Lol2HMAyqIS3cmOzgl2mX8uB4mtMiKs4VFO2+xbO+6fbHkFpqGb/u7c4FOTYPQYEX/nDMSe2bm2772m8dhBpMJRUDAZ+cELs0BNeogvsyMzeYAGWOzcbaqIs6hhafj1pzfvXT8HpCy+HgXADq/HGdCvDjk6iq85arMqyqXa90UcGIAnq4jkcbnvmJOT6pMU82KHga6p5VWe7XRYMaowBdT1Qkyv5Nxa54J/51p/Ik/6P6KdK0SrFNO+qXIWrV5qAoxQgLWVowjV5uK0MAodDEC/JcebFnshQXJx1MAetkzQnMq4McABoy8hRSo9vzAk6eyOW7m+bg5MJRHLF3CbE9BjInhT7p5zTKksIHUowUVR42+/J6UGgs/CfMed2T+gk/+k3Amc9MfIorPYX9q/O7c3w62KY+1LLQabN2yCBRgiciYwdp/90zCgQBwMATND2R9pfbEw7NFf+tuY+vfwjSVSkE6qJzFWdf/OqUdkfTOyfKQ27r7y9xhCFeGVDecVBlobbeeIYDBKNwv9Fo55+tMelPnVWxaRlFRXXlzS97nFHyEZMQ2hKNlKiJhxA63Yi7SAkyPOGUYRTKbuVIMEk0Pih1cnP3fFndOSBtREN9v3nOSk2Qu5wPSNq5mFiueXah2xCSMqaarCstZJoj81Xluvr3MdOysXZh5KuwyEbhYmNiEN02Yiv+09P91E5SKI0KVzM9lIlU5LXmVZ+WRND4vou1hS0RZCvGPKZBV3Ewh/nT6v++1GYD4snP4JGs0WhPurmQBgvkqFw1VlcyneT7hBt1YXDhrLPwpXzAXosNT7g8O8quZG4Cme+26tspYMeD8ud4Qy72oB1PLdqEerajoCye4dip93pNTvtbqVMItP+1NvNMsdx/J73SGl45EmkwGj2oO7eE4hHOs6CxbYLYowTBUoWfb1bs9DYY9cwI9v4azlZkUCh5QqKSt44UyoTrY0whn9BjrYYKokADW7kRJ3JXhb7G4FTIurb8rfctbUZ+KeirarxaLJ1Bqu4fk2ewxoK+0OtCsQJfpb/E4V4TWSYBRACFOsylp7SPfotB9AO4imgCHmiN09KVrf649mcJioLCYKWIhAEeOCVPHDp1LkXF0KxP24DBs8mtHplorBQHmF2ALRVkfoceIlir9uDrq3QO7wgu7u08haVx50xHhIUNovHMCG0hti2ce+MuI8gYsvcQz6V4YZbM7Ko4hUyK1YWfsmisk4AO8gSPeDTwJT86rh7mFu8y4O1rRxMKA9PgHyDDiVVntQ4ZjBnWSASQs17xsarI2oUZWxioRa7CX19AMxLn+nnwnglkEQbvFSeqy0KyFJmr7AgMU3Ttcnd/aKSsFGbGfuXZGa+TNeBEixB217W+cPEPn4SKuy5KbK4hvbammR2D3v8NzO81LipUdBjD90KaI1NgtRRfANuyTgpRQNeP2NLuojhZ9k7Uz6tL4mwvuBIXqB7RIe6wxJ3rMk5Pyx3QWseh+fBls4IzBDJtP7Nq0RKqMoQSu5Qo8rGIKOSER2Wtgw0ODSCZRl1Lwe1Yau4V+u8gfzLa50skYQzLl55fRHk8NVX08FwF7scBgCAEArBOsOf7agLrN1shqJ801wb+F/Lcz7EV/qYnKoiiCHD5KoAPP966nHunkftFVooamUgVWFusES8mYvqE8Y9B0ihhsckCK9vhlU1sks1ehfh4I5ZORezdH8VdVlI1d7D7L1DTq6fP++NwvzXD0p4Ncq3W5il0HvmcXH7kKGEppPu+VcZHkGucfad7SBq8zf3S2Jxe2ABeuS2GJvxt/XBQmKxPG7/1eIonScJyvhpaLbxNa6Jf0lrwOck3Goxnd63MhL9KBFMSanVE0g56mY8rUw9Def+DhMbTiylKHzRVSdMzN8jPB54lLZAKbJJNY7hZ2EEVNVTto8Vk9Ty071mWsbdYncMXhF5osm+x3tceTnAQWhAR5kKPx5Utuqa2xy/BqF8tkZoMqWtzkUGC2pcU7IazG/rwjAYfxANH0kbs38TzG90tP3H2w0Tl0QXdRxONN5VVQTFX3QfXOZ5xWC68sEdoB3ifyXOTCJ6tgy8sbTH/4PXkHN7J66bdUV1NetavpHvJGMrGZI/uZdBZq0byiUal4OvkkHjXPo/ZS5emGIKWSOuTHnW8FUCTdxVPamtNiWCUkLCpDsP894RddSEkenbg9scN2UHegqi7uO+7arXlzxSYeSpi+oVvXdsoky4hjkuIp7ZcaoJ2+UQ41aepUsTEHQtU7FEbNtS4C6r62deBwrSxM+HnNGsypQ4k7E+PT7fhpFmzg2Esfqbh1Ph8O87MTJ4zE9rign/yGPCi+MSNxNmu7lL5knpO6fOnmS3NeFC+9GPI0eZF3Stmi/2oFpDcHjKFYvGDO//a8rLVEG5+Mzswdm7JvgEuB+Mqh2TP9d6wD9wOrb95gxonx74iwypKYQCmxuxg55mg2RNgluCjpEhdZvVgiF9g+FjEkujyOsE7ehPX//RMUUeGPLbOH+abYwtlG+ReF65tA5jGFR5Mb/fJxgDjFII90IvbUz8Pvm2Wr50nxUd3+tBrsg56dsX5tdDTtoGLndCQ4S84XW9T956rb3f0wZstWTQfJ22ioqUJnqYtGEFgpFqZueZOkZtoueH91MrCl9iksd8vuM9n3pp09dYhuRr2cgpsaxS8PfT9YdPSqPyW/HR6Xzm1VTq/yM3OS3gLWmrvEYWe6ISlQvmneR686jU8xKzPok+psb9LR0/wqYokjTkeA/Bi7ZPlvrshbFF6NyQ5fYWzK//ISJQTIE3NqdiyJQNS7WRELLFHT4ECk3hnS2zWnoFM027hR2Ct8mwXLS8w/HPzpm/p5aiiwcXwdnJYi6EkhX3xZ75QSNMmIbPExYr6MHQQOsziAVuRWfNRCVzfIZmkjguCftP9JS2gFXWiWEZsLZfjeFUJHhUZuwlDWqfuSOOXO4ubyfHb/WBStQO5kw2Bar5L2e5aFnC+yFitmQJfikG7K+OpaaDqtxIXFJyAMP1eKS0i8Lznum7NE4siq5tvLQ0DUXDkpH+qLcQSrlWmrI3e7WGXsdv6ZM3Xv43DQF3uXYw5MSBDIEQkjzJFEuNrdBIzCbHVsGyG2gvTOx/nULAeOaz9kKJ0qFZfjHdGcxQFewxoH0BONPgVSWb+loKH6YzXAXQA90t9LK0sWPyDfOI7V/LyHIJ/NyAeqSgSDDdwx7vYNWj0k/VIgN+PXAbmlLNs3KxsEe3O+dYPRW0jEYl9vtcpNFRsRaF/mecPOrrfJGBVuuHq4AOd2Uy3e0Xp6fyJfe4s6GFdasOYAahd4kKr5WKx1ULSpZ/x+SNvuLFqz6zhSPRgkEhMaF0RWpZgU5b0rTfgH5DdFt61UaXUb7DjW3SlDqHRag6yX2RkLBZcTBlmpPOE2BKvrybt9BFNUuObjBtzcNsdQJVY1WJA7wOUZySRj0Ow77nAl9gAH5zAthvPmrA5g1/FbfB9wBrlyGD4FHrRL6sOXcQpg0wiJXXFAXMwNYHPEJoKiXtpHbIT6ydhb9XI9wVCrfVRmJ+PD93l9K51Av/Tq/ne/qG0sx9RlaBo8wPKtKc23mijUQ+C20zs9zadT+0IaQva/BKRmtohOTSRMP2H2eUzKXd8FFNWai00ySin8bi8YUbFkEJA3OoHHWgEulSagjIyfokf5LryH7n4UIpJNX9div8rQbdpTnbMj4LVniDBJrvchG/drAldQqOtjSbU998pYfCf4tDbTYe7aAnGRQWTzSjW0X6eksJqvxXR1tZ2fQOH0jg7d5P3C3AoMjkGYO6OUpZgr2+qgsqftJZDaKaGMl9p1wG0oapY1NRj2H36FDsJz1GGsfw3GiOMLpr8AtLugoe9HJXZhuDlzMSfYAV6yap/eS97MOrKKGlkUt9vGGgzDb9WkCS6ZTSFnWleKZmr93s13uq6To2azgcS8oGcznniubsNaQ9RqmHv/b7hbFDiMbRwTFja71WzZ4GCL74RKVQzHKXNWWWD6Yfh03zPP+OJCl3VRddnr0z4iv2uL1E+T/ZODOsUzC89sEwb8Du7l4rV1SqHJdA31JS+5Jk1rWn13j5FwbDzYDxzpJdRsB05i5r0soiM9oWJ0anjc/uPHOmkvjlcnoAmCSLHtiyzmBnO6bm6z2L1BIWLDXFkXxMTrahZNo6mLEuQnmKU35Z+8gGZ8HwBPV+VtfK47Qf2yCkbrKThafw23x0J7UGP53skzZkGQW9V0wTEYNyMyXdzwV4PBLIG1Zi2mSV9tuPVOq/ZeIwJa4XR07mWFXpmrcp1PACKkCg/0Qz1coOvk4Tar3m3rBOQp2DMSOuSlZoIcMbFKIsTSEBvLY/tlMsI/Ll7KaOo52168m58b4we6l8ygVbmzwv7TY2EdOElkA1G+nf1cDDCqUsA8jd8WnUOai4/Y+DAMU2gwPGiedYfvNx2K79Kn6/Xqz8vKe4kp8UzlD32dUrSEtV4xBsWldB2R7PnceQ1t6M6axuElOOxh6sx24kbbfO5TQsUqbexgTgHaa2ZG8zOQDzWzjO6PPL9UjIpNMsbRwwTa5JTBF8zGrk453NapQ2ukfBH8yUVVmtZmmNkYsRUXqylVyupo0ggrHLRI/VlXBBMJlNJGUqFSrKgoEmgbw4P3dCgkJLc3K/Mmwdj5UBLrrpDa4XGEbjOj+CwVgUr9dTh2eHIgQLeYzmqIft+nHazqTTqxVkmlnJbIzFVN6HejBS7zowolnDpMaNaYoDnoN3mv7aGSdiYKMdUgQTvCdTkycf4ZCS5Z8tWartkLV0Ul0y0EFUrkDc0UCMHAkZWMnJpTvrmdq/f8PXP+3Usm/lUxFOSjLlmgQOc/SzKajwoN7uM/59VVQuNx1sYl+EIcDwrgGWEwxPNnDAPTbtKUab4Jd35SboCmPEzAMNlIYIf3EeEKAh03DijgZNX2cT7BFSvikBAqrCtTG7wcvLMx2z4DX6wDo6Kx8P9if4/PIJD5aGoil8YgvfI5Lmn0WqSiWb0Jmxc2HfkomkcL+Wv410Clf5iDMZe2cfOcwz9+TPf8iqGJxTDf/cWiDjZugEcaxP7/zCN9vBScc78NRADeLm+5EPG+tgY2QQCMWxdsu7U4ilBhaXfJlzQ9JOOEDI9PVq0BM7waUUxshDCHJ/TLWLbw/a8LVD0NLb+AHCcx3M5w20uVD2ieivgfnPoVejMiGOSSupycNs5xco4cKmNAIyI3sOabgBNtaY/CJZ4HXtTP58akDQaReOu0gyKuGWZZRpFe2O2E2gb5+UZb/C4sFYc/TzYWaeGuKx7WUxT+tqFbHsKvTbAvL7jlZK2IBlToiwrXG7hFcQSP7mr3GHGz/h6L1eGbMyZ4ps8CyMdejglNizqyOtN/P3ZqVvN0H9mJGXdtKfXyO4QsrRXVpRxXXkRyKsEjOhkzRTGarMKWdG8nG+e40b6GiFc6SVhXcj9A9N+liheEzPvtHPUjH9d5s17fRvqRmTrZFwmxaESf34ZNqvQsQ0/6LIITCGp/aTN/03i4rF6N2RPoyABmGq55sQhKmZ2kJVoVZhMss7aZXod4C3xPNteZiYOpzwUmBNuNWTZG2NEU0KiAwppIVvUeEXQVCIBlLUaShwsdHP4DE8dU9ChTaX//BmgZ2XnwCHAjWfTqQnA8dYM5QsTadqpZb/G2+uoaCzV6rBU3NvB7IToNbrUMElO/CgdNdn+/AMOULy3VyeAp/12QHkvXxi8c4VaOWcVzf9Xa0u5eRD4ZnG3XYXd05yAYuzSos/H2RefBjmLEAdPyu+EdOCvxXr/ZEXEwpftkOUMlrK1HGc/5fphBp32ElfG46gXkSQ+Dk6bLqfdwTz6KReKc3B0Dgu1Q6w/mjMzkZ7GGdDv9FLHdm7W6/0PKMX/qhrmmjDyFwlj8iOGhjIDcEGjLOF5POkpvrlJ65oHvzcjgsTlGN0f81e03LsDZlI0Sy3btqTEdotbGfPjvxDo/3Lmhb7N2txjxyJvKLt/cntG6IGdnWK+U77vEmxlK1RlrpdMH+67JhNB8gqPbxV+sNQ5ylRyqtJrc/tfUeO0aQ36L5iFp+9Fg3wWjmBDZCh/rQ8HO1mJ+9++MgBiDs1YMC0XSRmuA/MChw+oGjwJZqPScuQPH3LpHtbvrlff+vu5L92fEwqFWgIcv5t6CEq8z6Qu0ludnkntm1ognYgAum2Fg7nKyGmujraZ2ro7asOlI2ifpawvZwjwzFy4KeY6xKmslpQc3Z0af1+Rf9/6iJaVECRWSvo0+YDyNWDgYDsJnptLD2YUorq6fme/28D4ggxp7S3yBmhkcgituRZjkfQCeU5+Ac1LpDyrF6/FiOyM84o2FTyqCofn5cFZygs2/jBNDDNgbTQgZj9dMlInlYX5sTxZi5YwWLs8rt0O2xtnk89xv/VbuGJN3E5SRHr9vgkRKxG4SncpW47oLqztY0fe6YVSofooPuYfYxXbgBkRwXRXKUSUvh+4Aqvr4ZwhGJ3jwi1bloE617iGOkpN4xoovZp77Mx6278I3q2vr7sIvsh5FQqHHo8rN/NjsAHpXr8qcY9m1Y8mD6Ht9cesGbVoRAaekjdHR5Vjt9QBjoEtPz6JcKCWKnxkkt09RX2uxmbvqlS0eYKim0ugYF/Tnk7kA9c4AhYIGp9R+jX9/tS5c/gk8JA4UPjbY/wxEyAAAAAAAABxgAAAAAA" alt="Theosis Medical" width="335" height="112"></a>
+    <a href="https://theosishealth.com" aria-label="Theosis Health home"><img class="lockup" src="assets/theosis-health-lockup.webp" alt="Theosis Health" width="900" height="168"></a>
     <span class="prod-mark" aria-label="Theosis Metabolic Simulator"><span class="pm-full" aria-hidden="true"><span class="pm-t">Theosis</span> Metabolic Simulator</span><span class="pm-short" aria-hidden="true">Metabolic Simulator</span></span>
   </div>
 </header>
 <div class="beta-bar" id="beta-bar" role="region" aria-label="Beta notice" data-print="no" hidden>
-  <p><strong>Beta:</strong> education only, not medical advice. US only. Numbers are estimates and results vary. AI features are optional, limited per day, and can be paused. <a href="#disclaimer" data-info="disclaimer">Full disclaimer</a> · <a href="#privacy" data-info="privacy">Privacy</a> · <a href="https://theosismedical.com/contact">Send feedback</a></p>
+  <p><strong>Beta:</strong> education only, not medical advice. US only. Numbers are estimates and results vary. AI features are optional, limited per day, and can be paused. <a href="#disclaimer" data-info="disclaimer">Full disclaimer</a> · <a href="#privacy" data-info="privacy">Privacy</a> · <a href="https://theosishealth.com/contact/">Send feedback</a></p>
   <button type="button" id="beta-bar-x" aria-label="Dismiss beta notice">Got it</button>
 </div>
 
@@ -1722,7 +1748,7 @@ li.fx-fav{box-shadow:inset 3px 0 0 #f5c542;background:linear-gradient(90deg,rgba
             <div id="pheno-out" aria-live="polite"></div>
           </div>
 
-          <div class="card">
+          <div class="card" id="photo-wrap" hidden>
             <p class="eyebrow card-eyebrow">Optional · stays on this device</p>
             <div class="section-head"><h2>Your photo</h2></div>
             <div class="photo-row">
@@ -1735,7 +1761,7 @@ li.fx-fav{box-shadow:inset 3px 0 0 #f5c542;background:linear-gradient(90deg,rgba
               <input type="file" id="file-photo" accept="image/*" hidden>
               <input type="file" id="file-camera" accept="image/*" capture="user" hidden>
             </div>
-            <p class="consent-lock" id="photo-lock" hidden>Photo features are off. <a href="#" data-consent>Turn them on in Consent settings</a> (photos and AI images, plus biometric consent).</p>
+            <div id="photo-lock" hidden></div>
             <p class="privacy mt1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3l8 3v6c0 4.5-3.4 8.3-8 9-4.6-.7-8-4.5-8-9V6z"/><path d="M8.5 12l2.5 2.5 4.5-5"/></svg><span><strong style="color:var(--fg);font-weight:500">Your photo never leaves this device.</strong> It's cropped and shown here in your browser only. It isn't uploaded, saved or sent anywhere, and it's gone when you close the page. It's used as your "before" picture on the results.</span></p>
           </div>
 
@@ -2215,9 +2241,9 @@ li.fx-fav{box-shadow:inset 3px 0 0 #f5c542;background:linear-gradient(90deg,rgba
 <div id="print-sheet" class="print-only" aria-hidden="true"></div>
 
 <footer>
-  <span>© <span id="yr"></span> Theosis Medical, LLC · Health Hacks · All rights reserved</span>
-  <nav class="foot-links" aria-label="About this tool"><a href="#science" data-info="science">The science</a><a href="#disclaimer" data-info="disclaimer">Medical disclaimer</a><a href="#privacy" data-info="privacy">Privacy</a><a href="#food-log" data-open-log="1">Food Log</a><a href="#" data-open-ask="1" hidden>Ask Theosis</a><a href="#" data-intro>Intro tour</a><a href="#settings" data-view="settings">Settings</a><a href="#" data-consent>Consent settings</a><a href="#about" data-info="about">About &amp; credentials</a><a href="#terms" data-info="terms">Terms of use</a><a href="#sources" data-info="sources">Sources &amp; Acknowledgements</a></nav>
-  <span>Questions? <a href="https://theosismedical.com/#contact">Contact</a></span>
+  <span>© <span id="yr"></span> Theosis Health LLC · Health Hacks · All rights reserved</span>
+  <nav class="foot-links" aria-label="About this tool"><a href="#science" data-info="science">The science</a><a href="#disclaimer" data-info="disclaimer">Medical disclaimer</a><a href="#privacy" data-info="privacy">Privacy</a><a href="#food-log" data-open-log="1">Food Log</a><a href="#" data-open-ask="1" hidden>Ask Theosis</a><a href="#" data-intro>Intro tour</a><a href="#settings" data-view="settings">Settings</a><a href="#" data-consent>Privacy and consents</a><a href="#about" data-info="about">About &amp; credentials</a><a href="#terms" data-info="terms">Terms of use</a><a href="#sources" data-info="sources">Sources &amp; Acknowledgements</a></nav>
+  <span>Questions? <a href="https://theosishealth.com/contact/">Contact</a></span>
 </footer>
 <dialog id="info-dlg" class="info-dlg" aria-labelledby="info-title"><div class="info-head"><h2 id="info-title" tabindex="-1"></h2><button type="button" class="x" id="info-close" aria-label="Close">×</button></div><div id="info-body" class="info-body"></div></dialog>
 <script>
@@ -3669,7 +3695,7 @@ function match(q, limit) {
   list = list.slice().sort((x, y) => (y.verified - x.verified) || (y.protein / Math.max(1, y.kcal)) - (x.protein / Math.max(1, x.kcal)));
   return { items: list.slice(0, limit || 8), total: list.length, chain, generic };
 }
-const api = { CHAINS, ITEMS, match, norm, PAGE: "https://theosismedical.com/hacks/fast-food/" };
+const api = { CHAINS, ITEMS, match, norm, PAGE: "https://theosishealth.com/hacks/fast-food/" };
 if (typeof module !== "undefined" && module.exports) module.exports = api;
 root.FastFoodHacks = api;
 })(typeof window !== "undefined" ? window : globalThis);
@@ -4708,7 +4734,7 @@ return { KEY, MEALS, MEAL_IDS, dateKey, addDays, isDate, mealFor, empty, normali
 /* trust.js: "The science", medical disclaimer, privacy, about / credentials and terms of use (Theosis Medical).
    Rendered in an in-page dialog (works from file:// and as a single page); deep links: #science #disclaimer #privacy #about #terms. */
 (function () {
-  const Y = new Date().getFullYear(), ORG = "Theosis Medical, LLC";
+  const Y = new Date().getFullYear(), ORG = "Theosis Health LLC";
   const src = (a, t, j) => `<li><b>${a}</b> ${t}. <i>${j}</i></li>`;
   const PAGES = {
     science: { s: "Every number comes from published research; it is an educational estimate, not a prediction for you.", t: "The science", h: `
@@ -4747,13 +4773,13 @@ return { KEY, MEALS, MEAL_IDS, dateKey, addDays, isDate, mealFor, empty, normali
       <h3>Breach notification</h3>
       <p>If identifiable health information we hold is ever breached, we will notify you and the FTC as the FTC Health Breach Notification Rule requires.</p>
       <p class="hint">Template wording for attorney review.</p>
-      <p>Questions: contact Theosis Medical through theosismedical.com.</p>` },
+      <p>Questions: contact Theosis Health at <a href="https://theosishealth.com/contact/">theosishealth.com/contact</a>.</p>` },
     about: { s: "Who built this and the credentials still to be added.", t: "About & credentials", h: `
       <p>Built by <b>${ORG}</b> (Health Hacks).</p>
       <div class="cred"><p><b>Nick Holwey, PA-C</b></p><p class="hint">Still to add: board certification, licence state(s) and number, years in practice, areas of focus. (To be completed by Nick before launch.)</p></div>
       <p>Clinical content reviewed by: <i>[reviewer name and credentials]</i>. Last reviewed: <i>[date]</i>.</p>` },
     terms: { s: "Personal, non-commercial, educational use, provided as is.", t: "Terms of use", h: `
-      <p>© ${Y} ${ORG}. All rights reserved. The Theosis Medical name, logo, text, design and software are owned by ${ORG} and protected by copyright and trademark law.</p>
+      <p>© ${Y} ${ORG}. All rights reserved. The Theosis Health name, logo, text, design and software are owned by ${ORG} and protected by copyright and trademark law.</p>
       <ol><li><b>Educational use.</b> The tool provides general educational estimates. See the medical disclaimer.</li>
       <li><b>Personal, non-commercial use.</b> You may use the tool and print your own plan. You may not copy, resell, reverse-engineer or redistribute the tool or its content without written permission.</li>
       <li><b>No warranty.</b> The tool is provided "as is", without warranties of any kind. Results may contain errors.</li>
@@ -5046,7 +5072,7 @@ return { KEY, MEALS, MEAL_IDS, dateKey, addDays, isDate, mealFor, empty, normali
       <li><b>Barcode reading:</b> ZXing (“zebra crossing”) JavaScript library 0.23.0, Apache License 2.0.</li>
       <li><b>3D body:</b> MakeHuman assets (CC0) and three.js (MIT). Licence files are included with the app.</li>
       <li><b>Statistics:</b> US Centers for Disease Control and Prevention and the National Center for Health Statistics (public-domain US government works).</li>
-      <li><b>Clinical content:</b> Nick Holwey, PA-C, Theosis Medical. Clinical review: <i>[reviewer name and credentials]</i>.</li></ul>`;
+      <li><b>Clinical content:</b> Nick Holwey, PA-C, Theosis Health. Clinical review: <i>[reviewer name and credentials]</i>.</li></ul>`;
     return h; }
   function openPage(id) { if (!window.TheosisInfo) return; window.TheosisInfo.PAGES.sources.h = pageHtml(); window.TheosisInfo.open("sources");
     if (id) { const li = document.getElementById("srcp-" + id); if (li) { li.classList.add("src-hit"); li.setAttribute("tabindex", "-1"); li.scrollIntoView({ block: "center" }); li.focus(); } } }
@@ -5068,22 +5094,23 @@ return { KEY, MEALS, MEAL_IDS, dateKey, addDays, isDate, mealFor, empty, normali
    and for lab upload / AI reading. Version + timestamp are logged locally (no server). Re-prompts when CONSENT_VERSION changes.
    window.TheosisConsent: {VERSION, get(), has(optIn), open(manage), onChange(fn)} */
 (function () {
-  const VERSION = "2026-10-16", KEY = "theosis-consent", LOG = "theosis-consent-log";
+  const VERSION = "2026-10-22", KEY = "theosis-consent", LOG = "theosis-consent-log";
   const REQ = [
-    ["advice", "Education only, not medical advice", "I understand this tool is for <b>education only</b>. It is <b>not medical advice</b>, diagnosis or treatment, and using it does <b>not</b> create a clinician–patient (doctor–patient) relationship with Nick Holwey, PA-C, or Theosis Medical. It is not a substitute for care from your own clinician, and I won't change diabetes, blood-pressure or other medicines because of it."],
+    ["advice", "Education only, not medical advice", "I understand this tool is for <b>education only</b>. It is <b>not medical advice</b>, diagnosis or treatment, and using it does <b>not</b> create a clinician–patient (doctor–patient) relationship with Nick Holwey, PA-C, Theosis Health, or Theosis Medical. It is not a substitute for care from your own clinician, and I won't change diabetes, blood-pressure or other medicines because of it."],
     ["estimates", "Estimates and illustrations", "I understand results, health milestones and body or organ pictures are <b>estimates and illustrations</b> based on population research, not measurements or predictions for me."],
     ["age", "Age", "I am <b>18 or older</b>."],
-    ["data", "Your health data", "I understand what health information I may enter (body measurements, health answers, lab results, check-ins), that it is <b>stored on this device by default</b>, that I can delete it at any time with <b>Start over</b> or by clearing site data, and that Theosis Medical <b>does not sell</b> my data."],
+    ["data", "Your health data", "I understand what health information I may enter (body measurements, health answers, lab results, check-ins), that it is <b>stored on this device by default</b>, that I can delete it at any time with <b>Start over</b> or by clearing site data, and that Theosis Health <b>does not sell</b> my data."],
     ["terms", "Terms of use and privacy", `I have read and agree to the <a href="#terms" data-info="terms">Terms of use</a> and the <a href="#privacy" data-info="privacy">Privacy notice</a>, including the Consumer Health Data notice (Washington My Health My Data Act and similar state laws), and I understand this tool is <b>for use in the United States only</b>.`],
   ];
   const OPT = [
+    ["ai", "AI features (optional)", "I agree that when I use an AI feature (Tell us what you ate, web label lookup, food and nutrition-label photos, Ask Theosis, and the AI plan note), what I type or the food photo I choose is sent to a third-party AI provider (Google Gemini, paid tier) only to answer that request. It is <b>not used to train AI models</b>, isn't stored by Theosis Health, and I'll check the results before relying on them."],
     ["photoAi", "Photos and AI images (optional)", "I agree that photos I choose to add are processed <b>on this device</b> to fit the 3D figure. If I ask for an AI illustration, that one photo and my projected numbers are sent to a third-party AI provider (Google Gemini, paid tier) to make it. Along with the numbers, a few plan details are sent as fixed categories: my age and height, calorie level, steps, which muscle groups I train, my fat-storage pattern, and any measured visceral or under-the-skin fat values I entered. They are <b>not used to train AI models</b> and are <b>deleted after processing</b>. My name, lab results, medications and ancestry are <b>not</b> sent."],
-    ["biometric", "Written biometric consent for photos (required for photo features; Illinois BIPA and similar laws)", "I give my <b>written consent</b> for my photos to be used to estimate body shape landmarks (biometric information) only to draw my figure and AI illustration. They are processed on this device or, for AI illustrations, by the provider above, are <b>not sold, leased, traded or otherwise profited from</b>, are not kept on Theosis servers, and are destroyed when I delete them here or after processing (and in any case within 3 years of my last use). I can withdraw this consent at any time in <b>Consent settings</b>."],
+    ["biometric", "Biometric consent (required for photo features)", "<span class=\"consent-bipa\">To draw your figure and create AI illustrations, we estimate body-shape landmarks from your photo, and images of your face may be processed. Illinois and some other states treat this as <b>biometric information</b>.</span><ul class=\"consent-ul\"><li><b>Purpose:</b> only to make the figure and illustrations you request. No facial recognition or identification.</li><li><b>Where it goes:</b> it's processed on your device. For AI illustrations, your photo is sent to our processor, Google (Gemini API). We don't store it on our servers.</li><li><b>How long:</b> saved photos stay on your device until you delete them. Everything is destroyed when the purpose is done, or within 3 years of your last use at most.</li><li><b>Never sold.</b> We never sell or profit from it.</li></ul><span class=\"consent-bipa\">Full details: <a href=\"#privacy\" data-info=\"privacy\">Privacy Policy, Section 3</a>.</span><span class=\"consent-bipa-box\"><b>I am 18 or older, these are photos of me, and I give my written consent (a written release) for Theosis Health LLC to collect and use my biometric information as described above and in the Privacy Policy. I can withdraw consent anytime.</b></span>"],
     ["labAi", "Lab upload and AI reading (optional)", "I agree that a lab report I choose to upload is sent to a third-party AI provider (Google Gemini, paid tier) only to read the values. It is <b>not used to train AI models</b> and is <b>deleted after processing</b>. I'll check the values before they're used, and I can always type them in by hand instead."],
   ];
   const read = () => { try { return JSON.parse(localStorage.getItem(KEY) || "null"); } catch (e) { return null; } };
   const bypass = () => typeof window !== "undefined" && window.__CONSENT_TEST_BYPASS && !/consent=1/.test(location.search);
-  function get() { if (bypass()) return { version: VERSION, ts: "test", req: true, opt: { photoAi: true, biometric: true, labAi: true } }; const c = read(); return c && c.version === VERSION && c.req ? c : null; }
+  function get() { if (bypass()) return { version: VERSION, ts: "test", req: true, opt: { ai: true, photoAi: true, biometric: true, labAi: true } }; const c = read(); return c && c.version === VERSION && c.req ? c : null; }
   const has = (k) => { const c = get(); return !!(c && c.opt && c.opt[k]); };
   const subs = []; const onChange = (fn) => subs.push(fn);
   function save(opt) {
@@ -5092,39 +5119,61 @@ return { KEY, MEALS, MEAL_IDS, dateKey, addDays, isDate, mealFor, empty, normali
     subs.forEach((f) => { try { f(c); } catch (e) {} }); return c;
   }
   let dlg = null, lastFocus = null;
-  const NAMES = { photoAi: "photos and AI images", biometric: "biometric (body-shape) consent", labAi: "lab upload and AI reading" }, WHAT = { photoAi: "check-in photos and AI images", biometric: "body-shape estimates from photos", labAi: "lab values read from uploaded reports" };
+  const NAMES = { ai: "AI features", photoAi: "face and body photos and AI images", biometric: "biometric (body-shape) consent", labAi: "lab upload and AI reading" }, WHAT = { ai: "AI answers and drafts", photoAi: "your start photo, check-in photos and AI images", biometric: "body-shape estimates from photos", labAi: "lab values read from uploaded reports" };
   const name = (k) => NAMES[k] || k, what = (k) => WHAT[k] || k;
   const revokers = []; const onRevoke = (fn) => revokers.push(fn); const fire = (k) => revokers.forEach((f) => { try { f(k); } catch (e) {} });
   let confirmFn = (m) => window.confirm(m);
+  // v7.6.66: face/body photo steps appear only when the server has photo AI on (PHOTO_AI_ENABLED), or in tests.
+  let photoOn = false; const photoAvail = () => !!(photoOn || (typeof window !== "undefined" && window.__PHOTO_AI_TEST));
+  const UNLOCK = { ai: "Unlocks Tell us what you ate, web label lookup, food photos, Ask Theosis and the AI plan note.", photo: "Unlocks adding your photo to the figure, check-in photos and AI illustrations.", labAi: "Unlocks reading values from a lab report you upload." };
+  const optK = () => ["ai"].concat(photoAvail() ? ["photo"] : []).concat(["labAi"]);
+  const isOn = (o, k) => k === "photo" ? !!(o.photoAi && o.biometric) : !!o[k];
+  const STEP = { ai: "AI features", photo: "Face and body photos", labAi: "Lab upload and AI reading" };
+  const chk = (k, h, x) => `<label class="check consent-big"><input type="checkbox" data-opt="${k}"><span><b>${h}.</b> ${x}</span></label>`;
   function build() {
-    if (dlg) return dlg; dlg = document.createElement("dialog"); dlg.id = "consent-dlg"; dlg.className = "info-dlg consent-dlg"; dlg.setAttribute("aria-labelledby", "consent-title");
+    if (dlg) return dlg; dlg = document.createElement("dialog"); dlg.id = "consent-dlg"; dlg.className = "info-dlg consent-dlg consent-v2"; dlg.setAttribute("aria-labelledby", "consent-title");
     dlg.innerHTML = `<form method="dialog" class="consent-form" novalidate>
       <div class="consent-head"><p class="eyebrow">Theosis Metabolic Simulator</p>
       <h2 id="consent-title" tabindex="-1">Before you start</h2>
+      <p class="consent-sum"><b>In short:</b> step 1 is required. The rest are optional and start off. Each one says what it turns on, and you can change any of them later in Settings, under Privacy and consents.</p>
       <p class="hint consent-tmpl">Template for attorney review · consent version ${VERSION}</p></div>
-      <div class="consent-scroll" id="consent-scroll" tabindex="0" role="region" aria-label="Terms and disclosures">
-        <p class="consent-lead">Please read the terms and disclosures below. One checkbox at the end confirms all of them.</p>
-        ${REQ.map(([k, h, x]) => `<section class="consent-sec" data-sec="${k}"><h3>${h}</h3><p>${x}</p></section>`).join("")}
-        <section class="consent-sec" data-sec="breach"><h3>If there's ever a breach</h3><p>If there's ever a breach of identifiable health information we hold, we will notify you and the FTC as the FTC Health Breach Notification Rule requires. By default we hold none: your data stays on this device.</p></section>
-        <fieldset class="consent-opt"><legend>Optional: turn on only if you want these features</legend><p class="hint">These are separate choices. You can leave them off and still use everything else, and change them any time in Consent settings.</p>${OPT.map(([k, h, x]) => `<label class="check"><input type="checkbox" data-opt="${k}"><span><b>${h}.</b> ${x}</span></label>`).join("")}</fieldset>
+      <div class="consent-body" id="consent-scroll">
+        <section class="consent-step" data-step="terms"><h3><span class="consent-n">1</span> Terms (required)</h3><p class="consent-what">Needed to use the simulator. Everything you enter stays on this device.</p>
+        ${REQ.map(([k, h, x]) => `<section class="consent-sec" data-sec="${k}"><h4>${h}</h4><p>${x}</p></section>`).join("")}
+        <section class="consent-sec" data-sec="breach"><h4>If there's ever a breach</h4><p>If there's ever a breach of identifiable health information we hold, we will notify you and the FTC as the FTC Health Breach Notification Rule requires. By default we hold none: your data stays on this device.</p></section>
+        <label class="check consent-big consent-agree"><input type="checkbox" id="consent-agree" data-req="all"><span><b>I've read and agree</b> to the terms and disclosures in step 1.</span></label></section>
+        <section class="consent-step" data-step="ai"><h3><span class="consent-n">2</span> AI features (optional)</h3><p class="consent-what">${UNLOCK.ai}</p>${chk("ai", OPT[0][1], OPT[0][2])}<div class="consent-no"><button type="button" class="btn btn-ghost" data-no="ai">No thanks</button></div></section>
+        <section class="consent-step" data-step="photo"></section>
+        <section class="consent-step" data-step="labAi"></section>
       </div>
       <div class="consent-foot">
-        <label class="check consent-agree"><input type="checkbox" id="consent-agree" data-req="all"><span><b>I've read and agree</b> to the terms and disclosures above.</span></label>
-        <p class="consent-err" role="alert" hidden>Please tick "I've read and agree" to continue.</p>
+        <ul class="consent-summary" id="consent-summary" aria-label="Your choices"></ul>
+        <p class="consent-err" role="alert" hidden>Please tick "I've read and agree" in step 1 to continue.</p>
         <div class="consent-actions"><button type="button" class="btn btn-ghost" id="consent-withdraw" hidden>Withdraw all consent</button><button type="button" class="btn btn-primary" id="consent-accept" aria-disabled="true">Accept and continue</button></div>
         <p class="hint consent-msg" id="consent-msg" role="status" aria-live="polite"></p></div></form>`;
     document.body.appendChild(dlg);
     const sync = () => { const all = dlg.querySelector("#consent-agree").checked; const b = dlg.querySelector("#consent-accept"); b.setAttribute("aria-disabled", String(!all)); b.classList.toggle("is-disabled", !all);
-      const bio = dlg.querySelector('[data-opt="biometric"]'), ph = dlg.querySelector('[data-opt="photoAi"]'); if (!ph.checked && bio.checked) bio.checked = false; bio.disabled = !ph.checked; };
+      const bio = dlg.querySelector('[data-opt="biometric"]'), ph = dlg.querySelector('[data-opt="photoAi"]'); if (bio && ph) { if (!ph.checked && bio.checked) bio.checked = false; bio.disabled = !ph.checked; }
+      const cur = {}; dlg.querySelectorAll("[data-opt]").forEach((x) => { cur[x.dataset.opt] = x.checked && !x.disabled; });
+      dlg.querySelector("#consent-summary").innerHTML = optK().map((k) => `<li><span>${STEP[k]}: <b class="${isOn(cur, k) ? "on" : "off"}">${isOn(cur, k) ? "on" : "off"}</b></span>${isOn(cur, k) ? "" : `<button type="button" class="btn btn-ghost" data-turnon="${k}">Turn on</button>`}</li>`).join(""); };
     dlg.addEventListener("change", sync);
+    dlg.addEventListener("click", (e) => {
+      const t = e.target.closest("[data-turnon]"), n = e.target.closest("[data-no]"); if (!t && !n) return; e.preventDefault();
+      const k = (t || n).dataset[t ? "turnon" : "no"], sec = dlg.querySelector(`[data-step="${k}"]`);
+      if (n) { sec.querySelectorAll("[data-opt]").forEach((x) => (x.checked = false)); sync(); dlg.querySelector("#consent-msg").textContent = `${STEP[k]} stays off.`; return; }
+      // AI and lab: one tap ticks the box, with its full text shown right there. Biometric (BIPA written release): shown and focused, the person ticks it.
+      if (k === "ai" || k === "labAi") { const x = sec.querySelector(`[data-opt="${k}"]`); if (x) x.checked = true; }
+      else { const x = sec.querySelector('[data-opt="photoAi"]'); if (x) x.checked = true; }
+      sync(); focusStep(k); });
     dlg.addEventListener("cancel", (e) => { if (!get()) e.preventDefault(); });   // can't dismiss before accepting
     dlg.querySelector("#consent-accept").addEventListener("click", () => {
       const all = dlg.querySelector("#consent-agree").checked, err = dlg.querySelector(".consent-err");
-      if (!all) { err.hidden = false; dlg.querySelector("#consent-agree").focus(); return; }
-      err.hidden = true; const opt = {}; OPT.forEach(([k]) => { const x = dlg.querySelector(`[data-opt="${k}"]`); opt[k] = !!(x && x.checked && !x.disabled); });
-      const prev = (read() || {}).opt || {}, off = OPT.map(([k]) => k).filter((k) => prev[k] && !opt[k]);
+      if (!all) { err.hidden = false; focusStep("terms"); dlg.querySelector("#consent-agree").focus(); return; }
+      err.hidden = true; const prev = (read() || {}).opt || {}, opt = {};
+      OPT.forEach(([k]) => { const x = dlg.querySelector(`[data-opt="${k}"]`); opt[k] = x ? !!(x.checked && !x.disabled) : (k === "photoAi" || k === "biometric") ? false : !!prev[k]; });
+      const off = OPT.map(([k]) => k).filter((k) => prev[k] && !opt[k]);
       if (off.length && !confirmFn(`Turning off ${off.map(name).join(" and ")} will delete the related data stored on this device (${off.map(what).join("; ")}). Continue?`)) {
-        off.forEach((k) => { const x = dlg.querySelector(`[data-opt="${k}"]`); x.checked = true; }); sync(); dlg.querySelector("#consent-msg").textContent = "Nothing changed."; return; }
+        off.forEach((k) => { const x = dlg.querySelector(`[data-opt="${k}"]`); if (x) x.checked = true; }); sync(); dlg.querySelector("#consent-msg").textContent = "Nothing changed."; return; }
       save(opt); off.forEach((k) => fire(k)); dlg.close(); if (lastFocus && lastFocus.focus) lastFocus.focus(); });
     dlg.querySelector("#consent-withdraw").addEventListener("click", () => {
       if (!confirmFn("Withdraw all consent? This deletes the data stored on this device for photos, body-shape estimates and lab uploads, and returns you to the consent screen. Your other entries stay until you choose Start over.")) return;
@@ -5132,21 +5181,38 @@ return { KEY, MEALS, MEAL_IDS, dateKey, addDays, isDate, mealFor, empty, normali
       OPT.forEach(([k]) => fire(k)); fire("all"); subs.forEach((f) => { try { f(null); } catch (e) {} }); dlg.close(); open(false); });
     dlg._sync = sync; return dlg;
   }
-  function open(manage) {
-    const d = build(), c = read(); lastFocus = document.activeElement;
-    d.querySelector("#consent-agree").checked = !!(manage && c && c.version === VERSION && c.req); d.querySelector(".consent-err").hidden = true; d.querySelector("#consent-scroll").scrollTop = 0;
+  const O = (k) => OPT.find((o) => o[0] === k);
+  function paintSteps(d) {
+    const ph = d.querySelector('[data-step="photo"]'), lab = d.querySelector('[data-step="labAi"]'), n = photoAvail() ? 4 : 3;
+    ph.hidden = !photoAvail();
+    ph.innerHTML = photoAvail() ? `<h3><span class="consent-n">3</span> Face and body photos (optional)</h3><p class="consent-what">${UNLOCK.photo} Nothing is captured or sent until both boxes are ticked.</p>${chk("photoAi", O("photoAi")[1], O("photoAi")[2])}${chk("biometric", O("biometric")[1], O("biometric")[2])}<div class="consent-no"><button type="button" class="btn btn-ghost" data-no="photo">No thanks, use without photos</button></div>` : "";
+    lab.innerHTML = `<h3><span class="consent-n">${n}</span> Lab upload and AI reading (optional)</h3><p class="consent-what">${UNLOCK.labAi}</p>${chk("labAi", O("labAi")[1], O("labAi")[2])}<div class="consent-no"><button type="button" class="btn btn-ghost" data-no="labAi">No thanks</button></div>`;
+  }
+  function focusStep(k) { const d = dlg, s = d && d.querySelector(`[data-step="${k === "photoAi" || k === "biometric" ? "photo" : k}"]`); if (!s || s.hidden) return;
+    d.querySelectorAll(".consent-step.hi").forEach((x) => x.classList.remove("hi")); s.classList.add("hi"); try { s.scrollIntoView({ block: "start" }); } catch (e) {}
+    const x = s.querySelector('[data-opt="biometric"]:not(:checked):not(:disabled)') || s.querySelector("[data-opt]"); if (x) x.focus({ preventScroll: true }); }
+  function open(manage, focus) {
+    const d = build(), c = read(); lastFocus = document.activeElement; paintSteps(d);
+    d.querySelector("#consent-agree").checked = !!(manage && c && c.version === VERSION && c.req); d.querySelector(".consent-err").hidden = true; d.scrollTop = 0;
     d.querySelectorAll("[data-opt]").forEach((x) => { x.checked = !!(c && c.version === VERSION && c.opt && c.opt[x.dataset.opt]); });
-    d.querySelector("#consent-title").textContent = manage ? "Consent settings" : (c && c.version !== VERSION ? "We've updated our terms. Please review" : "Before you start");
+    d.querySelector("#consent-title").textContent = manage ? "Privacy and consents" : (c && c.version !== VERSION ? "We've updated our terms. Please review" : "Before you start");
     const info = document.getElementById("info-dlg"); if (info && info.open) info.close();   // v7.6.3: the Privacy notice link used to open this behind the info dialog
     d.querySelector("#consent-withdraw").hidden = !(manage && c && c.version === VERSION && c.req); d.querySelector("#consent-msg").textContent = "";
     d.querySelector("#consent-accept").textContent = manage && c && c.req ? "Save changes" : "Accept and continue";
-    d._sync(); if (d.open) d.close(); try { d.showModal(); } catch (e) { d.setAttribute("open", ""); } d.querySelector("#consent-title").focus();
+    d._sync(); if (d.open) d.close(); try { d.showModal(); } catch (e) { d.setAttribute("open", ""); }
+    if (focus && focus !== "1" && focus !== "true") focusStep(focus); else d.querySelector("#consent-title").focus();
   }
+  /** Withdraw one optional consent from Settings: turns the feature off and deletes its data on this device. */
+  function withdraw(k) { const c = get(); if (!c) return false; const keys = k === "photo" ? ["photoAi", "biometric"] : [k];
+    if (!confirmFn(`Withdraw consent for ${name(keys[0])}? This turns it off and deletes ${what(keys[0])} stored on this device.`)) return false;
+    const opt = Object.assign({}, c.opt); keys.forEach((x) => (opt[x] = false)); save(opt); keys.forEach(fire); return true; }
+  /** Inline "it's off because you didn't consent" prompt with a button that opens that consent. */
+  const lockHtml = (k, feature) => `<div class="consent-lock consent-lock2" role="status"><p><b>${feature} is off</b> because ${k === "photo" ? "face and body photo consent" : k === "labAi" ? "lab upload consent" : "AI features"} ${k === "ai" ? "weren't" : "wasn't"} turned on when you agreed to the terms. Nothing was sent.</p><button type="button" class="btn btn-primary" data-consent="${k}">Review and turn on</button></div>`;
   function init() {
-    document.addEventListener("click", (e) => { const t = e.target.closest("[data-consent]"); if (t) { e.preventDefault(); open(true); } }, true);
+    document.addEventListener("click", (e) => { const t = e.target.closest("[data-consent]"); if (t) { e.preventDefault(); open(true, t.dataset.consent); } }, true);
     if (!get()) open(false);
   }
-  window.TheosisConsent = { VERSION, get, has, open, onChange, onRevoke, save, REQ, OPT, setConfirm: (f) => { confirmFn = f; } };
+  window.TheosisConsent = { VERSION, get, has, open, onChange, onRevoke, save, withdraw, lockHtml, REQ, OPT, isOn, STEPS: () => optK(), STEP, setPhotoAvailable: (v) => { photoOn = !!v; if (dlg && dlg.open) { paintSteps(dlg); dlg._sync(); } }, photoAvailable: photoAvail, setConfirm: (f) => { confirmFn = f; } };
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init); else init();
 })();
 
@@ -5160,7 +5226,7 @@ return { KEY, MEALS, MEAL_IDS, dateKey, addDays, isDate, mealFor, empty, normali
   const CARDS = [
     { id: "mission", title: "Why this exists", html: `<p>We all have a <b>personal fat threshold</b>: a level of body fat beyond which fat starts to build up where it doesn't belong, such as the liver and pancreas.${F("taylor2015", 1)} Many people are closer to theirs than they realize, even at a "normal" weight.</p>
       <p>In today's food environment, it's easy to eat a little more than the body needs without noticing. Over years, that can gradually make people metabolically unwell: insulin resistance, then prediabetes or <b>metabolic syndrome</b>, and for many, <b>type 2 diabetes</b>.</p>` },
-    { id: "why", title: "Why we built it", html: `<p>At Theosis Medical, we feel that today we mostly manage sickness. Newer medications are helping, but at the core, most people are never shown why it's happening.</p>
+    { id: "why", title: "Why we built it", html: `<p>At Theosis Health, we feel that today we mostly manage sickness. Newer medications are helping, but at the core, most people are never shown why it's happening.</p>
       <p>We show the underlying physiology in a way anyone can understand, because once you know how something works, it's easier to see what's gone wrong and how to fix it.</p>` },
     { id: "picture", title: "Everyone is different", html: `<p>Everyone is at a different stage of health. Using as much as you're comfortable sharing (waist and height, activity, food, lab results, and soon genetic data if you've had it mapped), the <b>Theosis Metabolic Simulator</b> builds an <i>estimate</i> of where your metabolic health likely stands and what would move it in the right direction.</p>
       <p class="intro-mission"><b>Our mission is to reverse type 2 diabetes one person at a time, safely and in a way that fits each person's lifestyle and biology.</b></p>
@@ -5229,7 +5295,7 @@ return { KEY, MEALS, MEAL_IDS, dateKey, addDays, isDate, mealFor, empty, normali
 "use strict";
 const E = window.BodyEngine, FIG = window.BodyFigure, LB = E.LB;
 const CONFIG = {
-  CONSULT_URL: "https://theosismedical.com/#contact",   // contact section on theosismedical.com
+  CONSULT_URL: "https://theosishealth.com/contact/",   // contact page on theosishealth.com
   CONSULT_PHONE: "765.487.0777",
   PREVIEW_ENDPOINT: "/.netlify/functions/preview",   // v7.6.18 beta: single "See it on your photo" illustration (preview.js, same GEMINI_API_KEY)
   AI_ENDPOINT: "/.netlify/functions/ai",                  // v7.6.14: ONE Netlify Function holds GEMINI_API_KEY (see AI-SETUP.md). The AI features hide themselves when it isn't deployed or has no key.
@@ -5992,7 +6058,7 @@ function pftInsideOpen() {
     d.innerHTML = `<div class="info-head"><h2 id="pft-inside-title" tabindex="-1">Inside view (illustration)</h2><button type="button" class="x" id="pft-inside-close" aria-label="Close inside view">×</button></div>
       <p class="hint pft-inside-label">Illustration of typical patterns, not a scan of you. It doesn't use your numbers. Only imaging (such as MRI) can measure liver or pancreas fat.</p>
       <iframe id="pft-inside-frame" title="Personal fat threshold: how type 2 diabetes develops (anatomy illustration)" loading="lazy"></iframe>
-      <p class="hint">Anatomy: Theosis Medical (MakeHuman CC0 surface, original organs). <a href="${PFT_INSIDE_URL}" target="_blank" rel="noopener">Open in a new tab</a></p>`;
+      <p class="hint">Anatomy: Theosis Health (MakeHuman CC0 surface, original organs). <a href="${PFT_INSIDE_URL}" target="_blank" rel="noopener">Open in a new tab</a></p>`;
     document.body.appendChild(d); d.addEventListener("click", (e) => { if (e.target.id === "pft-inside-close") d.close(); }); }
   const f = $("#pft-inside-frame"); if (!f.getAttribute("src")) { f.setAttribute("src", PFT_INSIDE_URL); f.addEventListener("load", pftInsidePlace); } else pftInsidePlace();
   try { d.showModal(); } catch (e) { d.setAttribute("open", ""); } $("#pft-inside-title").focus(); }
@@ -6582,7 +6648,7 @@ function renderMeals() {
       return `<tr data-k="${k}"><th>${n}</th><td>${fK(v)}${u}</td><td>${fK(tg)}${u}</td><td>${ok ? "✓ " : ""}${d === 0 ? "on target" : `${d > 0 ? "+" : "−"}${fK(Math.abs(d))}${u}`}</td></tr>`; }).join("")}</tbody></table>
   ${CONFIG.PE_DOTS ? "" : "<!-- P:E dots off (CONFIG.PE_DOTS) -->"}<p class="hint pe-day" id="meal-pe"${CONFIG.PE_DOTS ? "" : " hidden"}><b>This day overall:</b> ${peBadge(window.SampleDays.peOfFoods(day.meals.flatMap((m) => m.foods)), "Carbs or fat are not listed for a food in this day, so the day's P:E isn't rated. Nothing is guessed.")}</p>
   ${peLegend()}
-  ${Math.abs(pg) > 5 ? `<p class="hint" id="meal-protein-note">${day.favs ? "With these favorites" : "With this style's foods"}, the day lands ${fK(Math.abs(Math.round(pg)))} g ${pg > 0 ? "above" : "below"} your ${fK(day.target.protein)} g protein target at this calorie level. ${day.favs ? (pg < 0 ? "Your favorites are never changed behind your back. A higher-protein version of a favorite (a fast food hack from theosismedical.com, where one exists), a protein shake, or marking a lower-protein favorite \"If it fits\" gets closer." : "Marking a favorite \"If it fits\" or choosing a smaller portion gets closer.") : "Another style, or a protein shake, gets closer."}</p>` : Math.abs(gap) > 100 ? `<p class="hint">These portions don't fully match your targets, because each food stays within a usable range.</p>` : ""}
+  ${Math.abs(pg) > 5 ? `<p class="hint" id="meal-protein-note">${day.favs ? "With these favorites" : "With this style's foods"}, the day lands ${fK(Math.abs(Math.round(pg)))} g ${pg > 0 ? "above" : "below"} your ${fK(day.target.protein)} g protein target at this calorie level. ${day.favs ? (pg < 0 ? "Your favorites are never changed behind your back. A higher-protein version of a favorite (a fast food hack from Health Hacks, where one exists), a protein shake, or marking a lower-protein favorite \"If it fits\" gets closer." : "Marking a favorite \"If it fits\" or choosing a smaller portion gets closer.") : "Another style, or a protein shake, gets closer."}</p>` : Math.abs(gap) > 100 ? `<p class="hint">These portions don't fully match your targets, because each food stays within a usable range.</p>` : ""}
   ${day.favs ? `${(day.notes || []).map((n) => `<p class="hint fav-note" role="status">${esc(n)}</p>`).join("")}${day.unknownCF && day.unknownCF.length ? `<p class="hint">Carbs and fat are not listed for ${esc(day.unknownCF.join(", "))}, so they count as unknown (not guessed). The carbs and fat rows above leave them out.</p>` : ""}${day.skipped && day.skipped.length ? `<p class="hint">Skipped, because calories and protein are both needed and nothing is estimated: ${esc(day.skipped.join(", "))}.</p>` : ""}<p class="hint">Restaurant and database numbers vary. Check the restaurant's page or the label.</p>` : ""}
   ${day.id === "glutenfree" ? `<p class="hint gf-note" id="gf-note"><strong>Gluten-free:</strong> ${esc(window.SampleDays.GF_NOTE)}</p>` : ""}
   <p class="hint">Contains: ${esc(day.allergens)} Check labels for allergens and exact nutrition. These are meal ideas, not a nutrition prescription.</p>
@@ -7015,7 +7081,7 @@ function favBuild() {
   const box = $("#fav-card"); if (!box || fav.built) return; fav.built = true;
   box.innerHTML = `<details class="fav" id="fav-d"><summary>Foods you like <span class="adv-tag" id="fav-count"></span></summary>
     <div class="fav-body">
-      <p class="hint">Add foods you actually like, and the example day is rebuilt around them to still reach your calorie and protein targets. Search any food (USDA FoodData Central and Open Food Facts). Typing a restaurant name, like Chick-fil-A, Chipotle or Taco Bell, also shows fast food hacks from theosismedical.com as an extra group. Up to ${FAV_MAX} foods.</p>
+      <p class="hint">Add foods you actually like, and the example day is rebuilt around them to still reach your calorie and protein targets. Search any food (USDA FoodData Central and Open Food Facts). Typing a restaurant name, like Chick-fil-A, Chipotle or Taco Bell, also shows fast food hacks from Health Hacks as an extra group. Up to ${FAV_MAX} foods.</p>
       <div class="fav-search"><label class="field fs-q"><span class="sr-only">Search foods you like</span><span class="control"><input type="search" id="fav-q" data-local="1" maxlength="80" autocomplete="off" placeholder="Search any food or a restaurant, e.g. salmon, Greek yogurt, Chipotle"></span></label><button type="button" class="btn btn-steel" id="fav-go">Search</button></div>
       <p class="hint" id="fav-status" role="status"></p>
       <div id="fav-results"></div><div id="fav-detail"></div><div id="fav-manual"></div>
@@ -7069,7 +7135,7 @@ function favRenderResults() {
   const db = dbOrd.map(([f, i]) => { const s = f.servings[0], n = FC.scale(f.per100, s.g), usable = f.per100.kcal != null && f.per100.protein != null;
     return usable ? row("", `${esc(f.name)}${f.brand ? ` <small class="inl">${esc(f.brand)}</small>` : ""}`, `${f.src === "off" ? "Open Food Facts" : "USDA FoodData Central"} · ${esc(s.g === 100 && s.label === "100 g" ? "per 100 g" : s.label)}`, `<b>${fK(FC.labelKcal(n.kcal))} kcal</b><small>${+n.protein.toFixed(1)} g protein</small><small>${peBadge(peOf(n))}</small><button type="button" class="btn btn-ghost btn-xs" data-fav-db="${i}">Add</button>`)
       : row("na", `${esc(f.name)}${f.brand ? ` <small class="inl">${esc(f.brand)}</small>` : ""}`, `${f.src === "off" ? "Open Food Facts" : "USDA"} · ${f.per100.protein == null ? "no protein listed" : "no calories listed"}`, `<small>can't use in the math</small><button type="button" class="btn btn-ghost btn-xs" data-fav-own="${esc(f.name)}">Enter my numbers</button>`); }).join("");
-  box.innerHTML = (hk ? `<p class="fav-grp">Fast-food hacks${r.hackChain ? ` · ${esc(r.hackChain)}` : ""}</p><ul class="fav-resl">${hk}</ul><p class="hint">Hacks are healthier orders from the Fast Food Hacks on <a href="${window.FastFoodHacks.PAGE}" target="_blank" rel="noopener">theosismedical.com</a>. Only items tagged "verified" were compared with the restaurant's own page; the rest are approximate, so check the restaurant's page.</p>` : "")
+  box.innerHTML = (hk ? `<p class="fav-grp">Fast-food hacks${r.hackChain ? ` · ${esc(r.hackChain)}` : ""}</p><ul class="fav-resl">${hk}</ul><p class="hint">Hacks are healthier orders from the Fast Food Hacks on <a href="${window.FastFoodHacks.PAGE}" target="_blank" rel="noopener">Health Hacks</a>. Only items tagged "verified" were compared with the restaurant's own page; the rest are approximate, so check the restaurant's page.</p>` : "")
     + `<p class="fav-grp">Foods${r.dbDone ? "" : " · searching…"}</p><ul class="fav-resl">${db || (r.dbDone ? `<li class="fav-res na"><span class="fav-nm">No database results<small>${esc(r.errs[0] || "Try a simpler name.")}</small></span></li>` : "")}</ul>`
     + `<ul class="fav-resl"><li class="fav-res"><span class="fav-nm">Can't find it?<small>Add your own calories and protein, or skip it. Nothing is guessed.</small></span><span class="fav-rt"><button type="button" class="btn btn-ghost btn-xs" data-fav-own="${esc(favSearchTerm())}">Add my own</button></span></li></ul>`;
 }
@@ -7442,7 +7508,7 @@ function renderFoodLog() {
     : `<p class="fl-adding"><b>Adding to ${ML}</b> <button type="button" class="link-btn" data-fl-change="1" aria-label="Change meal (now ${ML})">Change</button>${fl.lock ? ` <button type="button" class="link-btn" data-fl-unlock="1">Done</button>` : ""}</p>`;
   $$("[data-fl-tab]").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.flTab === fl.tab)));
   $("#fl-search-host").hidden = fl.tab !== "search"; $("#fl-quick").hidden = fl.tab !== "quick";
-  { const ft = $("#fl-text"); ft.hidden = fl.tab !== "text"; if (!ft.hidden) lazyLoad("assets/foodtext.js?v=7664").then(() => window.ftRender(), () => { ft.textContent = "Couldn't load this. Try Search or scan."; }); }
+  { const ft = $("#fl-text"); ft.hidden = fl.tab !== "text"; if (!ft.hidden) lazyLoad("assets/foodtext.js?v=7666").then(() => window.ftRender(), () => { ft.textContent = "Couldn't load this. Try Search or scan."; }); }
   const lp = $("#fl-list-pane"); lp.hidden = !(fl.tab === "recent" || fl.tab === "favs"); lp.innerHTML = lp.hidden ? "" : flListPane();
   const mt = FL.mealTotals(FLS, d);
   $("#fl-meals").innerHTML = FL.MEALS.map(([k, l]) => { const its = items.filter((x) => x.meal === k);
@@ -7457,7 +7523,7 @@ function renderFoodLog() {
   $("#fl-avg").innerHTML = `<section class="card fl-avg-card" aria-labelledby="fl-avg-h"><h3 id="fl-avg-h">Last 7 days</h3>${flWeekHtml()}${a.days ? `${flTotalsHtml(a, "sm")}<p class="hint">Average (calories, protein…) of ${a.days} logged day${a.days === 1 ? "" : "s"}${a.confidence === "low" ? `. <b>Low confidence:</b> ${a.completeDays < 3 ? `fewer than 3 days are marked complete, so partly logged days may be included` : ""}.` : ", all marked complete."} Today counts once it's marked complete.</p>` : `<p class="hint">Log a few days and mark them complete to see an average here.</p>`}
     <div class="actions"><button type="button" class="btn btn-ghost" data-fl-tosim="1">Use my log in the simulator</button></div></section>`;
 }
-try { if (localStorage.getItem("theosis-foodtext-pending")) { fl.tab = "text"; } if (localStorage.getItem("theosis-foodtext-pending")) setTimeout(() => lazyLoad("assets/foodtext.js?v=7664"), 0); } catch (e) { /* storage off */ }
+try { if (localStorage.getItem("theosis-foodtext-pending")) { fl.tab = "text"; } if (localStorage.getItem("theosis-foodtext-pending")) setTimeout(() => lazyLoad("assets/foodtext.js?v=7666"), 0); } catch (e) { /* storage off */ }
 window.__FLX = { get FLS() { return FLS; }, fl, add: (i) => flAddFood(i), render: () => renderFoodLog() };
 function flAddFood(item) {
   const it = FL.addItem(FLS, fl.date, { ...item, meal: fl.meal }); if (!it) { fl.status = "Couldn't add that food (this day is full or the entry is incomplete)."; renderFoodLog(); return null; }
@@ -7880,7 +7946,7 @@ function aiBase() { const c = ciLatest(), r2 = c ? ciProjection(c) : null;
 const rowIn = (rows, day) => { let best = rows[0]; for (const r of rows) { if (r.day <= day + 1e-9) best = r; else break; } return best; };
 function renderCheckins() {
   const box = $("#ci-box"); if (!box || !R || R.blocked) return;
-  if (window.TheosisConsent && !TheosisConsent.has("photoAi")) { box.innerHTML = `<p class="consent-lock" id="ci-lock">Photo check-ins are off. <a href="#" data-consent>Turn on "Photos and AI images" in Consent settings</a> to use them. Everything else keeps working.</p>`; return; } const B = aiBase(), u = uW(), end = R.main.rows[R.main.rows.length - 1];
+  if (window.TheosisConsent && !(TheosisConsent.photoAvailable() && TheosisConsent.has("photoAi") && TheosisConsent.has("biometric"))) { box.innerHTML = TheosisConsent.photoAvailable() ? `<div id="ci-lock">${TheosisConsent.lockHtml("photo", "Photo check-ins")}</div>` : `<p class="hint" id="ci-lock">Photo check-ins are coming later. Everything else keeps working.</p>`; return; } const B = aiBase(), u = uW(), end = R.main.rows[R.main.rows.length - 1];
   const endRowB = B.rows[B.rows.length - 1], endDay = B.off + endRowB.day, st = startPerson(), b0 = bfInfo();
   const tile = (img, svg, k, cap, del) => `<figure class="ci-tile">${img ? `<img src="${img}" alt="${esc(k)} photo">` : `<div class="ci-svg">${svg}</div>`}<figcaption><b>${esc(k)}</b>${cap}</figcaption>${del ? `<button type="button" class="ci-del" data-ci-del="${del}" aria-label="Remove the ${esc(k)} photo">Remove</button>` : ""}</figure>`;
   const tiles = (photo ? [tile(photo, "", "Start", `${fW(S.profile.weightKg)} · ${fP(b0.bf)}`)] : [])
@@ -7973,7 +8039,7 @@ function previewShrink(dataUrl, max, q) { return new Promise((res, rej) => { con
  *  Later: set CONFIG.PREVIEW_ENDPOINT to the Netlify function, which holds the Gemini key server-side. */
 async function callGeneratePreview(photoDataUrl, projection) {
   if (CONFIG.PREVIEW_ENDPOINT) {
-    if (window.TheosisConsent && !TheosisConsent.has("photoAi")) { TheosisConsent.open(true); throw new Error("Turn on photos and AI images in Consent settings first."); }
+    if (window.TheosisConsent && !(TheosisConsent.has("photoAi") && TheosisConsent.has("biometric"))) { throw new Error("AI illustrations are off because face and body photo consent wasn't turned on. Nothing was sent. Use Review and turn on in Settings, under Privacy and consents."); }
     const dbgOn = typeof aiPreviewHost === "function" && aiPreviewHost(), fail = (msg, dbg) => { const e = new Error(msg + (dbgOn && dbg ? " [preview debug: " + dbg + "]" : "")); e.code = "preview"; return e; };
     let img = photoDataUrl; if (String(img).length > 2.5e6) { try { img = await previewShrink(img, 1280, 0.8); } catch (e) { /* send as is */ } }
     if (String(img).length > 4.6e6) throw fail("That photo is too large to send. Use a smaller photo (under about 3 MB) and try again.", "client payload " + String(img).length + " chars");
@@ -8029,7 +8095,7 @@ function renderAi() {
   <p class="muted small">An AI image model can redraw your photo to <em>illustrate</em> you at week ${pj.weeks} (${fW(pj.startWeightKg)} → ${fW(pj.endWeightKg)}, ${pj.startBf}% → ${pj.endBf}% body fat). It's an illustration, not a prediction. Real bodies change differently.</p>
   <div class="stack mt1">
     <label class="check"><input type="checkbox" id="ai-adult" ${aiState.adult ? "checked" : ""}><span>I'm 18 or older, and this is a photo of me.</span></label>
-    <label class="check"><input type="checkbox" id="ai-consent" ${aiState.consent ? "checked" : ""}><span>I agree to send this photo to an AI image service to make one illustration. It isn't stored by Theosis Medical. ${CONFIG.PREVIEW_ENDPOINT ? "" : "<em>(Demo mode: nothing is actually sent.)</em>"}</span></label>
+    <label class="check"><input type="checkbox" id="ai-consent" ${aiState.consent ? "checked" : ""}><span>I agree to send this photo to an AI image service to make one illustration. It isn't stored by Theosis Health. ${CONFIG.PREVIEW_ENDPOINT ? "" : "<em>(Demo mode: nothing is actually sent.)</em>"}</span></label>
   </div>
   <div class="actions"><button type="button" class="btn btn-primary" id="ai-go" ${aiState.adult && aiState.consent && !aiState.busy ? "" : "disabled"}>${aiState.busy ? "Creating…" : "Create AI illustration"}</button></div>
   <div id="ai-out" aria-live="polite">${aiState.error ? `<ul class="alerts"><li class="alert danger">${ICON.warn}<span>${esc(aiState.error)}</span></li></ul>` : ""}${aiState.result ? `<div class="ai-grid"><figure><img src="${photo}" alt="Your photo, before"><span class="ai-label">${B.c ? `Week ${B.c.week} · your check-in` : "Before · your photo"}</span><figcaption>${fW(pj.startWeightKg)} · ${pj.startBf}% body fat</figcaption></figure>
@@ -8226,7 +8292,7 @@ function buildPrint() {
   if (!R || R.blocked) return;
   const s = R.main.rows[0], e = endRow(), st = startPerson();
   const rows = R.main.rows.length > 40 ? R.main.rows.filter((r, i) => i % Math.ceil(R.main.rows.length / 40) === 0 || r.end) : R.main.rows;
-  $("#print-sheet").innerHTML = `<div class="ph"><img src="${$(".lockup").src}" alt="Theosis Medical"><span style="font-family:var(--font-display);letter-spacing:.16em;text-transform:uppercase;font-size:11pt">Theosis Metabolic Simulator · Health Hacks</span></div>
+  $("#print-sheet").innerHTML = `<div class="ph"><img src="${$(".lockup").src}" alt="Theosis Health" style="height:2.2rem;width:auto"><span style="font-family:var(--font-display);letter-spacing:.16em;text-transform:uppercase;font-size:11pt">Theosis Metabolic Simulator · Health Hacks</span></div>
   <h1>Body composition plan</h1><p>${esc(goalLabel())} · prepared ${fDate(0, true)} · ${S.food.psmf ? "PSMF projection (clinician-guided)" : S.food.actualOn ? "projection of current habits" : "recommended plan"}</p>
   <div class="grid" style="margin-top:10px"><div><h2>Recap</h2><table>${recapPairs().map(([k, v]) => `<tr><td style="text-align:left;width:28%"><b>${esc(k)}</b></td><td style="text-align:left">${esc(v)}</td></tr>`).join("")}</table></div>
   <div><h2>Projection</h2><div class="figs">${FIG.svg(st)}${FIG.svg(personAt(e), { ghost: st })}</div>
@@ -8238,7 +8304,7 @@ function buildPrint() {
   <h2>Next three steps</h2><ol>${R.nextSteps.map((n) => `<li><b>${esc(n.title)}.</b> ${esc(n.body)}</li>`).join("")}</ol>
   ${R.warnings.length ? `<h2>Notes &amp; cautions</h2>${R.warnings.map((w) => `<p class="warn">${esc(w.m)}</p>`).join("")}` : ""}
   <h2 class="pb">Week by week</h2><table><thead><tr><th>Week</th><th>Date</th><th>Eat (kcal)</th><th>Burn</th><th>Weight (${uW()})</th><th>Body fat</th><th>Fat</th><th>Lean</th></tr></thead><tbody>${rows.map((r) => `<tr><td>${fWk(r.day)}</td><td>${fDate(r.day)}</td><td>${r.end ? "—" : fK(r.intake)}</td><td>${fK(r.tdee)}</td><td>${nW(r.weightKg)}</td><td>${fP(r.bf)}</td><td>${nW(r.fatKg)}</td><td>${nW(r.leanKg)}</td></tr>`).join("")}</tbody></table>
-  <p class="foot"><b>Book a consult:</b> theosismedical.com/#contact · ${CONFIG.CONSULT_PHONE} · nick@theosismedical.com<br>Educational tool, not medical advice. These are estimates from population research (Alpert 2005; Hall 2008/2011; Forbes 2000; Mifflin 1990; NHLBI 1998), and your results will differ. Talk with your clinician before major changes, especially if you're pregnant, take glucose-lowering medicine, or have a chronic condition.</p>`;
+  <p class="foot"><b>Theosis Health</b> · theosishealth.com · an education company that doesn't provide medical care.<br>Educational tool, not medical advice. These are estimates from population research (Alpert 2005; Hall 2008/2011; Forbes 2000; Mifflin 1990; NHLBI 1998), and your results will differ. Talk with your clinician before major changes, especially if you're pregnant, take glucose-lowering medicine, or have a chronic condition.</p>`;
 }
 
 const crop = { img: null, base: 1, zoom: 1, x: 0, y: 0, stream: null, mode: "crop" };
@@ -8286,8 +8352,8 @@ function bindCrop() {
     photo = $("#crop-canvas").toDataURL("image/jpeg", 0.88); aiState.result = null; dlg().close(); renderPhoto(); update();
   });
   $("#btn-upload").addEventListener("click", () => $("#file-photo").click());
-  $("#btn-camera").addEventListener("click", openCamera);
-  ["#file-photo", "#file-camera"].forEach((id) => { const el = $(id); if (el) el.addEventListener("click", (ev) => { const C = window.TheosisConsent; if (C && !(C.has("photoAi") && C.has("biometric"))) { ev.preventDefault(); C.open(true); } }); });
+  $("#btn-camera").addEventListener("click", () => { const C = window.TheosisConsent; if (C && !(C.photoAvailable() && C.has("photoAi") && C.has("biometric"))) { paintConsentLocks(true); return; } openCamera(); });   // v7.6.66: the live camera needed the same consent as file upload
+  ["#file-photo", "#file-camera"].forEach((id) => { const el = $(id); if (el) el.addEventListener("click", (ev) => { const C = window.TheosisConsent; if (C && !(C.photoAvailable() && C.has("photoAi") && C.has("biometric"))) { ev.preventDefault(); paintConsentLocks(true); } }); });
   document.addEventListener("change", (ev) => { if (ev.target && ev.target.id === "lu-file") { const f = ev.target.files[0]; ev.target.value = ""; labUpload(f); } });
   $("#file-photo").addEventListener("change", (ev) => { loadFile(ev.target.files[0]); ev.target.value = ""; });
   $("#file-camera").addEventListener("change", (ev) => { loadFile(ev.target.files[0]); ev.target.value = ""; });
@@ -8356,7 +8422,8 @@ const AI_LIM = () => Object.assign({ chat: 30, label: 20, plan: 5, stageImages: 
 function aiUse() { let u = null; try { u = JSON.parse(localStorage.getItem(AI_USE_KEY) || "null"); } catch (e) { /* ignore */ } const d = new Date().toISOString().slice(0, 10); return u && u.day === d ? u : { day: d, chat: 0, label: 0, plan: 0, stageImages: 0, stageRuns: 0 }; }
 function aiUseAdd(k, n = 1) { const u = aiUse(); u[k] = (u[k] || 0) + n; try { localStorage.setItem(AI_USE_KEY, JSON.stringify(u)); } catch (e) { /* ignore */ } }
 const aiLeft = (k) => Math.max(0, AI_LIM()[k] - (aiUse()[k] || 0));
-const aiConsentOk = () => !window.TheosisConsent || !!(TheosisConsent.get() && TheosisConsent.has("photoAi"));
+const aiConsentOk = () => !window.TheosisConsent || !!(TheosisConsent.get() && TheosisConsent.has("ai"));   // v7.6.66: its own "AI features" consent (was tied to photos)
+const aiLock = (f) => window.TheosisConsent ? TheosisConsent.lockHtml("ai", f) : "";
 const aiOn = () => !!(CONFIG.AI_ENDPOINT && AI.avail);
 /** v7.6.16: only on Netlify deploy previews / branch deploys (hostname has "--" and ends .netlify.app) the bubble stays visible even when the function can't be reached or has no key, and the dialog says why, so a tester is never left with nothing on screen. Never on a production domain. */
 const aiPreviewHost = () => /^[a-z0-9-]+--[a-z0-9-]+\.netlify\.app$/i.test(location.hostname);
@@ -8367,13 +8434,13 @@ function aiCheck() {
   if (!CONFIG.AI_ENDPOINT || location.protocol === "file:" || localNoFn) { AI.avail = false; return Promise.resolve(false); }
   if (AI.checking) return AI.checking;
   AI.checking = fetch(CONFIG.AI_ENDPOINT, { headers: { Accept: "application/json" }, cache: "no-store" }).then(async (r) => { if (!r.ok || !/json/.test(r.headers.get("content-type") || "")) { AI.why = `The AI function answered with status ${r.status} (${(r.headers.get("content-type") || "no type").split(";")[0]}), not the expected JSON. Check that netlify/functions/ai.js deployed and that Deploy Previews aren't behind a login that blocks it.`; throw new Error("no function"); }
-    const j = await r.json(); AI.avail = !!(j && j.configured); if (!AI.avail) AI.why = "The AI function is deployed but GEMINI_API_KEY isn't visible to it. In Netlify, add GEMINI_API_KEY with the Deploy Previews scope ticked, then trigger a new deploy of this preview."; AI.limits = j && j.limits || null; AI.photo = !!(j && j.photoAi); AI.mock = !!(j && j.mock); return AI.avail; }).catch((e) => { AI.avail = false; if (!AI.why) AI.why = "Couldn't reach the AI function (" + ((e && e.message) || "network error") + ")."; return false; })
+    const j = await r.json(); AI.avail = !!(j && j.configured); if (!AI.avail) AI.why = "The AI function is deployed but GEMINI_API_KEY isn't visible to it. In Netlify, add GEMINI_API_KEY with the Deploy Previews scope ticked, then trigger a new deploy of this preview."; AI.limits = j && j.limits || null; AI.photo = !!(j && j.photoAi); if (window.TheosisConsent && TheosisConsent.setPhotoAvailable) TheosisConsent.setPhotoAvailable(AI.photo); if (typeof paintConsentLocks === "function") paintConsentLocks(); AI.mock = !!(j && j.mock); return AI.avail; }).catch((e) => { AI.avail = false; if (!AI.why) AI.why = "Couldn't reach the AI function (" + ((e && e.message) || "network error") + ")."; return false; })
     .then((v) => { aiRenderAll(); return v; });
   return AI.checking;
 }
 /** One call to the function. Throws Error(message) with a plain-language message; err.code tells the caller why. */
 async function aiCall(action, payload, signal) {
-  if (!aiConsentOk()) { if (window.TheosisConsent) TheosisConsent.open(true); const e = new Error('Turn on "Photos and AI images" in Consent settings to use AI features.'); e.code = "consent"; throw e; }
+  if (!aiConsentOk()) { const e = new Error("AI features are off because you didn't turn them on in your consents. Nothing was sent. Use Review and turn on in Settings, under Privacy and consents."); e.code = "consent"; throw e; }
   let res; const hdr = { "Content-Type": "application/json" }, pro = aiProHeader(); if (pro) hdr["X-Theosis-Pro"] = pro;
   try { res = await fetch(CONFIG.AI_ENDPOINT, { method: "POST", headers: hdr, signal, body: JSON.stringify(Object.assign({ action, consent: { photoAi: true, adult: true, at: new Date().toISOString() } }, payload)) }); }
   catch (e) { if (e.name === "AbortError") { const x = new Error("Cancelled."); x.code = "abort"; throw x; } const x = new Error("Couldn't reach the AI service. Check your connection and try again."); x.code = "network"; throw x; }
@@ -8470,7 +8537,7 @@ function aiRenderFood() {
     <div class="actions"><button type="button" class="btn btn-steel" data-ai-food-add="${i}">Add to today's log</button><button type="button" class="btn btn-ghost" data-ai-food-drop="${i}">Discard</button></div></div>`).join("");
   box.innerHTML = `<div class="ai-food"><div class="ai-food-h"><b>Read a nutrition label with AI</b> ${aiTag("aiPhoto")}</div>
     <p class="hint">Photograph the printed Nutrition Facts label on a package. The AI copies the numbers exactly as printed (it does not guess calories from photos of food), and <b>nothing is added until you confirm and edit them</b>. The photo is sent to Google Gemini once, isn't stored, and is deleted after processing.</p>
-    ${locked ? `<p class="consent-lock">AI photo features are off. <a href="#" data-consent>Turn on "Photos and AI images" in Consent settings</a>.</p>` : `<p class="photo-q"><b>Read a nutrition label</b></p><div class="photo-pair" role="group" aria-label="Nutrition label photo"><button type="button" class="btn btn-ghost btn-big photo-btn" data-ai-food-pick="cam" ${F.busy || !left ? "disabled" : ""}>📷 Take a photo</button><button type="button" class="btn btn-ghost btn-big photo-btn" data-ai-food-pick="lib" ${F.busy || !left ? "disabled" : ""}>🖼 Choose a photo</button></div>
+    ${locked ? `${aiLock("Reading a nutrition label")}` : `<p class="photo-q"><b>Read a nutrition label</b></p><div class="photo-pair" role="group" aria-label="Nutrition label photo"><button type="button" class="btn btn-ghost btn-big photo-btn" data-ai-food-pick="cam" ${F.busy || !left ? "disabled" : ""}>📷 Take a photo</button><button type="button" class="btn btn-ghost btn-big photo-btn" data-ai-food-pick="lib" ${F.busy || !left ? "disabled" : ""}>🖼 Choose a photo</button></div>
     <p class="hint">${left ? `${left} AI reading${left === 1 ? "" : "s"} left today.` : "You've used today's AI readings. Try again tomorrow, or search and type foods in."}</p>`}
     <p class="hint ai-status" role="status" aria-live="polite">${esc(F.busy ? "Reading your photo…" : F.status)}</p>${F.err ? `<p class="alert danger" role="alert">${esc(F.err)}</p>` : ""}${F.note ? `<p class="hint">${esc(F.note)}</p>` : ""}${items}</div>`;
 }
@@ -8496,7 +8563,7 @@ function aiFoodAdd(i) {
 
 function aiRenderStages() {
   const box = $("#ai-stages"); if (!box) return; if (!aiOn() || !AI.photo || !R || R.blocked) { box.innerHTML = ""; return; }
-  const G = AI.stages, sp = stagePlan(), locked = !aiConsentOk(), runsLeft = aiLeft("stageRuns"), imgLeft = aiLeft("stageImages"), has = !!photo;
+  const G = AI.stages, sp = stagePlan(), locked = !aiConsentOk() || !(window.TheosisConsent && TheosisConsent.has("photoAi") && TheosisConsent.has("biometric")), runsLeft = aiLeft("stageRuns"), imgLeft = aiLeft("stageImages"), has = !!photo;
   const rows = sp.ok ? sp.pts.map((q) => `<tr><td>Week ${Math.round(q.weeks)}</td><td>${fW(q.endWeightKg)}</td><td>${fP(q.endBf)}</td><td>${fWd(q.fatChangeKg)}</td><td>${fWd(q.leanChangeKg)}</td></tr>`).join("") : "";
   const frames = G.frames.map((f) => `<figure class="ai-stage${f.err ? " is-err" : ""}">${f.img ? `<img src="${f.img}" alt="${f.start ? "Your starting photo" : `AI illustration of you at week ${f.week}`}">` : `<div class="ai-stage-ph">${f.err ? esc(f.err) : "Creating…"}</div>`}
     <span class="ai-label">${f.start ? "Start · your photo" : "AI illustration, not a prediction"}</span>
@@ -8504,8 +8571,8 @@ function aiRenderStages() {
   box.innerHTML = `<hr class="soft"><div class="ai-stages"><div class="ai-food-h"><b>See yourself at each stage</b> ${aiTag("aiStages")}</div>
     <p class="muted small">The AI redraws your starting photo at checkpoints along <em>your</em> plan, using the body fat % and muscle change the simulator projects for each week. Same person, pose, background and clothing. It's an illustration, not a prediction: real bodies at the same body fat look different, and AI can exaggerate or change details.</p>
     ${!sp.ok ? `<p class="hint">${esc(sp.why)}</p>` : `<table class="ai-stage-tbl"><caption class="sr-only">Checkpoints the AI will illustrate</caption><thead><tr><th>When</th><th>Weight</th><th>Body fat</th><th>Fat</th><th>Lean</th></tr></thead><tbody>${rows}</tbody></table>`}
-    ${!has ? `<p class="hint">Add a front-facing photo in Step 1 to use this.</p><button type="button" class="btn btn-ghost" data-goto="1">Add a photo</button>` : locked ? `<p class="consent-lock">AI photo features are off. <a href="#" data-consent>Turn on "Photos and AI images" in Consent settings</a>.</p>` : sp.ok ? `
-    <label class="check"><input type="checkbox" id="ai-stage-me" ${AI.adult ? "checked" : ""}><span>This is a photo of me, and I'm 18 or older. I agree to send it to Google Gemini to make ${sp.pts.length} illustration${sp.pts.length === 1 ? "" : "s"}. It isn't stored by Theosis Medical and is deleted after processing.</span></label>
+    ${!has ? `<p class="hint">Add a front-facing photo in Step 1 to use this.</p><button type="button" class="btn btn-ghost" data-goto="1">Add a photo</button>` : locked ? `${window.TheosisConsent ? TheosisConsent.lockHtml(aiConsentOk() ? "photo" : "ai", "AI illustrations") : ""}` : sp.ok ? `
+    <label class="check"><input type="checkbox" id="ai-stage-me" ${AI.adult ? "checked" : ""}><span>This is a photo of me, and I'm 18 or older. I agree to send it to Google Gemini to make ${sp.pts.length} illustration${sp.pts.length === 1 ? "" : "s"}. It isn't stored by Theosis Health and is deleted after processing.</span></label>
     <div class="actions"><button type="button" class="btn btn-primary" id="ai-stage-go" ${AI.adult && !G.busy && runsLeft && imgLeft >= sp.pts.length ? "" : "disabled"}>${G.busy ? "Creating…" : "Create my stages"}</button>${G.frames.length && !G.busy ? `<button type="button" class="btn btn-ghost" data-ai-stage-clear="1">Delete these images</button>` : ""}${G.busy ? `<button type="button" class="btn btn-ghost" data-ai-stage-cancel="1">Cancel</button>` : ""}</div>
     <p class="hint">${runsLeft ? `${runsLeft} run${runsLeft === 1 ? "" : "s"} left today (${sp.pts.length} images each).` : "You've used today's runs. Try again tomorrow."}</p>` : ""}
     <p class="hint ai-status" role="status" aria-live="polite">${esc(G.status)}</p>${G.err ? `<p class="alert danger" role="alert">${esc(G.err)}</p>` : ""}
@@ -8513,7 +8580,7 @@ function aiRenderStages() {
 }
 async function aiStagesRun() {
   const G = AI.stages, sp = stagePlan(); if (G.busy || !sp.ok || !photo || !AI.adult) return; if (!proGate("aiStages", "#ai-stage-go")) return;
-  if (!aiConsentOk()) { aiRenderStages(); return; } if (!aiLeft("stageRuns") || aiLeft("stageImages") < sp.pts.length) { G.err = "You've reached today's limit for this feature."; aiRenderStages(); return; }
+  if (!aiConsentOk() || !(window.TheosisConsent && TheosisConsent.has("photoAi") && TheosisConsent.has("biometric"))) { aiRenderStages(); return; } if (!aiLeft("stageRuns") || aiLeft("stageImages") < sp.pts.length) { G.err = "You've reached today's limit for this feature."; aiRenderStages(); return; }
   aiUseAdd("stageRuns"); G.busy = true; G.err = ""; G.run = `run-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`; G.ctl = new AbortController();
   const b0 = projectionPayload(0, { rows: R.main.rows, off: 0, c: null }), src = photo;
   G.frames = [{ start: true, img: src, numbers: `${fW(b0.startWeightKg)} · ${fP(b0.startBf)} body fat` }].concat(sp.pts.map((q) => ({ week: Math.round(q.weeks), img: null, numbers: `${fW(q.endWeightKg)} · ${fP(q.endBf)} body fat · fat ${fWd(q.fatChangeKg)}, lean ${fWd(q.leanChangeKg)}` })));
@@ -8536,12 +8603,12 @@ const ASK_IDEAS = ["How much protein should I eat?", "Why does the simulator say
 function aiAskDlg() { let d = $("#dlg-ask"); if (d) return d; d = document.createElement("dialog"); d.id = "dlg-ask"; d.className = "info-dlg ask-dlg"; d.setAttribute("aria-labelledby", "ask-h"); document.body.appendChild(d); return d; }
 function aiRenderAsk() {
   const d = $("#dlg-ask"); if (!d) return; const C = AI.chat, left = aiLeft("chat"), locked = !aiConsentOk();
-  const msg = (m) => m.role === "user" ? `<div class="ask-msg me"><span class="sr-only">You: </span>${esc(m.content)}</div>` : `<div class="ask-msg bot"><span class="sr-only">Ask Theosis: </span>${aiMd(m.content, m.links)}${m.emergency ? "" : `<p class="ask-meta">${m.beyondSite ? `<span class="tag">Beyond Theosis' site: general evidence</span> ` : ""}${m.uncertain ? `<span class="tag">Not certain</span> ` : ""}</p>`}${m.links && m.links.length ? `<p class="ask-links"><b>On theosismedical.com:</b> ${m.links.map((l) => `<a href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.title)}</a>`).join(" · ")}</p>` : ""}</div>`;
+  const msg = (m) => m.role === "user" ? `<div class="ask-msg me"><span class="sr-only">You: </span>${esc(m.content)}</div>` : `<div class="ask-msg bot"><span class="sr-only">Ask Theosis: </span>${aiMd(m.content, m.links)}${m.emergency ? "" : `<p class="ask-meta">${m.beyondSite ? `<span class="tag">Beyond Theosis' site: general evidence</span> ` : ""}${m.uncertain ? `<span class="tag">Not certain</span> ` : ""}</p>`}${m.links && m.links.length ? `<p class="ask-links"><b>On Theosis Health:</b> ${m.links.map((l) => `<a href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.title)}</a>`).join(" · ")}</p>` : ""}</div>`;
   d.innerHTML = `<div class="info-head"><h2 id="ask-h" tabindex="-1">Ask Theosis ${aiTag("aiChat")}</h2><button type="button" class="x" data-ask-close="1" aria-label="Close">×</button></div>
-    <div class="info-body ask-body"><p class="hint">Education only, not medical advice, and no diagnosis or prescribing. It answers from the simulator's concepts, nutrition science and the Theosis Medical site, using <b>your simulator numbers</b> as context. AI can be wrong: check anything important with your own clinician. Your question and those numbers are sent to Google Gemini and aren't stored.</p>
+    <div class="info-body ask-body"><p class="hint">Education only, not medical advice, and no diagnosis or prescribing. It answers from the simulator's concepts, nutrition science and the Theosis Health site, using <b>your simulator numbers</b> as context. AI can be wrong: check anything important with your own clinician. Your question and those numbers are sent to Google Gemini and aren't stored.</p>
     <div class="ask-log" id="ask-log" role="log" aria-live="polite" aria-label="Conversation">${C.msgs.length ? C.msgs.map(msg).join("") : `<div class="ask-ideas" role="group" aria-label="Question ideas">${ASK_IDEAS.map((q) => `<button type="button" class="chip" data-ask-idea="${esc(q)}">${esc(q)}</button>`).join("")}</div>`}${C.busy ? `<div class="ask-msg bot" aria-busy="true">Thinking…</div>` : ""}</div>
     ${C.err ? `<p class="alert danger" role="alert">${esc(C.err)}</p>` : ""}
-    ${locked ? `<p class="consent-lock">AI features are off. <a href="#" data-consent>Turn on "Photos and AI images" in Consent settings</a>.</p>` : `<form class="ask-form" id="ask-form"><label class="sr-only" for="ask-q">Your question</label><textarea id="ask-q" rows="2" maxlength="1000" data-local="1" placeholder="Ask about your plan, nutrition, or the simulator" ${C.busy || !left ? "disabled" : ""}></textarea>
+    ${locked ? `${aiLock("Ask Theosis")}` : `<form class="ask-form" id="ask-form"><label class="sr-only" for="ask-q">Your question</label><textarea id="ask-q" rows="2" maxlength="1000" data-local="1" placeholder="Ask about your plan, nutrition, or the simulator" ${C.busy || !left ? "disabled" : ""}></textarea>
     <div class="actions"><button type="submit" class="btn btn-primary" ${C.busy || !left ? "disabled" : ""}>Send</button>${C.msgs.length ? `<button type="button" class="btn btn-ghost" data-ask-clear="1">Clear chat</button>` : ""}</div><p class="hint">${left ? `${left} question${left === 1 ? "" : "s"} left today.` : "You've used today's questions. Try again tomorrow."}</p></form>`}</div>`;
   const lg = $("#ask-log"); if (lg) lg.scrollTop = lg.scrollHeight;
 }
@@ -8575,7 +8642,7 @@ function aiPlanHtml() { const P = AI.plan; if (!CONFIG.AI_EXPLAIN_PLAN || !P.sec
 function renderPlanOpt() {
   const box = $("#ai-plan-opt-box"); if (!box) return; if (!CONFIG.AI_EXPLAIN_PLAN || !aiOn()) { box.innerHTML = ""; return; }
   const keep = $("#ai-plan-opt") ? $("#ai-plan-opt").checked : true;
-  box.innerHTML = `<label class="check ai-plan-opt"><input type="checkbox" id="ai-plan-opt" ${keep ? "checked" : ""} ${aiConsentOk() ? "" : "disabled"}><span>Add an AI-written “Explain my plan” to the printout ${aiTag("aiPlan")}<small>Uses only your plan's numbers. Sent to Google Gemini, not stored.${aiConsentOk() ? "" : " Needs Photos and AI images consent."}</small></span></label><p class="hint" role="status" aria-live="polite">${esc(AI.plan.note)}</p>`;
+  box.innerHTML = `<label class="check ai-plan-opt"><input type="checkbox" id="ai-plan-opt" ${keep ? "checked" : ""} ${aiConsentOk() ? "" : "disabled"}><span>Add an AI-written “Explain my plan” to the printout ${aiTag("aiPlan")}<small>Uses only your plan's numbers. Sent to Google Gemini, not stored.${aiConsentOk() ? "" : " Needs the AI features consent (Settings, Privacy and consents)."}</small></span></label><p class="hint" role="status" aria-live="polite">${esc(AI.plan.note)}</p>`;
 }
 
 function aiFab() { let b = $("#ask-fab"); if (b) return b; b = document.createElement("button"); b.type = "button"; b.id = "ask-fab"; b.className = "ask-fab"; b.setAttribute("data-open-ask", "1"); b.hidden = true;
@@ -8773,8 +8840,18 @@ function settingsHtml() {
     <p class="hint">The file holds your inputs, plan choices, Food Log, glucose readings, check-ins and your start photo. <b>Keep it private.</b> It isn't encrypted, and nothing is uploaded. This is a stopgap until accounts exist.</p>
     <div class="actions"><button type="button" class="btn btn-primary" id="data-export">Export my data</button><button type="button" class="btn btn-ghost" id="data-import">Import from a file</button><input type="file" id="data-file" accept="application/json,.json" hidden></div>
     ${V.msg ? `<p class="hint" role="status">${esc(V.msg)}</p>` : ""}<p class="hint">Importing replaces what is on this device.</p></div>
-  <div class="v-card"><h2>Privacy and consent</h2><p class="hint">Your answers stay on this device. <a href="#" data-consent>Consent settings</a> controls photos and AI images, and optional lab upload.</p></div>`;
+  ${pcCard()}`;
 }
+if (window.TheosisConsent) TheosisConsent.onChange(() => { if (typeof V !== "undefined" && V.view === "settings") try { renderViews(); } catch (e) { /* ignore */ } });
+function pcCard() { const C = window.TheosisConsent; if (!C) return ""; const c = C.get() || { opt: {} }, o = c.opt || {};
+  const row = (k) => { const on = C.isOn(o, k), lab = C.STEP[k];
+    return `<li data-pc="${k}"><div class="pc-h"><b>${lab}</b><span class="${on ? "pc-on" : "pc-off"}">${on ? "On" : "Off"}</span></div>
+    <div class="actions">${on ? `<button type="button" class="btn btn-ghost" data-pc-withdraw="${k}">Withdraw consent</button>` : `<button type="button" class="btn btn-primary" data-consent="${k}">Turn on</button>`}</div></li>`; };
+  return `<div class="v-card" id="privacy-consents"><h2>Privacy and consents</h2><p>Your answers stay on this device. Turn optional features on or off here. Withdrawing turns the feature off and deletes its data on this device${C.photoAvailable() ? ", including saved photos" : ""}.</p>
+  <ul class="pc-list"><li><div class="pc-h"><b>Terms (required)</b><span class="pc-on">Agreed${c.ts && c.ts !== "test" ? " " + esc(new Date(c.ts).toLocaleDateString()) : ""}</span></div></li>${C.STEPS().map(row).join("")}</ul>
+  ${C.photoAvailable() ? "" : `<p class="hint">Face and body photos are coming later. Nothing about your face or body is collected.</p>`}
+  <div class="actions"><button type="button" class="btn btn-ghost" data-consent="terms">Review all consents</button></div></div>`; }
+document.addEventListener("click", (e) => { const t = e.target.closest("[data-pc-withdraw]"); if (!t || !window.TheosisConsent) return; e.preventDefault(); if (TheosisConsent.withdraw(t.dataset.pcWithdraw)) { try { renderViews(); } catch (x) { /* ignore */ } } });
 function dataExportObj() { return { app: "theosis-simulator-backup", v: 1, exported: new Date().toISOString(), state: S, foodlog: FL.load(), glucose: GLU.load(), checkins: CI.list, photo: photo || null }; }
 async function dataImport(file) {
   try { const j = JSON.parse(await file.text()); if (!j || j.app !== "theosis-simulator-backup" || j.v !== 1 || !j.state || j.state.v !== 1) throw new Error("That isn't a Theosis simulator export file.");
@@ -9134,7 +9211,8 @@ function takeCalcPace() {
   S.calcPrefill = { w, bf, gbf, age, h, act, u: P.u || null };
   S.goal.pace = +f.toFixed(3); S.goal.calcPace = true; S.goal.calcLabel = label || `${Math.round(f * 100)}% of the maximum`; S.goal.touched = true;
   clear(); save(); update(); return true; }
-function paintConsentLocks() { const C = window.TheosisConsent; if (!C) return; const ph = C.has("photoAi") && C.has("biometric"), l = $("#photo-lock"); if (l) l.hidden = ph; }
+function paintConsentLocks(flash) { const C = window.TheosisConsent; if (!C) return; const av = C.photoAvailable(), ph = av && C.has("photoAi") && C.has("biometric"), l = $("#photo-lock"), w = $("#photo-wrap");
+  if (w) w.hidden = !av; if (l) { l.hidden = !av || ph; if (av && !ph) l.innerHTML = C.lockHtml("photo", "Adding your photo"); if (flash && !l.hidden) l.scrollIntoView({ block: "center" }); } }
 if (window.TheosisConsent) {
   TheosisConsent.onRevoke(async (k) => {
     if (k === "photoAi" || k === "biometric" || k === "all") { photo = null; aiState.result = null; try { await ciClearAll(); } catch (e) { /* no store yet */ } CI.msg = ""; try { renderPhoto(); } catch (e) { /* ignore */ } }
@@ -9142,7 +9220,7 @@ if (window.TheosisConsent) {
     paintConsentLocks(); update(); });
   TheosisConsent.onChange(() => { paintConsentLocks(); update(); });
 }
-init();
+init(); try { paintConsentLocks(); } catch (e) { /* ignore */ }
 aiInit();
 paintConsentLocks();
 takeCalcPace();
