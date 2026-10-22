@@ -1738,10 +1738,11 @@ body{background-color:var(--bg);background-image:var(--app-bg-image);background-
     </aside>
     <script>/* v7.6.73 HERO_ANIM: true = animated D12 hero (assets/hero-fx.js: heavier -> leaner same man, stardust builds the line, plays once, then static). false = previous static hero2 art (assets/hero2-2-simulation-trend.webp). One-line revert. */
     var HERO_ANIM = true;
-    if (HERO_ANIM) { (function () { var h = document.getElementById("entry-hero"), i = h && h.querySelector(".hero-fig img"); if (!i) return; document.documentElement.classList.add("hero-anim"); i.removeAttribute("loading"); i.src = "assets/hero2-noline.webp?v=7673";
-      var st = document.createElement("style"); st.textContent = ".hero-anim .entry-hero img{animation:none!important}@media (max-width:61.9rem){.hero-anim #entry-hero{display:block!important;position:static!important;margin:-.4rem auto -1.2rem!important;width:100%;text-align:center}.hero-anim #entry-hero .hero-fig{display:inline-block}.hero-anim #entry-hero img{width:9.5rem!important;max-width:9.5rem!important;height:auto!important}.hero-anim #entry-hero .hero-note{display:none}}"; document.head.appendChild(st);
+    if (HERO_ANIM) { (function () { var h = document.getElementById("entry-hero"), i = h && h.querySelector(".hero-fig img"); if (!i) return; document.documentElement.classList.add("hero-anim", "hero-wait"); i.removeAttribute("loading"); i.src = "assets/hero2-noline.webp?v=7675";
+      ["hero2-noline.webp", "hero-fx-soft.webp", "hero-fx-sharp.webp"].forEach(function (f) { var l = document.createElement("link"); l.rel = "preload"; l.as = "image"; l.href = "assets/" + f + "?v=7675"; document.head.appendChild(l); });
+      var st = document.createElement("style"); st.textContent = ".hero-wait .entry-hero .hero-fig img{opacity:0!important;visibility:hidden}.hero-anim .entry-hero img{animation:none!important}@media (max-width:61.9rem){.hero-anim #entry-hero{display:block!important;position:static!important;margin:-.4rem auto -1.2rem!important;width:100%;text-align:center}.hero-anim #entry-hero .hero-fig{display:inline-block}.hero-anim #entry-hero img{width:9.5rem!important;max-width:9.5rem!important;height:auto!important}.hero-anim #entry-hero .hero-note{display:none}}"; document.head.appendChild(st);
       if (innerWidth < 992) { var v = document.querySelector(".entry .choice-grid"); if (v) v.parentNode.insertBefore(h, v); }
-      var s = document.createElement("script"); s.src = "assets/hero-fx.js?v=7673"; document.head.appendChild(s); })(); }
+      var s = document.createElement("script"); s.src = "assets/hero-fx.js?v=7675"; document.head.appendChild(s); })(); }
     </script>
   </section>
 
