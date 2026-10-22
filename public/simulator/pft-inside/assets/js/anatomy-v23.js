@@ -185,7 +185,7 @@
         diffuseColor.rgb=mix(diffuseColor.rgb,mix(vec3(.72,.40,.30),fat,lob),m*.9);`,
       normal:"normal=pftBump(normal,dm*min(1.,uVisc*1.5),.002);"});
     M.heart=organ(0x8f1a14,.3,{emissive:new T.Color(0x5a0804),emissiveIntensity:.6});
-    M.gall=organ(0x4d6a38,.25);M.stomach=organ(0xc4787a,.36);M.intestine=bowel(0xb48c88,.38,"intestine");M.colon=bowel(0x9e746c,.4,"colon");
+    M.gall=organ(0x4d6a38,.25);M.stomach=organ(0xc4787a,.36);M.intestine=bowel(0xb48c88,.38,"intestine");M.colon=bowel(0xae8070,.4,"colon");
     M.vessel=patch(organ(0x8a0f0c,.3,{emissive:new T.Color(0x3a0402),emissiveIntensity:.5}),"vessel",{uniforms:shared,discard:"if(uCut>.5&&pftAbd(vPos,.03)>.5)discard;"});
     M.spleen=organ(0x7a2240,.35);M.kidney=organ(0x8e3a2a,.35);M.duodenum=bowel(0xd09a7e,.38,"intestine");M.bladder=organ(0xc9a08a,.4);
     // anatomy pass: lungs (pale pink, see-through so the heart reads), diaphragm (muscle with a paler central tendon), IVC (deoxygenated blue)
