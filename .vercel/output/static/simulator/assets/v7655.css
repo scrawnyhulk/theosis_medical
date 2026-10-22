@@ -75,3 +75,19 @@ body.path-habits [data-step="4"] :is(#rec-wrap,#fit-banner-4,#actual-cmp,#h-prot
 .pfe-lt{font-size:.8rem;color:rgba(231,237,245,.55)}
 @keyframes pfeBreathe{0%,100%{fill-opacity:.55}50%{fill-opacity:1}}
 @media (prefers-reduced-motion:reduce){.pfe-sk{animation:none}.pfe-stage iframe{transition:none}}
+
+/* v7.6.74 food lists: each food gets its own bright blue card border */
+body .ft-list{gap:.75rem}
+body .ft-it{border:1.5px solid rgba(91,156,236,.7);box-shadow:0 0 10px rgba(59,130,246,.12);background:rgba(8,13,20,.35)}
+body .ft-it:focus-within{border-color:#79b4f6;box-shadow:0 0 0 2px rgba(121,180,246,.45)}
+body .fl-items,body .fl-pick{display:grid;gap:.5rem}
+body .fl-it + .fl-it,body .fl-pick li + li{border-top:0}
+body .fl-it,body .fl-pick li{border:1.5px solid rgba(91,156,236,.7);border-radius:10px;background:rgba(8,13,20,.35);padding:0 .4rem;box-shadow:0 0 8px rgba(59,130,246,.1)}
+body .fl-it-b,body .fl-pick-b{padding:.65rem .35rem}
+body .fl-it:hover,body .fl-pick li:hover{border-color:#79b4f6}
+body .fl-it-b:focus-visible,body .fl-pick-b:focus-visible,body .fs-item:focus-visible{outline:2px solid #9cc8ff;outline-offset:2px}
+body .fs-results{gap:.5rem}
+body .fs-item{box-shadow:0 0 0 1.5px rgba(91,156,236,.7),0 0 8px rgba(59,130,246,.1)}
+body .fs-item:hover{box-shadow:0 0 0 1.5px #79b4f6,0 0 12px rgba(59,130,246,.2);background:rgba(42,122,224,.1)}
+body .fq-item{border:2px solid rgba(91,156,236,.7);box-shadow:0 0 8px rgba(59,130,246,.1)}
+body .fq-item:hover{border-color:#79b4f6}
