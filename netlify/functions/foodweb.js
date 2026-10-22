@@ -26,7 +26,7 @@ function sourcesOf(cand) {
   return s.slice(0, 3);
 }
 /** Turn a grounded model reply into a result, or null. No sources -> null (never made up). */
-function why(cand) { if (!cand) return "no_answer"; if (!sourcesOf(cand).length) return "no_sources"; const j = parseJson(((cand.content && cand.content.parts) || []).map((p) => p.text || "").join("")); return !j ? "bad_json" : j.found !== true ? "not_found" : "rejected"; }
+function why(cand) { if (!cand) return "no_answer"; if (!sourcesOf(cand).length) { const g = cand.groundingMetadata; return "no_sources" + (g ? `:chunks=${(g.groundingChunks || []).length},queries=${(g.webSearchQueries || []).length},keys=${Object.keys(g).join("|").slice(0, 80)}` : ":no_grounding"); } const j = parseJson(((cand.content && cand.content.parts) || []).map((p) => p.text || "").join("")); return !j ? "bad_json" : j.found !== true ? "not_found" : "rejected"; }
 function accept(cand) {
   if (!cand) return null; const sources = sourcesOf(cand); if (!sources.length) return null;
   const j = parseJson(((cand.content && cand.content.parts) || []).map((p) => p.text || "").join(""));
