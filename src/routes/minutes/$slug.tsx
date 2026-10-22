@@ -34,7 +34,7 @@ function MinutePage() {
 
   useEffect(() => {
     if (minute?.slug === "create-diabetic") {
-      window.location.replace("/simulator/pft-inside/");
+      window.location.replace("https://theosishealth.com/simulator/pft-inside/");
     }
   }, [minute?.slug]);
 
@@ -94,7 +94,7 @@ function MinutePage() {
               The interactive is its own page so it can actually run.
             </p>
             <a
-              href="/simulator/pft-inside/"
+              href="https://theosishealth.com/simulator/pft-inside/"
               className="mt-6 inline-flex min-h-11 items-center rounded-sm bg-accent px-5 text-sm font-medium text-accent-fg"
             >
               Open Create a Diabetic

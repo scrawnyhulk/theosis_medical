@@ -27,6 +27,55 @@
   status = 301
   force = true
 
+# Tools moved to theosishealth.com (permanent).
+[[redirects]]
+  from = "/personal-fat-threshold"
+  to = "https://theosishealth.com/simulator/pft-inside/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/personal-fat-threshold/"
+  to = "https://theosishealth.com/simulator/pft-inside/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/personal-fat-threshold.html"
+  to = "https://theosishealth.com/simulator/pft-inside/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/personal-fat-threshold/*"
+  to = "https://theosishealth.com/simulator/pft-inside/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/simulator"
+  to = "https://theosishealth.com/simulator/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/simulator/*"
+  to = "https://theosishealth.com/simulator/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/fat-burn-calculator"
+  to = "https://theosishealth.com/fat-burn-calculator/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/fat-burn-calculator/*"
+  to = "https://theosishealth.com/fat-burn-calculator/:splat"
+  status = 301
+  force = true
+
 # Missing hashed files must 404 — never fall through to index.html as text/html
 # or the browser refuses to run the page and the header stops working.
 [[redirects]]
