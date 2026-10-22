@@ -652,7 +652,7 @@
           const a1=V(1,0,0).sub(d.clone().multiplyScalar(d.x)).normalize(),a2=d.clone().cross(a1);for(let j=0;j<NRE;j++){const a=j/NRE*Math.PI*2;const q=c.clone().add(a1.clone().multiplyScalar(Math.cos(a)*r)).add(a2.clone().multiplyScalar(Math.sin(a)*r*.8));L(q);ep.push(q.x,q.y,q.z)}}
         for(let i=0;i<NE;i++)for(let j=0;j<NRE;j++){const a=i*NRE+j,b2=i*NRE+(j+1)%NRE;ei.push(a,b2,a+NRE,b2,b2+NRE,a+NRE)}
         const eg=new T.BufferGeometry();eg.setAttribute("position",new T.Float32BufferAttribute(ep,3));eg.setAttribute("aOcc",new T.Float32BufferAttribute(new Float32Array(ep.length/3),1));eg.setIndex(ei);eg.computeVertexNormals();
-        M.esoph=M.esoph||paint(organ(0xc0716a,.4,{side:T.DoubleSide,clearcoat:.3,clearcoatRoughness:.3}),"eso",{grain:.8});const em=new T.Mesh(eg,M.esoph);em.name="Esophagus (stub)";em.userData.role="stomach";em.renderOrder=sm.renderOrder;sm.add(em);meshes.push(em)}
+        M.esoph=M.esoph||paint(organ(0xd4867e,.36,{side:T.DoubleSide,clearcoat:.32,clearcoatRoughness:.28}),"eso",{grain:.5,gloss:1.1,bump:.001,rg:.04}); /* v74: matches the stomach wall (no colour seam at the cardia) */const em=new T.Mesh(eg,M.esoph);em.name="Esophagus (stub)";em.userData.role="stomach";em.renderOrder=sm.renderOrder;sm.add(em);meshes.push(em)}
       return 1}
     // ---------- load ----------
     const loader=new T.GLTFLoader();loader.setMeshoptDecoder(T.MeshoptDecoder);
