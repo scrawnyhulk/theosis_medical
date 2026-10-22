@@ -7,17 +7,27 @@
  */
 const BETA = require("./guard.js");
 const env = () => process.env;
-const MODEL = () => env().GEMINI_SEARCH_MODEL || env().GEMINI_TEXT_MODEL || "gemini-3.8-flash";
+const MODEL = () => env().GEMINI_SEARCH_MODEL || "gemini-3.1-flash-lite";   // grounded in ~3 s in testing; 3.8-flash took 10-14 s
 const TIMEOUT = () => +env().FOODWEB_TIMEOUT_MS || 24000;   // grounded search is slow; needs a function timeout above 10 s
 const hdr = (o) => ({ "Content-Type": "application/json", "Cache-Control": "no-store", ...(o ? { "Access-Control-Allow-Origin": o, Vary: "Origin" } : {}) });
 const out = (s, b, o) => ({ statusCode: s, headers: hdr(o), body: JSON.stringify(b) });
 const str = (v, n) => String(v == null ? "" : v).replace(/[\u0000-\u001f\u007f<>`{}"\\]/g, " ").replace(/\s+/g, " ").trim().slice(0, n);
+// v7.6.58d: plain-text answer with labeled lines. A "reply only with JSON" prompt (or responseMimeType JSON) made the model skip
+// Google Search entirely (no groundingMetadata); the same request as plain text searches and returns sources.
 const PROMPT = (q) => [
-  "You MUST run a Google Search before answering. Search for and find the official Nutrition Facts label for this exact packaged food product sold in the US:",
-  `Brand: ${q.brand}`, `Product: ${q.food}`, `Flavor/variety: ${q.flavor || "(any)"}`,
-  "Copy the numbers exactly as printed on the label (per ONE serving). Do not estimate or calculate. If you cannot find this exact brand's label, set found to false.",
-  'Reply ONLY with JSON: {"found":boolean,"product":string,"brand":string,"serving":string,"servingGrams":number|null,"piecesPerServing":number|null,"pieceWord":string,"servingsPerContainer":number|null,"kcal":number,"protein":number,"carbs":number,"fat":number}',
+  `${q.brand} ${q.food}${q.flavor ? " " + q.flavor + " flavor" : ""} nutrition facts`,
+  "",
+  "Search the web for the Nutrition Facts label of this exact branded US product. Copy numbers as printed per ONE serving; do not estimate.",
+  "End your answer with these lines exactly (use NONE when unknown; FOUND: no if you could not find this exact brand's label):",
+  "FOUND: yes|no", "PRODUCT:", "BRAND:", "SERVING:", "SERVING_GRAMS:", "PIECES_PER_SERVING:", "PIECE_WORD:", "SERVINGS_PER_CONTAINER:", "CALORIES:", "PROTEIN_G:", "CARBS_G:", "FAT_G:",
 ].join("\n");
+function parseLines(t) {
+  const get = (k) => { const m = new RegExp("^\\W*" + k + "\\W*:\\s*(.+)$", "im").exec(t); const v = m ? m[1].replace(/[*_`]/g, "").trim() : ""; return /^none$/i.test(v) ? "" : v; };
+  const num = (k) => { const m = /-?\d+(?:\.\d+)?/.exec(get(k)); return m ? +m[0] : null; };
+  if (!get("CALORIES") && !get("FOUND")) return null;
+  return { found: /^y/i.test(get("FOUND")), product: get("PRODUCT"), brand: get("BRAND"), serving: get("SERVING"), servingGrams: num("SERVING_GRAMS"), piecesPerServing: num("PIECES_PER_SERVING"), pieceWord: get("PIECE_WORD"),
+    servingsPerContainer: num("SERVINGS_PER_CONTAINER"), kcal: num("CALORIES"), protein: num("PROTEIN_G"), carbs: num("CARBS_G"), fat: num("FAT_G") };
+}
 const n = (v, lo, hi) => { const x = Number(v); return Number.isFinite(x) && x >= lo && x <= hi ? Math.round(x * 10) / 10 : null; };
 function parseJson(t) { t = String(t || "").replace(/^```(?:json)?\s*/i, "").replace(/\s*```\s*$/, ""); try { return JSON.parse(t); } catch (e) { const m = /\{[\s\S]*\}/.exec(t); if (m) try { return JSON.parse(m[0]); } catch (e2) { /* no */ } } return null; }
 function sourcesOf(cand) {
@@ -26,10 +36,10 @@ function sourcesOf(cand) {
   return s.slice(0, 3);
 }
 /** Turn a grounded model reply into a result, or null. No sources -> null (never made up). */
-function why(cand) { if (!cand) return "no_answer"; if (!sourcesOf(cand).length) { const g = cand.groundingMetadata; return "no_sources" + (g ? `:chunks=${(g.groundingChunks || []).length},queries=${(g.webSearchQueries || []).length},keys=${Object.keys(g).join("|").slice(0, 80)}` : ":no_grounding"); } const j = parseJson(((cand.content && cand.content.parts) || []).map((p) => p.text || "").join("")); return !j ? "bad_json" : j.found !== true ? "not_found" : "rejected"; }
+function why(cand) { if (!cand) return "no_answer"; if (!sourcesOf(cand).length) { const g = cand.groundingMetadata; return "no_sources" + (g ? `:chunks=${(g.groundingChunks || []).length},queries=${(g.webSearchQueries || []).length},keys=${Object.keys(g).join("|").slice(0, 80)}` : ":no_grounding"); } const tx = ((cand.content && cand.content.parts) || []).map((p) => p.text || "").join(""), j = parseLines(tx) || parseJson(tx); return !j ? "bad_json" : j.found !== true ? "not_found" : "rejected"; }
 function accept(cand) {
   if (!cand) return null; const sources = sourcesOf(cand); if (!sources.length) return null;
-  const j = parseJson(((cand.content && cand.content.parts) || []).map((p) => p.text || "").join(""));
+  const tx = ((cand.content && cand.content.parts) || []).map((p) => p.text || "").join(""), j = parseLines(tx) || parseJson(tx);
   if (!j || j.found !== true) return null;
   const r = { product: str(j.product, 100), brand: str(j.brand, 60), serving: str(j.serving, 60), servingGrams: n(j.servingGrams, 1, 1500), piecesPerServing: n(j.piecesPerServing, 0.1, 100), pieceWord: str(j.pieceWord, 20),
     servingsPerContainer: n(j.servingsPerContainer, 0.5, 200), kcal: n(j.kcal, 0, 3000), protein: n(j.protein, 0, 300), carbs: n(j.carbs, 0, 500), fat: n(j.fat, 0, 300), sources };
@@ -43,27 +53,13 @@ async function gemini(q) {
   try {
     const r = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(MODEL())}:generateContent`, { method: "POST", signal: ctl.signal,
       headers: { "Content-Type": "application/json", "x-goog-api-key": env().GEMINI_API_KEY },
-      body: JSON.stringify({ contents: [{ role: "user", parts: [{ text: PROMPT(q) }] }], tools: [{ google_search: {} }], generationConfig: { temperature: 0, maxOutputTokens: 2048, ...(env().FOODWEB_THINKING ? { thinkingConfig: { thinkingLevel: env().FOODWEB_THINKING } } : {}) } }) });
+      body: JSON.stringify({ contents: [{ role: "user", parts: [{ text: PROMPT(q) }] }], tools: [{ google_search: {} }], generationConfig: { temperature: 0, maxOutputTokens: 1500, ...(env().FOODWEB_THINKING ? { thinkingConfig: { thinkingLevel: env().FOODWEB_THINKING } } : {}) } }) });
     if (!r.ok) throw Object.assign(new Error("upstream"), { code: r.status === 429 ? "rate" : "upstream", status: r.status });
     const d = await r.json(); return (d && d.candidates && d.candidates[0]) || null;
   } catch (e) { if (typeof e.code === "string") throw e; throw Object.assign(new Error("net"), { code: ctl.signal.aborted ? "timeout" : "network" }); }
   finally { clearTimeout(timer); }
 }
 const MOCK = { content: { parts: [{ text: '{"found":true,"product":"Mock Chicken Patties","brand":"Mock","serving":"1 patty (85g)","servingGrams":85,"piecesPerServing":1,"pieceWord":"patty","kcal":190,"protein":20,"carbs":4,"fat":10}' }] }, groundingMetadata: { groundingChunks: [{ web: { uri: "https://example.com/label", title: "example.com" } }] } };
-// TEMP DEBUG (remove): grounding diagnostics, nonce-gated, never returns the key
-async function __dbg() {
-  const K = env().GEMINI_API_KEY, H = { "Content-Type": "application/json", "x-goog-api-key": K }, B = "https://generativelanguage.googleapis.com/v1beta/";
-  const o = {}; try { const r = await fetch(B + "models?pageSize=200", { headers: H }); const d = await r.json(); o.models = (d.models || []).filter((m) => (m.supportedGenerationMethods || []).includes("generateContent")).map((m) => m.name.replace("models/", "")); o.modelsErr = d.error && d.error.message; } catch (e) { o.modelsErr = String(e.message); }
-  const P = "Real Good Foods chicken patties nutrition facts";
-  const tries = [["g38-plain", "gemini-3.8-flash", { contents: [{ parts: [{ text: P }] }], tools: [{ google_search: {} }] }],
-    ["g38-camel", "gemini-3.8-flash", { contents: [{ parts: [{ text: P }] }], tools: [{ googleSearch: {} }] }],
-    ["g38-legacy", "gemini-3.8-flash", { contents: [{ parts: [{ text: P }] }], tools: [{ googleSearchRetrieval: {} }] }],
-    ["g38-json", "gemini-3.8-flash", { contents: [{ parts: [{ text: P }] }], tools: [{ google_search: {} }], generationConfig: { responseMimeType: "application/json" } }]];
-  for (const m of (o.models || []).filter((x) => /flash/.test(x) && !/image|tts|live|audio|embed/.test(x)).slice(0, 6)) if (m !== "gemini-3.8-flash") tries.push(["m:" + m, m, { contents: [{ parts: [{ text: P }] }], tools: [{ google_search: {} }] }]);
-  o.tries = await Promise.all(tries.map(async ([k, m, body]) => { const t0 = Date.now(); try { const r = await fetch(B + "models/" + m + ":generateContent", { method: "POST", headers: H, body: JSON.stringify(body), signal: AbortSignal.timeout(22000) }); const d = await r.json(); const c = d.candidates && d.candidates[0], g = c && c.groundingMetadata;
-    return { k, status: r.status, ms: Date.now() - t0, err: d.error && (d.error.status + ": " + String(d.error.message).slice(0, 200)), gm: !!g, gkeys: g ? Object.keys(g) : null, chunks: g && (g.groundingChunks || []).slice(0, 3).map((x) => x.web && (x.web.title + " " + String(x.web.uri).slice(0, 80))), q: g && g.webSearchQueries, finish: c && c.finishReason, text: c && ((c.content && c.content.parts) || []).map((p) => p.text || "").join("").slice(0, 300), usage: d.usageMetadata && Object.keys(d.usageMetadata) }; } catch (e) { return { k, err: String(e.message), ms: Date.now() - t0 }; } }));
-  return o;
-}
 exports.handler = async (event) => {
   const allowed = env().ALLOWED_ORIGIN || "", h = event.headers || {}, origin = h.origin || h.Origin, co = allowed ? (origin === allowed ? allowed : null) : null;
   if (event.httpMethod === "OPTIONS") return { statusCode: 204, headers: co ? { "Access-Control-Allow-Origin": co, "Access-Control-Allow-Methods": "POST", "Access-Control-Allow-Headers": "Content-Type" } : {} };
@@ -72,7 +68,6 @@ exports.handler = async (event) => {
   if (event.httpMethod !== "POST") return out(405, { error: "Use POST.", code: "method" }, co);
   if (!mock && !env().GEMINI_API_KEY) return out(503, { error: "Web lookup isn't set up here.", code: "not_configured" }, co);
   if (String(event.body || "").length > 1000) return out(413, { error: "Too long.", code: "too_big" }, co);
-  try { const bb = JSON.parse(event.body || "{}"); if (bb.__dbg === "bb232807369cf8d11be43b38" && env().GEMINI_API_KEY) return out(200, await __dbg(), co); } catch (e) { /* ignore */ }
   let q; try { const b = JSON.parse(event.body || "{}"); q = { brand: str(b.brand, 60), food: str(b.food, 80), flavor: str(b.flavor, 40) }; } catch (e) { return out(400, { error: "Invalid request.", code: "bad_json" }, co); }
   if (q.brand.length < 2 || q.food.length < 2) return out(400, { error: "A brand and a food are needed.", code: "empty" }, co);
   if (mock) return out(200, { result: accept(MOCK), mock: true }, co);
@@ -80,4 +75,4 @@ exports.handler = async (event) => {
   try { const c = await gemini(q), res = accept(c); return out(200, res ? { result: res } : { result: null, why: why(c) }, co); }
   catch (e) { slot.release(); console.error("foodweb failed:", (e && e.code) || "failed", e && e.status ? e.status : ""); return out(502, { error: "The web lookup didn't work this time.", code: (e && e.code) || "failed" }, co); }
 };
-module.exports._t = { accept, sourcesOf, PROMPT };
+module.exports._t = { accept, sourcesOf, PROMPT, parseLines };
