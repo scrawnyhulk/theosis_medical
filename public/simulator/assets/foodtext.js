@@ -41,8 +41,27 @@ FT.piecesPerServing = function (label) {
 const r4 = (x) => Math.round(x * 4) / 4;
 const plural = (n, w) => `${+n === 1 ? w : w.replace(/y$/, "ie") + "s"}`;
 // Serving math for one parsed item against one food (first USDA serving). Returns {servings, note, sure}.
+// v7.6.63: household units -> grams. First a matching USDA portion (foodPortions / household serving), then a typical weight,
+// never a silent 100 g default. Unknown unit: the database's own serving, flagged "check the amount".
+const UNIT_RX = { egg: /\begg\b/, slice: /\bslice\b/, pat: /\bpat\b/, tbsp: /\b(tbsp|tablespoon)\b/, tsp: /\b(tsp|teaspoon)\b/, cup: /\bcup\b/, piece: /\b(piece|pc)\b/, can: /\bcan\b/, bottle: /\bbottle\b/, glass: /\b(glass|cup)\b/ };
+const UNIT_ALIAS = { tablespoon: "tbsp", tablespoonful: "tbsp", teaspoon: "tsp", teaspoonful: "tsp", pc: "piece", mug: "cup", large: "egg" };
+const UNIT_G = { egg: [50, "1 large egg"], slice: [29, "1 slice"], pat: [5, "1 pat"], tbsp: [15, "1 tbsp"], tsp: [5, "1 tsp"], cup: [240, "1 cup"], can: [355, "1 can (12 fl oz)"], bottle: [500, "1 bottle (about 500 ml)"], glass: [240, "1 glass (8 fl oz)"] };
+FT.unitServing = function (it, food) {
+  let u = sing(String(it.unit || "").toLowerCase().trim()); u = UNIT_ALIAS[u] || u; const L = (food && food.servings) || [];
+  if (!UNIT_RX[u]) return null;
+  const i = L.findIndex((sv) => UNIT_RX[u].test(String(sv.label || "").toLowerCase().replace(/^\d+(\.\d+)?\s+/, "1 ")) && !/^\s*1?\s*serving\b/i.test(sv.label) && sv.g > 0);
+  if (i >= 0) return { idx: i, sure: true };
+  if (!UNIT_G[u] || (u === "egg" && !/\begg/i.test(food.name || ""))) return null;
+  let [g, lab] = UNIT_G[u]; if (u === "tbsp" && /butter|margarine/i.test(food.name || "")) g = 14.2;
+  if (u === "cup" && /\bml\b/.test((L[0] && L[0].unit) || "")) g = 240;
+  const lb = `${lab} (about ${g} g, typical)`; if (!(L[0] && L[0].est && L[0].label === lb)) L.unshift({ label: lb, g, est: true }); return { idx: 0, sure: false, est: true };
+};
 FT.servingMath = function (it, food) {
   const q = +it.quantity > 0 ? +it.quantity : 1, u = sing(String(it.unit || "serving").toLowerCase()), c = +it.count > 1 ? +it.count : null;
+  const us = !CONTAINER.test(u) && u !== "serving" ? FT.unitServing(it, food) : null;
+  if (us) { const sv = food.servings[us.idx]; return { sv: us.idx, servings: r4(q) || 1, sure: us.sure, note: us.est ? `${q} × ${sv.label}. Typical weight, so check the amount.` : `${q} × ${sv.label}. Please check.` }; }
+  if (food && food.servings && food.servings.length && /^1?\s*(100 g|1 g)$/.test(food.servings[0].label) && u !== "serving" && !CONTAINER.test(u)) {
+    return { sv: 0, servings: 1, sure: false, note: `No household size for "${u}" in this entry, so 100 g is shown. Check the amount.` }; }
   const sv = food && food.servings && food.servings[0], pp = sv ? FT.piecesPerServing(sv.label) : null;
   let pieces = null, what = "";
   if (CONTAINER.test(u)) { if (c) { pieces = q * c; what = `${q} ${plural(q, u)} of ${c} = ${pieces} pieces`; } }
@@ -52,11 +71,20 @@ FT.servingMath = function (it, food) {
   if (CONTAINER.test(u)) return { servings: q, sure: false, note: `Counted as ${q} serving${q === 1 ? "" : "s"}. A whole ${u} is often more than one serving, so check the package for servings per ${u}.` };
   return { servings: r4(q) || 1, sure: pieces == null || !!pp, note: pieces != null ? `${what}, counted as ${r4(q)} serving${r4(q) === 1 ? "" : "s"}. Please check the serving size.` : "" };
 };
+const GENERIC_T = /^(foundation|sr legacy|survey)/i;
+// Words USDA uses to describe a plain food; they don't count as "added" words.
+const DESCR = new Set("raw cooked boiled baked broiled roasted grilled fried scrambled poached hard soft brewed prepared plain regular ns as to type form made from fresh frozen canned large medium small grade enriched unenriched ready drink beverage commercial home homemade restaurant style hot cold water oil fat added salt without no not specified table light fluid sliced toasted toast slice white wheat yellow us sauce tomato dry instant ground or by".split(" "));
 // Rank database foods for one parsed item: brand words count most, then food words, then flavor.
 FT.score = function (it, f) {
   const hay = new Set(toks((f.brand || "") + " " + (f.name || ""))), hit = (ws) => ws.filter((w) => hay.has(w)).length;
   const b = toks(it.brand), fd = toks(it.food), fl = toks(it.flavor);
-  return (fd.length && !hit(fd) ? -4 : 0) + hit(b) * 3 + hit(fd) * 2 + hit(fl) + (b.length && hit(b) === b.length ? 2 : 0) + (fd.length && hit(fd) === fd.length ? 2 : 0) - (f.src === "usda" && f.dataType !== "Branded" && b.length ? 1 : 0);
+  const base = (fd.length && !hit(fd) ? -4 : 0) + hit(b) * 3 + hit(fd) * 2 + hit(fl) + (b.length && hit(b) === b.length ? 2 : 0) + (fd.length && hit(fd) === fd.length ? 2 : 0) - (f.src === "usda" && f.dataType !== "Branded" && b.length ? 1 : 0);
+  if (b.length) return base;
+  // v7.6.63: unbranded everyday food. Prefer USDA Foundation / SR Legacy / Survey (FNDDS) over branded and Open Food Facts,
+  // and penalize names that add words the person didn't say ("coffee ice cream", a candy brand on "eggs").
+  const said = new Set(fd.concat(fl, toks(it.unit))), generic = f.src === "usda" && GENERIC_T.test(f.dataType || "");
+  const extra = toks(f.name).filter((w) => !said.has(w) && !DESCR.has(w) && !/^\d/.test(w)).length + (f.brand ? toks(f.brand).filter((w) => !said.has(w)).length : 0);
+  return base + (generic ? 3 : f.src === "usda" ? -1 : -2) - Math.min(6, extra * (generic ? 1 : 2));
 };
 FT.rank = function (it, foods) {
   const seen = new Set(), out = [];
@@ -92,7 +120,7 @@ async function offSearch(q) {   // v7.6.59: Open Food Facts via the food functio
 // Every database the food search uses: USDA branded + generic (FoodData Central) and Open Food Facts. r.checked lists what answered.
 FT.lookup = async function (it, checked) {
   checked = checked || []; const q = FT.query(it), plain = [it.flavor, it.food].filter(Boolean).join(" ");
-  let foods = [], rate = null; const tries = it.brand ? [[q, "branded", "USDA branded"], [plain, "all", "USDA generic + branded"]] : [[q, "all", "USDA generic + branded"]];
+  let foods = [], rate = null; const tries = it.brand ? [[q, "branded", "USDA branded"], [plain, "all", "USDA generic + branded"]] : [[q, "generic", "USDA generic (Foundation, SR Legacy, FNDDS)"], [q, "all", "USDA generic + branded"]];
   for (const [qq, k, nm] of tries) { if (qq.length < 2) continue; try { foods = foods.concat(await search(qq, k)); checked.push(nm); } catch (e) { checked.push(nm + " (unavailable)"); if (e.status === 429) rate = e; } }
   if (q.length >= 2) { try { foods = foods.concat(await offSearch(q)); checked.push("Open Food Facts"); } catch (e) { checked.push("Open Food Facts (unavailable)"); } }
   if (!foods.length && rate) throw rate;
@@ -175,15 +203,14 @@ function drawNow() {
 }
 /* v7.6.62: food-only photo (its own gate; separate from the face/body photo features, which stay off). The photo is downscaled
    and re-encoded in the browser (drops EXIF, including location), sent once to /.netlify/functions/foodphoto, and never stored. */
-const PHOTO_ON = true, PHOTO_KEY = "theosis-foodphoto-ok", PHOTO_EP = "/.netlify/functions/foodphoto";
-// Notice shown above the photo buttons. Keep in sync with the approved wording.
-const PHOTO_NOTICE = "Food photos only. Your photo is sent to an AI service to pick out the foods and drinks in it, then it's discarded. It isn't saved, and location and other photo details are removed first. Please don't include people. You'll check each food before anything is added.";
-FT.photoOk = (v) => { try { if (v === undefined) return localStorage.getItem(PHOTO_KEY) === "1"; if (v) localStorage.setItem(PHOTO_KEY, "1"); else localStorage.removeItem(PHOTO_KEY); } catch (e) { /* storage off */ } return !!v; };
+const PHOTO_ON = true, PHOTO_EP = "/.netlify/functions/foodphoto";
+// Notice shown above the photo buttons (no tick box needed, per Lawyer Bot). Do not edit without legal review.
+const PHOTO_NOTICE = "Food photos only. Snap a meal or nutrition label and we'll send the image to Google's Gemini AI to identify the foods. Please keep people, faces, and anything private out of the shot. We don't store your photo. Google processes it under its paid API terms, which don't use it to train models. Check the results before saving: estimates are for education and can be wrong, so don't rely on them for allergies or medical diets.";   // exact text approved by Lawyer Bot (v7.6.63)
 function photoHtml() {
-  if (!PHOTO_ON) return ""; const ok = FT.photoOk();
-  return `<div class="ft-ph"><p class="ft-phn" id="ft-ph-note">${esc(PHOTO_NOTICE)}</p><label class="ft-phok"><input type="checkbox" id="ft-ph-ok" ${ok ? "checked" : ""}> I understand. Use photos of food only.</label>
-    <div class="ft-alt"><label class="btn btn-ghost${ok ? "" : " is-off"}" for="ft-ph-cam" aria-disabled="${!ok}">📷 Take a food photo</label><label class="btn btn-ghost${ok ? "" : " is-off"}" for="ft-ph-lib" aria-disabled="${!ok}">🖼 Choose a food photo</label></div>
-    <input type="file" id="ft-ph-cam" accept="image/*" capture="environment" class="sr-only" ${ok ? "" : "disabled"}><input type="file" id="ft-ph-lib" accept="image/*" class="sr-only" ${ok ? "" : "disabled"}></div>`;
+  if (!PHOTO_ON) return "";
+  return `<div class="ft-ph"><p class="ft-phn" id="ft-ph-note">${esc(PHOTO_NOTICE)}</p>
+    <div class="ft-alt"><label class="btn btn-ghost" for="ft-ph-cam">📷 Take a food photo</label><label class="btn btn-ghost" for="ft-ph-lib">🖼 Choose a food photo</label></div>
+    <input type="file" id="ft-ph-cam" accept="image/*" capture="environment" class="sr-only"><input type="file" id="ft-ph-lib" accept="image/*" class="sr-only"></div>`;
 }
 // Downscale to at most 1024 px and re-encode as JPEG. A canvas re-encode carries no EXIF.
 FT.shrink = async function (file, max = 1024) {
@@ -194,7 +221,6 @@ FT.shrink = async function (file, max = 1024) {
   finally { URL.revokeObjectURL(url); }
 };
 async function photoGo(file) {
-  if (!FT.photoOk()) { st.msg = "Please read the note and tick the box first."; draw(); return; }
   if (navigator.onLine === false) { st.msg = "You're offline. Food photos need a connection; nothing was saved."; draw(); return; }
   st.busy = true; st.rows = []; st.msg = "Looking at the photo for foods…"; draw();
   let items = null, err = "";
@@ -204,7 +230,7 @@ async function photoGo(file) {
   if (!items) { st.msg = err + " You can type what you ate instead."; draw(); return; }
   return runItems(items, true, `Found ${items.length} food${items.length === 1 ? "" : "s"} in the photo. Please check each match and amount.`, "");
 }
-function setMatch(r, j) { r.pick = j; const f = r.matches[j]; if (!f) return; const m = FT.servingMath(r.item, f); r.sv = 0; r.n = m.servings; r.note = m.note; }
+function setMatch(r, j) { r.pick = j; const f = r.matches[j]; if (!f) return; const m = FT.servingMath(r.item, f); r.sv = m.sv || 0; r.n = m.servings; r.note = m.note || (m.sure === false ? "Check the amount." : ""); }
 async function lookRow(r, q) {
   r.loading = true; draw();
   try { r.checked = []; r.matches = await FT.lookup(q ? { brand: "", food: q, flavor: "" } : r.item, r.checked); r.err = "";
@@ -222,7 +248,19 @@ async function go() {
   FT.pending.clear();
   return runItems(p.items, p.ai || p.mock, `Found ${p.items.length} food${p.items.length === 1 ? "" : "s"}. Please check each match and amount.`, p.ai || p.mock ? "" : "Couldn't read that automatically, so each part was searched as typed. Please check each one.");
 }
+// v7.6.63: "coffee with cream" = coffee + a cream add-in (1 tbsp unless an amount was said).
+const ADDIN = /^(.*?\b(?:coffee|tea|latte|espresso|americano))\s+(?:with|w\/|and|plus)\s+(?:a\s+(?:splash|bit|little)\s+of\s+)?(cream|half[- ]and[- ]half|milk|whole milk|skim milk|oat milk|almond milk|sugar|honey|creamer)$/i;
+FT.splitAddins = function (items) {
+  const out = [];
+  for (const it of items || []) { const m = !it.brand && ADDIN.exec(String(it.food || "").trim());
+    if (!m) { out.push(it); continue; }
+    out.push({ ...it, food: m[1].trim() });
+    const add = m[2].toLowerCase(), sweet = /sugar|honey/.test(add);
+    out.push({ brand: "", food: /cream$|half/.test(add) && !/creamer/.test(add) ? (/half/.test(add) ? "half and half" : "cream, fluid, light") : add, flavor: "", quantity: sweet ? 1 : 1, unit: sweet ? "tsp" : "tbsp", count: null, meal: it.meal, addin: true }); }
+  return out;
+};
 async function runItems(items, ok, okMsg, failMsg) {
+  items = FT.splitAddins(items);
   st.webUsed = 0; const dm = X() ? X().fl.meal : "snacks";
   st.rows = items.slice(0, MAXROWS).map((item) => ({ item, q: FT.query(item), matches: [], pick: 0, sv: 0, n: 1, on: false, loading: true, note: "", meal: MEALS.includes(item.meal) ? item.meal : dm }));
   st.busy = true; st.msg = !st.rows.length ? "No foods found. Try naming each food, like: 2 eggs and a banana." : ok ? okMsg : failMsg;
@@ -259,7 +297,6 @@ function bind() {
     else if (t.dataset.ftOn != null) { r("ftOn").on = t.checked; draw(); }
     else if (t.dataset.ftMeal != null) { const x = r("ftMeal"); if (MEALS.includes(t.value)) x.meal = t.value; draw(); }
     else if (t.id === "ft-ph-cam" || t.id === "ft-ph-lib") { const f = t.files && t.files[0]; t.value = ""; if (f) photoGo(f); }
-    else if (t.id === "ft-ph-ok") { FT.photoOk(t.checked); draw(); }
   });
   document.addEventListener("input", (ev) => { if (ev.target && ev.target.id === "ft-in") st.text = ev.target.value; });
   document.addEventListener("keydown", (ev) => { const t = ev.target; if (ev.key === "Enter" && t && t.dataset && t.dataset.ftQ != null) { ev.preventDefault(); const b = document.querySelector(`[data-ft-search="${t.dataset.ftQ}"]`); b && b.click(); }
