@@ -30,7 +30,7 @@ function f3dShell() {
 }
 let f3dLib = null;   // assets/pft-embed.js is loaded on demand (keeps index.html small)
 function f3dLoadLib() { if (typeof PFTEmbed === "function") return Promise.resolve(); if (f3dLib) return f3dLib;
-  f3dLib = new Promise((res, rej) => { const s = document.createElement("script"); s.src = "assets/pft-embed.js?v=7672"; s.onload = res; s.onerror = rej; document.head.appendChild(s); }); return f3dLib; }
+  f3dLib = new Promise((res, rej) => { const s = document.createElement("script"); s.src = "assets/pft-embed.js?v=7674"; s.onload = res; s.onerror = rej; document.head.appendChild(s); }); return f3dLib; }
 function f3dMountNow() {
   if (window.__NO_PFT_FIG) return;   // __NO_PFT_FIG: legacy test suites that check the older 2D/3D mannequin figure
   if (F3D.failed) { const fh = $(f3dWhere()); if (fh && !fh.querySelector(".f3d-fbfig")) { if (F3D.host && F3D.host !== fh) { F3D.host.innerHTML = ""; F3D.host.hidden = true; } F3D.host = fh; F3D.where = f3dWhere(); f3dFallback(fh); } return; }

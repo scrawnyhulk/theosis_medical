@@ -11,10 +11,10 @@
    anatomy (assets/img/figure/*). See NOTICE.txt for sources and licences. */
 window.PFT_CONFIG = {
   models: {
-    anatomy: "assets/models/pft-anatomy.glb",
-    anatomyEmbedded: "assets/models/pft-anatomy.glb.js", // same model as a classic script, used when opened from file://
-    skin: "assets/models/pft-anatomy.glb",     // required for the 3D button
-    organs: "assets/models/pft-anatomy.glb",   // required for the 3D button
+    anatomy: "assets/models/pft-anatomy.glb?v=7674",
+    anatomyEmbedded: "assets/models/pft-anatomy.glb.js?v=7674", // same model as a classic script, used when opened from file://
+    skin: "assets/models/pft-anatomy.glb?v=7674",     // required for the 3D button
+    organs: "assets/models/pft-anatomy.glb?v=7674",   // required for the 3D button
     muscles: null,
     bones: null
   },
@@ -24,5 +24,5 @@ window.PFT_CONFIG = {
     adipose: null
   },
   threeScript: "assets/vendor/three-anatomy.min.js",
-  anatomyScript: "assets/js/anatomy-v23.js?v=7672"
+  anatomyScript: "assets/js/anatomy-v23.js?v=7674"
 };

@@ -251,7 +251,7 @@
     function applyMode(){
       const show={external:["skin","nail"],composition:["vessel","fat","nail","muscle","bone","heart","liver","gall","stomach","pancreas","intestine","colon","omentum","mesentery","spleen","kidney","bladder","lung","diaphragm","vein"],
         internal:["vessel","skin","nail","muscle","bone","heart","liver","gall","stomach","pancreas","intestine","colon","omentum","mesentery","spleen","kidney","bladder","lung","diaphragm","vein"]}[mode];
-      meshes.forEach(m=>{m.visible=show.indexOf(m.userData.role)>=0&&((m.userData.role!=="vessel"&&m.userData.role!=="vein")||vesselsOn)&&(m.userData.role!=="muscle"||musclesOn)});
+      meshes.forEach(m=>{m.visible=show.indexOf(m.userData.role)>=0&&((m.userData.role!=="vessel"&&m.userData.role!=="vein")||vesselsOn)&&(m.userData.role!=="muscle"||musclesOn)&&(m.userData.role!=="heart"||(m.userData.hra&&mode==="composition"&&!musclesOn))}); /* v74: heart is fully covered by the chest wall otherwise (0 px in every view), so skip drawing it */
       if(mBtn)mBtn.hidden=mode==="external";
       if(vBtn)vBtn.hidden=mode==="external";
       shared.uCut.value=mode==="external"?0:1;shared.uHalf.value=mode==="composition"?1:0;
@@ -574,7 +574,10 @@
       const W=new T.Vector3(),C=new T.Vector3();root.updateMatrixWorld(true);
       const box=ms=>{const b=new T.Box3();ms.forEach(m=>{m.updateMatrixWorld(true);b.union(new T.Box3().setFromBufferAttribute(m.geometry.attributes.position).applyMatrix4(m.matrixWorld))});return b};
       const swap=(m,key,mode)=>{const o=H.organs[key];if(!o||!m||!m.geometry)return;const ma=m.geometry.morphAttributes;if(ma&&Object.keys(ma).length)return;
-        const b=box([m]),qp=new Uint16Array(dec(o.p)),ix=o.n<65536?new Uint16Array(dec(o.i)):new Uint32Array(dec(o.i)),ao=new Uint8Array(dec(o.ao));
+        const b=box([m]);let qp,ix,ao;
+         if(o.v){const D=T.MeshoptDecoder,v=new Uint16Array(o.n*4),i32=new Uint32Array(o.t*3);D.decodeVertexBuffer(new Uint8Array(v.buffer),o.n,8,new Uint8Array(dec(o.v)));D.decodeIndexBuffer(new Uint8Array(i32.buffer),o.t*3,4,new Uint8Array(dec(o.ix))); /* v74: meshopt-compressed (xyz + cavity shade packed in 4 x uint16) */
+           qp=new Uint16Array(o.n*3);ao=new Uint8Array(o.n);for(let q=0;q<o.n;q++){qp[q*3]=v[q*4];qp[q*3+1]=v[q*4+1];qp[q*3+2]=v[q*4+2];ao[q]=v[q*4+3]}ix=o.n<65536?new Uint16Array(i32):i32}
+         else{qp=new Uint16Array(dec(o.p));ix=o.n<65536?new Uint16Array(dec(o.i)):new Uint32Array(dec(o.i));ao=new Uint8Array(dec(o.ao))}
         const sz=[0,1,2].map(a=>o.max[a]-o.min[a]),tz=[0,1,2].map(a=>b.max.getComponent(a)-b.min.getComponent(a));let sc=[0,1,2].map(a=>tz[a]/sz[a]),off=[0,1,2].map(a=>b.min.getComponent(a));
         if(mode==="uni"){const u=Math.sqrt(sc[0]*sc[2]);sc=[u,u,u];off=[b.min.x+(tz[0]-sz[0]*u)/2,b.max.y-sz[1]*u,b.min.z+(tz[2]-sz[2]*u)/2]}
         if(mode==="soft"){const g=Math.cbrt(sc[0]*sc[1]*sc[2]);sc=sc.map(v=>Math.sqrt(v*g));off=[0,1,2].map(a=>b.min.getComponent(a)+(tz[a]-sz[a]*sc[a])/2)}
@@ -681,7 +684,7 @@
     }
     const fail=err=>{opts.onError&&opts.onError(err)};
     const parse=buf=>{try{loader.parse(buf,"",g=>{loadSource="embedded";onGLTF(g)},fail)}catch(e){fail(e)}};
-    const hraP=new Promise(res=>{if(window.PFT_HRA||!url)return res();const el=document.createElement("script");el.src=(models.hraOrgans||url.replace(/[^\/]*$/,"hra-organs.js"))+"?v=7668";el.async=true;el.onload=el.onerror=()=>res();document.head.appendChild(el)});
+    const hraP=new Promise(res=>{if(window.PFT_HRA||!url)return res();const el=document.createElement("script");el.src=(models.hraOrgans||url.replace(/[^\/]*$/,"hra-organs.js"))+"?v=7674";el.async=true;el.onload=el.onerror=()=>res();document.head.appendChild(el)});
     if(location.protocol==="file:"||!url)Promise.all([loadEmbedded(),hraP]).then(([b])=>parse(b),fail);
     else loader.load(url,g=>{loadSource="glb";hraP.then(()=>onGLTF(g))},undefined,err=>{Promise.all([loadEmbedded(),hraP]).then(([b])=>parse(b),()=>fail(err))});
 
