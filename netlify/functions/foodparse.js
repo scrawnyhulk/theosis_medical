@@ -48,7 +48,7 @@ async function gemini(text) {
     const r = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(MODEL())}:generateContent`, { method: "POST", signal: ctl.signal,
       headers: { "Content-Type": "application/json", "x-goog-api-key": env().GEMINI_API_KEY },
       body: JSON.stringify({ systemInstruction: { parts: [{ text: PROMPT }] }, contents: [{ role: "user", parts: [{ text: "Food log text:\n" + text }] }],
-        generationConfig: { temperature: 0, maxOutputTokens: 800, responseMimeType: "application/json" } }) });
+        generationConfig: { temperature: 0, maxOutputTokens: 4096, responseMimeType: "application/json" } }) });
     if (!r.ok) { const e = new Error("upstream"); e.code = r.status === 429 ? "rate" : "upstream"; e.status = r.status; throw e; }
     const d = await r.json(), p = (d && d.candidates && d.candidates[0] && d.candidates[0].content && d.candidates[0].content.parts) || [];
     let t = p.map((x) => x.text || "").join("").trim().replace(/^```(?:json)?\s*/i, "").replace(/\s*```$/, "");
