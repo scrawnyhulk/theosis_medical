@@ -25,3 +25,6 @@ Build sources (not part of the site): `/workspace/pft/v31/*.py` (geometry), `/wo
 
 ## V32c reference
 Organ shapes were modelled by Theosis Medical from the descriptions and proportions in Gray, H. *Anatomy of the Human Body* (20th ed., 1918), public domain. No images were copied; no Netter or other copyrighted atlas material was used.
+
+## HuBMAP HRA organ meshes (CC BY 4.0)
+assets/models/hra-organs.js: Browne K. et al. (2021) HuBMAP CCF 3D Reference Object Library v1.2, HuBMAP Consortium, https://github.com/hubmapconsortium/ccf-3d-reference-object-library, CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Modified: node selection, welding, meshopt decimation, baked AO, quantization; liver re-surfaced. See assets/models/SOURCE-hra.json.

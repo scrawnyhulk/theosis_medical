@@ -626,8 +626,11 @@
     // are rendering amplitudes, not fat percentages or measured volumes.
     const tissueCapacity={lower:.48,moderate:.68,larger:.84};
     const visceralTissue=m.profile==='extreme'?visceral:(tissueCapacity[m.profile]||.68)*visceralStage;
-    return {subcutaneous:m.surfaceVolume,visceral,visceralStage,visceralTissue,profile:m.profile,liver,pancreas,muscle,
-      distension:visceral};
+    // v7.6.67: optional, capped body-measure bias from the simulator (window.__pftBias); absent = unchanged
+    const _b=window.__pftBias||{},_c=(x,d)=>Math.max(0,x+(+d||0));
+    const _sq=_c(m.surfaceVolume,_b.subqCt),_vi=_c(visceral,_b.viscCt);
+    return {subcutaneous:_sq,visceral:_vi,visceralStage,visceralTissue:_c(visceralTissue,_b.viscCt),profile:m.profile,liver:clamp(_c(liver,_b.liver)),pancreas:clamp(_c(pancreas,_b.pancreas)),muscle,
+      distension:_vi};
   }
 
   // Added tissue occupies the space around ONE fixed organ window. Neither
@@ -669,9 +672,11 @@
   // Warm intracellular-fat overlays mirror the gold lipid treatment used on
   // the human model while the underlying organ also becomes lower-density.
   const ctOrganFatPaint={
-    liver:{wash:[242,183,74],speck:[255,229,156],shadow:[78,55,29],rim:[241,125,102],count:58},
+    liver:{wash:[214,148,58],speck:[236,198,118],shadow:[78,55,29],rim:[241,125,102],count:58},
     pancreas:{wash:[237,196,116],speck:[255,237,186],shadow:[82,62,34],rim:[213,154,234],count:38}
   };
+  // Illustrated colour pass (matches the 3D figure's matte palette): when set, ctOrgan paints this rgb instead of a grey tone.
+  let ctCol=null;const ctMix=(a,b,t)=>a.map((v,i)=>Math.round(v+(b[i]-v)*clamp(t)));const ctMus=[150,52,44],ctBone=[226,214,190];
   function ctTint(gray,rgb,amount){return "rgb("+rgb.map(c=>Math.round(gray*(1-amount)+c*amount)).join(",")+")"}
   function ctRgba(rgb,alpha){return "rgba("+rgb.join(",")+","+clamp(alpha).toFixed(3)+")"}
   const ctNoise=document.createElement("canvas");ctNoise.width=720;ctNoise.height=560;
@@ -700,9 +705,10 @@
   function ctOrgan(ctx,path,gray,fat,glycogen,bounds=[180,138,110]){
     const [cx,cy,r]=bounds;
     const shading=ctx.createRadialGradient(cx-r*.2,cy-r*.15,1,cx,cy,r);
-    shading.addColorStop(0,ctTint(gray+6,ctPalette.organ,.17*fat));
+    if(ctCol){const c=ctCol,f=k=>"rgb("+c.map(v=>Math.round(Math.min(255,v*k))).join(",")+")";shading.addColorStop(0,f(1.10));shading.addColorStop(.65,f(1));shading.addColorStop(1,f(.80));ctCol=null}
+    else{shading.addColorStop(0,ctTint(gray+6,ctPalette.organ,.17*fat));
     shading.addColorStop(.65,ctTint(gray,ctPalette.organ,.17*fat));
-    shading.addColorStop(1,ctTint(gray-14,ctPalette.organ,.17*fat));
+    shading.addColorStop(1,ctTint(gray-14,ctPalette.organ,.17*fat));}
     ctx.fillStyle=shading;ctx.fill(path);
     ctx.strokeStyle="rgba(199,199,199,.09)";ctx.lineWidth=.65;ctx.stroke(path);
     ctx.save();ctx.clip(path);
@@ -720,8 +726,8 @@
   function ctBowel(ctx,x,y,rx,ry,index){
     ctx.save();ctx.translate(x,y);ctx.rotate(index*.73);
     const loop=new Path2D("M-.9 -.25 C-.86 -.78 -.3 -1 .22 -.83 C.65 -.96 1 -.44 .88 .06 C1 .56 .43 .91 -.1 .86 C-.6 1 -1 .46 -.9 -.25Z");
-    ctx.scale(rx,ry);ctx.fillStyle="#88898c";ctx.fill(loop);
-    ctx.scale(.72,.65);ctx.fillStyle=index%3===0?"#090a0c":"#414247";ctx.fill(loop);
+    ctx.scale(rx,ry);ctx.fillStyle="#c08c80";ctx.fill(loop);
+    ctx.scale(.72,.65);ctx.fillStyle=index%3===0?"#2a1a17":"#6a443c";ctx.fill(loop);
     ctx.strokeStyle="rgba(158,157,157,.55)";ctx.lineWidth=.13;
     ctx.beginPath();ctx.moveTo(-.66,-.31);ctx.quadraticCurveTo(-.11,-.5,.36,-.09);ctx.moveTo(-.31,.47);ctx.quadraticCurveTo(.1,.15,.58,.3);ctx.stroke();
     ctx.restore();
@@ -841,17 +847,17 @@
     const cavity=ctContour(innerRx,front,back);
     ctx.setTransform(2,0,0,2,0,0);ctx.clearRect(0,0,360,280);
     ctx.fillStyle="#05090d";ctx.fillRect(0,0,360,280);
-    ctx.fillStyle=ctTint(41,ctPalette.sat,.025+.12*sat);ctx.fill(outer);
+    ctx.fillStyle="rgb("+ctMix([168,132,66],[226,190,108],sat).join(",")+")";ctx.fill(outer);
     ctx.strokeStyle="#959595";ctx.lineWidth=1.15;ctx.stroke(outer);
     ctx.save();ctx.clip(outer);
     // Fine septa within the outer ring stay still as its area expands.
     ctx.strokeStyle="rgba(178,174,166,.13)";ctx.lineWidth=.5;
     for(let i=0;i<150;i++){const x=31+(i*53)%300,y=32+(i*31)%218;ctx.beginPath();ctx.moveTo(x,y);ctx.bezierCurveTo(x+4,y-3,x+7,y+4,x+15,y+1);if(i%3===0){ctx.moveTo(x+7,y+2);ctx.quadraticCurveTo(x+7,y+7,x+3,y+10)}ctx.stroke();}
     ctx.restore();
-    ctx.fillStyle=ctTint(113,ctPalette.organ,.1*s.muscle);ctx.fill(wall);
+    ctx.fillStyle="rgb("+ctMus.join(",")+")";ctx.fill(wall);
     ctx.strokeStyle="rgba(191,191,191,.26)";ctx.lineWidth=.6;ctx.stroke(wall);
     [1.8,4.2].forEach(d=>{ctx.strokeStyle="rgba(53,54,56,.35)";ctx.lineWidth=.65;ctx.stroke(ctContour(innerRx+d,front+d,back+d))});
-    const visceralTint=.34*Math.pow(s.visceralTissue,.54)+.05*s.visceralTissue;ctx.fillStyle=ctTint(31,ctPalette.vis,visceralTint);ctx.fill(cavity);
+    const visceralTint=.34*Math.pow(s.visceralTissue,.54)+.05*s.visceralTissue;ctx.fillStyle="rgb("+ctMix([92,62,38],[214,168,90],visceralTint/.39).join(",")+")";ctx.fill(cavity);
     ctx.save();ctx.clip(cavity);
     // The deep compartment expands mostly anteriorly. Organs retain their
     // sizes, with modest displacement; fat occupies the intervening space.
@@ -867,9 +873,9 @@
     ctx.strokeStyle="rgba(175,173,171,.34)";ctx.lineWidth=.65;
     for(let i=0;i<8;i++){const a=3.4+i*.3;ctx.beginPath();const ox=179+Math.cos(a)*12,oy=150+Math.sin(a)*12-(8+4*organScale)*ctV;ctx.moveTo(ox,oy);ctx.bezierCurveTo(ox-5,oy-7,183+Math.cos(a)*29,149+Math.sin(a)*31-(12+6*organScale)*ctV,180+Math.cos(a)*(43+(28*profileLateral)*ctV),152+Math.sin(a)*(40+(28*profileAnterior)*ctV));ctx.stroke();}
 
-    ctx.fillStyle=ctTint(40,ctPalette.vis,.22+.21*s.visceralTissue);
+    ctx.fillStyle="rgba("+ctMix([120,84,46],[222,176,96],s.visceralTissue).join(",")+",.55)";
     ctx.beginPath();ctx.ellipse(182,154-(12+3*organScale)*ctV,36+18*ctV*profileLateral,24+14*ctV*profileAnterior,0,0,Math.PI*2);ctx.fill();
-    ctx.fillStyle=ctTint(46,ctPalette.vis,.16+.17*s.visceralTissue);
+    ctx.fillStyle="rgba("+ctMix([112,78,44],[216,170,92],s.visceralTissue).join(",")+",.45)";
     ctx.beginPath();ctx.ellipse(182,168-(10+2*organScale)*ctV,51+23*ctV*profileLateral,33+18*ctV*profileAnterior,0,0,Math.PI*2);ctx.fill();
     ctx.fillStyle="rgba(245,212,138,"+(.06+.12*s.visceralTissue).toFixed(3)+")";
     ctx.beginPath();ctx.ellipse(182,173-8*ctV,24+12*ctV,14+8*ctV,0,0,Math.PI*2);ctx.fill();
@@ -884,15 +890,16 @@
       ctx.restore();}
     ctx.save();ctx.translate(left,lift);
     const liverPath=new Path2D("M92 111 C96 96 108 91 119 90 Q132 86 143 91 Q166 91 187 100 Q202 111 184 118 Q170 121 147 127 Q139 141 120 151 Q104 158 96 143 Q87 128 92 111Z");
-    ctOrgan(ctx,liverPath,136-34*Math.pow(s.liver,.72),0,0,[130,116,55]);
+    ctCol=ctMix([128,40,30],[176,112,60],.65*s.liver);ctOrgan(ctx,liverPath,136-34*Math.pow(s.liver,.72),0,0,[130,116,55]);
     ctFatMottle(ctx,liverPath,s.liver,[137,119,48,30],1.7,ctOrganFatPaint.liver);
     // Branching vessels are embedded in the liver, not a second organ.
     ctx.strokeStyle="rgba(58,56,58,.34)";ctx.lineWidth=1.2;ctx.beginPath();ctx.moveTo(147,119);ctx.quadraticCurveTo(130,124,116,116);ctx.quadraticCurveTo(110,112,107,107);ctx.moveTo(130,121);ctx.quadraticCurveTo(121,133,106,141);ctx.moveTo(144,119);ctx.quadraticCurveTo(155,106,173,103);ctx.stroke();
     ctx.restore();
     ctx.save();ctx.translate(right,lift);
-    ctOrgan(ctx,new Path2D("M252 111 Q261 108 266 117 C276 132 267 144 265 151 Q259 161 252 155 C242 142 242 133 245 120 Q247 113 252 111Z"),141,0,0,[257,135,24]);
+    ctx.save();ctx.translate(5,13); // anatomy pass: spleen sits posterolateral (ribs 9-11), behind the stomach, lateral to the left kidney
+    ctCol=[122,40,64];ctOrgan(ctx,new Path2D("M252 111 Q261 108 266 117 C276 132 267 144 265 151 Q259 161 252 155 C242 142 242 133 245 120 Q247 113 252 111Z"),141,0,0,[257,135,24]);ctx.restore();
     // Stomach: a wall around dark gas/fluid, on the patient's left.
-    ctOrgan(ctx,new Path2D("M206 99 C216 90 236 93 242 104 Q250 116 235 126 Q220 132 204 122 Q197 112 206 99Z"),122,0,0,[222,110,26]);
+    ctCol=[196,120,122];ctOrgan(ctx,new Path2D("M206 99 C216 90 236 93 242 104 Q250 116 235 126 Q220 132 204 122 Q197 112 206 99Z"),122,0,0,[222,110,26]);
     ctx.fillStyle="#111315";ctx.fill(new Path2D("M207 101 Q220 94 234 101 Q241 102 241 113 L206 115 Q201 109 207 101Z"));
     ctx.fillStyle="#525356";ctx.fill(new Path2D("M206 115 L241 113 Q233 128 218 124 Q209 124 206 115Z"));
     ctx.strokeStyle="#979797";ctx.lineWidth=.9;ctx.beginPath();ctx.moveTo(207,120);ctx.quadraticCurveTo(222,118,235,121);ctx.stroke();
@@ -900,31 +907,33 @@
     // Kidneys, psoas muscles, aorta and IVC remain posterior landmarks.
     [-1,1].forEach(side=>{
       ctx.save();ctx.translate(180+side*(51+(5+4*profileLateral)*ctV),164-2*ctV);ctx.scale(side,1);
-      ctOrgan(ctx,new Path2D("M-7 -16 C9 -22 20 -10 18 6 Q15 23 1 22 Q-12 19 -10 9 Q1 8 0 0 Q-9 -5 -7 -16Z"),146,0,0,[4,2,25]);
-      ctx.fillStyle="#797b7c";ctx.fill(new Path2D("M-3 -10 Q8 -14 12 -4 L9 2 L12 10 Q8 17 1 16 L-3 11 L3 7 L2 0Z"));
-      ctx.fillStyle="#b5b5b2";ctx.fill(new Path2D("M-5 -3 Q5 0 4 5 L0 9 L-6 6Z"));
+      ctCol=[142,58,42];ctOrgan(ctx,new Path2D("M-7 -16 C9 -22 20 -10 18 6 Q15 23 1 22 Q-12 19 -10 9 Q1 8 0 0 Q-9 -5 -7 -16Z"),146,0,0,[4,2,25]);
+      ctx.fillStyle="#b07a58";ctx.fill(new Path2D("M-3 -10 Q8 -14 12 -4 L9 2 L12 10 Q8 17 1 16 L-3 11 L3 7 L2 0Z"));
+      ctx.fillStyle="#e0c48c";ctx.fill(new Path2D("M-5 -3 Q5 0 4 5 L0 9 L-6 6Z"));
       ctx.restore();
-      ctx.save();ctx.translate(180+side*23,184);ctx.scale(side,1);ctOrgan(ctx,new Path2D("M-7 -19 Q5 -24 11 -10 Q14 2 8 19 Q1 27 -8 19 Q-14 11 -11 -2Z"),112,s.muscle,0,[0,0,26]);ctx.restore();
+      ctx.save();ctx.translate(180+side*21,183);ctx.scale(side*.6,.62);ctCol=ctMus;ctOrgan(ctx,new Path2D("M-7 -19 Q5 -24 11 -10 Q14 2 8 19 Q1 27 -8 19 Q-14 11 -11 -2Z"),112,s.muscle,0,[0,0,26]);ctx.restore(); // anatomy pass: psoas is still small at L1 (it arises T12-L5 and enlarges caudally)
     });
     // Pancreas lies behind the stomach, in front of the central vessels.
     ctx.save();ctx.translate(0,-7*ctV);
     const pancreasPath=new Path2D("M154 132 Q159 125 165 129 L174 132 Q183 129 189 135 Q200 138 210 132 L223 128 Q232 123 236 130 Q231 138 220 140 Q210 147 203 143 Q192 150 181 144 Q173 143 169 148 Q158 151 153 144 Q148 139 154 132Z");
-    ctOrgan(ctx,pancreasPath,132-28*Math.pow(s.pancreas,.72),0,0,[189,137,48]);
+    ctCol=ctMix([226,196,150],[236,206,140],s.pancreas);ctOrgan(ctx,pancreasPath,132-28*Math.pow(s.pancreas,.72),0,0,[189,137,48]);
     ctFatMottle(ctx,pancreasPath,s.pancreas,[194,137,42,10],3.1,ctOrganFatPaint.pancreas);ctx.restore();
-    ctEllipse(ctx,189,164,6.2,6.2,"#b5b5b5");ctEllipse(ctx,169,162,8,5,"#8a8a8b",.2);
+    // anatomy pass: diaphragmatic crura wrap the aorta at L1 (right crus larger)
+    ctEllipse(ctx,180,170,3.6,9,"rgb(150,52,44)",.35);ctEllipse(ctx,198,170,3,8,"rgb(150,52,44)",-.35);
+    ctEllipse(ctx,189,164,6.2,6.2,"#c23a2e");ctEllipse(ctx,169,162,8,5,"#4a5fa8",.2);
     ctx.restore();
     // Lumbar vertebra, canal, posterior elements and paraspinal muscle.
-    [-1,1].forEach(side=>{ctx.save();ctx.translate(180+side*27,209);ctx.scale(side,1);ctOrgan(ctx,new Path2D("M-12 -13 Q-6 -20 4 -17 Q18 -13 20 -1 Q17 13 5 15 Q-12 15 -15 6 Q-19 -6 -12 -13Z"),112,s.muscle,0,[0,0,25]);ctx.restore();});
+    [-1,1].forEach(side=>{ctx.save();ctx.translate(180+side*27,209);ctx.scale(side,1);ctCol=ctMus;ctOrgan(ctx,new Path2D("M-12 -13 Q-6 -20 4 -17 Q18 -13 20 -1 Q17 13 5 15 Q-12 15 -15 6 Q-19 -6 -12 -13Z"),112,s.muscle,0,[0,0,25]);ctx.restore();});
     const vertebra=new Path2D("M165 175 Q178 168 192 174 Q199 177 198 186 Q197 195 188 197 L173 197 Q163 195 162 186 Q161 179 165 175Z");
-    ctOrgan(ctx,vertebra,215,0,0,[180,184,23]);
+    ctCol=ctBone;ctOrgan(ctx,vertebra,215,0,0,[180,184,23]);
     const marrow=new Path2D("M167 178 Q179 171 191 177 Q197 180 194 190 Q190 195 179 194 Q165 196 165 186Z");
-    ctOrgan(ctx,marrow,146,0,0,[180,184,17]);ctx.save();ctx.clip(marrow);
+    ctCol=[204,168,128];ctOrgan(ctx,marrow,146,0,0,[180,184,17]);ctx.save();ctx.clip(marrow);
     for(let i=0;i<58;i++){ctx.fillStyle=i%3===0?"#b8b9b6":"#8a8c8d";ctx.fillRect(164+(i*13)%32,174+(i*7)%22,.5+(i%3)*.3,.6+(i%2)*.4)}ctx.restore();
     // Pedicles, laminae and spinous process surround a darker spinal canal.
-    ctOrgan(ctx,new Path2D("M166 191 L171 194 L171 201 Q181 208 190 200 L190 194 L196 191 L198 196 L210 199 L211 203 L196 201 Q193 206 185 211 L184 223 Q181 227 177 223 L177 211 Q166 209 164 201 L150 204 L148 200 L163 196Z"),191,0,0,[181,204,33]);
+    ctCol=ctBone;ctOrgan(ctx,new Path2D("M166 191 L171 194 L171 201 Q181 208 190 200 L190 194 L196 191 L198 196 L210 199 L211 203 L196 201 Q193 206 185 211 L184 223 Q181 227 177 223 L177 211 Q166 209 164 201 L150 204 L148 200 L163 196Z"),191,0,0,[181,204,33]);
     ctEllipse(ctx,181,200,6.5,4.5,"#42464a");
     // Paired rectus muscles follow the expanding anterior abdominal wall.
-    [-1,1].forEach(side=>ctEllipse(ctx,180+side*(13+2*ctV),149-front,11,3.3,ctTint(127,ctPalette.organ,.12*s.muscle),side*.1));
+    [-1,1].forEach(side=>ctEllipse(ctx,180+side*(13+2*ctV),149-front,11,3.3,"rgb(160,58,48)",side*.1));
     ctx.save();ctx.clip(outer);ctx.globalCompositeOperation="soft-light";ctx.drawImage(ctNoise,0,0,360,280);ctx.restore();
     ctx.fillStyle="#c9d2dd";ctx.font="600 13px Barlow, Arial, sans-serif";ctx.textAlign="center";
     ctx.fillText("FRONT",180,15);ctx.fillText("BACK",180,270);ctx.fillText("R",13,149);ctx.fillText("L",347,149);

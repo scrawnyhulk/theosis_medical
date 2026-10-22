@@ -1,0 +1,19 @@
+{
+ "asset": "hra-organs.js",
+ "source": "HuBMAP HRA 3D Reference Object Library v1.2 (VH Male; SBU_M large intestine)",
+ "url": "https://github.com/hubmapconsortium/ccf-3d-reference-object-library",
+ "license": "CC BY 4.0",
+ "license_url": "https://creativecommons.org/licenses/by/4.0/",
+ "attribution": "Browne K. et al. (2021) HuBMAP CCF 3D Reference Object Library, HuBMAP Consortium. Modified: node selection, welding, meshopt decimation, baked AO, uint16 quantization. Liver: capsule only, voxel-closed and re-surfaced (marching cubes) to make a solid watertight organ.",
+ "organs": [
+  "liver",
+  "lungs",
+  "colon",
+  "small intestine",
+  "pancreas",
+  "spleen",
+  "kidneys",
+  "heart",
+  "gallbladder"
+ ]
+}
