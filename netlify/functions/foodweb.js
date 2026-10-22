@@ -26,8 +26,9 @@ function sourcesOf(cand) {
   return s.slice(0, 3);
 }
 /** Turn a grounded model reply into a result, or null. No sources -> null (never made up). */
+function why(cand) { if (!cand) return "no_answer"; if (!sourcesOf(cand).length) return "no_sources"; const j = parseJson(((cand.content && cand.content.parts) || []).map((p) => p.text || "").join("")); return !j ? "bad_json" : j.found !== true ? "not_found" : "rejected"; }
 function accept(cand) {
-  const sources = sourcesOf(cand); if (!sources.length) return null;
+  if (!cand) return null; const sources = sourcesOf(cand); if (!sources.length) return null;
   const j = parseJson(((cand.content && cand.content.parts) || []).map((p) => p.text || "").join(""));
   if (!j || j.found !== true) return null;
   const r = { product: str(j.product, 100), brand: str(j.brand, 60), serving: str(j.serving, 60), servingGrams: n(j.servingGrams, 1, 1500), piecesPerServing: n(j.piecesPerServing, 0.1, 100), pieceWord: str(j.pieceWord, 20),
@@ -42,7 +43,7 @@ async function gemini(q) {
   try {
     const r = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(MODEL())}:generateContent`, { method: "POST", signal: ctl.signal,
       headers: { "Content-Type": "application/json", "x-goog-api-key": env().GEMINI_API_KEY },
-      body: JSON.stringify({ contents: [{ role: "user", parts: [{ text: PROMPT(q) }] }], tools: [{ google_search: {} }], generationConfig: { temperature: 0, maxOutputTokens: 1200 } }) });
+      body: JSON.stringify({ contents: [{ role: "user", parts: [{ text: PROMPT(q) }] }], tools: [{ google_search: {} }], generationConfig: { temperature: 0, maxOutputTokens: 1200, thinkingConfig: { thinkingLevel: env().FOODWEB_THINKING || "low" } } }) });
     if (!r.ok) throw Object.assign(new Error("upstream"), { code: r.status === 429 ? "rate" : "upstream", status: r.status });
     const d = await r.json(); return (d && d.candidates && d.candidates[0]) || null;
   } catch (e) { if (typeof e.code === "string") throw e; throw Object.assign(new Error("net"), { code: ctl.signal.aborted ? "timeout" : "network" }); }
@@ -61,7 +62,7 @@ exports.handler = async (event) => {
   if (q.brand.length < 2 || q.food.length < 2) return out(400, { error: "A brand and a food are needed.", code: "empty" }, co);
   if (mock) return out(200, { result: accept(MOCK), mock: true }, co);
   const slot = await BETA.check(event, "web"); if (!slot.ok) return BETA.reply(slot, co);
-  try { return out(200, { result: accept(await gemini(q)) }, co); }
+  try { const c = await gemini(q), res = accept(c); return out(200, res ? { result: res } : { result: null, why: why(c) }, co); }
   catch (e) { slot.release(); console.error("foodweb failed:", (e && e.code) || "failed", e && e.status ? e.status : ""); return out(502, { error: "The web lookup didn't work this time.", code: (e && e.code) || "failed" }, co); }
 };
 module.exports._t = { accept, sourcesOf, PROMPT };
