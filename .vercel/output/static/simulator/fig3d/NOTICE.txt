@@ -1,0 +1,16 @@
+3D body figure assets (loaded lazily by index.html; the page works without them).
+
+fig3d.js     three.js r169 (MIT, (c) three.js authors; see LICENSE-three.js-MIT.txt), bundled
+             with the Theosis figure runtime (morph solver, ghost shader, rotation; v6: procedural
+             anatomy views - visceral-fat lobules, gut loops, liver, glycogen and liver-fat
+             speckle - and morph smoothing, all generated in code, no external organ meshes).
+body-m.js    Male body model; body-f.js female body model. Each is a meshopt-compressed,
+             quantized glTF binary (~117 KB) wrapped as base64 JS so it also loads from file://.
+             Derived from the MakeHuman hm08 base mesh and targets, released by the MakeHuman
+             project under CC0 1.0 Universal (see LICENSE-MakeHuman-assets-CC0.md; every source
+             asset carries a CC0 header). Modifications: race-average sex shape, decimated to
+             10,000 vertices, procedural morph targets (subcutaneous fat, abdominal/visceral,
+             muscle, thin) baked offline. No attribution required; credited here anyway.
+Pipeline:    /workspace/bodysim/fig3d-src/build-all.sh
+
+Credits:     see CREDITS.md (no Z-Anatomy / CC BY-SA content is used or shipped).

@@ -1,0 +1,4 @@
+ai.js and ai-pack.js (v7.6.14)
+- ai.js sends requests to Google's Gemini API (https://ai.google.dev/gemini-api/terms) only from the server, with GEMINI_API_KEY from the environment. No code from Google is bundled.
+- ai-pack.js is generated from the public pages of https://theosismedical.com (by Nick Holwey, PA-C / Theosis Medical, LLC) so the Ask Theosis assistant can answer from, and link to, that content. Quoted referenced works on those pages (Alex Hormozi, Dr. Ted Naiman, Dr. Layne Norton) are the site's own references and are not reproduced beyond what the site shows.
+- AI output is labelled as AI-generated in the page. Education only; not medical advice.
