@@ -76,7 +76,7 @@ FT.servingMath = function (it, food) {
 };
 const GENERIC_T = /^(foundation|sr legacy|survey)/i;
 // Words USDA uses to describe a plain food; they don't count as "added" words.
-const DESCR = new Set("raw cooked boiled baked broiled roasted grilled fried scrambled poached hard soft brewed prepared plain regular ns as to type form made from fresh frozen canned large medium small grade enriched unenriched ready drink beverage commercial home homemade restaurant style hot cold water oil fat added salt without no not specified table light fluid sliced toasted toast slice wheat yellow us sauce tomato dry instant ground or by".split(" "));
+const DESCR = new Set("raw cooked boiled baked broiled roasted grilled fried scrambled poached hard soft brewed prepared plain regular ns as to type form made from fresh frozen canned large medium small grade enriched unenriched ready beverage commercial home homemade restaurant style hot cold water oil fat added salt without no not specified table fluid salted unsalted stick sliced toasted toast slice wheat yellow us sauce tomato dry instant ground or by".split(" "));
 // Rank database foods for one parsed item: brand words count most, then food words, then flavor.
 FT.score = function (it, f) {
   const hay = new Set(toks((f.brand || "") + " " + (f.name || ""))), hit = (ws) => ws.filter((w) => hay.has(w)).length;
@@ -85,9 +85,10 @@ FT.score = function (it, f) {
   if (b.length) return base;
   // v7.6.63: unbranded everyday food. Prefer USDA Foundation / SR Legacy / Survey (FNDDS) over branded and Open Food Facts,
   // and penalize names that add words the person didn't say ("coffee ice cream", a candy brand on "eggs").
-  const said = new Set(fd.concat(fl, toks(it.unit))), generic = f.src === "usda" && GENERIC_T.test(f.dataType || "");
-  const extra = toks(f.name).filter((w) => !said.has(w) && !DESCR.has(w) && !/^\d/.test(w)).length + (f.brand ? toks(f.brand).filter((w) => !said.has(w)).length : 0);
-  return base + (generic ? 3 : f.src === "usda" ? -1 : -2) - Math.min(6, extra * (generic ? 1 : 2));
+  const st = (w) => (w.length > 5 ? w.replace(/ed$/, "") : w), said = new Set(fd.concat(fl, toks(it.unit)).map(st)), hay2 = new Set(toks(f.name).map(st)), hit2 = fd.filter((w) => hay2.has(st(w))).length;
+  const phrase = fd.length > 1 && (" " + toks(f.name).join(" ") + " ").includes(" " + fd.join(" ") + " ") ? 2 : 0, stemBonus = (hit2 - hit(fd)) * 2 + (fd.length && hit2 === fd.length && hit(fd) < fd.length ? 2 : 0) + (fd.length && !hit(fd) && hit2 ? 4 : 0), generic = f.src === "usda" && GENERIC_T.test(f.dataType || "");
+  const extra = toks(f.name).filter((w) => !said.has(st(w)) && !DESCR.has(w) && !/^\d/.test(w)).length + (f.brand ? toks(f.brand).filter((w) => !said.has(w)).length : 0);
+  return base + stemBonus + phrase + (generic ? 3 : f.src === "usda" ? -1 : -2) - Math.min(6, extra * (generic ? 1.5 : 2));
 };
 FT.rank = function (it, foods) {
   const seen = new Set(), out = [];
