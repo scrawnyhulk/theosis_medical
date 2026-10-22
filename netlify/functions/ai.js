@@ -34,6 +34,9 @@ const MAX = { imageBytes: 4 * 1024 * 1024, body: 6 * 1024 * 1024, chatMsgs: 10, 
 const MIME = ["image/jpeg", "image/png", "image/webp"];
 const TIMEOUT_MS = { text: 20000, image: 25000 };
 const FEATURES = ["label", "stage", "chat", "plan"];
+// BIPA: face/body photo illustration ("stage") is off unless PHOTO_AI_ENABLED is explicitly "1" (or "true", as on theosishealth.com). Not set on beta.
+const photoAiOn = () => ["1", "true"].includes(String(env().PHOTO_AI_ENABLED || ""));
+const feats = () => FEATURES.filter((f) => f !== "stage" || photoAiOn());
 
 // ---------- helpers ----------
 const json = (status, body, origin, extra) => ({ statusCode: status, headers: { "Content-Type": "application/json", "Cache-Control": "no-store", ...(origin ? { "Access-Control-Allow-Origin": origin, Vary: "Origin" } : {}), ...(extra || {}) }, body: JSON.stringify(body) });
@@ -333,12 +336,13 @@ exports.handler = async (event) => {
   if (event.httpMethod === "OPTIONS") return { statusCode: 204, headers: corsOrigin ? { "Access-Control-Allow-Origin": corsOrigin, "Access-Control-Allow-Methods": "GET, POST", "Access-Control-Allow-Headers": "Content-Type, X-Theosis-Pro" } : {} };
   if (allowed && origin && origin !== allowed) return err(403, "origin", "Origin not allowed.");
   const mock = env().AI_MOCK === "1", configured = !!env().GEMINI_API_KEY || mock;
-  if (event.httpMethod === "GET") return json(200, { configured, mock, features: configured ? FEATURES : [], limits: (({ chat, label, plan, stageImages, stageRuns }) => ({ chat, label, plan, stageImages, stageRuns }))(LIMITS()), models: configured && !mock ? MODELS() : undefined }, corsOrigin);
+  if (event.httpMethod === "GET") return json(200, { configured, mock, features: configured ? feats() : [], photoAi: photoAiOn(), limits: (({ chat, label, plan, stageImages, stageRuns }) => ({ chat, label, plan, stageImages, stageRuns }))(LIMITS()), models: configured && !mock ? MODELS() : undefined }, corsOrigin);
   if (event.httpMethod !== "POST") return err(405, "method", "Use POST.", corsOrigin);
   if (!configured) return err(503, "not_configured", "AI features aren't set up on this site yet.", corsOrigin);
   if (String(event.body || "").length > MAX.body) return err(413, "too_big", "That request is too large.", corsOrigin);
   let body; try { body = JSON.parse(event.body || "{}"); } catch (e) { return err(400, "bad_json", "Invalid request.", corsOrigin); }
   const action = body.action; if (!FEATURES.includes(action)) return err(400, "bad_action", "Unknown request.", corsOrigin);
+  if ((action === "stage" || action === "preview") && !photoAiOn()) return err(403, "coming_soon", "Photo features are coming soon.", corsOrigin);   // BIPA gate, before any photo is read
   // Pro (server-side check when UNLOCK_SECRET is set; AI_REQUIRE_PRO=1 makes it mandatory)
   const pro = proStatus(h["x-theosis-pro"] || h["X-Theosis-Pro"]);
   if (env().AI_REQUIRE_PRO === "1" && !(pro.checked && pro.ok)) return err(402, "pro_required", "This is a Pro feature.", corsOrigin);

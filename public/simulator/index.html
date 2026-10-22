@@ -8023,6 +8023,7 @@ function renderAi() {
     <p class="hint" id="ai-when-h">At week ${pj.weeks} (${pj.date}): <strong>${fW(pj.endWeightKg)} · ${pj.endBf}% body fat</strong>, ${fWd(pj.fatChangeKg)} fat, ${fWd(pj.leanChangeKg)} lean.</p>
     ${aiRegionalHtml(wr, B)}
     <p class="muted small">The figure ${R && !R.blocked ? ({ gain: "fills out", loss: "slims", recomp: "slims and firms up", hold: "changes" })[changeKind(R.main.rows[0], endRow())] : "changes"} to the week you pick. The blue glow is ${B.c ? `your week ${B.c.week} check-in` : "where you started"}. This part is free and runs on your device.</p></div></div>`;
+  if (!AI.photo && !window.__PHOTO_AI_TEST) { box.innerHTML = week; return; }   // BIPA: face/body photo AI off unless the server says PHOTO_AI_ENABLED
   if (!photo) { box.innerHTML = week + `<p class="muted mt1">Add a photo in Step 1 (or a check-in photo above) to also see an AI illustration of you at that week. It's optional, and your photo stays on your device unless you choose to create one.</p><button type="button" class="btn btn-ghost mt1" data-goto="1">Add a photo</button>`; aiRenderStages(); return; }
   box.innerHTML = week + `<hr class="soft">
   <p class="muted small">An AI image model can redraw your photo to <em>illustrate</em> you at week ${pj.weeks} (${fW(pj.startWeightKg)} → ${fW(pj.endWeightKg)}, ${pj.startBf}% → ${pj.endBf}% body fat). It's an illustration, not a prediction. Real bodies change differently.</p>
@@ -8366,7 +8367,7 @@ function aiCheck() {
   if (!CONFIG.AI_ENDPOINT || location.protocol === "file:" || localNoFn) { AI.avail = false; return Promise.resolve(false); }
   if (AI.checking) return AI.checking;
   AI.checking = fetch(CONFIG.AI_ENDPOINT, { headers: { Accept: "application/json" }, cache: "no-store" }).then(async (r) => { if (!r.ok || !/json/.test(r.headers.get("content-type") || "")) { AI.why = `The AI function answered with status ${r.status} (${(r.headers.get("content-type") || "no type").split(";")[0]}), not the expected JSON. Check that netlify/functions/ai.js deployed and that Deploy Previews aren't behind a login that blocks it.`; throw new Error("no function"); }
-    const j = await r.json(); AI.avail = !!(j && j.configured); if (!AI.avail) AI.why = "The AI function is deployed but GEMINI_API_KEY isn't visible to it. In Netlify, add GEMINI_API_KEY with the Deploy Previews scope ticked, then trigger a new deploy of this preview."; AI.limits = j && j.limits || null; AI.mock = !!(j && j.mock); return AI.avail; }).catch((e) => { AI.avail = false; if (!AI.why) AI.why = "Couldn't reach the AI function (" + ((e && e.message) || "network error") + ")."; return false; })
+    const j = await r.json(); AI.avail = !!(j && j.configured); if (!AI.avail) AI.why = "The AI function is deployed but GEMINI_API_KEY isn't visible to it. In Netlify, add GEMINI_API_KEY with the Deploy Previews scope ticked, then trigger a new deploy of this preview."; AI.limits = j && j.limits || null; AI.photo = !!(j && j.photoAi); AI.mock = !!(j && j.mock); return AI.avail; }).catch((e) => { AI.avail = false; if (!AI.why) AI.why = "Couldn't reach the AI function (" + ((e && e.message) || "network error") + ")."; return false; })
     .then((v) => { aiRenderAll(); return v; });
   return AI.checking;
 }
@@ -8494,7 +8495,7 @@ function aiFoodAdd(i) {
 }
 
 function aiRenderStages() {
-  const box = $("#ai-stages"); if (!box) return; if (!aiOn() || !R || R.blocked) { box.innerHTML = ""; return; }
+  const box = $("#ai-stages"); if (!box) return; if (!aiOn() || !AI.photo || !R || R.blocked) { box.innerHTML = ""; return; }
   const G = AI.stages, sp = stagePlan(), locked = !aiConsentOk(), runsLeft = aiLeft("stageRuns"), imgLeft = aiLeft("stageImages"), has = !!photo;
   const rows = sp.ok ? sp.pts.map((q) => `<tr><td>Week ${Math.round(q.weeks)}</td><td>${fW(q.endWeightKg)}</td><td>${fP(q.endBf)}</td><td>${fWd(q.fatChangeKg)}</td><td>${fWd(q.leanChangeKg)}</td></tr>`).join("") : "";
   const frames = G.frames.map((f) => `<figure class="ai-stage${f.err ? " is-err" : ""}">${f.img ? `<img src="${f.img}" alt="${f.start ? "Your starting photo" : `AI illustration of you at week ${f.week}`}">` : `<div class="ai-stage-ph">${f.err ? esc(f.err) : "Creating…"}</div>`}
@@ -8581,7 +8582,7 @@ function aiFab() { let b = $("#ask-fab"); if (b) return b; b = document.createEl
   b.setAttribute("aria-label", "Ask Theosis: open the chat"); b.setAttribute("aria-haspopup", "dialog");
   b.innerHTML = `<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20.5l1.5-4.6A8 8 0 1 1 21 12z"/></svg><span class="ask-fab-t">Ask Theosis</span>`;
   document.body.appendChild(b); return b; }
-function aiRenderAll() { aiRenderFood(); aiRenderStages(); renderPlanOpt(); const diag = !aiOn() && AI.avail === false && aiPreviewHost() && !!CONFIG.AI_ENDPOINT && location.protocol !== "file:";
+function aiRenderAll() { aiRenderFood(); aiRenderStages(); try { if ($("#ai-body")) renderAi(); } catch (e) {} renderPlanOpt(); const diag = !aiOn() && AI.avail === false && aiPreviewHost() && !!CONFIG.AI_ENDPOINT && location.protocol !== "file:";
   const fab = aiFab(); fab.hidden = !(aiOn() || diag); document.body.classList.toggle("has-ask", !fab.hidden);
   $$("[data-open-ask]").forEach((b) => { if (b !== fab) b.hidden = !aiOn(); }); if ($("#dlg-ask") && $("#dlg-ask").open) aiRenderAsk(); }
 /** Withdrawing the photo/AI consent: abort anything in flight and delete every AI photo, image, answer and draft held in memory. */

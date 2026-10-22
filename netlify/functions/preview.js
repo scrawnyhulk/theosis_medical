@@ -29,6 +29,8 @@ const buildPrompt = (p) => SP.build(p);
 
 const BETA = require("./guard.js");   // v7.6.47 beta guard
 exports.handler = async (event) => {
+  // BIPA: AI photo projection off unless PHOTO_AI_ENABLED is explicitly "1" (or "true"). Checked before the body (photo) is read.
+  if (!["1", "true"].includes(String(process.env.PHOTO_AI_ENABLED || ""))) return { statusCode: 403, headers: { "content-type": "application/json" }, body: JSON.stringify({ error: "Photo features are coming soon.", code: "coming_soon" }) };
   const allowed = process.env.ALLOWED_ORIGIN || "";
   const origin = event.headers && (event.headers.origin || event.headers.Origin);
   const corsOrigin = allowed && origin === allowed ? allowed : null;
