@@ -209,10 +209,14 @@ function drawNow() {
 }
 /* v7.6.62: food-only photo (its own gate; separate from the face/body photo features, which stay off). The photo is downscaled
    and re-encoded in the browser (drops EXIF, including location), sent once to /.netlify/functions/foodphoto, and never stored. */
-const PHOTO_ON = true, PHOTO_EP = "/.netlify/functions/foodphoto";
+let PHOTO_ON = location.protocol === "file:";   // v7.6.64: shown only where the server says food photos are on (beta yes; theosishealth.com off until its privacy line ships)
+const PHOTO_EP = "/.netlify/functions/foodphoto";
 // Notice shown above the photo buttons (no tick box needed, per Lawyer Bot). Do not edit without legal review.
 const PHOTO_NOTICE = "Food photos only. Snap a meal or nutrition label and we'll send the image to Google's Gemini AI to identify the foods. Please keep people, faces, and anything private out of the shot. We don't store your photo. Google processes it under its paid API terms, which don't use it to train models. Check the results before saving: estimates are for education and can be wrong, so don't rely on them for allergies or medical diets.";   // exact text approved by Lawyer Bot (v7.6.63)
+FT.photoCheck = function () { if (FT._pc || location.protocol === "file:") return; FT._pc = 1;
+  fetch(PHOTO_EP).then((r) => r.json()).then((d) => { const on = !!(d && d.enabled && d.configured); if (on !== PHOTO_ON) { PHOTO_ON = on; draw(); } }).catch(() => {}); };
 function photoHtml() {
+  FT.photoCheck();
   if (!PHOTO_ON) return "";
   return `<div class="ft-ph"><p class="ft-phn" id="ft-ph-note">${esc(PHOTO_NOTICE)}</p>
     <div class="ft-alt"><label class="btn btn-ghost" for="ft-ph-cam">📷 Take a food photo</label><label class="btn btn-ghost" for="ft-ph-lib">🖼 Choose a food photo</label></div>

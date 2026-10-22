@@ -2,7 +2,7 @@
  * Netlify Function: POST /.netlify/functions/foodphoto  {image: "data:image/jpeg;base64,...", consent: {foodPhoto: true}}   (v7.6.62)
  * Food-only photo: identifies foods, drinks and printed food labels in a picture and returns the same items the typed entry uses
  * ({brand, food, flavor, quantity, unit, count, meal:""}). It never describes, identifies or comments on people, faces or bodies.
- * Separate gate from the face/body photo features: FOOD_PHOTO_ENABLED ("0" turns it off; on by default). PHOTO_AI_ENABLED is not used.
+ * Separate gate from the face/body photo features: FOOD_PHOTO_ENABLED ("1" on, "0" off; unset = on only for the beta host, off on theosishealth.com until its privacy line is published). PHOTO_AI_ENABLED is not used.
  * Privacy: the image is held in memory for this one request only; never written to disk, logs or a database, never echoed back.
  * The page downscales and re-encodes the photo (which drops EXIF/location) before sending. Errors log only a code.
  */
@@ -27,13 +27,14 @@ function tidy(raw) {
     return { brand: str(x && x.brand, 60), food: str(x && x.food, 80), flavor: str(x && x.flavor, 40), quantity: Number.isFinite(q) && q > 0 && q <= 50 ? Math.round(q * 100) / 100 : 1,
       unit: str(x && x.unit, 20).toLowerCase() || "serving", count: Number.isFinite(c) && c > 1 && c <= 100 ? Math.round(c) : null, meal: "" }; }).filter((x) => x.food.length >= 2);
 }
-const enabled = () => env().FOOD_PHOTO_ENABLED !== "0";
+const enabled = (event) => { const v = env().FOOD_PHOTO_ENABLED; if (v === "0") return false; if (v === "1") return true;
+  const h = String((event && event.headers && (event.headers.host || event.headers.Host)) || "").toLowerCase(); return /^beta\.|^localhost(:|$)|^127\.0\.0\.1|--/.test(h) || !h; };
 exports.handler = async (event) => {
   const allowed = env().ALLOWED_ORIGIN || "", h = event.headers || {}, origin = h.origin || h.Origin, co = allowed ? (origin === allowed ? allowed : null) : null;
   if (event.httpMethod === "OPTIONS") return { statusCode: 204, headers: co ? { "Access-Control-Allow-Origin": co, "Access-Control-Allow-Methods": "GET, POST", "Access-Control-Allow-Headers": "Content-Type" } : {} };
   if (allowed && origin && origin !== allowed) return out(403, { error: "Origin not allowed.", code: "origin" });
-  const mock = env().AI_MOCK === "1", configured = enabled() && (mock || !!env().GEMINI_API_KEY);
-  if (event.httpMethod === "GET") return out(200, { configured, enabled: enabled() }, co);
+  const mock = env().AI_MOCK === "1", configured = enabled(event) && (mock || !!env().GEMINI_API_KEY);
+  if (event.httpMethod === "GET") return out(200, { configured, enabled: enabled(event) }, co);
   if (event.httpMethod !== "POST") return out(405, { error: "Use POST.", code: "method" }, co);
   if (!configured) return out(503, { error: "Food photos aren't available here.", code: "off" }, co);
   if (String(event.body || "").length > MAXB64 + 2000) return out(413, { error: "That photo is too large.", code: "too_big" }, co);
