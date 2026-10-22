@@ -8,11 +8,11 @@
   if(!T)return;
   const ROLE={Skin:"skin",Muscles:"muscle",Bones:"bone",Heart:"heart",Liver:"liver",Gallbladder:"gall",Stomach:"stomach",Pancreas:"pancreas",
     Duodenum:"intestine",Jejunum:"intestine",Ascending_colon:"colon",Transverse_colon:"colon",Descending_colon:"colon",Sigmoid_colon:"colon",
-    Greater_omentum:"omentum",Mesentery:"mesentery",Spleen:"spleen",Arteries:"vessel","Kidney.l":"kidney","Kidney.r":"kidney",Urinary_bladder:"bladder",Nails:"nail",Lungs:"lung",Diaphragm:"diaphragm",Vena_cava:"vein"}; // anatomy pass: lungs, diaphragm, IVC
+    Greater_omentum:"omentum",Mesentery:"mesentery",Spleen:"spleen",Arteries:"vessel","Kidney.l":"kidney","Kidney.r":"kidney",Urinary_bladder:"bladder",Nails:"nail"};
   const MUSCLE_NAMES=["Deltoid (anterior part)", "Deltoid (middle part)", "Deltoid (posterior part)", "Biceps brachii", "Brachialis", "Triceps brachii (long head)", "Triceps brachii (lateral head)", "Brachioradialis", "Forearm flexors", "Forearm extensors", "Extensor carpi radialis", "Rectus femoris", "Vastus lateralis", "Vastus medialis", "Sartorius", "Adductor group", "Tensor fasciae latae", "Biceps femoris", "Semitendinosus", "Gastrocnemius (medial head)", "Gastrocnemius (lateral head)", "Soleus", "Tibialis anterior", "Fibularis (peroneus) longus", "Soleus (medial)", "Pectoralis major", "Pectoralis major (abdominal part)", "Rectus abdominis", "Rectus abdominis", "Rectus abdominis", "Rectus abdominis", "External oblique", "External oblique", "Serratus anterior", "Serratus anterior", "Latissimus dorsi", "Trapezius (upper)", "Trapezius (middle)", "Trapezius (lower)", "Infraspinatus", "Teres major", "Erector spinae", "Gluteus maximus", "Gluteus medius", "Sternocleidomastoid", "Infrahyoid (strap) muscles", "Splenius / upper trapezius"]; // V32e: index = muscles.py MUS order (id-1)
   const LABEL={skin:"Skin",fat:"Subcutaneous fat (under the skin)",muscle:"Skeletal muscle",bone:"Skeleton",heart:"Heart",liver:"Liver",gall:"Gallbladder",
     stomach:"Stomach",pancreas:"Pancreas",intestine:"Small intestine",colon:"Large intestine (colon)",omentum:"Greater omentum · visceral fat",mesentery:"Mesentery · visceral fat",
-    spleen:"Spleen",kidney:"Kidney",bladder:"Urinary bladder",vessel:"Arteries (arterial tree)",nail:"Nails (finger- and toenails)",lung:"Lungs",diaphragm:"Diaphragm",vein:"Inferior vena cava"};
+    spleen:"Spleen",kidney:"Kidney",bladder:"Urinary bladder",vessel:"Arteries (arterial tree)",nail:"Nails (finger- and toenails)"};
   // Threshold profiles change the starting body; slider fat is added on top.
   const BASE={lower:{mass:0,belly:0,visc:0},moderate:{mass:0,belly:0,visc:0},larger:{mass:.45,belly:0,visc:0},extreme:{mass:1,belly:.3,visc:.45}};
   // Same body states as the 2D render frames (v22src/frames.json): [subq, mass, belly, visc, liver, pancreas, hyper] at fuel 0/40/55/70/85/100 (V24).
@@ -187,10 +187,6 @@
     M.gall=organ(0x3d6a1e,.25);M.stomach=organ(0xb06a62,.36);M.intestine=bowel(0xb48c88,.38,"intestine");M.colon=bowel(0x9e746c,.4,"colon");
     M.vessel=patch(organ(0x8a0f0c,.3,{emissive:new T.Color(0x3a0402),emissiveIntensity:.5}),"vessel",{uniforms:shared,discard:"if(uCut>.5&&pftAbd(vPos,.03)>.5)discard;"});
     M.spleen=organ(0x6b1a24,.35);M.kidney=organ(0x7a2a22,.35);M.bladder=organ(0xc9a08a,.4);
-    // anatomy pass: lungs (pale pink, see-through so the heart reads), diaphragm (muscle with a paler central tendon), IVC (deoxygenated blue)
-    M.lung=organ(0xe3aaa6,.6,{transparent:true,opacity:.5,depthWrite:false,clearcoat:.1,sheen:.4});
-    M.diaphragm=patch(organ(0x9a3a30,.55,{transparent:true,opacity:.5,depthWrite:false,side:T.DoubleSide,clearcoat:.15}),"diaphragm",{uniforms:shared,vdecl:"attribute vec3 color;\nvarying float vTen;\n",vmain:"vTen=color.r;\n",fdecl:"varying float vTen;\n",color:"diffuseColor.rgb=mix(diffuseColor.rgb,vec3(.86,.80,.72),vTen*.85);"});
-    M.vein=organ(0x2c3f86,.32,{emissive:new T.Color(0x0a1030),emissiveIntensity:.4});
 
     // ---------- labels ----------
     const host=canvas.parentElement;
@@ -220,9 +216,9 @@
     const ro=window.ResizeObserver?new ResizeObserver(()=>{resize();kick()}):null;if(ro)ro.observe(canvas);
 
     function applyMode(){
-      const show={external:["skin","nail"],composition:["vessel","fat","nail","muscle","bone","heart","liver","gall","stomach","pancreas","intestine","colon","omentum","mesentery","spleen","kidney","bladder","lung","diaphragm","vein"],
-        internal:["vessel","skin","nail","muscle","bone","heart","liver","gall","stomach","pancreas","intestine","colon","omentum","mesentery","spleen","kidney","bladder","lung","diaphragm","vein"]}[mode];
-      meshes.forEach(m=>{m.visible=show.indexOf(m.userData.role)>=0&&((m.userData.role!=="vessel"&&m.userData.role!=="vein")||vesselsOn)&&(m.userData.role!=="muscle"||musclesOn)});
+      const show={external:["skin","nail"],composition:["vessel","fat","nail","muscle","bone","heart","liver","gall","stomach","pancreas","intestine","colon","omentum","mesentery","spleen","kidney","bladder"],
+        internal:["vessel","skin","nail","muscle","bone","heart","liver","gall","stomach","pancreas","intestine","colon","omentum","mesentery","spleen","kidney","bladder"]}[mode];
+      meshes.forEach(m=>{m.visible=show.indexOf(m.userData.role)>=0&&(m.userData.role!=="vessel"||vesselsOn)&&(m.userData.role!=="muscle"||musclesOn)});
       if(mBtn)mBtn.hidden=mode==="external";
       if(vBtn)vBtn.hidden=mode==="external";
       shared.uCut.value=mode==="external"?0:1;shared.uHalf.value=mode==="composition"?1:0;
@@ -370,7 +366,7 @@
           f.renderOrder=3;f.frustumCulled=false;o.parent.add(f);f.position.copy(o.position);f.quaternion.copy(o.quaternion);f.scale.copy(o.scale);f.updateMatrix();
           meshes.push(f);(byRole.fat=byRole.fat||[]).push(f);
         }
-        if(role==="omentum"||role==="mesentery"||role==="lung"||role==="diaphragm")o.renderOrder=2;
+        if(role==="omentum"||role==="mesentery")o.renderOrder=2;
       });
       scene.add(root);ready=true;if(/pftdebug/.test(location.hash))window.__pft3d={scene,meshes,T};applyMode();applyState();resize();kick();
       opts.onReady&&opts.onReady();syncNav(false);
