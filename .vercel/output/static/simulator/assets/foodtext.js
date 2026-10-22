@@ -89,6 +89,20 @@ FT.lookup = async function (it) {
   return FT.rank(it, foods).slice(0, 6);
 };
 
+/* v7.6.58: brand not in USDA -> grounded web lookup of that product's label (server-side). Only brand/food/flavor are sent. */
+const WEB = "/.netlify/functions/foodweb";
+FT.brandFound = (it, f) => { const bw = toks(it.brand), hay = toks((f && (f.brand || "") + " " + f.name) || ""); return !bw.length || (!!f && bw.every((w) => hay.includes(w))); };
+FT.webFood = function (r) {
+  if (!r || r.kcal == null || !Array.isArray(r.sources) || !r.sources.length) return null;   // no source, no numbers
+  const g = r.servingGrams > 0 ? r.servingGrams : 100, k = 100 / g, pc = r.piecesPerServing > 0 && r.pieceWord ? `${r.piecesPerServing} ${r.pieceWord}, ` : "";
+  const per100 = { kcal: r.kcal * k }; for (const x of ["protein", "carbs", "fat"]) per100[x] = r[x] == null ? null : r[x] * k;
+  const label = r.servingGrams > 0 ? `1 serving (${pc}${g} g)` : `1 serving (${pc}${r.serving || "as on the package"})`;
+  return { id: "web:" + (r.brand + r.product).toLowerCase().replace(/[^a-z0-9]+/g, "-").slice(0, 60), src: "web", name: r.product, brand: r.brand, per100, servings: [{ label: label.slice(0, 60), g, unit: "g" }], sources: r.sources.slice(0, 3), _score: 99 };
+};
+FT.web = async function (it) {
+  try { const d = await J(WEB, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ brand: it.brand, food: it.food, flavor: it.flavor || "" }) }); return FT.webFood(d && d.result); }
+  catch (e) { return null; }
+};
 /* ---------- UI ---------- */
 const st = { text: "", busy: false, rows: [], ai: null, msg: "" };
 const B = () => window.__BP, X = () => window.__FLX;
@@ -97,6 +111,7 @@ const CSS = `.ft-box textarea{width:100%;min-height:5.2rem;font:inherit;font-siz
 .ft-box .ft-l{display:block;font-weight:600;margin:0 0 .35rem}.ft-note{color:var(--muted);font-size:.84rem;margin:.45rem 0 0}
 .ft-list{list-style:none;margin:.9rem 0 0;padding:0;display:grid;gap:.75rem}.ft-it{border:1px solid rgba(207,214,224,.18);border-radius:12px;padding:.75rem .8rem}
 .ft-it.off{opacity:.55}.ft-typed{font-size:.86rem;color:var(--muted);margin:0 0 .35rem}.ft-best{display:inline-block;font-size:.78rem;font-weight:700;padding:.12rem .45rem;border-radius:999px;background:rgba(80,140,220,.18);color:#9cc3ff;margin-bottom:.35rem}
+.ft-best.web{background:rgba(120,190,255,.14);color:#bfe0ff}.ft-src{font-size:.8rem;color:var(--muted);margin:.2rem 0 0;word-break:break-word}.ft-src a{color:#9cc3ff}
 .ft-best.weak{background:rgba(230,170,60,.16);color:#f0c070}.ft-it select,.ft-it input[type=text],.ft-it input[inputmode]{font:inherit;font-size:1rem;min-height:44px;width:100%;box-sizing:border-box}
 .ft-row{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin-top:.55rem}.ft-math{font-size:.84rem;color:var(--muted);margin:.45rem 0 0}.ft-kcal{margin:.45rem 0 0;font-weight:600}
 .ft-again{display:flex;gap:.5rem;margin-top:.55rem}.ft-again input{flex:1;padding:.5rem .65rem;border-radius:10px;border:1px solid rgba(207,214,224,.28);background:rgba(0,0,0,.18);color:inherit}.ft-inc{display:flex;align-items:center;gap:.45rem;margin-top:.55rem;font-size:.92rem;min-height:40px}.ft-inc input{width:22px;height:22px}
@@ -106,13 +121,14 @@ function css() { if (document.getElementById("ft-css")) return; const s = docume
 const mealName = () => { const m = window.FoodLog.MEALS.find((x) => x[0] === X().fl.meal); return m ? m[1] : "Snacks"; };
 function rowHtml(r, i) {
   const it = r.item, typed = [it.quantity !== 1 || it.unit !== "serving" ? `${it.quantity} ${it.unit}` : "", it.brand, it.flavor, it.food].filter(Boolean).join(" · ") + (it.count ? ` (${it.count} per ${it.unit})` : "");
-  if (r.loading) return `<li class="ft-it" data-ft-i="${i}"><p class="ft-typed">You typed: ${esc(typed)}</p><p class="hint">Looking this up…</p></li>`;
+  if (r.loading) return `<li class="ft-it" data-ft-i="${i}"><p class="ft-typed">You typed: ${esc(typed)}</p><p class="hint">${r.webBusy ? "That brand isn't in the USDA database. Checking the web for its label…" : "Looking this up…"}</p></li>`;
   const f = r.matches[r.pick], again = `<div class="ft-again"><input type="text" data-ft-q="${i}" data-local="1" maxlength="80" value="${esc(r.q)}" aria-label="Search words for ${esc(it.food)}"><button type="button" class="btn btn-ghost" data-ft-search="${i}">Search again</button></div>`;
   if (!f) return `<li class="ft-it off" data-ft-i="${i}"><p class="ft-typed">You typed: ${esc(typed)}</p><p>${r.err ? esc(r.err) : "No match found in the USDA food database."} Try different words, or use Quick add.</p>${again}</li>`;
   const sv = f.servings[r.sv] || f.servings[0], n = window.FoodLog.itemNutr({ per100: f.per100, g: sv.g, servings: r.n }), bw = toks(it.brand), hay = toks((f.brand || "") + " " + f.name), noBrand = bw.length && !bw.every((w) => hay.includes(w)), weak = (f._score || 0) < 4 || noBrand;
   return `<li class="ft-it${r.on ? "" : " off"}" data-ft-i="${i}"><p class="ft-typed">You typed: ${esc(typed)}</p>
-    <span class="ft-best${weak ? " weak" : ""}">${noBrand ? "That brand wasn't found. Closest match, please check" : weak ? "Closest match, please check" : "Best match, please check"}</span>
-    <label class="field"><span class="label">Food</span><span class="control"><select data-ft-pick="${i}">${r.matches.map((m, j) => `<option value="${j}" ${j === r.pick ? "selected" : ""}>${esc(m.name)}${m.brand ? " (" + esc(m.brand) + ")" : ""}</option>`).join("")}</select></span></label>
+    ${f.src === "web" ? `<span class="ft-best web">Found on the web, please check the package</span><p class="ft-src">Source: ${f.sources.map((x) => `<a href="${esc(x.url)}" target="_blank" rel="noopener noreferrer nofollow">${esc(x.title)}</a>`).join(", ")}</p>`
+      : `<span class="ft-best${weak ? " weak" : ""}">${noBrand ? `That brand wasn't found${r.webMiss ? " in USDA or on the web" : ""}. Closest match, please check` : weak ? "Closest match, please check" : "Best match, please check"}</span>`}
+    <label class="field"><span class="label">Food</span><span class="control"><select data-ft-pick="${i}">${r.matches.map((m, j) => `<option value="${j}" ${j === r.pick ? "selected" : ""}>${m.src === "web" ? "Web: " : ""}${esc(m.name)}${m.brand ? " (" + esc(m.brand) + ")" : ""}</option>`).join("")}</select></span></label>
     <div class="ft-row"><label class="field"><span class="label">How many</span><span class="control"><input inputmode="decimal" data-ft-n="${i}" data-local="1" value="${+r.n}"></span></label>
       <label class="field"><span class="label">Serving</span><span class="control"><select data-ft-sv="${i}">${f.servings.map((s, j) => `<option value="${j}" ${j === r.sv ? "selected" : ""}>${esc(s.label)}</option>`).join("")}</select></span></label></div>
     ${r.note ? `<p class="ft-math">${esc(r.note)}</p>` : ""}<p class="ft-kcal">About ${fK(n.kcal)} kcal · ${fK(n.protein || 0)} g protein</p>
@@ -136,7 +152,8 @@ function drawNow() {
 function setMatch(r, j) { r.pick = j; const f = r.matches[j]; if (!f) return; const m = FT.servingMath(r.item, f); r.sv = 0; r.n = m.servings; r.note = m.note; }
 async function lookRow(r, q) {
   r.loading = true; draw();
-  try { r.matches = await FT.lookup(q ? { brand: "", food: q, flavor: "" } : r.item); r.err = ""; }
+  try { r.matches = await FT.lookup(q ? { brand: "", food: q, flavor: "" } : r.item); r.err = "";
+    if (!q && r.item.brand && !FT.brandFound(r.item, r.matches[0])) { r.webBusy = true; draw(); const w = await FT.web(r.item); r.webBusy = false; if (w) r.matches.unshift(w); else r.webMiss = true; } }
   catch (e) { r.matches = []; r.err = e.status === 429 ? "The food database is busy right now. Try again in a minute." : "Couldn't reach the food database."; }
   r.loading = false; setMatch(r, 0); r.on = !!r.matches.length; draw();
 }

@@ -7439,7 +7439,7 @@ function renderFoodLog() {
     : `<p class="fl-adding"><b>Adding to ${ML}</b> <button type="button" class="link-btn" data-fl-change="1" aria-label="Change meal (now ${ML})">Change</button>${fl.lock ? ` <button type="button" class="link-btn" data-fl-unlock="1">Done</button>` : ""}</p>`;
   $$("[data-fl-tab]").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.flTab === fl.tab)));
   $("#fl-search-host").hidden = fl.tab !== "search"; $("#fl-quick").hidden = fl.tab !== "quick";
-  { const ft = $("#fl-text"); ft.hidden = fl.tab !== "text"; if (!ft.hidden) lazyLoad("assets/foodtext.js?v=7657d").then(() => window.ftRender(), () => { ft.textContent = "Couldn't load this. Try Search or scan."; }); }
+  { const ft = $("#fl-text"); ft.hidden = fl.tab !== "text"; if (!ft.hidden) lazyLoad("assets/foodtext.js?v=7658").then(() => window.ftRender(), () => { ft.textContent = "Couldn't load this. Try Search or scan."; }); }
   const lp = $("#fl-list-pane"); lp.hidden = !(fl.tab === "recent" || fl.tab === "favs"); lp.innerHTML = lp.hidden ? "" : flListPane();
   const mt = FL.mealTotals(FLS, d);
   $("#fl-meals").innerHTML = FL.MEALS.map(([k, l]) => { const its = items.filter((x) => x.meal === k);
