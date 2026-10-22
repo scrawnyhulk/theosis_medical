@@ -130,6 +130,7 @@ const CSS = `.ft-box textarea{width:100%;min-height:5.2rem;font:inherit;font-siz
 .ft-best.weak{background:rgba(230,170,60,.16);color:#f0c070}.ft-it select,.ft-it input[type=text],.ft-it input[inputmode]{font:inherit;font-size:1rem;min-height:44px;width:100%;box-sizing:border-box}
 .ft-row{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin-top:.55rem}.ft-math{font-size:.84rem;color:var(--muted);margin:.45rem 0 0}.ft-kcal{margin:.45rem 0 0;font-weight:600}
 .ft-again{display:flex;gap:.5rem;margin-top:.55rem}.ft-again input{flex:1;padding:.5rem .65rem;border-radius:10px;border:1px solid rgba(207,214,224,.28);background:rgba(0,0,0,.18);color:inherit}.ft-inc{display:flex;align-items:center;gap:.45rem;margin-top:.55rem;font-size:.92rem;min-height:40px}.ft-inc input{width:22px;height:22px}
+.ft-alt{display:flex;flex-wrap:wrap;align-items:center;gap:.5rem;margin-top:.7rem}.ft-alt-l{color:var(--muted);font-size:.9rem}.ft-alt .btn{min-height:46px}.ft-alt .btn[disabled]{opacity:.55;cursor:not-allowed}.ft-alt small{font-weight:400}
 .ft-acts{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:.9rem}.ft-acts .btn{min-height:48px}.ft-msg{margin:.7rem 0 0}
 @media (max-width:560px){.ft-row{grid-template-columns:1fr}}`;
 function css() { if (document.getElementById("ft-css")) return; const s = document.createElement("style"); s.id = "ft-css"; s.textContent = CSS; document.head.appendChild(s); }
@@ -159,6 +160,7 @@ function drawNow() {
     <textarea id="ft-in" data-local="1" maxlength="500" placeholder="e.g. two scrambled eggs, a slice of toast and a coffee with milk">${esc(st.text)}</textarea>
     <p class="ft-note">Write it the way you'd say it, with amounts if you know them. What you type is sent to an AI service only to pick out the foods; it isn't saved. Matches come from the USDA and Open Food Facts databases, or, if a brand isn't there, from its label found on the web. You check each one before anything is added.</p>
     <div class="ft-acts"><button type="button" class="btn btn-steel" id="ft-go" ${st.busy ? "disabled" : ""}>${st.busy ? "Finding…" : "Find these foods"}</button>${any ? `<button type="button" class="btn btn-ghost" id="ft-clear">Start over</button>` : ""}</div>
+    <div class="ft-alt" role="group" aria-label="Other ways to add"><span class="ft-alt-l">Or:</span><button type="button" class="btn btn-ghost" id="ft-scan">▦ Scan a barcode</button><button type="button" class="btn btn-ghost" id="ft-photo" disabled aria-disabled="true" title="Coming soon">📷 Photo of food <small>(coming soon)</small></button></div>
     ${st.queued ? `<div class="ft-acts ft-pend"><button type="button" class="btn btn-ghost" id="ft-retry">Try now</button><button type="button" class="btn btn-ghost" id="ft-unqueue">Clear saved text</button></div>` : ""}
     ${st.msg ? `<p class="ft-msg hint" role="status">${esc(st.msg)}</p>` : ""}
     ${any ? `<ul class="ft-list" aria-label="Foods found">${st.rows.map(rowHtml).join("")}</ul>
@@ -198,6 +200,7 @@ function bind() {
   document.addEventListener("click", (ev) => {
     const t = ev.target.closest("#fl-text button"); if (!t) return;
     if (t.id === "ft-go") return void go();
+    if (t.id === "ft-scan") { const x = X(); x.fl.tab = "search"; x.render(); const b = document.getElementById("fs-scan"); if (b) { b.scrollIntoView({ block: "center" }); b.click(); } return; }
     if (t.id === "ft-add") return add();
     if (t.id === "ft-retry") return void go();
     if (t.id === "ft-unqueue") { FT.pending.clear(); st.queued = false; st.text = ""; st.msg = "Saved text cleared. Nothing was added."; draw(); return; }
