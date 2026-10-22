@@ -150,7 +150,7 @@
       vdecl:"uniform float uLiver;\n",vpre:"transformed+=objectNormal*(.0015+uLiver*.006);\n",
       color:`float n1=pftNoise(vPos*34.),n2=pftNoise(vPos*96.+3.7),n3=pftNoise(vPos*260.+9.1);
         float lw=.55*pftNoise(vPos*9.+1.3)+.3*pftNoise(vPos*21.+5.)+.15*pftNoise(vPos*47.);float lr=1.-abs(2.*pftNoise(vPos*120.+2.2)-1.);
-        vec3 healthy=mix(vec3(.25,.045,.032),vec3(.37,.085,.055),lw)*(1.-.07*smoothstep(.75,1.,lr));
+        vec3 healthy=mix(vec3(.25,.045,.032),vec3(.37,.085,.055),lw)*(1.-.03*smoothstep(.8,1.,lr));
         vec3 fatty=mix(vec3(.56,.27,.10),vec3(.68,.42,.17),n2*.7+n3*.3);
         float patchy=smoothstep(.15,.85,n1*.6+lw*.3+n3*.1+(uLiver-.6)*1.1);
         float amt=clamp(uLiver*(.3+.7*patchy),0.,1.);
@@ -158,7 +158,7 @@
         if(uLiver>.02){vec2 dc=pftCell(vPos*300.);float drop=(1.-smoothstep(.12,.36,dc.x))*smoothstep(.35,.65,n3*.5+patchy*.5);
         diffuseColor.rgb=mix(diffuseColor.rgb,vec3(.80,.58,.34),drop*uLiver*.13);}
         float gq=smoothstep(.5,.68,n3);float gl=uGlyL*(1.-.35*uLiver);
-        diffuseColor.rgb=mix(diffuseColor.rgb,vec3(.15,.62,.55),gl*.10*(1.-.8*uLiver));diffuseColor.rgb=mix(diffuseColor.rgb,vec3(.30,.85,.75),gl*.22*gq);`,
+        diffuseColor.rgb=mix(diffuseColor.rgb,vec3(.15,.62,.55),gl*.10*(1.-.8*uLiver));diffuseColor.rgb=mix(diffuseColor.rgb,vec3(.30,.85,.75),gl*.12*smoothstep(.45,.75,n2*.6+n3*.4));`,
       normal:"normal=pftBump(normal,lw*.25+(uLiver>.02?(1.-smoothstep(.1,.34,pftCell(vPos*300.).x))*.5*uLiver:0.),.0006);"});
     M.pancreas=patch(organ(0xd29a62,.42),"pancreas",{uniforms:pancU,fdecl:"uniform float uPanc;\n",
       color:"vec2 pc=pftCell(vPos*120.);float lob=smoothstep(.0,.5,pc.y-pc.x);float lo=.55*lob+.25*pftNoise(vPos*40.);float dep=smoothstep(.0,.06,pftNoise(vPos*55.)-(.68-uPanc*.3))*min(1.,uPanc*3.);diffuseColor.rgb=mix(mix(vec3(.70,.42,.27),vec3(.88,.62,.40),lo),vec3(.99,.86,.42),dep);",
@@ -212,7 +212,7 @@
       const ck0=mat.customProgramCacheKey,ck=ck0?()=>String(ck0.call(mat)).slice(0,60):()=>"";mat.customProgramCacheKey=()=>ck()+"|v69"+key;mat.needsUpdate=true;return mat}
     // wet serosal sheen on viscera (clearcoat), ivory bone, glossier fat
     [M.liver,M.pancreas,M.stomach,M.spleen,M.kidney,M.heart,M.gall,M.intestine,M.colon,M.duodenum,M.bladder,M.vein].forEach(m=>{if(m&&"clearcoat" in m){m.clearcoat=Math.max(m.clearcoat||0,.32);m.clearcoatRoughness=.28}});
-    M.liver.clearcoat=.45;M.liver.clearcoatRoughness=.2;M.liver.roughness=.45;paint(M.liver,"liver",{grain:.7,gloss:.7,rg:.08,bump:.35});paint(M.pancreas,"panc",{grain:.6,gloss:.7,bump:.3});M.stomach.color.set(0xd4867e);paint(M.stomach,"stom",{grain:.5,stom:1,gloss:1.1,bump:.001,rg:.04});paint(M.spleen,"spl");paint(M.kidney,"kid");
+    M.liver.clearcoat=.45;M.liver.clearcoatRoughness=.3;M.liver.roughness=.45;paint(M.liver,"liver",{grain:.7,gloss:.7,rg:.08,bump:.2});paint(M.pancreas,"panc",{grain:.6,gloss:.7,bump:.3});M.stomach.color.set(0xd4867e);paint(M.stomach,"stom",{grain:.5,stom:1,gloss:1.1,bump:.001,rg:.04});paint(M.spleen,"spl");paint(M.kidney,"kid");
     paint(M.heart,"heart",{vessels:.35,vscale:"45.",vcol:"vec3(.85,.72,.45)"});paint(M.gall,"gall",{gloss:1.3});paint(M.intestine,"int",{vessels:.3,vscale:"110."});paint(M.colon,"col",{vessels:.45,vscale:"80."});
     if(M.duodenum!==M.intestine)paint(M.duodenum,"duo",{vessels:.3});paint(M.bladder,"bl");paint(M.lung,"lung",{grain:2.,gloss:.6});paint(M.vein,"vein",{gloss:1.2});
     M.bone.color.set(0xe9dcc2);M.bone.roughness=.55;paint(M.bone,"bone",{grain:1.3,gloss:.25});
