@@ -331,10 +331,10 @@
     function syncNav(recenter){
       // auto: drag moves the view while zoomed in, rotates otherwise (unless the user picked a mode)
       if(recenter){autoNav=true}
-      if(autoNav)dragMode=zoomed()?"pan":"rotate";
+      if(autoNav)dragMode="rotate"; // v7.6.72: one-finger/left drag always rotates (any zoom); two-finger/right/Shift-drag moves
       const mv=$n("pft3d-move");if(mv){mv.setAttribute("aria-pressed",String(dragMode==="pan"));mv.classList.toggle("active",dragMode==="pan")}
       const st=$n("pft3d-status");
-      if(st&&ready)st.textContent=dragMode==="pan"?(coarse?"Zoomed in · drag to move · tap ✥ to rotate":"Zoomed in · drag to move · Shift-drag to rotate · Reset view to recenter")
+      if(st&&ready)st.textContent=dragMode==="pan"?(coarse?"Move mode · drag to move · tap ✥ to rotate":"Move mode · drag to move · Shift-drag to rotate · Reset view to recenter")
         :(coarse?"Drag to rotate · pinch to zoom · two fingers to move":"3D anatomy · drag to rotate · scroll to zoom · right-drag to move");
       const stage=canvas.closest&&canvas.closest(".human-3d-stage");if(stage)stage.dataset.drag=dragMode;
     }
