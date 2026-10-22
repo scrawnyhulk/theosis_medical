@@ -22,11 +22,14 @@ FT.splitText = function (text) {
     s = s.trim().replace(/^(the|some)\s+/i, ""); if (!toks(s).length) continue;
     // "..., the cinnamon flavor" belongs to the food before it
     if (out.length && /\bflavou?r(ed)?\b/i.test(s) && toks(s).length <= 3) { out[out.length - 1].food = (out[out.length - 1].food + " " + s.replace(/\bflavou?r(ed)?\b/ig, "")).replace(/\s+/g, " ").trim().slice(0, 80); continue; }
+    let meal = ""; const mm = /\s*(?:for|as|at|with)\s+(?:a\s+|my\s+)?(breakfast|lunch|dinner|supper|snacks?)\s*$/i.exec(s); if (mm) { meal = { supper: "dinner", snack: "snacks" }[mm[1].toLowerCase()] || mm[1].toLowerCase(); s = s.slice(0, mm.index).trim(); }
     const m = /^(\d+(?:\.\d+)?|a|an|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|half|dozen)\s+(.+)$/i.exec(s);
     const food = (m ? m[2] : s).replace(/^(whole\s+)?(bag|box|package|pack)\s+of\s+(the\s+)?/i, "").replace(/\b(brand|with the|with)\b/ig, " ").replace(/\s+/g, " ").trim();
-    out.push({ brand: "", food: food.slice(0, 80), flavor: "", quantity: m ? (NUMW[m[1].toLowerCase()] || +m[1]) : 1, unit: "serving", count: null, raw: true });
+    out.push({ brand: "", food: food.slice(0, 80), flavor: "", quantity: m ? (NUMW[m[1].toLowerCase()] || +m[1]) : 1, unit: "serving", count: null, meal, raw: true });
   }
-  return out.slice(0, 12);
+  // a meal word applies to the foods said just before it ("coffee and 2 eggs for breakfast")
+  for (let i = out.length - 1, cur = ""; i >= 0; i--) { if (out[i].meal) cur = out[i].meal; else if (cur) out[i].meal = cur; }
+  return out.slice(0, MAXROWS);
 };
 // How many pieces one serving holds, read from a USDA serving label like "1 serving (2 Pastries (96g), 96 g)" or "1 serving (1 patty, 85 g)".
 FT.piecesPerServing = function (label) {
@@ -72,7 +75,7 @@ const J = async (url, opt) => { const r = await fetch(url, opt); let d = null; t
 FT.parse = async function (text) {
   for (let i = 0; i < 2; i++) {   // one retry: the AI service sometimes fails once and then answers
     try { const d = await J(PARSE, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ text }) });
-      if (Array.isArray(d.items) && d.items.length) return { items: d.items.slice(0, 12), ai: !d.mock, mock: !!d.mock }; break; }
+      if (Array.isArray(d.items) && d.items.length) return { items: d.items.slice(0, MAXROWS), ai: !d.mock, mock: !!d.mock }; break; }
     catch (e) { if (!e.status && !navigator.onLine) return { items: [], net: true }; if (!e.status || (e.status >= 400 && e.status < 500) || e.status === 503) break; }   /* reader off / limit: plain search below */
   }
   return { items: FT.splitText(text), ai: false };
@@ -114,8 +117,10 @@ FT.web = async function (it) {
 };
 /* v7.6.58: offline queue. The typed text is kept on THIS device only (localStorage) until the connection is back; never auto-added. */
 const PKEY = "theosis-foodtext-pending";
-FT.pending = { get() { try { const v = JSON.parse(localStorage.getItem(PKEY) || "null"); return v && typeof v.text === "string" ? v.text.slice(0, 500) : ""; } catch (e) { return ""; } },
-  set(t) { try { localStorage.setItem(PKEY, JSON.stringify({ text: String(t).slice(0, 500), at: Date.now() })); return true; } catch (e) { return false; } },
+const MEALS = ["breakfast", "lunch", "dinner", "snacks"], MEAL_L = { breakfast: "Breakfast", lunch: "Lunch", dinner: "Dinner", snacks: "Snacks" };
+const MAXCH = 1500, MAXROWS = 20, WEB_MAX = 8;   // v7.6.62 whole day: 1,500 characters, 20 foods, at most 8 web label lookups per entry
+FT.pending = { get() { try { const v = JSON.parse(localStorage.getItem(PKEY) || "null"); return v && typeof v.text === "string" ? v.text.slice(0, MAXCH) : ""; } catch (e) { return ""; } },
+  set(t) { try { localStorage.setItem(PKEY, JSON.stringify({ text: String(t).slice(0, MAXCH), at: Date.now() })); return true; } catch (e) { return false; } },
   clear() { try { localStorage.removeItem(PKEY); } catch (e) { /* ignore */ } } };
 const OFFMSG = "You're offline. What you typed is saved on this device, and we'll look for these foods when you're back online. You'll still check each one before anything is added.";
 /* ---------- UI ---------- */
@@ -130,7 +135,8 @@ const CSS = `.ft-box textarea{width:100%;min-height:5.2rem;font:inherit;font-siz
 .ft-best.weak{background:rgba(230,170,60,.16);color:#f0c070}.ft-it select,.ft-it input[type=text],.ft-it input[inputmode]{font:inherit;font-size:1rem;min-height:44px;width:100%;box-sizing:border-box}
 .ft-row{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin-top:.55rem}.ft-math{font-size:.84rem;color:var(--muted);margin:.45rem 0 0}.ft-kcal{margin:.45rem 0 0;font-weight:600}
 .ft-again{display:flex;gap:.5rem;margin-top:.55rem}.ft-again input{flex:1;padding:.5rem .65rem;border-radius:10px;border:1px solid rgba(207,214,224,.28);background:rgba(0,0,0,.18);color:inherit}.ft-inc{display:flex;align-items:center;gap:.45rem;margin-top:.55rem;font-size:.92rem;min-height:40px}.ft-inc input{width:22px;height:22px}
-.ft-alt{display:flex;flex-wrap:wrap;align-items:center;gap:.5rem;margin-top:.7rem}.ft-alt-l{color:var(--muted);font-size:.9rem}.ft-alt .btn{min-height:46px}.ft-alt .btn[disabled]{opacity:.55;cursor:not-allowed}.ft-alt small{font-weight:400}
+.ft-alt{display:flex;flex-wrap:wrap;align-items:center;gap:.5rem;margin-top:.7rem}.ft-alt-l{color:var(--muted);font-size:.9rem}.ft-alt .btn{min-height:46px}.ft-alt .btn.is-off{opacity:.5;pointer-events:none}.ft-alt .btn[disabled]{opacity:.55;cursor:not-allowed}.ft-alt small{font-weight:400}
+.ft-grp{font-size:.8rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:1rem 0 -.3rem}.ft-meal{margin-top:.55rem}.ft-phn{font-size:.84rem;margin:.6rem 0 .3rem;padding:.55rem .7rem;border-left:3px solid #9cc3ff;background:rgba(80,140,220,.08);border-radius:0 8px 8px 0}.ft-phok{display:flex;gap:.45rem;align-items:flex-start;font-size:.88rem;margin:.3rem 0}.ft-phok{min-height:44px;align-items:center}.ft-phok input{width:24px;min-height:44px;flex:none;margin:0}.fl-adding .link-btn{min-height:44px}
 .ft-acts{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:.9rem}.ft-acts .btn{min-height:48px}.ft-msg{margin:.7rem 0 0}
 @media (max-width:560px){.ft-row{grid-template-columns:1fr}}`;
 function css() { if (document.getElementById("ft-css")) return; const s = document.createElement("style"); s.id = "ft-css"; s.textContent = CSS; document.head.appendChild(s); }
@@ -148,7 +154,7 @@ function rowHtml(r, i) {
     <div class="ft-row"><label class="field"><span class="label">How many</span><span class="control"><input inputmode="decimal" data-ft-n="${i}" data-local="1" value="${+r.n}"></span></label>
       <label class="field"><span class="label">Serving</span><span class="control"><select data-ft-sv="${i}">${f.servings.map((s, j) => `<option value="${j}" ${j === r.sv ? "selected" : ""}>${esc(s.label)}</option>`).join("")}</select></span></label></div>
     ${r.note ? `<p class="ft-math">${esc(r.note)}</p>` : ""}<p class="ft-kcal">About ${fK(n.kcal)} kcal · ${fK(n.protein || 0)} g protein</p>
-    ${r.checked && r.checked.length ? `<p class="ft-src">Checked: ${esc(r.checked.join(", "))}</p>` : ""}<label class="ft-inc"><input type="checkbox" data-ft-on="${i}" ${r.on ? "checked" : ""}> Add this one</label>${again}</li>`;
+    ${r.checked && r.checked.length ? `<p class="ft-src">Checked: ${esc(r.checked.join(", "))}</p>` : ""}<label class="field ft-meal"><span class="label">Meal</span><span class="control"><select data-ft-meal="${i}">${MEALS.map((m) => `<option value="${m}" ${m === r.meal ? "selected" : ""}>${MEAL_L[m]}</option>`).join("")}</select></span></label><label class="ft-inc"><input type="checkbox" data-ft-on="${i}" ${r.on ? "checked" : ""}> Add this one</label>${again}</li>`;
 }
 let drawing = false, again = false;
 // Rebuilding the pane can blur a focused field, which fires "change" and asks for another draw. Run that one after, never inside.
@@ -156,43 +162,79 @@ function draw() { if (drawing) { again = true; return; } drawing = true; try { d
 function drawNow() {
   const box = document.getElementById("fl-text"); if (!box) return; css();
   const on = st.rows.filter((r) => r.on && r.matches && r.matches[r.pick]).length, any = st.rows.length;
-  box.innerHTML = `<div class="ft-box"><label class="ft-l" for="ft-in">Type what you ate</label>
-    <textarea id="ft-in" data-local="1" maxlength="500" placeholder="e.g. two scrambled eggs, a slice of toast and a coffee with milk">${esc(st.text)}</textarea>
-    <p class="ft-note">Write it the way you'd say it, with amounts if you know them. What you type is sent to an AI service only to pick out the foods; it isn't saved. Matches come from the USDA and Open Food Facts databases, or, if a brand isn't there, from its label found on the web. You check each one before anything is added.</p>
+  box.innerHTML = `<div class="ft-box"><label class="ft-l" for="ft-in">Tell us what you ate</label>
+    <textarea id="ft-in" data-local="1" maxlength="1500" placeholder="e.g. two scrambled eggs and coffee for breakfast, a turkey sandwich for lunch…">${esc(st.text)}</textarea>
+    <p class="ft-note">Write it the way you'd say it, with amounts if you know them. A whole day works too: say which meal each food was. What you type is sent to an AI service only to pick out the foods; it isn't saved. Matches come from the USDA and Open Food Facts databases, or, if a brand isn't there, from its label found on the web. You check each one before anything is added.</p>
     <div class="ft-acts"><button type="button" class="btn btn-steel" id="ft-go" ${st.busy ? "disabled" : ""}>${st.busy ? "Finding…" : "Find these foods"}</button>${any ? `<button type="button" class="btn btn-ghost" id="ft-clear">Start over</button>` : ""}</div>
-    <div class="ft-alt" role="group" aria-label="Other ways to add"><span class="ft-alt-l">Or:</span><button type="button" class="btn btn-ghost" id="ft-scan">▦ Scan a barcode</button><button type="button" class="btn btn-ghost" id="ft-photo" disabled aria-disabled="true" title="Coming soon">📷 Photo of food <small>(coming soon)</small></button></div>
+    <div class="ft-alt" role="group" aria-label="Other ways to add"><span class="ft-alt-l">Or:</span><button type="button" class="btn btn-ghost" id="ft-scan">▦ Scan a barcode</button></div>${photoHtml()}
     ${st.queued ? `<div class="ft-acts ft-pend"><button type="button" class="btn btn-ghost" id="ft-retry">Try now</button><button type="button" class="btn btn-ghost" id="ft-unqueue">Clear saved text</button></div>` : ""}
     ${st.msg ? `<p class="ft-msg hint" role="status">${esc(st.msg)}</p>` : ""}
-    ${any ? `<ul class="ft-list" aria-label="Foods found">${st.rows.map(rowHtml).join("")}</ul>
-      <div class="ft-acts"><button type="button" class="btn btn-steel" id="ft-add" ${on && !st.busy ? "" : "disabled"}>Add ${on} food${on === 1 ? "" : "s"} to ${esc(mealName())}</button><button type="button" class="btn btn-ghost" id="ft-cancel">Cancel</button></div>
+    ${any ? `${MEALS.filter((m) => st.rows.some((r) => r.meal === m)).map((m) => `<h3 class="ft-grp">${MEAL_L[m]}</h3><ul class="ft-list" aria-label="${MEAL_L[m]} foods">${st.rows.map((r, i) => (r.meal === m ? rowHtml(r, i) : "")).join("")}</ul>`).join("")}
+      <div class="ft-acts"><button type="button" class="btn btn-steel" id="ft-add" ${on && !st.busy ? "" : "disabled"}>Add ${on} food${on === 1 ? "" : "s"}${new Set(st.rows.filter((r) => r.on).map((r) => r.meal)).size > 1 ? " to their meals" : " to " + esc(MEAL_L[(st.rows.find((r) => r.on) || {}).meal] || mealName())}</button><button type="button" class="btn btn-ghost" id="ft-cancel">Cancel</button></div>
       <p class="ft-note">Estimates from food databases or labels found on the web. Packages differ, so check amounts against the label.</p>` : ""}</div>`;
+}
+/* v7.6.62: food-only photo (its own gate; separate from the face/body photo features, which stay off). The photo is downscaled
+   and re-encoded in the browser (drops EXIF, including location), sent once to /.netlify/functions/foodphoto, and never stored. */
+const PHOTO_ON = true, PHOTO_KEY = "theosis-foodphoto-ok", PHOTO_EP = "/.netlify/functions/foodphoto";
+// Notice shown above the photo buttons. Keep in sync with the approved wording.
+const PHOTO_NOTICE = "Food photos only. Your photo is sent to an AI service to pick out the foods and drinks in it, then it's discarded. It isn't saved, and location and other photo details are removed first. Please don't include people. You'll check each food before anything is added.";
+FT.photoOk = (v) => { try { if (v === undefined) return localStorage.getItem(PHOTO_KEY) === "1"; if (v) localStorage.setItem(PHOTO_KEY, "1"); else localStorage.removeItem(PHOTO_KEY); } catch (e) { /* storage off */ } return !!v; };
+function photoHtml() {
+  if (!PHOTO_ON) return ""; const ok = FT.photoOk();
+  return `<div class="ft-ph"><p class="ft-phn" id="ft-ph-note">${esc(PHOTO_NOTICE)}</p><label class="ft-phok"><input type="checkbox" id="ft-ph-ok" ${ok ? "checked" : ""}> I understand. Use photos of food only.</label>
+    <div class="ft-alt"><label class="btn btn-ghost${ok ? "" : " is-off"}" for="ft-ph-cam" aria-disabled="${!ok}">📷 Take a food photo</label><label class="btn btn-ghost${ok ? "" : " is-off"}" for="ft-ph-lib" aria-disabled="${!ok}">🖼 Choose a food photo</label></div>
+    <input type="file" id="ft-ph-cam" accept="image/*" capture="environment" class="sr-only" ${ok ? "" : "disabled"}><input type="file" id="ft-ph-lib" accept="image/*" class="sr-only" ${ok ? "" : "disabled"}></div>`;
+}
+// Downscale to at most 1024 px and re-encode as JPEG. A canvas re-encode carries no EXIF.
+FT.shrink = async function (file, max = 1024) {
+  const url = URL.createObjectURL(file);
+  try { const img = await new Promise((res, rej) => { const i = new Image(); i.onload = () => res(i); i.onerror = rej; i.src = url; });
+    const k = Math.min(1, max / Math.max(img.naturalWidth, img.naturalHeight)), w = Math.max(1, Math.round(img.naturalWidth * k)), h = Math.max(1, Math.round(img.naturalHeight * k));
+    const c = document.createElement("canvas"); c.width = w; c.height = h; c.getContext("2d").drawImage(img, 0, 0, w, h); return c.toDataURL("image/jpeg", 0.82); }
+  finally { URL.revokeObjectURL(url); }
+};
+async function photoGo(file) {
+  if (!FT.photoOk()) { st.msg = "Please read the note and tick the box first."; draw(); return; }
+  if (navigator.onLine === false) { st.msg = "You're offline. Food photos need a connection; nothing was saved."; draw(); return; }
+  st.busy = true; st.rows = []; st.msg = "Looking at the photo for foods…"; draw();
+  let items = null, err = "";
+  try { const image = await FT.shrink(file); const d = await J(PHOTO_EP, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ image, consent: { foodPhoto: true } }) }); items = Array.isArray(d.items) ? d.items : []; }
+  catch (e) { err = e.message || "Couldn't read that photo."; }
+  st.busy = false;
+  if (!items) { st.msg = err + " You can type what you ate instead."; draw(); return; }
+  return runItems(items, true, `Found ${items.length} food${items.length === 1 ? "" : "s"} in the photo. Please check each match and amount.`, "");
 }
 function setMatch(r, j) { r.pick = j; const f = r.matches[j]; if (!f) return; const m = FT.servingMath(r.item, f); r.sv = 0; r.n = m.servings; r.note = m.note; }
 async function lookRow(r, q) {
   r.loading = true; draw();
   try { r.checked = []; r.matches = await FT.lookup(q ? { brand: "", food: q, flavor: "" } : r.item, r.checked); r.err = "";
-    if (!q && r.item.brand && !r.matches.some((m) => FT.exactFound(r.item, m))) { r.webBusy = true; draw(); const w = await FT.web(r.item); r.webBusy = false; r.checked.push(w ? "Web search (label found)" : "Web search (no sourced label)"); if (w) r.matches.unshift(w); else r.webMiss = true; } }
+    if (!q && r.item.brand && !r.matches.some((m) => FT.exactFound(r.item, m)) && (st.webUsed = (st.webUsed || 0) + 1) <= WEB_MAX) { r.webBusy = true; draw(); const w = await FT.web(r.item); r.webBusy = false; r.checked.push(w ? "Web search (label found)" : "Web search (no sourced label)"); if (w) r.matches.unshift(w); else r.webMiss = true; } }
   catch (e) { r.matches = []; r.err = e.status === 429 ? "The food database is busy right now. Try again in a minute." : "Couldn't reach the food database."; }
   r.loading = false; setMatch(r, 0); r.on = !!r.matches.length; draw();
 }
 async function go() {
-  const ta = document.getElementById("ft-in"); st.text = ta ? ta.value.trim().slice(0, 500) : st.text;
+  const ta = document.getElementById("ft-in"); st.text = ta ? ta.value.trim().slice(0, MAXCH) : st.text;
   if (st.text.length < 2) { st.msg = "Type what you ate first, for example: two eggs and a banana."; draw(); return; }
   if (navigator.onLine === false) { FT.pending.set(st.text); st.queued = true; st.rows = []; st.msg = OFFMSG; draw(); return; }
   st.busy = true; st.msg = "Reading what you typed…"; st.rows = []; st.queued = false; draw();
   const p = await FT.parse(st.text); st.ai = p.ai;
   if (p.net) { FT.pending.set(st.text); st.queued = true; st.busy = false; st.msg = OFFMSG; draw(); return; }
   FT.pending.clear();
-  st.rows = p.items.map((item) => ({ item, q: FT.query(item), matches: [], pick: 0, sv: 0, n: 1, on: false, loading: true, note: "" }));
-  st.msg = !st.rows.length ? "No foods found in that. Try naming each food, like: 2 eggs and a banana." : p.ai || p.mock ? `Found ${st.rows.length} food${st.rows.length === 1 ? "" : "s"}. Please check each match and amount.` : "Couldn't read that automatically, so each part was searched as typed. Please check each one.";
+  return runItems(p.items, p.ai || p.mock, `Found ${p.items.length} food${p.items.length === 1 ? "" : "s"}. Please check each match and amount.`, p.ai || p.mock ? "" : "Couldn't read that automatically, so each part was searched as typed. Please check each one.");
+}
+async function runItems(items, ok, okMsg, failMsg) {
+  st.webUsed = 0; const dm = X() ? X().fl.meal : "snacks";
+  st.rows = items.slice(0, MAXROWS).map((item) => ({ item, q: FT.query(item), matches: [], pick: 0, sv: 0, n: 1, on: false, loading: true, note: "", meal: MEALS.includes(item.meal) ? item.meal : dm }));
+  st.busy = true; st.msg = !st.rows.length ? "No foods found. Try naming each food, like: 2 eggs and a banana." : ok ? okMsg : failMsg;
   draw();
   for (const r of st.rows) await lookRow(r);
   st.busy = false; draw();
 }
 function add() {
   const x = X(); let n = 0; const names = [];
-  for (const r of st.rows) { const f = r.on && r.matches[r.pick]; if (!f || !(+r.n > 0)) continue; if (x.add(FT.entry(f, r.sv, r.n))) { n++; names.push(f.name); } }
-  const meal = mealName().toLowerCase(); st.rows = []; st.text = ""; st.msg = n ? `Added ${n} food${n === 1 ? "" : "s"} to ${meal}.` : "Nothing was added.";
+  const keep = x.fl.meal, used = new Set();
+  for (const r of st.rows) { const f = r.on && r.matches[r.pick]; if (!f || !(+r.n > 0)) continue; x.fl.meal = r.meal; if (x.add(FT.entry(f, r.sv, r.n))) { n++; names.push(f.name); used.add(r.meal); } }
+  x.fl.meal = keep; const ml = [...used].map((m) => MEAL_L[m].toLowerCase()); st.rows = []; st.text = ""; st.msg = n ? `Added ${n} food${n === 1 ? "" : "s"} to ${ml.length > 1 ? ml.slice(0, -1).join(", ") + " and " + ml[ml.length - 1] : ml[0]}.` : "Nothing was added.";
   x.fl.status = st.msg; x.render(); draw();
 }
 function bind() {
@@ -215,6 +257,9 @@ function bind() {
     else if (t.dataset.ftSv != null) { const x = r("ftSv"); x.sv = +t.value; x.note = ""; draw(); }
     else if (t.dataset.ftN != null) { const x = r("ftN"), v = parseFloat(String(t.value).replace(",", ".")); if (v > 0 && v <= 50) x.n = v; x.note = x.note && /Please check/.test(x.note) ? x.note : ""; draw(); }
     else if (t.dataset.ftOn != null) { r("ftOn").on = t.checked; draw(); }
+    else if (t.dataset.ftMeal != null) { const x = r("ftMeal"); if (MEALS.includes(t.value)) x.meal = t.value; draw(); }
+    else if (t.id === "ft-ph-cam" || t.id === "ft-ph-lib") { const f = t.files && t.files[0]; t.value = ""; if (f) photoGo(f); }
+    else if (t.id === "ft-ph-ok") { FT.photoOk(t.checked); draw(); }
   });
   document.addEventListener("input", (ev) => { if (ev.target && ev.target.id === "ft-in") st.text = ev.target.value; });
   document.addEventListener("keydown", (ev) => { const t = ev.target; if (ev.key === "Enter" && t && t.dataset && t.dataset.ftQ != null) { ev.preventDefault(); const b = document.querySelector(`[data-ft-search="${t.dataset.ftQ}"]`); b && b.click(); }

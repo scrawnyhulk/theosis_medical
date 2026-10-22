@@ -18,7 +18,7 @@ const str = (v, n) => String(v == null ? "" : v).replace(/[\u0000-\u001f\u007f<>
 const PROMPT = (q) => `${q.brand} ${q.food}${q.flavor ? " " + q.flavor + " flavor" : ""} nutrition facts label per serving`;
 // Step 2 (no tools): copy the numbers out of the grounded answer into labeled lines. Uses ONLY that answer's text.
 const EXTRACT = (q, t) => ["Below is a web-sourced answer about a product's Nutrition Facts. Copy values from it ONLY; never add or estimate numbers.",
-  `Target: brand "${q.brand}", product "${q.food}"${q.flavor ? `, flavor "${q.flavor}"` : ""}. FOUND is yes only if the answer is about that exact brand.`,
+  `Target: brand "${q.brand}", product "${q.food}"${q.flavor ? `, flavor "${q.flavor}"` : ""}. FOUND is yes if the answer is about that brand AND the same kind of food, even when the brand names it differently (for example the brand sells \"fillets\" or \"tasty pastry\" and the person said \"patties\" or \"pastries\"). FOUND is no for a different brand or a different kind of food.`,
   "Reply with exactly these lines (NONE when the answer does not say):", "FOUND: yes|no", "PRODUCT:", "BRAND:", "SERVING:", "SERVING_GRAMS:", "PIECES_PER_SERVING:", "PIECE_WORD:", "SERVINGS_PER_CONTAINER:", "CALORIES:", "PROTEIN_G:", "CARBS_G:", "FAT_G:",
   "", "ANSWER:", String(t).slice(0, 6000)].join("\n");
 function parseLines(t) {
