@@ -8,7 +8,7 @@
 const BETA = require("./guard.js");
 const env = () => process.env;
 const MODEL = () => env().GEMINI_SEARCH_MODEL || env().GEMINI_TEXT_MODEL || "gemini-3.8-flash";
-const TIMEOUT = 9000;
+const TIMEOUT = () => +env().FOODWEB_TIMEOUT_MS || 24000;   // grounded search is slow; needs a function timeout above 10 s
 const hdr = (o) => ({ "Content-Type": "application/json", "Cache-Control": "no-store", ...(o ? { "Access-Control-Allow-Origin": o, Vary: "Origin" } : {}) });
 const out = (s, b, o) => ({ statusCode: s, headers: hdr(o), body: JSON.stringify(b) });
 const str = (v, n) => String(v == null ? "" : v).replace(/[\u0000-\u001f\u007f<>`{}"\\]/g, " ").replace(/\s+/g, " ").trim().slice(0, n);
@@ -38,14 +38,14 @@ function accept(cand) {
   return r;
 }
 async function gemini(q) {
-  const ctl = new AbortController(), timer = setTimeout(() => ctl.abort(), TIMEOUT);
+  const ctl = new AbortController(), timer = setTimeout(() => ctl.abort(), TIMEOUT());
   try {
     const r = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(MODEL())}:generateContent`, { method: "POST", signal: ctl.signal,
       headers: { "Content-Type": "application/json", "x-goog-api-key": env().GEMINI_API_KEY },
       body: JSON.stringify({ contents: [{ role: "user", parts: [{ text: PROMPT(q) }] }], tools: [{ google_search: {} }], generationConfig: { temperature: 0, maxOutputTokens: 1200 } }) });
     if (!r.ok) throw Object.assign(new Error("upstream"), { code: r.status === 429 ? "rate" : "upstream", status: r.status });
     const d = await r.json(); return (d && d.candidates && d.candidates[0]) || null;
-  } catch (e) { if (e.code) throw e; throw Object.assign(new Error("net"), { code: ctl.signal.aborted ? "timeout" : "network" }); }
+  } catch (e) { if (typeof e.code === "string") throw e; throw Object.assign(new Error("net"), { code: ctl.signal.aborted ? "timeout" : "network" }); }
   finally { clearTimeout(timer); }
 }
 const MOCK = { content: { parts: [{ text: '{"found":true,"product":"Mock Chicken Patties","brand":"Mock","serving":"1 patty (85g)","servingGrams":85,"piecesPerServing":1,"pieceWord":"patty","kcal":190,"protein":20,"carbs":4,"fat":10}' }] }, groundingMetadata: { groundingChunks: [{ web: { uri: "https://example.com/label", title: "example.com" } }] } };
