@@ -1,4 +1,5 @@
-/* v7.6.55 (from mockups/pft-embed.js v4): embeds the real Personal Fat Threshold model (../app/pft-inside, V31/V32)
+/* v7.6.67d: the frame stays hidden (placeholder shown) until the model has booted and rendered, then fades in.
+   v7.6.55 (from mockups/pft-embed.js v4): embeds the real Personal Fat Threshold model (../app/pft-inside, V31/V32)
    in its 3D view and drives it with the model's own hook window.PFTAtlas.setState(load, capacity).
    Fat levels, stage, example A1c, body shape and the CT slice all come from the model engine.
    Callouts are pinned to 3D anchors: liver and pancreas = mesh bounding-box centre; belly fat around organs = the
@@ -30,7 +31,7 @@ const cites=(ids)=>{const T=window.TheosisSources;return ids&&ids.length&&T?ids.
 const cite=(k,w)=>cites((CITE[k]||{})[w]);
 window.PFTEmbed=function(host,opt){
  opt=opt||{};host.classList.add('pfe');
- host.innerHTML='<div class="pfe-stage"><iframe title="Personal fat threshold 3D body model (illustration). Drag to turn it." src="'+SRC+'" scrolling="no"></iframe><svg class="pfe-ov"></svg><div class="pfe-lab"></div><div class="pfe-load">Loading 3D body model…</div><div class="pfe-hint">Drag to turn</div></div><p class="pfe-intro"></p><p class="pfe-meta"></p><ul class="pfe-list"></ul>';
+ host.innerHTML='<div class="pfe-stage"><iframe title="Personal fat threshold 3D body model (illustration). Drag to turn it." src="'+SRC+'" scrolling="no"></iframe><svg class="pfe-ov"></svg><div class="pfe-lab"></div><div class="pfe-load" role="status"><svg class="pfe-sk" viewBox="0 0 60 150" aria-hidden="true"><circle cx="30" cy="14" r="10"/><path d="M18 30h24c5 0 8 4 8 9v38c0 3-2 5-5 5h-3v58c0 3-2 5-5 5h-4V96h-6v49h-4c-3 0-5-2-5-5V82h-3c-3 0-5-2-5-5V39c0-5 3-9 8-9z"/></svg><span class="pfe-lt">Loading 3D body model…</span></div><div class="pfe-hint">Drag to turn</div></div><p class="pfe-intro"></p><p class="pfe-meta"></p><ul class="pfe-list"></ul>';
  const fr=host.querySelector('iframe'),stage=host.querySelector('.pfe-stage'),ov=host.querySelector('.pfe-ov'),lab=host.querySelector('.pfe-lab'),meta=host.querySelector('.pfe-meta'),intro=host.querySelector('.pfe-intro'),list=host.querySelector('.pfe-list');
  let st={load:opt.load??80,capacity:opt.capacity??1,later:false,start:opt.load??80,end:opt.end??25,s:0},ready=false,cam=null,A=null,words={},t0=performance.now();const api={words};
  const W=()=>fr.contentWindow,D=()=>fr.contentDocument;
@@ -39,13 +40,13 @@ window.PFTEmbed=function(host,opt){
   w.addEventListener('message',e=>{if(e.data&&e.data.type==='pft-set')w.PFTAtlas.setState(e.data.load,e.data.capacity)});
   let tries=0;const wait=()=>{if(!w.__pft3d){if(++tries>120){api.failed=true;if(opt.onFail)opt.onFail('timeout');return}return setTimeout(wait,100)}try{boot()}catch(e){api.failed=true;if(opt.onFail)opt.onFail('boot')}};wait();});
  function boot(){const w=W(),{meshes,T,scene}=w.__pft3d;
-  scene.onAfterRender=(r,sc,c)=>{api.nr=(api.nr||0)+1;if(c&&c.isPerspectiveCamera){cam=c;try{frame()}catch(e){api.err=String(e.stack||e)}}};
+  scene.onAfterRender=(r,sc,c)=>{api.nr=(api.nr||0)+1;if(ready&&!api.shown&&api.nr>1){api.shown=true;requestAnimationFrame(()=>requestAnimationFrame(()=>{stage.classList.add('pfe-shown');const l=host.querySelector('.pfe-load');if(l)setTimeout(()=>l.remove(),450)}))}if(c&&c.isPerspectiveCamera){cam=c;try{frame()}catch(e){api.err=String(e.stack||e)}}};
   const by=r=>meshes.find(m=>m.userData.role===r),v=new T.Vector3();
   const ctr=m=>{m.geometry.computeBoundingBox();return m.geometry.boundingBox.getCenter(new T.Vector3())};
   const pick=(m,tx,ty,tol)=>{const n=m.geometry.attributes.position.count;let best=-1,bz=-1e9;for(let i=0;i<n;i++){m.getVertexPosition(i,v);if(Math.abs(v.x-tx)<tol&&Math.abs(v.y-ty)<tol&&v.z>bz){bz=v.z;best=i}}return best};
   const fat=by('fat'),om=by('omentum'),oc=ctr(om),fc=ctr(fat);
   A={liver:{m:by('liver'),c:ctr(by('liver'))},pan:{m:by('pancreas'),c:ctr(by('pancreas'))},vis:{m:om,i:pick(om,oc.x,oc.y,400)},skin:{m:fat,i:pick(fat,oc.x+(opt.skinSide??1400),oc.y-300,250)},body:{m:fat,c:fc}};
-  const d=D(),mb=d.querySelector('[data-pft3d-mode="'+(opt.mode||'cut')+'"]');if(mb)mb.click();w.PFTAtlas.setView('front');ready=true;if(opt.turn)setTimeout(()=>api.rotate(opt.turn),300);api.loadMs=Math.round(performance.now()-t0);{const l=host.querySelector('.pfe-load');if(l)l.remove();}apply();if(opt.onReady)opt.onReady(api);}
+  const d=D(),mb=d.querySelector('[data-pft3d-mode="'+(opt.mode||'cut')+'"]');if(mb)mb.click();w.PFTAtlas.setView('front');api.nr=0;ready=true;if(opt.turn)setTimeout(()=>api.rotate(opt.turn),300);api.loadMs=Math.round(performance.now()-t0);/*v7.6.67d: placeholder stays until the first frame after boot*/setTimeout(()=>{if(!api.shown){api.shown=true;stage.classList.add('pfe-shown');const l=host.querySelector('.pfe-load');if(l)l.remove()}},4000);apply();if(opt.onReady)opt.onReady(api);}
  function world(k){const a=A[k],p=new (W().__pft3d.T.Vector3)();if(a.i!=null)a.m.getVertexPosition(a.i,p);else p.copy(a.c);a.m.updateWorldMatrix(true,false);return a.m.localToWorld(p)}
  function frame(){if(!A||!cam)return;const fb=fr.getBoundingClientRect(),hb=stage.getBoundingClientRect(),Wd=stage.clientWidth,H=stage.clientHeight;
   const bc=world('body'),T3=W().__pft3d.T,fd=new T3.Vector3(0,0,1).transformDirection(A.body.m.matrixWorld),cp=cam.position,fx=fd.x,fz=fd.z,cx=cp.x-bc.x,cz=cp.z-bc.z,face=(fx*cx+fz*cz)/((Math.hypot(fx,fz)||1)*(Math.hypot(cx,cz)||1)),pts={};

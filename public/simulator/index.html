@@ -1525,6 +1525,8 @@ li.fx-fav{box-shadow:inset 3px 0 0 #f5c542;background:linear-gradient(90deg,rgba
 .consent-v2 .consent-head .consent-sum{margin-bottom:.3rem}
 @media (max-width:480px){.consent-v2 .consent-head{margin:.8rem .7rem .3rem;padding:1.2rem 1.1rem 1rem;border-radius:16px}.consent-v2 .consent-head h2{font-size:1.5rem}}
 @media (forced-colors:active){.consent-v2 .consent-head{border:1px solid CanvasText}}
+/* v7.6.67d: 3D frame hidden until the model renders (critical rule, before the lazy CSS loads) */
+.pfe-stage iframe{opacity:0;visibility:hidden}.pfe-stage.pfe-shown iframe{opacity:1;visibility:visible}
 
 </style>
 </head>
@@ -8295,12 +8297,12 @@ document.addEventListener("change", (ev) => { if (ev.target && ev.target.id === 
 const LAZY = {};
 window.__BP = { get S() { return S; }, get R() { return R; }, get V() { return V; }, $, esc, fK, fW, fP, fWk, E, effMove, pftInsideStage, rampColor, renderViews: () => renderViews() };
 function lazyLoad(src) { if (LAZY[src]) return LAZY[src]; LAZY[src] = new Promise((res, rej) => { const s = document.createElement("script"); s.src = src; s.onload = res; s.onerror = rej; document.head.appendChild(s); }); return LAZY[src]; }
-(function () { const l = document.createElement("link"); l.rel = "stylesheet"; l.href = "assets/v7655.css?v=7661"; document.head.appendChild(l); })();
+(function () { const l = document.createElement("link"); l.rel = "stylesheet"; l.href = "assets/v7655.css?v=7667d"; document.head.appendChild(l); })();
 function renderSnapshot() { if (typeof window.renderSnapshotNow === "function") return window.renderSnapshotNow(); const b = $("#hs-card"); if (b && R && !R.blocked) lazyLoad("assets/health-snapshot.js?v=7655").then(() => window.renderSnapshotNow(), () => {}); }
 function a1cCardHtml() { if (typeof window.a1cCardHtmlNow === "function") return window.a1cCardHtmlNow(); lazyLoad("assets/a1c-log.js?v=7655").then(() => { if (V.open && V.view === "home") renderViews(); }, () => {}); return `<div class="v-card a1-card" id="a1-card"><h2>A1c log</h2><p class="hint">Loading…</p></div>`; }
 window.BodyPlanFig3D = window.BodyPlanFig3D || { state: { on: false, failed: false, where: null } };
 function f3dMount() { if (window.__NO_PFT_FIG) return; if (typeof window.f3dMountNow === "function") return window.f3dMountNow(); if (!R || R.blocked) return;
-  lazyLoad("assets/fig3d-pft.js?v=7661").then(() => window.f3dMountNow(), () => { window.BodyPlanFig3D.state.failed = true; }); }
+  lazyLoad("assets/fig3d-pft.js?v=7667d").then(() => window.f3dMountNow(), () => { window.BodyPlanFig3D.state.failed = true; }); }
 function printRegional(s, e) { const k = changeKind(s, e), c = FD.change(depotsAt(s.fatKg), depotsAt(e.fatKg)), m = muscleSplit(S.profile.sex, e.leanKg - s.leanKg);
   const fat = `around the organs ${fWd(c.vat.kg)} (${fPct(c.vat.pct)}), under the skin ${fWd(c.sub.kg)} (${fPct(c.sub.pct)})`, mus = `upper body ${fWd(m.up)}, legs &amp; glutes ${fWd(m.lo)}`;
   return `<p class="small"><b>${{ loss: "Where fat comes off first", gain: "Where muscle builds, and where fat would add", recomp: "Where you lose fat and gain muscle", hold: "Where things shift" }[k]} (estimate):</b> ${k === "gain" ? `lean (mostly muscle): ${mus}; fat: ${fat}.` : k === "recomp" ? `fat: ${fat}; lean (mostly muscle): ${mus}.` : `fat ${fat}.`}</p>`; }

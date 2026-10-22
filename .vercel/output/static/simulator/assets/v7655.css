@@ -65,3 +65,13 @@ body.path-habits [data-step="4"] :is(#rec-wrap,#fit-banner-4,#actual-cmp,#h-prot
 .a1c-ticks{position:relative;height:1rem;font-size:.7rem;color:var(--muted)}.a1c-ticks span{position:absolute;transform:translateX(-50%)}
 .a1c-keys{display:flex;flex-wrap:wrap;gap:.3rem .9rem;font-size:.75rem;color:var(--muted)}.a1c-keys i{display:inline-block;width:.7rem;height:.7rem;border-radius:2px;margin-right:.3rem;vertical-align:-1px}
 .hstat-wide{grid-column:1/-1}
+
+/* v7.6.67d: no PFT page UI flash while loading: frame + overlays hidden until first rendered frame, calm skeleton placeholder, fade in */
+.pfe-stage iframe,.pfe-stage .pfe-ov,.pfe-stage .pfe-lab,.pfe-stage .pfe-hint{opacity:0;visibility:hidden;transition:opacity .45s ease,visibility 0s linear .45s}
+.pfe-stage.pfe-shown iframe,.pfe-stage.pfe-shown .pfe-ov,.pfe-stage.pfe-shown .pfe-lab,.pfe-stage.pfe-shown .pfe-hint{opacity:1;visibility:visible;transition:opacity .45s ease}
+.pfe-stage{background:#05080d;border-radius:10px}
+.pfe-load{display:flex!important;flex-direction:column;align-items:center;justify-content:center;gap:.8rem;transition:opacity .4s ease;z-index:1}.pfe-shown .pfe-load{opacity:0}
+.pfe-sk{width:min(34%,90px);height:auto;fill:rgba(121,180,246,.14);animation:pfeBreathe 1.8s ease-in-out infinite}
+.pfe-lt{font-size:.8rem;color:rgba(231,237,245,.55)}
+@keyframes pfeBreathe{0%,100%{fill-opacity:.55}50%{fill-opacity:1}}
+@media (prefers-reduced-motion:reduce){.pfe-sk{animation:none}.pfe-stage iframe{transition:none}}
