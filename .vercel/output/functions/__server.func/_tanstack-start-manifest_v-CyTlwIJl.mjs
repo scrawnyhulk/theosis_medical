@@ -1,4 +1,4 @@
-//#region node_modules/.nitro/vite/services/ssr/assets/_tanstack-start-manifest_v-w260s7FO.js
+//#region node_modules/.nitro/vite/services/ssr/assets/_tanstack-start-manifest_v-CyTlwIJl.js
 var tsrStartManifest = () => ({ routes: {
 	__root__: {
 		filePath: "/workspace/theosismedical-main/src/routes/__root.tsx",
@@ -14,21 +14,21 @@ var tsrStartManifest = () => ({ routes: {
 			"/visits/"
 		],
 		preloads: [
-			"/assets/index-CrPeiD5z.js",
+			"/assets/index-C1OS6lS5.js",
 			"/assets/minutes-CtfSIrqO.js",
 			"/assets/preload-helper-D-wgXoc3.js"
 		],
 		scripts: [{ attrs: {
 			type: "module",
 			async: !0,
-			src: "/assets/index-CrPeiD5z.js"
+			src: "/assets/index-C1OS6lS5.js"
 		} }]
 	},
 	"/": {
 		filePath: "/workspace/theosismedical-main/src/routes/index.tsx",
 		children: void 0,
 		preloads: [
-			"/assets/routes-DD1QBQD2.js",
+			"/assets/routes-D32SYEDQ.js",
 			"/assets/arrow-right-DsEjFMLv.js",
 			"/assets/site-shell-B7m2bn1V.js",
 			"/assets/input-e9LazuHT.js",
@@ -44,7 +44,7 @@ var tsrStartManifest = () => ({ routes: {
 		filePath: "/workspace/theosismedical-main/src/routes/minutes/$slug.tsx",
 		children: void 0,
 		preloads: [
-			"/assets/_slug-DvPej-bA.js",
+			"/assets/_slug-Bftvay2H.js",
 			"/assets/arrow-left-BGwwD6xt.js",
 			"/assets/site-shell-B7m2bn1V.js"
 		]
@@ -53,7 +53,7 @@ var tsrStartManifest = () => ({ routes: {
 		filePath: "/workspace/theosismedical-main/src/routes/provider/$id.tsx",
 		children: void 0,
 		preloads: [
-			"/assets/_id-CCIGQ_gf.js",
+			"/assets/_id-DfqfUEOm.js",
 			"/assets/arrow-left-BGwwD6xt.js",
 			"/assets/arrow-right-DsEjFMLv.js",
 			"/assets/site-shell-B7m2bn1V.js",
@@ -65,7 +65,7 @@ var tsrStartManifest = () => ({ routes: {
 		filePath: "/workspace/theosismedical-main/src/routes/visits/$kind.tsx",
 		children: void 0,
 		preloads: [
-			"/assets/_kind-BLu_xzJx.js",
+			"/assets/_kind-CL5bQHi0.js",
 			"/assets/arrow-right-DsEjFMLv.js",
 			"/assets/site-shell-B7m2bn1V.js",
 			"/assets/sesame-mark-DouZjAQV.js",
@@ -87,7 +87,7 @@ var tsrStartManifest = () => ({ routes: {
 		filePath: "/workspace/theosismedical-main/src/routes/provider/index.tsx",
 		children: void 0,
 		preloads: [
-			"/assets/provider-CMJei5hS.js",
+			"/assets/provider-CNDCWk2x.js",
 			"/assets/arrow-right-DsEjFMLv.js",
 			"/assets/site-shell-B7m2bn1V.js",
 			"/assets/playground-banner-BZstIE60.js"
@@ -97,7 +97,7 @@ var tsrStartManifest = () => ({ routes: {
 		filePath: "/workspace/theosismedical-main/src/routes/visits/index.tsx",
 		children: void 0,
 		preloads: [
-			"/assets/visits-6pndNoMt.js",
+			"/assets/visits-CncTf8vA.js",
 			"/assets/arrow-right-DsEjFMLv.js",
 			"/assets/site-shell-B7m2bn1V.js",
 			"/assets/sesame-mark-DouZjAQV.js",

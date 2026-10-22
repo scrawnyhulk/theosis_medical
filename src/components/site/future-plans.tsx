@@ -25,6 +25,14 @@ export function FuturePlans() {
           {rest.map((p) => (
             <p key={p.slice(0, 40)}>{p}</p>
           ))}
+          <p>
+            The first step is already live: free, plain-language health education and simple tools
+            built on that same 80/20 approach, now at{" "}
+            <a href="https://theosishealth.com" className="font-medium text-accent hover:text-fg">
+              theosishealth.com
+            </a>
+            .
+          </p>
         </div>
         <div className="mt-8 flex flex-wrap gap-3">
           <Button asChild size="lg" variant="outline">
@@ -71,17 +79,6 @@ export function FuturePlans() {
           </div>
           <SuggestionForm />
         </div>
-
-        <p className="mt-12 max-w-3xl text-lg leading-relaxed text-muted">
-          First step: free, plain-language health education and tools are now live at{" "}
-          <a
-            href="https://theosishealth.com"
-            className="font-medium text-accent hover:text-fg"
-          >
-            theosishealth.com
-          </a>
-          .
-        </p>
       </div>
     </section>
   );

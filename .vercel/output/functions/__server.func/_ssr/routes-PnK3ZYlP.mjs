@@ -7,7 +7,7 @@ import { i as string, r as object } from "../_libs/zod.mjs";
 import { n as SiteShell, r as cn, t as Button } from "./site-shell-Bzw4B38x.mjs";
 import { t as Textarea } from "./textarea-B8ZZdmS2.mjs";
 import { t as Input } from "./input-DfKARCXa.mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/routes-DlC1Omja.js
+//#region node_modules/.nitro/vite/services/ssr/assets/routes-PnK3ZYlP.js
 var import_react = /* @__PURE__ */ __toESM(require_react());
 var import_jsx_runtime = require_jsx_runtime();
 function AboutParagraph({ text }) {
@@ -497,10 +497,23 @@ function FuturePlans() {
 				}),
 				/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 					className: "mt-6 max-w-3xl space-y-5 text-lg leading-relaxed text-muted",
-					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("p", { children: [lead, /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
-						className: "text-fg",
-						children: splitAt
-					})] }), rest.map((p) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { children: p }, p.slice(0, 40)))]
+					children: [
+						/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("p", { children: [lead, /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+							className: "text-fg",
+							children: splitAt
+						})] }),
+						rest.map((p) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { children: p }, p.slice(0, 40))),
+						/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("p", { children: [
+							"The first step is already live: free, plain-language health education and simple tools built on that same 80/20 approach, now at",
+							" ",
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("a", {
+								href: "https://theosishealth.com",
+								className: "font-medium text-accent hover:text-fg",
+								children: "theosishealth.com"
+							}),
+							"."
+						] })
+					]
 				}),
 				/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
 					className: "mt-8 flex flex-wrap gap-3",
@@ -549,19 +562,6 @@ function FuturePlans() {
 						className: "mt-5 space-y-5 text-lg leading-relaxed text-muted",
 						children: shapeParagraphs.map((p) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { children: p }, p))
 					})] }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(SuggestionForm, {})]
-				}),
-				/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("p", {
-					className: "mt-12 max-w-3xl text-lg leading-relaxed text-muted",
-					children: [
-						"First step: free, plain-language health education and tools are now live at",
-						" ",
-						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("a", {
-							href: "https://theosishealth.com",
-							className: "font-medium text-accent hover:text-fg",
-							children: "theosishealth.com"
-						}),
-						"."
-					]
 				})
 			]
 		})
