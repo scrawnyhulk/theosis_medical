@@ -6,7 +6,7 @@ import { G as redirect, _ as createFileRoute, d as Scripts, f as HeadContent, g 
 import { i as require_jsx_runtime } from "../_libs/@radix-ui/react-label+[...].mjs";
 import { o as TriangleAlert } from "../_libs/lucide-react.mjs";
 import { a as union, i as string, n as number, r as object, t as literal } from "../_libs/zod.mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/router-B_ms9ws7.js
+//#region node_modules/.nitro/vite/services/ssr/assets/router-C3bYeCf2.js
 var import_react = /* @__PURE__ */ __toESM(require_react());
 var import_jsx_runtime = require_jsx_runtime();
 var __defProp = Object.defineProperty;
@@ -417,7 +417,7 @@ var Route$9 = createRootRoute({
 		})]
 	})
 });
-var $$splitComponentImporter$7 = () => import("./routes-BQF76yLh.mjs");
+var $$splitComponentImporter$7 = () => import("./routes-DlC1Omja.mjs");
 var Route$8 = createFileRoute("/")({ component: lazyRouteComponent($$splitComponentImporter$7, "component") });
 var $$splitComponentImporter$6 = () => import("./install-B1H6QSAl.mjs");
 var Route$7 = createFileRoute("/install")({
@@ -435,7 +435,7 @@ var Route$6 = createFileRoute("/minutes/")({
 		content: "Medical Minutes: common conditions explained in plain language — the talks Nick Holwey, PA-C, gives in the emergency department."
 	}] })
 });
-var $$splitComponentImporter$4 = () => import("../_slug-BJisJwg8.mjs");
+var $$splitComponentImporter$4 = () => import("../_slug-QTjVhWIX.mjs");
 var Route$5 = createFileRoute("/minutes/$slug")({
 	component: lazyRouteComponent($$splitComponentImporter$4, "component"),
 	head: ({ params }) => {
@@ -457,7 +457,7 @@ var Route$4 = createFileRoute("/provider/")({
 		content: "Live demo of a Sesame-style provider inbox. Not a real EHR. No real PHI."
 	}] })
 });
-var $$splitComponentImporter$2 = () => import("../_id-D2TlTwGG.mjs");
+var $$splitComponentImporter$2 = () => import("../_id-BM5vaQsn.mjs");
 var Route$3 = createFileRoute("/provider/$id")({
 	beforeLoad: () => {
 		throw redirect({ to: "/" });
@@ -476,7 +476,7 @@ var Route$2 = createFileRoute("/visits/")({
 		content: "Live demo. How cash-pay lifestyle counseling would look if booked on Sesame. Not a real booking."
 	}] })
 });
-var $$splitComponentImporter = () => import("../_kind-DJKTYggE.mjs");
+var $$splitComponentImporter = () => import("../_kind-B6WEwWHK.mjs");
 var Route$1 = createFileRoute("/visits/$kind")({
 	beforeLoad: ({ params }) => {
 		throw redirect({ to: "/" });

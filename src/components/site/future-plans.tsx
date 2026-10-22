@@ -71,6 +71,17 @@ export function FuturePlans() {
           </div>
           <SuggestionForm />
         </div>
+
+        <p className="mt-12 max-w-3xl text-lg leading-relaxed text-muted">
+          First step: free, plain-language health education and tools are now live at{" "}
+          <a
+            href="https://theosishealth.com"
+            className="font-medium text-accent hover:text-fg"
+          >
+            theosishealth.com
+          </a>
+          .
+        </p>
       </div>
     </section>
   );
