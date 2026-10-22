@@ -7442,7 +7442,7 @@ function renderFoodLog() {
     : `<p class="fl-adding"><b>Adding to ${ML}</b> <button type="button" class="link-btn" data-fl-change="1" aria-label="Change meal (now ${ML})">Change</button>${fl.lock ? ` <button type="button" class="link-btn" data-fl-unlock="1">Done</button>` : ""}</p>`;
   $$("[data-fl-tab]").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.flTab === fl.tab)));
   $("#fl-search-host").hidden = fl.tab !== "search"; $("#fl-quick").hidden = fl.tab !== "quick";
-  { const ft = $("#fl-text"); ft.hidden = fl.tab !== "text"; if (!ft.hidden) lazyLoad("assets/foodtext.js?v=7663d").then(() => window.ftRender(), () => { ft.textContent = "Couldn't load this. Try Search or scan."; }); }
+  { const ft = $("#fl-text"); ft.hidden = fl.tab !== "text"; if (!ft.hidden) lazyLoad("assets/foodtext.js?v=7664").then(() => window.ftRender(), () => { ft.textContent = "Couldn't load this. Try Search or scan."; }); }
   const lp = $("#fl-list-pane"); lp.hidden = !(fl.tab === "recent" || fl.tab === "favs"); lp.innerHTML = lp.hidden ? "" : flListPane();
   const mt = FL.mealTotals(FLS, d);
   $("#fl-meals").innerHTML = FL.MEALS.map(([k, l]) => { const its = items.filter((x) => x.meal === k);
@@ -7457,7 +7457,7 @@ function renderFoodLog() {
   $("#fl-avg").innerHTML = `<section class="card fl-avg-card" aria-labelledby="fl-avg-h"><h3 id="fl-avg-h">Last 7 days</h3>${flWeekHtml()}${a.days ? `${flTotalsHtml(a, "sm")}<p class="hint">Average (calories, protein…) of ${a.days} logged day${a.days === 1 ? "" : "s"}${a.confidence === "low" ? `. <b>Low confidence:</b> ${a.completeDays < 3 ? `fewer than 3 days are marked complete, so partly logged days may be included` : ""}.` : ", all marked complete."} Today counts once it's marked complete.</p>` : `<p class="hint">Log a few days and mark them complete to see an average here.</p>`}
     <div class="actions"><button type="button" class="btn btn-ghost" data-fl-tosim="1">Use my log in the simulator</button></div></section>`;
 }
-try { if (localStorage.getItem("theosis-foodtext-pending")) { fl.tab = "text"; } if (localStorage.getItem("theosis-foodtext-pending")) setTimeout(() => lazyLoad("assets/foodtext.js?v=7663d"), 0); } catch (e) { /* storage off */ }
+try { if (localStorage.getItem("theosis-foodtext-pending")) { fl.tab = "text"; } if (localStorage.getItem("theosis-foodtext-pending")) setTimeout(() => lazyLoad("assets/foodtext.js?v=7664"), 0); } catch (e) { /* storage off */ }
 window.__FLX = { get FLS() { return FLS; }, fl, add: (i) => flAddFood(i), render: () => renderFoodLog() };
 function flAddFood(item) {
   const it = FL.addItem(FLS, fl.date, { ...item, meal: fl.meal }); if (!it) { fl.status = "Couldn't add that food (this day is full or the entry is incomplete)."; renderFoodLog(); return null; }

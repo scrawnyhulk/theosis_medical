@@ -56,11 +56,17 @@ FT.unitServing = function (it, food) {
   if (u === "cup" && /\bml\b/.test((L[0] && L[0].unit) || "")) g = 240;
   const lb = `${lab} (about ${g} g, typical)`; if (!(L[0] && L[0].est && L[0].label === lb)) L.unshift({ label: lb, g, est: true }); return { idx: 0, sure: false, est: true };
 };
+// v7.6.64: typical cooked household portions (FNDDS "1 cup" gram weights) for dishes whose entry only has 100 g.
+const DISHES = [[/spaghetti|pasta|macaroni|lasagna|noodle|ravioli|linguine|fettuccine|penne/i, "1 cup cooked", 250], [/\brice\b|risotto|pilaf/i, "1 cup cooked", 175],
+  [/chili|stew|soup|curry|casserole|goulash|chowder/i, "1 cup", 245], [/oatmeal|porridge|grits/i, "1 cup cooked", 235], [/salad/i, "1 cup", 150]];
 FT.servingMath = function (it, food) {
   const q = +it.quantity > 0 ? +it.quantity : 1, u = sing(String(it.unit || "serving").toLowerCase()), c = +it.count > 1 ? +it.count : null;
   const drink = u === "serving" && !it.brand && /\b(coffee|tea|juice|milk|latte|soda|cola|smoothie|lemonade|cocoa)\b/i.test(it.food || "");
   const us = drink ? FT.unitServing({ ...it, unit: "cup" }, food) : !CONTAINER.test(u) && u !== "serving" ? FT.unitServing(it, food) : null;
   if (us) { const sv = food.servings[us.idx]; return { sv: us.idx, servings: r4(q) || 1, sure: us.sure, note: us.est ? `${q} × ${sv.label}. Typical weight, so check the amount.` : `${q} × ${sv.label}. Please check.` }; }
+  const dish = food && food.servings && food.servings.length && /^1?\s*(100 g|1 g)$/.test(food.servings[0].label) && (u === "serving" || u === "plate" || u === "bowl" || u === "portion") && DISHES.find(([rx]) => rx.test(food.name || ""));
+  if (dish) { const lb = `${dish[1]} (about ${dish[2]} g, typical)`; if (!(food.servings[0].est && food.servings[0].label === lb)) food.servings.unshift({ label: lb, g: dish[2], est: true });
+    const k = u === "plate" || u === "bowl" ? 1.5 : 1; return { sv: 0, servings: r4(q * k) || 1, sure: false, note: `${r4(q * k)} × ${lb}. Typical household portion, so check the amount.` }; }
   if (food && food.servings && food.servings.length && /^1?\s*(100 g|1 g)$/.test(food.servings[0].label) && !CONTAINER.test(u)) {
     return { sv: 0, servings: u === "serving" ? r4(q) || 1 : 1, sure: false, note: u === "serving" ? "This entry has no serving size, so 100 g is shown. Check the amount." : `No household size for "${u}" in this entry, so 100 g is shown. Check the amount.` }; }
   if (u === "serving" && food && food.src !== "web" && !(food.servings && food.servings[0] && /^1 serving/.test(food.servings[0].label))) {
@@ -74,9 +80,10 @@ FT.servingMath = function (it, food) {
   if (CONTAINER.test(u)) return { servings: q, sure: false, note: `Counted as ${q} serving${q === 1 ? "" : "s"}. A whole ${u} is often more than one serving, so check the package for servings per ${u}.` };
   return { servings: r4(q) || 1, sure: pieces == null || !!pp, note: pieces != null ? `${what}, counted as ${r4(q)} serving${r4(q) === 1 ? "" : "s"}. Please check the serving size.` : "" };
 };
+const NOT_JUICE = new Set(["drink", "cocktail", "nectar", "punch", "ade", "beverage", "flavored", "imitation", "substitute", "powder"]);
 const GENERIC_T = /^(foundation|sr legacy|survey)/i;
 // Words USDA uses to describe a plain food; they don't count as "added" words.
-const DESCR = new Set("raw cooked boiled baked broiled roasted grilled fried scrambled poached hard soft brewed prepared plain regular ns as to type form made from fresh frozen canned large medium small grade enriched unenriched ready beverage commercial home homemade restaurant style hot cold water oil fat added salt without no not specified table fluid salted unsalted stick sliced toasted toast slice wheat yellow us sauce tomato dry instant ground or by".split(" "));
+const DESCR = new Set("raw cooked boiled baked broiled roasted grilled fried scrambled poached hard soft brewed prepared plain regular ns as to type form made from fresh frozen canned large medium small grade enriched unenriched ready commercial home homemade restaurant style hot cold water oil fat added salt without no not specified table fluid salted unsalted stick sliced toasted toast slice wheat yellow us sauce tomato dry instant ground or by".split(" "));
 // Rank database foods for one parsed item: brand words count most, then food words, then flavor.
 FT.score = function (it, f) {
   const hay = new Set(toks((f.brand || "") + " " + (f.name || ""))), hit = (ws) => ws.filter((w) => hay.has(w)).length;
@@ -88,7 +95,9 @@ FT.score = function (it, f) {
   const st = (w) => (w.length > 5 ? w.replace(/ed$/, "") : w), said = new Set(fd.concat(fl, toks(it.unit)).map(st)), hay2 = new Set(toks(f.name).map(st)), hit2 = fd.filter((w) => hay2.has(st(w))).length;
   const phrase = fd.length > 1 && (" " + toks(f.name).join(" ") + " ").includes(" " + fd.join(" ") + " ") ? 2 : 0, stemBonus = (hit2 - hit(fd)) * 2 + (fd.length && hit2 === fd.length && hit(fd) < fd.length ? 2 : 0) + (fd.length && !hit(fd) && hit2 ? 4 : 0), generic = f.src === "usda" && GENERIC_T.test(f.dataType || "");
   const extra = toks(f.name).filter((w) => !said.has(st(w)) && !DESCR.has(w) && !/^\d/.test(w)).length + (f.brand ? toks(f.brand).filter((w) => !said.has(w)).length : 0);
-  return base + stemBonus + phrase + (generic ? 3 : f.src === "usda" ? -1 : -2) - Math.min(6, extra * (generic ? 1.5 : 2));
+  // v7.6.64: "juice drink", "cocktail", "nectar" etc. aren't 100% juice; only pick them if the person said so.
+  const fake = toks((f.brand || "") + " " + f.name).filter((w) => NOT_JUICE.has(w) && !said.has(w)).length;
+  return base + stemBonus + phrase + (generic ? 3 : f.src === "usda" ? -1 : -4) - Math.min(6, extra * (generic ? 1.5 : 2)) - fake * 4;
 };
 FT.rank = function (it, foods) {
   const seen = new Set(), out = [];

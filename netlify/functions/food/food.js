@@ -64,7 +64,8 @@ exports.handler = async (event) => {
   const ctl = new AbortController(); const timer = setTimeout(() => ctl.abort(), TIMEOUT_MS);
   let res;
   const slot = await BETA.check(event, "food"); if (!slot.ok) return BETA.reply(slot, corsOrigin);
-  try { res = await fetch(url, { signal: ctl.signal, headers: { Accept: "application/json" } }); }
+  // v7.6.64: FDC's front end sometimes answers a one-off nginx 400/5xx for a valid query; retry up to twice.
+  try { for (let i = 0; i < 3; i++) { res = await fetch(url, { signal: ctl.signal, headers: { Accept: "application/json" } }); if (res.ok || res.status === 429 || res.status === 403 || ctl.signal.aborted || (res.status !== 400 && res.status < 500)) break; await new Promise((ok) => setTimeout(ok, 300 * (i + 1))); } }
   catch (e) { return reply(502, { error: ctl.signal.aborted ? "USDA FoodData Central took too long to answer." : "Couldn't reach USDA FoodData Central.", demoKey }, corsOrigin); }
   finally { clearTimeout(timer); }
   if (res.status === 429) return reply(429, { error: demoKey ? "USDA's shared demo key is over its hourly limit. Add FDC_API_KEY on Netlify for full access." : "USDA rate limit reached. Try again shortly.", demoKey, retryAfter: Number(res.headers && res.headers.get && res.headers.get("retry-after")) || null }, corsOrigin);
