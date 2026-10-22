@@ -73,7 +73,7 @@ FT.parse = async function (text) {
   for (let i = 0; i < 2; i++) {   // one retry: the AI service sometimes fails once and then answers
     try { const d = await J(PARSE, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ text }) });
       if (Array.isArray(d.items) && d.items.length) return { items: d.items.slice(0, 12), ai: !d.mock, mock: !!d.mock }; break; }
-    catch (e) { if (!e.status || (e.status >= 400 && e.status < 500) || e.status === 503) break; }   /* reader off / limit: plain search below */
+    catch (e) { if (!e.status && !navigator.onLine) return { items: [], net: true }; if (!e.status || (e.status >= 400 && e.status < 500) || e.status === 503) break; }   /* reader off / limit: plain search below */
   }
   return { items: FT.splitText(text), ai: false };
 };
@@ -82,13 +82,18 @@ async function search(q, kind) {
     const d = await J(C.fdcSearchUrl(q, k, { branded: kind === "branded", all: kind === "all", n: 10 })); return (d.foods || []).map(C.normFDC).filter(Boolean); }
   const d = await J(`${FOOD}?q=${encodeURIComponent(q)}&kind=${kind}`); return Array.isArray(d.items) ? d.items : [];
 }
-FT.lookup = async function (it) {
-  const q = FT.query(it), plain = [it.flavor, it.food].filter(Boolean).join(" ");
-  let foods = []; const tries = it.brand ? [[q, "branded"], [plain, "all"]] : [[q, "all"]];
-  for (const [qq, k] of tries) { if (qq.length < 2) continue; try { foods = foods.concat(await search(qq, k)); } catch (e) { if (e.status === 429) throw e; } if (foods.length >= 12 && !it.brand) break; }
+async function offSearch(q) {   // Open Food Facts straight from the browser, like the main search; US first, then world; down = []
+  const C = window.FoodCore; for (const host of ["us", "world"]) { try { const d = await J(C.offSearchUrl(q, 12, host)); return (d.products || []).map(C.normOFF).filter(Boolean); } catch (e) { /* try world, then give up */ } } throw new Error("off down");
+}
+// Every database the food search uses: USDA branded + generic (FoodData Central) and Open Food Facts. r.checked lists what answered.
+FT.lookup = async function (it, checked) {
+  checked = checked || []; const q = FT.query(it), plain = [it.flavor, it.food].filter(Boolean).join(" ");
+  let foods = [], rate = null; const tries = it.brand ? [[q, "branded", "USDA branded"], [plain, "all", "USDA generic + branded"]] : [[q, "all", "USDA generic + branded"]];
+  for (const [qq, k, nm] of tries) { if (qq.length < 2) continue; try { foods = foods.concat(await search(qq, k)); checked.push(nm); } catch (e) { checked.push(nm + " (unavailable)"); if (e.status === 429) rate = e; } }
+  if (q.length >= 2) { try { foods = foods.concat(await offSearch(q)); checked.push("Open Food Facts"); } catch (e) { checked.push("Open Food Facts (unavailable)"); } }
+  if (!foods.length && rate) throw rate;
   return FT.rank(it, foods).slice(0, 6);
 };
-
 /* v7.6.58: brand not in USDA -> grounded web lookup of that product's label (server-side). Only brand/food/flavor are sent. */
 const WEB = "/.netlify/functions/foodweb";
 FT.brandFound = (it, f) => { const bw = toks(it.brand), hay = toks((f && (f.brand || "") + " " + f.name) || ""); return !bw.length || (!!f && bw.every((w) => hay.includes(w))); };
@@ -103,6 +108,12 @@ FT.web = async function (it) {
   try { const d = await J(WEB, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ brand: it.brand, food: it.food, flavor: it.flavor || "" }) }); return FT.webFood(d && d.result); }
   catch (e) { return null; }
 };
+/* v7.6.58: offline queue. The typed text is kept on THIS device only (localStorage) until the connection is back; never auto-added. */
+const PKEY = "theosis-foodtext-pending";
+FT.pending = { get() { try { const v = JSON.parse(localStorage.getItem(PKEY) || "null"); return v && typeof v.text === "string" ? v.text.slice(0, 500) : ""; } catch (e) { return ""; } },
+  set(t) { try { localStorage.setItem(PKEY, JSON.stringify({ text: String(t).slice(0, 500), at: Date.now() })); return true; } catch (e) { return false; } },
+  clear() { try { localStorage.removeItem(PKEY); } catch (e) { /* ignore */ } } };
+const OFFMSG = "You're offline. What you typed is saved on this device, and we'll look for these foods when you're back online. You'll still check each one before anything is added.";
 /* ---------- UI ---------- */
 const st = { text: "", busy: false, rows: [], ai: null, msg: "" };
 const B = () => window.__BP, X = () => window.__FLX;
@@ -127,12 +138,12 @@ function rowHtml(r, i) {
   const sv = f.servings[r.sv] || f.servings[0], n = window.FoodLog.itemNutr({ per100: f.per100, g: sv.g, servings: r.n }), bw = toks(it.brand), hay = toks((f.brand || "") + " " + f.name), noBrand = bw.length && !bw.every((w) => hay.includes(w)), weak = (f._score || 0) < 4 || noBrand;
   return `<li class="ft-it${r.on ? "" : " off"}" data-ft-i="${i}"><p class="ft-typed">You typed: ${esc(typed)}</p>
     ${f.src === "web" ? `<span class="ft-best web">Found on the web, please check the package</span><p class="ft-src">Source: ${f.sources.map((x) => `<a href="${esc(x.url)}" target="_blank" rel="noopener noreferrer nofollow">${esc(x.title)}</a>`).join(", ")}</p>`
-      : `<span class="ft-best${weak ? " weak" : ""}">${noBrand ? `That brand wasn't found${r.webMiss ? " in USDA or on the web" : ""}. Closest match, please check` : weak ? "Closest match, please check" : "Best match, please check"}</span>`}
+      : `<span class="ft-best${weak ? " weak" : ""}">${noBrand ? `That brand wasn't found${r.webMiss ? " in the food databases or on the web" : ""}. Closest match, please check` : weak ? "Closest match, please check" : "Best match, please check"}</span>`}
     <label class="field"><span class="label">Food</span><span class="control"><select data-ft-pick="${i}">${r.matches.map((m, j) => `<option value="${j}" ${j === r.pick ? "selected" : ""}>${m.src === "web" ? "Web: " : ""}${esc(m.name)}${m.brand ? " (" + esc(m.brand) + ")" : ""}</option>`).join("")}</select></span></label>
     <div class="ft-row"><label class="field"><span class="label">How many</span><span class="control"><input inputmode="decimal" data-ft-n="${i}" data-local="1" value="${+r.n}"></span></label>
       <label class="field"><span class="label">Serving</span><span class="control"><select data-ft-sv="${i}">${f.servings.map((s, j) => `<option value="${j}" ${j === r.sv ? "selected" : ""}>${esc(s.label)}</option>`).join("")}</select></span></label></div>
     ${r.note ? `<p class="ft-math">${esc(r.note)}</p>` : ""}<p class="ft-kcal">About ${fK(n.kcal)} kcal · ${fK(n.protein || 0)} g protein</p>
-    <label class="ft-inc"><input type="checkbox" data-ft-on="${i}" ${r.on ? "checked" : ""}> Add this one</label>${again}</li>`;
+    ${r.checked && r.checked.length ? `<p class="ft-src">Checked: ${esc(r.checked.join(", "))}</p>` : ""}<label class="ft-inc"><input type="checkbox" data-ft-on="${i}" ${r.on ? "checked" : ""}> Add this one</label>${again}</li>`;
 }
 let drawing = false, again = false;
 // Rebuilding the pane can blur a focused field, which fires "change" and asks for another draw. Run that one after, never inside.
@@ -144,6 +155,7 @@ function drawNow() {
     <textarea id="ft-in" data-local="1" maxlength="500" placeholder="e.g. two scrambled eggs, a slice of toast and a coffee with milk">${esc(st.text)}</textarea>
     <p class="ft-note">Write it the way you'd say it, with amounts if you know them. What you type is sent to an AI service only to pick out the foods; it isn't saved. Matches come from the USDA food database, and you check each one before anything is added.</p>
     <div class="ft-acts"><button type="button" class="btn btn-steel" id="ft-go" ${st.busy ? "disabled" : ""}>${st.busy ? "Finding…" : "Find these foods"}</button>${any ? `<button type="button" class="btn btn-ghost" id="ft-clear">Start over</button>` : ""}</div>
+    ${st.queued ? `<div class="ft-acts ft-pend"><button type="button" class="btn btn-ghost" id="ft-retry">Try now</button><button type="button" class="btn btn-ghost" id="ft-unqueue">Clear saved text</button></div>` : ""}
     ${st.msg ? `<p class="ft-msg hint" role="status">${esc(st.msg)}</p>` : ""}
     ${any ? `<ul class="ft-list" aria-label="Foods found">${st.rows.map(rowHtml).join("")}</ul>
       <div class="ft-acts"><button type="button" class="btn btn-steel" id="ft-add" ${on && !st.busy ? "" : "disabled"}>Add ${on} food${on === 1 ? "" : "s"} to ${esc(mealName())}</button><button type="button" class="btn btn-ghost" id="ft-cancel">Cancel</button></div>
@@ -152,16 +164,19 @@ function drawNow() {
 function setMatch(r, j) { r.pick = j; const f = r.matches[j]; if (!f) return; const m = FT.servingMath(r.item, f); r.sv = 0; r.n = m.servings; r.note = m.note; }
 async function lookRow(r, q) {
   r.loading = true; draw();
-  try { r.matches = await FT.lookup(q ? { brand: "", food: q, flavor: "" } : r.item); r.err = "";
-    if (!q && r.item.brand && !FT.brandFound(r.item, r.matches[0])) { r.webBusy = true; draw(); const w = await FT.web(r.item); r.webBusy = false; if (w) r.matches.unshift(w); else r.webMiss = true; } }
+  try { r.checked = []; r.matches = await FT.lookup(q ? { brand: "", food: q, flavor: "" } : r.item, r.checked); r.err = "";
+    if (!q && r.item.brand && !r.matches.some((m) => FT.brandFound(r.item, m))) { r.webBusy = true; draw(); const w = await FT.web(r.item); r.webBusy = false; r.checked.push(w ? "Web search (label found)" : "Web search (no sourced label)"); if (w) r.matches.unshift(w); else r.webMiss = true; } }
   catch (e) { r.matches = []; r.err = e.status === 429 ? "The food database is busy right now. Try again in a minute." : "Couldn't reach the food database."; }
   r.loading = false; setMatch(r, 0); r.on = !!r.matches.length; draw();
 }
 async function go() {
   const ta = document.getElementById("ft-in"); st.text = ta ? ta.value.trim().slice(0, 500) : st.text;
   if (st.text.length < 2) { st.msg = "Type what you ate first, for example: two eggs and a banana."; draw(); return; }
-  st.busy = true; st.msg = "Reading what you typed…"; st.rows = []; draw();
+  if (navigator.onLine === false) { FT.pending.set(st.text); st.queued = true; st.rows = []; st.msg = OFFMSG; draw(); return; }
+  st.busy = true; st.msg = "Reading what you typed…"; st.rows = []; st.queued = false; draw();
   const p = await FT.parse(st.text); st.ai = p.ai;
+  if (p.net) { FT.pending.set(st.text); st.queued = true; st.busy = false; st.msg = OFFMSG; draw(); return; }
+  FT.pending.clear();
   st.rows = p.items.map((item) => ({ item, q: FT.query(item), matches: [], pick: 0, sv: 0, n: 1, on: false, loading: true, note: "" }));
   st.msg = !st.rows.length ? "No foods found in that. Try naming each food, like: 2 eggs and a banana." : p.ai || p.mock ? `Found ${st.rows.length} food${st.rows.length === 1 ? "" : "s"}. Please check each match and amount.` : "Couldn't read that automatically, so each part was searched as typed. Please check each one.";
   draw();
@@ -180,7 +195,9 @@ function bind() {
     const t = ev.target.closest("#fl-text button"); if (!t) return;
     if (t.id === "ft-go") return void go();
     if (t.id === "ft-add") return add();
-    if (t.id === "ft-clear" || t.id === "ft-cancel") { st.rows = []; st.msg = t.id === "ft-cancel" ? "Canceled. Nothing was added." : ""; if (t.id === "ft-clear") st.text = ""; draw(); const ta = document.getElementById("ft-in"); ta && ta.focus(); return; }
+    if (t.id === "ft-retry") return void go();
+    if (t.id === "ft-unqueue") { FT.pending.clear(); st.queued = false; st.text = ""; st.msg = "Saved text cleared. Nothing was added."; draw(); return; }
+    if (t.id === "ft-clear" || t.id === "ft-cancel") { st.rows = []; if (st.queued) { FT.pending.clear(); st.queued = false; } st.msg = t.id === "ft-cancel" ? "Canceled. Nothing was added." : ""; if (t.id === "ft-clear") st.text = ""; draw(); const ta = document.getElementById("ft-in"); ta && ta.focus(); return; }
     if (t.dataset.ftSearch != null) { const i = +t.dataset.ftSearch, r = st.rows[i], inp = document.querySelector(`[data-ft-q="${i}"]`); if (r && inp && inp.value.trim().length >= 2) { r.q = inp.value.trim().slice(0, 80); lookRow(r, r.q); } }
   });
   document.addEventListener("change", (ev) => {
@@ -196,6 +213,15 @@ function bind() {
   document.addEventListener("keydown", (ev) => { const t = ev.target; if (ev.key === "Enter" && t && t.dataset && t.dataset.ftQ != null) { ev.preventDefault(); const b = document.querySelector(`[data-ft-search="${t.dataset.ftQ}"]`); b && b.click(); }
     if (ev.key === "Enter" && t && t.id === "ft-in" && (ev.ctrlKey || ev.metaKey)) { ev.preventDefault(); go(); } });
 }
+// Back online (or loaded while online with saved text): read + search again and show the normal confirm card. Never adds.
+FT.resume = function () {
+  const t = FT.pending.get(); if (!t || st.busy || navigator.onLine === false) return false;
+  st.text = t; st.queued = true; const x = X();
+  if (x && x.fl.open && x.fl.tab !== "text") { x.fl.tab = "text"; x.render(); }
+  go(); return true;
+};
+if (window.addEventListener) window.addEventListener("online", () => FT.resume());
 FT.state = st;
-window.ftRender = function () { bind(); const box = document.getElementById("fl-text"); if (box && !box.querySelector(".ft-box")) draw(); };
+window.ftRender = function () { bind(); const box = document.getElementById("fl-text"); if (box && !box.querySelector(".ft-box")) { const t = FT.pending.get(); if (t && !st.text) { st.text = t; st.queued = true; st.msg = OFFMSG; } draw(); if (t && navigator.onLine !== false) FT.resume(); } };
+if (typeof localStorage !== "undefined" && FT.pending.get() && navigator.onLine !== false) setTimeout(() => { const x = X(); if (x && x.fl.open) { if (x.fl.tab !== "text") { x.fl.tab = "text"; x.render(); } } }, 0);
 })();
