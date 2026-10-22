@@ -13,7 +13,7 @@ const hdr = (o) => ({ "Content-Type": "application/json", "Cache-Control": "no-s
 const out = (s, b, o) => ({ statusCode: s, headers: hdr(o), body: JSON.stringify(b) });
 const str = (v, n) => String(v == null ? "" : v).replace(/[\u0000-\u001f\u007f<>`{}"\\]/g, " ").replace(/\s+/g, " ").trim().slice(0, n);
 const PROMPT = (q) => [
-  "Use Google Search to find the official Nutrition Facts label for this exact packaged food product sold in the US:",
+  "You MUST run a Google Search before answering. Search for and find the official Nutrition Facts label for this exact packaged food product sold in the US:",
   `Brand: ${q.brand}`, `Product: ${q.food}`, `Flavor/variety: ${q.flavor || "(any)"}`,
   "Copy the numbers exactly as printed on the label (per ONE serving). Do not estimate or calculate. If you cannot find this exact brand's label, set found to false.",
   'Reply ONLY with JSON: {"found":boolean,"product":string,"brand":string,"serving":string,"servingGrams":number|null,"piecesPerServing":number|null,"pieceWord":string,"servingsPerContainer":number|null,"kcal":number,"protein":number,"carbs":number,"fat":number}',
@@ -43,7 +43,7 @@ async function gemini(q) {
   try {
     const r = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(MODEL())}:generateContent`, { method: "POST", signal: ctl.signal,
       headers: { "Content-Type": "application/json", "x-goog-api-key": env().GEMINI_API_KEY },
-      body: JSON.stringify({ contents: [{ role: "user", parts: [{ text: PROMPT(q) }] }], tools: [{ google_search: {} }], generationConfig: { temperature: 0, maxOutputTokens: 1200, thinkingConfig: { thinkingLevel: env().FOODWEB_THINKING || "low" } } }) });
+      body: JSON.stringify({ contents: [{ role: "user", parts: [{ text: PROMPT(q) }] }], tools: [{ google_search: {} }], generationConfig: { temperature: 0, maxOutputTokens: 2048, ...(env().FOODWEB_THINKING ? { thinkingConfig: { thinkingLevel: env().FOODWEB_THINKING } } : {}) } }) });
     if (!r.ok) throw Object.assign(new Error("upstream"), { code: r.status === 429 ? "rate" : "upstream", status: r.status });
     const d = await r.json(); return (d && d.candidates && d.candidates[0]) || null;
   } catch (e) { if (typeof e.code === "string") throw e; throw Object.assign(new Error("net"), { code: ctl.signal.aborted ? "timeout" : "network" }); }
