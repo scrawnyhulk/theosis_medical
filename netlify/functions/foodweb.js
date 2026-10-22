@@ -14,13 +14,13 @@ const out = (s, b, o) => ({ statusCode: s, headers: hdr(o), body: JSON.stringify
 const str = (v, n) => String(v == null ? "" : v).replace(/[\u0000-\u001f\u007f<>`{}"\\]/g, " ").replace(/\s+/g, " ").trim().slice(0, n);
 // v7.6.58d: plain-text answer with labeled lines. A "reply only with JSON" prompt (or responseMimeType JSON) made the model skip
 // Google Search entirely (no groundingMetadata); the same request as plain text searches and returns sources.
-const PROMPT = (q) => [
-  `${q.brand} ${q.food}${q.flavor ? " " + q.flavor + " flavor" : ""} nutrition facts`,
-  "",
-  "Search the web for the Nutrition Facts label of this exact branded US product. Copy numbers as printed per ONE serving; do not estimate.",
-  "End your answer with these lines exactly (use NONE when unknown; FOUND: no if you could not find this exact brand's label):",
-  "FOUND: yes|no", "PRODUCT:", "BRAND:", "SERVING:", "SERVING_GRAMS:", "PIECES_PER_SERVING:", "PIECE_WORD:", "SERVINGS_PER_CONTAINER:", "CALORIES:", "PROTEIN_G:", "CARBS_G:", "FAT_G:",
-].join("\n");
+// Step 1 (grounded): a plain search-style question. Long formatting rules made the model answer from memory without searching.
+const PROMPT = (q) => `${q.brand} ${q.food}${q.flavor ? " " + q.flavor + " flavor" : ""} nutrition facts label per serving`;
+// Step 2 (no tools): copy the numbers out of the grounded answer into labeled lines. Uses ONLY that answer's text.
+const EXTRACT = (q, t) => ["Below is a web-sourced answer about a product's Nutrition Facts. Copy values from it ONLY; never add or estimate numbers.",
+  `Target: brand "${q.brand}", product "${q.food}"${q.flavor ? `, flavor "${q.flavor}"` : ""}. FOUND is yes only if the answer is about that exact brand.`,
+  "Reply with exactly these lines (NONE when the answer does not say):", "FOUND: yes|no", "PRODUCT:", "BRAND:", "SERVING:", "SERVING_GRAMS:", "PIECES_PER_SERVING:", "PIECE_WORD:", "SERVINGS_PER_CONTAINER:", "CALORIES:", "PROTEIN_G:", "CARBS_G:", "FAT_G:",
+  "", "ANSWER:", String(t).slice(0, 6000)].join("\n");
 function parseLines(t) {
   const get = (k) => { const m = new RegExp("^\\W*" + k + "\\W*:\\s*(.+)$", "im").exec(t); const v = m ? m[1].replace(/[*_`]/g, "").trim() : ""; return /^none$/i.test(v) ? "" : v; };
   const num = (k) => { const m = /-?\d+(?:\.\d+)?/.exec(get(k)); return m ? +m[0] : null; };
@@ -48,12 +48,12 @@ function accept(cand) {
   if (r.servingGrams && r.kcal / r.servingGrams > 9.5) return null;   // more than 9.5 kcal per gram is not a real label
   return r;
 }
-async function gemini(q) {
+async function gemini(text, grounded) {
   const ctl = new AbortController(), timer = setTimeout(() => ctl.abort(), TIMEOUT());
   try {
     const r = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(MODEL())}:generateContent`, { method: "POST", signal: ctl.signal,
       headers: { "Content-Type": "application/json", "x-goog-api-key": env().GEMINI_API_KEY },
-      body: JSON.stringify({ contents: [{ role: "user", parts: [{ text: PROMPT(q) }] }], tools: [{ google_search: {} }], ...(env().FOODWEB_THINKING ? { generationConfig: { thinkingConfig: { thinkingLevel: env().FOODWEB_THINKING } } } : {}) }) });
+      body: JSON.stringify({ contents: [{ role: "user", parts: [{ text }] }], ...(grounded ? { tools: [{ google_search: {} }] } : {}), ...(env().FOODWEB_THINKING ? { generationConfig: { thinkingConfig: { thinkingLevel: env().FOODWEB_THINKING } } } : {}) }) });
     if (!r.ok) throw Object.assign(new Error("upstream"), { code: r.status === 429 ? "rate" : "upstream", status: r.status });
     const d = await r.json(); return (d && d.candidates && d.candidates[0]) || null;
   } catch (e) { if (typeof e.code === "string") throw e; throw Object.assign(new Error("net"), { code: ctl.signal.aborted ? "timeout" : "network" }); }
@@ -72,7 +72,9 @@ exports.handler = async (event) => {
   if (q.brand.length < 2 || q.food.length < 2) return out(400, { error: "A brand and a food are needed.", code: "empty" }, co);
   if (mock) return out(200, { result: accept(MOCK), mock: true }, co);
   const slot = await BETA.check(event, "web"); if (!slot.ok) return BETA.reply(slot, co);
-  try { const c = await gemini(q), res = accept(c); return out(200, res ? { result: res } : { result: null, why: why(c) }, co); }
+  try { const g = await gemini(PROMPT(q), true); let c = g;
+    if (g && sourcesOf(g).length) { const gt = ((g.content && g.content.parts) || []).map((p) => p.text || "").join(""); const x = await gemini(EXTRACT(q, gt), false); c = { content: x && x.content, groundingMetadata: g.groundingMetadata }; }
+    const res = accept(c); return out(200, res ? { result: res } : { result: null, why: why(c) }, co); }
   catch (e) { slot.release(); console.error("foodweb failed:", (e && e.code) || "failed", e && e.status ? e.status : ""); return out(502, { error: "The web lookup didn't work this time.", code: (e && e.code) || "failed" }, co); }
 };
-module.exports._t = { accept, sourcesOf, PROMPT, parseLines };
+module.exports._t = { accept, sourcesOf, PROMPT, EXTRACT, parseLines };
