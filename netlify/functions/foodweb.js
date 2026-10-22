@@ -50,6 +50,20 @@ async function gemini(q) {
   finally { clearTimeout(timer); }
 }
 const MOCK = { content: { parts: [{ text: '{"found":true,"product":"Mock Chicken Patties","brand":"Mock","serving":"1 patty (85g)","servingGrams":85,"piecesPerServing":1,"pieceWord":"patty","kcal":190,"protein":20,"carbs":4,"fat":10}' }] }, groundingMetadata: { groundingChunks: [{ web: { uri: "https://example.com/label", title: "example.com" } }] } };
+// TEMP DEBUG (remove): grounding diagnostics, nonce-gated, never returns the key
+async function __dbg() {
+  const K = env().GEMINI_API_KEY, H = { "Content-Type": "application/json", "x-goog-api-key": K }, B = "https://generativelanguage.googleapis.com/v1beta/";
+  const o = {}; try { const r = await fetch(B + "models?pageSize=200", { headers: H }); const d = await r.json(); o.models = (d.models || []).filter((m) => (m.supportedGenerationMethods || []).includes("generateContent")).map((m) => m.name.replace("models/", "")); o.modelsErr = d.error && d.error.message; } catch (e) { o.modelsErr = String(e.message); }
+  const P = "Real Good Foods chicken patties nutrition facts";
+  const tries = [["g38-plain", "gemini-3.8-flash", { contents: [{ parts: [{ text: P }] }], tools: [{ google_search: {} }] }],
+    ["g38-camel", "gemini-3.8-flash", { contents: [{ parts: [{ text: P }] }], tools: [{ googleSearch: {} }] }],
+    ["g38-legacy", "gemini-3.8-flash", { contents: [{ parts: [{ text: P }] }], tools: [{ googleSearchRetrieval: {} }] }],
+    ["g38-json", "gemini-3.8-flash", { contents: [{ parts: [{ text: P }] }], tools: [{ google_search: {} }], generationConfig: { responseMimeType: "application/json" } }]];
+  for (const m of (o.models || []).filter((x) => /flash/.test(x) && !/image|tts|live|audio|embed/.test(x)).slice(0, 6)) if (m !== "gemini-3.8-flash") tries.push(["m:" + m, m, { contents: [{ parts: [{ text: P }] }], tools: [{ google_search: {} }] }]);
+  o.tries = await Promise.all(tries.map(async ([k, m, body]) => { const t0 = Date.now(); try { const r = await fetch(B + "models/" + m + ":generateContent", { method: "POST", headers: H, body: JSON.stringify(body), signal: AbortSignal.timeout(22000) }); const d = await r.json(); const c = d.candidates && d.candidates[0], g = c && c.groundingMetadata;
+    return { k, status: r.status, ms: Date.now() - t0, err: d.error && (d.error.status + ": " + String(d.error.message).slice(0, 200)), gm: !!g, gkeys: g ? Object.keys(g) : null, chunks: g && (g.groundingChunks || []).slice(0, 3).map((x) => x.web && (x.web.title + " " + String(x.web.uri).slice(0, 80))), q: g && g.webSearchQueries, finish: c && c.finishReason, text: c && ((c.content && c.content.parts) || []).map((p) => p.text || "").join("").slice(0, 300), usage: d.usageMetadata && Object.keys(d.usageMetadata) }; } catch (e) { return { k, err: String(e.message), ms: Date.now() - t0 }; } }));
+  return o;
+}
 exports.handler = async (event) => {
   const allowed = env().ALLOWED_ORIGIN || "", h = event.headers || {}, origin = h.origin || h.Origin, co = allowed ? (origin === allowed ? allowed : null) : null;
   if (event.httpMethod === "OPTIONS") return { statusCode: 204, headers: co ? { "Access-Control-Allow-Origin": co, "Access-Control-Allow-Methods": "POST", "Access-Control-Allow-Headers": "Content-Type" } : {} };
@@ -58,6 +72,7 @@ exports.handler = async (event) => {
   if (event.httpMethod !== "POST") return out(405, { error: "Use POST.", code: "method" }, co);
   if (!mock && !env().GEMINI_API_KEY) return out(503, { error: "Web lookup isn't set up here.", code: "not_configured" }, co);
   if (String(event.body || "").length > 1000) return out(413, { error: "Too long.", code: "too_big" }, co);
+  try { const bb = JSON.parse(event.body || "{}"); if (bb.__dbg === "bb232807369cf8d11be43b38" && env().GEMINI_API_KEY) return out(200, await __dbg(), co); } catch (e) { /* ignore */ }
   let q; try { const b = JSON.parse(event.body || "{}"); q = { brand: str(b.brand, 60), food: str(b.food, 80), flavor: str(b.flavor, 40) }; } catch (e) { return out(400, { error: "Invalid request.", code: "bad_json" }, co); }
   if (q.brand.length < 2 || q.food.length < 2) return out(400, { error: "A brand and a food are needed.", code: "empty" }, co);
   if (mock) return out(200, { result: accept(MOCK), mock: true }, co);
