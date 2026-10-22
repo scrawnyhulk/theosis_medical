@@ -890,7 +890,8 @@
     ctx.strokeStyle="rgba(58,56,58,.34)";ctx.lineWidth=1.2;ctx.beginPath();ctx.moveTo(147,119);ctx.quadraticCurveTo(130,124,116,116);ctx.quadraticCurveTo(110,112,107,107);ctx.moveTo(130,121);ctx.quadraticCurveTo(121,133,106,141);ctx.moveTo(144,119);ctx.quadraticCurveTo(155,106,173,103);ctx.stroke();
     ctx.restore();
     ctx.save();ctx.translate(right,lift);
-    ctOrgan(ctx,new Path2D("M252 111 Q261 108 266 117 C276 132 267 144 265 151 Q259 161 252 155 C242 142 242 133 245 120 Q247 113 252 111Z"),141,0,0,[257,135,24]);
+    ctx.save();ctx.translate(5,13); // anatomy pass: spleen sits posterolateral (ribs 9-11), behind the stomach, lateral to the left kidney
+    ctOrgan(ctx,new Path2D("M252 111 Q261 108 266 117 C276 132 267 144 265 151 Q259 161 252 155 C242 142 242 133 245 120 Q247 113 252 111Z"),141,0,0,[257,135,24]);ctx.restore();
     // Stomach: a wall around dark gas/fluid, on the patient's left.
     ctOrgan(ctx,new Path2D("M206 99 C216 90 236 93 242 104 Q250 116 235 126 Q220 132 204 122 Q197 112 206 99Z"),122,0,0,[222,110,26]);
     ctx.fillStyle="#111315";ctx.fill(new Path2D("M207 101 Q220 94 234 101 Q241 102 241 113 L206 115 Q201 109 207 101Z"));
@@ -904,13 +905,15 @@
       ctx.fillStyle="#797b7c";ctx.fill(new Path2D("M-3 -10 Q8 -14 12 -4 L9 2 L12 10 Q8 17 1 16 L-3 11 L3 7 L2 0Z"));
       ctx.fillStyle="#b5b5b2";ctx.fill(new Path2D("M-5 -3 Q5 0 4 5 L0 9 L-6 6Z"));
       ctx.restore();
-      ctx.save();ctx.translate(180+side*23,184);ctx.scale(side,1);ctOrgan(ctx,new Path2D("M-7 -19 Q5 -24 11 -10 Q14 2 8 19 Q1 27 -8 19 Q-14 11 -11 -2Z"),112,s.muscle,0,[0,0,26]);ctx.restore();
+      ctx.save();ctx.translate(180+side*21,183);ctx.scale(side*.6,.62);ctOrgan(ctx,new Path2D("M-7 -19 Q5 -24 11 -10 Q14 2 8 19 Q1 27 -8 19 Q-14 11 -11 -2Z"),112,s.muscle,0,[0,0,26]);ctx.restore(); // anatomy pass: psoas is still small at L1 (it arises T12-L5 and enlarges caudally)
     });
     // Pancreas lies behind the stomach, in front of the central vessels.
     ctx.save();ctx.translate(0,-7*ctV);
     const pancreasPath=new Path2D("M154 132 Q159 125 165 129 L174 132 Q183 129 189 135 Q200 138 210 132 L223 128 Q232 123 236 130 Q231 138 220 140 Q210 147 203 143 Q192 150 181 144 Q173 143 169 148 Q158 151 153 144 Q148 139 154 132Z");
     ctOrgan(ctx,pancreasPath,132-28*Math.pow(s.pancreas,.72),0,0,[189,137,48]);
     ctFatMottle(ctx,pancreasPath,s.pancreas,[194,137,42,10],3.1,ctOrganFatPaint.pancreas);ctx.restore();
+    // anatomy pass: diaphragmatic crura wrap the aorta at L1 (right crus larger)
+    ctEllipse(ctx,180,170,3.6,9,ctTint(108,ctPalette.organ,0),.35);ctEllipse(ctx,198,170,3,8,ctTint(108,ctPalette.organ,0),-.35);
     ctEllipse(ctx,189,164,6.2,6.2,"#b5b5b5");ctEllipse(ctx,169,162,8,5,"#8a8a8b",.2);
     ctx.restore();
     // Lumbar vertebra, canal, posterior elements and paraspinal muscle.
