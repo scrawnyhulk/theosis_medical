@@ -27,7 +27,7 @@ function f3dShell() {
 }
 let f3dLib = null;   // assets/pft-embed.js is loaded on demand (keeps index.html small)
 function f3dLoadLib() { if (typeof PFTEmbed === "function") return Promise.resolve(); if (f3dLib) return f3dLib;
-  f3dLib = new Promise((res, rej) => { const s = document.createElement("script"); s.src = "assets/pft-embed.js?v=7670"; s.onload = res; s.onerror = rej; document.head.appendChild(s); }); return f3dLib; }
+  f3dLib = new Promise((res, rej) => { const s = document.createElement("script"); s.src = "assets/pft-embed.js?v=7670b"; s.onload = res; s.onerror = rej; document.head.appendChild(s); }); return f3dLib; }
 function f3dMountNow() {
   if (window.__NO_PFT_FIG || F3D.failed) return;   // __NO_PFT_FIG: legacy test suites that check the older 2D/3D mannequin figure
   if (typeof PFTEmbed !== "function") { f3dLoadLib().then(() => f3dMountNow(), () => { F3D.failed = true; }); return; }
@@ -37,7 +37,7 @@ function f3dMountNow() {
   if (typeof PFTEmbed !== "function" || !f3dRows()) return;
   F3D.where = where; F3D.host = host; host.hidden = false; host.innerHTML = f3dShell(); F3D.on = false; document.body.classList.remove("f3d-on");
   const st = f3dStart();
-  F3D.api = PFTEmbed($("#f3d-pfe"), { load: st.load, capacity: st.cap, skinColor: SKINS[f3dSkinI()], onReady: () => { F3D.on = true; document.body.classList.add("f3d-on"); f3dApply(); },
+  F3D.api = PFTEmbed($("#f3d-pfe"), { load: st.load, capacity: st.cap, skinColor: SKINS[f3dSkinI()], ctSkin: pftCtSkin, onReady: () => { F3D.on = true; document.body.classList.add("f3d-on"); f3dApply(); },
     onFail: () => { F3D.failed = true; F3D.on = false; document.body.classList.remove("f3d-on"); document.body.classList.add("f3d-old"); try { renderSummary(); } catch (e) { /* ignore */ } host.innerHTML = `<p class="hint f3d-fb">The 3D model can't load here, so the simple figure is shown instead.</p>`; host.hidden = !wide ? false : true; },
     onUpdate: () => { if (F3D.ct) f3dCt(); } });
   f3dApply();
@@ -58,7 +58,7 @@ document.addEventListener("input", (e) => { if (e.target.id === "f3d-range") { F
 document.addEventListener("click", (e) => {
   if (e.target.closest("#f3d-full")) { if (F3D.api && F3D.api.ready()) F3D.api.openFull(); else window.open("pft-inside/index.html?view=3d", "_blank", "noopener"); return; }
   const v = e.target.closest("[data-f3dv]"); if (v) { f3dView(v.dataset.f3dv === "ct"); return; }
-  const k = e.target.closest("[data-f3dskin]"); if (k) { const i = +k.dataset.f3dskin; S.fig.skin = i; save(); document.querySelectorAll("[data-f3dskin]").forEach((b) => b.setAttribute("aria-pressed", String(+b.dataset.f3dskin === i))); if (F3D.api && F3D.api.setSkin) F3D.api.setSkin(SKINS[i]); }
+  const k = e.target.closest("[data-f3dskin]"); if (k) { const i = +k.dataset.f3dskin; S.fig.skin = i; save(); document.querySelectorAll("[data-f3dskin]").forEach((b) => b.setAttribute("aria-pressed", String(+b.dataset.f3dskin === i))); if (F3D.api && F3D.api.setSkin) F3D.api.setSkin(SKINS[i]); if (F3D.ct) setTimeout(f3dCt, 60); }
 });
 window.addEventListener("resize", () => { if (F3D.api && F3D.where !== (f3dWide() ? "#sum-pft" : "#f3d-phone")) f3dMountNow(); });
 window.BodyPlanFig3D = { state: F3D, mount: f3dMountNow };
