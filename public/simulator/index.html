@@ -2964,11 +2964,14 @@ function leanPotentialPerDay(p, move, day, proteinLevel, L) {
    Inside the ceiling, lean loss = a Forbes-style share that resistance training and protein shrink
    (to ~0 with 4+ sessions and adequate protein, Alpert's premise) + a structural share in larger bodies. Beyond the ceiling the excess is drawn
    from lean tissue. Surplus: lean gain up to the training-specific potential, the rest is stored as fat. */
+/* v7.6.80: lean gain only with lifting AND a calorie surplus. Gain per day is capped by leanPotentialPerDay() (GAIN_RATE x lift frequency x age x protein x FFMI taper, Kouri 1995); the rest of a surplus is fat (Slater 2019; Iraki 2019). */
+const MUSCLE_GATE = true;
 function dayChange(E, F, ctx, L) {
   const k = ctx.k, ceiling = k * F, P = ctx.potential;
   if (E < 0) {
     const D = -E;
-    const gain = P * 0.5 * Math.max(0, 1 - D / ceiling);
+    // v7.6.80 (Nick's rule): no lean gain while eating below what the body burns, even when lifting. Lifting still protects muscle (lossFactor).
+    const gain = MUSCLE_GATE ? 0 : P * 0.5 * Math.max(0, 1 - D / ceiling);
     const within = Math.min(D, ceiling), excess = D - within;
     const pm = clamp((L != null && ctx.sex ? leanShare(F, L, ctx) : clamp(10.4 / (10.4 + F) * ctx.lossFactor, 0, 0.6)) * LEAN_LOSS_CONSERVATIVE, 0, 0.6);   // v7.6.20g: conservative x1.15
     const x = within / (RHO_F + RHO_L_LOSS * pm / (1 - pm));
@@ -2980,6 +2983,7 @@ function dayChange(E, F, ctx, L) {
   if (P <= 0) {
     // v7.6.20: no resistance training. Overfeeding still adds some lean tissue (Forbes 1987; Hall 2007: lean share of a weight change = 10.4 / (10.4 + fat kg);
     // Bray 2012: +2.9 kg lean with adequate protein, none with very low protein). Energy density of lean tissue 1,800 kcal/kg (Hall 2008).
+    if (MUSCLE_GATE) return { dF: E / RHO_F, dL: 0, over: 0 };   // v7.6.80: a surplus without lifting is stored as fat (no lean gain shown)
     const pmS = ctx.leanFloor ? 10.4 / (10.4 + F) * ctx.leanFloor : 0;
     if (pmS <= 0) return { dF: E / RHO_F, dL: 0, over: 0 };
     const x = E / (RHO_F + RHO_L_LOSS * pmS / (1 - pmS));
@@ -8400,12 +8404,12 @@ document.addEventListener("change", (ev) => { if (ev.target && ev.target.id === 
 const LAZY = {};
 window.__BP = { muscleRegions: (m, x) => (E.muscleRegions ? E.muscleRegions(m, x) : null), get S() { return S; }, get R() { return R; }, get V() { return V; }, $, esc, fK, fW, fP, fWk, E, effMove, pftInsideStage, rampColor, renderViews: () => renderViews(), fDate, pftCtSkin, pftInsideOpen: () => pftInsideOpen(), save: () => save(), renderSummary: () => renderSummary() };
 function lazyLoad(src) { if (LAZY[src]) return LAZY[src]; LAZY[src] = new Promise((res, rej) => { const s = document.createElement("script"); s.src = src; s.onload = res; s.onerror = rej; document.head.appendChild(s); }); return LAZY[src]; }
-(function () { const l = document.createElement("link"); l.rel = "stylesheet"; l.href = "assets/v7655.css?v=7679"; document.head.appendChild(l); })();
+(function () { const l = document.createElement("link"); l.rel = "stylesheet"; l.href = "assets/v7655.css?v=7680"; document.head.appendChild(l); })();
 function renderSnapshot() { if (typeof window.renderSnapshotNow === "function") return window.renderSnapshotNow(); const b = $("#hs-card"); if (b && R && !R.blocked) lazyLoad("assets/health-snapshot.js?v=7673").then(() => window.renderSnapshotNow(), () => {}); }
 function a1cCardHtml() { if (typeof window.a1cCardHtmlNow === "function") return window.a1cCardHtmlNow(); lazyLoad("assets/a1c-log.js?v=7655").then(() => { if (V.open && V.view === "home") renderViews(); }, () => {}); return `<div class="v-card a1-card" id="a1-card"><h2>A1c log</h2><p class="hint">Loading…</p></div>`; }
 window.BodyPlanFig3D = window.BodyPlanFig3D || { state: { on: false, failed: false, where: null } };
 function f3dMount() { if (window.__NO_PFT_FIG) return; if (typeof window.f3dMountNow === "function") return window.f3dMountNow(); if (!R || R.blocked) return;
-  lazyLoad("assets/fig3d-pft.js?v=7679").then(() => window.f3dMountNow(), () => { window.BodyPlanFig3D.state.failed = true; const h = document.getElementById("sum-pft"); if (h && !h.innerHTML) { h.hidden = false; h.innerHTML = `<figure class="f3d-fbfig"><img src="assets/f3d-ct-fallback.webp" alt="Example cross-section through the middle of the model" width="720" height="560"><figcaption>Example cross-section. The 3D model can't load on this device.</figcaption></figure>`; } }); }
+  lazyLoad("assets/fig3d-pft.js?v=7680").then(() => window.f3dMountNow(), () => { window.BodyPlanFig3D.state.failed = true; const h = document.getElementById("sum-pft"); if (h && !h.innerHTML) { h.hidden = false; h.innerHTML = `<figure class="f3d-fbfig"><img src="assets/f3d-ct-fallback.webp" alt="Example cross-section through the middle of the model" width="720" height="560"><figcaption>Example cross-section. The 3D model can't load on this device.</figcaption></figure>`; } }); }
 function printRegional(s, e) { const k = changeKind(s, e), c = FD.change(depotsAt(s.fatKg), depotsAt(e.fatKg)), m = muscleSplit(S.profile.sex, e.leanKg - s.leanKg);
   const fat = `around the organs ${fWd(c.vat.kg)} (${fPct(c.vat.pct)}), under the skin ${fWd(c.sub.kg)} (${fPct(c.sub.pct)})`, mus = `upper body ${fWd(m.up)}, legs &amp; glutes ${fWd(m.lo)}`;
   return `<p class="small"><b>${{ loss: "Where fat comes off first", gain: "Where muscle builds, and where fat would add", recomp: "Where you lose fat and gain muscle", hold: "Where things shift" }[k]} (estimate):</b> ${k === "gain" ? `lean (mostly muscle): ${mus}; fat: ${fat}.` : k === "recomp" ? `fat: ${fat}; lean (mostly muscle): ${mus}.` : `fat ${fat}.`}</p>`; }

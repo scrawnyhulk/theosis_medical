@@ -1172,7 +1172,7 @@
     setOuter:(o)=>{outerShape=o&&typeof o.subq==="number"?{subq:+o.subq,mass:+o.mass||0,belly:+o.belly||0}:null},setUserA1c:(v)=>{v=v==null||v===""?NaN:+v;userA1c=v>=3&&v<=20?Math.round(v*10)/10:null;for(const k in diabetesOnsetCache)delete diabetesOnsetCache[k];render(false)},userA1c:()=>userA1c,
     setState:(load,capacity)=>{if(capacity!==undefined)$("capacity-select").value=String(capacity);$("fat-range").value=String(Math.max(0,Math.min(100,Number(load)||0)));render(true)},
     setView:selectCamera,
-    muscleView:on=>{if(!pft3d||!pft3d.setMuscleView)return;stopRotation&&stopRotation();pft3d.setMuscleView(!!on);if(on){pft3d.setFraming('full');selectCamera('three')}},muscleGrowth:g=>pft3d&&pft3d.setMuscleGrowth&&pft3d.setMuscleGrowth(g)   // v7.6.78
+    muscleView:(on,face)=>{if(!pft3d||!pft3d.setMuscleView)return;stopRotation&&stopRotation();pft3d.setMuscleView(!!on);if(on){pft3d.setFraming('full');selectCamera(face==='side'?'side':'front')}}/* v7.6.80: Muscle opens facing front (or the saved Side view); camera eases there, drag still free */,muscleGrowth:g=>pft3d&&pft3d.setMuscleGrowth&&pft3d.setMuscleGrowth(g)   // v7.6.78
   };
 
   const tickEls=baseTicks.map(function(n,i){
