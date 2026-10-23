@@ -884,3 +884,10 @@ input[type=range]{accent-color:#4587c6}
 .human-3d-stage{background:radial-gradient(ellipse at 50% 42%,rgba(42,122,224,.14),rgba(20,23,28,0) 62%),#14171c!important}
 #th-header-host~main .mobile-dock{top:65px}
 .pft-embedded body,.pft-figure-only body{background-image:none!important}
+/* polish-1023: on phones the zoom/move/reset buttons sat on top of "Hide muscles"; lift them into the empty space on the right of the model */
+@media(max-width:560px){.pft3d-nav{top:auto;bottom:150px;right:6px}}
+/* polish-1023: phone - the "Drag to rotate" hint sat on top of the two-line "Teal speckle" note; lift it above the note */
+@media(max-width:560px){.human-3d-stage[data-renderer="3d"] .pft3d-status{bottom:194px}}
+/* polish-1023: tiny source numbers (superscript 1, 2, 3) get a 32px invisible tap area */
+sup>a[href^="#"]{position:relative;display:inline-block}
+sup>a[href^="#"]::before{content:"";position:absolute;left:50%;top:50%;width:32px;height:32px;transform:translate(-50%,-50%)}

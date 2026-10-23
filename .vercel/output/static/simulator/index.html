@@ -350,7 +350,7 @@ input[type=range]{flex:1;accent-color:var(--accent);height:2rem}
 /* summary */
 .summary{padding:1.1rem}
 body:not(.f3d-old) #summary .sum-figs:not(.sum-ph),body:not(.f3d-old) #summary .f3-bar,body:not(.f3d-old) #summary .f3-legend,body:not(.f3d-old) #summary .anat-read,body:not(.f3d-old) .mbar-panel .sum-figs:not(.sum-ph){display:none!important}
-.f3d-sw{display:flex;justify-content:center;gap:0;margin:.55rem auto .45rem;width:max-content;padding:3px;border:1px solid rgba(231,237,245,.18);border-radius:999px;background:rgba(8,13,20,.55)}.f3d-sw button{min-height:36px;min-width:7.5rem;padding:.35rem 1rem;border:0;border-radius:999px;background:transparent;color:#c9d4e2;font:600 .9rem/1 var(--font-body,inherit);cursor:pointer}.f3d-sw button[aria-pressed=true]{background:#2a7ae0;color:#fff;box-shadow:0 0 12px rgba(92,160,255,.45)}#f3d-wk:empty::after{content:"\00a0"}.f3d-skins{display:flex;gap:.55rem;justify-content:center;margin:.55rem 0 .2rem}.f3d-skins button{width:30px;height:30px;border-radius:50%;background:var(--t);border:2px solid rgba(231,237,245,.25);cursor:pointer;padding:0}.f3d-skins button[aria-pressed=true]{border-color:#fff;box-shadow:0 0 0 3px rgba(92,160,255,.55)}.f3d-ctv #f3d-pfe .pfe-stage{height:0!important;min-height:0;margin:0;overflow:hidden;visibility:hidden}.f3d-ctv #f3d-pfe .pfe-intro,.f3d-ctv #f3d-pfe .pfe-list,.f3d-ctv #f3d-pfe .pfe-meta,.f3d-ctv #f3d-pfe .pfe-hint,.f3d-ctv #f3d-pfe .pfe-t{display:none}
+.f3d-sw{display:flex;justify-content:center;gap:0;margin:.55rem auto .45rem;width:max-content;padding:3px;border:1px solid rgba(231,237,245,.18);border-radius:999px;background:rgba(8,13,20,.55)}.f3d-sw button{min-height:36px;min-width:7.5rem;padding:.35rem 1rem;border:0;border-radius:999px;background:transparent;color:#c9d4e2;font:600 .9rem/1 var(--font-body,inherit);cursor:pointer}.f3d-sw button[aria-pressed=true]{background:#2470d4;color:#fff;box-shadow:0 0 12px rgba(92,160,255,.45)}#f3d-wk:empty::after{content:"\00a0"}.f3d-skins{display:flex;gap:.55rem;justify-content:center;margin:.55rem 0 .2rem}.f3d-skins button{width:30px;height:30px;border-radius:50%;background:var(--t);border:2px solid rgba(231,237,245,.25);cursor:pointer;padding:0}.f3d-skins button[aria-pressed=true]{border-color:#fff;box-shadow:0 0 0 3px rgba(92,160,255,.55)}.f3d-ctv #f3d-pfe .pfe-stage{height:0!important;min-height:0;margin:0;overflow:hidden;visibility:hidden}.f3d-ctv #f3d-pfe .pfe-intro,.f3d-ctv #f3d-pfe .pfe-list,.f3d-ctv #f3d-pfe .pfe-meta,.f3d-ctv #f3d-pfe .pfe-hint,.f3d-ctv #f3d-pfe .pfe-t{display:none}
 :root{--accent-ink:#5b9cec;--blue-edge:rgba(91,156,236,.5);--blue-glow:0 0 0 1px rgba(91,156,236,.5),0 0 16px rgba(59,130,246,.13),0 0 2px rgba(59,130,246,.25)}
 .card,.v-card,.hs-fx,.fs-card,.fs-log,#mbar-panel,dialog.info-dlg{box-shadow:var(--blue-glow)!important;border-radius:var(--r-lg)}.v-card,.hs-fx,.fs-card,.fs-log{border-radius:14px}
 a:not(.btn){color:#5b9cec}input[type=range]{accent-color:#3b82f6}.seg button[aria-pressed=true],[role=tab][aria-selected=true]{box-shadow:0 0 0 1px rgba(91,156,236,.7),0 0 10px rgba(59,130,246,.3)}.btn-ghost{box-shadow:0 0 0 1px var(--blue-edge)}
@@ -1538,13 +1538,22 @@ body{background-color:var(--bg);background-image:var(--app-bg-image);background-
 .entry-hero img{filter:var(--hero-filter)!important;max-width:24rem;mix-blend-mode:normal}
 
 </style>
+<style id="polish-1023-a">
+/* polish-1023: phone header pill fits ("Metabolic Simulator" was cut off); footer clears summary bar + tab bar */
+@media (max-width:480px){.site-header .prod-mark{font-size:min(.74rem,3.1vw);letter-spacing:.01em;padding:.34rem .55rem}}
+@media(max-width:63.99rem){body.has-tabs.has-mbar{padding-bottom:calc(var(--polish-bars,9.6rem) + env(safe-area-inset-bottom))}body.has-tabs.has-mbar main{padding-bottom:1.5rem}body.has-tabs.has-mbar .wiz-nav,body.has-tabs.has-mbar #wizard{padding-bottom:1rem}}
+/* ship-1023c: the new site header replaced the bottom tab bar, so the summary bar sits on the bottom edge again (was floating 3.9rem up over the footer) */
+@media(max-width:63.99rem){body.has-tabs.tabs-gone .mbar{bottom:env(safe-area-inset-bottom,0px)}body.has-tabs.tabs-gone{padding-bottom:env(safe-area-inset-bottom,0px)}body.has-tabs.tabs-gone .ask-fab{bottom:calc(1.1rem + env(safe-area-inset-bottom))}body.has-tabs.has-mbar.tabs-gone .ask-fab{bottom:calc(5.2rem + env(safe-area-inset-bottom))}body.has-tabs.has-mbar.tabs-gone{padding-bottom:calc(var(--polish-bars,6rem) + env(safe-area-inset-bottom))}}
+/* polish-1023: source number buttons get a 32px invisible tap area (looks unchanged) */
+.fn::before{content:"";position:absolute;left:50%;top:50%;width:max(100%,32px);height:max(100%,32px);transform:translate(-50%,-50%)}
+</style>
 </head>
 <body>
 <!-- v7.6.69: charcoal/slate app background (grain texture removed) + simulation-trend hero -->
 <!-- v7.6.68 perf: consent runs first so the terms screen shows while the rest of the page streams in -->
 <script src="assets/liftlog.js?v=7697"></script>
 <script>
-/* v7.2 Required consent (clickwrap). TEMPLATE FOR ATTORNEY REVIEW: wording is a starting point, not legal advice.
+/* v7.2 Required consent (clickwrap). Wording is versioned (see VERSION).
    v7.6.2: one scrollable screen of grouped terms + a single "I've read and agree" checkbox + Accept; optional opt-ins for photos (with written biometric consent, Illinois BIPA)
    and for lab upload / AI reading. Version + timestamp are logged locally (no server). Re-prompts when CONSENT_VERSION changes.
    window.TheosisConsent: {VERSION, get(), has(optIn), open(manage), onChange(fn)} */
@@ -1560,7 +1569,7 @@ body{background-color:var(--bg);background-image:var(--app-bg-image);background-
   const OPT = [
     ["ai", "AI features (optional)", "I agree that when I use an AI feature, what I type or the food photo I choose, including any health details I enter, is sent to Google Gemini (paid tier) only to answer that request. Photos are resized and stripped of location data on my device first. It isn't stored by Theosis Health or used to train AI models; Google may keep it briefly for abuse monitoring under its terms. I won't include other people's information or photos of people. AI answers are general education, not medical advice, and can be wrong, so I'll check them before relying on them. I can turn this off anytime in settings."],
     ["photoAi", "Photos and AI images (optional)", "I agree that photos I choose to add are processed <b>on this device</b> to fit the 3D figure. If I ask for an AI illustration, that one photo and my projected numbers are sent to a third-party AI provider (Google Gemini, paid tier) to make it. Along with the numbers, a few plan details are sent as fixed categories: my age and height, calorie level, steps, which muscle groups I train, my fat-storage pattern, and any measured visceral or under-the-skin fat values I entered. <b>Not stored by Theosis Health. Google may keep it briefly for abuse monitoring under its paid API terms and doesn't use it to train AI.</b> My name, lab results, medications and ancestry are <b>not</b> sent."],
-    ["biometric", "Biometric consent (required for photo features)", "<span class=\"consent-bipa\">To create the AI illustrations you request, your photo (which may show your face and body) is resized on your device, with its location data removed, and sent to our AI processor. Illinois and some other states treat this as <b>biometric information</b>.</span><ul class=\"consent-ul\"><li><b>Purpose:</b> only to make the illustrations you request. No facial recognition or identification.</li><li><b>Where it goes:</b> your photo is resized on your device, its location data (EXIF/GPS) is removed, and it is sent to our processor, Google (Gemini API, paid tier), which doesn't use it for training and may keep it briefly for abuse monitoring under its terms. We don't store it on our servers.</li><li><b>How long:</b> saved photos stay on your device until you delete them. Everything is destroyed when the purpose is done, or within 3 years of your last use at most.</li><li><b>Never sold.</b> We never sell or profit from it.</li></ul><span class=\"consent-bipa\">Full details: <a href=\"#privacy\" data-info=\"privacy\">Privacy Policy, Section 3</a>.</span><span class=\"consent-bipa-box\"><b>I am 18 or older, these are photos of me, and I give my written consent (a written release) for Theosis Health LLC to collect and use my biometric information as described above and in the Privacy Policy. I can withdraw consent anytime.</b></span>"],
+    ["biometric", "Biometric consent (required for photo features)", "<span class=\"consent-bipa\">To create the AI illustrations you request, your photo (which may show your face and body) is resized on your device, with its location data removed, and sent to our AI processor. Illinois and some other states treat this as <b>biometric information</b>.</span><ul class=\"consent-ul\"><li><b>Purpose:</b> only to make the illustrations you request. No facial recognition or identification.</li><li><b>Where it goes:</b> your photo is resized on your device, its location data (EXIF/GPS) is removed, and it is sent to our processor, Google (Gemini API, paid tier), which doesn't use it for training and may keep it briefly for abuse monitoring under its terms. We don't store it on our servers.</li><li><b>How long:</b> saved photos stay on your device until you delete them. Everything is destroyed when the purpose is done, or within 3 years of your last use at most.</li><li><b>Never sold.</b> We never sell or profit from it.</li></ul><span class=\"consent-bipa\">Full details: <a href=\"/privacy#face-and-body-photos-biometric-information-policy\" target=\"_blank\" rel=\"noopener\">Privacy Policy, Section 3</a>.</span><span class=\"consent-bipa-box\"><b>I am 18 or older, these are photos of me, and I give my written consent (a written release) for Theosis Health LLC to collect and use my biometric information as described above and in the Privacy Policy. I can withdraw consent anytime.</b></span>"],
     ["labAi", "Lab upload and AI reading (optional)", "I agree that a lab report I choose to upload is sent to a third-party AI provider (Google Gemini, paid tier) only to read the values. <b>Not stored by Theosis Health. Google may keep it briefly for abuse monitoring under its paid API terms and doesn't use it to train AI.</b> I'll check the values before they're used, and I can always type them in by hand instead."],
   ];
   const read = () => { try { return JSON.parse(localStorage.getItem(KEY) || "null"); } catch (e) { return null; } };
@@ -1575,7 +1584,7 @@ body{background-color:var(--bg);background-image:var(--app-bg-image);background-
     subs.forEach((f) => { try { f(c); } catch (e) {} }); return c;
   }
   let dlg = null, lastFocus = null;
-  const NAMES = { ai: "AI features", photoAi: "face and body photos and AI images", biometric: "biometric (body-shape) consent", labAi: "lab upload and AI reading" }, WHAT = { ai: "AI answers and drafts", photoAi: "your start photo, check-in photos and AI images", biometric: "body-shape estimates from photos", labAi: "lab values read from uploaded reports" };
+  const NAMES = { ai: "AI features", photoAi: "face and body photos and AI images", biometric: "biometric (face and body photo) consent", labAi: "lab upload and AI reading" }, WHAT = { ai: "AI answers and drafts", photoAi: "your start photo, check-in photos and AI images", biometric: "face and body photos you choose to use for AI illustrations", labAi: "lab values read from uploaded reports" };
   const name = (k) => NAMES[k] || k, what = (k) => WHAT[k] || k;
   const revokers = []; const onRevoke = (fn) => revokers.push(fn); const fire = (k) => revokers.forEach((f) => { try { f(k); } catch (e) {} });
   // v7.6.67e: the app's own large-type dialog instead of the browser's confirm(). Returns a Promise<boolean>.
@@ -1603,7 +1612,7 @@ body{background-color:var(--bg);background-image:var(--app-bg-image);background-
       <div class="consent-head"><p class="eyebrow">Theosis Metabolic Simulator</p>
       <h2 id="consent-title" tabindex="-1">Before you start</h2>
       <p class="consent-sum"><b>In short:</b> step 1 is required. The rest are optional and start off. Each one says what it turns on, and you can change any of them later in Settings, under Privacy and consents.</p>
-      <p class="hint consent-tmpl">Template for attorney review · consent version ${VERSION}</p></div>
+      <p class="hint consent-tmpl">Consent version ${VERSION}</p></div>
       <div class="consent-body" id="consent-scroll">
         <section class="consent-step" data-step="terms"><h3><span class="consent-n">1</span> Terms (required)</h3><p class="consent-what">Needed to use the simulator. Everything you enter stays on this device.</p>
         ${REQ.map(([k, h, x]) => `<section class="consent-sec" data-sec="${k}"><h4>${h}</h4><p>${x}</p></section>`).join("")}
@@ -1647,15 +1656,17 @@ body{background-color:var(--bg);background-image:var(--app-bg-image);background-
       then(confirmFn(`Turning off ${off.map(name).join(" and ")} will delete the related data stored on this device (${off.map(what).join("; ")}). Continue?`, "Yes, turn off and delete", "No, keep it on"), (ok) => {
         if (ok) return go(); off.forEach((k) => { const x = dlg.querySelector(`[data-opt="${k}"]`); if (x) x.checked = true; }); sync(); dlg.querySelector("#consent-msg").textContent = "Nothing changed."; }); });
     dlg.querySelector("#consent-withdraw").addEventListener("click", () => {
-      then(confirmFn("Withdraw all consent? This deletes the data stored on this device for photos, body-shape estimates and lab uploads, and returns you to the consent screen. Your other entries stay until you choose Start over.", "Yes, withdraw all", "No, keep my choices"), (ok) => { if (!ok) return;
+      then(confirmFn("This withdraws all your consents, turns off photo and AI features, and deletes the photos and AI illustrations saved on this device, plus any lab results read from your uploads. This can't be undone.", "Yes, withdraw all", "No, keep my choices"), (ok) => { if (!ok) return;
       try { localStorage.removeItem(KEY); const log = JSON.parse(localStorage.getItem(LOG) || "[]"); log.push({ withdrawn: true, ts: new Date().toISOString() }); localStorage.setItem(LOG, JSON.stringify(log.slice(-50))); } catch (e) {}
       OPT.forEach(([k]) => fire(k)); fire("all"); subs.forEach((f) => { try { f(null); } catch (e) {} }); dlg.close(); open(false);  }); });
     dlg._sync = sync; return dlg;
   }
   const O = (k) => OPT.find((o) => o[0] === k);
+  /* polish-1023: lab upload is off on the server (netlify LABS_ENABLED unset), so its consent step stays hidden; set true when LABS_ENABLED=true */
+  const LABS_ON = false;
   function paintSteps(d) {
     const ph = d.querySelector('[data-step="photo"]'), lab = d.querySelector('[data-step="labAi"]'), n = photoAvail() ? 4 : 3;
-    ph.hidden = !photoAvail();
+    ph.hidden = !photoAvail(); lab.hidden = !LABS_ON;
     ph.innerHTML = photoAvail() ? `<h3><span class="consent-n">3</span> Face and body photos (optional)</h3><p class="consent-what">${UNLOCK.photo} Nothing is captured or sent until both boxes are ticked.</p>${chk("photoAi", O("photoAi")[1], O("photoAi")[2])}${chk("biometric", O("biometric")[1], O("biometric")[2])}<div class="consent-no"><button type="button" class="btn btn-ghost" data-no="photo">No thanks, use without photos</button></div>` : "";
     lab.innerHTML = `<h3><span class="consent-n">${n}</span> Lab upload and AI reading (optional)</h3><p class="consent-what">${UNLOCK.labAi}</p>${chk("labAi", O("labAi")[1], O("labAi")[2])}<div class="consent-no"><button type="button" class="btn btn-ghost" data-no="labAi">No thanks</button></div>`;
   }
@@ -1680,7 +1691,7 @@ body{background-color:var(--bg);background-image:var(--app-bg-image);background-
     const opt = Object.assign({}, c.opt); keys.forEach((x) => (opt[x] = false)); save(opt); keys.forEach(fire); return true; }); }
 
   /** v7.6.76: BIPA written release (Lawyer Bot final text). Shown before any camera or file picker opens. go() runs inside the Continue click so the picker still opens. */
-  const BIPA_BODY = `<p>To create the AI illustrations you request, your photo (which may show your face and body) is resized on your device, with its location data removed, and sent to our AI processor. Illinois and some other states treat this as <b>biometric information</b>.</p><ul class="consent-ul"><li><b>Purpose:</b> only to make the illustrations you request. No facial recognition or identification.</li><li><b>Where it goes:</b> your photo is resized on your device, its location data (EXIF/GPS) is removed, and it is sent to our processor, Google (Gemini API, paid tier), which doesn't use it for training and may keep it briefly for abuse monitoring under its terms. We don't store it on our servers.</li><li><b>How long:</b> saved photos stay on your device until you delete them. Everything is destroyed when the purpose is done, or within 3 years of your last use at most.</li><li><b>Never sold.</b> We never sell or profit from it.</li></ul><p>Full details: <a href="#privacy" data-info="privacy">Privacy Policy, Section 3</a>.</p>`;
+  const BIPA_BODY = `<p>To create the AI illustrations you request, your photo (which may show your face and body) is resized on your device, with its location data removed, and sent to our AI processor. Illinois and some other states treat this as <b>biometric information</b>.</p><ul class="consent-ul"><li><b>Purpose:</b> only to make the illustrations you request. No facial recognition or identification.</li><li><b>Where it goes:</b> your photo is resized on your device, its location data (EXIF/GPS) is removed, and it is sent to our processor, Google (Gemini API, paid tier), which doesn't use it for training and may keep it briefly for abuse monitoring under its terms. We don't store it on our servers.</li><li><b>How long:</b> saved photos stay on your device until you delete them. Everything is destroyed when the purpose is done, or within 3 years of your last use at most.</li><li><b>Never sold.</b> We never sell or profit from it.</li></ul><p>Full details: <a href="/privacy#face-and-body-photos-biometric-information-policy" target="_blank" rel="noopener">Privacy Policy, Section 3</a>.</p>`;
   const BIPA_BOX = "I am 18 or older, these are photos of me, and I give my written consent (a written release) for Theosis Health LLC to collect and use my biometric information as described above and in the Privacy Policy. I can withdraw consent anytime.";
   function photoGate(go, onNo) {
     if (!photoAvail()) return false; const c = get(); if (!c) { open(false); return false; }
@@ -1969,7 +1980,7 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')set(false)})
             <p class="eyebrow card-eyebrow">Optional · stays on this device</p>
             <div class="section-head"><h2>Your photo</h2></div>
             <div class="photo-row">
-              <img id="photo-thumb" class="photo-thumb" alt="Your cropped photo" hidden>
+              <img id="photo-thumb" class="photo-thumb" alt="Your cropped photo" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" hidden>
               <div class="actions" style="margin-top:0">
                 <button type="button" class="btn btn-ghost" id="btn-upload"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 16V4M7 9l5-5 5 5"/><path d="M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3"/></svg>Upload photo</button>
                 <button type="button" class="btn btn-ghost" id="btn-camera"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg>Take photo</button>
@@ -2063,7 +2074,7 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')set(false)})
               </div>
               <div id="feas" aria-live="polite"></div>
             </div>
-            <details class="adv">
+            <details class="adv adv-only">
               <summary>Advanced: muscle-gain rates used</summary>
               <div class="adv-body stack small muted">
                 <p>Estimated lean-mass gain with consistent, well-programmed lifting (4+ sessions a week, enough protein, enough food). These are estimates, not guarantees. Genetics, sleep, age and program quality move them a lot.</p>
@@ -2247,7 +2258,7 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')set(false)})
             <label class="field mt1"><span class="label">Refeeds and diet breaks</span>
               <span class="control"><select data-sel="food.refeedDays">
                 <option value="0">No refeed days</option><option value="1">1 refeed day a week at maintenance</option><option value="2">2 refeed days a week at maintenance</option>
-              </select></span><span class="hint">Refeed days at maintenance during a diet may help training and adherence (Campbell 2020; Peos 2021). They slow weekly loss, and the timeline shows it. Longer diet breaks are under "Advanced: macro style, diet breaks" below.</span></label>
+              </select></span><span class="hint">Refeed days at maintenance during a diet may help training and adherence (Campbell 2020; Peos 2021). They slow weekly loss, and the timeline shows it.<span class="adv-only"> Longer diet breaks are under "Advanced: macro style, diet breaks" below.</span></span></label>
           </div>
           <div class="card" id="meals-card">
             <p class="eyebrow card-eyebrow">Meal ideas</p>
@@ -2255,7 +2266,7 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')set(false)})
             <div id="fav-card"></div>
             <div id="meals" aria-live="polite"></div>
           </div>
-          <div class="card" id="food-adv-card">
+          <div class="card adv-only" id="food-adv-card">
             <details class="adv" style="margin-top:0;border-top:0;padding-top:0">
               <summary>Advanced: macro style, diet breaks, BMR equation</summary>
               <div class="adv-body stack">
@@ -5036,11 +5047,10 @@ return { KEY, MEALS, MEAL_IDS, dateKey, addDays, isDate, mealFor, empty, normali
       <h3>Consumer health data (Washington My Health My Data Act and similar state laws)</h3>
       <p>Health information you enter is consumer health data. We collect only what you type or upload, use it only to show you your results, keep it on your device by default, and never sell it. You can delete it at any time (Start over, or clear site data), and you can withdraw consent in <a href="#" data-consent>Consent settings</a>.</p>
       <h3>Biometric information (Illinois BIPA and similar laws)</h3>
-      <p>Photo features estimate body-shape landmarks. We ask for written consent first, use it only to draw your figure or AI illustration, never sell or profit from it, and destroy it when you delete it or when the purpose is done. It is not stored by Theosis Health; Google may keep it briefly for abuse monitoring. Our retention limit is 3 years from your last use at most.</p>
+      <p><b>Face and body photos (optional).</b> Photo features work only after you give biometric consent. Your photo, which may show your face and body, is resized on your device with its location data removed, then sent to Google (Gemini API, paid tier) only to create the AI illustration you ask for. We don't measure your face or body, use facial recognition, or identify you. We don't store photos on our servers, and we never sell them. Google doesn't use them for training and may keep them briefly for abuse monitoring under its terms. Saved photos stay on your device until you delete them or withdraw consent, and anything we control is destroyed within 3 years of your last use at most. Full details: <a href="/privacy#face-and-body-photos-biometric-information-policy" target="_blank" rel="noopener">Privacy Policy, Section 3</a>.</p>
       <h3>Breach notification</h3>
       <p>If identifiable health information we hold is ever breached, we will notify you and the FTC as the FTC Health Breach Notification Rule requires.</p>
-      <p class="hint">Template wording for attorney review.</p>
-      <p>Questions: contact Theosis Health at <a href="https://theosishealth.com/contact/">theosishealth.com/contact</a>.</p>` },
+            <p>Questions: contact Theosis Health at <a href="https://theosishealth.com/contact/">theosishealth.com/contact</a>.</p>` },
     about: { s: "Who built this and the credentials still to be added.", t: "About & credentials", h: `
       <p>Built by <b>${ORG}</b> (Health Hacks).</p>
       <div class="cred"><p><b>Nick Holwey, PA-C</b></p><p class="hint">Still to add: board certification, licence state(s) and number, years in practice, areas of focus. (To be completed by Nick before launch.)</p></div>
@@ -5416,7 +5426,7 @@ return { KEY, MEALS, MEAL_IDS, dateKey, addDays, isDate, mealFor, empty, normali
   function open() { build(); lastFocus = document.activeElement; if (!dlg.open) { try { dlg.showModal(); } catch (e) { dlg.setAttribute("open", ""); } } show(0); }
   function close() { mark(); if (dlg && dlg.open) dlg.close(); if (lastFocus && lastFocus.focus) try { lastFocus.focus(); } catch (e) {} }
   function maybe() { const C = window.TheosisConsent, test = window.__CONSENT_TEST_BYPASS && !/intro=1/.test(location.search);
-    if (test || seen()) return; if (C && !C.get()) return; const cd = document.getElementById("consent-dlg"); if (cd && cd.open) return; open(); }
+    if (test || seen()) return; if (C && !C.get()) return; const cd = document.getElementById("consent-dlg"); if (cd && cd.open) return; /* polish-1023: never open over another dialog (e.g. biometric consent on phone); retry once it closes */ const od = document.querySelector("dialog[open]:not(#intro-dlg)"); if (od) { od.addEventListener("close", () => setTimeout(maybe, 50), { once: true }); return; } open(); }
   function init() {
     document.addEventListener("click", (e) => { const t = e.target.closest("[data-intro]"); if (t) { e.preventDefault(); open(); } }, true);
     if (window.TheosisConsent) TheosisConsent.onChange(() => setTimeout(maybe, 50));
@@ -5438,6 +5448,7 @@ const CONFIG = {
   PREVIEW_ENDPOINT: "/.netlify/functions/preview",   // v7.6.18 beta: single "See it on your photo" illustration (preview.js, same GEMINI_API_KEY)
   AI_ENDPOINT: "/.netlify/functions/ai",                  // v7.6.14: ONE Netlify Function holds GEMINI_API_KEY (see AI-SETUP.md). The AI features hide themselves when it isn't deployed or has no key.
   AI_EXPLAIN_PLAN: true,                                 // v7.6.14: the single switch for the "Explain my plan" section of the print-to-PDF recap. Set false to remove it completely.
+  LABS_UPLOAD_ON: false,  // polish-1023: set true together with LABS_ENABLED=true on Netlify
   LABS_ENDPOINT: "/.netlify/functions/labs",                                   // "/.netlify/functions/labs" once LABS_API_KEY (or GEMINI_API_KEY) is set on Netlify                                // "/.netlify/functions/preview" once GEMINI_API_KEY is set on Netlify
   STORAGE_KEY: "theosis-bodyplan-v1",
   PE_DOTS: typeof window !== "undefined" && window.__PE_DOTS === 1,                                        // v7.6.47: P:E colour dots + legend hidden until the produce-friendly rating is done (code kept; the meal solver tiebreaker still uses the ratio)
@@ -6133,7 +6144,7 @@ function renderWeekly() {
 /* v7.2 optional lab upload with AI reading (Netlify function holds the key; disabled until configured). Manual entry always works. */
 const LU = { busy: false, msg: "", found: null };
 function renderLabUpload() {
-  const box = $("#lab-upload"); if (!box) return; const on = !!CONFIG.LABS_ENDPOINT, C = window.TheosisConsent, ok = on && C && C.has("labAi");
+  const box = $("#lab-upload"); if (!box) return; /* polish-1023: lab upload is off on the server (LABS_ENABLED unset), so the upload button stays hidden; hand entry still works */ box.hidden = !CONFIG.LABS_UPLOAD_ON; if (!CONFIG.LABS_UPLOAD_ON) { box.innerHTML = ""; return; } const on = !!CONFIG.LABS_ENDPOINT, C = window.TheosisConsent, ok = on && C && C.has("labAi");
   box.innerHTML = !on ? `<p class="hint" data-lu="off">Lab report upload with automatic reading is not available here (for example in a drag-and-drop or offline copy). You can still add your values by hand with "Add lab results".</p>`
     : `<div class="lu-row"><button type="button" class="btn btn-ghost" id="lu-pick" ${LU.busy ? "disabled" : ""}>${LU.busy ? "Reading your report…" : "Upload a lab report (photo or PDF)"}</button>
       <span class="hint">${ok ? "Sent to an AI provider only to read the values. Not stored by Theosis Health. Google may keep it briefly for abuse monitoring under its paid API terms and doesn't use it to train AI. You'll confirm every value." : `Needs the "Lab upload and AI reading" opt-in. <a href="#" data-consent>Consent settings</a>`}</span></div>
@@ -8559,7 +8570,7 @@ function bindCrop() {
   $("#file-camera").addEventListener("change", (ev) => { loadFile(ev.target.files[0]); ev.target.value = ""; });
   $("#btn-photo-remove").addEventListener("click", () => { photo = null; aiState.result = null; renderPhoto(); update(); });
 }
-function renderPhoto() { const t = $("#photo-thumb"); t.hidden = !photo; if (photo) t.src = photo; else t.removeAttribute("src"); $("#btn-photo-remove").hidden = !photo;}
+function renderPhoto() { const t = $("#photo-thumb"); t.hidden = !photo; if (photo) t.src = photo; else t.src = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"; $("#btn-photo-remove").hidden = !photo;}
 
 const F3 = { sup: null, rt: null, rtP: null, models: {}, slots: {}, io: null, failed: false, reason: "", unsupported: false };
 function webgl() {
@@ -9455,5 +9466,9 @@ new MutationObserver((ms) => { for (const m of ms) m.addedNodes.forEach((n) => {
 
 </script>
 <script type="text/plain" id="zx-inline"></script><!-- v7.6.68: ZXing is loaded from scanner/ on demand; no inline copy -->
+<script id="polish-1023-bars">/* polish-1023: page bottom padding follows the real height of the phone summary bar + tab bar, so the footer never hides under them */
+(function(){function fit(){var m=document.getElementById("mbar"),t=document.getElementById("topnav");if(!m)return;var h=0;[m,t].forEach(function(e){if(e&&e.getClientRects().length&&getComputedStyle(e).position==="fixed")h+=e.querySelector(".mbar-head")&&e===m?e.querySelector(".mbar-head").getBoundingClientRect().height:e.getBoundingClientRect().height});var gone=!(t&&t.getClientRects().length&&t.getBoundingClientRect().height>0);document.body.classList.toggle("tabs-gone",gone);if(h)document.body.style.setProperty("--polish-bars",Math.ceil(h+12)+"px")}
+function init(){fit();if(window.ResizeObserver){var ro=new ResizeObserver(fit);["mbar","topnav"].forEach(function(id){var e=document.getElementById(id);if(e)ro.observe(e)})}addEventListener("resize",fit)}
+if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",init);else init()})();</script>
 </body>
 </html>

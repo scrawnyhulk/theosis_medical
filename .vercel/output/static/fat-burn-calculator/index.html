@@ -577,6 +577,8 @@ function readInputs() {
   else if (!Number.isFinite(bf)) errs["f-bf"] = "Numbers only.";
   else if (bf < 3 || bf > 65) errs["f-bf"] = "Enter a body fat between 3% and 65%.";
   inp.bf = bf;
+  /* polish-1023: at or below essential fat the model has no fat to lose (it showed weight going UP); ask for a realistic value instead */
+  if (!errs["f-bf"] && inp.sex && ESSENTIAL[inp.sex] != null && bf <= ESSENTIAL[inp.sex]) errs["f-bf"] = `That's at or below essential fat (${ESSENTIAL[inp.sex]}% for ${inp.sex === "f" ? "women" : "men"}), so there's no fat left to lose. Enter a higher body fat.`;
 
   if (!errs["f-weight"] && !errs["f-bf"]) {
     inp.fat0 = w * bf / 100; inp.lean = w - inp.fat0;
