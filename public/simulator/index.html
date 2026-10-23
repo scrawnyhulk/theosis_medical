@@ -1542,6 +1542,7 @@ body{background-color:var(--bg);background-image:var(--app-bg-image);background-
 <body>
 <!-- v7.6.69: charcoal/slate app background (grain texture removed) + simulation-trend hero -->
 <!-- v7.6.68 perf: consent runs first so the terms screen shows while the rest of the page streams in -->
+<script src="assets/liftlog.js?v=7681"></script>
 <script>
 /* v7.2 Required consent (clickwrap). TEMPLATE FOR ATTORNEY REVIEW: wording is a starting point, not legal advice.
    v7.6.2: one scrollable screen of grouped terms + a single "I've read and agree" checkbox + Accept; optional opt-ins for photos (with written biometric consent, Illinois BIPA)
@@ -2268,6 +2269,7 @@ body{background-color:var(--bg);background-image:var(--app-bg-image);background-
           <div id="fit-banner-5" class="fit-wrap" hidden></div>
           <div class="card hab-path" id="hab-path" hidden></div>
           <div class="card" id="proj-hero" aria-live="polite"></div>
+          <div class="card mt1 adv-only" id="ll-proj-note" role="status" hidden></div>
           <div class="card mt1 f3d" id="f3d-phone" hidden></div>
           <div class="card mt1" id="hs-card"></div>
           <div class="card mt1">
@@ -2689,7 +2691,7 @@ function liftRows(move) {
   move = applyOptOuts(move);
   if (!move || move.plannerOn) return null;
   const L = move.preset === "min" ? MIN_PRESET : move.preset === "custom" && Array.isArray(move.lifts) ? move.lifts : null; if (!L) return null;
-  return L.map((e) => ({ type: LIFT_TYPES[e.type] ? e.type : "hypertrophy", effort: LIFT_EFFORT[e.effort] ? e.effort : "moderate", min: Math.max(0, Math.min(240, +e.min || 0)), days: Math.max(0, Math.min(14, +e.days || 0)) }))
+  return L.map((e) => ({ type: LIFT_TYPES[e.type] ? e.type : "hypertrophy", effort: LIFT_EFFORT[e.effort] ? e.effort : "moderate", min: Math.max(0, Math.min(240, +e.min || 0)), days: Math.max(0, Math.min(14, +e.days || 0)), xMul: e.xMul > 0 ? Math.min(1.2, +e.xMul) : 1 }))
     .filter((e) => e.min > 0 && e.days > 0);
 }
 function liftRowNet(e) { return Math.max(0, LIFT_TYPES[e.type].met[e.effort] - 1); }
@@ -2700,7 +2702,7 @@ function liftCustom(rows) {
   let sessions = 0, min = 0, netMin = 0, X = 0, Xr = 0;
   for (const e of rows) { const T = LIFT_TYPES[e.type], dur = Math.min(1.1, Math.pow(e.min / T.ref, 0.35)), f = LIFT_EFFORT[e.effort];
     sessions += e.days; min += e.days * e.min; netMin += e.days * e.min * liftRowNet(e);
-    X += e.days * T.q * f * dur; Xr += e.days * T.r * f * Math.sqrt(Math.min(1, e.min / T.ref)); }
+    X += e.days * T.q * f * dur * (e.xMul || 1); Xr += e.days * T.r * f * Math.sqrt(Math.min(1, e.min / T.ref)) * (e.xMul || 1); }   // xMul: lifting-log set volume (assets/liftlog.js), 1 otherwise
   return { sessions, min, netMin, X, Xr };
 }
 function liftFactors(move) {
@@ -2906,7 +2908,7 @@ function muscleRows(move) {
   if (move.plannerOn) { const t = weeklyTraining(move); return t.liftSessions > 0 ? [{ days: t.liftSessions, x: 1, w: toW(MUSCLE_KEYS) }] : null; }
   if (move.preset === "custom" && Array.isArray(move.lifts)) {
     const r = move.lifts.map((e) => { const type = LIFT_TYPES[e.type] ? e.type : "hypertrophy", T = LIFT_TYPES[type], days = Math.max(0, Math.min(14, +e.days || 0)), min = Math.max(0, +e.min || 0);
-      return { days, x: T.q * (LIFT_EFFORT[e.effort] || 1) * Math.min(1.1, Math.pow(min / T.ref, 0.35)), w: rowWeights(e) }; }).filter((e) => e.days > 0 && e.x > 0);
+      return { days, x: T.q * (LIFT_EFFORT[e.effort] || 1) * Math.min(1.1, Math.pow(min / T.ref, 0.35)) * (e.xMul > 0 ? Math.min(1.2, +e.xMul) : 1), w: rowWeights(e) }; }).filter((e) => e.days > 0 && e.x > 0);
     return r.length ? r : null; }
   const days = move.preset === "4+" ? 4.5 : move.preset === "2-3" ? 2.5 : move.preset === "min" ? 2 : 0; if (!days) return null;
   const G = move.groups && Array.isArray(move.groups[move.preset]) ? move.groups[move.preset] : null;
@@ -5485,7 +5487,9 @@ function bfInfo() {
 function baseActivity() { const b = bfInfo(), fat = S.profile.weightKg * b.bf / 100, mv = modeMove(S.move);
   return E.activity({ ...S.profile, cal: calFor(mv, fat, S.profile.weightKg - fat) }, mv, fat, S.profile.weightKg - fat, S.food.bmrEq); }
 /** Simple mode ignores everything that only Advanced can set (it stays saved, so switching back restores it). */
-function modeMove(m) { return isAdv() ? m : { ...m, adv: null, cardio: (m.cardio || []).map((e) => ({ ...e, by: "effort" })), lifts: Array.isArray(m.lifts) ? m.lifts.map((e) => { const o = { ...e }; delete o.ex; delete o.groupW; delete o.groups; return o; }) : m.lifts }; }
+/** v7.6.8x Pro preview: in Advanced, a lifting log (assets/liftlog.js) replaces the manual Custom lifting rows when it is on and has entries */
+function modeMove(m) { const o = modeMove0(m); return isAdv() && window.LiftLog ? window.LiftLog.apply(o) : o; }
+function modeMove0(m) { return isAdv() ? m : { ...m, adv: null, cardio: (m.cardio || []).map((e) => ({ ...e, by: "effort" })), lifts: Array.isArray(m.lifts) ? m.lifts.map((e) => { const o = { ...e }; delete o.ex; delete o.groupW; delete o.groups; return o; }) : m.lifts }; }
 function calFor(mv, fat, lean) { const base = isAdv() && (S.food.rmr > 0 || S.food.tdeeKnown > 0) ? E.calibrate(S.profile, mv, fat, lean, S.food.bmrEq, { rmr: S.food.rmr, tdee: S.food.tdeeKnown }) : null;
   const rf = S.refit && S.refit.applied && !refitOff ? S.refit.k : 1; if (rf === 1) return base;
   return Object.assign({}, base || {}, { tdeeK: ((base && base.tdeeK) || 1) * rf }); }
@@ -5737,7 +5741,7 @@ function syncDiabetes() { const h = S.profile.health, st = E.diabetesStatus(h);
   if (h.diabetesAuto) { h.diabetes = "unknown"; h.diabetesAuto = false; }   /* v7.6.56: an old A1c-set status is cleared; the person picks it */
   for (const sel of $$('select[data-sel="profile.health.diabetes"]')) if (sel.value !== h.diabetes) sel.value = h.diabetes;
   const n = $("#dm-note"); if (n) { n.textContent = st.note; n.hidden = !st.note; n.className = "hint dm-note " + (st.mismatch ? "dm-mismatch" : "dm-auto"); } }
-function update() { syncDiabetes(); compute(); renderSummary(); renderStep(); renderAdv(); renderFit(); try { renderSnapshot(); } catch (e) { /* v7.6.55 */ } try { if (S.step >= 1) f3dMount(); } catch (e) { /* 3D figure falls back to 2D */ } save(); }
+function update() { syncDiabetes(); compute(); try { if (window.LiftLog) window.LiftLog.note(); } catch (e) { /* */ } renderSummary(); renderStep(); renderAdv(); renderFit(); try { renderSnapshot(); } catch (e) { /* v7.6.55 */ } try { if (S.step >= 1) f3dMount(); } catch (e) { /* 3D figure falls back to 2D */ } save(); }
 function renderAdv() {
   applyUiMode(); if (!isAdv()) return;
   const lf = E.liftFactors(S.move), n = $("#lift-adv-note");
@@ -6654,6 +6658,7 @@ function renderLifts() {
   const la = $("#lift-adv"); if (la) la.classList.toggle("lift-off", m.preset === "custom" || m.preset === "min");
   { const pg = $("#lift-groups"), on = !custom && !m.plannerOn && ["min", "2-3", "4+"].includes(m.preset); if (pg) { pg.hidden = !on;
       if (on) { const G = presetGroups(m.preset); pg.innerHTML = `<p class="label">Muscles trained · ${esc(E.PRESET_LABEL[m.preset])}</p><div class="chip-row">${E.MUSCLES.map(([k, l]) => `<span class="mchip ro" aria-pressed="${G.includes(k)}">${l}</span>`).join("")}</div><p class="hint">${m.preset === "min" ? "A push, a pull and a leg compound; shoulders, arms and hamstrings get some spillover." : "All groups."} To pick exercises, use <b>Customize lifting</b>.</p>`; } } }
+  try { if (custom && window.LiftLog) window.LiftLog.render(); } catch (e) { /* lifting log is optional */ }
   if (!custom) return;
   if (!Array.isArray(m.lifts) || !m.lifts.length) m.lifts = [{ type: "hypertrophy", effort: "moderate", min: 60, days: 3 }];
   const L = m.lifts, sig = JSON.stringify([L.length]);
