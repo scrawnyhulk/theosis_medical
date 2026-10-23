@@ -27,11 +27,7 @@ export function FuturePlans() {
           ))}
           <p>
             The first step is already live: free, plain-language health education and simple tools
-            built on that same 80/20 approach, now at{" "}
-            <a href="https://theosishealth.com" className="font-medium text-accent hover:text-fg">
-              theosishealth.com
-            </a>
-            .
+            built on that same 80/20 approach.
           </p>
         </div>
         <div className="mt-8 flex flex-wrap gap-3">

@@ -3,7 +3,7 @@ import { y as Link } from "../_libs/@tanstack/react-router+[...].mjs";
 import { i as require_jsx_runtime } from "../_libs/@radix-ui/react-label+[...].mjs";
 import { C as ArrowRight } from "../_libs/lucide-react.mjs";
 import { n as SiteShell } from "./site-shell-Bmdk9QAJ.mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/minutes-CH-KPyDp.js
+//#region node_modules/.nitro/vite/services/ssr/assets/minutes-CwiboxTT.js
 var import_jsx_runtime = require_jsx_runtime();
 function MinuteCard({ minute, featured }) {
 	if (minute.cover) {
@@ -42,11 +42,6 @@ function MinuteCard({ minute, featured }) {
 					]
 				})
 			]
-		});
-		if (minute.slug === "create-diabetic") return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("a", {
-			href: "https://theosishealth.com/simulator/pft-inside/",
-			className,
-			children: body
 		});
 		return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Link, {
 			to: "/minutes/$slug",

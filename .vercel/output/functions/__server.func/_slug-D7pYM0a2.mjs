@@ -4,9 +4,9 @@ import { r as require_react } from "./_libs/@hookform/resolvers+[...].mjs";
 import { y as Link } from "./_libs/@tanstack/react-router+[...].mjs";
 import { i as require_jsx_runtime } from "./_libs/@radix-ui/react-label+[...].mjs";
 import { _ as ExternalLink, b as ChevronLeft, n as ZoomOut, t as ZoomIn, u as Play, v as Download, w as ArrowLeft, y as ChevronRight } from "./_libs/lucide-react.mjs";
-import { i as Route$5 } from "./_ssr/router-tExI3E2d.mjs";
+import { i as Route$5 } from "./_ssr/router-DX3yfUEK.mjs";
 import { n as SiteShell, r as cn, t as Button } from "./_ssr/site-shell-Bmdk9QAJ.mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/_slug-C1zcQ1-g.js
+//#region node_modules/.nitro/vite/services/ssr/assets/_slug-D7pYM0a2.js
 var import_react = /* @__PURE__ */ __toESM(require_react());
 var import_jsx_runtime = require_jsx_runtime();
 function fileNameFromSrc(src) {
@@ -134,7 +134,6 @@ function EnlargeableImage({ src, alt, className }) {
 		]
 	}) : null] });
 }
-var HEALTH = "https://theosishealth.com/hacks";
 var tokens = {
 	hormozi: {
 		kind: "hack",
@@ -196,16 +195,7 @@ function NerdParagraph({ text }) {
 		const key = piece.match(/^\[\[(\w+)\]\]$/)?.[1];
 		const token = key ? tokens[key] : void 0;
 		if (!token) return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: piece }, i);
-		if (token.kind === "nerd") return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("a", {
-			href: `${HEALTH}/nerd-out/${token.topic}`,
-			className: "font-medium text-accent hover:text-fg",
-			children: token.label
-		}, i);
-		return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("a", {
-			href: `${HEALTH}/${token.slug}${token.hash ? `#${token.hash}` : ""}`,
-			className: "font-medium text-accent hover:text-fg",
-			children: token.label
-		}, i);
+		return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: token.label }, i);
 	}) });
 }
 function NerdStepper({ steps, topicId }) {
@@ -368,9 +358,6 @@ function VideoCard({ videoId, title, credit, summary, anchor }) {
 function MinutePage() {
 	const { slug } = Route$5.useParams();
 	const minute = getMinute(slug);
-	(0, import_react.useEffect)(() => {
-		if (minute?.slug === "create-diabetic") window.location.replace("https://theosishealth.com/simulator/pft-inside/");
-	}, [minute?.slug]);
 	if (!minute) return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(SiteShell, { children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 		className: "mx-auto max-w-3xl px-5 py-24 sm:px-8",
 		children: [
@@ -393,14 +380,14 @@ function MinutePage() {
 		]
 	}) });
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(SiteShell, { children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("article", {
-		className: `mx-auto px-5 py-16 sm:px-8 lg:py-24 ${minute.slug === "create-diabetic" ? "max-w-6xl" : "max-w-3xl"}`,
+		className: `mx-auto px-5 py-16 sm:px-8 lg:py-24 max-w-3xl`,
 		children: [
 			/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Link, {
 				to: "/minutes",
 				className: "inline-flex min-h-11 items-center gap-2 text-sm font-medium text-muted hover:text-fg",
 				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(ArrowLeft, { className: "size-4" }), "All Medical Minutes"]
 			}),
-			minute.slug !== "create-diabetic" ? /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [
+			/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [
 				/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
 					className: "mt-8 font-display text-3xl font-semibold text-accent",
 					children: minute.group === "interactive" ? "Interactive physiology" : minute.n
@@ -421,21 +408,7 @@ function MinutePage() {
 					className: "mt-8 space-y-5 text-lg leading-relaxed text-muted",
 					children: minute.paragraphs.map((p) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { children: p }, p.slice(0, 36)))
 				})
-			] }) : /* @__PURE__ */ (0, import_jsx_runtime.jsx)("h1", {
-				className: "sr-only",
-				children: minute.title
-			}),
-			minute.slug === "create-diabetic" ? /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-				className: "mt-8",
-				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-					className: "text-lg text-muted",
-					children: "The interactive is its own page so it can actually run."
-				}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("a", {
-					href: "https://theosishealth.com/simulator/pft-inside/",
-					className: "mt-6 inline-flex min-h-11 items-center rounded-sm bg-accent px-5 text-sm font-medium text-accent-fg",
-					children: "Open Create a Diabetic"
-				})]
-			}) : null,
+			] }),
 			minute.image ? /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("figure", {
 				className: "mt-10",
 				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(EnlargeableImage, {

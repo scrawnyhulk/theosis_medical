@@ -8,10 +8,6 @@ export function PlaygroundBanner() {
       <Link to="/" hash="contact" className="text-accent hover:text-ink-fg">
         How to contact
       </Link>
-      {" · "}
-      <a href="https://theosishealth.com/hacks" className="text-accent hover:text-ink-fg">
-        Health Hacks
-      </a>
     </p>
   );
 }

@@ -267,12 +267,6 @@ export function AtlasHandoff() {
             started.
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
-            <Button asChild size="lg">
-              <a href="https://theosishealth.com/hacks">
-                Open the hacks
-                <ArrowRight />
-              </a>
-            </Button>
             <Button variant="outline" onClick={() => setStep("why")}>
               Run it again
             </Button>

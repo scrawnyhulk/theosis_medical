@@ -1,5 +1,4 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useEffect } from "react";
 import { ArrowLeft } from "lucide-react";
 import { EnlargeableImage } from "@/components/hacks/enlargeable-image";
 import { NerdStepper } from "@/components/hacks/nerd-stepper";
@@ -32,11 +31,6 @@ function MinutePage() {
   const { slug } = Route.useParams();
   const minute = getMinute(slug);
 
-  useEffect(() => {
-    if (minute?.slug === "create-diabetic") {
-      window.location.replace("https://theosishealth.com/simulator/pft-inside/");
-    }
-  }, [minute?.slug]);
 
   if (!minute) {
     return (
@@ -57,7 +51,7 @@ function MinutePage() {
 
   return (
     <SiteShell>
-      <article className={`mx-auto px-5 py-16 sm:px-8 lg:py-24 ${minute.slug === "create-diabetic" ? "max-w-6xl" : "max-w-3xl"}`}>
+      <article className={`mx-auto px-5 py-16 sm:px-8 lg:py-24 max-w-3xl`}>
         <Link
           to="/minutes"
           className="inline-flex min-h-11 items-center gap-2 text-sm font-medium text-muted hover:text-fg"
@@ -65,8 +59,7 @@ function MinutePage() {
           <ArrowLeft className="size-4" />
           All Medical Minutes
         </Link>
-        {minute.slug !== "create-diabetic" ? (
-          <>
+        <>
             <p className="mt-8 font-display text-3xl font-semibold text-accent">
               {minute.group === "interactive" ? "Interactive physiology" : minute.n}
             </p>
@@ -85,22 +78,6 @@ function MinutePage() {
               ))}
             </div>
           </>
-        ) : (
-          <h1 className="sr-only">{minute.title}</h1>
-        )}
-        {minute.slug === "create-diabetic" ? (
-          <div className="mt-8">
-            <p className="text-lg text-muted">
-              The interactive is its own page so it can actually run.
-            </p>
-            <a
-              href="https://theosishealth.com/simulator/pft-inside/"
-              className="mt-6 inline-flex min-h-11 items-center rounded-sm bg-accent px-5 text-sm font-medium text-accent-fg"
-            >
-              Open Create a Diabetic
-            </a>
-          </div>
-        ) : null}
         {minute.image ? (
           <figure className="mt-10">
             <EnlargeableImage src={minute.image} alt={minute.imageAlt ?? minute.title} />

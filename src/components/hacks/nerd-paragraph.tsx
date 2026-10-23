@@ -1,5 +1,3 @@
-const HEALTH = "https://theosishealth.com/hacks";
-
 const tokens: Record<
   string,
   | { kind: "hack"; slug: string; hash?: string; label: string }
@@ -31,26 +29,7 @@ export function NerdParagraph({ text }: { text: string }) {
         const key = piece.match(/^\[\[(\w+)\]\]$/)?.[1];
         const token = key ? tokens[key] : undefined;
         if (!token) return <span key={i}>{piece}</span>;
-        if (token.kind === "nerd") {
-          return (
-            <a
-              key={i}
-              href={`${HEALTH}/nerd-out/${token.topic}`}
-              className="font-medium text-accent hover:text-fg"
-            >
-              {token.label}
-            </a>
-          );
-        }
-        return (
-          <a
-            key={i}
-            href={`${HEALTH}/${token.slug}${token.hash ? `#${token.hash}` : ""}`}
-            className="font-medium text-accent hover:text-fg"
-          >
-            {token.label}
-          </a>
-        );
+        return <span key={i}>{token.label}</span>;
       })}
     </p>
   );

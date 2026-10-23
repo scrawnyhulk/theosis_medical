@@ -1,6 +1,6 @@
 import { y as Link } from "../_libs/@tanstack/react-router+[...].mjs";
 import { i as require_jsx_runtime } from "../_libs/@radix-ui/react-label+[...].mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/playground-banner-C83NGDHB.js
+//#region node_modules/.nitro/vite/services/ssr/assets/playground-banner-DFA6sTNb.js
 var import_jsx_runtime = require_jsx_runtime();
 function PlaygroundBanner() {
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("p", {
@@ -13,12 +13,6 @@ function PlaygroundBanner() {
 				hash: "contact",
 				className: "text-accent hover:text-ink-fg",
 				children: "How to contact"
-			}),
-			" · ",
-			/* @__PURE__ */ (0, import_jsx_runtime.jsx)("a", {
-				href: "https://theosishealth.com/hacks",
-				className: "text-accent hover:text-ink-fg",
-				children: "Health Hacks"
 			})
 		]
 	});

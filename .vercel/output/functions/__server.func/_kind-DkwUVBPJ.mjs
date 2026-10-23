@@ -4,13 +4,13 @@ import { r as require_react } from "./_libs/@hookform/resolvers+[...].mjs";
 import { J as notFound, b as useNavigate, y as Link } from "./_libs/@tanstack/react-router+[...].mjs";
 import { i as require_jsx_runtime } from "./_libs/@radix-ui/react-label+[...].mjs";
 import { C as ArrowRight, a as VideoOff, f as PhoneOff, i as Video, m as MicOff, p as Mic, s as Star } from "./_libs/lucide-react.mjs";
-import { n as Route$1 } from "./_ssr/router-tExI3E2d.mjs";
+import { n as Route$1 } from "./_ssr/router-DX3yfUEK.mjs";
 import { n as SiteShell, r as cn } from "./_ssr/site-shell-Bmdk9QAJ.mjs";
 import { t as Textarea } from "./_ssr/textarea-Da0tzSxy.mjs";
-import { t as PlaygroundBanner } from "./_ssr/playground-banner-C83NGDHB.mjs";
+import { t as PlaygroundBanner } from "./_ssr/playground-banner-DFA6sTNb.mjs";
 import { t as Input } from "./_ssr/input-BKFMoX2-.mjs";
 import { t as SesameMark } from "./_ssr/sesame-mark-zKxQdq97.mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/_kind-IHsFXTFr.js
+//#region node_modules/.nitro/vite/services/ssr/assets/_kind-DkwUVBPJ.js
 var import_react = /* @__PURE__ */ __toESM(require_react());
 var import_jsx_runtime = require_jsx_runtime();
 function LimeButton({ children, className, ...props }) {
@@ -575,16 +575,12 @@ function VisitFlow({ kind, view = "patient", who = "" }) {
 								", run the video, and emailed a receipt. Nick would have picked two or three moves you can actually do this week — protein first, a walking default, a hotel/shift food rule. Not a diagnosis. Not labs. Not a prescription."
 							] }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { children: "Until a live Sesame listing exists, the Health Hacks are the same 80/20, free." })]
 						}),
-						/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
 							className: "mt-8 flex flex-wrap gap-3",
-							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("a", {
-								href: "https://theosishealth.com/hacks",
-								className: "inline-flex min-h-11 items-center justify-center gap-2 rounded-full bg-sesame-lime px-6 text-sm font-semibold text-sesame-lime-ink hover:brightness-95",
-								children: ["Open the hacks", /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ArrowRight, { className: "size-4" })]
-							}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(GhostButton, {
+							children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(GhostButton, {
 								onClick: restart,
 								children: "Run the live demo again"
-							})]
+							})
 						}),
 						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
 							className: "mt-6",
