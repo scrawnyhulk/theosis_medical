@@ -1,4 +1,4 @@
-import { y as Link } from "../_libs/@tanstack/react-router+[...].mjs";
+import { b as Link } from "../_libs/@tanstack/react-router+[...].mjs";
 import { i as require_jsx_runtime } from "../_libs/@radix-ui/react-label+[...].mjs";
 //#region ../wt-lbfix/node_modules/.nitro/vite/services/ssr/assets/playground-banner-DFA6sTNb.js
 var import_jsx_runtime = require_jsx_runtime();
