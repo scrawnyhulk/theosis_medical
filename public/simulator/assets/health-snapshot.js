@@ -9,7 +9,7 @@ function hsInput(plan) {
   const a1c = Number.isFinite(+h.a1c) && +h.a1c > 0 ? +h.a1c : null;
   const kcal = plan ? r0.intake : S.food.actualOn && Number.isFinite(+S.food.actualKcal) ? +S.food.actualKcal : null;
   const prot = plan ? (R.protein && R.protein.g) || null : S.food.actualOn && Number.isFinite(+S.food.actualProteinG) && +S.food.actualProteinG > 0 ? +S.food.actualProteinG : null;
-  return { htIn: p.heightCm / 2.54, waIn: p.waistCm ? p.waistCm / 2.54 : null, wtLb: p.weightKg * 2.2046226, a1c, dx: ["t1", "t2", "other"].includes(dm), kcal, burn: r0.tdee, prot, cardio: Math.round(tw.cardioMin || 0), lifts: tw.liftSessions || 0,
+  return { htIn: p.heightCm / 2.54, waIn: p.waistCm ? p.waistCm / 2.54 : null, wtLb: p.weightKg * 2.2046226, a1c, dx: ["t1", "t2", "other"].includes(dm), kcal, burn: r0.tdee, prot, target: R.rec && R.rec.rows && R.rec.rows[0] && R.rec.rows[0].intake > 0 ? R.rec.rows[0].intake : r0.intake > 0 ? r0.intake : null, dir: S.goal && S.goal.type && R.dir ? R.dir : null, floor: E.floorOf(p), cardio: Math.round(tw.cardioMin || 0), lifts: tw.liftSessions || 0,
     check: st && st.key ? { under: "under", near: "near", above: "past" }[st.key] : null };
 }
 function hsFactors(p) {
@@ -25,12 +25,26 @@ function hsFactors(p) {
       mean: lv === 2 ? "A waist under half of height is a healthy sign." : lv === 1 ? "A waist a bit over half of height may mean some extra fat is stored around the middle." : "A waist well over half of height often means more fat is stored around the organs.",
       why: "Fat around the organs (belly fat) tends to be more active than fat under the skin. Research links more of it with higher blood sugar and blood fat problems. When the safer stores under the skin are full, extra fat tends to spill inside.",
       help: "With modest weight loss, belly fat around the organs tends to shrink by a bigger share than fat under the skin. Small changes in eating and activity can add up.", cm: ["nice-ng246"], cw: ["chaston2008", "taylor2015"], ch: ["chaston2008"], note: "How these points add up is our own design." }); }
-  if (p.kcal && p.burn) { const d = (p.kcal - p.burn) / p.burn, extra = p.waIn ? p.waIn / p.htIn >= 0.5 : false; let s, lv;
-    if (d > 0.10) { s = 0; lv = 0; } else if (extra ? d <= 0 : Math.abs(d) <= 0.10) { s = 15; lv = 2; } else { s = 8; lv = 1; }
-    F.push({ k: "eat", nm: "Eating compared with what is burned", max: 15, s, lv, t: `About ${fK(p.kcal)} kcal eaten vs about ${fK(p.burn)} burned a day (${d > 0 ? "+" : ""}${Math.round(d * 100)}%)`,
-      mean: d > 0.1 ? "Eating more than is burned, day after day, tends to add fat over time." : d < -0.05 ? "Eating a bit less than is burned tends to let stored fat come down over time." : "Eating about what is burned tends to keep weight steady.",
-      why: "Extra energy that isn't burned is stored, mostly as fat. Once the safer stores are full, more of it may end up in the liver and around the organs.",
-      help: "A modest, steady deficit is often easier to keep up than a big one. The plan suggests a daily target that tends to slow down as weight comes off.", cm: ["hall2011m"], cw: [], ch: [], note: "The ±10% bands are our own design choice, not a guideline." }); }
+  if (p.kcal && p.burn) { const d = (p.kcal - p.burn) / p.burn, extra = p.waIn ? p.waIn / p.htIn >= 0.5 : false; let s, lv, mean, help, note, t2 = "";
+    if (p.target && p.dir) {   // v7.6.73: judged against the user's own chosen goal and pace (the plan's daily target), not preset bands
+      const off = (p.kcal - p.target) / p.target, against = p.dir === "loss" ? d > 0.05 : p.dir === "gain" ? d < -0.10 : false, under = p.floor && p.kcal < p.floor;
+      if (against) { s = 0; lv = 0; } else if (Math.abs(off) <= 0.10) { s = 15; lv = 2; } else { s = 8; lv = 1; }
+      if (under && s > 8) { s = 8; lv = 1; }
+      t2 = ` · plan target about ${fK(p.target)}`;
+      mean = against ? (p.dir === "loss" ? "Eating more than is burned works against the fat-loss goal you chose." : "Eating well under what is burned works against the gain goal you chose.")
+        : under ? `This is close to your plan, but under the usual minimum of ${fK(p.floor)} kcal a day, so this row is capped at partial points.`
+        : s === 15 ? "Eating is close to the daily target for the goal and pace you chose." : `Eating is ${off > 0 ? "above" : "below"} the daily target for the goal and pace you chose by about ${Math.abs(Math.round(off * 100))}%.`;
+      help = "This row is judged against your chosen goal. Eating within about 10% of your plan's daily target earns full points, at any pace you picked. Changing the goal or pace changes the target.";
+      note = "Judging intake against your own plan target (within about 10%) is our own design, not a guideline. Intake under the usual daily minimum gets partial points at most.";
+    } else {
+      if (d > 0.10) { s = 0; lv = 0; } else if (extra ? d <= 0 : Math.abs(d) <= 0.10) { s = 15; lv = 2; } else { s = 8; lv = 1; }
+      mean = d > 0.1 ? "Eating more than is burned, day after day, tends to add fat over time." : d < -0.05 ? "Eating a bit less than is burned tends to let stored fat come down over time." : "Eating about what is burned tends to keep weight steady.";
+      help = "A modest, steady deficit is often easier to keep up than a big one. The plan suggests a daily target that tends to slow down as weight comes off.";
+      note = "With no goal chosen, the ±10% bands are our own design choice, not a guideline.";
+    }
+    F.push({ k: "eat", nm: "Eating compared with what is burned", max: 15, s, lv, t: `About ${fK(p.kcal)} kcal eaten vs about ${fK(p.burn)} burned a day (${d > 0 ? "+" : ""}${Math.round(d * 100)}%)` + t2,
+      mean, why: "Extra energy that isn't burned is stored, mostly as fat. Once the safer stores are full, more of it may end up in the liver and around the organs.",
+      help, cm: ["hall2011m"], cw: [], ch: [], note }); }
   if (p.prot) { const g = p.prot / refKg, s = Math.round(Math.min(1, g / 0.8) * 10), lv = g >= 0.8 ? 2 : g >= 0.6 ? 1 : 0;
     F.push({ k: "prot", nm: "Protein", max: 10, s, lv, t: `About ${Math.round(p.prot)} g a day (${g.toFixed(2)} g per kg)`,
       mean: g >= 0.8 ? "This is at least the basic daily amount most adults need." : "This may be less than the basic daily amount most adults need.",
