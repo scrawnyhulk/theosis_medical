@@ -9,7 +9,7 @@
    anchor faces away from the camera. Drag on the figure rotates it (the model's own controls).
    Needs the model's #pftdebug hook (exposes scene/meshes/THREE) and http(s) same-origin. */
 (function(){
-const SRC='pft-inside/figure.html?view=3d&v=7678#pftdebug';/* v7.6.71: figure-only document; same shared engine+anatomy files as the PFT page */
+const SRC='pft-inside/figure.html?view=3d&v=7679#pftdebug';/* v7.6.71: figure-only document; same shared engine+anatomy files as the PFT page */
 const SHORT={liver:'Liver',pan:'Pancreas',vis:'Belly fat',skin:'Under skin'};
 const COL={liver:'#e07070',pan:'#c792ea',vis:'#e8a84a',skin:'#e8c27a'};
 // Plain-language label text. Now ('up') = what is likely happening and how it affects that organ; Later ('down') = what
@@ -48,7 +48,7 @@ window.PFTEmbed=function(host,opt){
   const pick=(m,tx,ty,tol)=>{const n=m.geometry.attributes.position.count;let best=-1,bz=-1e9;for(let i=0;i<n;i++){m.getVertexPosition(i,v);if(Math.abs(v.x-tx)<tol&&Math.abs(v.y-ty)<tol&&v.z>bz){bz=v.z;best=i}}return best};
   const fat=by('fat'),om=by('omentum'),oc=ctr(om),fc=ctr(fat);
   A={liver:{m:by('liver'),c:ctr(by('liver'))},pan:{m:by('pancreas'),c:ctr(by('pancreas'))},vis:{m:om,i:pick(om,oc.x,oc.y,400)},skin:{m:fat,i:pick(fat,oc.x+(opt.skinSide??1400),oc.y-300,250)},body:{m:fat,c:fc}};
-  const d=D(),mb=d.querySelector('[data-pft3d-mode="'+(opt.mode||'cut')+'"]');if(mb)mb.click();w.PFTAtlas.setView('front');if(opt.ctSkin)opt.ctSkin(d,()=>st.skin||opt.skinColor);if(opt.skinColor||st.skin)skinIn(st.skin||opt.skinColor);api.nr=0;ready=true;if(opt.turn)setTimeout(()=>api.rotate(opt.turn),300);api.loadMs=Math.round(performance.now()-t0);/*v7.6.67d: placeholder stays until the first frame after boot*/setTimeout(()=>{if(!api.shown){api.shown=true;stage.classList.add('pfe-shown');const l=host.querySelector('.pfe-load');if(l)l.remove()}},4000);apply();if(opt.onReady)opt.onReady(api);}
+  const d=D(),mb=d.querySelector('[data-pft3d-mode="'+(opt.mode||'cut')+'"]');if(mb)mb.click();w.PFTAtlas.setView('front');if(opt.ctSkin)opt.ctSkin(d,()=>st.skin||opt.skinColor);if(opt.skinColor||st.skin)skinIn(st.skin||opt.skinColor);api.nr=0;ready=true;if(st.muscle)api.muscle(true);if(st.grow)api.grow(st.grow);if(opt.turn)setTimeout(()=>api.rotate(opt.turn),300);api.loadMs=Math.round(performance.now()-t0);/*v7.6.67d: placeholder stays until the first frame after boot*/setTimeout(()=>{if(!api.shown){api.shown=true;stage.classList.add('pfe-shown');const l=host.querySelector('.pfe-load');if(l)l.remove()}},4000);apply();if(opt.onReady)opt.onReady(api);}
  function world(k){const a=A[k],p=new (W().__pft3d.T.Vector3)();if(a.i!=null)a.m.getVertexPosition(a.i,p);else p.copy(a.c);a.m.updateWorldMatrix(true,false);return a.m.localToWorld(p)}
  function frame(){if(!A||!cam)return;const fb=fr.getBoundingClientRect(),hb=stage.getBoundingClientRect(),Wd=stage.clientWidth,H=stage.clientHeight;
   const bc=world('body'),T3=W().__pft3d.T,fd=new T3.Vector3(0,0,1).transformDirection(A.body.m.matrixWorld),cp=cam.position,fx=fd.x,fz=fd.z,cx=cp.x-bc.x,cz=cp.z-bc.z,face=(fx*cx+fz*cz)/((Math.hypot(fx,fz)||1)*(Math.hypot(cx,cz)||1)),pts={};
@@ -76,6 +76,9 @@ window.PFTEmbed=function(host,opt){
   host.dataset.state=st.later?'later':'now';frame();if(opt.onUpdate)opt.onUpdate(api);}
  lab.addEventListener('click',e=>{const t=e.target.closest('.pfe-t');if(!t)return;list.querySelectorAll('li').forEach(li=>li.classList.toggle('hl',li.dataset.k===t.dataset.k));const li=list.querySelector('li.hl');if(li)li.scrollIntoView({block:'nearest',behavior:'smooth'})});
  api.setWhere=t=>{opt.where=t;apply()};
+ // v7.6.78: Muscle view (skin, fat and organs hidden; callouts hidden) and per-group muscle growth in metres (shown exaggerated by the host)
+ api.muscle=on=>{st.muscle=!!on;host.classList.toggle('pfe-muscle',st.muscle);try{const w=W();if(w&&w.PFTAtlas&&w.PFTAtlas.muscleView){w.PFTAtlas.muscleView(st.muscle);if(!st.muscle){const d=D(),mb=d.querySelector('[data-pft3d-mode="'+(opt.mode||'cut')+'"]');if(mb)mb.click()}return true}}catch(e){}return false};
+ api.grow=g=>{st.grow=g;try{const w=W();if(w&&w.PFTAtlas&&w.PFTAtlas.muscleGrowth){w.PFTAtlas.muscleGrowth(g||{});return true}}catch(e){}return false};
  api.set=o=>{if(o.load!=null&&o.start==null&&o.s==null)o={...o,start:o.load,s:o.later?100:0,end:o.later?o.load:st.end};Object.assign(st,o);apply()};
  api.state=()=>({...st});api.ready=()=>ready;
  api.ctList=()=>['liver','pan','vis','skin'].map(k=>[COL[k],CTT[k][words[k]||'low'],TXT[k][words[k]||'low'],cite(k,words[k]||'low')]);

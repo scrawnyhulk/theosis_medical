@@ -130,13 +130,14 @@
         diffuseColor.rgb=mix(vec3(.95,.64,.12),vec3(1.,.83,.30),lob*.7+.15);
         diffuseColor.a=min(.96,.42+.24*smoothstep(.0,.3,vW.r+vW.g*.6)+.5*smoothstep(.05,.8,th))*uFatOp;if(diffuseColor.a<.01)discard;`,
       normal:"normal=pftBump(normal,pftNoise(vPos*38.)+.35*pftNoise(vPos*110.),.0016);"});
-    const muscleU={uSel:U(0),...shared,uGly:U(0)};
+    const muscleU={uSel:U(0),...shared,uGly:U(0),uMG:{value:new Array(48).fill(0)},uMGk:U(1),uMView:U(0)}; /* v7.6.78: per-muscle growth (index = muscle id), local-unit scale, muscle-only view */
     M.muscle=patch(new T.MeshStandardMaterial({color:0x7d1d17,roughness:.55,metalness:0}),"muscle",{
-      uniforms:muscleU,vdecl:"attribute vec3 color;\nvarying float vMid;\n",vmain:"vMid=color.r;\n",fdecl:"uniform float uGly,uSel;\nvarying float vMid;\n",discard:"if(uCut>.5&&pftAbd(vPos,.03)>.5)discard;",
+      uniforms:muscleU,vdecl:"attribute vec3 color;\nattribute float aBelly;\nuniform float uMG[48];uniform float uMGk;\nvarying float vMid;varying float vGrow;\n",vpre:"{int mi0=int(floor(color.r*64.+.5));float g0=(mi0>0&&mi0<48)?uMG[mi0]:0.;vGrow=g0;transformed+=normalize(objectNormal)*g0*aBelly*uMGk;}\n",vmain:"vMid=color.r;\n",fdecl:"uniform float uGly,uSel,uMView;\nvarying float vMid;varying float vGrow;\n",discard:"if(uCut>.5&&pftAbd(vPos,.03)>.5)discard;",
       color:`float fib=sin(vPos.x*1400.+pftNoise(vPos*vec3(60.,8.,60.))*9.)*.5+.5;float fib2=sin(vPos.z*1400.+pftNoise(vPos*vec3(60.,8.,60.)+7.)*9.)*.5+.5;
         float s=fib*fib2;diffuseColor.rgb*=mix(.62,1.12,s);
         float mid=vMid*64.;float mi=floor(mid+.5);float hv=fract(sin(mi*12.9898+.7)*43758.5453);diffuseColor.rgb*=mi>.5?(.74+.46*hv):1.;
-        float seam=clamp(fwidth(mid)*3.5,0.,1.);diffuseColor.rgb=mix(diffuseColor.rgb,vec3(.93,.86,.78),.55*seam); // pale fascia line between muscles
+        float seam=clamp(fwidth(mid)*3.5,0.,1.);diffuseColor.rgb=mix(diffuseColor.rgb,vec3(.93,.86,.78),(uMView>.5?.32:.55)*seam); // pale fascia line between muscles (softer in the muscle-only view)
+        if(uMView>.5){float cav=clamp(length(fwidth(normalize(vNormal)))*4.,0.,1.);diffuseColor.rgb*=1.-.3*cav;diffuseColor.rgb=mix(diffuseColor.rgb,diffuseColor.rgb*vec3(1.08,.9,.88),.5);diffuseColor.rgb*=1.+.10*smoothstep(0.,.012,vGrow);} // v7.6.78: Netter-style depth: darker creases between bellies, slightly fuller red where muscle grew
         if(uSel>.5&&abs(mi-uSel)<.5)diffuseColor.rgb=mix(diffuseColor.rgb,vec3(1.,.72,.36),.42);diffuseColor.rgb=mix(diffuseColor.rgb,vec3(.55,.33,.28),pftNoise(vPos*16.)*.18);
         float gr=smoothstep(.64,.74,pftNoise(vPos*230.));diffuseColor.rgb=mix(diffuseColor.rgb,vec3(.15,.62,.55),uGly*.12);diffuseColor.rgb=mix(diffuseColor.rgb,vec3(.5,1.,.9),min(.55,uGly*.6*gr)); // V32g: lighter glycogen speckle so muscle borders stay readable`,
       normal:`normal=pftBump(normal,fib*fib2,.0006);`});
@@ -250,17 +251,19 @@
 
     function applyMode(){
       const show={external:["skin","nail"],composition:["vessel","fat","nail","muscle","bone","heart","liver","gall","stomach","pancreas","intestine","colon","omentum","mesentery","spleen","kidney","bladder","lung","diaphragm","vein"],
-        internal:["vessel","skin","nail","muscle","bone","heart","liver","gall","stomach","pancreas","intestine","colon","omentum","mesentery","spleen","kidney","bladder","lung","diaphragm","vein"]}[mode];
-      meshes.forEach(m=>{m.visible=show.indexOf(m.userData.role)>=0&&((m.userData.role!=="vessel"&&m.userData.role!=="vein")||vesselsOn)&&(m.userData.role!=="muscle"||musclesOn)&&(m.userData.role!=="heart"||(m.userData.hra&&mode==="composition"&&!musclesOn))}); /* v74: heart is fully covered by the chest wall otherwise (0 px in every view), so skip drawing it */
-      if(mBtn)mBtn.hidden=mode==="external";
-      if(vBtn)vBtn.hidden=mode==="external";
-      shared.uCut.value=mode==="external"?0:1;shared.uHalf.value=mode==="composition"?1:0;
+        internal:["vessel","skin","nail","muscle","bone","heart","liver","gall","stomach","pancreas","intestine","colon","omentum","mesentery","spleen","kidney","bladder","lung","diaphragm","vein"],
+        muscle:["muscle","bone"]}[mode]; /* v7.6.78: muscle-only view (skin, fat and organs hidden) */
+      meshes.forEach(m=>{m.visible=show.indexOf(m.userData.role)>=0&&((m.userData.role!=="vessel"&&m.userData.role!=="vein")||vesselsOn)&&(m.userData.role!=="muscle"||musclesOn||mode==="muscle")&&(m.userData.role!=="heart"||(m.userData.hra&&mode==="composition"&&!musclesOn))}); /* v74: heart is fully covered by the chest wall otherwise (0 px in every view), so skip drawing it */
+      if(mBtn)mBtn.hidden=mode==="external"||mode==="muscle";
+      if(vBtn)vBtn.hidden=mode==="external"||mode==="muscle";
+      shared.uCut.value=mode==="external"||mode==="muscle"?0:1;muscleU.uMView.value=mode==="muscle"?1:0;shared.uHalf.value=mode==="composition"?1:0;
       if(byRole.skin)byRole.skin.forEach(m=>{m.castShadow=mode==="external";});
+      if(byRole.muscle)byRole.muscle.forEach(m=>{m.receiveShadow=mode==="muscle"||mode!=="external";});
       // V25: shadows only on the body surface; cut-away views get shadow-free, soft frontal light
-      const cut=mode!=="external";key.castShadow=!cut;head.intensity=cut?.85:.6;rimL.intensity=cut?1.6:.42;rimR.intensity=cut?1.4:.38;fill.intensity=cut?.55:.6;hemi.intensity=cut?.75:.55;key.intensity=cut?2.1:2.25;
+      const cut=mode!=="external"&&mode!=="muscle";key.castShadow=!cut;head.intensity=cut?.85:.6;rimL.intensity=cut?1.6:.42;rimR.intensity=cut?1.4:.38;fill.intensity=cut?.55:.6;hemi.intensity=cut?.75:.55;key.intensity=cut?2.1:2.25;
       // Teaching offset (as in the 2D renders): bring the pancreas and gallbladder forward in the cut-away views so they are not hidden behind stomach/liver.
       const off={pancreas:[0,0,.004],gall:[0,.010,-.016]}; // v7.6.67: true positions (was a large teaching offset that floated the pancreas in front of the liver)
-      for(const r in off)(byRole[r]||[]).forEach(m=>{if(!m.userData.p0)m.userData.p0=m.position.clone();m.position.copy(m.userData.p0);if(mode!=="external")m.position.add(new T.Vector3(...off[r]))});
+      for(const r in off)(byRole[r]||[]).forEach(m=>{if(!m.userData.p0)m.userData.p0=m.position.clone();m.position.copy(m.userData.p0);if(mode!=="external"&&mode!=="muscle")m.position.add(new T.Vector3(...off[r]))});
       dirty=true;
     }
     function stepState(dt){
@@ -268,6 +271,7 @@
       for(const n in st){const d=tgt[n]-st[n];if(Math.abs(d)>1e-4){st[n]+=d*k;moving=true}else st[n]=tgt[n]}
       if(!ptrs.size&&(Math.abs(vAz)>.003||Math.abs(vEl)>.003)){
         if(reduce.matches){vAz=vEl=0}else{camT.az+=vAz*dt;cam.az=camT.az;const ne=clampEl(camT.el+vEl*dt);if(ne===camT.el)vEl=0;camT.el=ne;cam.el=ne;const f=Math.exp(-dt*3.2);vAz*=f;vEl*=f;moving=true}}
+      {const a=muscleU.uMG.value;for(let i=0;i<48;i++){const d=mgT[i]-a[i];if(Math.abs(d)>2e-6){a[i]+=d*k;moving=true}else a[i]=mgT[i]}}
       const ck=reduce.matches?1:1-Math.exp(-dt*5.5);
       let dAz=camT.az-cam.az;dAz=Math.atan2(Math.sin(dAz),Math.cos(dAz));
       if(Math.abs(dAz)>1e-4||Math.abs(camT.dist-cam.dist)>1e-4||Math.abs(camT.ty-cam.ty)>1e-4||Math.abs(camT.el-cam.el)>1e-4||Math.abs(camT.px-cam.px)>1e-4){
@@ -283,7 +287,7 @@
       meshes.forEach(m=>{const d=m.morphTargetDictionary,inf=m.morphTargetInfluences;if(!d)return;
         if("subq" in d)inf[d.subq]=bz(st.subq+bias.subq,1.25);if("mass" in d)inf[d.mass]=bz(st.mass+bias.mass,1.1);if("belly" in d)inf[d.belly]=bz(st.belly+bias.belly,1.25);if("visc" in d)inf[d.visc]=bz(st.visc+bias.visc,1);if("hyper" in d)inf[d.hyper]=st.hyper;});
       const B=bias;fatU.uSubq.value=bz(st.subq+B.subq,1.25);fatU.uMass.value=bz(st.mass+B.mass,1.1);fatU.uBelly.value=bz(st.belly+B.belly,1.25);fatU.uHyper.value=st.hyper;
-      liverU.uLiver.value=bz(st.liver+B.liver,1);liverU.uGlyL.value=glyOn?st.glyL:0;muscleU.uGly.value=glyOn?st.gly:0;pancU.uPanc.value=bz(st.pancreas+B.pancreas,1);omU.uVisc.value=bz(st.visc+B.visc,1);if(rootRef){rootRef.scale.set(B.sx,B.sy,B.sx);rootRef.position.y=1.05*(1-B.sy);}
+      liverU.uLiver.value=bz(st.liver+B.liver,1);liverU.uGlyL.value=glyOn?st.glyL:0;muscleU.uGly.value=glyOn&&mode!=="muscle"?st.gly:0;pancU.uPanc.value=bz(st.pancreas+B.pancreas,1);omU.uVisc.value=bz(st.visc+B.visc,1);if(rootRef){rootRef.scale.set(B.sx,B.sy,B.sx);rootRef.position.y=1.05*(1-B.sy);}
       if(M.heart)M.heart.emissiveIntensity=.45;
     }
     const v3=new T.Vector3();
@@ -654,6 +658,22 @@
         const eg=new T.BufferGeometry();eg.setAttribute("position",new T.Float32BufferAttribute(ep,3));eg.setAttribute("aOcc",new T.Float32BufferAttribute(new Float32Array(ep.length/3),1));eg.setIndex(ei);eg.computeVertexNormals();
         M.esoph=M.esoph||paint(organ(0xd4867e,.36,{side:T.DoubleSide,clearcoat:.32,clearcoatRoughness:.28}),"eso",{grain:.5,gloss:1.1,bump:.001,rg:.04}); /* v74: matches the stomach wall (no colour seam at the cardia) */const em=new T.Mesh(eg,M.esoph);em.name="Esophagus (stub)";em.userData.role="stomach";em.renderOrder=sm.renderOrder;sm.add(em);meshes.push(em)}
       return 1}
+    // v7.6.78: per-vertex "belly" weight for muscle growth: 1 in the middle of each muscle, tapering to 0 at its ends
+    // (along the muscle's longest axis), so growing muscles swell like real muscle bellies instead of puffing up evenly.
+    function musclePrep(){
+      (byRole.muscle||[]).forEach(m=>{const g=m.geometry,P=g.attributes.position,C=g.attributes.color,n=P.count;if(!C||g.attributes.aBelly)return;
+        const bb={};for(let i=0;i<n;i++){const id=Math.round(C.getX(i)*64);const b=bb[id]||(bb[id]=[1e9,1e9,1e9,-1e9,-1e9,-1e9]);const x=P.getX(i),y=P.getY(i),z=P.getZ(i);
+          if(x<b[0])b[0]=x;if(y<b[1])b[1]=y;if(z<b[2])b[2]=z;if(x>b[3])b[3]=x;if(y>b[4])b[4]=y;if(z>b[5])b[5]=z}
+        const w=new Float32Array(n);for(let i=0;i<n;i++){const id=Math.round(C.getX(i)*64),b=bb[id];const e=[b[3]-b[0],b[4]-b[1],b[5]-b[2]];const ax=e.indexOf(Math.max(...e));
+          const v=ax===0?P.getX(i):ax===1?P.getY(i):P.getZ(i),t=(v-(b[ax]+b[ax+3])/2)/(e[ax]/2||1);w[i]=Math.pow(Math.max(0,1-t*t),.6)}
+        g.setAttribute("aBelly",new T.BufferAttribute(w,1));
+        g.computeBoundingBox();});
+      // local units -> metres: the body is ~1.75 m tall in the scene; growth values are given in metres
+      const sk=byRole.skin&&byRole.skin[0];if(sk){sk.geometry.computeBoundingBox();const h=sk.geometry.boundingBox.max.y-sk.geometry.boundingBox.min.y;const ws=new T.Vector3();sk.getWorldScale(ws);muscleU.uMGk.value=h>5?h/1.75:1;}
+    }
+    // muscle id (1-based, MUSCLE_NAMES order) -> plain group used by the simulator
+    const MUSCLE_GROUP=["shoulders","shoulders","shoulders","biceps","biceps","triceps","triceps","forearms","forearms","forearms","forearms","quads","quads","quads","quads","quads","glutes","hamstrings","hamstrings","calves","calves","calves","calves","calves","calves","chest","chest","core","core","core","core","core","core","chest","chest","back","back","back","back","back","back","back","glutes","glutes","","",""];
+    const mgT=new Array(48).fill(0);function setMuscleGrowth(gr){gr=gr||{};const a=mgT;for(let i=0;i<MUSCLE_GROUP.length;i++){const v=+gr[MUSCLE_GROUP[i]]||0;a[i+1]=Math.max(0,Math.min(.03,v))}kick&&kick()}
     // ---------- load ----------
     const loader=new T.GLTFLoader();loader.setMeshoptDecoder(T.MeshoptDecoder);
     let loadSource="none";
@@ -671,7 +691,7 @@
         }
         if(role==="omentum"||role==="mesentery"||role==="lung"||role==="diaphragm")o.renderOrder=2;
       });
-      try{v67Anatomy(root)}catch(e){console.warn("anatomy pass",e)}try{root.userData.hra=v69HRA(root)}catch(e){console.warn("anatomy pass v69",e)}try{v70Stomach()}catch(e){console.warn("anatomy pass v70",e)}try{v73LiverDiaph()}catch(e){console.warn("anatomy pass v73",e)}rootRef=root;scene.add(root);ready=true;if(/pftdebug/.test(location.hash))window.__pft3d={scene,meshes,T,renderer,camera};applyMode();applyState();resize();kick();
+      try{v67Anatomy(root)}catch(e){console.warn("anatomy pass",e)}try{root.userData.hra=v69HRA(root)}catch(e){console.warn("anatomy pass v69",e)}try{v70Stomach()}catch(e){console.warn("anatomy pass v70",e)}try{v73LiverDiaph()}catch(e){console.warn("anatomy pass v73",e)}try{musclePrep()}catch(e){console.warn("muscle prep",e)}rootRef=root;scene.add(root);ready=true;if(/pftdebug/.test(location.hash))window.__pft3d={scene,meshes,T,renderer,camera};applyMode();applyState();resize();kick();
       opts.onReady&&opts.onReady();syncNav(false);
     }
     // file:// pages cannot fetch the .glb (browsers block local XHR/fetch), so the same model also ships as a
@@ -691,6 +711,7 @@
     const api={
       framing:"full",
       setLayer(layer,opacity){mode=layer==="internal"?"internal":layer==="external"?"external":"composition";if(typeof opacity==="number"&&isFinite(opacity))fatU.uFatOp.value=opacity;applyMode();kick()},
+      setMuscleView(on){mode=on?"muscle":"composition";applyMode();kick()},setMuscleGrowth,muscleGroups:MUSCLE_GROUP,
       setView(v){if(v in VIEWS){camT.az=VIEWS[v];camT.el=framing==="abdomen"?.04:.06;vAz=vEl=0;kick()}},
       setFraming(f){setFramingT(f==="abdomen"?"abdomen":"full");api.framing=framing},
       rotateBy(d){camT.az+=d;cam.az+=d;kick()},
