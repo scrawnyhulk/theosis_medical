@@ -68,7 +68,7 @@ function VisitsHub() {
                 </p>
                 <h3 className="mt-1 font-sans text-2xl font-semibold">Nick Holwey, PA-C</h3>
                 <p className="mt-1 text-sm text-sesame-muted">
-                  Lifestyle counseling · Theosis Medical, LLC
+                  Lifestyle counseling · Theosis Medical LLC
                 </p>
                 <p className="mt-3 flex items-center gap-1 text-sm font-medium">
                   <Star className="size-4 fill-sesame-lime-ink text-sesame-lime-ink" />

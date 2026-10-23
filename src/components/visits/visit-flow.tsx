@@ -129,7 +129,7 @@ export function VisitFlow({
               Medical add-on that keeps the session in the counseling lane — coaching, not a clinic.
             </p>
             <p className="mt-4 leading-relaxed text-sesame-muted">
-              Nick Holwey, through Theosis Medical, LLC, offers lifestyle counseling. He is an
+              Nick Holwey, through Theosis Medical LLC, offers lifestyle counseling. He is an
               emergency medicine physician assistant by training.{" "}
               <strong className="font-semibold text-sesame-ink">This session is not medical care.</strong>
             </p>
@@ -190,7 +190,7 @@ export function VisitFlow({
                   </p>
                   <h2 className="mt-1 font-sans text-2xl font-semibold">Nick Holwey, PA-C</h2>
                   <p className="mt-1 text-sm text-sesame-muted">
-                    Lifestyle counseling · Theosis Medical, LLC · IL-based, multi-state licensed
+                    Lifestyle counseling · Theosis Medical LLC · IL-based, multi-state licensed
                   </p>
                   <p className="mt-3 flex items-center gap-1 text-sm font-medium">
                     <Star className="size-4 fill-sesame-lime-ink text-sesame-lime-ink" />

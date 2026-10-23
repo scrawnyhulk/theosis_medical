@@ -6,7 +6,7 @@ import { NerdStepper } from "@/components/hacks/nerd-stepper";
 import { VideoCard } from "@/components/hacks/video-card";
 import { SiteShell } from "@/components/site/site-shell";
 import { Button } from "@/components/ui/button";
-import { getMinute, minutesIntro } from "@/lib/minutes";
+import { getMinute } from "@/lib/minutes";
 
 export const Route = createFileRoute("/minutes/$slug")({
   component: MinutePage,
@@ -135,7 +135,9 @@ function MinutePage() {
             />
           </div>
         ) : null}
-        <p className="mt-12 text-sm text-muted">{minutesIntro.disclaimer}</p>
+        <footer className="mt-12 border-t border-border pt-6 text-sm text-muted">
+          <p>General education only, not medical advice. Reading this doesn't create a provider-patient relationship.</p>
+        </footer>
       </article>
     </SiteShell>
   );

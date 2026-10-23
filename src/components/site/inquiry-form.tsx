@@ -1,3 +1,4 @@
+import { Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -128,6 +129,13 @@ export function InquiryForm() {
         </Field>
       </div>
       <div className="mt-6 flex flex-col gap-4">
+        <p className="text-sm text-muted">
+          Please don't include medical information, symptoms, or patient details in this form. For a medical emergency, call 911. See our{" "}
+          <Link to="/privacy" className="underline hover:text-fg">
+            Privacy Notice
+          </Link>
+          .
+        </p>
         <Button type="submit" size="lg" className="w-full">
           Send inquiry
           <ArrowRight />

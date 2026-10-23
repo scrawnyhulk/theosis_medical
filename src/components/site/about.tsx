@@ -42,7 +42,7 @@ export function About() {
           <div className="mb-8 overflow-hidden rounded-xl lg:float-left lg:mb-6 lg:mr-12 lg:w-5/12">
             <img
               src="/images/nick.jpg"
-              alt="Nick Holwey, PA-C, physician associate and founder of Theosis Medical."
+              alt="Nick Holwey, PA-C, emergency medicine physician assistant and founder of Theosis Medical LLC."
               className="aspect-4/5 w-full object-cover object-center"
             />
           </div>

@@ -31,7 +31,10 @@ export function SiteFooter() {
           <a href={site.emailHref} className="hover:text-ink-fg">
             {site.email}
           </a>
-          <p>© {site.year} Theosis Medical, LLC</p>
+          <Link to="/privacy" className="text-sm text-ink-muted hover:text-ink-fg">
+            Privacy
+          </Link>
+          <p>© {site.year} Theosis Medical LLC · Danville, Illinois</p>
         </div>
       </div>
     </footer>

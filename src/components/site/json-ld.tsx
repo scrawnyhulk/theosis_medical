@@ -6,7 +6,7 @@ const data = {
     {
       "@type": "MedicalBusiness",
       "@id": `${site.url}/#business`,
-      name: "Theosis Medical, LLC",
+      name: "Theosis Medical LLC",
       url: site.url,
       email: site.email,
       telephone: "+1-765-487-0777",
@@ -20,7 +20,7 @@ const data = {
       "@id": `${site.url}/#nick`,
       name: "Nick Holwey",
       honorificSuffix: "PA-C",
-      jobTitle: "Emergency Medicine Physician Associate",
+      jobTitle: "Emergency Medicine Physician Assistant (PA-C)",
       description: site.description,
       image: `${site.url}/images/nick.jpg`,
       url: `${site.url}/#about`,

@@ -8,72 +8,85 @@
 [build.environment]
   NODE_VERSION = "22"
 
-# Health Hacks moved to theosishealth.com (permanent).
+# Removed from theosismedical.com (Health Hacks, simulator and old tools).
+# These return a real 404. Never redirect them to theosishealth.com:
+# the two sites are kept separate.
 [[redirects]]
   from = "/hacks"
-  to = "https://theosishealth.com/hacks"
-  status = 301
+  to = "/404.html"
+  status = 404
   force = true
 
 [[redirects]]
   from = "/hacks/"
-  to = "https://theosishealth.com/hacks"
-  status = 301
+  to = "/404.html"
+  status = 404
   force = true
 
 [[redirects]]
   from = "/hacks/*"
-  to = "https://theosishealth.com/hacks/:splat"
-  status = 301
-  force = true
-
-# Tools moved to theosishealth.com (permanent).
-[[redirects]]
-  from = "/personal-fat-threshold"
-  to = "https://theosishealth.com/simulator/pft-inside/"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "/personal-fat-threshold/"
-  to = "https://theosishealth.com/simulator/pft-inside/"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "/personal-fat-threshold.html"
-  to = "https://theosishealth.com/simulator/pft-inside/"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "/personal-fat-threshold/*"
-  to = "https://theosishealth.com/simulator/pft-inside/"
-  status = 301
+  to = "/404.html"
+  status = 404
   force = true
 
 [[redirects]]
   from = "/simulator"
-  to = "https://theosishealth.com/simulator/"
-  status = 301
+  to = "/404.html"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/simulator/"
+  to = "/404.html"
+  status = 404
   force = true
 
 [[redirects]]
   from = "/simulator/*"
-  to = "https://theosishealth.com/simulator/:splat"
-  status = 301
+  to = "/404.html"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/personal-fat-threshold"
+  to = "/404.html"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/personal-fat-threshold/"
+  to = "/404.html"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/personal-fat-threshold.html"
+  to = "/404.html"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/personal-fat-threshold/*"
+  to = "/404.html"
+  status = 404
   force = true
 
 [[redirects]]
   from = "/fat-burn-calculator"
-  to = "https://theosishealth.com/fat-burn-calculator/"
-  status = 301
+  to = "/404.html"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/fat-burn-calculator/"
+  to = "/404.html"
+  status = 404
   force = true
 
 [[redirects]]
   from = "/fat-burn-calculator/*"
-  to = "https://theosishealth.com/fat-burn-calculator/:splat"
-  status = 301
+  to = "/404.html"
+  status = 404
   force = true
 
 # Missing hashed files must 404 — never fall through to index.html as text/html
@@ -83,7 +96,9 @@
   to = "/404.html"
   status = 404
 
+# Every published page is prerendered as a static file, so anything else is a
+# real 404 (no more SPA fallback answering 200 for unknown or old URLs).
 [[redirects]]
   from = "/*"
-  to = "/index.html"
-  status = 200
+  to = "/404.html"
+  status = 404

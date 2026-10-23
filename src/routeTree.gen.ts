@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as InstallRouteImport } from './routes/install'
+import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as MinutesIndexRouteImport } from './routes/minutes/index'
 import { Route as MinutesSlugRouteImport } from './routes/minutes/$slug'
 import { Route as ProviderIndexRouteImport } from './routes/provider/index'
@@ -27,6 +28,11 @@ const IndexRoute = IndexRouteImport.update({
 const InstallRoute = InstallRouteImport.update({
   id: '/install',
   path: '/install',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrivacyRoute = PrivacyRouteImport.update({
+  id: '/privacy',
+  path: '/privacy',
   getParentRoute: () => rootRouteImport,
 } as any)
 const MinutesIndexRoute = MinutesIndexRouteImport.update({
@@ -68,6 +74,7 @@ const VisitsAtlasRoute = VisitsAtlasRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/install': typeof InstallRoute
+  '/privacy': typeof PrivacyRoute
   '/minutes/$slug': typeof MinutesSlugRoute
   '/provider/$id': typeof ProviderIdRoute
   '/visits/$kind': typeof VisitsKindRoute
@@ -79,6 +86,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/install': typeof InstallRoute
+  '/privacy': typeof PrivacyRoute
   '/minutes/$slug': typeof MinutesSlugRoute
   '/provider/$id': typeof ProviderIdRoute
   '/visits/$kind': typeof VisitsKindRoute
@@ -91,6 +99,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/install': typeof InstallRoute
+  '/privacy': typeof PrivacyRoute
   '/minutes/$slug': typeof MinutesSlugRoute
   '/provider/$id': typeof ProviderIdRoute
   '/visits/$kind': typeof VisitsKindRoute
@@ -104,6 +113,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/install'
+    | '/privacy'
     | '/minutes/$slug'
     | '/provider/$id'
     | '/visits/$kind'
@@ -115,6 +125,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/install'
+    | '/privacy'
     | '/minutes/$slug'
     | '/provider/$id'
     | '/visits/$kind'
@@ -126,6 +137,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/install'
+    | '/privacy'
     | '/minutes/$slug'
     | '/provider/$id'
     | '/visits/$kind'
@@ -138,6 +150,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   InstallRoute: typeof InstallRoute
+  PrivacyRoute: typeof PrivacyRoute
   MinutesSlugRoute: typeof MinutesSlugRoute
   ProviderIdRoute: typeof ProviderIdRoute
   VisitsKindRoute: typeof VisitsKindRoute
@@ -161,6 +174,13 @@ declare module '@tanstack/react-router' {
       path: '/install'
       fullPath: '/install'
       preLoaderRoute: typeof InstallRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/privacy': {
+      id: '/privacy'
+      path: '/privacy'
+      fullPath: '/privacy'
+      preLoaderRoute: typeof PrivacyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/minutes/': {
@@ -218,6 +238,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   InstallRoute: InstallRoute,
+  PrivacyRoute: PrivacyRoute,
   MinutesSlugRoute: MinutesSlugRoute,
   ProviderIdRoute: ProviderIdRoute,
   VisitsKindRoute: VisitsKindRoute,
