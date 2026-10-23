@@ -21,6 +21,12 @@
     Permissions-Policy = "camera=(self), microphone=(), geolocation=()"
 
 [[headers]]
+  for = "/simulator/sw.js"
+  [headers.values]
+    Cache-Control = "no-cache"
+    Service-Worker-Allowed = "/simulator/"
+
+[[headers]]
   for = "/simulator/fig3d/*"
   [headers.values]
     Cache-Control = "public, max-age=604800"

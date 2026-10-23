@@ -4,10 +4,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Theosis Metabolic Simulator | Theosis Health</title>
-<link rel="manifest" href="manifest.webmanifest">
-<meta name="application-name" content="Metabolic Sim">
-<meta name="apple-mobile-web-app-title" content="Metabolic Sim">
+<link rel="manifest" href="manifest.webmanifest?v=7698">
+<meta name="application-name" content="Simulator">
+<meta name="apple-mobile-web-app-title" content="Simulator">
 <link rel="apple-touch-icon" href="icons/icon-180.png">
+<meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes">
+<script src="assets/pwa.js?v=7698" defer></script>
 <meta name="description" content="See where your habits could lead. The Theosis Metabolic Simulator: a guided, evidence-based body composition and metabolic health simulator from Theosis Health, founded by Nick Holwey, PA-C. It's built on Alpert's limit on how fast fat can be lost without losing muscle.">
 <meta name="theme-color" content="#080d14">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23080d14'/%3E%3Cpath fill='%23143a7c' stroke='%23cfd6e0' stroke-width='1.5' d='M16 3.5 26 7.2v9.2c0 5.4-4.2 9.8-10 11.1C10.2 26.2 6 21.8 6 16.4V7.2Z'/%3E%3Cpath fill='none' stroke='%23e7edf5' stroke-linecap='round' stroke-width='2.2' d='M16 9.2v12.2M11.8 13.6h8.4'/%3E%3C/svg%3E">
@@ -1784,7 +1786,7 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')set(false)})
     <script>/* v7.6.76 HERO_ANIM: true = animated F1 hero (assets/hero-fx.js + hero-fx-keys.webp: heavier man leans in toward the graph and slims, stardust draws the line, plays once, then holds). false = previous static hero2 art (assets/hero2-2-simulation-trend.webp). One-line revert. Older D12 assets (hero-fx-soft/sharp.webp) kept, unreferenced. */
     var HERO_ANIM = true;
     if (HERO_ANIM) { (function () { var h = document.getElementById("entry-hero"), i = h && h.querySelector(".hero-fig img"); if (!i) return; document.documentElement.classList.add("hero-anim", "hero-wait"); i.removeAttribute("loading"); i.src = "assets/hero2-noline.webp?v=7676";
-      ["hero2-noline.webp", "hero-fx-keys.webp"].forEach(function (f) { var l = document.createElement("link"); l.rel = "preload"; l.as = "image"; l.href = "assets/" + f + "?v=7676"; document.head.appendChild(l); });
+      ["hero2-noline.webp", "hero-fx-keys.webp"].forEach(function (f) { var l = document.createElement("link"); l.rel = "preload"; l.as = "image"; l.href = "assets/" + f + (f === "hero-fx-keys.webp" ? "?v=7697" : "?v=7676"); document.head.appendChild(l); });
       var st = document.createElement("style"); st.textContent = ".hero-wait .entry-hero .hero-fig img{opacity:0!important;visibility:hidden}.hero-anim .entry-hero img{animation:none!important}@media (max-width:61.9rem){.hero-anim #entry-hero{display:block!important;position:static!important;margin:-.4rem auto -1.2rem!important;width:100%;text-align:center}.hero-anim #entry-hero .hero-fig{display:inline-block}.hero-anim #entry-hero img{width:9.5rem!important;max-width:9.5rem!important;height:auto!important}.hero-anim #entry-hero .hero-note{display:none}}"; document.head.appendChild(st);
       if (innerWidth < 992) { var v = document.querySelector(".entry .choice-grid"); if (v) v.parentNode.insertBefore(h, v); }
       var s = document.createElement("script"); s.src = "assets/hero-fx.js?v=7697"; document.head.appendChild(s); })(); }
