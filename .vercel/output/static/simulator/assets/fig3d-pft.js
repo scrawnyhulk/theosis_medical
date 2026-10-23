@@ -37,11 +37,11 @@ function f3dMusCalc(i) {
   const rows = f3dRows(); if (!rows) return null; const x = rows[Math.min(i, rows.length - 1)], a = rows[0];
   const mv = typeof effMove === "function" ? effMove() : (S.move || {}); const sex = S.profile && S.profile.sex === "f" ? "f" : "m";
   const mr = typeof muscleRegions === "function" ? muscleRegions(mv, sex) : null;
-  /* v7.6.80 (Nick's rule): muscles only look bigger from lean gained on days with lifting AND eating above maintenance
+  /* v7.6.81: lean gained on lifting days is drawn in a deficit too (small recomp gain, set by dayChange()). Earlier v7.6.80 note: (Nick's rule): muscles only look bigger from lean gained on days with lifting AND eating above maintenance
      (row.deficit < 0 = intake above the day's burn). Lean gained while eating at or below maintenance, or without lifting, is
      not drawn; muscles never shrink here. The plan's own lean numbers elsewhere are unchanged. */
   const last = Math.min(i, rows.length - 1); let dL = 0, surplusDays = 0, dFs = 0, kcal = 0;
-  for (let j = 1; j <= last; j++) { const p = rows[j - 1]; if (p.deficit < 0) { surplusDays++; kcal -= p.deficit; dFs += Math.max(0, rows[j].fatKg - p.fatKg); if (mr) dL += Math.max(0, rows[j].leanKg - p.leanKg); } }
+  for (let j = 1; j <= last; j++) { const p = rows[j - 1]; if (mr) dL += Math.max(0, rows[j].leanKg - p.leanKg); if (p.deficit < 0) { surplusDays++; kcal -= p.deficit; dFs += Math.max(0, rows[j].fatKg - p.fatKg); } }
   /* Rates come from the plan engine, not from this file: each day's lean gain is capped by leanPotentialPerDay()
      (GAIN_RATE kg/month by sex and training age, beginner -> intermediate after 1 yr, x weekly-volume factor liftGainFreq,
      x age, protein, FFMI taper toward Kouri 1995's natural ceiling), and dayChange() sends any surplus beyond what that
@@ -64,7 +64,8 @@ function f3dMuscle() {
   if (F3D.api && F3D.api.grow) F3D.api.grow(c.grow);
   if (n) n.innerHTML = !c.lift ? "<b>Muscle view.</b> You haven't picked strength training, so the muscles stay the same. Add lifting on the Move step to see them grow."
     : F3D.i === 0 ? "<b>Muscle view.</b> Move the slider to see where your lifting builds muscle."
-    : !c.surplus ? "<b>Muscle view.</b> You're eating at or below what your body uses, so your muscles hold steady here. To see them grow, eat a little more than you burn while you keep lifting."
+    : !c.surplus && c.dL > 0 ? `<b>Muscle view.</b> You're eating less than you burn, so muscle grows only a little while you lift. About ${fW(c.dLshown)} of muscle shown. Eating a little more than you burn grows it faster.`
+    : !c.surplus ? "<b>Muscle view.</b> You're eating well below what your body uses, so your muscles hold steady here. Lifting helps keep them. To see them grow, eat closer to what you burn."
     : c.dL <= 0 ? "<b>Muscle view.</b> Your muscles hold steady at this point, so they don't look bigger."
     : `<b>Muscle view.</b> The areas you train grow the most. About ${fW(c.dLshown)} of muscle shown, gained on days you lift and eat a little extra.`;
   const wn = $("#f3d-mwarn"); if (wn) { wn.hidden = !(c.lift && c.bigSurplus && F3D.i > 0); wn.innerHTML = `<b>A big calorie surplus doesn't build muscle faster. Past a point, the extra is stored as fat.</b> In this plan that's about ${fW(c.dF)} of fat by this point. Switch to 3D to see it on the body.`; }
@@ -91,7 +92,7 @@ function f3dShell() {
 }
 let f3dLib = null;   // assets/pft-embed.js is loaded on demand (keeps index.html small)
 function f3dLoadLib() { if (typeof PFTEmbed === "function") return Promise.resolve(); if (f3dLib) return f3dLib;
-  f3dLib = new Promise((res, rej) => { const s = document.createElement("script"); s.src = "assets/pft-embed.js?v=7680"; s.onload = res; s.onerror = rej; document.head.appendChild(s); }); return f3dLib; }
+  f3dLib = new Promise((res, rej) => { const s = document.createElement("script"); s.src = "assets/pft-embed.js?v=7681"; s.onload = res; s.onerror = rej; document.head.appendChild(s); }); return f3dLib; }
 function f3dMountNow() {
   if (window.__NO_PFT_FIG) return;   // __NO_PFT_FIG: legacy test suites that check the older 2D/3D mannequin figure
   if (F3D.failed) { const fh = $(f3dWhere()); if (fh && !fh.querySelector(".f3d-fbfig")) { if (F3D.host && F3D.host !== fh) { F3D.host.innerHTML = ""; F3D.host.hidden = true; } F3D.host = fh; F3D.where = f3dWhere(); f3dFallback(fh); } return; }
