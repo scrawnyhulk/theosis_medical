@@ -1542,6 +1542,7 @@ body{background-color:var(--bg);background-image:var(--app-bg-image);background-
 <body>
 <!-- v7.6.69: charcoal/slate app background (grain texture removed) + simulation-trend hero -->
 <!-- v7.6.68 perf: consent runs first so the terms screen shows while the rest of the page streams in -->
+<script src="assets/liftlog.js?v=7697"></script>
 <script>
 /* v7.2 Required consent (clickwrap). TEMPLATE FOR ATTORNEY REVIEW: wording is a starting point, not legal advice.
    v7.6.2: one scrollable screen of grouped terms + a single "I've read and agree" checkbox + Accept; optional opt-ins for photos (with written biometric consent, Illinois BIPA)
@@ -1709,6 +1710,21 @@ body{background-color:var(--bg);background-image:var(--app-bg-image);background-
 
 </script>
 <a class="skip" href="#main">Skip to content</a>
+<!-- v7.6.90: phone/tablet header = site header (same as calculator page, 1415e597); desktop keeps the simulator header -->
+<style id="th-phone-hdr">#th-header-host{display:none}@media (max-width:1279.98px){#th-header-host{display:block}.site-header{display:none!important}}</style>
+<div id="th-header-host" style="position:sticky;top:0;z-index:40;min-height:65px;background:rgb(20 23 28/.8)"></div>
+<template id="th-site-header"><link rel="stylesheet" href="pft-inside/assets/css/site-header.css"><header class="sticky top-0 z-40 border-b border-border bg-bg/80 backdrop-blur-md"><div class="mx-auto flex h-16 max-w-7xl items-center justify-between gap-3 px-4 sm:px-6"><div class="flex items-center gap-3 sm:gap-5"><button class="inline-flex items-center justify-center gap-2 whitespace-nowrap font-sans text-sm font-medium transition-[color,background-color,box-shadow,transform,opacity] duration-150 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 active:not-disabled:scale-[0.96] bg-transparent text-fg hover:bg-fg/8 size-11 rounded-sm shrink-0" aria-expanded="false" aria-controls="quick-find-panel" aria-label="Quick find"><svg viewBox="0 0 28 20" class="size-6" aria-hidden="true"><path d="M2 4h24M2 10h24M2 16h24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"></path></svg></button><a class="flex min-h-11 shrink-0 items-center" href="/"><img src="pft-inside/assets/img/theosis-health-header-lockup.png" width="900" height="168" alt="Theosis Health" class="no-outline block h-[35px] w-auto object-contain object-left sm:h-[46px]"/></a><nav class="hidden items-center gap-3 whitespace-nowrap xl:flex" aria-label="Primary"><a class="group shrink-0" aria-label="Health Hacks" href="/hacks"><span class="relative inline-flex items-center overflow-hidden rounded-[3px] border border-white/10 leading-none shadow-[2px_3px_0_0_rgb(0_0_0_/_0.55),inset_0_1px_0_rgb(255_255_255_/_0.16)] gap-1.5 px-2 py-1.5 transition-[box-shadow,background-color,border-color,filter] duration-150 group-hover:border-accent group-hover:bg-accent group-hover:shadow-[2px_3px_0_0_rgb(0_0_0_/_0.3)]" style="background-color:rgb(8 13 20 / 0.72);background-image:url(pft-inside/assets/img/navy-grain.jpg);background-size:420px"><span class="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-150 group-hover:opacity-100" style="background-color:#2a7ae0" aria-hidden="true"></span><span class="relative font-display font-semibold uppercase text-[13px] tracking-[0.1em]"><span class="hh-metal-blue">H</span><span class="hh-metal">ealth Hacks</span></span></span></a><a href="/simulator/" aria-current="page" data-active="true" class="group shrink-0" aria-label="Metabolic Simulator (Beta)"><span class="relative inline-flex items-center overflow-hidden rounded-[3px] border border-white/10 leading-none shadow-[2px_3px_0_0_rgb(0_0_0_/_0.55),inset_0_1px_0_rgb(255_255_255_/_0.16)] gap-1.5 px-2 py-1.5 transition-[box-shadow,background-color,border-color,filter] duration-150 group-hover:border-accent group-hover:bg-accent group-hover:shadow-[2px_3px_0_0_rgb(0_0_0_/_0.3)]" style="background-color:rgb(8 13 20 / 0.72);background-image:url(pft-inside/assets/img/navy-grain.jpg);background-size:420px"><span class="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-150 group-hover:opacity-100" style="background-color:#2a7ae0" aria-hidden="true"></span><span class="relative flex text-[#5b9cec] group-hover:text-white"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false" class="shrink-0 " fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h4l2.5-6 4 12 2.5-6H21"></path></svg></span><span class="relative font-display font-semibold uppercase text-[13px] tracking-[0.1em]"><span class="hh-metal-blue">M</span><span class="hh-metal">etabolic Simulator</span></span><span class="relative ml-0.5 rounded-full bg-[#2a7ae0] px-1.5 py-px text-[9px] font-bold tracking-wide text-white uppercase group-hover:bg-white group-hover:text-[#1f63bd]">Beta</span></span></a><a href="/simulator/pft-inside/" class="group shrink-0" aria-label="Personal Fat Threshold Model"><span class="relative inline-flex items-center overflow-hidden rounded-[3px] border border-white/10 leading-none shadow-[2px_3px_0_0_rgb(0_0_0_/_0.55),inset_0_1px_0_rgb(255_255_255_/_0.16)] gap-1.5 px-2 py-1.5 transition-[box-shadow,background-color,border-color,filter] duration-150 group-hover:border-accent group-hover:bg-accent group-hover:shadow-[2px_3px_0_0_rgb(0_0_0_/_0.3)]" style="background-color:rgb(8 13 20 / 0.72);background-image:url(pft-inside/assets/img/navy-grain.jpg);background-size:420px"><span class="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-150 group-hover:opacity-100" style="background-color:#2a7ae0" aria-hidden="true"></span><span class="relative flex text-[#5b9cec] group-hover:text-white"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false" class="shrink-0 " fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 18a8 8 0 1 1 16 0"></path><path d="M12 18l4-5"></path><circle cx="12" cy="18" r="1"></circle></svg></span><span class="relative font-display font-semibold uppercase text-[13px] tracking-[0.1em]"><span class="hh-metal-blue">P</span><span class="hh-metal">ersonal Fat Threshold Model</span></span></span></a><a href="/fat-burn-calculator/" class="group shrink-0" aria-label="Maximal Fat Loss Calculator"><span class="relative inline-flex items-center overflow-hidden rounded-[3px] border border-white/10 leading-none shadow-[2px_3px_0_0_rgb(0_0_0_/_0.55),inset_0_1px_0_rgb(255_255_255_/_0.16)] gap-1.5 px-2 py-1.5 transition-[box-shadow,background-color,border-color,filter] duration-150 group-hover:border-accent group-hover:bg-accent group-hover:shadow-[2px_3px_0_0_rgb(0_0_0_/_0.3)]" style="background-color:rgb(8 13 20 / 0.72);background-image:url(pft-inside/assets/img/navy-grain.jpg);background-size:420px"><span class="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-150 group-hover:opacity-100" style="background-color:#2a7ae0" aria-hidden="true"></span><span class="relative flex text-[#5b9cec] group-hover:text-white"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false" class="shrink-0 " fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21c-3.9 0-6.5-2.6-6.5-6 0-3.5 3-5.5 3.5-9 2 1.3 3 3 3 5 1-.8 1.6-2 1.7-3.3C16.4 9.6 18.5 12 18.5 15c0 3.4-2.6 6-6.5 6z"></path></svg></span><span class="relative font-display font-semibold uppercase text-[13px] tracking-[0.1em]"><span class="hh-metal-blue">M</span><span class="hh-metal">aximal Fat Loss Calculator</span></span></span></a></nav></div><div class="flex items-center gap-2"><a class="items-center justify-center gap-2 whitespace-nowrap font-sans text-sm font-medium transition-[color,background-color,box-shadow,transform,opacity] duration-150 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 active:not-disabled:scale-[0.96] bg-steel text-ink hover:bg-steel/90 h-9 rounded-sm px-3.5 hidden md:inline-flex" href="/contact">Contact</a><button class="inline-flex items-center justify-center gap-2 whitespace-nowrap font-sans text-sm font-medium transition-[color,background-color,box-shadow,transform,opacity] duration-150 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 active:not-disabled:scale-[0.96] bg-transparent text-fg hover:bg-fg/8 size-11 rounded-sm xl:hidden" aria-expanded="false" aria-controls="mobile-nav" aria-label="Open menu"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-menu size-5" aria-hidden="true"><path d="M4 12h16"></path><path d="M4 18h16"></path><path d="M4 6h16"></path></svg></button></div></div><div id="mobile-nav" hidden="" class="border-t border-border bg-bg/90 backdrop-blur-md xl:hidden hidden"><nav class="mx-auto flex max-w-6xl flex-col px-5 py-3" aria-label="Mobile"><a class="group flex min-h-12 items-center border-b border-border py-2" aria-label="Health Hacks" href="/hacks"><span class="relative inline-flex items-center overflow-hidden rounded-[3px] border border-white/10 leading-none shadow-[2px_3px_0_0_rgb(0_0_0_/_0.55),inset_0_1px_0_rgb(255_255_255_/_0.16)] gap-1.5 px-2 py-1.5 transition-[box-shadow,background-color,border-color,filter] duration-150 group-hover:border-accent group-hover:bg-accent group-hover:shadow-[2px_3px_0_0_rgb(0_0_0_/_0.3)]" style="background-color:rgb(8 13 20 / 0.72);background-image:url(pft-inside/assets/img/navy-grain.jpg);background-size:420px"><span class="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-150 group-hover:opacity-100" style="background-color:#2a7ae0" aria-hidden="true"></span><span class="relative font-display font-semibold uppercase text-[16px] tracking-[0.14em]"><span class="hh-metal-blue">H</span><span class="hh-metal">ealth Hacks</span></span></span></a><a href="/simulator/" aria-current="page" data-active="true" class="group flex min-h-12 items-center border-b border-border py-2" aria-label="Metabolic Simulator (Beta)"><span class="relative inline-flex items-center overflow-hidden rounded-[3px] border border-white/10 leading-none shadow-[2px_3px_0_0_rgb(0_0_0_/_0.55),inset_0_1px_0_rgb(255_255_255_/_0.16)] gap-1.5 px-2 py-1.5 transition-[box-shadow,background-color,border-color,filter] duration-150 group-hover:border-accent group-hover:bg-accent group-hover:shadow-[2px_3px_0_0_rgb(0_0_0_/_0.3)]" style="background-color:rgb(8 13 20 / 0.72);background-image:url(pft-inside/assets/img/navy-grain.jpg);background-size:420px"><span class="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-150 group-hover:opacity-100" style="background-color:#2a7ae0" aria-hidden="true"></span><span class="relative flex text-[#5b9cec] group-hover:text-white"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false" class="shrink-0 size-5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h4l2.5-6 4 12 2.5-6H21"></path></svg></span><span class="relative font-display font-semibold uppercase text-[16px] tracking-[0.14em]"><span class="hh-metal-blue">M</span><span class="hh-metal">etabolic Simulator</span></span><span class="relative ml-0.5 rounded-full bg-[#2a7ae0] px-1.5 py-px text-[9px] font-bold tracking-wide text-white uppercase group-hover:bg-white group-hover:text-[#1f63bd]">Beta</span></span></a><a href="/simulator/pft-inside/" class="group flex min-h-12 items-center border-b border-border py-2" aria-label="Personal Fat Threshold Model"><span class="relative inline-flex items-center overflow-hidden rounded-[3px] border border-white/10 leading-none shadow-[2px_3px_0_0_rgb(0_0_0_/_0.55),inset_0_1px_0_rgb(255_255_255_/_0.16)] gap-1.5 px-2 py-1.5 transition-[box-shadow,background-color,border-color,filter] duration-150 group-hover:border-accent group-hover:bg-accent group-hover:shadow-[2px_3px_0_0_rgb(0_0_0_/_0.3)]" style="background-color:rgb(8 13 20 / 0.72);background-image:url(pft-inside/assets/img/navy-grain.jpg);background-size:420px"><span class="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-150 group-hover:opacity-100" style="background-color:#2a7ae0" aria-hidden="true"></span><span class="relative flex text-[#5b9cec] group-hover:text-white"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false" class="shrink-0 size-5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 18a8 8 0 1 1 16 0"></path><path d="M12 18l4-5"></path><circle cx="12" cy="18" r="1"></circle></svg></span><span class="relative font-display font-semibold uppercase text-[16px] tracking-[0.14em]"><span class="hh-metal-blue">P</span><span class="hh-metal">ersonal Fat Threshold Model</span></span></span></a><a href="/fat-burn-calculator/" class="group flex min-h-12 items-center border-b border-border py-2" aria-label="Maximal Fat Loss Calculator"><span class="relative inline-flex items-center overflow-hidden rounded-[3px] border border-white/10 leading-none shadow-[2px_3px_0_0_rgb(0_0_0_/_0.55),inset_0_1px_0_rgb(255_255_255_/_0.16)] gap-1.5 px-2 py-1.5 transition-[box-shadow,background-color,border-color,filter] duration-150 group-hover:border-accent group-hover:bg-accent group-hover:shadow-[2px_3px_0_0_rgb(0_0_0_/_0.3)]" style="background-color:rgb(8 13 20 / 0.72);background-image:url(pft-inside/assets/img/navy-grain.jpg);background-size:420px"><span class="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-150 group-hover:opacity-100" style="background-color:#2a7ae0" aria-hidden="true"></span><span class="relative flex text-[#5b9cec] group-hover:text-white"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false" class="shrink-0 size-5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21c-3.9 0-6.5-2.6-6.5-6 0-3.5 3-5.5 3.5-9 2 1.3 3 3 3 5 1-.8 1.6-2 1.7-3.3C16.4 9.6 18.5 12 18.5 15c0 3.4-2.6 6-6.5 6z"></path></svg></span><span class="relative font-display font-semibold uppercase text-[16px] tracking-[0.14em]"><span class="hh-metal-blue">M</span><span class="hh-metal">aximal Fat Loss Calculator</span></span></span></a><a class="flex min-h-12 items-center text-base font-medium text-accent" href="/contact">Contact</a></nav></div></header><style>a[aria-current=page]>span:first-child{border-color:#4587c6!important;box-shadow:0 0 0 1px #4587c6,0 0 14px rgba(69,135,198,.45),2px 3px 0 0 rgb(0 0 0/.55)!important}</style></template>
+<script id="th-header-js">
+(function(){var host=document.getElementById('th-header-host'),t=document.getElementById('th-site-header');if(!host||!t)return;var emb=/[?&]embed\b/.test(location.search);try{emb=emb||window.self!==window.top}catch(e){emb=true}if(emb){host.remove();document.documentElement.classList.add('pft-embedded');return;}
+var r=host.attachShadow({mode:'open'});r.appendChild(t.content.cloneNode(true));
+var mob=r.getElementById('mobile-nav'),btn=r.querySelector('[aria-controls="mobile-nav"]'),qf=r.querySelector('[aria-controls="quick-find-panel"]');
+var openSvg=btn?btn.innerHTML:'',xSvg='<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="size-5" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>';
+function set(o){if(!mob)return;mob.hidden=!o;mob.classList.toggle('hidden',!o);mob.classList.toggle('block',o);btn.setAttribute('aria-expanded',o);btn.setAttribute('aria-label',o?'Close menu':'Open menu');btn.innerHTML=o?xSvg:openSvg;}
+if(btn)btn.addEventListener('click',function(){set(mob.hidden)});
+if(qf){qf.setAttribute('aria-controls','mobile-nav');qf.setAttribute('aria-label','Menu');qf.addEventListener('click',function(){set(mob.hidden);if(!mob.hidden&&getComputedStyle(btn).display==='none'){mob.classList.remove('xl:hidden')}else{mob.classList.add('xl:hidden')}});}
+(function(){var row=r.querySelector('header > div');if(!row)return;var st=document.createElement('style');st.textContent='.th-tabs{display:none}@media (max-width:1279.98px){.th-tabs{display:flex;flex:1;justify-content:space-around;gap:2px}.th-tabs a{flex:1;min-width:44px;min-height:48px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;border-radius:2px;color:rgb(232 237 243/.85);text-decoration:none}.th-tabs a[aria-current]{color:#4d9bff}.th-tabs svg{width:20px;height:20px;color:#4d9bff}.th-tabs span{font-size:10px;line-height:1;font-weight:500;letter-spacing:.02em;white-space:nowrap}.th-hide-sm{display:none!important}}';r.appendChild(st);if(btn){btn.classList.add('th-mbtn');btn.parentElement.classList.add('th-hide-sm');}var logo=row.querySelector('a[href="/"],a[href="https://theosishealth.com/"],a[href="https://theosishealth.com"]');if(logo)logo.classList.add('th-hide-sm');var nav=document.createElement('nav');nav.className='th-tabs';nav.setAttribute('aria-label','Pages');nav.innerHTML='<a href="/hacks"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"></path><path d="M9 18h6"></path><path d="M10 22h4"></path></svg><span>Hacks</span></a><a href="/simulator/" aria-current=\"page\"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5" r="1"></circle><path d="m9 20 3-6 3 6"></path><path d="m6 8 6 2 6-2"></path><path d="M12 10v4"></path></svg><span>Simulator</span></a><a href="/simulator/pft-inside/"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" x2="15" y1="22" y2="22"></line><line x1="4" x2="14" y1="9" y2="9"></line><path d="M14 22V4a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v18"></path><path d="M14 13h2a2 2 0 0 1 2 2v2a2 2 0 0 0 2 2a2 2 0 0 0 2-2V9.83a2 2 0 0 0-.59-1.42L18 5"></path></svg><span>PFT</span></a><a href="/fat-burn-calculator/"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="16" height="20" x="4" y="2" rx="2"></rect><line x1="8" x2="16" y1="6" y2="6"></line><line x1="16" x2="16" y1="14" y2="18"></line><path d="M16 10h.01"></path><path d="M12 10h.01"></path><path d="M8 10h.01"></path><path d="M12 14h.01"></path><path d="M8 14h.01"></path><path d="M12 18h.01"></path><path d="M8 18h.01"></path></svg><span>Calculator</span></a><a href="/contact"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"></path></svg><span>Contact</span></a>';row.appendChild(nav);})();
+document.addEventListener('keydown',function(e){if(e.key==='Escape')set(false)});})();
+</script>
 <header class="site-header">
   <div class="in">
     <a href="https://theosishealth.com" aria-label="Theosis Health home"><img class="lockup" src="assets/theosis-health-lockup.webp" alt="Theosis Health" width="900" height="168"></a>
@@ -1754,13 +1770,13 @@ body{background-color:var(--bg);background-image:var(--app-bg-image);background-
     <aside class="entry-hero" id="entry-hero" aria-label="Theosis Metabolic Simulator shield" data-print="no">
       <figure class="hero-fig"><img src="assets/hero2-2-simulation-trend.webp" width="480" height="640" loading="lazy" decoding="async" alt="" aria-hidden="true"></figure>
     </aside>
-    <script>/* v7.6.73 HERO_ANIM: true = animated D12 hero (assets/hero-fx.js: heavier -> leaner same man, stardust builds the line, plays once, then static). false = previous static hero2 art (assets/hero2-2-simulation-trend.webp). One-line revert. */
+    <script>/* v7.6.76 HERO_ANIM: true = animated F1 hero (assets/hero-fx.js + hero-fx-keys.webp: heavier man leans in toward the graph and slims, stardust draws the line, plays once, then holds). false = previous static hero2 art (assets/hero2-2-simulation-trend.webp). One-line revert. Older D12 assets (hero-fx-soft/sharp.webp) kept, unreferenced. */
     var HERO_ANIM = true;
-    if (HERO_ANIM) { (function () { var h = document.getElementById("entry-hero"), i = h && h.querySelector(".hero-fig img"); if (!i) return; document.documentElement.classList.add("hero-anim", "hero-wait"); i.removeAttribute("loading"); i.src = "assets/hero2-noline.webp?v=7675";
-      ["hero2-noline.webp", "hero-fx-soft.webp", "hero-fx-sharp.webp"].forEach(function (f) { var l = document.createElement("link"); l.rel = "preload"; l.as = "image"; l.href = "assets/" + f + "?v=7675"; document.head.appendChild(l); });
+    if (HERO_ANIM) { (function () { var h = document.getElementById("entry-hero"), i = h && h.querySelector(".hero-fig img"); if (!i) return; document.documentElement.classList.add("hero-anim", "hero-wait"); i.removeAttribute("loading"); i.src = "assets/hero2-noline.webp?v=7676";
+      ["hero2-noline.webp", "hero-fx-keys.webp"].forEach(function (f) { var l = document.createElement("link"); l.rel = "preload"; l.as = "image"; l.href = "assets/" + f + "?v=7676"; document.head.appendChild(l); });
       var st = document.createElement("style"); st.textContent = ".hero-wait .entry-hero .hero-fig img{opacity:0!important;visibility:hidden}.hero-anim .entry-hero img{animation:none!important}@media (max-width:61.9rem){.hero-anim #entry-hero{display:block!important;position:static!important;margin:-.4rem auto -1.2rem!important;width:100%;text-align:center}.hero-anim #entry-hero .hero-fig{display:inline-block}.hero-anim #entry-hero img{width:9.5rem!important;max-width:9.5rem!important;height:auto!important}.hero-anim #entry-hero .hero-note{display:none}}"; document.head.appendChild(st);
       if (innerWidth < 992) { var v = document.querySelector(".entry .choice-grid"); if (v) v.parentNode.insertBefore(h, v); }
-      var s = document.createElement("script"); s.src = "assets/hero-fx.js?v=7675"; document.head.appendChild(s); })(); }
+      var s = document.createElement("script"); s.src = "assets/hero-fx.js?v=7697"; document.head.appendChild(s); })(); }
     </script>
   </section>
 
@@ -2268,6 +2284,7 @@ body{background-color:var(--bg);background-image:var(--app-bg-image);background-
           <div id="fit-banner-5" class="fit-wrap" hidden></div>
           <div class="card hab-path" id="hab-path" hidden></div>
           <div class="card" id="proj-hero" aria-live="polite"></div>
+          <div class="card mt1 adv-only" id="ll-proj-note" role="status" hidden></div>
           <div class="card mt1 f3d" id="f3d-phone" hidden></div>
           <div class="card mt1" id="hs-card"></div>
           <div class="card mt1">
@@ -2689,7 +2706,7 @@ function liftRows(move) {
   move = applyOptOuts(move);
   if (!move || move.plannerOn) return null;
   const L = move.preset === "min" ? MIN_PRESET : move.preset === "custom" && Array.isArray(move.lifts) ? move.lifts : null; if (!L) return null;
-  return L.map((e) => ({ type: LIFT_TYPES[e.type] ? e.type : "hypertrophy", effort: LIFT_EFFORT[e.effort] ? e.effort : "moderate", min: Math.max(0, Math.min(240, +e.min || 0)), days: Math.max(0, Math.min(14, +e.days || 0)) }))
+  return L.map((e) => ({ type: LIFT_TYPES[e.type] ? e.type : "hypertrophy", effort: LIFT_EFFORT[e.effort] ? e.effort : "moderate", min: Math.max(0, Math.min(240, +e.min || 0)), days: Math.max(0, Math.min(14, +e.days || 0)), xMul: e.xMul > 0 ? Math.min(1.2, +e.xMul) : 1 }))
     .filter((e) => e.min > 0 && e.days > 0);
 }
 function liftRowNet(e) { return Math.max(0, LIFT_TYPES[e.type].met[e.effort] - 1); }
@@ -2700,7 +2717,7 @@ function liftCustom(rows) {
   let sessions = 0, min = 0, netMin = 0, X = 0, Xr = 0;
   for (const e of rows) { const T = LIFT_TYPES[e.type], dur = Math.min(1.1, Math.pow(e.min / T.ref, 0.35)), f = LIFT_EFFORT[e.effort];
     sessions += e.days; min += e.days * e.min; netMin += e.days * e.min * liftRowNet(e);
-    X += e.days * T.q * f * dur; Xr += e.days * T.r * f * Math.sqrt(Math.min(1, e.min / T.ref)); }
+    X += e.days * T.q * f * dur * (e.xMul || 1); Xr += e.days * T.r * f * Math.sqrt(Math.min(1, e.min / T.ref)) * (e.xMul || 1); }   // xMul: lifting-log set volume (assets/liftlog.js), 1 otherwise
   return { sessions, min, netMin, X, Xr };
 }
 function liftFactors(move) {
@@ -2906,7 +2923,7 @@ function muscleRows(move) {
   if (move.plannerOn) { const t = weeklyTraining(move); return t.liftSessions > 0 ? [{ days: t.liftSessions, x: 1, w: toW(MUSCLE_KEYS) }] : null; }
   if (move.preset === "custom" && Array.isArray(move.lifts)) {
     const r = move.lifts.map((e) => { const type = LIFT_TYPES[e.type] ? e.type : "hypertrophy", T = LIFT_TYPES[type], days = Math.max(0, Math.min(14, +e.days || 0)), min = Math.max(0, +e.min || 0);
-      return { days, x: T.q * (LIFT_EFFORT[e.effort] || 1) * Math.min(1.1, Math.pow(min / T.ref, 0.35)), w: rowWeights(e) }; }).filter((e) => e.days > 0 && e.x > 0);
+      return { days, x: T.q * (LIFT_EFFORT[e.effort] || 1) * Math.min(1.1, Math.pow(min / T.ref, 0.35)), w: rowWeights(e), wSum: rowSetWeights(e), custom: true, setsW: e.setsW && typeof e.setsW === "object" ? e.setsW : null }; }).filter((e) => e.days > 0 && e.x > 0);   // v7.6.83: set counts come from weeklySets(); xMul (log volume) still feeds burn / retention
     return r.length ? r : null; }
   const days = move.preset === "4+" ? 4.5 : move.preset === "2-3" ? 2.5 : move.preset === "min" ? 2 : 0; if (!days) return null;
   const G = move.groups && Array.isArray(move.groups[move.preset]) ? move.groups[move.preset] : null;
@@ -2921,24 +2938,64 @@ function rowWeights(e) {
   if (Array.isArray(e.groups)) return toW(cleanGroups(e.groups, []));   // v6.5 early format (plain list)
   return base;
 }
-const musResp = (D) => 1 - Math.exp(-D / 2);
-/** regional split of lean gain: {share{g}, nat{g}, f{g}=share/nat, trained{g}, spill{g}, factor, coverage, groups[]} (null without lifting) */
-function muscleRegions(move, sex) {
+/** v7.6.83: per-muscle set weight for a row with exercises typed: each exercise adds its own sets (main mover 1, helper 0.25-0.75),
+    so squat + lunges count twice for quads while one calf raise counts once. null when the user set the chips by hand (then rowWeights()). */
+function rowSetWeights(e) {
+  if (Array.isArray(e.groups) || (e.groupW && typeof e.groupW === "object" && Object.keys(e.groupW).length)) return null;
+  const parts = String(e.ex || "").split(/[,;\/\n+&]|\band\b/i).map((x) => x.trim()).filter(Boolean); if (!parts.length) return null;
+  const w = {}; let n = 0; for (const t of parts) { const m = matchExercise(t); if (!m) continue; n++; for (const g in m.weights) w[g] = (w[g] || 0) + m.weights[g]; }
+  return n ? w : null;
+}
+/* v7.6.83 volume model (Nick, Oct 23 2026): muscle grows where it gets weekly HARD SETS, extended over the plan's weeks.
+   Evidence basis (shapes, not exact constants):
+   - Weekly set volume per muscle has a graded dose-response with diminishing returns: more sets grow more, but each extra set adds
+     less, flattening somewhere around 10-20+ sets a week (Schoenfeld, Ogborn & Krieger 2017 dose-response meta-analysis; Baz-Valle 2022;
+     Pelland 2024/2026 meta-regression). setsDose() is a log curve scaled so 10 sets = 1 (20 ~ 1.46, 30 ~ 1.77); counting stops at
+     SETS_MAX. The curve shape and the 5-set constant are the app's assumptions fitted to that pattern, not published values.
+   - A hard set is one taken near failure; load matters little for growth within roughly 6-30 reps when sets are hard
+     (Schoenfeld 2017 load meta-analysis; Refalo 2023 proximity to failure). So the Pro log counts hard sets (reps logged, <= 4 reps
+     left) and does not use the weight lifted to size growth.
+   - Compound lifts train several muscles: main movers count as a full set, helpers as a partial set (EXERCISES weights here,
+     liftlog.js uses 1 / 0.5, a common coaching convention).
+   - Weeks: growth is added day by day by the plan engine, so it scales with the plan's length. Training age (GAIN_RATE beginner ->
+     intermediate -> advanced, slower each step), age, protein and the FFMI taper set the ceiling, and a calorie deficit shrinks the
+     gain toward zero as it deepens (dayChange(), unchanged). Per-muscle values are always shares of that one plan total, so they add up. */
+const SETS_PER_SESSION = 3;    // app assumption: ~3 hard sets per main muscle in one session, so 3 full-body sessions ~ 9-10 sets a week
+const SETS_MAX = 30;           // app assumption: sets beyond ~30 a week per muscle are not counted (no data that more keeps helping)
+const setsDose = (s) => s <= 0 ? 0 : Math.log1p(Math.min(SETS_MAX, s) / 5) / Math.log(3);
+/** weekly hard sets per muscle: {sets{k}, src: "log" | "sets" | "est", rows} or null without lifting.
+    log = the Pro lifting log's counted sets; sets = Advanced "hard sets per muscle a week" spread by where each row trains;
+    est = sessions a week x SETS_PER_SESSION x effort/length x how much each row works the muscle. */
+function weeklySets(move) {
   const rows = muscleRows(move); if (!rows) return null;
-  const nat = MUSCLE_NAT[sex === "f" ? "f" : "m"], D = {};
-  for (const k of MUSCLE_KEYS) D[k] = 0;
-  for (const r of rows) for (const g in r.w) if (g in D) D[g] += r.days * r.x * r.w[g];
-  const trained = {}, eff = {}, spill = {}; let Dmax = 0;
-  for (const k of MUSCLE_KEYS) { trained[k] = D[k] > 0; Dmax = Math.max(Dmax, D[k]); }
-  if (Dmax <= 0) return null;
-  const rRef = musResp(Dmax);
-  for (const k of MUSCLE_KEYS) { let sp = 0;
-    for (const c in MUSCLE_SPILL) if (trained[c] && MUSCLE_SPILL[c][k]) sp = Math.max(sp, 0.35 * MUSCLE_SPILL[c][k] * musResp(D[c]) / rRef);
-    spill[k] = trained[k] ? 0 : sp; eff[k] = trained[k] ? musResp(D[k]) / rRef : sp; }
-  let tot = 0, coverage = 0; for (const k of MUSCLE_KEYS) { tot += nat[k] * eff[k]; coverage += nat[k] * Math.min(1, eff[k]); }
-  const share = {}, f = {}; for (const k of MUSCLE_KEYS) { share[k] = nat[k] * eff[k] / tot; f[k] = share[k] / nat[k]; }
-  const factor = clamp(0.75 + 0.25 * coverage, 0.75, 1);
-  return { share, nat, f, trained, spill, factor, coverage, groups: MUSCLE_KEYS.filter((k) => trained[k]), upper: MUSCLE_UPPER.reduce((a, k) => a + share[k], 0) };
+  const sets = {}; for (const k of MUSCLE_KEYS) sets[k] = 0;
+  const logRow = rows.find((r) => r.setsW);
+  if (logRow) { for (const k of MUSCLE_KEYS) sets[k] = Math.max(0, +logRow.setsW[k] || 0); return { sets, src: "log", rows }; }
+  const raw = {}; let mx = 0; for (const k of MUSCLE_KEYS) { raw[k] = 0; for (const r of rows) raw[k] += r.days * r.x * ((r.wSum || r.w)[k] || 0); mx = Math.max(mx, raw[k]); }
+  if (mx <= 0) return null;
+  const adv = move && move.adv && move.adv.sets != null && isFinite(+move.adv.sets) ? clamp(+move.adv.sets, 0, 40) : null;
+  for (const k of MUSCLE_KEYS) sets[k] = adv != null ? adv * raw[k] / mx : SETS_PER_SESSION * raw[k];
+  return { sets, src: adv != null ? "sets" : "est", rows };
+}
+/** regional split of lean gain: {share{g} (sums to 1), nat{g}, f{g}=share/nat, sets{g}, trained{g}, spill{g}, factor, volume, coverage, groups[]} (null without lifting) */
+function muscleRegions(move, sex) {
+  const ws = weeklySets(move); if (!ws) return null;
+  const nat = MUSCLE_NAT[sex === "f" ? "f" : "m"], sets = { ...ws.sets }, trained = {}, spill = {}, eff = {};
+  for (const k of MUSCLE_KEYS) trained[k] = sets[k] > 0;
+  if (!MUSCLE_KEYS.some((k) => trained[k])) return null;
+  // muscles not trained directly still get a little from big lifts nearby (stabilisers; app assumption, 35% of the MUSCLE_SPILL weight)
+  for (const k of MUSCLE_KEYS) { let sp = 0; if (!trained[k]) for (const c in MUSCLE_SPILL) if (trained[c] && MUSCLE_SPILL[c][k]) sp = Math.max(sp, 0.35 * MUSCLE_SPILL[c][k] * ws.sets[c]);
+    spill[k] = sp; if (!trained[k]) sets[k] = sp; }
+  let volume = 0, emax = 0; for (const k of MUSCLE_KEYS) { eff[k] = setsDose(sets[k]); volume += nat[k] * eff[k]; emax = Math.max(emax, eff[k]); }
+  if (volume <= 0) return null;
+  const share = {}, f = {}; let coverage = 0;
+  for (const k of MUSCLE_KEYS) { share[k] = nat[k] * eff[k] / volume; f[k] = share[k] / nat[k]; coverage += nat[k] * Math.min(1, eff[k] / emax); }
+  for (const k of MUSCLE_KEYS) spill[k] = trained[k] ? 0 : Math.min(1, setsDose(spill[k]) / emax);
+  // whole-body rate: presets keep their frequency steps (liftFactors() already counts Advanced sets there), so only cover-the-body matters;
+  // custom rows / the log carry their own volume, so the body-wide dose (10 sets on every muscle = 1) sets the rate
+  const custom = ws.rows.some((r) => r.custom);
+  const factor = custom ? clamp(volume, 0.15, 1.5) : clamp(0.75 + 0.25 * coverage, 0.75, 1);
+  return { share, nat, f, sets, trained, spill, factor, volume, coverage, custom, src: ws.src, groups: MUSCLE_KEYS.filter((k) => trained[k]), upper: MUSCLE_UPPER.reduce((a, k) => a + share[k], 0) };
 }
 
 // ---------- muscle-gain potential ----------
@@ -2952,10 +3009,10 @@ function leanPotentialPerDay(p, move, day, proteinLevel, L) {
   if (status === "beginner" && day > 365) status = "intermediate";
   else if (status === "intermediate" && day > 730) status = "advanced";
   const base = GAIN_RATE[p.sex][status] / 30.44;
-  const freq = t.custom ? liftGainFreq(t.liftX) : t.liftSessions >= 4 ? 1 : t.liftSessions >= 2 ? 0.75 : 0.4;
+  const mr = muscleRegions(move, p.sex);   // v7.6.83: custom rows / the log: weekly sets per muscle set the rate (mr.factor); presets: frequency steps x coverage
+  const freq = t.custom ? (mr && mr.custom ? 1 : liftGainFreq(t.liftX)) : t.liftSessions >= 4 ? 1 : t.liftSessions >= 2 ? 0.75 : 0.4;
   const age = p.age >= 60 ? 0.7 : p.age >= 40 ? 0.85 : 1;
   const prot = proteinLevel === "low" ? 0.5 : proteinLevel === "moderate" ? 0.8 : 1;
-  const mr = muscleRegions(move, p.sex);   // v6.5: training only a few muscle groups lowers the total a little
   return base * freq * age * prot * ffmiTaper(p, L) * liftFactors(move).gain * (mr ? mr.factor : 1);   // v5: style / weekly sets / proximity to failure (Advanced; 1 otherwise)
 }
 
@@ -2964,10 +3021,13 @@ function leanPotentialPerDay(p, move, day, proteinLevel, L) {
    Inside the ceiling, lean loss = a Forbes-style share that resistance training and protein shrink
    (to ~0 with 4+ sessions and adequate protein, Alpert's premise) + a structural share in larger bodies. Beyond the ceiling the excess is drawn
    from lean tissue. Surplus: lean gain up to the training-specific potential, the rest is stored as fat. */
+/* v7.6.81: lean gain needs lifting. With a surplus, gain is capped by leanPotentialPerDay(); in a deficit (recomp, Nick's choice) gain is P x 0.5 x (1 - deficit / fat ceiling), the pre-v7.6.80 rule, so it shrinks to zero at the ceiling. No lifting = no lean gain. Original v7.6.80 note: lean gain only with lifting AND a calorie surplus. Gain per day is capped by leanPotentialPerDay() (GAIN_RATE x lift frequency x age x protein x FFMI taper, Kouri 1995); the rest of a surplus is fat (Slater 2019; Iraki 2019). */
+const MUSCLE_GATE = true;
 function dayChange(E, F, ctx, L) {
   const k = ctx.k, ceiling = k * F, P = ctx.potential;
   if (E < 0) {
     const D = -E;
+    // v7.6.81 (Nick's choice): small recomp gain when lifting in a deficit (P is 0 without lifting); half the potential at most, shrinking to 0 as the deficit nears the fat ceiling.
     const gain = P * 0.5 * Math.max(0, 1 - D / ceiling);
     const within = Math.min(D, ceiling), excess = D - within;
     const pm = clamp((L != null && ctx.sex ? leanShare(F, L, ctx) : clamp(10.4 / (10.4 + F) * ctx.lossFactor, 0, 0.6)) * LEAN_LOSS_CONSERVATIVE, 0, 0.6);   // v7.6.20g: conservative x1.15
@@ -2980,6 +3040,7 @@ function dayChange(E, F, ctx, L) {
   if (P <= 0) {
     // v7.6.20: no resistance training. Overfeeding still adds some lean tissue (Forbes 1987; Hall 2007: lean share of a weight change = 10.4 / (10.4 + fat kg);
     // Bray 2012: +2.9 kg lean with adequate protein, none with very low protein). Energy density of lean tissue 1,800 kcal/kg (Hall 2008).
+    if (MUSCLE_GATE) return { dF: E / RHO_F, dL: 0, over: 0 };   // v7.6.80: a surplus without lifting is stored as fat (no lean gain shown)
     const pmS = ctx.leanFloor ? 10.4 / (10.4 + F) * ctx.leanFloor : 0;
     if (pmS <= 0) return { dF: E / RHO_F, dL: 0, over: 0 };
     const x = E / (RHO_F + RHO_L_LOSS * pmS / (1 - pmS));
@@ -3533,7 +3594,7 @@ const cancerRanges = (kg) => ({ kcalLo: Math.round(kg * 25 / 5) * 5, kcalHi: Mat
 const api = { nextStepsFor, cancerRanges, cancerRec, lactInfo, lactKcal, cancerOn, holdsGoal, floorOf, OVER_BUFFER_KCAL, LEAN_LOSS_CONSERVATIVE, overFuel, LIVER_GLY_G, LIVER_GLY_KCAL, LB, K_LB, K_KG, RHO_F, TAU, K_UNC, RHO_L_LOSS, RHO_L_GAIN, FLOOR, ESSENTIAL, VERY_LEAN, GAIN_RATE, GOALS,
   band, compareGain, BAND_SCALE, refit, params: () => ({ HALL_PA, TEF_BETA, BAND_SCALE, ADAPT_CAP: 0.25 }),
   navyBf, bmiBf, analyze, healthSummary, a1cStatus, diabetesStatus, a1cRefHtml, A1C_REF_TEXT, psmfPlan, psmfFor, bulkSurplus, fastGainSurplus, FAST_GAIN_NOTE, BULK_SURPLUS, idealBodyWeight, structuralShare, AT_BETA, AT_TAU, BMI_STOP, LEAN_STOP, bmr, activity, multiplierLabel, referenceWeight, proteinTarget, proteinPlan, highBodyFat, surplusFor, deficitFor, planBands, GAIN_KCAL, holdRatio, ffmiTaper, CARDIO, cardioNetMet, cardioWeek, cardioEntries, LIFT_STYLE, liftFactors, lossFactor, LIFT_TYPES, LIFT_EFFORT, MIN_PRESET, applyOptOuts, liftRows, liftRowNet, liftCustom, liftGainFreq, liftRetention, calibrate, macrosFromInput, macros, leanPotentialPerDay,
-  simulate, project, MUSCLES, MUSCLE_KEYS, MUSCLE_UPPER, MUSCLE_NAT, MUSCLE_SPILL, PRESET_GROUPS, PRESET_LABEL, defaultGroups, muscleRows, muscleRegions, EXERCISES, matchExercise, inferGroups, rowWeights, goalProblems, goalDirection, weeklyTraining, essentialFatKg };
+  simulate, project, MUSCLES, MUSCLE_KEYS, MUSCLE_UPPER, MUSCLE_NAT, MUSCLE_SPILL, PRESET_GROUPS, weeklySets, setsDose, PRESET_LABEL, defaultGroups, muscleRows, muscleRegions, EXERCISES, matchExercise, inferGroups, rowWeights, goalProblems, goalDirection, weeklyTraining, essentialFatKg };
 if (typeof module !== "undefined" && module.exports) module.exports = api;
 root.BodyEngine = api;
 })(typeof window !== "undefined" ? window : globalThis);
@@ -5446,6 +5507,9 @@ const uW = () => (imp() ? "lb" : "kg");
 const nW = (kg, d = 1) => +(imp() ? kg * LB : kg).toFixed(d);
 const fW = (kg, d = 1) => `${nW(kg, d).toLocaleString("en-US")} ${uW()}`;
 const fWd = (kg) => { const v = nW(kg); return `${v > 0 ? "+" : v < 0 ? "−" : "±"}${Math.abs(v).toLocaleString("en-US")} ${uW()}`; };
+/* v7.6.82 (Nick): exact muscle-gain amounts aren't knowable, so a lean GAIN is never shown as a number; losses still are. */
+const fLeanL = (kg) => kg > 0.1 ? "some muscle gain likely" : `${fWd(kg)} lean`;
+const fLeanV = (kg) => kg > 0.1 ? "some gain likely" : fWd(kg);
 const fK = (k) => Math.round(k).toLocaleString("en-US");
 const fP = (x) => `${(+x.toFixed(1))}%`;
 const fWk = (days) => +(days / 7).toFixed(1);
@@ -5478,7 +5542,9 @@ function bfInfo() {
 function baseActivity() { const b = bfInfo(), fat = S.profile.weightKg * b.bf / 100, mv = modeMove(S.move);
   return E.activity({ ...S.profile, cal: calFor(mv, fat, S.profile.weightKg - fat) }, mv, fat, S.profile.weightKg - fat, S.food.bmrEq); }
 /** Simple mode ignores everything that only Advanced can set (it stays saved, so switching back restores it). */
-function modeMove(m) { return isAdv() ? m : { ...m, adv: null, cardio: (m.cardio || []).map((e) => ({ ...e, by: "effort" })), lifts: Array.isArray(m.lifts) ? m.lifts.map((e) => { const o = { ...e }; delete o.ex; delete o.groupW; delete o.groups; return o; }) : m.lifts }; }
+/** v7.6.8x Pro preview: in Advanced, a lifting log (assets/liftlog.js) replaces the manual Custom lifting rows when it is on and has entries */
+function modeMove(m) { const o = modeMove0(m); return isAdv() && window.LiftLog ? window.LiftLog.apply(o) : o; }
+function modeMove0(m) { return isAdv() ? m : { ...m, adv: null, cardio: (m.cardio || []).map((e) => ({ ...e, by: "effort" })), lifts: Array.isArray(m.lifts) ? m.lifts.map((e) => { const o = { ...e }; delete o.ex; delete o.groupW; delete o.groups; return o; }) : m.lifts }; }
 function calFor(mv, fat, lean) { const base = isAdv() && (S.food.rmr > 0 || S.food.tdeeKnown > 0) ? E.calibrate(S.profile, mv, fat, lean, S.food.bmrEq, { rmr: S.food.rmr, tdee: S.food.tdeeKnown }) : null;
   const rf = S.refit && S.refit.applied && !refitOff ? S.refit.k : 1; if (rf === 1) return base;
   return Object.assign({}, base || {}, { tdeeK: ((base && base.tdeeK) || 1) * rf }); }
@@ -5730,7 +5796,7 @@ function syncDiabetes() { const h = S.profile.health, st = E.diabetesStatus(h);
   if (h.diabetesAuto) { h.diabetes = "unknown"; h.diabetesAuto = false; }   /* v7.6.56: an old A1c-set status is cleared; the person picks it */
   for (const sel of $$('select[data-sel="profile.health.diabetes"]')) if (sel.value !== h.diabetes) sel.value = h.diabetes;
   const n = $("#dm-note"); if (n) { n.textContent = st.note; n.hidden = !st.note; n.className = "hint dm-note " + (st.mismatch ? "dm-mismatch" : "dm-auto"); } }
-function update() { syncDiabetes(); compute(); renderSummary(); renderStep(); renderAdv(); renderFit(); try { renderSnapshot(); } catch (e) { /* v7.6.55 */ } try { if (S.step >= 1) f3dMount(); } catch (e) { /* 3D figure falls back to 2D */ } save(); }
+function update() { syncDiabetes(); compute(); try { if (window.LiftLog) window.LiftLog.note(); } catch (e) { /* */ } renderSummary(); renderStep(); renderAdv(); renderFit(); try { renderSnapshot(); } catch (e) { /* v7.6.55 */ } try { if (S.step >= 1) f3dMount(); } catch (e) { /* 3D figure falls back to 2D */ } save(); }
 function renderAdv() {
   applyUiMode(); if (!isAdv()) return;
   const lf = E.liftFactors(S.move), n = $("#lift-adv-note");
@@ -5853,12 +5919,15 @@ function renderRegional() {
   const cell = (c, k) => `<b>${fWd(c[k].kg)}</b><small>${fPct(c[k].pct)}</small>`;
   const row = (label, k, sub) => `<tr><th scope="row">${label}${sub ? `<small>${sub}</small>` : ""}</th>${cM ? `<td>${cell(cM, k)}</td>` : ""}<td>${cell(cE, k)}</td></tr>`;
   const mus = (f) => muscleSplit(sex, f.row.leanKg - s0.leanKg), mE = mus(fr[fr.length - 1]), mM = cM ? mus(fr[1]) : null;
-  const mrow = (label, k, sub) => `<tr class="mus"><th scope="row">${label}${sub ? `<small>${sub}</small>` : ""}</th>${cM ? `<td><b>${fWd(mM[k])}</b></td>` : ""}<td><b>${fWd(mE[k])}</b></td></tr>`;
+  const relW = (v, tot) => !(tot > 0) || v <= 0 ? "little" : v / tot >= 0.4 ? "more focus" : v / tot >= 0.15 ? "some" : "less focus";
+  const mrow = (label, k, sub) => `<tr class="mus"><th scope="row">${label}${sub ? `<small>${sub}</small>` : ""}</th>${cM ? `<td><b>${relW(mM[k], mM.up + mM.lo)}</b></td>` : ""}<td><b>${relW(mE[k], mE.up + mE.lo)}</b></td></tr>`;
   const fatRows = `${row("Around the organs", "vat", "visceral fat")}${row("Under the skin", "sub", "all subcutaneous fat")}${row("Hips &amp; thighs", "gf", "part of under-the-skin")}${row("Belly (under the skin)", "abd", "")}`;
   const lifts = E.weeklyTraining(effMove()).liftSessions > 0, dLean = eR.leanKg - s0.leanKg;
   const mr = musRegions(), gk = (f, k) => mr ? (f.row.leanKg - s0.leanKg) * mr.share[k] : 0;
-  const grow = (k) => `<tr class="mus-g" data-mus="${k}"><th scope="row">${musName(k)}<small>${mr.trained[k] ? "trained" : "spillover from compound lifts"}</small></th>${cM ? `<td>${fWd(gk(fr[1], k))}</td>` : ""}<td>${fWd(gk(fr[fr.length - 1], k))}</td></tr>`;
-  const perG = mr ? E.MUSCLE_KEYS.filter((k) => mr.share[k] >= 0.004).sort((a, b) => mr.share[b] - mr.share[a]).map(grow).join("") : "";
+  const grow = (k) => `<tr class="mus-g" data-mus="${k}"><th scope="row">${musName(k)}<small>${mr.trained[k] ? "trained" : "spillover from compound lifts"}</small></th>${cM ? `<td>${relF(k)}</td>` : ""}<td>${relF(k)}</td></tr>`;
+  // v7.6.83: same relative words as the Muscle view bars (growth for that muscle's size), most-focused first
+  const fMax = mr ? Math.max(1e-9, ...E.MUSCLE_KEYS.map((k) => mr.f[k])) : 1, relF = (k) => mr.f[k] / fMax >= 0.66 ? "more focus" : mr.f[k] / fMax >= 0.33 ? "some" : "less focus";
+  const perG = mr ? E.MUSCLE_KEYS.filter((k) => mr.share[k] >= 0.004 && mr.f[k] >= 0.12 * fMax).sort((a, b) => (Math.abs(mr.f[b] - mr.f[a]) > 1e-6 * fMax ? mr.f[b] - mr.f[a] : 0) || mr.share[b] - mr.share[a]).map(grow).join("") : "";
   const musRows = dLean > 0.1 ? `<tr class="grp"><th colspan="${cM ? 3 : 2}">Lean mass (mostly muscle)</th></tr>${mrow("Upper body", "up", "chest, back, shoulders, arms")}${mrow("Legs, glutes &amp; core", "lo", "")}${perG ? `<tr class="grp sub"><th colspan="${cM ? 3 : 2}">By muscle group</th></tr>` + perG : ""}` : "";
   const fatHead = (t) => `<tr class="grp"><th colspan="${cM ? 3 : 2}">${t}</th></tr>`;
   const liverWord = cE.liver.to < cE.liver.from * 0.6 ? "falls sharply" : cE.liver.to < cE.liver.from * 0.9 ? "falls" : cE.liver.to > cE.liver.from * 1.1 ? "rises" : "changes little";
@@ -5874,10 +5943,10 @@ function renderRegional() {
       hint: "Estimates from published averages: muscle grows in the muscles you train (Schoenfeld 2017); regained fat follows your usual pattern, men toward the belly and organs, women toward the hips and thighs until menopause (Karpe & Pinnick 2015; Lovejoy 2008). Not measurements; a scan (DEXA or MRI) can measure them." },
     recomp: { eb: "Where it changes · estimate", h: "Where you lose fat and gain muscle",
       tbody: musRows + fatHead("Fat") + fatRows,
-      read: `Fat comes off (${fWd(eR.fatKg - s0.fatKg)}, ${fPct(totPct)}), first and proportionally fastest from around the organs; ${sex === "f" ? "hips and thighs go slowest" : "hips and thighs go slower"}. At the same time about ${fWd(dLean)} of lean mass goes on where you train, roughly ${Math.round(muscleSplit(sex, 1).lo * 100)}% legs and glutes and ${Math.round(muscleSplit(sex, 1).up * 100)}% upper body with full-body lifting. Liver fat typically ${liverWord}.`,
+      read: `Fat comes off (${fWd(eR.fatKg - s0.fatKg)}, ${fPct(totPct)}), first and proportionally fastest from around the organs; ${sex === "f" ? "hips and thighs go slowest" : "hips and thighs go slower"}. At the same time some muscle goes on where you train, roughly ${Math.round(muscleSplit(sex, 1).lo * 100)}% legs and glutes and ${Math.round(muscleSplit(sex, 1).up * 100)}% upper body with full-body lifting. Liver fat typically ${liverWord}.`,
       hint: "Estimates from published averages, not measurements. A scan (DEXA or MRI) can measure them." },
     hold: { eb: "Where it changes · estimate", h: "Where things shift",
-      tbody: (musRows ? musRows + fatHead("Fat") : "") + fatRows, read: `Your weight stays about the same, so regional fat changes little (${fWd(eR.fatKg - s0.fatKg)} in total).${dLean > 0.1 ? ` Training adds about ${fWd(dLean)} of lean mass where you work, roughly ${Math.round(muscleSplit(sex, 1).lo * 100)}% legs and glutes and ${Math.round(muscleSplit(sex, 1).up * 100)}% upper body.` : ""}`, hint: "Estimates from published averages, not measurements." } }[kind];
+      tbody: (musRows ? musRows + fatHead("Fat") : "") + fatRows, read: `Your weight stays about the same, so regional fat changes little (${fWd(eR.fatKg - s0.fatKg)} in total).${dLean > 0.1 ? ` Training adds some muscle where you work, roughly ${Math.round(muscleSplit(sex, 1).lo * 100)}% legs and glutes and ${Math.round(muscleSplit(sex, 1).up * 100)}% upper body.` : ""}`, hint: "Estimates from published averages, not measurements." } }[kind];
   box.dataset.kind = kind;
   box.innerHTML = `<p class="eyebrow card-eyebrow">${T.eb}</p>
     <div class="section-head" style="margin-bottom:0"><h2>${T.h}</h2><span class="tag">${esc(PH_TXT[ph.label])}</span></div>
@@ -5932,7 +6001,7 @@ function recItems() {
   if (!R || R.blocked || !R.main) return [];
   const rows = R.main.rows, s0 = rows[0], e = rows[rows.length - 1], dF = e.fatKg - s0.fatKg, dL = e.leanKg - s0.leanKg, wk = Math.max(1, e.day / 7);
   const mr = musRegions(), out = [], lifting = !!mr, eff = (v, fn) => { const r = recSim(fn); if (!r) return ""; return v(r); };
-  const fatLean = (r) => `About <b>${fWd(r.fatKg - s0.fatKg)}</b> fat and <b>${fWd(r.leanKg - s0.leanKg)}</b> lean by week ${fWk(e.day)} (now ${fWd(dF)} fat, ${fWd(dL)} lean).`;
+  const fatLean = (r) => `About <b>${fWd(r.fatKg - s0.fatKg)}</b> fat and <b>${fLeanL(r.leanKg - s0.leanKg)}</b> by week ${fWk(e.day)} (now ${fWd(dF)} fat, ${fLeanL(dL)}).`;
   if (R.dir === "gain" && dF > 0.5 && dF > 0.5 * Math.max(0.1, dF + Math.max(0, dL))) {
     const canLeaner = !(S.goal.type === "gain" && gainModeOf(S.goal) !== "fast") && !S.food.actualOn;
     out.push({ id: canLeaner ? "leaner" : null, h: "Most of this gain is fat", b: `A smaller surplus (about 250–350 kcal a day) builds nearly the same muscle with much less fat. Keep protein high (around 1 g per lb of goal weight, about 2 g/kg) and get the extra calories mainly from carbs rather than fat, give it a longer timeline, and add steps or some cardio.${lifting ? "" : " Most important: add lifting (Move step), or the gain is almost all fat."}`,
@@ -5944,12 +6013,12 @@ function recItems() {
   }
   if (mr && dL > 0.1 && mr.coverage < 0.85) { const miss = recMissing(mr);
     if (miss.length) out.push({ id: S.move.preset === "custom" && S.move.lifts.length ? "addGroups" : null, h: "Your training skips some big muscles", b: `You don't train your ${esc(andList(miss.map((k) => musName(k).toLowerCase())))}. Adding one or two exercises for them (e.g. ${esc(andList(miss.slice(0, 3).map((k) => ({ chest: "push-ups or bench", back: "rows or pull-ups", shoulders: "overhead press", triceps: "dips", quads: "squats", hamstrings: "RDLs or leg curls", glutes: "hip thrusts", calves: "calf raises", core: "planks", biceps: "curls", forearms: "carries" })[k])))}) spreads the gain and raises the total.`,
-      eff: S.move.preset === "custom" ? eff((r) => `About <b>${fWd(r.leanKg - s0.leanKg)}</b> lean by week ${fWk(e.day)} (now ${fWd(dL)}).`, REC_APPLY.addGroups) : "", btn: "Try adding them" }); }
+      eff: S.move.preset === "custom" ? eff((r) => `About <b>${fLeanL(r.leanKg - s0.leanKg)}</b> by week ${fWk(e.day)} (now ${fLeanL(dL)}).`, REC_APPLY.addGroups) : "", btn: "Try adding them" }); }
   if (R.dir === "loss" && dL < -0.45) {
-    if (!lifting) out.push({ id: "lift", h: "You'd lose muscle on this cut", b: "Lifting 2–3 times a week is the strongest signal to keep muscle while you lose fat.", eff: eff((r) => `About <b>${fWd(r.leanKg - s0.leanKg)}</b> lean (now ${fWd(dL)}) and ${fWd(r.fatKg - s0.fatKg)} fat by week ${fWk(e.day)}.`, REC_APPLY.lift), btn: "Try lifting 2–3× a week" });
-    if (S.food.actualOn && S.food.actualProtein !== "high") out.push({ id: "protein", h: "Eat more protein", b: "Around 1 g per lb of goal weight (about 2 g/kg) protects muscle in a deficit.", eff: eff((r) => `About <b>${fWd(r.leanKg - s0.leanKg)}</b> lean (now ${fWd(dL)}).`, REC_APPLY.protein), btn: "Try high protein" });
+    if (!lifting) out.push({ id: "lift", h: "You'd lose muscle on this cut", b: "Lifting 2–3 times a week is the strongest signal to keep muscle while you lose fat.", eff: eff((r) => `About <b>${fLeanL(r.leanKg - s0.leanKg)}</b> (now ${fLeanL(dL)}) and ${fWd(r.fatKg - s0.fatKg)} fat by week ${fWk(e.day)}.`, REC_APPLY.lift), btn: "Try lifting 2–3× a week" });
+    if (S.food.actualOn && S.food.actualProtein !== "high") out.push({ id: "protein", h: "Eat more protein", b: "Around 1 g per lb of goal weight (about 2 g/kg) protects muscle in a deficit.", eff: eff((r) => `About <b>${fLeanL(r.leanKg - s0.leanKg)}</b> (now ${fLeanL(dL)}).`, REC_APPLY.protein), btn: "Try high protein" });
     else if (!S.food.actualOn) out.push({ id: null, h: "Keep protein high", b: "Your plan already assumes about 1 g of protein per lb of goal weight. Hitting it every day is what protects muscle.", eff: "" });
-    if (S.goal.type === "maxloss" || (+S.goal.pace || 0) > 0.45) out.push({ id: "slower", h: "A smaller deficit keeps more muscle", b: "Losing a little slower (a smaller deficit) means less muscle loss, especially when you're already lean.", eff: eff((r) => `About <b>${fWd(r.leanKg - s0.leanKg)}</b> lean and ${fWd(r.fatKg - s0.fatKg)} fat by week ${fWk(e.day)} (now ${fWd(dL)} lean, ${fWd(dF)} fat).`, REC_APPLY.slower), btn: "Try a smaller deficit" });
+    if (S.goal.type === "maxloss" || (+S.goal.pace || 0) > 0.45) out.push({ id: "slower", h: "A smaller deficit keeps more muscle", b: "Losing a little slower (a smaller deficit) means less muscle loss, especially when you're already lean.", eff: eff((r) => `About <b>${fLeanL(r.leanKg - s0.leanKg)}</b> and ${fWd(r.fatKg - s0.fatKg)} fat by week ${fWk(e.day)} (now ${fLeanL(dL)}, ${fWd(dF)} fat).`, REC_APPLY.slower), btn: "Try a smaller deficit" });
   }
   return out;
 }
@@ -6097,7 +6166,7 @@ function storyMe(e, L) {
   const len = (cm) => (uW() === "lb" ? `${(cm / 2.54).toFixed(1)} in` : `${Math.round(cm)} cm`);
   const ms = (L && L.stages ? L.stages : []).filter((s) => s.key !== "unknown" && s.frac > 0).map((s) => ({ wk: Math.round(s.day / 7), label: s.label }));
   return { goal: goalLabel(), dir: R.dir, pace: R.dir === "loss" ? (R.pace >= 0.99 ? "maximal" : R.pace >= 0.8 ? "firm" : R.pace >= 0.45 ? "steady" : "gentle") : null,
-    wNow: fW(s0.weightKg), wEnd: fW(end.weightKg), bfNow: fP(s0.bf), bfEnd: fP(end.bf), weeks: Math.round(end.day / 7), dFat: fWd(end.fatKg - s0.fatKg), dLean: fWd(end.leanKg - s0.leanKg),
+    wNow: fW(s0.weightKg), wEnd: fW(end.weightKg), bfNow: fP(s0.bf), bfEnd: fP(end.bf), weeks: Math.round(end.day / 7), dFat: fWd(end.fatKg - s0.fatKg), dLean: fLeanV(end.leanKg - s0.leanKg),
     waist: wc ? len(wc) : null, whtr: whtr ? whtr.toFixed(2) : null, whtrHigh: whtr ? whtr >= 0.5 : null,
     phenoTxt: fatPattern().ph ? (PH_TXT[fatPattern().ph.label] || "").toLowerCase() : null,
     range: e && e.over ? pftRangeTxt(e) : null, rangeMid: e && e.over ? fW(e.weightKg.mid) : null, reachesRange: e && e.over ? end.weightKg <= e.weightKg.hi : null, milestones: ms };
@@ -6167,8 +6236,17 @@ function pftSizeT(sex, bf, wh, wide) { const lo = wide ? (sex === "f" ? 18 : 10)
 function pftFigOuter(row) { const P = S.profile; if (!row) return null; const bf = row.bf != null ? row.bf : 100 * row.fatKg / Math.max(1, row.weightKg);
   let wc = null; try { wc = waistAt(row.fatKg, row.leanKg); } catch (e) { wc = null; }
   const wh = wc > 0 && P.heightCm > 0 ? Math.min(0.9, wc / P.heightCm) : null, z = pftSizeT(P.sex, bf, wh, true);
-  const e = 1 - (1 - z) * (1 - z); /* ease-out: ordinary body-fat changes stay visible, very large bodies still top out */
+  const e = z; /* v7.6.90: straight line (was ease-out 1-(1-z)^2, which flattened big bodies so 38% -> 33% barely changed); z itself is still capped */
   return { subq: +(0.05 + 1.0 * e).toFixed(3), mass: +(0.75 * e).toFixed(3), belly: +(0.95 * e).toFixed(3) }; }
+/* v7.6.90: body frame from the user's own entries, for one point on the plan (anatomy-v23 PFTAnatomyBias; it caps every value).
+   Height: figure height scales with height / 175 cm (the model's built height), capped at +/-8%.
+   Girth: proportional to sqrt(BMI / 23) (BMI from that point's projected weight and the entered height), damped to 30% so it adds to
+   the fat-layer morphs instead of doubling them, capped at +/-12%. Sex "f": the one shared mesh is used with a gentler belly / fuller
+   hip-thigh fat weighting and a 4% narrower frame; there is no separate female body model. Blank height/weight = no change. */
+function pftFigBias(row) { const P = S.profile, h = +P.heightCm || 0, w = row && row.weightKg ? row.weightKg : +P.weightKg || 0, f = P.sex === "f";
+  const b = { sx: 1, sy: 1, belly: f ? -0.1 : 0, mass: f ? 0.08 : 0 }; if (h > 0) b.sy = h / 175;
+  if (h > 0 && w > 0) { const bmi = w / ((h / 100) * (h / 100)); b.sx = 1 + 0.3 * (Math.sqrt(bmi / 23) - 1); }
+  if (f) b.sx *= 0.96; b.sx = +b.sx.toFixed(4); b.sy = +b.sy.toFixed(4); return b; }
 function pftInsideStage() {
   if (!R || R.blocked) return null; const e = pftEst(), st = PF.stage ? null : null, w = R.main.rows[0].weightKg, dm = E.diabetesStatus(S.profile.health).value;
   const key = !e || !e.known ? null : !e.over || w <= e.weightKg.lo ? "under" : w <= e.weightKg.hi ? "near" : "above";
@@ -6237,7 +6315,7 @@ function sumRowsHtml(d) {
     ${row("weight", "Weight", rd.you ? `${nW(S.profile.weightKg)} → ${d.e ? fW(d.e.weightKg) : dash}` : dash)}
     ${row("bf", `Body fat${rd.you && d.b.source !== "measured" ? "*" : ""}`, rd.you ? `${fP(d.b.bf)} → ${d.e ? fP(d.e.bf) : dash}` : dash)}
     ${row("fat", "Fat change", d.e ? fWd(d.dFat) : dash)}
-    ${row("lean", `Lean change${as && d.e ? "†" : ""}`, d.e ? fWd(d.dLean) : dash)}
+    ${row("lean", `${d.e && d.dLean > 0.1 ? "Muscle" : "Lean change"}${as && d.e ? "†" : ""}`, d.e ? fLeanV(d.dLean) : dash)}
     ${rd.burn && R && R.act0 ? row("burn", "Daily burn", `${fK(R.act0.tdee)} kcal`, R.act0.calibrated ? "incl. activity · calibrated" : "incl. activity") : row("burn", "Daily burn", dash)}
     ${d.e ? sumFoodHtml(d) : row("kcal", "Daily calories", dash) + row("macros", "Protein · carbs · fat", dash)}
     ${row("date", d.reached ? "Goal date" : "End date", d.e ? fDate(d.days, true) : dash, d.e ? `${fWk(d.days)} weeks` : "")}
@@ -6282,7 +6360,7 @@ function mbarOutcome(d) {
   const dF = e.fatKg - st.fatKg, dL = e.leanKg - st.leanKg, T = 0.45, fit = typeof calorieFit === "function" ? calorieFit() : null;
   let lab = dF < -T && dL > T ? "Recomposition" : dF < -T && dL < -T ? "Fat loss, some lean loss" : dF < -T ? "Fat loss" : dF > T && dL > T ? "Weight gain" : dL > T ? "Lean gain" : dF > T ? "Fat gain" : "About maintenance";
   if (fit && fit.mismatch && fit.band && fit.band.id === "maint") lab = "About maintenance";
-  const parts = []; if (Math.abs(dF) >= T) parts.push(`fat ${fWd(dF)}`); if (Math.abs(dL) >= T) parts.push(`lean ${fWd(dL)}`);
+  const parts = []; if (Math.abs(dF) >= T) parts.push(`fat ${fWd(dF)}`); if (dL >= T) parts.push("some muscle gain likely"); else if (dL <= -T) parts.push(`lean ${fWd(dL)}`);
   const goalTxt = goalLabel(), same = S.food.actualOn ? ` (goal: ${goalTxt})` : "";
   return `${lab}${parts.length ? ": " + parts.join(", ") : ""}${same}`;
 }
@@ -6440,7 +6518,7 @@ function renderGoal() {
     if (g.type === "targetBf" && tw && g.targetBf > 0 && g.targetBf < 66) tw.value = nW(lean / (1 - g.targetBf / 100));
     if (g.type === "targetWeight" && tb && g.targetWeightKg > lean) tb.value = +(100 * (1 - lean / g.targetWeightKg)).toFixed(1); }
   const t = E.weeklyTraining(effMove()), rate = E.GAIN_RATE[p.sex][S.move.experience];
-  $("#h-exp").innerHTML = (R && R.assumed && R.assumed.move ? `<span class="assume">${ASSUME_TXT}</span> ` : "") + (t.liftSessions > 0 ? `Estimated lean gain at your level: about <strong>${rate} kg (${(rate * LB).toFixed(1)} lb) a month</strong> with 4+ sessions a week${t.liftSessions < 4 ? `, about ${(rate * 0.75).toFixed(2)} kg with your ${t.liftSessions === 2.5 ? "2–3" : t.liftSessions}` : ""}. That's an estimate, not a promise.`
+  $("#h-exp").innerHTML = (R && R.assumed && R.assumed.move ? `<span class="assume">${ASSUME_TXT}</span> ` : "") + (t.liftSessions > 0 ? `Muscle grows a little at a time while you lift, faster with a small surplus and for newer lifters. How much varies a lot from person to person.`
     : `You haven't added lifting yet. Muscle gain needs it, so set it on the Move step (next).`);
   $("#feas").innerHTML = feasHtml();
 }
@@ -6467,7 +6545,7 @@ function leadHtml(g, b, p, X) {   // v7.6.71: both goals honoured (no more "foll
   if (!e) return `<p class="feas g-lead" id="g-lead" data-dual="1">${need}</p>`;
   const eL = e.leanKg, gap = leanG - eL, end = `about <b>${fW(e.weightKg)}</b> at <b>${fP(e.bf)}</b> body fat`;
   let more, warn = false;
-  if (dL > T && gap > T) { warn = true; more = ` That's more muscle than this plan's training is likely to build in ${wk} week${wk === 1 ? "" : "s"}${eL - lean0 > T ? ` (it adds about ${fW(eL - lean0)})` : `; while losing fat, it mostly keeps the lean mass you have`}. A longer timeline, more lifting or a gentler pace would help. By the end, this plan reaches ${end}.`; }
+  if (dL > T && gap > T) { warn = true; more = ` That's more muscle than this plan's training is likely to build in ${wk} week${wk === 1 ? "" : "s"}${eL - lean0 > T ? ` (it adds some)` : `; while losing fat, it mostly keeps the lean mass you have`}. A longer timeline, more lifting or a gentler pace would help. By the end, this plan reaches ${end}.`; }
   else if (dL < -T && eL - leanG > T) { warn = true; more = ` This plan works to keep your muscle, so it doesn't aim to lose lean mass. By the end it reaches ${end}. Keeping your muscle, ${fP(X.bf)} body fat lands nearer ${fW(eL / (1 - X.bf / 100))}.`; }
   else more = ` This plan gets you there: about ${fW(e.weightKg)} at ${fP(e.bf)} body fat in about ${wk} week${wk === 1 ? "" : "s"}.`;
   return `<p class="feas${warn ? " warn" : ""} g-lead" id="g-lead" data-dual="1">${need}${more}</p>`; }
@@ -6538,8 +6616,8 @@ function feasHtml0() {
     if (f.status === "fits" && R.dir === "loss") return `<div class="feas"><b>Doable.</b> To arrive by week ${g.deadline}, the plan runs at about <b>${Math.round(R.pace * 100)}% of your fat ceiling</b>. The fastest route designed to limit muscle loss would take ${fast} weeks.${habitNote}</div>`;
     if (R.dir === "loss") return `<div class="feas"><b>About ${fWk(reachD)} weeks</b> at a ${R.pace >= 0.99 ? "maximal" : R.pace >= 0.8 ? "firm" : "steady"} pace (around ${fDate(reachD)}). ${R.pace < 0.99 ? `The fastest route designed to limit muscle loss is ${fast} weeks.` : "That's the fastest muscle-sparing route."}${habitNote}</div>`;
     const gm = R.inp.goal.gainMode, mo = reachD / 30.44;
-    if (f.dateDriven) return `<div class="feas"><b>Reaching ${R.inp.goal.fatGoalKg > 0 && exactGoal() ? xLab(exactGoal()) : fW(R.inp.goal.target)} by week ${R.inp.goal.weeks}:</b> about ${fWd(re.leanKg - s.leanKg)} lean and ${fWd(re.fatKg - s.fatKg)} fat (${gainShare(s, re)} of the gain is muscle), <b>ending at ${fP(re.bf)} body fat</b> (from ${fP(s.bf)}; estimates). The surplus is sized to make your date, so anything beyond your muscle-gain rate is stored as fat.${fastGainNoteHtml(f)}${habitNote}</div>`;
-    return `<div class="feas ${gm === "fast" ? "warn" : ""}"><b>About ${fWk(reachD)} weeks</b>${mo >= 3 ? ` (≈ ${mo < 10 ? mo.toFixed(1) : Math.round(mo)} months)` : ""} of ${gm === "fast" ? "faster" : gm === "hold" ? "lean gain at the current body fat %" : "lean"}${gm === "fast" ? " gain" : gm === "hold" ? "" : " gain"} (around ${fDate(reachD)}): about ${fWd(re.leanKg - s.leanKg)} lean and ${fWd(re.fatKg - s.fatKg)} fat, so ${gainShare(s, re)} of the gain is muscle, <b>ending at ${fP(re.bf)} body fat</b> (from ${fP(s.bf)}; estimates).${habitNote}</div>`;
+    if (f.dateDriven) return `<div class="feas"><b>Reaching ${R.inp.goal.fatGoalKg > 0 && exactGoal() ? xLab(exactGoal()) : fW(R.inp.goal.target)} by week ${R.inp.goal.weeks}:</b> some muscle and about ${fWd(re.fatKg - s.fatKg)} fat, <b>ending at ${fP(re.bf)} body fat</b> (from ${fP(s.bf)}; estimates). The surplus is sized to make your date, so anything beyond your muscle-gain rate is stored as fat.${fastGainNoteHtml(f)}${habitNote}</div>`;
+    return `<div class="feas ${gm === "fast" ? "warn" : ""}"><b>About ${fWk(reachD)} weeks</b>${mo >= 3 ? ` (≈ ${mo < 10 ? mo.toFixed(1) : Math.round(mo)} months)` : ""} of ${gm === "fast" ? "faster" : gm === "hold" ? "lean gain at the current body fat %" : "lean"}${gm === "fast" ? " gain" : gm === "hold" ? "" : " gain"} (around ${fDate(reachD)}): some muscle and about ${fWd(re.fatKg - s.fatKg)} fat, <b>ending at ${fP(re.bf)} body fat</b> (from ${fP(s.bf)}; estimates).${habitNote}</div>`;
   }
   const assumed = R.assumed && R.assumed.move, noLift = !assumed && E.weeklyTraining(S.move).liftSessions === 0;
   const as = assumed ? ` <span class="assume">${ASSUME_TXT}</span>` : "";
@@ -6646,6 +6724,7 @@ function renderLifts() {
   const la = $("#lift-adv"); if (la) la.classList.toggle("lift-off", m.preset === "custom" || m.preset === "min");
   { const pg = $("#lift-groups"), on = !custom && !m.plannerOn && ["min", "2-3", "4+"].includes(m.preset); if (pg) { pg.hidden = !on;
       if (on) { const G = presetGroups(m.preset); pg.innerHTML = `<p class="label">Muscles trained · ${esc(E.PRESET_LABEL[m.preset])}</p><div class="chip-row">${E.MUSCLES.map(([k, l]) => `<span class="mchip ro" aria-pressed="${G.includes(k)}">${l}</span>`).join("")}</div><p class="hint">${m.preset === "min" ? "A push, a pull and a leg compound; shoulders, arms and hamstrings get some spillover." : "All groups."} To pick exercises, use <b>Customize lifting</b>.</p>`; } } }
+  try { if (custom && window.LiftLog) window.LiftLog.render(); } catch (e) { /* lifting log is optional */ }
   if (!custom) return;
   if (!Array.isArray(m.lifts) || !m.lifts.length) m.lifts = [{ type: "hypertrophy", effort: "moderate", min: 60, days: 3 }];
   const L = m.lifts, sig = JSON.stringify([L.length]);
@@ -7863,7 +7942,7 @@ function planSummaryHtml() {
     ["Goal", `${esc(goalLabel())}.`],
     ["Food", `${S.food.psmf ? "clinician-guided PSMF, " : S.food.actualOn ? "what you eat now, " : ""}about ${fK(kcal)} kcal a day${prot}.`],
     ["Workouts", `${tw.liftSessions > 0 ? `${tw.liftSessions === 2.5 ? "2–3" : tw.liftSessions} lifting sessions a week` : "no lifting"}${S.move.noCardio ? ", no cardio" : tw.cardioMin > 0 ? `, ${tw.cardioMin} min of cardio` : ""}, about ${Number(S.move.steps || 0).toLocaleString("en-US")} steps a day.${tw.liftSessions > 0 ? "" : " Muscle gain from training isn't counted here, so actual body composition may differ."}`],
-    ["Likely result", `about ${fW(e.weightKg)} at ${fP(e.bf)} body fat after ${fWk(e.day)} weeks (around ${fDate(e.day, true)}); fat ${fWd(e.fatKg - s.fatKg)}, lean ${fWd(e.leanKg - s.leanKg)}. Estimates, not guarantees.`]];
+    ["Likely result", `about ${fW(e.weightKg)} at ${fP(e.bf)} body fat after ${fWk(e.day)} weeks (around ${fDate(e.day, true)}); fat ${fWd(e.fatKg - s.fatKg)}, ${fLeanL(e.leanKg - s.leanKg)}. Estimates, not guarantees.`]];
   let pft = "";
   try { const est = pftEst(), L0 = pftLadder(); if (est && est.over && R.dir !== "gain") {
       const rows = R.main.rows, inR = rows.find((r) => r.weightKg <= est.weightKg.hi), under = rows.find((r) => r.weightKg <= est.weightKg.lo);
@@ -7957,8 +8036,8 @@ function heroHtml() {
   else { big = `${nW(e.weightKg)}<small>${uW()}</small>`; sub = `<strong>${fP(e.bf)} body fat</strong> after ${fWk(days)} weeks · ${fDate(days, true)}${rangeTxt ? ` · ${rangeTxt}` : ""}`; }
   const dFat = e.fatKg - s.fatKg, dLean = e.leanKg - s.leanKg;
   const how = S.food.psmf ? `on a clinician-guided PSMF (about ${fK(fixedKcal())} kcal a day)` : S.food.actualOn ? `eating about ${fK(fixedKcal())} kcal a day` : "following this plan";
-  const sentence = reached ? `Starting at <strong>${fW(s.weightKg)}</strong> and ${fP(s.bf)} body fat, ${how} gets you to your goal in about <strong>${fWk(R.main.reached)} weeks</strong>: <strong>${fW(e.weightKg)} at ${fP(e.bf)}</strong>, with ${fWd(dFat)} of fat and ${Math.abs(dLean) < 0.23 ? "lean mass essentially held" : `${fWd(dLean)} of lean mass`}.`
-    : `After <strong>${fWk(days)} weeks</strong> ${how}, you'd be about <strong>${fW(e.weightKg)} at ${fP(e.bf)} body fat</strong>: ${fWd(dFat)} of fat and ${Math.abs(dLean) < 0.23 ? "lean mass essentially held" : `${fWd(dLean)} of lean mass`}.`;
+  const sentence = reached ? `Starting at <strong>${fW(s.weightKg)}</strong> and ${fP(s.bf)} body fat, ${how} gets you to your goal in about <strong>${fWk(R.main.reached)} weeks</strong>: <strong>${fW(e.weightKg)} at ${fP(e.bf)}</strong>, with ${fWd(dFat)} of fat and ${Math.abs(dLean) < 0.23 ? "lean mass essentially held" : dLean > 0 ? "some muscle gain likely" : `${fWd(dLean)} of lean mass`}.`
+    : `After <strong>${fWk(days)} weeks</strong> ${how}, you'd be about <strong>${fW(e.weightKg)} at ${fP(e.bf)} body fat</strong>: ${fWd(dFat)} of fat and ${Math.abs(dLean) < 0.23 ? "lean mass essentially held" : dLean > 0 ? "some muscle gain likely" : `${fWd(dLean)} of lean mass`}.`;
   const before = photo ? `<img class="photo" src="${photo}" alt="Your photo (before)">` : FIG.svg(st, { title: `Before: ${fP(b.bf)} body fat` });
   const BD = bandNow(), bandTxt = BD && Math.abs(BD.weightKg.hi - BD.weightKg.lo) > 0.3 ? `<p class="hint band-txt" data-band>Likely range at week ${fWk(days)}: <b>${nW(BD.weightKg.lo)}–${fW(BD.weightKg.hi)}</b>, if your true daily burn is about 8% lower or higher than estimated (shaded on the chart). Even the best prediction equation lands within 10% of measured burn for most, but not all, people (Frankenfield 2005).</p>` : "";
   const stopTxt = R.main.stopped ? ` The projection stops at week ${fWk(R.main.stopped.day)}; see the note below.` : "";
@@ -7967,7 +8046,7 @@ function heroHtml() {
   <div class="result-hero mt1"><div><div class="big">${big}</div><p class="big-sub">${sub}</p></div><p class="summary">${sentence}${stopTxt}</p></div>
   ${photoPairHtml()}
   <div class="stats">${stat("Weight", nW(s.weightKg), nW(e.weightKg), fWd(e.weightKg - s.weightKg), "")}${stat("Body fat", fP(s.bf), fP(e.bf), `${(e.bf - s.bf > 0 ? "+" : "")}${(e.bf - s.bf).toFixed(1)} points`, "")}
-  ${stat("Fat", nW(s.fatKg), nW(e.fatKg), fWd(dFat), "")}${stat("Lean", nW(s.leanKg), nW(e.leanKg), fWd(dLean), "")}</div>
+  ${stat("Fat", nW(s.fatKg), nW(e.fatKg), fWd(dFat), "")}${dLean > 0.1 ? `<div class="stat"><div class="k">Muscle</div><div class="v">Some gain likely</div><div class="d">amount varies by person</div></div>` : stat("Lean", nW(s.leanKg), nW(e.leanKg), fWd(dLean), "")}</div>
   ${CONFIG.FIG3D && webgl() ? anatReadHtml(s, e) : ""}
   ${takeawaysHtml(bandTxt)}`;
 }
@@ -8011,8 +8090,8 @@ function renderProjChips() {
   chips.push([fK(e.tdee), `kcal burn by week ${fWk(e.day)}`]);
   if (R.dir === "loss" && e.adapt > 5) chips.push([`−${fK(e.adapt)}`, "kcal metabolic adaptation"]);
   if (dW < -0.5 && dL < 0) chips.push([`${Math.max(0, Math.round(100 * dL / dW))}%`, "of weight lost is lean"]);
-  else if (dW < -0.5 && dL >= 0) chips.push([fWd(dL), "lean mass while losing fat"]);
-  else if (dW > 0.5) chips.push([`${Math.max(0, Math.min(100, Math.round(100 * dL / dW)))}%`, "of weight gained is lean"]);
+  else if (dW < -0.5 && dL >= 0) chips.push(["Some", "muscle gain likely while losing fat"]);
+  else if (dW > 0.5) chips.push([dL > 0.1 ? "Muscle + fat" : "Mostly fat", "makes up the gain"]);
   $("#proj-chips").innerHTML = chips.map(([v, k]) => `<span class="wchip"><strong>${v}</strong>${k}</span>`).join("");
 }
 function recapPairs() {
@@ -8261,7 +8340,7 @@ function renderHabitsRead() {
     return `<p class="hab-maint" data-hab-maint>You eat about <b>${fK(f.intake)} kcal</b> a day. Maintenance for someone like you is estimated at about <b>${fK(m)} kcal</b>. ${Math.abs(d) < 50 ? "That's roughly the same, so your weight would likely stay about level." : `That's about <b>${fK(Math.abs(d))} kcal ${d > 0 ? "over" : "under"}</b> a day.`} These are estimates; real needs vary.</p>`; })()}
   <p class="hab-conf"><span class="tag">${c.likelihood === "likely" ? "Likely match" : "Possible match"}</span> A likely match from what you entered. It is not a diagnosis, a judgment or a recommendation.</p>
   <ul class="hab-why">${c.why.map((w) => `<li>${esc(w)}</li>`).join("")}</ul>
-  <p class="read">If you keep exactly these habits, the model estimates you would ${dir(pj.dW)} over ${pj.weeks} weeks: about ${fW(Math.abs(pj.dF))} of fat ${pj.dF >= 0 ? "gained" : "lost"} and ${fW(Math.abs(pj.dL))} of lean mass ${pj.dL >= 0 ? "gained" : "lost"}.${c.stopped ? " The projection stops early here to stay inside safe limits." : ""}</p>
+  <p class="read">If you keep exactly these habits, the model estimates you would ${dir(pj.dW)} over ${pj.weeks} weeks: about ${fW(Math.abs(pj.dF))} of fat ${pj.dF >= 0 ? "gained" : "lost"} and ${pj.dL > 0.1 ? "some muscle gain likely" : `${fW(Math.abs(pj.dL))} of lean mass ${pj.dL >= 0 ? "kept" : "lost"}`}.${c.stopped ? " The projection stops early here to stay inside safe limits." : ""}</p>
   ${c.offTrack ? `<div class="hab-off" role="group" aria-label="This path may not be what you want"><ul class="alerts">${c.offReasons.map((m) => alertHtml({ t: "warn", m })).join("")}</ul>
     <p class="hab-q"><b>Do you want to stay on this path?</b></p>
     <div class="hab-btns"><button type="button" class="btn btn-ghost" data-hab="stay"${hab.stay === "stay" ? ' aria-pressed="true"' : ""}>Yes, this is my path</button><button type="button" class="btn btn-primary" data-hab="plan">No, help me build a plan</button><button type="button" class="btn btn-ghost" data-hab="see">See what this path will look like over time</button></div>
@@ -8274,7 +8353,7 @@ function renderHabitsPath() {
   const box = $("#hab-path"); if (!box) return;
   const on = S.mode === "habits" && R && !R.blocked; box.hidden = !on; if (!on) { box.innerHTML = ""; return; }
   let cp; try { cp = TheosisHabits.checkpoints(habInput(), E); } catch (e) { box.hidden = true; return; }
-  const cell = (r) => `<div class="hab-cp${r.cut ? " cut" : ""}"><span class="hab-cp-l">${esc(r.label)}</span><strong>${esc(fW(r.weightKg))}</strong><span class="hab-cp-d">${esc(habFmtChange(r.dW))} · ${esc(fP(r.bf))} body fat</span><span class="hab-cp-s">fat ${esc(habFmtChange(r.dF))} · lean ${esc(habFmtChange(r.dL))}</span>${r.cut ? `<span class="hab-cp-s">Projection stopped earlier (safety limit)</span>` : ""}</div>`;
+  const cell = (r) => `<div class="hab-cp${r.cut ? " cut" : ""}"><span class="hab-cp-l">${esc(r.label)}</span><strong>${esc(fW(r.weightKg))}</strong><span class="hab-cp-d">${esc(habFmtChange(r.dW))} · ${esc(fP(r.bf))} body fat</span><span class="hab-cp-s">fat ${esc(habFmtChange(r.dF))} · ${esc(fLeanL(r.dL))}</span>${r.cut ? `<span class="hab-cp-s">Projection stopped earlier (safety limit)</span>` : ""}</div>`;
   box.innerHTML = `<p class="eyebrow card-eyebrow">Your path over time</p><h2>If you keep these habits</h2>
   <p class="hint">Model estimate at each checkpoint, starting from ${esc(fW(cp.start.weightKg))} and ${esc(fP(cp.start.bf))} body fat. It assumes you keep exactly the food and training you entered, and it is not a guarantee. Change slows over time because a body burns more or less as your weight changes.</p>
   ${cp.lessReliable ? `<p class="hint hab-less" role="note"><b>These numbers are less reliable at this size.</b> A surplus this large is beyond what the studies behind the model covered, so treat the checkpoints as rough, not exact.</p>` : ""}
@@ -8286,7 +8365,7 @@ function renderHabitsPath() {
 function renderHabitsWeek() {
   const out = $("#hab-wk-out"); if (!out || !R || R.blocked) return;
   const p = TheosisHabits.pathAt(habInput(), E, hab.weeks), n = $("#hab-wk-n"); if (n) n.textContent = hab.weeks;
-  out.innerHTML = `<div class="hab-cp"><span class="hab-cp-l">Week ${hab.weeks}${p.stoppedAt != null && p.stoppedAt < hab.weeks ? ` (stops at week ${p.stoppedAt})` : ""}</span><strong>${esc(fW(p.weightKg))}</strong><span class="hab-cp-d">${esc(habFmtChange(p.dW))} · ${esc(fP(p.bf))} body fat</span><span class="hab-cp-s">fat ${esc(habFmtChange(p.dF))} · lean ${esc(habFmtChange(p.dL))}</span></div>`;
+  out.innerHTML = `<div class="hab-cp"><span class="hab-cp-l">Week ${hab.weeks}${p.stoppedAt != null && p.stoppedAt < hab.weeks ? ` (stops at week ${p.stoppedAt})` : ""}</span><strong>${esc(fW(p.weightKg))}</strong><span class="hab-cp-d">${esc(habFmtChange(p.dW))} · ${esc(fP(p.bf))} body fat</span><span class="hab-cp-s">fat ${esc(habFmtChange(p.dF))} · ${esc(fLeanL(p.dL))}</span></div>`;
 }
 function renderHabitsFood() {   // weekly average helper on the Food step
   const w = $("#hab-week"); if (!w) return; w.hidden = !(S.mode === "habits" && S.food.actualOn);
@@ -8398,14 +8477,14 @@ document.addEventListener("click", (ev) => { const t = ev.target.closest("[data-
   if (fitAction(t)) ev.preventDefault(); });
 document.addEventListener("change", (ev) => { if (ev.target && ev.target.id === "uw-ack") document.getElementById("uw-go").disabled = !ev.target.checked; });
 const LAZY = {};
-window.__BP = { get S() { return S; }, get R() { return R; }, get V() { return V; }, $, esc, fK, fW, fP, fWk, E, effMove, pftInsideStage, rampColor, renderViews: () => renderViews(), fDate, pftCtSkin, pftInsideOpen: () => pftInsideOpen(), save: () => save(), renderSummary: () => renderSummary() };
+window.__BP = { muscleRegions: (m, x) => (E.muscleRegions ? E.muscleRegions(m, x) : null), get S() { return S; }, get R() { return R; }, get V() { return V; }, $, esc, fK, fW, fP, fWk, E, effMove, pftInsideStage, rampColor, renderViews: () => renderViews(), fDate, pftCtSkin, pftInsideOpen: () => pftInsideOpen(), save: () => save(), renderSummary: () => renderSummary() };
 function lazyLoad(src) { if (LAZY[src]) return LAZY[src]; LAZY[src] = new Promise((res, rej) => { const s = document.createElement("script"); s.src = src; s.onload = res; s.onerror = rej; document.head.appendChild(s); }); return LAZY[src]; }
-(function () { const l = document.createElement("link"); l.rel = "stylesheet"; l.href = "assets/v7655.css?v=7674"; document.head.appendChild(l); })();
+(function () { const l = document.createElement("link"); l.rel = "stylesheet"; l.href = "assets/v7655.css?v=7695"; document.head.appendChild(l); })();
 function renderSnapshot() { if (typeof window.renderSnapshotNow === "function") return window.renderSnapshotNow(); const b = $("#hs-card"); if (b && R && !R.blocked) lazyLoad("assets/health-snapshot.js?v=7673").then(() => window.renderSnapshotNow(), () => {}); }
 function a1cCardHtml() { if (typeof window.a1cCardHtmlNow === "function") return window.a1cCardHtmlNow(); lazyLoad("assets/a1c-log.js?v=7655").then(() => { if (V.open && V.view === "home") renderViews(); }, () => {}); return `<div class="v-card a1-card" id="a1-card"><h2>A1c log</h2><p class="hint">Loading…</p></div>`; }
 window.BodyPlanFig3D = window.BodyPlanFig3D || { state: { on: false, failed: false, where: null } };
 function f3dMount() { if (window.__NO_PFT_FIG) return; if (typeof window.f3dMountNow === "function") return window.f3dMountNow(); if (!R || R.blocked) return;
-  lazyLoad("assets/fig3d-pft.js?v=7678").then(() => window.f3dMountNow(), () => { window.BodyPlanFig3D.state.failed = true; const h = document.getElementById("sum-pft"); if (h && !h.innerHTML) { h.hidden = false; h.innerHTML = `<figure class="f3d-fbfig"><img src="assets/f3d-ct-fallback.webp" alt="Example cross-section through the middle of the model" width="720" height="560"><figcaption>Example cross-section. The 3D model can't load on this device.</figcaption></figure>`; } }); }
+  lazyLoad("assets/fig3d-pft.js?v=7697").then(() => window.f3dMountNow(), () => { window.BodyPlanFig3D.state.failed = true; const h = document.getElementById("sum-pft"); if (h && !h.innerHTML) { h.hidden = false; h.innerHTML = `<figure class="f3d-fbfig"><img src="assets/f3d-ct-fallback.webp" alt="Example cross-section through the middle of the model" width="720" height="560"><figcaption>Example cross-section. The 3D model can't load on this device.</figcaption></figure>`; } }); }
 function printRegional(s, e) { const k = changeKind(s, e), c = FD.change(depotsAt(s.fatKg), depotsAt(e.fatKg)), m = muscleSplit(S.profile.sex, e.leanKg - s.leanKg);
   const fat = `around the organs ${fWd(c.vat.kg)} (${fPct(c.vat.pct)}), under the skin ${fWd(c.sub.kg)} (${fPct(c.sub.pct)})`, mus = `upper body ${fWd(m.up)}, legs &amp; glutes ${fWd(m.lo)}`;
   return `<p class="small"><b>${{ loss: "Where fat comes off first", gain: "Where muscle builds, and where fat would add", recomp: "Where you lose fat and gain muscle", hold: "Where things shift" }[k]} (estimate):</b> ${k === "gain" ? `lean (mostly muscle): ${mus}; fat: ${fat}.` : k === "recomp" ? `fat: ${fat}; lean (mostly muscle): ${mus}.` : `fat ${fat}.`}</p>`; }
@@ -8417,7 +8496,7 @@ function buildPrint() {
   <h1>Body composition plan</h1><p>${esc(goalLabel())} · prepared ${fDate(0, true)} · ${S.food.psmf ? "PSMF projection (clinician-guided)" : S.food.actualOn ? "projection of current habits" : "recommended plan"}</p>
   <div class="grid" style="margin-top:10px"><div><h2>Recap</h2><table>${recapPairs().map(([k, v]) => `<tr><td style="text-align:left;width:28%"><b>${esc(k)}</b></td><td style="text-align:left">${esc(v)}</td></tr>`).join("")}</table></div>
   <div><h2>Projection</h2><div class="figs">${FIG.svg(st)}${FIG.svg(personAt(e), { ghost: st })}</div>
-  <p><b>${fW(s.weightKg)} · ${fP(s.bf)}</b> → <b>${fW(e.weightKg)} · ${fP(e.bf)}</b> in ${fWk(e.day)} weeks (${fDate(e.day, true)}). Fat ${fWd(e.fatKg - s.fatKg)}, lean ${fWd(e.leanKg - s.leanKg)}.</p>${printRegional(s, e)}</div></div>
+  <p><b>${fW(s.weightKg)} · ${fP(s.bf)}</b> → <b>${fW(e.weightKg)} · ${fP(e.bf)}</b> in ${fWk(e.day)} weeks (${fDate(e.day, true)}). Fat ${fWd(e.fatKg - s.fatKg)}, ${fLeanL(e.leanKg - s.leanKg)}.</p>${printRegional(s, e)}</div></div>
   <h2>${fixedOn() ? "Your daily calorie target, for comparison (week 1)" : "Daily targets (week 1)"}</h2><p>${fK(R.rec.rows[0].intake)} kcal · protein ${R.macros.protein} g · fat ${R.macros.fat} g · carbs ${R.macros.carbs} g · never below ${fK(E.FLOOR[S.profile.sex])} kcal.</p>
   ${(() => { const L = pftLadder(); if (!L || !(L.e.over || L.steps.length)) return ""; return `<h2>Health milestones</h2>${L.e.over ? `<p>Estimated personal fat threshold: a weight range of about ${pftRangeTxt(L.e)} (a likely range from your markers, not an exact line).</p>` : ""}${L.stages.length && L.stages[0].key !== "unknown" ? `<p>Estimated threshold status: ${L.stages.map((x) => `${x.frac === 0 ? "now" : x.frac === 1 ? "end" : "week " + Math.round(x.day / 7)}: ${esc(x.label.toLowerCase())}`).join(" · ")}.</p>` : ""}${L.steps.length ? `<h3>Milestone ladder (measurable goals)</h3><ol class="pr-ladder">${L.steps.map((x) => `<li>${x.state === "confirmed" ? "✓ " : ""}<b>${esc(x.label)}</b> (now ${esc(fmtStep(x, x.now))})${x.state === "confirmed" ? `: confirmed, ${esc(fmtStep(x, x.by.value))} at week ${x.by.week}` : ""}. ${esc(stepWhen(x))}${x.cite ? ` (${esc(x.cite)})` : ""}${x.remissionNote ? ` <i>${esc(x.remissionNote)}</i>` : ""}</li>`).join("")}</ol>` : ""}${L.recheck ? "<p><b>Recheck your labs with your clinician around week 12</b>, and again after each 5% of weight lost.</p>" : ""}<p><i>Study results are population averages, not predictions for you. This report does not estimate liver fat, organ fat or future lab values.</i></p>`; })()}
   ${(() => { const it = expectItems(), rc = recItems(); return (it ? `<h2>Where you can expect changes</h2><ul>${it.map(([, h]) => `<li>${h}</li>`).join("")}</ul>` : "") + (rc.length ? `<h2>Recommendations for you</h2><ul>${rc.map((r) => `<li><b>${r.h}.</b> ${r.b}${r.eff ? ` <i>Estimated effect: ${r.eff}</i>` : ""}</li>`).join("")}</ul>` : ""); })()}
@@ -8608,7 +8687,7 @@ function aiChatFacts() {
     tryAdd(() => { const r0 = R.rec.rows[0], L = E.lactInfo(h, p.age); add(`Goal: ${goalLabel()}${S.food.actualOn ? "; projection follows what I actually eat" : ""}`);
       add(`Targets: ${kc(r0.intake)} kcal a day, daily burn ${kc(r0.tdee)} kcal${L.on ? ` (includes +${L.k} breastfeeding)` : ""}, protein ${R.macros.protein} g, carbs ${R.macros.carbs} g, fat ${R.macros.fat} g; protein basis ${R.protein.perKg} g per kg of ${R.ref.basis}; safe minimum ${kc(E.floorOf(p))} kcal`);
       if (S.food.actualOn) add(`What I eat (entered): ${kc(fixedKcal())} kcal${S.food.actualProteinG > 0 ? `, protein ${Math.round(S.food.actualProteinG)} g` : ""}${S.food.psmf ? ", PSMF" : ""}`); });
-    tryAdd(() => { const s0 = R.main.rows[0], e = endRow(); add(`Projection to week ${Math.round(fWk(e.day))}: weight ${fW(s0.weightKg)} to ${fW(e.weightKg)}, body fat ${fP(s0.bf)} to ${fP(e.bf)}, fat ${fWd(e.fatKg - s0.fatKg)}, lean ${fWd(e.leanKg - s0.leanKg)}${R.main.stopped ? "; the projection stops early at a safety limit" : ""}`); });
+    tryAdd(() => { const s0 = R.main.rows[0], e = endRow(); add(`Projection to week ${Math.round(fWk(e.day))}: weight ${fW(s0.weightKg)} to ${fW(e.weightKg)}, body fat ${fP(s0.bf)} to ${fP(e.bf)}, fat ${fWd(e.fatKg - s0.fatKg)}, ${fLeanL(e.leanKg - s0.leanKg)}${R.main.stopped ? "; the projection stops early at a safety limit" : ""}`); });
     tryAdd(() => { for (const w of (R.warnings || []).slice(0, 5)) add(`Note shown in the app: ${w.m}`); });
     tryAdd(() => { if (!fixedOn()) return; const d = TheosisHabits.direction(habInput(), E), r = TheosisHabits.recommendations(habInput(), E);
       add(`Dial (${d.frame === "cancer" ? "how my choices fit maintaining weight and muscle" : "how my choices fit my goal"}): ${d.label}, rules-based and not a health score`);
@@ -8634,7 +8713,7 @@ function aiFacts() {
   out.push(`Goal: ${goalLabel()}`);
   const sp = stagePlan(); const pts = sp.ok ? sp.pts : [{ weeks: fWk(e.day), endWeightKg: e.weightKg, endBf: e.bf }];
   for (const q of pts) out.push(`Week ${Math.round(q.weeks)}: ${fW(q.endWeightKg)}, ${fP(q.endBf)} body fat`);
-  out.push(`Fat change by week ${Math.round(fWk(e.day))}: ${fWd(e.fatKg - s.fatKg)}`); out.push(`Lean change by week ${Math.round(fWk(e.day))}: ${fWd(e.leanKg - s.leanKg)}`);
+  out.push(`Fat change by week ${Math.round(fWk(e.day))}: ${fWd(e.fatKg - s.fatKg)}`); out.push(`Lean change by week ${Math.round(fWk(e.day))}: ${fLeanV(e.leanKg - s.leanKg)}`);
   if (!(R.inp.move && E.weeklyTraining(R.inp.move).liftSessions > 0)) out.push("Lifting is off, so the projection doesn't count any muscle gain from training; actual body composition may differ");
   if (R.rec && R.rec.rows && R.rec.rows[0]) out.push(`Daily target week 1: ${fK(R.rec.rows[0].intake)} kcal`);
   if (R.macros) out.push(`Protein target ${R.macros.protein} g, fat ${R.macros.fat} g, carbs ${R.macros.carbs} g a day`);
@@ -9298,7 +9377,7 @@ function init() {
     else if (t.dataset.ciDel) { await ciDel(t.dataset.ciDel); CI.msg = "Check-in removed from this device."; aiState.result = null; renderAi(); } });
   window.addEventListener("online", () => { if ($("#fs-q").value.trim().length >= 2) fsSearch(true); });
   window.addEventListener("offline", () => { $("#fs-status").textContent = "You're offline. Search needs a connection; your food log still works."; });
-  window.BodyPlanApp = { update, pftStage: () => pftInsideStage(), figOuter: (row) => pftFigOuter(row), get state() { return S; }, get result() { return R; }, go, start, config: CONFIG,
+  window.BodyPlanApp = { update, pftStage: () => pftInsideStage(), figOuter: (row) => pftFigOuter(row), figBias: (row) => pftFigBias(row), get state() { return S; }, get result() { return R; }, go, start, config: CONFIG,
     logAdd: (it) => { fsLogPush(it); fsApplyLog(); }, foodLog: { get store() { return FLS; }, reload() { FLS = FL.load(); return FLS; }, open: openFoodLog, close: closeFoodLog, render: renderFoodLog, state: fl, useAverage: flUseAverage },
     scanner: { env: scannerEnv, photo: (f) => fsScanPhoto(f), diag: () => fs.diag, pick: async () => FL.pickScanner(await scannerEnv()), decodeCanvas: async (cv, kind) => (await makeDecoder(kind === "native" ? FL.pickScanner(await scannerEnv()) : { kind: "zxing" }))(cv), loadZxing }, setPhoto: (d) => { photo = d; renderPhoto(); update(); }, setAiResult: (r) => { aiState.result = r; renderAi(); }, fig3d: F3,
     isPro, canUse, projectionPayload, checkins: CI, ciAddFile, ciLoad, aiBase, ciProjection, ciPut, foodSearch: fs, fatPattern, depotsAt, regionsAt, waistAt, startPerson, personAt, setFigLook, regionalFrames, };

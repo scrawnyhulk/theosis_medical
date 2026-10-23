@@ -15,7 +15,7 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&amp;family=Barlow:ital,wght@0,400;0,500;0,600;1,400&amp;display=swap">
 <link rel="preload" as="image" href="assets/img/figure/moderate-0-720.webp" imagesrcset="assets/img/figure/moderate-0-720.webp 720w, assets/img/figure/moderate-0-1080.webp 1080w" imagesizes="(max-width: 900px) 96vw, 504px" type="image/webp">
 <link rel="stylesheet" href="assets/css/pft.css">
-<script src="assets/js/pft-config.js?v=7674"></script>
+<script src="assets/js/pft-config.js?v=7695"></script>
 <style>/* v7.6.78: A1c shows only when the person entered one */.a1c-card[hidden],.art-gauge[hidden],.dock-a1c[hidden]{display:none!important}</style>
 </head>
 <body>
@@ -32,6 +32,7 @@ var openSvg=btn?btn.innerHTML:'',xSvg='<svg xmlns="http://www.w3.org/2000/svg" w
 function set(o){if(!mob)return;mob.hidden=!o;mob.classList.toggle('hidden',!o);mob.classList.toggle('block',o);btn.setAttribute('aria-expanded',o);btn.setAttribute('aria-label',o?'Close menu':'Open menu');btn.innerHTML=o?xSvg:openSvg;}
 if(btn)btn.addEventListener('click',function(){set(mob.hidden)});
 if(qf){qf.setAttribute('aria-controls','mobile-nav');qf.setAttribute('aria-label','Menu');qf.addEventListener('click',function(){set(mob.hidden);if(!mob.hidden&&getComputedStyle(btn).display==='none'){mob.classList.remove('xl:hidden')}else{mob.classList.add('xl:hidden')}});}
+(function(){var row=r.querySelector('header > div');if(!row)return;var st=document.createElement('style');st.textContent='.th-tabs{display:none}@media (max-width:1279.98px){.th-tabs{display:flex;flex:1;justify-content:space-around;gap:2px}.th-tabs a{flex:1;min-width:44px;min-height:48px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;border-radius:2px;color:rgb(232 237 243/.85);text-decoration:none}.th-tabs a[aria-current]{color:#4d9bff}.th-tabs svg{width:20px;height:20px;color:#4d9bff}.th-tabs span{font-size:10px;line-height:1;font-weight:500;letter-spacing:.02em;white-space:nowrap}.th-hide-sm{display:none!important}}';r.appendChild(st);if(btn){btn.classList.add('th-mbtn');btn.parentElement.classList.add('th-hide-sm');}var logo=row.querySelector('a[href="/"],a[href="https://theosishealth.com/"],a[href="https://theosishealth.com"]');if(logo)logo.classList.add('th-hide-sm');var nav=document.createElement('nav');nav.className='th-tabs';nav.setAttribute('aria-label','Pages');nav.innerHTML='<a href="/hacks"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"></path><path d="M9 18h6"></path><path d="M10 22h4"></path></svg><span>Hacks</span></a><a href="/simulator/"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5" r="1"></circle><path d="m9 20 3-6 3 6"></path><path d="m6 8 6 2 6-2"></path><path d="M12 10v4"></path></svg><span>Simulator</span></a><a href="/simulator/pft-inside/" aria-current=\"page\"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" x2="15" y1="22" y2="22"></line><line x1="4" x2="14" y1="9" y2="9"></line><path d="M14 22V4a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v18"></path><path d="M14 13h2a2 2 0 0 1 2 2v2a2 2 0 0 0 2 2a2 2 0 0 0 2-2V9.83a2 2 0 0 0-.59-1.42L18 5"></path></svg><span>PFT</span></a><a href="/fat-burn-calculator/"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="16" height="20" x="4" y="2" rx="2"></rect><line x1="8" x2="16" y1="6" y2="6"></line><line x1="16" x2="16" y1="14" y2="18"></line><path d="M16 10h.01"></path><path d="M12 10h.01"></path><path d="M8 10h.01"></path><path d="M12 14h.01"></path><path d="M8 14h.01"></path><path d="M12 18h.01"></path><path d="M8 18h.01"></path></svg><span>Calculator</span></a><a href="/contact"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"></path></svg><span>Contact</span></a>';row.appendChild(nav);})();
 document.addEventListener('keydown',function(e){if(e.key==='Escape')set(false)});})();
 </script>
 <main class="app" id="pft-app">
@@ -584,9 +585,9 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')set(false)})
 <div class="footline"><span>Theosis Health · Health Hacks education · Not medical advice</span><span>Illustrative anatomy · No personal data collected</span></div>
   <div class="sr-only" id="live-summary" aria-live="polite" aria-atomic="true"></div>
 <script src="assets/js/pft-arteries.js"></script>
-<script src="assets/js/pft-glucose.js?v=7678"></script>
-<script src="assets/js/pft.js?v=7678"></script>
-<script src="assets/js/pft-extras.js?v=7678"></script>
+<script src="assets/js/pft-glucose.js?v=7679"></script>
+<script src="assets/js/pft.js?v=7695"></script>
+<script src="assets/js/pft-extras.js?v=7679"></script>
 <script src="assets/js/pft-figure.js"></script>
 </body>
 </html>

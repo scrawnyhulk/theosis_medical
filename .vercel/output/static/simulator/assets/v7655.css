@@ -91,3 +91,25 @@ body .fs-item{box-shadow:0 0 0 1.5px rgba(91,156,236,.7),0 0 8px rgba(59,130,246
 body .fs-item:hover{box-shadow:0 0 0 1.5px #79b4f6,0 0 12px rgba(59,130,246,.2);background:rgba(42,122,224,.1)}
 body .fq-item{border:2px solid rgba(91,156,236,.7);box-shadow:0 0 8px rgba(59,130,246,.1)}
 body .fq-item:hover{border-color:#79b4f6}
+
+/* v7.6.78: Muscle view on the live-summary figure */
+.pfe.pfe-muscle .pfe-ov,.pfe.pfe-muscle .pfe-lab,.pfe.pfe-muscle .pfe-list,.pfe.pfe-muscle .pfe-meta,.pfe.pfe-muscle .pfe-intro,.pfe.pfe-muscle .pfe-hint{display:none!important}
+.f3d-musbox{margin:.5rem 0 .2rem;padding:.6rem .75rem;border:1px solid rgba(121,180,246,.55);border-radius:12px;background:rgba(20,40,70,.35)}
+.f3d-musbox p{margin:.15rem 0 .35rem;line-height:1.4}.f3d-exag{color:#ffd9c2;font-size:.92rem}
+.f3d-mlist{list-style:none;margin:.3rem 0;padding:0;display:grid;gap:.3rem}
+.f3d-mlist li{display:grid;grid-template-columns:minmax(7.5rem,1fr) 1.2fr auto;gap:.5rem;align-items:center;font-size:.88rem}
+.f3d-mlist i{display:block;height:.5rem;border-radius:4px;background:linear-gradient(90deg,#8e2a22,#c4574a);width:var(--w)}
+.f3d-mlist b{font-variant-numeric:tabular-nums}
+.f3d-sw button[data-f3dv="muscle"][aria-pressed="true"]{background:#8e2a22;color:#fff}
+.f3d-musv .f3d-skins{display:none}
+.f3d-mlist li.f3d-mrest{display:block;color:#aab6c8;font-size:.84rem}
+.f3d-musv #f3d-pfe{position:relative}.f3d-musv #f3d-pfe::after{content:"Muscle growth shown larger than real life";position:absolute;left:.5rem;top:.5rem;padding:.2rem .5rem;border-radius:8px;background:rgba(10,16,28,.78);color:#ffd9c2;font-size:.78rem;font-weight:600;pointer-events:none;z-index:3}
+.f3d-sw{max-width:100%}.f3d-sw button{min-width:0;flex:1 1 auto;padding:.35rem .85rem}@media (min-width:26rem){.f3d-sw button{min-width:6.2rem}}
+
+/* v7.6.80: Muscle view Front / Side view picker */
+.f3d-face{display:inline-flex;margin:.1rem 0 .35rem}.f3d-face button{min-width:0;padding:.3rem .8rem}.f3d-dragtip{margin:.1rem 0 .4rem;opacity:.8}
+.f3d-mwarn{margin:.3rem 0;padding:.4rem .6rem;border-left:3px solid #e8a84a;background:rgba(232,168,74,.12);border-radius:6px;font-size:.88rem}
+
+/* v7.6.80: Half & half view (Advanced) */
+.f3d-halfnote{margin:.4rem 0;padding:.4rem .6rem;border-left:3px solid #79b4f6;background:rgba(121,180,246,.1);border-radius:6px}
+.f3d-sw button[data-f3dv="half"][aria-pressed="true"]{background:#2a5a8e;color:#fff}
