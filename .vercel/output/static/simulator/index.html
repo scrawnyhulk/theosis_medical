@@ -5602,6 +5602,7 @@ function fillInputs() {
   $$("[data-u=w]").forEach((e) => (e.textContent = uW())); $$("[data-u=len]").forEach((e) => (e.textContent = imp() ? "in" : "cm"));
   setSwitch($("#actual-toggle"), S.food.actualOn); setSwitch($("#planner-toggle"), S.move.plannerOn);
   for (const k of [...invalid]) { const el = $(`[data-field="${k}"]`); setErr(el, k, ""); }
+  waistNote();
 }
 function onNumInput(el) {
   const k = el.dataset.f;
@@ -5619,8 +5620,16 @@ function onNumInput(el) {
   if (/^actual[PCF]$/.test(k)) { S.food.mealUsed = null; S.food.logUsed = false; S.food.yourMacros.on = false; S.food.macroNoteOff = null;
     if (k === "actualP") { S.food.actualProteinEst = false; const g = S.food.actualProteinG; if (g != null && R && R.ref) S.food.actualProtein = proteinLevelFor(g, R.ref.kg); } }
   if (k === "waist") { const o = $('[data-f="waist2"]'); if (o !== el) o.value = el.value; } if (k === "waist2") { const o = $('[data-f="waist"]'); if (o !== el) o.value = el.value; }
-  update();
+  update(); if (/^(waist2?|hft|hin|hcm|bf|dexaBf)$/.test(k)) waistNote();
 }
+/* v7.6.77: a gentle, plain-words check on the waist (not an error; the entry is kept). */
+function waistNote() { const p = S.profile, w = p.waistCm, h = p.heightCm, wh = w > 0 && h > 0 ? w / h : null, bf = +bfInfo().bf || 0;
+  const msg = wh == null ? "" : wh > 0.85 ? "That waist is very large for your height. Please double-check it: measure around your belly at the belly button, with the tape snug but not tight. The figure stops growing past a certain size."
+    : wh < 0.36 ? "That waist looks small for your height. Please double-check it: measure around your belly at the belly button, not your belt line."
+    : (p.sex === "f" ? bf < 20 : bf < 12) && wh > 0.62 ? "Your waist and body fat don't seem to match. Please double-check both numbers." : "";
+  for (const k of ["waist", "waist2"]) { const f = $(`[data-field="${k}"]`); if (!f) continue; let n = f.querySelector(".waist-note");
+    if (!n) { n = document.createElement("p"); n.className = "hint waist-note"; n.setAttribute("role", "status"); f.appendChild(n); }
+    n.textContent = msg; n.hidden = !msg; } }
 const fmtSteps = (n) => Math.round(n).toLocaleString("en-US");
 const stepsErr = (m) => { const e = $("#steps-err"), bx = $('[data-f="stepsN"]'); if (e) e.textContent = m; if (bx) { bx.setAttribute("aria-invalid", m ? "true" : "false"); bx.closest(".field").classList.toggle("invalid", !!m); }
   if (m) invalid.add("stepsN"); else invalid.delete("stepsN"); };
@@ -6147,13 +6156,23 @@ document.addEventListener("click", (e) => { if (e.target.closest("#pft-inside-op
 /* v7.6.3: open the illustration at the user's own (estimated) stage. Illustrative mapping only: fat pattern picks the threshold
    preset, the PFT stage picks the fuel slider (under ≈ 25, in range ≈ 55, above ≈ 80; type 2 diabetes ≥ 85). Same-origin only;
    on file:// or cross-origin the view just opens at its default. */
+/* v7.6.77: 0 = lean, 1 = very large; the larger of body fat % and waist-to-height. */
+function pftSizeT(sex, bf, wh) { const lo = sex === "f" ? 25 : 15, hi = sex === "f" ? 52 : 45, c = (v) => Math.max(0, Math.min(1, v));
+  const a = c((Math.min(60, bf || 0) - lo) / (hi - lo)), b = wh == null ? 0 : c((wh - 0.45) / 0.3); return Math.max(a, b); }
 function pftInsideStage() {
   if (!R || R.blocked) return null; const e = pftEst(), st = PF.stage ? null : null, w = R.main.rows[0].weightKg, dm = E.diabetesStatus(S.profile.health).value;
   const key = !e || !e.known ? null : !e.over || w <= e.weightKg.lo ? "under" : w <= e.weightKg.hi ? "near" : "above";
-  const ph = fatPattern().ph, cap = ph && ph.label === "visceral" ? "0.72" : ph && ph.label === "subcutaneous" ? "1.1" : "1";
+  const ph = fatPattern().ph, P = S.profile, bf = +bfInfo().bf || 0;
+  /* v7.6.77: the figure's outward size follows how big the body is (body fat % and waist-to-height), so a bigger waist or more body fat never
+     looks smaller. Before, a huge waist pushed the fat pattern to "around the organs", which picked the slim "Lower threshold" preset.
+     Waist-to-height is capped at 0.9 and body fat at 60% so implausible entries can't push past a sensible maximum. */
+  const wh = P.waistCm > 0 && P.heightCm > 0 ? Math.min(0.9, P.waistCm / P.heightCm) : 0.5;
+  const sz = pftSizeT(P.sex, bf, P.waistCm > 0 && P.heightCm > 0 ? wh : null);
+  const cap = sz >= 0.5 ? "1.1" : sz >= 0.25 ? "1" : ph && ph.label === "visceral" && wh < 0.5 ? "0.72" : "1";
   const fuel = dm === "t2" ? 88 : key === "above" ? 80 : key === "near" ? 55 : key === "under" ? 25 : null;
-  const P = S.profile, wh = P.waistCm > 0 && P.heightCm > 0 ? P.waistCm / P.heightCm : 0.5, span = e && e.known && e.weightKg ? Math.max(1, e.weightKg.hi - e.weightKg.lo) : 0;
-  let load = span ? 25 + 55 * (w - e.weightKg.lo) / span : 30 + 120 * (wh - 0.45); load += (wh - 0.5) * 60; load = Math.round(Math.max(8, Math.min(dm === "t2" ? 97 : 92, dm === "t2" ? Math.max(load, 85) : load)));
+  const span = e && e.known && e.weightKg ? Math.max(1, e.weightKg.hi - e.weightKg.lo) : 0;
+  let load = span ? 25 + 55 * (w - e.weightKg.lo) / span : 30 + 120 * (wh - 0.45); load += (wh - 0.5) * 60; load = Math.max(load, 20 + 72 * sz);
+  load = Math.round(Math.max(8, Math.min(dm === "t2" ? 97 : 92, dm === "t2" ? Math.max(load, 85) : load))); if (!Number.isFinite(load)) load = 50;
   return { key, cap, fuel, load };
 }
 function pftCtSkin(d,get){try{["ct-current","ct-baseline"].forEach((id)=>{const c=d.getElementById(id);if(!c)return;const x=c.getContext("2d");if(!x||x.__sk)return;const os=x.stroke;x.__sk=1;x.stroke=function(p){const k=get();if(k&&this.strokeStyle==="#959595"&&Math.abs(this.lineWidth-1.15)<0.01){this.save();this.strokeStyle=k;this.lineWidth=4.2;os.call(this,p);this.restore();return}return os.apply(this,arguments)}})}catch(e){}}
@@ -9268,7 +9287,7 @@ function init() {
     else if (t.dataset.ciDel) { await ciDel(t.dataset.ciDel); CI.msg = "Check-in removed from this device."; aiState.result = null; renderAi(); } });
   window.addEventListener("online", () => { if ($("#fs-q").value.trim().length >= 2) fsSearch(true); });
   window.addEventListener("offline", () => { $("#fs-status").textContent = "You're offline. Search needs a connection; your food log still works."; });
-  window.BodyPlanApp = { update, get state() { return S; }, get result() { return R; }, go, start, config: CONFIG,
+  window.BodyPlanApp = { update, pftStage: () => pftInsideStage(), get state() { return S; }, get result() { return R; }, go, start, config: CONFIG,
     logAdd: (it) => { fsLogPush(it); fsApplyLog(); }, foodLog: { get store() { return FLS; }, reload() { FLS = FL.load(); return FLS; }, open: openFoodLog, close: closeFoodLog, render: renderFoodLog, state: fl, useAverage: flUseAverage },
     scanner: { env: scannerEnv, photo: (f) => fsScanPhoto(f), diag: () => fs.diag, pick: async () => FL.pickScanner(await scannerEnv()), decodeCanvas: async (cv, kind) => (await makeDecoder(kind === "native" ? FL.pickScanner(await scannerEnv()) : { kind: "zxing" }))(cv), loadZxing }, setPhoto: (d) => { photo = d; renderPhoto(); update(); }, setAiResult: (r) => { aiState.result = r; renderAi(); }, fig3d: F3,
     isPro, canUse, projectionPayload, checkins: CI, ciAddFile, ciLoad, aiBase, ciProjection, ciPut, foodSearch: fs, fatPattern, depotsAt, regionsAt, waistAt, startPerson, personAt, setFigLook, regionalFrames, };
