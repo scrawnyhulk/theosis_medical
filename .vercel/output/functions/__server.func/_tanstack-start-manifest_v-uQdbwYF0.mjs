@@ -1,4 +1,4 @@
-//#region ../wt-lbfix/node_modules/.nitro/vite/services/ssr/assets/_tanstack-start-manifest_v-BcVRsg4R.js
+//#region ../wt-lbfix/node_modules/.nitro/vite/services/ssr/assets/_tanstack-start-manifest_v-uQdbwYF0.js
 var tsrStartManifest = () => ({ routes: {
 	__root__: {
 		filePath: "/workspace/wt-cdlink/src/routes/__root.tsx",
@@ -15,21 +15,21 @@ var tsrStartManifest = () => ({ routes: {
 			"/visits/"
 		],
 		preloads: [
-			"/assets/index-BXRFgNGd.js",
+			"/assets/index-B91QCB-L.js",
 			"/assets/minutes-DTL4F_H6.js",
 			"/assets/preload-helper-Sqi6h-lN.js"
 		],
 		scripts: [{ attrs: {
 			type: "module",
 			async: !0,
-			src: "/assets/index-BXRFgNGd.js"
+			src: "/assets/index-B91QCB-L.js"
 		} }]
 	},
 	"/": {
 		filePath: "/workspace/wt-cdlink/src/routes/index.tsx",
 		children: void 0,
 		preloads: [
-			"/assets/routes-D49J5_B2.js",
+			"/assets/routes-Bfisw48G.js",
 			"/assets/arrow-right-Dt5DOEf7.js",
 			"/assets/site-shell-OrHNOXiS.js",
 			"/assets/input-KLkbwJBf.js",
@@ -50,7 +50,7 @@ var tsrStartManifest = () => ({ routes: {
 		filePath: "/workspace/wt-cdlink/src/routes/minutes/$slug.tsx",
 		children: void 0,
 		preloads: [
-			"/assets/_slug-B66WXYjl.js",
+			"/assets/_slug-DWCNGZvs.js",
 			"/assets/arrow-left-BPUkfAcu.js",
 			"/assets/site-shell-OrHNOXiS.js"
 		]
@@ -59,7 +59,7 @@ var tsrStartManifest = () => ({ routes: {
 		filePath: "/workspace/wt-cdlink/src/routes/provider/$id.tsx",
 		children: void 0,
 		preloads: [
-			"/assets/_id-6AQC3gqt.js",
+			"/assets/_id-D5icHryG.js",
 			"/assets/arrow-left-BPUkfAcu.js",
 			"/assets/arrow-right-Dt5DOEf7.js",
 			"/assets/site-shell-OrHNOXiS.js",
@@ -71,7 +71,7 @@ var tsrStartManifest = () => ({ routes: {
 		filePath: "/workspace/wt-cdlink/src/routes/visits/$kind.tsx",
 		children: void 0,
 		preloads: [
-			"/assets/_kind-dXh2L_sx.js",
+			"/assets/_kind-6gOqkp-U.js",
 			"/assets/arrow-right-Dt5DOEf7.js",
 			"/assets/site-shell-OrHNOXiS.js",
 			"/assets/sesame-mark-DaryHORq.js",
@@ -93,7 +93,7 @@ var tsrStartManifest = () => ({ routes: {
 		filePath: "/workspace/wt-cdlink/src/routes/provider/index.tsx",
 		children: void 0,
 		preloads: [
-			"/assets/provider-wuZIp9Xw.js",
+			"/assets/provider-CcHhC3F3.js",
 			"/assets/arrow-right-Dt5DOEf7.js",
 			"/assets/site-shell-OrHNOXiS.js",
 			"/assets/playground-banner-YA-gcJJF.js"
@@ -103,7 +103,7 @@ var tsrStartManifest = () => ({ routes: {
 		filePath: "/workspace/wt-cdlink/src/routes/visits/index.tsx",
 		children: void 0,
 		preloads: [
-			"/assets/visits-B1EJLm6i.js",
+			"/assets/visits-CKTPnog6.js",
 			"/assets/arrow-right-Dt5DOEf7.js",
 			"/assets/site-shell-OrHNOXiS.js",
 			"/assets/sesame-mark-DaryHORq.js",

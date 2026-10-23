@@ -8,7 +8,7 @@ import { i as string, r as object } from "../_libs/zod.mjs";
 import { n as SiteShell, r as cn, t as Button } from "./site-shell-BhbP4dfN.mjs";
 import { t as Textarea } from "./textarea-CVGUxc8I.mjs";
 import { t as Input } from "./input-B7edqZkG.mjs";
-//#region ../wt-lbfix/node_modules/.nitro/vite/services/ssr/assets/routes-BSa9Cyzw.js
+//#region ../wt-lbfix/node_modules/.nitro/vite/services/ssr/assets/routes-DlY5plb8.js
 var import_react = /* @__PURE__ */ __toESM(require_react());
 var import_jsx_runtime = require_jsx_runtime();
 function AboutParagraph({ text }) {
@@ -530,7 +530,18 @@ function FuturePlans() {
 							children: splitAt
 						})] }),
 						rest.map((p) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { children: p }, p.slice(0, 40))),
-						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { children: "The first step is already live: free, plain-language health education and simple tools built on that same 80/20 approach." })
+						/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("p", { children: [
+							"The first step is already live: free, plain-language health education and simple tools built on that same 80/20 approach, now at",
+							" ",
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("a", {
+								href: "https://theosishealth.com",
+								target: "_blank",
+								rel: "noopener noreferrer",
+								className: "font-medium text-accent hover:text-fg",
+								children: "theosishealth.com"
+							}),
+							"."
+						] })
 					]
 				}),
 				/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
