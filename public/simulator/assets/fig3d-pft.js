@@ -52,8 +52,14 @@ function f3dMusCalc(i) {
   /* Per-area split: muscleRegions() shares (volume per area with diminishing returns 1 - e^(-D/2), plus spillover).
      Per-area cap (app assumption, not a published figure): one area can gain at most MUS_FOCUS_CAP x its share of what a
      full-body program would add (dL / mr.factor x natural share, Janssen 2000). Lean the plan counts beyond the cap is not drawn. */
+  /* v7.6.82 (Nick): Simple mode, or general lifting with no exercises named, grows the whole body evenly (natural muscle spread,
+     Janssen 2000). Advanced with named exercises uses muscleRegions()' exercise map (squat -> quads/glutes, deadlift -> glutes/hamstrings/back,
+     bench/push-up -> chest/shoulders/triceps, row/pull-up -> back/biceps, overhead press -> shoulders/triceps). */
+  const adv = document.body.classList.contains("mode-adv"), named = (mv.lifts || []).some((l) => l && String(l.ex || "").trim());
+  out.even = !adv || mv.preset !== "custom" || !named;
+  const shareOf = out.even ? mr.nat : mr.share; let nt = 0; for (const g in shareOf) nt += shareOf[g] || 0;
   const sm = 0.5 * a.leanKg, full = dL / (mr.factor || 1);
-  for (const g in mr.share) { let kg = dL * mr.share[g]; const cap = MUS_FOCUS_CAP * (mr.nat[g] || 0) * full; if (kg > cap) { kg = cap; out.capped.push(g); }
+  for (const g in mr.share) { let kg = dL * (out.even ? (shareOf[g] || 0) / (nt || 1) : mr.share[g]); const cap = MUS_FOCUS_CAP * (mr.nat[g] || 0) * full; if (kg > cap) { kg = cap; out.capped.push(g); }
     const base = Math.max(0.2, (mr.nat[g] || 0.05) * sm), r = kg / base;
     out.kg[g] = kg; out.grow[g] = Math.min(MUS_CAP, MUS_EXAG * (r / 2) * MUS_DEPTH); }
   out.dLshown = Object.values(out.kg).reduce((p, q) => p + q, 0);
@@ -64,13 +70,14 @@ function f3dMuscle() {
   if (F3D.api && F3D.api.grow) F3D.api.grow(c.grow);
   if (n) n.innerHTML = !c.lift ? "<b>Muscle view.</b> You haven't picked strength training, so the muscles stay the same. Add lifting on the Move step to see them grow."
     : F3D.i === 0 ? "<b>Muscle view.</b> Move the slider to see where your lifting builds muscle."
-    : !c.surplus && c.dL > 0 ? `<b>Muscle view.</b> You're eating less than you burn, so muscle grows only a little while you lift. About ${fW(c.dLshown)} of muscle shown. Eating a little more than you burn grows it faster.`
+    : !c.surplus && c.dL > 0 ? `<b>Muscle view.</b> Muscle grows a little while you lift in a deficit; more with a small surplus.${c.even ? " Full-body lifting: muscle grows all over, a little at a time." : " Bars show where your training focuses."}`
     : !c.surplus ? "<b>Muscle view.</b> You're eating well below what your body uses, so your muscles hold steady here. Lifting helps keep them. To see them grow, eat closer to what you burn."
     : c.dL <= 0 ? "<b>Muscle view.</b> Your muscles hold steady at this point, so they don't look bigger."
-    : `<b>Muscle view.</b> The areas you train grow the most. About ${fW(c.dLshown)} of muscle shown, gained on days you lift and eat a little extra.`;
+    : c.even ? "<b>Muscle view.</b> Full-body lifting: muscle grows all over, a little at a time." : "<b>Muscle view.</b> Muscle grows a little while you lift in a deficit; more with a small surplus. Bars show where your training focuses.";
   const wn = $("#f3d-mwarn"); if (wn) { wn.hidden = !(c.lift && c.bigSurplus && F3D.i > 0); wn.innerHTML = `<b>A big calorie surplus doesn't build muscle faster. Past a point, the extra is stored as fat.</b> In this plan that's about ${fW(c.dF)} of fat by this point. Switch to 3D to see it on the body.`; }
   if (l) { const all = Object.keys(c.kg).sort((p, q) => c.kg[q] - c.kg[p]), ks = all.filter((k) => c.kg[k] >= 0.025), rest = all.filter((k) => c.kg[k] < 0.025), mx = ks.length ? Math.max(1e-6, c.kg[ks[0]]) : 1;
-    const amt = (kg) => { const lb = S.units === "metric" ? null : kg * 2.2046226; return lb == null ? `+${kg < 1 ? Math.round(kg * 1000) + " g" : kg.toFixed(1) + " kg"}` : `+${lb.toFixed(1)} lb`; };
+    const amt = (kg) => kg / mx >= 0.66 ? "more focus" : kg / mx >= 0.33 ? "some" : "less focus";   // v7.6.82: relative words only, no amounts
+    const box = l.closest(".f3d-mbars"); if (box) box.hidden = !!c.even;
     l.innerHTML = (ks.length ? ks.map((k) => `<li><span>${esc(MUS_LABEL[k] || k)}</span><i style="--w:${Math.round(100 * c.kg[k] / mx)}%"></i><b>${amt(c.kg[k])}</b></li>`).join("") : "<li><span>Little or no change at this point</span></li>")
       + (ks.length && rest.length ? `<li class="f3d-mrest"><span>Little or no change: ${esc(rest.map((k) => (MUS_LABEL[k] || k).replace(/ \(.*\)$/, "").toLowerCase()).join(", "))}</span></li>` : ""); }
 }
@@ -82,8 +89,8 @@ function f3dShell() {
   <div class="f3d-skins" role="group" aria-label="Skin tone">${SKINS.map((t, i) => `<button type="button" data-f3dskin="${i}" style="--t:${t}" aria-pressed="${f3dSkinI() === i}" aria-label="Skin tone ${i + 1}"></button>`).join("")}</div>
   <div id="f3d-pfe"></div>
   <p id="f3d-halfnote" class="f3d-halfnote small" hidden><b>Half &amp; half.</b> One side shows the fat under the skin, the other side shows the muscle underneath. Move the slider to watch the fat layer change. Drag to turn the body.</p><div id="f3d-musbox" class="f3d-musbox" hidden><div class="seg sm f3d-face" role="group" aria-label="Muscle view direction"><button type="button" id="f3d-front" data-f3dface="front" aria-pressed="true">Front</button><button type="button" id="f3d-side" data-f3dface="side" aria-pressed="false">Side view</button></div><p class="f3d-dragtip small">Drag to turn the body. Pinch or scroll to zoom.</p><p class="f3d-mnote" id="f3d-mnote"></p><p class="f3d-mwarn" id="f3d-mwarn" hidden></p><p class="f3d-exag"><b>Muscle growth is shown larger than real life so you can see it.</b></p>
-    <div class="adv-only"><p class="f3d-lbl">Muscle gained by this point, by area (estimate)</p><ul id="f3d-mlist" class="f3d-mlist"></ul>
-    <p class="hint">Split by where you train, using the plan's own lean-mass estimate (the Move step's lifting choices). The figure shows each area about ${MUS_EXAG} times larger than the real change.</p></div></div>
+    <div class="adv-only f3d-mbars"><p class="f3d-lbl">Where your training focuses (relative, not amounts)</p><ul id="f3d-mlist" class="f3d-mlist"></ul>
+    <p class="hint">Split by where you train, from the exercises you picked on the Move step. Longer bars mean more focus. The figure shows growth larger than real life so you can see it.</p></div></div>
   <div class="f3d-ro"><span>Weight</span><b id="f3d-w">–</b></div><div class="f3d-ro"><span>Body fat</span><b id="f3d-f">–</b></div>
   <div class="f3d-btns"><button type="button" class="btn btn-ghost" id="f3d-full">Open the full model</button></div>
   <div id="f3d-ctbox" hidden><p class="f3d-lbl">Illustration only.</p><img id="f3d-ctimg" alt="Cross-section slice from the model (illustration)"><ul id="f3d-ctl" class="pfe-list"></ul>
@@ -92,7 +99,7 @@ function f3dShell() {
 }
 let f3dLib = null;   // assets/pft-embed.js is loaded on demand (keeps index.html small)
 function f3dLoadLib() { if (typeof PFTEmbed === "function") return Promise.resolve(); if (f3dLib) return f3dLib;
-  f3dLib = new Promise((res, rej) => { const s = document.createElement("script"); s.src = "assets/pft-embed.js?v=7681"; s.onload = res; s.onerror = rej; document.head.appendChild(s); }); return f3dLib; }
+  f3dLib = new Promise((res, rej) => { const s = document.createElement("script"); s.src = "assets/pft-embed.js?v=7682"; s.onload = res; s.onerror = rej; document.head.appendChild(s); }); return f3dLib; }
 function f3dMountNow() {
   if (window.__NO_PFT_FIG) return;   // __NO_PFT_FIG: legacy test suites that check the older 2D/3D mannequin figure
   if (F3D.failed) { const fh = $(f3dWhere()); if (fh && !fh.querySelector(".f3d-fbfig")) { if (F3D.host && F3D.host !== fh) { F3D.host.innerHTML = ""; F3D.host.hidden = true; } F3D.host = fh; F3D.where = f3dWhere(); f3dFallback(fh); } return; }
