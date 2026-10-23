@@ -3,13 +3,13 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Maximum Fat Burn Calculator | Theosis Medical</title>
-<meta name="description" content="How fast can you lose fat while limiting muscle loss? An evidence-based calculator built on Alpert's (2005) limit on how much energy body fat can supply per day. From Nick Holwey, PA-C, Theosis Medical.">
-<meta name="theme-color" content="#080d14">
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23080d14'/%3E%3Cpath fill='%23143a7c' stroke='%23cfd6e0' stroke-width='1.5' d='M16 3.5 26 7.2v9.2c0 5.4-4.2 9.8-10 11.1C10.2 26.2 6 21.8 6 16.4V7.2Z'/%3E%3Cpath fill='none' stroke='%23e7edf5' stroke-linecap='round' stroke-width='2.2' d='M16 9.2v12.2M11.8 13.6h8.4'/%3E%3C/svg%3E">
+<title>Maximal Fat Loss Calculator · Theosis Health</title>
+<meta name="description" content="How fast can you lose fat while limiting muscle loss? An evidence-based calculator built on Alpert's (2005) limit on how much energy body fat can supply per day. From Theosis Health.">
+<meta name="theme-color" content="#14171c">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Barlow:ital,wght@0,400;0,500;0,600;1,400&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Barlow:ital,wght@0,400;0,500;0,600;1,400&display=swap" media="print" onload="this.media='all'"><noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Barlow:ital,wght@0,400;0,500;0,600;1,400&display=swap"></noscript>
 <style>
 /* Design tokens taken from theosismedical.com (assets/styles-B4gQf4aC.css) */
 :root{
@@ -193,21 +193,90 @@ footer{max-width:80rem;margin:0 auto;padding:2rem 1rem 3rem;border-top:1px solid
 .funnel-peek span{position:absolute;inset:auto 0 0 0;padding:.4rem;text-align:center;font-size:.85rem;font-weight:700;color:#fff;background:rgba(8,13,20,.7)}
 @media (max-width:640px){.funnel{grid-template-columns:1fr}}
 #rate{width:100%;accent-color:var(--accent)}
+
+/* Palette B: charcoal + soft blue glow, no grain */
+:root{--bg:#14171c;--bg-80:rgba(20,23,28,.82);--surface:rgba(28,32,39,.88);--surface-solid:#1c2027;--field:#101317;--ink:#14171c}
+html{background:#14171c}
+body{background-color:#14171c;background-image:radial-gradient(55% 50% at 74% 38%,rgba(42,122,224,.16),transparent 70%);background-repeat:no-repeat;background-size:100% 100%;background-attachment:fixed}
+
+/* Polish: blue card borders, phone-friendly chart */
+.card{box-shadow:0 0 0 1.5px rgba(42,122,224,.55),0 8px 28px rgba(0,0,0,.25)}
+#chart{touch-action:pan-y;overflow:visible}
+#chart text{font-size:12px}
+.legend{gap:.5rem 1.1rem;font-size:.9rem}
+@media(max-width:519px){.chart-wrap{margin-left:-.25rem;margin-right:-.25rem}}
+
+/* Mini graph in the top-right space */
+.top{display:grid;grid-template-columns:minmax(0,1fr);grid-template-areas:"text" "mini" "presets";gap:0 2rem;align-items:start}
+.top-text{grid-area:text}.top .presets{grid-area:presets}
+.mini{grid-area:mini;margin-top:1.25rem;padding:1rem 1rem .75rem!important}
+.mini-head{display:flex;justify-content:space-between;align-items:baseline;gap:.75rem}
+.mini-end{font-family:var(--font-display);font-weight:600;font-size:1.15rem;color:var(--fg);white-space:nowrap;font-variant-numeric:tabular-nums}
+#mini{display:block;margin-top:.4rem;touch-action:pan-y}
+#mini text{font-family:var(--font-sans);font-size:12px;fill:var(--muted)}
+@media(min-width:60rem){.top{grid-template-columns:minmax(0,1fr) minmax(20rem,26rem);grid-template-areas:"text mini" "presets mini"}.mini{margin-top:1.6rem;margin-right:2.5rem;align-self:center}}
+
+.mini-ctl{margin-top:.5rem;display:grid;gap:.15rem}
+.mini-row{display:grid;grid-template-columns:3.6rem minmax(0,1fr);align-items:center;gap:.6rem;min-height:44px}
+.mini-lbl{font-size:.9rem;font-weight:600;color:var(--fg)}
+.mini-read{font-size:.95rem;color:var(--fg);margin:0 0 .35rem 4.2rem;min-height:1.4em;font-variant-numeric:tabular-nums}
+.mini-ticks{display:flex;justify-content:space-between;margin-left:4.2rem;font-size:.8rem;color:var(--muted);margin-top:-.35rem}
+.mini input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:44px;background:transparent;margin:0;touch-action:pan-y;cursor:pointer}
+.mini input[type=range]::-webkit-slider-runnable-track{height:6px;border-radius:999px;background:rgba(42,122,224,.35)}
+.mini input[type=range]::-moz-range-track{height:6px;border-radius:999px;background:rgba(42,122,224,.35)}
+.mini input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:28px;height:28px;margin-top:-11px;border-radius:50%;background:#2a7ae0;border:3px solid #e7edf5;box-shadow:0 2px 8px rgba(0,0,0,.4)}
+.mini input[type=range]::-moz-range-thumb{width:24px;height:24px;border-radius:50%;background:#2a7ae0;border:3px solid #e7edf5}
+.mini input[type=range]:focus-visible{outline:2px solid #79b4f6;outline-offset:2px;border-radius:6px}
 </style>
+<style>
+footer.th-foot{display:block;max-width:none;margin:0;padding:0;font-size:1rem}
+.th-foot{border-top:1px solid rgba(255,255,255,.1);background:#05080d;color:#e8edf2;font-family:Barlow,system-ui,sans-serif}
+.th-foot .tf-in{max-width:72rem;margin:0 auto;padding:2.5rem 1.25rem 1rem;display:flex;flex-wrap:wrap;gap:2rem;justify-content:space-between}
+.th-foot .tf-col{display:flex;flex-direction:column;gap:.75rem}
+.th-foot a{color:#9aa7b6;font-size:.875rem;text-decoration:none}.th-foot a:hover{color:#e8edf2}
+.th-foot .tf-r{align-items:flex-start}@media(min-width:48rem){.th-foot .tf-r{align-items:flex-end;text-align:right}}
+.th-foot p{margin:0;font-size:.75rem;color:#9aa7b6;max-width:34rem}.th-foot p a{font-size:inherit;text-decoration:underline}
+.th-foot .tf-promo{font-size:.875rem;color:#cbd5e1}.th-foot .tf-promo a{color:#4587c6;font-size:inherit;text-decoration:none;font-weight:600}
+.th-foot .tf-bot{max-width:72rem;margin:0 auto;padding:0 1.25rem 2rem;display:flex;flex-direction:column;gap:.4rem}
+.th-foot img.th-lockup{display:block;height:3rem;width:auto}@media(min-width:40rem){.th-foot img.th-lockup{height:3.5rem}}
+</style>
+<style>img.th-lockup{display:block;height:35px;width:auto;max-width:none;object-fit:contain;object-position:left}@media(min-width:40rem){img.th-lockup{height:46px}}a.hh-tag{text-decoration:none}</style>
 </head>
 <body>
 <a class="skip" href="#results">Skip to results</a>
-<header class="site-header">
-  <div class="in">
-    <img class="lockup" src="data:image/webp;base64,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" alt="Theosis Medical" width="335" height="112">
-    <span class="hh-tag" aria-label="Health Hacks"><span class="hh-metal-blue">H</span><span class="hh-metal">ealth Hacks</span></span>
-  </div>
-</header>
+<div id="th-header-host" style="position:sticky;top:0;z-index:40;min-height:65px;background:rgb(20 23 28/.8)"></div>
+<!--SITE-HEADER-->
+<template id="th-site-header"><link rel="stylesheet" href="/fat-burn-calculator/site-header.css"><header class="sticky top-0 z-40 border-b border-border bg-bg/80 backdrop-blur-md"><div class="mx-auto flex h-16 max-w-7xl items-center justify-between gap-3 px-4 sm:px-6"><div class="flex items-center gap-3 sm:gap-5"><button class="inline-flex items-center justify-center gap-2 whitespace-nowrap font-sans text-sm font-medium transition-[color,background-color,box-shadow,transform,opacity] duration-150 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 active:not-disabled:scale-[0.96] bg-transparent text-fg hover:bg-fg/8 size-11 rounded-sm shrink-0" aria-expanded="false" aria-controls="quick-find-panel" aria-label="Quick find"><svg viewBox="0 0 28 20" class="size-6" aria-hidden="true"><path d="M2 4h24M2 10h24M2 16h24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"></path></svg></button><a class="flex min-h-11 shrink-0 items-center" href="/"><img src="/images/theosis-health-header-lockup.png" width="900" height="168" alt="Theosis Health" class="no-outline block h-[35px] w-auto object-contain object-left sm:h-[46px]"/></a><nav class="hidden items-center gap-3 whitespace-nowrap xl:flex" aria-label="Primary"><a class="group shrink-0" aria-label="Health Hacks" href="/hacks"><span class="relative inline-flex items-center overflow-hidden rounded-[3px] border border-white/10 leading-none shadow-[2px_3px_0_0_rgb(0_0_0_/_0.55),inset_0_1px_0_rgb(255_255_255_/_0.16)] gap-1.5 px-2 py-1.5 transition-[box-shadow,background-color,border-color,filter] duration-150 group-hover:border-accent group-hover:bg-accent group-hover:shadow-[2px_3px_0_0_rgb(0_0_0_/_0.3)]" style="background-color:rgb(8 13 20 / 0.72);background-image:url(/images/navy-grain.jpg);background-size:420px"><span class="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-150 group-hover:opacity-100" style="background-color:#2a7ae0" aria-hidden="true"></span><span class="relative font-display font-semibold uppercase text-[13px] tracking-[0.1em]"><span class="hh-metal-blue">H</span><span class="hh-metal">ealth Hacks</span></span></span></a><a href="/simulator/" class="group shrink-0" aria-label="Metabolic Simulator (Beta)"><span class="relative inline-flex items-center overflow-hidden rounded-[3px] border border-white/10 leading-none shadow-[2px_3px_0_0_rgb(0_0_0_/_0.55),inset_0_1px_0_rgb(255_255_255_/_0.16)] gap-1.5 px-2 py-1.5 transition-[box-shadow,background-color,border-color,filter] duration-150 group-hover:border-accent group-hover:bg-accent group-hover:shadow-[2px_3px_0_0_rgb(0_0_0_/_0.3)]" style="background-color:rgb(8 13 20 / 0.72);background-image:url(/images/navy-grain.jpg);background-size:420px"><span class="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-150 group-hover:opacity-100" style="background-color:#2a7ae0" aria-hidden="true"></span><span class="relative flex text-[#5b9cec] group-hover:text-white"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false" class="shrink-0 " fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h4l2.5-6 4 12 2.5-6H21"></path></svg></span><span class="relative font-display font-semibold uppercase text-[13px] tracking-[0.1em]"><span class="hh-metal-blue">M</span><span class="hh-metal">etabolic Simulator</span></span><span class="relative ml-0.5 rounded-full bg-[#2a7ae0] px-1.5 py-px text-[9px] font-bold tracking-wide text-white uppercase group-hover:bg-white group-hover:text-[#1f63bd]">Beta</span></span></a><a href="/simulator/pft-inside/" class="group shrink-0" aria-label="Personal Fat Threshold Model"><span class="relative inline-flex items-center overflow-hidden rounded-[3px] border border-white/10 leading-none shadow-[2px_3px_0_0_rgb(0_0_0_/_0.55),inset_0_1px_0_rgb(255_255_255_/_0.16)] gap-1.5 px-2 py-1.5 transition-[box-shadow,background-color,border-color,filter] duration-150 group-hover:border-accent group-hover:bg-accent group-hover:shadow-[2px_3px_0_0_rgb(0_0_0_/_0.3)]" style="background-color:rgb(8 13 20 / 0.72);background-image:url(/images/navy-grain.jpg);background-size:420px"><span class="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-150 group-hover:opacity-100" style="background-color:#2a7ae0" aria-hidden="true"></span><span class="relative flex text-[#5b9cec] group-hover:text-white"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false" class="shrink-0 " fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 18a8 8 0 1 1 16 0"></path><path d="M12 18l4-5"></path><circle cx="12" cy="18" r="1"></circle></svg></span><span class="relative font-display font-semibold uppercase text-[13px] tracking-[0.1em]"><span class="hh-metal-blue">P</span><span class="hh-metal">ersonal Fat Threshold Model</span></span></span></a><a href="/fat-burn-calculator/" class="group shrink-0" aria-label="Maximal Fat Loss Calculator"><span class="relative inline-flex items-center overflow-hidden rounded-[3px] border border-white/10 leading-none shadow-[2px_3px_0_0_rgb(0_0_0_/_0.55),inset_0_1px_0_rgb(255_255_255_/_0.16)] gap-1.5 px-2 py-1.5 transition-[box-shadow,background-color,border-color,filter] duration-150 group-hover:border-accent group-hover:bg-accent group-hover:shadow-[2px_3px_0_0_rgb(0_0_0_/_0.3)]" style="background-color:rgb(8 13 20 / 0.72);background-image:url(/images/navy-grain.jpg);background-size:420px"><span class="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-150 group-hover:opacity-100" style="background-color:#2a7ae0" aria-hidden="true"></span><span class="relative flex text-[#5b9cec] group-hover:text-white"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false" class="shrink-0 " fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21c-3.9 0-6.5-2.6-6.5-6 0-3.5 3-5.5 3.5-9 2 1.3 3 3 3 5 1-.8 1.6-2 1.7-3.3C16.4 9.6 18.5 12 18.5 15c0 3.4-2.6 6-6.5 6z"></path></svg></span><span class="relative font-display font-semibold uppercase text-[13px] tracking-[0.1em]"><span class="hh-metal-blue">M</span><span class="hh-metal">aximal Fat Loss Calculator</span></span></span></a></nav></div><div class="flex items-center gap-2"><a class="items-center justify-center gap-2 whitespace-nowrap font-sans text-sm font-medium transition-[color,background-color,box-shadow,transform,opacity] duration-150 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 active:not-disabled:scale-[0.96] bg-steel text-ink hover:bg-steel/90 h-9 rounded-sm px-3.5 hidden md:inline-flex active" href="/contact" data-status="active" aria-current="page">Contact</a><button class="inline-flex items-center justify-center gap-2 whitespace-nowrap font-sans text-sm font-medium transition-[color,background-color,box-shadow,transform,opacity] duration-150 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 active:not-disabled:scale-[0.96] bg-transparent text-fg hover:bg-fg/8 size-11 rounded-sm xl:hidden" aria-expanded="false" aria-controls="mobile-nav" aria-label="Open menu"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-menu size-5" aria-hidden="true"><path d="M4 12h16"></path><path d="M4 18h16"></path><path d="M4 6h16"></path></svg></button></div></div><div id="mobile-nav" hidden="" class="border-t border-border bg-bg/90 backdrop-blur-md xl:hidden hidden"><nav class="mx-auto flex max-w-6xl flex-col px-5 py-3" aria-label="Mobile"><a class="group flex min-h-12 items-center border-b border-border py-2" aria-label="Health Hacks" href="/hacks"><span class="relative inline-flex items-center overflow-hidden rounded-[3px] border border-white/10 leading-none shadow-[2px_3px_0_0_rgb(0_0_0_/_0.55),inset_0_1px_0_rgb(255_255_255_/_0.16)] gap-1.5 px-2 py-1.5 transition-[box-shadow,background-color,border-color,filter] duration-150 group-hover:border-accent group-hover:bg-accent group-hover:shadow-[2px_3px_0_0_rgb(0_0_0_/_0.3)]" style="background-color:rgb(8 13 20 / 0.72);background-image:url(/images/navy-grain.jpg);background-size:420px"><span class="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-150 group-hover:opacity-100" style="background-color:#2a7ae0" aria-hidden="true"></span><span class="relative font-display font-semibold uppercase text-[16px] tracking-[0.14em]"><span class="hh-metal-blue">H</span><span class="hh-metal">ealth Hacks</span></span></span></a><a href="/simulator/" class="group flex min-h-12 items-center border-b border-border py-2" aria-label="Metabolic Simulator (Beta)"><span class="relative inline-flex items-center overflow-hidden rounded-[3px] border border-white/10 leading-none shadow-[2px_3px_0_0_rgb(0_0_0_/_0.55),inset_0_1px_0_rgb(255_255_255_/_0.16)] gap-1.5 px-2 py-1.5 transition-[box-shadow,background-color,border-color,filter] duration-150 group-hover:border-accent group-hover:bg-accent group-hover:shadow-[2px_3px_0_0_rgb(0_0_0_/_0.3)]" style="background-color:rgb(8 13 20 / 0.72);background-image:url(/images/navy-grain.jpg);background-size:420px"><span class="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-150 group-hover:opacity-100" style="background-color:#2a7ae0" aria-hidden="true"></span><span class="relative flex text-[#5b9cec] group-hover:text-white"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false" class="shrink-0 size-5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h4l2.5-6 4 12 2.5-6H21"></path></svg></span><span class="relative font-display font-semibold uppercase text-[16px] tracking-[0.14em]"><span class="hh-metal-blue">M</span><span class="hh-metal">etabolic Simulator</span></span><span class="relative ml-0.5 rounded-full bg-[#2a7ae0] px-1.5 py-px text-[9px] font-bold tracking-wide text-white uppercase group-hover:bg-white group-hover:text-[#1f63bd]">Beta</span></span></a><a href="/simulator/pft-inside/" class="group flex min-h-12 items-center border-b border-border py-2" aria-label="Personal Fat Threshold Model"><span class="relative inline-flex items-center overflow-hidden rounded-[3px] border border-white/10 leading-none shadow-[2px_3px_0_0_rgb(0_0_0_/_0.55),inset_0_1px_0_rgb(255_255_255_/_0.16)] gap-1.5 px-2 py-1.5 transition-[box-shadow,background-color,border-color,filter] duration-150 group-hover:border-accent group-hover:bg-accent group-hover:shadow-[2px_3px_0_0_rgb(0_0_0_/_0.3)]" style="background-color:rgb(8 13 20 / 0.72);background-image:url(/images/navy-grain.jpg);background-size:420px"><span class="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-150 group-hover:opacity-100" style="background-color:#2a7ae0" aria-hidden="true"></span><span class="relative flex text-[#5b9cec] group-hover:text-white"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false" class="shrink-0 size-5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 18a8 8 0 1 1 16 0"></path><path d="M12 18l4-5"></path><circle cx="12" cy="18" r="1"></circle></svg></span><span class="relative font-display font-semibold uppercase text-[16px] tracking-[0.14em]"><span class="hh-metal-blue">P</span><span class="hh-metal">ersonal Fat Threshold Model</span></span></span></a><a href="/fat-burn-calculator/" class="group flex min-h-12 items-center border-b border-border py-2" aria-label="Maximal Fat Loss Calculator"><span class="relative inline-flex items-center overflow-hidden rounded-[3px] border border-white/10 leading-none shadow-[2px_3px_0_0_rgb(0_0_0_/_0.55),inset_0_1px_0_rgb(255_255_255_/_0.16)] gap-1.5 px-2 py-1.5 transition-[box-shadow,background-color,border-color,filter] duration-150 group-hover:border-accent group-hover:bg-accent group-hover:shadow-[2px_3px_0_0_rgb(0_0_0_/_0.3)]" style="background-color:rgb(8 13 20 / 0.72);background-image:url(/images/navy-grain.jpg);background-size:420px"><span class="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-150 group-hover:opacity-100" style="background-color:#2a7ae0" aria-hidden="true"></span><span class="relative flex text-[#5b9cec] group-hover:text-white"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false" class="shrink-0 size-5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21c-3.9 0-6.5-2.6-6.5-6 0-3.5 3-5.5 3.5-9 2 1.3 3 3 3 5 1-.8 1.6-2 1.7-3.3C16.4 9.6 18.5 12 18.5 15c0 3.4-2.6 6-6.5 6z"></path></svg></span><span class="relative font-display font-semibold uppercase text-[16px] tracking-[0.14em]"><span class="hh-metal-blue">M</span><span class="hh-metal">aximal Fat Loss Calculator</span></span></span></a><a class="flex min-h-12 items-center text-base font-medium text-accent active" href="/contact" data-status="active" aria-current="page">Contact</a></nav></div></header></template>
+<!--/SITE-HEADER-->
+<script>
+(function(){var host=document.getElementById('th-header-host'),t=document.getElementById('th-site-header');if(!host||!t)return;
+var r=host.attachShadow({mode:'open'});r.appendChild(t.content.cloneNode(true));
+var mob=r.getElementById('mobile-nav'),btn=r.querySelector('[aria-controls="mobile-nav"]'),qf=r.querySelector('[aria-controls="quick-find-panel"]');
+var openSvg=btn?btn.innerHTML:'',xSvg='<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="size-5" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>';
+function set(o){if(!mob)return;mob.hidden=!o;mob.classList.toggle('hidden',!o);mob.classList.toggle('block',o);btn.setAttribute('aria-expanded',o);btn.setAttribute('aria-label',o?'Close menu':'Open menu');btn.innerHTML=o?xSvg:openSvg;}
+if(btn)btn.addEventListener('click',function(){set(mob.hidden)});
+if(qf){qf.setAttribute('aria-controls','mobile-nav');qf.setAttribute('aria-label','Menu');qf.addEventListener('click',function(){set(mob.hidden);if(!mob.hidden&&getComputedStyle(btn).display==='none'){mob.classList.remove('xl:hidden')}else{mob.classList.add('xl:hidden')}});}
+document.addEventListener('keydown',function(e){if(e.key==='Escape')set(false)});})();
+</script>
 
 <main id="main">
-  <p class="eyebrow">Health Hacks · Nick Holwey, PA-C</p>
-  <h1>Maximum Fat Burn Calculator</h1>
+  <div class="top">
+  <div class="top-text">
+  <p class="eyebrow">Health Hacks</p>
+  <h1>Maximal Fat Loss Calculator</h1>
   <p class="lead">This calculator shows the <strong>maximum</strong> fat-loss rate, designed to limit muscle loss as much as possible (no trial shows any rate spares muscle completely). You can choose any slower pace in between. One published model (Alpert, 2005) estimates that body fat can release at most about <strong>31 kcal per pound of fat per day</strong> (range 29–34). This is an <strong>upper-limit estimate</strong>, not a proven ceiling. In that model, a calorie deficit bigger than this tends to come out of muscle and other lean tissue. Enter where you are and where you want to be, and this shows the <strong>fastest fat loss that still protects lean mass</strong>, week by week.</p>
+  </div>
+  <aside class="card mini" aria-labelledby="mini-h">
+    <div class="mini-head"><p class="eyebrow" id="mini-h">Your weight, week by week</p><span class="mini-end" id="mini-end"></span></div>
+    <svg id="mini" role="img" aria-labelledby="mini-desc" width="100%"></svg><p class="sr-only" id="mini-desc"></p>
+    <div class="mini-ctl">
+      <label class="mini-row" for="mini-wk"><span class="mini-lbl">Week</span><input type="range" id="mini-wk" min="0" max="1" step="1" value="1" aria-describedby="mini-read"></label>
+      <p class="mini-read" id="mini-read" aria-live="polite"></p>
+      <label class="mini-row" for="mini-pace"><span class="mini-lbl">Pace</span><input type="range" id="mini-pace" min="0" max="2" step="1" value="2" aria-describedby="mini-pace-out"></label>
+      <div class="mini-ticks" aria-hidden="true"><span>Slight</span><span>Moderate</span><span>Maximum</span></div>
+      <p class="mini-read" id="mini-pace-out" aria-live="polite"></p>
+    </div>
+  </aside>
 
   <div class="presets" role="group" aria-label="Example scenarios">
     <button type="button" class="chip" data-preset="0">200 lb · 20% · 10 weeks</button>
@@ -215,6 +284,8 @@ footer{max-width:80rem;margin:0 auto;padding:2rem 1rem 3rem;border-top:1px solid
     <button type="button" class="chip" data-preset="2">Female · 150 lb · 32% → 24%</button>
     <button type="button" class="chip ghost" data-preset="reset">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:inline;vertical-align:-2px;margin-right:.35rem"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>Reset</button>
+  </div>
+
   </div>
 
   <div class="layout">
@@ -315,7 +386,7 @@ footer{max-width:80rem;margin:0 auto;padding:2rem 1rem 3rem;border-top:1px solid
               <option value="katch">Katch-McArdle (uses your lean mass)</option>
               <option value="mifflin">Mifflin-St Jeor (age, height, sex)</option>
             </select></span>
-            <span class="hint">Katch-McArdle fits best when your body-fat % is accurate. Mifflin-St Jeor is the general-population standard.</span></label>
+            <span class="hint">Katch-McArdle fits best when body-fat % is accurate. Mifflin-St Jeor is the general-population standard.</span></label>
         </div>
       </div>
 
@@ -337,9 +408,9 @@ footer{max-width:80rem;margin:0 auto;padding:2rem 1rem 3rem;border-top:1px solid
       </div>
       <div class="card" id="cal-card" hidden></div>
       <div class="card" id="timeline-card">
-        <div class="section-head" style="margin-bottom:0"><h2>Week by week</h2><span class="eyebrow" id="tl-note">Lean mass held steady</span></div>
+        <div class="section-head" style="margin-bottom:0"><h2>Your weight, week by week</h2><span class="eyebrow" id="tl-note">Muscle kept steady</span></div>
         <div class="chart-wrap"><svg id="chart" role="img" aria-labelledby="chart-desc" width="100%"></svg><p class="sr-only" id="chart-desc"></p>
-          <div class="legend" aria-hidden="true"><span><i style="background:var(--accent)"></i>Fat mass</span><span><i style="background:rgba(207,214,224,.28)"></i>Lean mass</span><span><i style="background:transparent;border-top:2px dashed var(--steel);height:0;border-radius:0"></i>Goal</span></div>
+          <div class="legend" aria-hidden="true"><span><i style="background:var(--accent)"></i>Fat you lose</span><span><i style="background:rgba(207,214,224,.28)"></i>Muscle, bone &amp; water (kept)</span><span><i style="background:transparent;border-top:2px dashed var(--steel);height:0;border-radius:0"></i>Where you end up</span></div>
         </div>
         <div class="table-wrap"><table id="table" aria-describedby="table-note"></table></div><p class="hint" id="table-note" style="margin-top:.6rem"></p>
       </div>
@@ -372,9 +443,18 @@ footer{max-width:80rem;margin:0 auto;padding:2rem 1rem 3rem;border-top:1px solid
     </section>
   </div>
 </main>
-<footer>
-  <span>© Theosis Medical, LLC · Nick Holwey, PA-C</span>
-  <span>Built on Alpert (2005) · Calculations run privately in your browser</span>
+<footer class="th-foot">
+  <div class="tf-in">
+    <div class="tf-col"><a href="/" aria-label="Theosis Health home"><img class="th-lockup" src="/images/theosis-health-header-lockup.png" alt="Theosis Health" width="900" height="168"></a>
+      <a href="/simulator/">Metabolic Simulator</a><a href="/simulator/pft-inside/">Personal Fat Threshold Model</a><a href="/hacks">Health Hacks</a><a href="/fat-burn-calculator/">Maximal Fat Loss Calculator</a></div>
+    <div class="tf-col tf-r"><a href="/contact">Contact</a><a href="/terms">Terms</a><a href="/privacy">Privacy</a><a href="/consumer-health-privacy">Consumer Health Privacy</a><a href="/disclaimer">Disclaimer</a>
+      <p>Founded by Nick Holwey, PA-C, a licensed physician assistant. Education only, no medical care. <a href="/disclaimer">Medical Disclaimer</a></p></div>
+  </div>
+  <div class="tf-bot">
+    <p>Built on Alpert (2005) · Calculations run privately in your browser</p>
+    <p class="tf-promo">More tools and plain-language Health Hacks at <a href="https://theosishealth.com">theosishealth.com</a></p>
+    <p>© 2026 Theosis Health LLC · Educational content only, not medical advice. Theosis Health does not provide medical care.</p>
+  </div>
 </footer>
 
 <script>
@@ -493,7 +573,7 @@ function readInputs() {
   inp.weight = w;
 
   const bf = parse($("bf").value);
-  if (bf == null) errs["f-bf"] = "Enter your body fat %.";
+  if (bf == null) errs["f-bf"] = "Enter body fat %.";
   else if (!Number.isFinite(bf)) errs["f-bf"] = "Numbers only.";
   else if (bf < 3 || bf > 65) errs["f-bf"] = "Enter a body fat between 3% and 65%.";
   inp.bf = bf;
@@ -615,14 +695,14 @@ function protTxt(R, lean) { const kg = lean / LB_PER_KG, lo = R.prot[0] * kg, hi
   return isMetric() ? { total: `${fmtInt(lo)}–${fmtInt(hi)} <small>g a day</small>`, per: `${R.prot[0].toFixed(1)}–${R.prot[1].toFixed(1)} g per kg of lean mass` }
     : { total: `${fmtInt(lo)}–${fmtInt(hi)} <small>g a day</small>`, per: `${(R.prot[0] / LB_PER_KG).toFixed(2)}–${(R.prot[1] / LB_PER_KG).toFixed(2)} g per lb of lean mass (${fmtInt(lean)} lb)` }; }
 // v7.6.11: SIM_URL = where the simulator lives. "../index.html" works when both ship together (Netlify Drop zip); for a separate deploy set it to the full address.
-const SIM_URL = "../index.html";
+const SIM_URL = "/simulator/";
 function simHref(inp, R) { const q = [`u=${S.units}`, ...(inp.cal && inp.af ? [`act=${inp.af}`] : []), `calc-pace=${R.frac0.toFixed(3)}`, `label=${encodeURIComponent(paceName(inp))}`, `w=${(+inp.weight).toFixed(1)}`, `bf=${(+inp.bf).toFixed(1)}`, `sex=${inp.sex}`, `gbf=${(+R.endBf).toFixed(1)}`];
   if (inp.age) q.push(`age=${Math.round(inp.age)}`); if (inp.heightCm) q.push(`h=${(+inp.heightCm).toFixed(1)}`); return SIM_URL + "#" + q.join("&"); }
 function teaserSvg(R) { const s = R.series, n = s.length, w0 = s[0].weight, w1 = s[n - 1].weight, X = (i) => 10 + 280 * i / Math.max(1, n - 1), Y = (v) => 20 + 80 * (w0 - v) / Math.max(1, w0 - w1);
   const pts = s.filter((_, i) => i % Math.max(1, Math.floor(n / 60)) === 0 || i === n - 1).map((d) => `${X(s.indexOf(d)).toFixed(1)},${Y(d.weight).toFixed(1)}`).join(" ");
   return `<svg viewBox="0 0 300 120" aria-hidden="true" focusable="false"><g filter="url(#tz-blur)"><polyline points="${pts}" fill="none" stroke="#6aa8ff" stroke-width="4"/><polyline points="${pts}" fill="none" stroke="#f0c36a" stroke-width="3" transform="translate(0,10)" opacity=".7"/>
     <ellipse cx="250" cy="60" rx="18" ry="40" fill="#cfd6e0" opacity=".5"/><ellipse cx="215" cy="60" rx="22" ry="44" fill="#cfd6e0" opacity=".35"/></g><defs><filter id="tz-blur"><feGaussianBlur stdDeviation="3.5"/></filter></defs></svg>`; }
-function funnelHtml(inp, R) { return `<div class="funnel" id="funnel"><div class="funnel-txt"><p class="eyebrow">Next step</p><h3>See what this does to your body and your diabetes risk</h3>
+function funnelHtml(inp, R) { return `<div class="funnel" id="funnel"><div class="funnel-txt"><p class="eyebrow">Next step</p><h3>See how this might affect health and diabetes risk</h3>
     <p>The Metabolic Simulator shows how your shape changes week by week, where the fat comes off first, and what it can mean for blood sugar, with your numbers and pace already filled in.</p>
     <a class="chip funnel-btn" id="to-sim" href="${simHref(inp, R)}">Open the Metabolic Simulator →</a><p class="hint">Opens with ${esc(paceName(inp))}, ${fmt(toDispW(inp.weight))} ${wUnit()} and ${fmt(inp.bf)}% body fat. Nothing leaves your device.</p></div>
     <a class="funnel-peek" href="${simHref(inp, R)}" tabindex="-1" aria-hidden="true">${teaserSvg(R)}<span>Your projection is ready</span></a></div>`; }
@@ -696,7 +776,7 @@ function render() {
         <div class="eat-box"><div class="k">Protein</div><div class="eat-v">${protTxt(R, lean).total}</div><p class="d">${protTxt(R, lean).per}. ${esc(R.protWhy[0].toUpperCase() + R.protWhy.slice(1))}.</p></div>
       </div>
       <ul class="eat-notes">
-        <li><b>Your maintenance now: ${fmtInt(s0.tdee)} kcal a day.</b> That's roughly what you burn today. Eating ${fmtInt(s0.deficit)} kcal less than that is your fat-loss deficit.${Math.abs(s0.tdee - sN.tdee) >= 25 ? ` As you lose weight your body burns less, so maintenance falls to about <b>${fmtInt(sN.tdee)} kcal a day</b> by ${endTxt}.` : ""}</li>
+        <li><b>Your maintenance now: ${fmtInt(s0.tdee)} kcal a day.</b> That's roughly what you burn today. Eating ${fmtInt(s0.deficit)} kcal less than that is your fat-loss deficit.${Math.abs(s0.tdee - sN.tdee) >= 25 ? ` As weight comes off, the body tends to burn less, so maintenance falls to about <b>${fmtInt(sN.tdee)} kcal a day</b> by ${endTxt}.` : ""}</li>
         <li data-intake-trend="${trend}">${trend === "up" ? `As you lose fat, the deficit your fat stores can supply shrinks, so your eating target <b>rises gradually</b> from ${fmtInt(s0.intake)} to about <b>${fmtInt(sN.intake)} kcal a day</b> by ${endTxt}, which helps protect lean mass (Alpert 2005).` : trend === "down" ? `Your eating target <b>falls</b> from ${fmtInt(s0.intake)} to about <b>${fmtInt(sN.intake)} kcal a day</b> by ${endTxt}, mostly because your maintenance falls as you lose weight.` : `Your eating target stays about ${fmtInt(s0.intake)} kcal a day for the whole plan.`} See the <b>Eat ≈</b> column in the table below, week by week.</li>
         <li>Never go below <b>${fmtInt(s0.floor)} kcal a day</b> without medical supervision.</li>
       </ul>${floorNote}
@@ -720,7 +800,7 @@ function sampleRows(R) {
 function renderTimeline(R) {
   const inp = R.inp, u = wUnit(), W = (lb) => fmt(toDispW(lb));
   const rows = sampleRows(R);
-  $("tl-note").textContent = `Lean mass held at ${W(inp.lean)} ${u}`;
+  $("tl-note").textContent = `Muscle, bone & water kept at ${W(inp.lean)} ${u}`;
   const cal = inp.cal;
   let html = `<thead><tr><th scope="col">Week</th><th scope="col">Date</th><th scope="col">Weight (${u})</th><th scope="col">Fat (${u})</th><th scope="col">Body fat</th><th scope="col">Deficit (kcal/d)</th>${cal ? '<th scope="col">Eat ≈</th>' : ""}<th scope="col">Loss / wk (${u})</th></tr></thead><tbody>`;
   rows.forEach((r, i) => {
@@ -733,18 +813,67 @@ function renderTimeline(R) {
   html += `</tbody>`;
   $("table").innerHTML = html;
   $("table-note").textContent = `Deficit = the most energy (kcal/day) your fat can supply at that point${inp.abs ? `, or your chosen ${fmtInt(inp.abs)} kcal/day if that is lower` : inp.pace < 1 ? `, times your ${Math.round(inp.pace * 100)}% pace` : ""}${cal ? ", capped by your intake floor" : ""}. It's a deficit, not an amount to eat.${cal ? " “Eat ≈” is the matching daily intake." : ""}`;
-  drawChart(R);
+  drawChart(R); drawMini(R);
 }
 
 function niceStep(range, target) {
   const raw = range / target, p = Math.pow(10, Math.floor(Math.log10(raw)));
   const n = raw / p; return (n < 1.5 ? 1 : n < 3 ? 2 : n < 7 ? 5 : 10) * p;
 }
+let MI_PREV = null, MI_RAF = 0;
+function drawMini(R) {
+  const svg = $("mini"), inp = R.inp; if (!svg) return;
+  const Wd = Math.max(260, Math.round(svg.getBoundingClientRect().width || 360)), Ht = Wd < 340 ? 120 : 140;
+  const m = { l: 8, r: 10, t: 22, b: 22 };
+  const total = inp.mode === "goal" ? R.days : R.series[R.series.length - 1].day;
+  const pts = R.series.filter((p) => p.day <= total + 1e-9).map((p) => ({ d: p.day, w: toDispW(p.weight) }));
+  const endW = toDispW(inp.lean + R.endFat); pts.push({ d: total, w: endW });
+  const w0 = pts[0].w, lean = toDispW(inp.lean), st = niceStep(w0 - lean * 0.92, 4);
+  const yMin = Math.floor(lean * 0.92 / st) * st, yMax = Math.ceil(w0 / st) * st + st * 0.25;   // same rounded scale as the Week by week graph, so the line visibly moves
+  const y = (v) => m.t + (Ht - m.t - m.b) * (1 - (v - yMin) / (yMax - yMin));
+  const N = 40, ys = [];
+  for (let i = 0, j = 0; i <= N; i++) {
+    const d = total * i / N; while (j < pts.length - 2 && pts[j + 1].d < d) j++;
+    const p0 = pts[j], p1 = pts[Math.min(j + 1, pts.length - 1)], f = p1.d > p0.d ? Math.min(1, Math.max(0, (d - p0.d) / (p1.d - p0.d))) : 0;
+    ys.push(y(p0.w + (p1.w - p0.w) * f));
+  }
+  const wks = total / 7, u = wUnit(), halo = "paint-order:stroke;stroke:#1c2027;stroke-width:4px;stroke-linejoin:round";
+  svg.setAttribute("viewBox", `0 0 ${Wd} ${Ht}`); svg.setAttribute("height", Ht);
+  $("mini-end").textContent = `${fmt(w0)} → ${fmt(endW)} ${u}`;
+  const frame = (Y) => {
+    const X = (i) => (m.l + (Wd - m.l - m.r) * i / N).toFixed(1), xe = Wd - m.r, yb = Ht - m.b;
+    const line = Y.map((v, i) => `${i ? "L" : "M"}${X(i)},${v.toFixed(1)}`).join("");
+    svg.innerHTML = `<defs><linearGradient id="mg" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#2a7ae0" stop-opacity=".45"/><stop offset="1" stop-color="#2a7ae0" stop-opacity="0"/></linearGradient></defs>
+    <line x1="${m.l}" x2="${xe}" y1="${yb}" y2="${yb}" stroke="rgba(231,237,245,.12)"/>
+    <path d="${line}L${xe},${yb}L${m.l},${yb}Z" fill="url(#mg)"/>
+    <path d="${line}" fill="none" stroke="#79b4f6" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+    <circle cx="${m.l}" cy="${Y[0]}" r="3.5" fill="#cfd6e0"/><circle cx="${xe}" cy="${Y[N]}" r="4.5" fill="#2a7ae0" stroke="#e7edf5" stroke-width="1.5"/>
+    <text x="${m.l + 6}" y="${Math.max(13, Y[0] - 8)}" style="fill:#cfd6e0;${halo}">${fmt(w0)} ${u}</text>
+    <text x="${xe - 8}" y="${Math.max(13, Y[N] - 9)}" text-anchor="end" style="fill:#e7edf5;font-weight:600;${halo}">${fmt(endW)} ${u}</text>
+    <text x="${m.l}" y="${Ht - 5}">Today</text><text x="${xe}" y="${Ht - 5}" text-anchor="end">Week ${fmt(wks)}</text><g id="mini-mk"></g>`;
+    miniMarker();
+  };
+  MI = { R, rows: sampleRows(R), x: (d) => m.l + (Wd - m.l - m.r) * d / total, y, top: m.t - 6, bot: Ht - m.b };
+  miniSync();
+  cancelAnimationFrame(MI_RAF);
+  const P = MI_PREV, reduce = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+  MI_PREV = ys;
+  if (!P || reduce || P.length !== ys.length) frame(ys);
+  else {
+    const t0 = performance.now(), dur = 260;
+    const step = (now) => { const q = Math.min(1, (now - t0) / dur), k = 1 - Math.pow(1 - q, 3);
+      const Y = ys.map((v, i) => P[i] + (v - P[i]) * k); frame(Y); MI_PREV = Y;
+      if (q < 1) MI_RAF = requestAnimationFrame(step); else MI_PREV = ys; };
+    MI_RAF = requestAnimationFrame(step);
+  }
+  $("mini-desc").textContent = `Small chart: weight goes from ${fmt(w0)} ${u} today to ${fmt(endW)} ${u} at week ${fmt(wks)}.`;
+}
+let CH_PREV = null, CH_RAF = 0;
 function drawChart(R) {
   const svg = $("chart"), inp = R.inp;
   const box = svg.getBoundingClientRect(); const Wd = Math.max(300, Math.round(box.width || 600));
-  const Ht = Wd < 520 ? 220 : 280;
-  const m = { l: 44, r: 12, t: 12, b: 28 };
+  const phone = Wd < 520, Ht = phone ? 240 : 280;
+  const m = { l: phone ? 40 : 46, r: 14, t: 26, b: 30 };
   const total = inp.mode === "goal" ? R.days : R.series[R.series.length - 1].day;
   const pts = R.series.filter((p) => p.day <= total + 1e-9).map((p) => ({ d: p.day, w: toDispW(p.weight) }));
   pts.push({ d: total, w: toDispW(inp.lean + R.endFat) });
@@ -754,23 +883,49 @@ function drawChart(R) {
   const yMin = Math.floor(yMinRaw / yStep) * yStep, yMax = Math.ceil(yMaxRaw / yStep) * yStep;
   const x = (d) => m.l + (Wd - m.l - m.r) * d / total;
   const y = (v) => m.t + (Ht - m.t - m.b) * (1 - (v - yMin) / (yMax - yMin));
+  // Resample the same computed weekly series onto fixed steps so the line can glide between input changes (no new data, just interpolation of the model's own points).
+  const N = 60, ys = [];
+  for (let i = 0, j = 0; i <= N; i++) {
+    const d = total * i / N; while (j < pts.length - 2 && pts[j + 1].d < d) j++;
+    const p0 = pts[j], p1 = pts[Math.min(j + 1, pts.length - 1)], f = p1.d > p0.d ? Math.min(1, Math.max(0, (d - p0.d) / (p1.d - p0.d))) : 0;
+    ys.push(y(p0.w + (p1.w - p0.w) * f));
+  }
+  const endW = toDispW(inp.lean + R.endFat);
+  const T = { ys, yLean: y(lean), yEnd: y(endW) };
   let g = "";
   for (let v = yMin; v <= yMax + 1e-9; v += yStep) g += `<line x1="${m.l}" x2="${Wd - m.r}" y1="${y(v)}" y2="${y(v)}" stroke="rgba(231,237,245,.08)"/><text x="${m.l - 8}" y="${y(v) + 4}" text-anchor="end">${fmt(v, yStep < 1 ? 1 : 0)}</text>`;
-  const wks = total / 7, xs = niceStep(wks, Wd < 520 ? 4 : 8);
-  for (let w = 0; w <= wks + 1e-9; w += Math.max(1, xs)) g += `<text x="${x(w * 7)}" y="${Ht - 8}" text-anchor="middle">${w === 0 ? "Now" : "Wk " + Math.round(w)}</text>`;
-  const line = pts.map((p, i) => `${i ? "L" : "M"}${x(p.d).toFixed(1)},${y(p.w).toFixed(1)}`).join("");
-  const fatArea = `${line}L${x(total)},${y(lean)}L${x(0)},${y(lean)}Z`;
-  const leanArea = `M${x(0)},${y(lean)}L${x(total)},${y(lean)}L${x(total)},${y(yMin)}L${x(0)},${y(yMin)}Z`;
-  const endW = toDispW(inp.lean + R.endFat);
+  g += `<text x="${m.l - 8}" y="14" text-anchor="end">${wUnit()}</text>`;
+  const wks = total / 7, xs = niceStep(wks, phone ? 4 : 8);
+  for (let w = 0; w <= wks + 1e-9; w += Math.max(1, xs)) g += `<text x="${x(w * 7)}" y="${Ht - 8}" text-anchor="middle">${w === 0 ? "Today" : "Week " + Math.round(w)}</text>`;
   svg.setAttribute("viewBox", `0 0 ${Wd} ${Ht}`); svg.setAttribute("height", Ht);
-  svg.innerHTML = `<defs><linearGradient id="fg" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#2a7ae0" stop-opacity=".55"/><stop offset="1" stop-color="#2a7ae0" stop-opacity=".15"/></linearGradient></defs>
-    ${g}<path d="${leanArea}" fill="rgba(207,214,224,.12)"/><path d="${fatArea}" fill="url(#fg)"/>
-    <line x1="${m.l}" x2="${Wd - m.r}" y1="${y(lean)}" y2="${y(lean)}" stroke="rgba(207,214,224,.45)" stroke-width="1"/>
-    <line x1="${m.l}" x2="${Wd - m.r}" y1="${y(endW)}" y2="${y(endW)}" stroke="#cfd6e0" stroke-width="1.25" stroke-dasharray="4 4"/>
-    <path d="${line}" fill="none" stroke="#79b4f6" stroke-width="2.25" stroke-linejoin="round"/>
-    <circle cx="${x(total)}" cy="${y(endW)}" r="4.5" fill="#2a7ae0" stroke="#e7edf5" stroke-width="1.5"/>
-    <text x="${Math.min(x(total) - 8, Wd - m.r - 8)}" y="${y(endW) - 10}" text-anchor="end" style="fill:#e7edf5;font-weight:600">${fmt(endW)} ${wUnit()}</text>`;
-  $("chart-desc").textContent = `Chart: body weight falls from ${fmt(pts[0].w)} to ${fmt(endW)} ${wUnit()} over ${fmt(wks)} weeks. Lean mass stays at ${fmt(lean)} ${wUnit()}; only fat mass decreases. The table below lists the same data.`;
+  const startLbl = `<text x="${m.l + 6}" y="${y(pts[0].w) - 8}" style="fill:#cfd6e0;paint-order:stroke;stroke:#14171c;stroke-width:4px">${fmt(pts[0].w)} ${wUnit()} now</text>`;
+  const frame = (S) => {
+    const X = (i) => (m.l + (Wd - m.l - m.r) * i / N).toFixed(1);
+    const line = S.ys.map((v, i) => `${i ? "L" : "M"}${X(i)},${v.toFixed(1)}`).join("");
+    const xe = Wd - m.r;
+    svg.innerHTML = `<defs><linearGradient id="fg" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#2a7ae0" stop-opacity=".6"/><stop offset="1" stop-color="#2a7ae0" stop-opacity=".18"/></linearGradient></defs>
+    ${g}<path d="M${m.l},${S.yLean}L${xe},${S.yLean}L${xe},${y(yMin)}L${m.l},${y(yMin)}Z" fill="rgba(207,214,224,.12)"/><path d="${line}L${xe},${S.yLean}L${m.l},${S.yLean}Z" fill="url(#fg)"/>
+    <line x1="${m.l}" x2="${xe}" y1="${S.yLean}" y2="${S.yLean}" stroke="rgba(207,214,224,.45)" stroke-width="1"/>
+    <line x1="${m.l}" x2="${xe}" y1="${S.yEnd}" y2="${S.yEnd}" stroke="#cfd6e0" stroke-width="1.25" stroke-dasharray="4 4"/>
+    <path d="${line}" fill="none" stroke="#79b4f6" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+    <circle cx="${xe}" cy="${S.yEnd}" r="5" fill="#2a7ae0" stroke="#e7edf5" stroke-width="1.5"/>
+    ${startLbl}<text x="${xe - 10}" y="${S.yEnd - 11}" text-anchor="end" style="fill:#e7edf5;font-weight:600;paint-order:stroke;stroke:#14171c;stroke-width:4px;stroke-linejoin:round">${fmt(endW)} ${wUnit()} at the end</text>`;
+  };
+  cancelAnimationFrame(CH_RAF);
+  const P = CH_PREV, reduce = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+  CH_PREV = T;
+  if (!P || reduce || P.ys.length !== T.ys.length) { frame(T); }
+  else {
+    const t0 = performance.now(), dur = 260, mix = (a, b, k) => a + (b - a) * k;
+    const step = (now) => {
+      const u = Math.min(1, (now - t0) / dur), k = 1 - Math.pow(1 - u, 3);
+      const S = { ys: T.ys.map((v, i) => mix(P.ys[i], v, k)), yLean: mix(P.yLean, T.yLean, k), yEnd: mix(P.yEnd, T.yEnd, k) };
+      frame(S); CH_PREV = S;
+      if (u < 1) CH_RAF = requestAnimationFrame(step); else CH_PREV = T;
+    };
+    CH_RAF = requestAnimationFrame(step);
+  }
+  $("chart-desc").textContent = `Chart: body weight falls from ${fmt(pts[0].w)} to ${fmt(endW)} ${wUnit()} over ${fmt(wks)} weeks. Muscle, bone and water stay at ${fmt(lean)} ${wUnit()}; only fat goes down. The table below lists the same numbers.`;
 }
 
 // ---------- units & canonical values ----------
@@ -848,8 +1003,9 @@ $("form").addEventListener("input", (e) => {
     if (id === "goal" && radio("goaltype") === "bf") S.goalBfText = $("goal").value;
     syncCanonFromInputs(id);
   }
-  render(); updateGoalHint();
+  scheduleRender();
 });
+let RQ = 0; function scheduleRender() { if (RQ) return; RQ = requestAnimationFrame(() => { RQ = 0; render(); updateGoalHint(); }); }
 $("form").addEventListener("change", (e) => { if (e.target.tagName === "SELECT") { if (e.target.id === "pace") paintPace(); render(); } });
 $("rate").addEventListener("input", () => { $("def").value = String(Math.round(Number($("rate").value) * RHO / 7)); paintPace(); });
 $("def").addEventListener("input", () => { const d = parse($("def").value); if (d) $("rate").value = String(Math.min(3, Math.max(0.1, Math.round(d * 7 / RHO * 10) / 10))); paintPace(); });
@@ -862,6 +1018,33 @@ document.querySelectorAll("[data-preset]").forEach((b) => b.addEventListener("cl
 }));
 let rt; window.addEventListener("resize", () => { clearTimeout(rt); rt = setTimeout(render, 120); });
 
+let MI = null, MI_WK = null;   // MI_WK: week chosen on the mini slider (null = follow the end)
+const MINI_PACES = ["slight", "0.7", "1"], MINI_PACE_TXT = ["Slight: about 0.5 lb of fat a week", "Moderate: 70% of the fastest", "Maximum: the fastest your fat can supply"];
+function miniSync() {
+  const wk = $("mini-wk"), rows = MI.rows, last = rows.length - 1;
+  wk.max = String(last);
+  let i = last;
+  if (MI_WK != null) { i = rows.findIndex((r) => !r.isEnd && Math.round(r.day / 7) === MI_WK); if (i < 0) i = rows[last].day / 7 <= MI_WK ? last : last; }
+  wk.value = String(i);
+  const pv = $("pace").value, pi = MINI_PACES.indexOf(pv), pc = $("mini-pace");
+  if (pi >= 0) pc.value = String(pi);
+  const ptxt = pi >= 0 ? MINI_PACE_TXT[pi] : `Custom: ${fmt(Number($("rate").value), 1)} lb a week (set under Pace below). Slide to pick a preset.`;
+  $("mini-pace-out").textContent = ptxt; pc.setAttribute("aria-valuetext", pi >= 0 ? MINI_PACE_TXT[pi] : "Custom pace");
+  miniMarker();
+}
+function miniRowText(r) {
+  const u = wUnit(), wkN = r.isEnd ? fmt(r.day / 7) : String(Math.round(r.day / 7));
+  const lbl = r.day === 0 ? "Today" : `Week ${wkN}${r.isEnd ? (MI.R.inp.mode === "goal" ? " (goal)" : " (end)") : ""}`;
+  return `${lbl}: ${fmt(toDispW(r.weight))} ${u}, ${fmt(100 * r.F / r.weight)}% body fat`;
+}
+function miniMarker() {
+  if (!MI) return; const g = document.getElementById("mini-mk"); const i = Math.min(Number($("mini-wk").value), MI.rows.length - 1), r = MI.rows[i];
+  const t = miniRowText(r); $("mini-read").textContent = t; $("mini-wk").setAttribute("aria-valuetext", t);
+  if (!g) return; const cx = MI.x(r.day), cy = MI.y(toDispW(r.weight));
+  g.innerHTML = `<line x1="${cx}" x2="${cx}" y1="${MI.top}" y2="${MI.bot}" stroke="#79b4f6" stroke-width="1.5" stroke-dasharray="3 3" opacity=".8"/><circle cx="${cx}" cy="${cy}" r="6" fill="#e7edf5" stroke="#2a7ae0" stroke-width="3"/>`;
+}
+$("mini-wk").addEventListener("input", () => { const r = MI && MI.rows[Number($("mini-wk").value)]; MI_WK = !r || r.isEnd ? null : Math.round(r.day / 7); miniMarker(); });
+$("mini-pace").addEventListener("input", () => { $("pace").value = MINI_PACES[Number($("mini-pace").value)]; paintPace(); render(); });
 applyPreset(PRESETS[0]);
 // test hook (read-only)
 window.__fatcalc = { compute: (inp) => compute(inp), RHO, K_DEFAULT };
