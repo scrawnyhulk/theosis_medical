@@ -130,13 +130,14 @@
         diffuseColor.rgb=mix(vec3(.95,.64,.12),vec3(1.,.83,.30),lob*.7+.15);
         diffuseColor.a=min(.96,.42+.24*smoothstep(.0,.3,vW.r+vW.g*.6)+.5*smoothstep(.05,.8,th))*uFatOp;if(diffuseColor.a<.01)discard;`,
       normal:"normal=pftBump(normal,pftNoise(vPos*38.)+.35*pftNoise(vPos*110.),.0016);"});
-    const muscleU={uSel:U(0),...shared,uGly:U(0)};
+    const muscleU={uSel:U(0),...shared,uGly:U(0),uMG:{value:new Array(48).fill(0)},uMGk:U(1),uMView:U(0)}; /* v7.6.78: per-muscle growth (index = muscle id), local-unit scale, muscle-only view */
     M.muscle=patch(new T.MeshStandardMaterial({color:0x7d1d17,roughness:.55,metalness:0}),"muscle",{
-      uniforms:muscleU,vdecl:"attribute vec3 color;\nvarying float vMid;\n",vmain:"vMid=color.r;\n",fdecl:"uniform float uGly,uSel;\nvarying float vMid;\n",discard:"if(uCut>.5&&pftAbd(vPos,.03)>.5)discard;",
+      uniforms:muscleU,vdecl:"attribute vec3 color;\nattribute float aBelly;\nuniform float uMG[48];uniform float uMGk;\nvarying float vMid;varying float vGrow;\n",vpre:"{int mi0=int(floor(color.r*64.+.5));float g0=(mi0>0&&mi0<48)?uMG[mi0]:0.;vGrow=g0;transformed+=normalize(objectNormal)*g0*aBelly*uMGk;}\n",vmain:"vMid=color.r;\n",fdecl:"uniform float uGly,uSel,uMView;\nvarying float vMid;varying float vGrow;\n",discard:"if(uCut>.5&&pftAbd(vPos,.03)>.5)discard;",
       color:`float fib=sin(vPos.x*1400.+pftNoise(vPos*vec3(60.,8.,60.))*9.)*.5+.5;float fib2=sin(vPos.z*1400.+pftNoise(vPos*vec3(60.,8.,60.)+7.)*9.)*.5+.5;
         float s=fib*fib2;diffuseColor.rgb*=mix(.62,1.12,s);
         float mid=vMid*64.;float mi=floor(mid+.5);float hv=fract(sin(mi*12.9898+.7)*43758.5453);diffuseColor.rgb*=mi>.5?(.74+.46*hv):1.;
-        float seam=clamp(fwidth(mid)*3.5,0.,1.);diffuseColor.rgb=mix(diffuseColor.rgb,vec3(.93,.86,.78),.55*seam); // pale fascia line between muscles
+        float seam=clamp(fwidth(mid)*3.5,0.,1.);diffuseColor.rgb=mix(diffuseColor.rgb,vec3(.93,.86,.78),(uMView>.5?.32:.55)*seam); // pale fascia line between muscles (softer in the muscle-only view)
+        if(uMView>.5){float cav=clamp(length(fwidth(normalize(vNormal)))*4.,0.,1.);diffuseColor.rgb*=1.-.3*cav;diffuseColor.rgb=mix(diffuseColor.rgb,diffuseColor.rgb*vec3(1.08,.9,.88),.5);diffuseColor.rgb*=1.+.10*smoothstep(0.,.012,vGrow);} // v7.6.78: Netter-style depth: darker creases between bellies, slightly fuller red where muscle grew
         if(uSel>.5&&abs(mi-uSel)<.5)diffuseColor.rgb=mix(diffuseColor.rgb,vec3(1.,.72,.36),.42);diffuseColor.rgb=mix(diffuseColor.rgb,vec3(.55,.33,.28),pftNoise(vPos*16.)*.18);
         float gr=smoothstep(.64,.74,pftNoise(vPos*230.));diffuseColor.rgb=mix(diffuseColor.rgb,vec3(.15,.62,.55),uGly*.12);diffuseColor.rgb=mix(diffuseColor.rgb,vec3(.5,1.,.9),min(.55,uGly*.6*gr)); // V32g: lighter glycogen speckle so muscle borders stay readable`,
       normal:`normal=pftBump(normal,fib*fib2,.0006);`});
@@ -160,9 +161,10 @@
         float gq=smoothstep(.5,.68,n3);float gl=uGlyL*(1.-.35*uLiver);
         diffuseColor.rgb=mix(diffuseColor.rgb,vec3(.15,.62,.55),gl*.10*(1.-.8*uLiver));diffuseColor.rgb=mix(diffuseColor.rgb,vec3(.30,.85,.75),gl*.12*smoothstep(.45,.75,n2*.6+n3*.4));`,
       normal:"normal=pftBump(normal,lw*.25+(uLiver>.02?(1.-smoothstep(.1,.34,pftCell(vPos*300.).x))*.5*uLiver:0.),.0006);"});
-    M.pancreas=patch(organ(0xd29a62,.42),"pancreas",{uniforms:pancU,fdecl:"uniform float uPanc;\n",
-      color:"vec2 pc=pftCell(vPos*120.);float lob=smoothstep(.0,.5,pc.y-pc.x);float lo=.55*lob+.25*pftNoise(vPos*40.);float dep=smoothstep(.0,.06,pftNoise(vPos*55.)-(.68-uPanc*.3))*min(1.,uPanc*3.);vec3 pk=mix(vec3(.78,.50,.40),vec3(.93,.71,.55),lo);pk*=mix(.80,1.,smoothstep(.0,.12,pc.y-pc.x));diffuseColor.rgb=mix(pk,vec3(.99,.86,.42),dep);",
-      normal:"vec2 pc2=pftCell(vPos*120.);normal=pftBump(normal,smoothstep(.0,.5,pc2.y-pc2.x)*(1.-.3*pc2.x)+dep*2.,.00035);"});
+    const r10p=window.__PFT_R10PA!==0; /* r10: the Voronoi lobule net read as a cracked "giraffe" plate pattern; domain-warp the cells so lobule borders wander, round the lobule profile, and soften the septa/edge darkening */
+    M.pancreas=patch(organ(0xd29a62,.42),"pancreas"+(r10p?"10":""),{uniforms:pancU,fdecl:"uniform float uPanc;\n",
+      color:r10p?"vec3 pq=vPos*165.;pq+=(vec3(pftNoise(vPos*31.),pftNoise(vPos*31.+5.2),pftNoise(vPos*31.+9.7))-.5)*1.5;vec2 pc=pftCell(pq);float pfw=length(fwidth(pq));float paa=1.-smoothstep(.35,.95,pfw);float pe=pc.y-pc.x;vec2 pc3=pftCell(pq*2.4+7.);float paa3=1.-smoothstep(.35,.95,pfw*2.4);float lob=smoothstep(.0,.9,pe);float lo=mix(.55,.62*lob+.38*smoothstep(.0,.5,pc3.y-pc3.x),paa)+.26*(pftNoise(vPos*38.)-.5);float dep=smoothstep(.0,.06,pftNoise(vPos*55.)-(.68-uPanc*.3))*min(1.,uPanc*3.);vec3 pk=mix(vec3(.60,.30,.16),vec3(.86,.54,.29),clamp(lo,0.,1.));pk=mix(pk,pk*vec3(1.05,.92,.88),smoothstep(.3,.75,pftNoise(vPos*17.+3.)));float sep=(1.-smoothstep(.0,.22+pfw*.3,pe))*paa*smoothstep(.3,.75,pftNoise(vPos*60.+1.7));pk=mix(pk,vec3(.66,.34,.22),sep*.14);pk*=mix(.94,1.,smoothstep(.0,.45,pe)*paa+(1.-paa));diffuseColor.rgb=mix(pk,vec3(.97,.82,.40),dep);":"vec3 pq=vPos*165.;vec2 pc=pftCell(pq);float pfw=length(fwidth(pq));float paa=1.-smoothstep(.35,.95,pfw);float pe=pc.y-pc.x;vec2 pc3=pftCell(pq*2.4+7.);float paa3=1.-smoothstep(.35,.95,pfw*2.4);float lob=smoothstep(.0,.55,pe);float lo=mix(.5,.7*lob+.3*smoothstep(.0,.4,pc3.y-pc3.x),paa)+.3*(pftNoise(vPos*38.)-.5);float dep=smoothstep(.0,.06,pftNoise(vPos*55.)-(.68-uPanc*.3))*min(1.,uPanc*3.);vec3 pk=mix(vec3(.60,.29,.16),vec3(.86,.53,.29),clamp(lo,0.,1.));pk=mix(pk,pk*vec3(1.05,.90,.88),smoothstep(.3,.75,pftNoise(vPos*17.+3.)));float sep=(1.-smoothstep(.0,.16+pfw*.25,pe))*paa*smoothstep(.2,.65,pftNoise(vPos*60.+1.7));pk=mix(pk,vec3(.64,.31,.21),sep*.19);pk*=mix(.91,1.,smoothstep(.0,.3,pe)*paa+(1.-paa));diffuseColor.rgb=mix(pk,vec3(.97,.82,.40),dep);",
+      normal:r10p?"normal=pftBump(normal,(smoothstep(.0,.9,pe)*(1.-.25*pc.x)*.48+.16*smoothstep(.0,.5,pc3.y-pc3.x)*paa3)*paa+dep*2.,.00022);":"normal=pftBump(normal,(smoothstep(.0,.55,pe)*(1.-.3*pc.x)*.58+.2*smoothstep(.0,.4,pc3.y-pc3.x)*paa3)*paa+dep*2.,.00022);"});
     // V26: visceral (omental) fat as lobulated yellow fat with pinkish septa and fine vessels, draped over the
     // bowel (thinner between lobules, so loops show through) instead of one smooth yellow mass.
     M.omentum=patch(organ(0xf0c35a,.5,{transparent:true,depthWrite:false,side:T.DoubleSide,clearcoat:.22,clearcoatRoughness:.35,sheen:0}),"omentum",{uniforms:omU,fdecl:"uniform float uVisc;\n",
@@ -185,7 +187,7 @@
         diffuseColor.rgb=mix(diffuseColor.rgb,mix(vec3(.72,.40,.30),fat,lob),m*.9);`,
       normal:"normal=pftBump(normal,dm*min(1.,uVisc*1.5),.002);"});
     M.heart=organ(0x8f1a14,.3,{emissive:new T.Color(0x5a0804),emissiveIntensity:.6});
-    M.gall=organ(0x4d6a38,.25);M.stomach=organ(0xc4787a,.36);M.intestine=bowel(0xb48c88,.38,"intestine");M.colon=bowel(0xae8070,.4,"colon");
+    M.gall=organ(0x8a8e66,.3);M.stomach=organ(0xc4787a,.36);M.intestine=bowel(0xc08a80,.38,"intestine");M.colon=bowel(0xae8070,.4,"colon");
     M.vessel=patch(organ(0x8a0f0c,.3,{emissive:new T.Color(0x3a0402),emissiveIntensity:.5}),"vessel",{uniforms:shared,discard:"if(uCut>.5&&pftAbd(vPos,.03)>.5)discard;"});
     M.spleen=organ(0x7a2240,.35);M.kidney=organ(0x8e3a2a,.35);M.duodenum=bowel(0xd09a7e,.38,"intestine");M.bladder=organ(0xc9a08a,.4);
     // anatomy pass: lungs (pale pink, see-through so the heart reads), diaphragm (muscle with a paler central tendon), IVC (deoxygenated blue)
@@ -199,23 +201,45 @@
       float pH(vec3 p){p=fract(p*.3183099+.1);p*=17.;return fract(p.x*p.y*p.z*(p.x+p.y+p.z));}
       float pN(vec3 x){vec3 i=floor(x),f=fract(x);f=f*f*(3.-2.*f);return mix(mix(mix(pH(i),pH(i+vec3(1,0,0)),f.x),mix(pH(i+vec3(0,1,0)),pH(i+vec3(1,1,0)),f.x),f.y),mix(mix(pH(i+vec3(0,0,1)),pH(i+vec3(1,0,1)),f.x),mix(pH(i+vec3(0,1,1)),pH(i+vec3(1,1,1)),f.x),f.y),f.z);}
       float pV(vec3 x){vec3 i=floor(x),f=fract(x);float d1=8.,d2=8.;for(int a=-1;a<=1;a++)for(int b=-1;b<=1;b++)for(int c=-1;c<=1;c++){vec3 g=vec3(a,b,c),o=vec3(pH(i+g),pH(i+g+19.1),pH(i+g+47.3));float d=length(g+o-f);if(d<d1){d2=d1;d1=d;}else if(d<d2)d2=d;}return d2-d1;}`;
+    // r02: colon surface from the baked (weight, arc length, ring angle) coordinates: haustral creases, pale taeniae, fat tags
+    const GLSL_COL=`varying vec4 vCo;
+      vec4 pCol(vec4 c,float vis){float w=c.x,s=c.y,th=atan(c.w,c.z);float ph=s/.031+.18*sin(s*19.)+.08*sin(s*53.);float u=fract(ph),hid=floor(ph);
+        float fa=1.-smoothstep(.12,.35,fwidth(ph));float a=mod(th+1.0472,2.0944)-1.0472,dt=abs(a),kb=floor((th+1.0472)/2.0944);
+        float band=1.-smoothstep(.05,.11,dt);float fold=(1.-smoothstep(.0,.13,min(u,1.-u)))*(1.-band)*fa;
+        float r1=pH(vec3(hid,kb,7.3)),r2=pH(vec3(hid,kb,1.9)),sd=r2>.5?1.:-1.;
+        float du=(u-.28-.44*r1)*.031,dv=(a*sd-.30)*.021;float rr=.0026*(.7+.9*min(1.,vis*1.4))*(.75+.5*r2);float dd=length(vec2(du*1.25,dv))/rr*(1.+.35*(pN(vec3(du,dv,hid)*900.)-.5));float tg=(1.-smoothstep(.25,1.,dd))*step(.35,r1)*fa;
+        return vec4(fold,band*fa,tg,w);}`;
     function paint(mat,key,o){o=o||{};if(window.__PFT_NOPAINT)return mat;const prev=mat.onBeforeCompile;mat.onBeforeCompile=function(sh,r){if(prev)prev.call(this,sh,r);
-      sh.vertexShader="attribute float aOcc;varying vec3 vPw;varying float vOcc;\n"+(o.stom?"attribute vec3 aSt;varying vec3 vSt;\n":"")+sh.vertexShader.replace("#include <project_vertex>","#include <project_vertex>\nvPw=(modelMatrix*vec4(transformed,1.0)).xyz;vOcc=aOcc;\n"+(o.stom?"vSt=aSt;\n":""));
-      let f=sh.fragmentShader.replace("#include <common>","#include <common>\n"+GLSL_PAINT+(o.stom?"varying vec3 vSt;\n":""));
+      sh.vertexShader="attribute float aOcc;varying vec3 vPw;varying float vOcc;\n"+(o.stom?"attribute vec3 aSt;varying vec3 vSt;\n":"")+(o.col?"attribute vec4 aCo;varying vec4 vCo;\n":"")+(o.sib?"attribute vec4 aSb;varying vec2 vSb;\n":"")+sh.vertexShader.replace("#include <project_vertex>","#include <project_vertex>\nvPw=(modelMatrix*vec4(transformed,1.0)).xyz;vOcc=aOcc;\n"+(o.stom?"vSt=aSt;\n":"")+(o.col?"vCo=aCo;\n":"")+(o.sib?"vSb=aSb.xy;\n":""));
+      let f=sh.fragmentShader.replace("#include <common>","#include <common>\n"+GLSL_PAINT+(o.stom?"varying vec3 vSt;\n":"")+(o.col?GLSL_COL:"")+(o.sib?"varying vec2 vSb;\n":""));
       const gs=(o.grain||1).toFixed(2),vs=(o.vessels||0).toFixed(2),gl=(o.gloss==null?1:o.gloss).toFixed(2),vc=o.vcol||"vec3(.55,.06,.05)";
       f=f.replace("#include <roughnessmap_fragment>","#include <roughnessmap_fragment>\nroughnessFactor=clamp(roughnessFactor*(1.-"+(o.rg||.3).toFixed(2)+"*.5+"+(o.rg||.3).toFixed(2)+"*pN(vPw*200.*"+gs+")),.12,1.);");
-      f=f.replace("#include <normal_fragment_maps>","#include <normal_fragment_maps>\n{float e=.00006*"+gs+"*"+(o.bump||1).toFixed(2)+";vec3 q=vPw*(170.*"+gs+");float n0=pN(q)+.5*pN(q*2.7);"+(o.stom?"":"")+"vec3 dpx=dFdx(vPw),dpy=dFdy(vPw);float dx=dFdx(n0),dy=dFdy(n0);vec3 r1=cross(dpy,normal),r2=cross(normal,dpx);float det=dot(dpx,r1);e*=smoothstep(.08,.55,abs(normalize(vNormal).z));if(abs(det)>1e-12)normal=normalize(abs(det)*normal-e*sign(det)*(dx*r1+dy*r2)*40.);}");
-      f=f.replace("#include <emissivemap_fragment>","#include <emissivemap_fragment>\n{float rim=1.-abs(normalize(vNormal).z);diffuseColor.rgb*=(1.-.45*vOcc)*mix(1.10,.62,pow(rim,1.6));"+
-        (o.stom?"float sx=vSt.x,cv=vSt.y,an=atan(vSt.z,vSt.y);float wob=pN(vPw*55.)*.5;float gL=1.-smoothstep(.0,.07,abs(cv-.84+.03*wob));float lL=1.-smoothstep(.0,.06,abs(cv+.84-.03*wob));float br=(1.-smoothstep(.0,.07,abs(fract(sx*9.+wob*2.2+cv*.6)-.5)))*smoothstep(.4,.62,pN(vPw*24.));float gB=br*smoothstep(.55,.86,cv)*step(cv,.86);float lB=br*smoothstep(.45,.86,-cv)*step(-cv,.86)*.7;float vv=max(gL,lL*.8)+0.*(gB+lB)*smoothstep(.06,.16,sx)*(1.-smoothstep(.9,.98,sx));diffuseColor.rgb=mix(diffuseColor.rgb,vec3(.52,.08,.07),vv*.62);":"")+(o.vessels?"float vn=abs(2.*pN(vPw*"+(o.vscale||"90.")+"*.35)-1.);float vl=1.-smoothstep(.0,.07,vn);float vm=smoothstep(.35,.65,pN(vPw*14.));diffuseColor.rgb=mix(diffuseColor.rgb,"+vc+",vl*vm*"+vs+");":"")+"}");
+      f=f.replace("#include <normal_fragment_maps>","#include <normal_fragment_maps>\n"+(o.col?"{vec4 cq=pCol(vCo,.5);normal=pftBump(normal,(-cq.x*1.1+cq.y*.12+cq.z*cq.z*1.2)*cq.w,.0018);}":"")+"{float e=.00006*"+gs+"*"+(o.bump||1).toFixed(2)+";vec3 q=vPw*(170.*"+gs+");float n0=pN(q)+.5*pN(q*2.7);"+(o.stom?"":"")+"vec3 dpx=dFdx(vPw),dpy=dFdy(vPw);float dx=dFdx(n0),dy=dFdy(n0);vec3 r1=cross(dpy,normal),r2=cross(normal,dpx);float det=dot(dpx,r1);e*=smoothstep(.08,.55,abs(normalize(vNormal).z));if(abs(det)>1e-12)normal=normalize(abs(det)*normal-e*sign(det)*(dx*r1+dy*r2)*40.);}");
+      f=f.replace("#include <emissivemap_fragment>","#include <emissivemap_fragment>\n{float rim=1.-abs(normalize(vNormal).z);"+(o.warm?"{float kk=(1.-.45*vOcc)*mix(1.10,.62,pow(rim,1.6));diffuseColor.rgb*=pow(vec3(kk),vec3(.72,1.,1.18));}":"diffuseColor.rgb*=(1.-.45*vOcc)*mix(1.10,.62,pow(rim,1.6));")+""+(o.tone?"{float tn=pN(vPw*22.)+.5*pN(vPw*61.+4.3);diffuseColor.rgb*=1.+"+o.tone.toFixed(2)+"*(tn*1.33-1.);"+(o.tint?"diffuseColor.rgb=mix(diffuseColor.rgb,diffuseColor.rgb*"+o.tint+"*1.12,smoothstep(.35,.8,pN(vPw*9.+2.1)));":"")+"}":"")+
+        (o.stom?"float sx=vSt.x,cv=vSt.y,an=atan(vSt.z,vSt.y);float wob=pN(vPw*55.)*.5;float gL=1.-smoothstep(.0,.07,abs(cv-.84+.03*wob));float lL=1.-smoothstep(.0,.06,abs(cv+.84-.03*wob));float br=(1.-smoothstep(.0,.07,abs(fract(sx*9.+wob*2.2+cv*.6)-.5)))*smoothstep(.4,.62,pN(vPw*24.));float gB=br*smoothstep(.55,.86,cv)*step(cv,.86);float lB=br*smoothstep(.45,.86,-cv)*step(-cv,.86)*.7;float vv=max(gL,lL*.8)+0.*(gB+lB)*smoothstep(.06,.16,sx)*(1.-smoothstep(.9,.98,sx));diffuseColor.rgb=mix(diffuseColor.rgb,vec3(.52,.08,.07),vv*.62);":"")+(o.col?"{vec4 cq=pCol(vCo,uVisc);float cw=cq.w;diffuseColor.rgb*=mix(vec3(1.),vec3(.75,.57,.54),cq.x*cw);diffuseColor.rgb=mix(diffuseColor.rgb,diffuseColor.rgb*vec3(1.05,1.01,.95)+vec3(.03,.025,.02),cq.y*.45*cw);float tgd=cq.z;diffuseColor.rgb=mix(diffuseColor.rgb,mix(vec3(.78,.48,.16),vec3(.96,.76,.34),tgd*(.7+.3*pN(vPw*700.))),smoothstep(.0,.5,tgd)*cw*.85);}":"")+(o.vessels&&o.fine?"{vec3 q=vPw*"+(o.vscale||"90.")+"*.35;q+=vec3(pN(q*.45+3.1),pN(q*.45+7.7),pN(q*.45+1.9))*1.6;float a1=abs(2.*pN(q)-1.),a2=abs(2.*pN(q*2.3+11.)-1.);float w1=fwidth(a1),w2=fwidth(a2);float l1=(1.-smoothstep(w1*.6,w1*2.2,a1))*(1.-smoothstep(.5,1.4,length(fwidth(q)))),l2=(1.-smoothstep(w2*.45,w2*1.7,a2))*(1.-smoothstep(.25,.7,length(fwidth(q*2.3))));float vm=smoothstep(.25,.6,pN(vPw*14.));diffuseColor.rgb=mix(diffuseColor.rgb,"+vc+",clamp(l1*.85+l2*.5*smoothstep(.3,.7,pN(q*.8)),0.,1.)*vm*"+vs+");diffuseColor.rgb*=1.-.06*(1.-smoothstep(.0,.25,a1))*vm;}":o.vessels?"float vn=abs(2.*pN(vPw*"+(o.vscale||"90.")+"*.35)-1.);float vl=1.-smoothstep(.0,.07,vn);float vm=smoothstep(.35,.65,pN(vPw*14.));diffuseColor.rgb=mix(diffuseColor.rgb,"+vc+",vl*vm*"+vs+");":"")+"}");
+      // r06: small bowel - circumferential vasa recta running from the mesenteric border (fade before the antimesenteric
+      // border, fwidth-faded when sub-pixel), a soft yellow mesenteric fat strip (grows with visceral fat) and a slightly
+      // deeper, less uniform wall tone on the mesenteric side.
+      if(o.sib)f=f.replace("#include <emissivemap_fragment>","#include <emissivemap_fragment>\n{float ms=vSb.y;float ph=vSb.x/.0052+.9*pN(vPw*36.)+.35*pN(vPw*97.+2.);float wd=fwidth(ph);float gr=fwidth(vSb.x)/max(length(dFdx(vPw))+length(dFdy(vPw)),1e-7);float fa=(1.-smoothstep(.22,.55,wd))*(1.-smoothstep(1.2,1.8,gr));float aa=abs(fract(ph)-.5);float ti=pH(vec3(floor(ph),3.1,7.7));float ln=1.-smoothstep(.06+wd*.5,.13+wd*1.3,aa);float mm=smoothstep(-.75+.95*ti,-.45+.95*ti,ms)*(.55+.45*pH(vec3(floor(ph),9.2,1.3)));float cal=smoothstep(.0,.25,ms+.5);diffuseColor.rgb*=mix(1.05,.93,cal)*(1.+.06*(pN(vPw*48.)-.5));diffuseColor.rgb=mix(diffuseColor.rgb,vec3(.56,.11,.10),ln*mm*fa*.72);float fm=smoothstep(.78,.96,ms)*(.55+.45*min(1.,uVisc*1.4));diffuseColor.rgb=mix(diffuseColor.rgb,vec3(.88,.68,.38)*(.92+.16*pN(vPw*140.)),fm*.5);}");
+      // r10: the two cool (a9c8ff) back/rim key lights lit the pancreas groove between head and uncinate (surfaces facing away from the camera) as a lilac/grey-blue smudge;
+      // `wl` keeps each pixel's light brightness but re-hues direct diffuse (and, at half strength, indirect diffuse) toward the tissue colour, and direct/indirect/clearcoat/sheen specular toward warm white, so creases shade warm brown
+      if(o.wl)f=f.replace("#include <lights_fragment_end>","#include <lights_fragment_end>\n{vec3 lw=vec3(.2126,.7152,.0722);vec3 ah=diffuseColor.rgb/max(dot(diffuseColor.rgb,lw),1e-4);vec3 dd=reflectedLight.directDiffuse;reflectedLight.directDiffuse=mix(dd,dot(dd,lw)*ah,"+o.wl.toFixed(2)+");vec3 ds=reflectedLight.directSpecular;reflectedLight.directSpecular=mix(ds,vec3(dot(ds,lw))*vec3(1.04,1.,.94),"+Math.min(1,o.wl).toFixed(2)+");vec3 is=reflectedLight.indirectSpecular;reflectedLight.indirectSpecular=mix(is,vec3(dot(is,lw))*vec3(1.04,1.,.94),"+Math.min(1,o.wl).toFixed(2)+");vec3 id=reflectedLight.indirectDiffuse;reflectedLight.indirectDiffuse=mix(id,dot(id,lw)*ah,"+(o.wl*.5).toFixed(2)+");\n#ifdef USE_CLEARCOAT\nclearcoatSpecularDirect=mix(clearcoatSpecularDirect,vec3(dot(clearcoatSpecularDirect,lw))*vec3(1.04,1.,.94),"+Math.min(1,o.wl).toFixed(2)+");\n#endif\n#ifdef USE_SHEEN\nsheenSpecularDirect=mix(sheenSpecularDirect,vec3(dot(sheenSpecularDirect,lw))*vec3(1.04,1.,.94),"+Math.min(1,o.wl).toFixed(2)+");\n#endif\n}");
       f=f.replace("#include <lights_fragment_end>","#include <lights_fragment_end>\n{vec3 Vv=normalize(vViewPosition);vec3 nW=(vec4(normal,0.)*viewMatrix).xyz;reflectedLight.indirectDiffuse+=diffuseColor.rgb*vec3(1.,.86,.80)*"+(o.bounce||.35).toFixed(2)+"*(1.-smoothstep(-.85,.05,nW.y));vec3 Rr=reflect(-Vv,normal);float Fr=.04+.96*pow(1.-clamp(dot(normal,Vv),0.,1.),5.);float rf=roughnessFactor;vec3 env=mix(vec3(.17,.14,.13),vec3(1.,.93,.86),smoothstep(-.1-.7*rf,.8+.4*rf,Rr.y))+vec3(.6,.7,.9)*smoothstep(.5-.5*rf,1.,-Rr.x)*.35*(1.-.5*rf);env=mix(env,vec3(.45,.42,.40),rf*rf);reflectedLight.indirectSpecular+=env*Fr*(1.-.85*rf)*(1.-.85*rf)*"+gl+"*.9;}");
       sh.fragmentShader=f;};
       const ck0=mat.customProgramCacheKey,ck=ck0?()=>String(ck0.call(mat)).slice(0,60):()=>"";mat.customProgramCacheKey=()=>ck()+"|v69"+key;mat.needsUpdate=true;return mat}
     // wet serosal sheen on viscera (clearcoat), ivory bone, glossier fat
     [M.liver,M.pancreas,M.stomach,M.spleen,M.kidney,M.heart,M.gall,M.intestine,M.colon,M.duodenum,M.bladder,M.vein].forEach(m=>{if(m&&"clearcoat" in m){m.clearcoat=Math.max(m.clearcoat||0,.32);m.clearcoatRoughness=.28}});
-    M.liver.clearcoat=.45;M.liver.clearcoatRoughness=.3;M.liver.roughness=.45;paint(M.liver,"liver",{grain:.7,gloss:.7,rg:.08,bump:.2});paint(M.pancreas,"panc",{grain:.6,gloss:.7,bump:.3});M.stomach.color.set(0xd4867e);paint(M.stomach,"stom",{grain:.5,stom:1,gloss:1.1,bump:.001,rg:.04});paint(M.spleen,"spl");paint(M.kidney,"kid");
-    paint(M.heart,"heart",{vessels:.35,vscale:"45.",vcol:"vec3(.85,.72,.45)"});paint(M.gall,"gall",{gloss:1.3});paint(M.intestine,"int",{vessels:.3,vscale:"110."});paint(M.colon,"col",{vessels:.45,vscale:"80."});
-    if(M.duodenum!==M.intestine)paint(M.duodenum,"duo",{vessels:.3});paint(M.bladder,"bl");paint(M.lung,"lung",{grain:2.,gloss:.6});paint(M.vein,"vein",{gloss:1.2});
-    M.bone.color.set(0xe9dcc2);M.bone.roughness=.55;paint(M.bone,"bone",{grain:1.3,gloss:.25});
+    M.liver.clearcoat=.45;M.liver.clearcoatRoughness=.3;M.liver.roughness=.45;paint(M.liver,"liver",{grain:.7,gloss:.7,rg:.08,bump:.2});if(window.__PFT_R10PA!==0)paint(M.pancreas,"panc10",{grain:.6,gloss:.6,bump:.03,rg:.06,tone:.10,warm:1,wl:1,vessels:.3,vscale:"70.",fine:1,vcol:"vec3(.55,.14,.12)"});else paint(M.pancreas,"panc",{grain:.6,gloss:.6,bump:.1,rg:.12,tone:.12,vessels:.3,vscale:"70.",fine:1,vcol:"vec3(.55,.14,.12)"}); /* r10: bump .1 -> .03 + warm crease shading (grey-blue smudge in the head, same family as r01/r04/r07-r09) */M.pancreas.clearcoat=.2;M.pancreas.clearcoatRoughness=.4;M.stomach.color.set(0xd4867e);paint(M.stomach,"stom",{grain:.5,stom:1,gloss:.9,bump:.001,rg:.12,tone:.15,vessels:.45,vscale:"60.",fine:1,vcol:"vec3(.62,.16,.14)"});M.stomach.clearcoat=.2;M.stomach.clearcoatRoughness=.38;paint(M.spleen,"spl");paint(M.kidney,"kid");
+    paint(M.heart,"heart",{vessels:.35,vscale:"45.",vcol:"vec3(.85,.72,.45)"});paint(M.gall,"gall",{gloss:.8,grain:.6,bump:.12,rg:.1,tint:"vec3(.84,.90,.92)",tone:.16,vessels:.4,vscale:"70.",fine:1,vcol:"vec3(.55,.20,.14)"});const r09=window.__PFT_R09BW!==0; /* r09: bump .2 on the small bowel/colon reflected the dark env half as blue-grey blotches (same family as r01/r04/r07/r08); near-flat bump, soft painterly tone, and occlusion/rim shading that darkens warm (red falls off less than blue) instead of grey */paint(M.intestine,"int"+(r09?"9":""),r09?{vessels:.45,vscale:"110.",fine:1,bump:.03,rg:.06,tone:.08,warm:1,gloss:.85,sib:1,vcol:"vec3(.60,.12,.11)"}:{vessels:.45,vscale:"110.",fine:1,bump:.2,gloss:.85,sib:1,vcol:"vec3(.60,.12,.11)"});M.intestine.clearcoat=.22;M.intestine.clearcoatRoughness=.36;M.omentum.clearcoat=.1;M.omentum.clearcoatRoughness=.55;M.omentum.roughness=.62; // r06: the thin omental/mesenteric veil was putting a glassy sheen over the loops
+    paint(M.colon,"col"+(window.__PFT_R09BW!==0?"9":""),window.__PFT_R09BW!==0?{vessels:.75,vscale:"80.",fine:1,bump:.03,rg:.06,tone:.08,warm:1,col:1,vcol:"vec3(.58,.13,.12)"}:{vessels:.75,vscale:"80.",fine:1,bump:.2,col:1,vcol:"vec3(.58,.13,.12)"});
+    if(M.duodenum!==M.intestine)paint(M.duodenum,"duo",window.__PFT_R08DU===0?{vessels:.45,fine:1,bump:.2,vcol:"vec3(.60,.12,.11)"}:{vessels:.45,fine:1,bump:.03,rg:.06,tone:.08,vcol:"vec3(.60,.12,.11)"}); /* r08: bump .2 smeared into grey-brown smudges on the thin C-loop tube; near-flat bump + soft painterly tone instead */paint(M.bladder,"bl");paint(M.lung,"lung",{grain:2.,gloss:.6});paint(M.vein,"vein",{gloss:1,grain:.6,bump:.15,rg:.1,tone:.08});
+    M.bone.color.set(0xe9dcc2);M.bone.roughness=.55;if(window.__PFT_R07BN===0)paint(M.bone,"bone",{grain:1.3,gloss:.25});else paint(M.bone,"bone",{grain:.8,gloss:.3,bump:.12,rg:.1,tone:.1,tint:"vec3(1.02,.97,.90)"}); // r07: default bump 1 crumpled the ribs/pelvis into grey "granite" paper (eso-junction and gut views); smooth ivory with a soft warm tone instead
+    // r03: viscera use a neutral (hue-preserving) tone curve so the cut-away keeps Netter-like saturated, layered colour instead of the
+    // washed-out look AgX gives organs; skin, fat, muscle and bone keep the renderer's AgX curve, so the figure and skin tones are unchanged.
+    const ntm=m=>{if(!m||m.userData.ntm||window.__PFT_AGXORG)return;m.userData.ntm=1;const prev=m.onBeforeCompile;m.onBeforeCompile=function(sh,r){if(prev)prev.call(this,sh,r);
+      if(T.NeutralToneMapping!=null)sh.fragmentShader=sh.fragmentShader.replace("#include <tonemapping_fragment>","#if defined( TONE_MAPPING )\n gl_FragColor.rgb=NeutralToneMapping(gl_FragColor.rgb);\n#endif")};
+      const ck0=m.customProgramCacheKey,ck=ck0?()=>String(ck0.call(m)):()=>"";m.customProgramCacheKey=()=>ck()+"|ntm";m.needsUpdate=true};
+    [M.liver,M.gall,M.stomach,M.pancreas,M.intestine,M.colon,M.duodenum,M.spleen,M.kidney,M.bladder,M.heart,M.vessel,M.vein,M.omentum,M.lung,M.diaphragm].forEach(ntm);
     const LOWQ=window.__PFT_LOWQ!=null?!!window.__PFT_LOWQ:!!(window.matchMedia&&matchMedia('(pointer:coarse)').matches)||Math.min(screen.width,screen.height)<600;
     // v70: the fat shell covers most of the screen, so its clearcoat lobe is desktop-only; phones keep a glossy-looking but cheaper fat
     if(LOWQ){M.fat.clearcoat=0;M.fat.roughness=.36;M.fat.specularIntensity=Math.max(M.fat.specularIntensity||.5,.6)}else{M.fat.clearcoat=.38;M.fat.clearcoatRoughness=.3;M.fat.roughness=.42}
@@ -250,17 +274,19 @@
 
     function applyMode(){
       const show={external:["skin","nail"],composition:["vessel","fat","nail","muscle","bone","heart","liver","gall","stomach","pancreas","intestine","colon","omentum","mesentery","spleen","kidney","bladder","lung","diaphragm","vein"],
-        internal:["vessel","skin","nail","muscle","bone","heart","liver","gall","stomach","pancreas","intestine","colon","omentum","mesentery","spleen","kidney","bladder","lung","diaphragm","vein"]}[mode];
-      meshes.forEach(m=>{m.visible=show.indexOf(m.userData.role)>=0&&((m.userData.role!=="vessel"&&m.userData.role!=="vein")||vesselsOn)&&(m.userData.role!=="muscle"||musclesOn)&&(m.userData.role!=="heart"||(m.userData.hra&&mode==="composition"&&!musclesOn))}); /* v74: heart is fully covered by the chest wall otherwise (0 px in every view), so skip drawing it */
-      if(mBtn)mBtn.hidden=mode==="external";
-      if(vBtn)vBtn.hidden=mode==="external";
-      shared.uCut.value=mode==="external"?0:1;shared.uHalf.value=mode==="composition"?1:0;
+        internal:["vessel","skin","nail","muscle","bone","heart","liver","gall","stomach","pancreas","intestine","colon","omentum","mesentery","spleen","kidney","bladder","lung","diaphragm","vein"],
+        muscle:["muscle","bone"]}[mode]; /* v7.6.78: muscle-only view (skin, fat and organs hidden) */
+      meshes.forEach(m=>{m.visible=show.indexOf(m.userData.role)>=0&&((m.userData.role!=="vessel"&&m.userData.role!=="vein")||vesselsOn)&&(m.userData.role!=="muscle"||musclesOn||mode==="muscle")&&(m.userData.role!=="heart"||(m.userData.hra&&mode==="composition"&&!musclesOn))}); /* v74: heart is fully covered by the chest wall otherwise (0 px in every view), so skip drawing it */
+      if(mBtn)mBtn.hidden=mode==="external"||mode==="muscle";
+      if(vBtn)vBtn.hidden=mode==="external"||mode==="muscle";
+      shared.uCut.value=mode==="external"||mode==="muscle"?0:1;muscleU.uMView.value=mode==="muscle"?1:0;shared.uHalf.value=mode==="composition"?1:0;
       if(byRole.skin)byRole.skin.forEach(m=>{m.castShadow=mode==="external";});
+      if(byRole.muscle)byRole.muscle.forEach(m=>{m.receiveShadow=mode==="muscle"||mode!=="external";});
       // V25: shadows only on the body surface; cut-away views get shadow-free, soft frontal light
-      const cut=mode!=="external";key.castShadow=!cut;head.intensity=cut?.85:.6;rimL.intensity=cut?1.6:.42;rimR.intensity=cut?1.4:.38;fill.intensity=cut?.55:.6;hemi.intensity=cut?.75:.55;key.intensity=cut?2.1:2.25;
+      const cut=mode!=="external"&&mode!=="muscle";key.castShadow=!cut;head.intensity=cut?.85:.6;rimL.intensity=cut?1.6:.42;rimR.intensity=cut?1.4:.38;fill.intensity=cut?.55:.6;hemi.intensity=cut?.75:.55;key.intensity=cut?2.1:2.25;
       // Teaching offset (as in the 2D renders): bring the pancreas and gallbladder forward in the cut-away views so they are not hidden behind stomach/liver.
       const off={pancreas:[0,0,.004],gall:[0,.010,-.016]}; // v7.6.67: true positions (was a large teaching offset that floated the pancreas in front of the liver)
-      for(const r in off)(byRole[r]||[]).forEach(m=>{if(!m.userData.p0)m.userData.p0=m.position.clone();m.position.copy(m.userData.p0);if(mode!=="external")m.position.add(new T.Vector3(...off[r]))});
+      for(const r in off)(byRole[r]||[]).forEach(m=>{if(!m.userData.p0)m.userData.p0=m.position.clone();m.position.copy(m.userData.p0);if(mode!=="external"&&mode!=="muscle")m.position.add(new T.Vector3(...off[r]))});
       dirty=true;
     }
     function stepState(dt){
@@ -268,6 +294,7 @@
       for(const n in st){const d=tgt[n]-st[n];if(Math.abs(d)>1e-4){st[n]+=d*k;moving=true}else st[n]=tgt[n]}
       if(!ptrs.size&&(Math.abs(vAz)>.003||Math.abs(vEl)>.003)){
         if(reduce.matches){vAz=vEl=0}else{camT.az+=vAz*dt;cam.az=camT.az;const ne=clampEl(camT.el+vEl*dt);if(ne===camT.el)vEl=0;camT.el=ne;cam.el=ne;const f=Math.exp(-dt*3.2);vAz*=f;vEl*=f;moving=true}}
+      {const a=muscleU.uMG.value;for(let i=0;i<48;i++){const d=mgT[i]-a[i];if(Math.abs(d)>2e-6){a[i]+=d*k;moving=true}else a[i]=mgT[i]}}
       const ck=reduce.matches?1:1-Math.exp(-dt*5.5);
       let dAz=camT.az-cam.az;dAz=Math.atan2(Math.sin(dAz),Math.cos(dAz));
       if(Math.abs(dAz)>1e-4||Math.abs(camT.dist-cam.dist)>1e-4||Math.abs(camT.ty-cam.ty)>1e-4||Math.abs(camT.el-cam.el)>1e-4||Math.abs(camT.px-cam.px)>1e-4){
@@ -283,7 +310,7 @@
       meshes.forEach(m=>{const d=m.morphTargetDictionary,inf=m.morphTargetInfluences;if(!d)return;
         if("subq" in d)inf[d.subq]=bz(st.subq+bias.subq,1.25);if("mass" in d)inf[d.mass]=bz(st.mass+bias.mass,1.1);if("belly" in d)inf[d.belly]=bz(st.belly+bias.belly,1.25);if("visc" in d)inf[d.visc]=bz(st.visc+bias.visc,1);if("hyper" in d)inf[d.hyper]=st.hyper;});
       const B=bias;fatU.uSubq.value=bz(st.subq+B.subq,1.25);fatU.uMass.value=bz(st.mass+B.mass,1.1);fatU.uBelly.value=bz(st.belly+B.belly,1.25);fatU.uHyper.value=st.hyper;
-      liverU.uLiver.value=bz(st.liver+B.liver,1);liverU.uGlyL.value=glyOn?st.glyL:0;muscleU.uGly.value=glyOn?st.gly:0;pancU.uPanc.value=bz(st.pancreas+B.pancreas,1);omU.uVisc.value=bz(st.visc+B.visc,1);if(rootRef){rootRef.scale.set(B.sx,B.sy,B.sx);rootRef.position.y=1.05*(1-B.sy);}
+      liverU.uLiver.value=bz(st.liver+B.liver,1);liverU.uGlyL.value=glyOn?st.glyL:0;muscleU.uGly.value=glyOn&&mode!=="muscle"?st.gly:0;pancU.uPanc.value=bz(st.pancreas+B.pancreas,1);omU.uVisc.value=bz(st.visc+B.visc,1);if(rootRef){rootRef.scale.set(B.sx,B.sy,B.sx);rootRef.position.y=1.05*(1-B.sy);}
       if(M.heart)M.heart.emissiveIntensity=.45;
     }
     const v3=new T.Vector3();
@@ -553,7 +580,7 @@
         hv.forEach((p,i)=>{const g=tube2(p.map(q=>q.concat([.0045])),(u,th,s,q,tot)=>{const r=.0022+.0026*u;return [r,r]},8,10);addW(g,M.vein,"vein","Hepatic vein "+["R","M","L"][i],host)})}
       // ===== Portal system and splenic vessels, attached to the pancreas so they move with it
       const pm2=root.userData.panPm,pp=root.userData.panPts;
-      if(pm2&&pp){const art=M.artPS||(M.artPS=organ(0xa3201a,.32,{emissive:new T.Color(0x2a0402),emissiveIntensity:.4}));const P=new T.Vector3();
+      if(pm2&&pp){const art=M.artPS||(M.artPS=organ(0xa3201a,.32,{emissive:new T.Color(0x2a0402),emissiveIntensity:.4}));if(window.__PFT_R10AN!==0)ntm(art); /* r10: these two arteries are made after the r03 Neutral pass, so they were the only viscera left on AgX */const P=new T.Vector3();
         const toPm=m=>{pm2.add(m);m.updateMatrixWorld(true);m.position.set(0,0,0);m.quaternion.identity();m.scale.set(1,1,1)};
         const mk=(pts,r0,r1,mat,name)=>{const g=tube2(pts,(u,th,s,q,tot)=>{const r=(r0+(r1-r0)*u)*capR(s,tot,.002,.002);return [r,r]},8,10);const m=new T.Mesh(g,mat);toPm(m);pm2.updateMatrixWorld(true);
           const A=g.attributes.position;for(let i=0;i<A.count;i++){P.fromBufferAttribute(A,i);pm2.worldToLocal(P);A.setXYZ(i,P.x,P.y,P.z)}g.setAttribute("color",new T.Float32BufferAttribute(new Float32Array(A.count*3).fill(1),3));fixVol(g);
@@ -589,6 +616,97 @@
       const by=r=>meshes.filter(m=>m.userData.role===r&&m.isMesh);const nm=x=>meshes.find(m=>m.name===x);
       swap(by("liver").sort((a,b)=>b.geometry.attributes.position.count-a.geometry.attributes.position.count)[0],"liver");
       swap(nm("Lungs"),"lungs");swap(nm("Colon"),"colon");swap(nm("Small intestine"),"smallint","soft");
+      // r02: haustra, taeniae coli and appendices epiploicae on the reference colon (original procedural code). The HRA mesh
+      // has no UVs, so a centre line is fitted to it (chain-constrained Lloyd fit from a coarse caecum->rectum guide in box
+      // fractions), every vertex gets (weight, arc length, ring angle from the anterior taenia) in aCo, and the haustral
+      // sacculations are baked into the geometry once at load (no extra triangles or draw calls).
+      const colonCoords=m=>{if(!m||!m.geometry||!m.userData.hra)return;const g=m.geometry,Pa=g.attributes.position,n=Pa.count;m.updateMatrixWorld(true);
+        const P=new Float32Array(n*3),v=new T.Vector3();for(let i=0;i<n;i++){v.fromBufferAttribute(Pa,i).applyMatrix4(m.matrixWorld);P[i*3]=v.x;P[i*3+1]=v.y;P[i*3+2]=v.z}
+        const bb=new T.Box3().setFromArray(P),mn=bb.min.toArray(),ex=bb.max.clone().sub(bb.min).toArray();
+        const SD=[[.157,.355,.503],[.157,.507,.503],[.157,.7,.503],[.179,.837,.572],[.314,.727,.814],[.538,.741,.848],[.717,.837,.814],[.852,.975,.641],[.897,.837,.503],[.888,.617,.503],[.874,.424,.503],[.762,.287,.538],[.583,.245,.572],[.448,.231,.434],[.448,.121,.159],[.448,.011,.055]].map(s=>s.map((f,a)=>mn[a]+f*ex[a]));
+        let C=[];for(let i=0;i<SD.length-1;i++){const a=SD[i],b=SD[i+1],k=Math.max(1,Math.round(Math.hypot(b[0]-a[0],b[1]-a[1],b[2]-a[2])/.025));for(let j=0;j<k;j++)C.push([0,1,2].map(q=>a[q]+(b[q]-a[q])*j/k))}C.push(SD[SD.length-1].slice());
+        const K=C.length,asg=new Int32Array(n);
+        for(let it=0;it<12;it++){const S=C.map(()=>[0,0,0,0]);for(let i=0;i<n;i++){let bd=1e9,bi=0;for(let k=0;k<K;k++){const c=C[k],d=(P[i*3]-c[0])**2+(P[i*3+1]-c[1])**2+(P[i*3+2]-c[2])**2;if(d<bd){bd=d;bi=k}}asg[i]=bi;const s=S[bi];s[0]+=P[i*3];s[1]+=P[i*3+1];s[2]+=P[i*3+2];s[3]++}
+          let N=C.map((c,k)=>S[k][3]>3?[S[k][0]/S[k][3],S[k][1]/S[k][3],S[k][2]/S[k][3]]:c.slice());for(let r=0;r<2;r++)N=N.map((c,k)=>k==0||k==K-1?c:c.map((x,a)=>.6*x+.2*(N[k-1][a]+N[k+1][a])));C=N}
+        // densify (Catmull-Rom), arc length, anterior-referenced frame (smoothed)
+        const Q=[];for(let k=0;k<K-1;k++){const p0=C[Math.max(0,k-1)],p1=C[k],p2=C[k+1],p3=C[Math.min(K-1,k+2)];for(let j=0;j<6;j++){const t=j/6,t2=t*t,t3=t2*t;Q.push([0,1,2].map(a=>.5*(2*p1[a]+(-p0[a]+p2[a])*t+(2*p0[a]-5*p1[a]+4*p2[a]-p3[a])*t2+(-p0[a]+3*p1[a]-3*p2[a]+p3[a])*t3)))}}Q.push(C[K-1]);
+        const M2=Q.length,L=[0],Tg=[],E1=[];for(let k=1;k<M2;k++)L.push(L[k-1]+Math.hypot(Q[k][0]-Q[k-1][0],Q[k][1]-Q[k-1][1],Q[k][2]-Q[k-1][2]));const LT=L[M2-1];
+        for(let k=0;k<M2;k++){const a=Q[Math.max(0,k-1)],b=Q[Math.min(M2-1,k+1)];Tg.push(new T.Vector3(b[0]-a[0],b[1]-a[1],b[2]-a[2]).normalize())}
+        for(let k=0;k<M2;k++){const t=Tg[k],e=new T.Vector3(0,.25,1).addScaledVector(t,-(.25*t.y+t.z));E1.push(e.lengthSq()>1e-6?e.normalize():new T.Vector3(1,0,0))}
+        for(let r=0;r<4;r++)for(let k=1;k<M2-1;k++){E1[k].add(E1[k-1]).add(E1[k+1]).addScaledVector(Tg[k],-E1[k].dot(Tg[k]));if(E1[k].lengthSq()>1e-9)E1[k].normalize()}
+        const co=new Float32Array(n*4),tx=new Float32Array(n*3),rad=new Float32Array(n),seg=new Int32Array(n),fr=new Float32Array(n);const sr=new Float32Array(M2),sc=new Float32Array(M2);
+        for(let i=0;i<n;i++){let bd=1e9,bk=0,bf=0;const x=P[i*3],y=P[i*3+1],z=P[i*3+2];for(let k=0;k<M2-1;k++){const a=Q[k],b=Q[k+1],dx=b[0]-a[0],dy=b[1]-a[1],dz=b[2]-a[2],l2=dx*dx+dy*dy+dz*dz||1e-12;let f=((x-a[0])*dx+(y-a[1])*dy+(z-a[2])*dz)/l2;f=f<0?0:f>1?1:f;const d=(x-a[0]-f*dx)**2+(y-a[1]-f*dy)**2+(z-a[2]-f*dz)**2;if(d<bd){bd=d;bk=k;bf=f}}
+          seg[i]=bk;fr[i]=bf;rad[i]=Math.sqrt(bd);sr[bk]+=rad[i];sc[bk]++}
+        const Rl=new Float32Array(M2);for(let k=0;k<M2;k++){let s=0,c=0;for(let j=Math.max(0,k-8);j<=Math.min(M2-1,k+8);j++){s+=sr[j];c+=sc[j]}Rl[k]=c?s/c:.02}
+        const c0=new T.Vector3(),r=new T.Vector3(),e2=new T.Vector3(),tA=2.0944,SS=(x,a,b)=>{const t=Math.min(1,Math.max(0,(x-a)/(b-a)));return t*t*(3-2*t)};
+        for(let i=0;i<n;i++){const k=seg[i],f=fr[i],a=Q[k],b=Q[k+1];c0.set(a[0]+(b[0]-a[0])*f,a[1]+(b[1]-a[1])*f,a[2]+(b[2]-a[2])*f);const t=Tg[k],e1=E1[k];
+          r.set(P[i*3],P[i*3+1],P[i*3+2]).sub(c0);r.addScaledVector(t,-r.dot(t));const rl=r.length();if(rl>1e-7)r.multiplyScalar(1/rl);e2.crossVectors(t,e1);
+          const th=Math.atan2(r.dot(e2),r.dot(e1)),s=L[k]+f*(L[k+1]-L[k]),R=Rl[k];
+          // weight: no sacculations on the rectum (last ~9 cm) or on the appendix/caecal tip (vertices far off the fitted tube)
+          const w=(1-SS(s,LT-.11,LT-.07))*(1-SS(rad[i]/R,1.45,1.9))*SS(s,.0,.03);
+          co[i*4]=w;co[i*4+1]=s;co[i*4+2]=Math.cos(th);co[i*4+3]=Math.sin(th);rad[i]=R;tx[i*3]=r.x;tx[i*3+1]=r.y;tx[i*3+2]=r.z}
+        // where neighbouring vertices project onto different parts of the centre line (tight flexures) the arc length jumps:
+        // no sacculation there, feathered over the welded mesh so the duplicated seam vertices stay crack-free
+        const wm=new Map(),id=new Int32Array(n);for(let i=0;i<n;i++){const k=Math.round(P[i*3]/5e-4)+","+Math.round(P[i*3+1]/5e-4)+","+Math.round(P[i*3+2]/5e-4);let q=wm.get(k);if(q===undefined){q=i;wm.set(k,i)}id[i]=q}
+        const ix=g.index.array,jmp=new Float32Array(n);for(let t=0;t<ix.length;t+=3)for(let e=0;e<3;e++){const a=id[ix[t+e]],b=id[ix[t+(e+1)%3]],ds=Math.abs(co[a*4+1]-co[b*4+1])-1.3*Math.hypot(P[a*3]-P[b*3],P[a*3+1]-P[b*3+1],P[a*3+2]-P[b*3+2]);if(ds>jmp[a])jmp[a]=ds;if(ds>jmp[b])jmp[b]=ds}
+        let W=new Float32Array(n);for(let i=0;i<n;i++)W[i]=id[i]===i?co[i*4]*(1-SS(jmp[i],.004,.012)):0;
+        for(let it=0;it<3;it++){const A=new Float32Array(n),Cn=new Float32Array(n),Mn=W.slice();for(let t=0;t<ix.length;t+=3)for(let e=0;e<3;e++){const a=id[ix[t+e]],b=id[ix[t+(e+1)%3]];A[a]+=W[b];Cn[a]++;A[b]+=W[a];Cn[b]++;if(W[b]<Mn[a])Mn[a]=W[b];if(W[a]<Mn[b])Mn[b]=W[a]}
+          for(let i=0;i<n;i++)if(id[i]===i&&Cn[i])W[i]=it<1?Mn[i]:.5*W[i]+.5*A[i]/Cn[i]}
+        for(let i=0;i<n;i++){const w=W[id[i]];co[i*4]=w;const s=co[i*4+1],th=Math.atan2(co[i*4+3],co[i*4+2]),R=rad[i];
+          const ph=s/.031+.18*Math.sin(s*19)+.08*Math.sin(s*53),u=ph-Math.floor(ph),dt=Math.abs(((th+tA/2)%tA+tA)%tA-tA/2);
+          const band=1-SS(dt,.05,.11),fold=(1-SS(Math.min(u,1-u),0,.2))*(1-band),pouch=Math.sin(Math.PI*u);
+          const d=R*w*(.12*pouch*SS(dt,.08,.45)-.14*fold-.02*band);
+          v.set(P[i*3],P[i*3+1],P[i*3+2]).addScaledVector(r.set(tx[i*3],tx[i*3+1],tx[i*3+2]),d);m.worldToLocal(v);Pa.setXYZ(i,v.x,v.y,v.z)}
+        Pa.needsUpdate=true;g.setAttribute("aCo",new T.Float32BufferAttribute(co,4));g.computeVertexNormals();g.computeBoundingBox();g.computeBoundingSphere();m.userData.colonLen=LT};
+      try{colonCoords(nm("Colon"))}catch(e){console.warn("colon haustra",e)}
+      // r06: small-bowel calibre + mesenteric frame (original procedural code, HRA mesh only, no new triangles/draw calls).
+      // The jejunum/ileum is one long convoluted tube, so instead of a guided centre line each welded vertex gets a local
+      // tube axis (smallest eigenvector of its 2-ring normal covariance), a tube radius from circumferential curvature and an
+      // approximate centre point. Smooth 3D noise sampled at the centre point dilates/narrows whole rings (calibre variation,
+      // wider jejunum upper-left, narrower ileum lower-right). The axis is integrated into a local axial coordinate (BFS +
+      // relaxation) for circumferential vasa recta in the shader, and each vertex gets a mesenteric-border weight from the
+      // direction to the mesentery root (upper left -> right iliac fossa). aSb = (axial s, mesenteric cos, 0, 0).
+      const sibCoords=m=>{if(!m||!m.geometry||!m.userData.hra||!m.geometry.index)return;const g=m.geometry,Pa=g.attributes.position,n=Pa.count,ix=g.index.array;m.updateMatrixWorld(true);
+        const P=new Float32Array(n*3),v=new T.Vector3();for(let i=0;i<n;i++){v.fromBufferAttribute(Pa,i).applyMatrix4(m.matrixWorld);P[i*3]=v.x;P[i*3+1]=v.y;P[i*3+2]=v.z}
+        const wm=new Map(),id=new Int32Array(n);for(let i=0;i<n;i++){const k=Math.round(P[i*3]/5e-4)+","+Math.round(P[i*3+1]/5e-4)+","+Math.round(P[i*3+2]/5e-4);let q=wm.get(k);if(q===undefined){q=i;wm.set(k,i)}id[i]=q}
+        const N=new Float32Array(n*3),dg=new Int32Array(n+1);
+        for(let t=0;t<ix.length;t+=3){const a=id[ix[t]],b=id[ix[t+1]],c=id[ix[t+2]];const ux=P[b*3]-P[a*3],uy=P[b*3+1]-P[a*3+1],uz=P[b*3+2]-P[a*3+2],wx=P[c*3]-P[a*3],wy=P[c*3+1]-P[a*3+1],wz=P[c*3+2]-P[a*3+2];
+          const nx=uy*wz-uz*wy,ny=uz*wx-ux*wz,nz=ux*wy-uy*wx;for(const q of [a,b,c]){N[q*3]+=nx;N[q*3+1]+=ny;N[q*3+2]+=nz}dg[a]+=2;dg[b]+=2;dg[c]+=2}
+        for(let i=0;i<n;i++){const l=Math.hypot(N[i*3],N[i*3+1],N[i*3+2])||1;N[i*3]/=l;N[i*3+1]/=l;N[i*3+2]/=l}
+        const st=new Int32Array(n+1);for(let i=0;i<n;i++)st[i+1]=st[i]+dg[i];const fill=st.slice(0,n),nb=new Int32Array(st[n]);
+        for(let t=0;t<ix.length;t+=3)for(let e=0;e<3;e++){const a=id[ix[t+e]],b=id[ix[t+(e+1)%3]];nb[fill[a]++]=b;nb[fill[b]++]=a}
+        const reps=[];for(let i=0;i<n;i++)if(id[i]===i&&st[i+1]>st[i])reps.push(i);
+        const A=new Float32Array(n*3),stamp=new Int32Array(n).fill(-1),ring=[];
+        for(const i of reps){ring.length=0;stamp[i]=i;for(let a=st[i];a<st[i+1];a++){const j=nb[a];if(stamp[j]!==i){stamp[j]=i;ring.push(j)}}const r1=ring.length;for(let q=0;q<r1;q++){const j=ring[q];for(let a=st[j];a<st[j+1];a++){const k=nb[a];if(stamp[k]!==i){stamp[k]=i;ring.push(k)}}}
+          let c00=0,c01=0,c02=0,c11=0,c12=0,c22=0,lo=2,fj=i;for(const j of ring){const x=N[j*3],y=N[j*3+1],z=N[j*3+2];c00+=x*x;c01+=x*y;c02+=x*z;c11+=y*y;c12+=y*z;c22+=z*z;const d=x*N[i*3]+y*N[i*3+1]+z*N[i*3+2];if(d<lo){lo=d;fj=j}}
+          const tr=c00+c11+c22;let ax=N[i*3+1]*N[fj*3+2]-N[i*3+2]*N[fj*3+1],ay=N[i*3+2]*N[fj*3]-N[i*3]*N[fj*3+2],az=N[i*3]*N[fj*3+1]-N[i*3+1]*N[fj*3];if(ax*ax+ay*ay+az*az<1e-8){ax=1;ay=0;az=0}
+          for(let it=0;it<8;it++){const x=(tr-c00)*ax-c01*ay-c02*az,y=-c01*ax+(tr-c11)*ay-c12*az,z=-c02*ax-c12*ay+(tr-c22)*az,l=Math.hypot(x,y,z)||1;ax=x/l;ay=y/l;az=z/l}A[i*3]=ax;A[i*3+1]=ay;A[i*3+2]=az}
+        for(let r=0;r<2;r++){const B=A.slice();for(const i of reps){let x=B[i*3],y=B[i*3+1],z=B[i*3+2];for(let a=st[i];a<st[i+1];a++){const j=nb[a],s=Math.sign(B[j*3]*B[i*3]+B[j*3+1]*B[i*3+1]+B[j*3+2]*B[i*3+2])||1;x+=s*B[j*3];y+=s*B[j*3+1];z+=s*B[j*3+2]}
+          const nx=N[i*3],ny=N[i*3+1],nz=N[i*3+2],dn=x*nx+y*ny+z*nz;x-=dn*nx;y-=dn*ny;z-=dn*nz;const l=Math.hypot(x,y,z);if(l>1e-9){A[i*3]=x/l;A[i*3+1]=y/l;A[i*3+2]=z/l}}}
+        // tube radius from circumferential curvature (median over the mesh)
+        const ks=[];for(const i of reps){let ks0=0,kc=0;const ax=A[i*3],ay=A[i*3+1],az=A[i*3+2];for(let a=st[i];a<st[i+1];a++){const j=nb[a];let ex=P[j*3]-P[i*3],ey=P[j*3+1]-P[i*3+1],ez=P[j*3+2]-P[i*3+2];let d=ex*ax+ey*ay+ez*az;ex-=d*ax;ey-=d*ay;ez-=d*az;
+          let fx=N[j*3]-N[i*3],fy=N[j*3+1]-N[i*3+1],fz=N[j*3+2]-N[i*3+2];d=fx*ax+fy*ay+fz*az;fx-=d*ax;fy-=d*ay;fz-=d*az;const ee=ex*ex+ey*ey+ez*ez;if(ee>1e-10){ks0+=(fx*ex+fy*ey+fz*ez)/ee;kc++}}if(kc)ks.push(ks0/kc)}
+        ks.sort((a,b)=>a-b);const kap=ks[ks.length>>1]||60,Rm=Math.min(.03,Math.max(.006,1/Math.max(kap,1)));
+        const bb=new T.Box3().setFromArray(P),mn=bb.min,ex=bb.max.clone().sub(bb.min);
+        const hh=(x,y,z)=>{const s=Math.sin(x*127.1+y*311.7+z*74.7)*43758.5453;return s-Math.floor(s)},sm=t=>t*t*(3-2*t);
+        const vn=(x,y,z)=>{const xi=Math.floor(x),yi=Math.floor(y),zi=Math.floor(z),fx=sm(x-xi),fy=sm(y-yi),fz=sm(z-zi);let r=0;for(let c=0;c<8;c++){const dx=c&1,dy=c>>1&1,dz=c>>2&1;r+=hh(xi+dx,yi+dy,zi+dz)*(dx?fx:1-fx)*(dy?fy:1-fy)*(dz?fz:1-fz)}return r*2-1};
+        // mesentery root (patient's upper left at ~L2 -> right iliac fossa), posterior, in box fractions
+        const R0=[mn.x+.66*ex.x,mn.y+.80*ex.y,mn.z+.22*ex.z],R1=[mn.x+.28*ex.x,mn.y+.22*ex.y,mn.z+.22*ex.z],rd=[R1[0]-R0[0],R1[1]-R0[1],R1[2]-R0[2]],rl2=rd[0]**2+rd[1]**2+rd[2]**2;
+        const D=new Float32Array(n),MS=new Float32Array(n);
+        for(const i of reps){const cx=P[i*3]-N[i*3]*Rm,cy=P[i*3+1]-N[i*3+1]*Rm,cz=P[i*3+2]-N[i*3+2]*Rm;
+          const f1=vn(cx/.042,cy/.042,cz/.042),f2=vn(cx/.016+5.3,cy/.016+1.7,cz/.016+8.1),jf=Math.max(-1,Math.min(1,(cx-mn.x)/ex.x+(cy-mn.y)/ex.y-1));
+          D[i]=Rm*(.20*f1+.06*f2+.09*jf);
+          let f=((cx-R0[0])*rd[0]+(cy-R0[1])*rd[1]+(cz-R0[2])*rd[2])/rl2;f=f<0?0:f>1?1:f;let dx=R0[0]+f*rd[0]-cx,dy=R0[1]+f*rd[1]-cy,dz=R0[2]+f*rd[2]-cz;const ax=A[i*3],ay=A[i*3+1],az=A[i*3+2],da=dx*ax+dy*ay+dz*az;dx-=da*ax;dy-=da*ay;dz-=da*az;const l=Math.hypot(dx,dy,dz)||1;
+          MS[i]=(dx*N[i*3]+dy*N[i*3+1]+dz*N[i*3+2])/l}
+        // axial coordinate: BFS with sign-aligned axes, then Jacobi relaxation (only local consistency matters)
+        const S=new Float32Array(n),seen=new Uint8Array(n),Q=new Int32Array(n);for(const s0 of reps){if(seen[s0])continue;let h=0,tl=0;Q[tl++]=s0;seen[s0]=1;while(h<tl){const i=Q[h++];for(let a=st[i];a<st[i+1];a++){const j=nb[a];if(seen[j])continue;seen[j]=1;
+          if(A[j*3]*A[i*3]+A[j*3+1]*A[i*3+1]+A[j*3+2]*A[i*3+2]<0){A[j*3]*=-1;A[j*3+1]*=-1;A[j*3+2]*=-1}
+          const mx=.5*(A[i*3]+A[j*3]),my=.5*(A[i*3+1]+A[j*3+1]),mz=.5*(A[i*3+2]+A[j*3+2]);S[j]=S[i]+(P[j*3]-P[i*3])*mx+(P[j*3+1]-P[i*3+1])*my+(P[j*3+2]-P[i*3+2])*mz;Q[tl++]=j}}}
+        for(let r=0;r<24;r++){const S0=S.slice();for(const i of reps){let s=0,c=0;for(let a=st[i];a<st[i+1];a++){const j=nb[a],sg=Math.sign(A[j*3]*A[i*3]+A[j*3+1]*A[i*3+1]+A[j*3+2]*A[i*3+2])||1;if(sg<0)continue;
+          s+=S0[j]-((P[j*3]-P[i*3])*A[i*3]+(P[j*3+1]-P[i*3+1])*A[i*3+1]+(P[j*3+2]-P[i*3+2])*A[i*3+2]);c++}if(c)S[i]=.5*S0[i]+.5*s/c}}
+        const sb=new Float32Array(n*4);for(let i=0;i<n;i++){const q=id[i],d=D[q];v.set(P[i*3]+N[q*3]*d,P[i*3+1]+N[q*3+1]*d,P[i*3+2]+N[q*3+2]*d);m.worldToLocal(v);Pa.setXYZ(i,v.x,v.y,v.z);sb[i*4]=S[q];sb[i*4+1]=MS[q]}
+        Pa.needsUpdate=true;g.setAttribute("aSb",new T.Float32BufferAttribute(sb,4));g.computeVertexNormals();g.computeBoundingBox();g.computeBoundingSphere();m.userData.sibR=Rm};
+      if(window.__PFT_R06SB!==0)try{sibCoords(nm("Small intestine"))}catch(e){console.warn("small bowel calibre",e)}
       const ap=nm("Appendix");if(ap)ap.visible=false,ap.scale.set(1e-4,1e-4,1e-4); // the reference colon carries its own caecum + appendix
       by("pancreas").forEach(m=>swap(m,"pancreas"));by("spleen").forEach(m=>swap(m,"spleen"));by("gall").forEach(m=>swap(m,"gall"));
       by("kidney").forEach(m=>{const b=box([m]);swap(m,(b.min.x+b.max.x)/2>0?"kidneyL":"kidneyR","uni")});
@@ -603,7 +721,19 @@
       let x0=1e9,x1=-1e9,y0=1e9,y1=-1e9;for(let i=0;i<P.count;i++){q.fromBufferAttribute(P,i);lv.localToWorld(q);x0=Math.min(x0,q.x);x1=Math.max(x1,q.x);y0=Math.min(y0,q.y);y1=Math.max(y1,q.y)}
       const xs=x0+(x1-x0)*.55;for(let i=0;i<P.count;i++){q.fromBufferAttribute(P,i);lv.localToWorld(q);const w=ss(xs,x1,q.x);if(w<=0)continue;const lo=1-ss(y0,y1,q.y)*.6;
         q.x+=.014*w;q.y-=.018*w*lo;q.z+=.024*w*lo;lv.worldToLocal(q);P.setXYZ(i,q.x,q.y,q.z)}
+      {const ix=lv.geometry.index&&lv.geometry.index.array,TB=window.__PFT_R05TB==null?8:window.__PFT_R05TB;if(ix&&TB){const A=P.array,n=P.count,S=new Float32Array(n*3),C=new Float32Array(n);
+        /* r05: Taubin lambda|mu fairing of the decimated HRA liver (closed, welded, 5.2k verts): removes the lumpy facets that broke up the
+           wet highlight into blocky streaks, without shrinking the organ or adding triangles. ~2 ms. */
+        for(let i=0;i<ix.length;i+=3){C[ix[i]]+=2;C[ix[i+1]]+=2;C[ix[i+2]]+=2}
+        for(let it=0;it<TB*2;it++){const f=it%2?-.53:.5;S.fill(0);for(let i=0;i<ix.length;i+=3)for(let k=0;k<3;k++){const a=ix[i+k]*3,o1=ix[i+(k+1)%3]*3,o2=ix[i+(k+2)%3]*3;for(let d=0;d<3;d++)S[a+d]+=A[o1+d]+A[o2+d]}
+          for(let v=0;v<n;v++)if(C[v])for(let d=0;d<3;d++)A[v*3+d]+=f*(S[v*3+d]/C[v]-A[v*3+d])}}}
       P.needsUpdate=true;lv.geometry.computeVertexNormals();lv.geometry.computeBoundingSphere();
+      /* r05: the HRA liver is a decimated mesh, so its vertex normals carry small facet creases that showed as blocky patches in the
+         wet highlight. Smooth the normal field only (positions untouched): 3 umbrella passes over the triangle adjacency (a few ms). */
+      {const g=lv.geometry,ix=g.index&&g.index.array;if(ix&&window.__PFT_R05TB!==0){const NA=g.attributes.normal,n=NA.count;let A=Float32Array.from(NA.array),B=new Float32Array(n*3);
+        for(let it=0;it<3;it++){B.set(A);for(let i=0;i<ix.length;i+=3){const a=ix[i]*3,b=ix[i+1]*3,c=ix[i+2]*3;for(let k=0;k<3;k++){const xa=A[a+k],xb=A[b+k],xc=A[c+k];B[a+k]+=(xb+xc)*.5;B[b+k]+=(xa+xc)*.5;B[c+k]+=(xa+xb)*.5}}
+          for(let v=0;v<n;v++){const x=B[v*3],y=B[v*3+1],z=B[v*3+2],l=Math.hypot(x,y,z)||1;B[v*3]=x/l;B[v*3+1]=y/l;B[v*3+2]=z/l}const t=A;A=B;B=t}
+        NA.array.set(A);NA.needsUpdate=true}}
       meshes.filter(m=>m.userData.role==="diaphragm"&&m.isMesh).forEach(m=>{if(!m.geometry.attributes.aDf)m.geometry.setAttribute("aDf",new T.BufferAttribute(new Float32Array(m.geometry.attributes.position.count).fill(1),1))});const dm=big("diaphragm");if(!dm)return;dm.updateMatrixWorld(true);const C=.006,NX=Math.ceil((x1-x0)/C)+1;let z0=1e9,z1=-1e9;
       for(let i=0;i<P.count;i++){q.fromBufferAttribute(P,i);lv.localToWorld(q);z0=Math.min(z0,q.z);z1=Math.max(z1,q.z)}const NZ=Math.ceil((z1-z0)/C)+1,H=new Float32Array(NX*NZ).fill(-9);
       for(let i=0;i<P.count;i++){q.fromBufferAttribute(P,i);lv.localToWorld(q);const a=Math.round((q.x-x0)/C),b=Math.round((q.z-z0)/C);for(let da=-1;da<=1;da++)for(let db=-1;db<=1;db++){const k=(b+db)*NX+a+da;if(a+da>=0&&a+da<NX&&b+db>=0&&b+db<NZ&&H[k]<q.y)H[k]=q.y}}
@@ -627,7 +757,10 @@
       {const n=pts.length,tg1=pts[n-1].clone().sub(pts[n-2]).normalize(),r1=rad[n-1],ND=8;for(let k=1;k<=ND;k++){const th=k/ND*Math.PI/2;pts.push(pts[pts.length-1].clone().add(tg1.clone().multiplyScalar(r1*(Math.sin(th)-Math.sin((k-1)/ND*Math.PI/2)))));rad.push(r1*Math.cos(th)+1e-4)}}
       const NT=pts.length-1,sm2=x=>x*x*(3-2*x),band=(x,a0,a1,a2,a3)=>sm2(Math.min(1,Math.max(0,(x-a0)/(a1-a0))))*(1-sm2(Math.min(1,Math.max(0,(x-a2)/(a3-a2)))));
       const pos=[],st=[],ix=[],Z=V(0,0,1),L=q=>{sm.updateMatrixWorld(true);return sm.worldToLocal(q)};let prevOut=null;
-      for(let i=0;i<=NT;i++){const tg=pts[Math.min(NT,i+1)].clone().sub(pts[Math.max(0,i-1)]).normalize();let out=V(-tg.y,tg.x,0);if(out.lengthSq()<1e-6)out=prevOut.clone();out.normalize();if(prevOut&&out.dot(prevOut)<0)out.negate();prevOut=out.clone();
+      // r08: ring planes follow a radius-scaled smoothed tangent, so rings no longer fan together and fold over on the tight inner (lesser-curvature/cardia) bend, which drew a crack-like crease near the fundus
+      const R08=window.__PFT_R08ST!==0,R08S=window.__PFT_R08S||1,TG=[];{const sa=[0];for(let i=1;i<=NT;i++)sa.push(sa[i-1]+pts[i].distanceTo(pts[i-1]));const raw=[];for(let i=0;i<=NT;i++)raw.push(pts[Math.min(NT,i+1)].clone().sub(pts[Math.max(0,i-1)]).normalize());
+        for(let i=0;i<=NT;i++){if(!R08){TG.push(raw[i]);continue}const sg=Math.max(1e-4,R08S*rad[i]),t=V(0,0,0);for(let k=0;k<=NT;k++){const d=(sa[k]-sa[i])/sg;if(d*d<9)t.add(raw[k].clone().multiplyScalar(Math.exp(-d*d)))}TG.push(t.normalize())}}
+      for(let i=0;i<=NT;i++){const tg=TG[i].clone();let out=V(-tg.y,tg.x,0);if(out.lengthSq()<1e-6)out=prevOut.clone();out.normalize();if(prevOut&&out.dot(prevOut)<0)out.negate();prevOut=out.clone();
         const w=tg.clone().cross(out).normalize();if(w.z<0)w.negate();const sx=i/NT,body=band(sx,.10,.25,.78,.92);
         for(let j=0;j<NR;j++){const a=j/NR*Math.PI*2,c=Math.cos(a),sn=Math.sin(a);
           const bulge=1+body*(.13*Math.max(0,c)**1.5-.06*Math.max(0,-c)**1.5)+.035*Math.cos(2*a)*body+.02*Math.cos(3*a+.8)*body;
@@ -651,9 +784,31 @@
         const ep=[],ei=[],NE=40,NRE=28;for(let i=0;i<=NE;i++){const u=i/NE*(E.length-1),k=Math.min(E.length-2,Math.floor(u)),t=u-k;const c=E[k].clone().lerp(E[k+1],t),r=er[k]+(er[k+1]-er[k])*(t*t*(3-2*t));const d=E[k+1].clone().sub(E[k]).normalize();
           const a1=V(1,0,0).sub(d.clone().multiplyScalar(d.x)).normalize(),a2=d.clone().cross(a1);for(let j=0;j<NRE;j++){const a=j/NRE*Math.PI*2;const q=c.clone().add(a1.clone().multiplyScalar(Math.cos(a)*r)).add(a2.clone().multiplyScalar(Math.sin(a)*r*.8));L(q);ep.push(q.x,q.y,q.z)}}
         for(let i=0;i<NE;i++)for(let j=0;j<NRE;j++){const a=i*NRE+j,b2=i*NRE+(j+1)%NRE;ei.push(a,b2,a+NRE,b2,b2+NRE,a+NRE)}
-        const eg=new T.BufferGeometry();eg.setAttribute("position",new T.Float32BufferAttribute(ep,3));eg.setAttribute("aOcc",new T.Float32BufferAttribute(new Float32Array(ep.length/3),1));eg.setIndex(ei);eg.computeVertexNormals();
+        const eg=new T.BufferGeometry();eg.setAttribute("position",new T.Float32BufferAttribute(ep,3));const R07=window.__PFT_R07EJ!==0;const eo=new Float32Array(ep.length/3);
+        if(R07){// r07: soft contact shading at the cardia (both sides of the esophagus/stomach intersection) so the junction reads as a gentle notch, not a cut line
+          for(let i=0;i<=NE;i++){const t=i/NE;const o=.30*(1-Math.min(1,t/.16))**2;for(let j=0;j<NRE;j++)eo[i*NRE+j]=o}
+          const so=sm.geometry.attributes.aOcc,sp=sm.geometry.attributes.position,W=V(0,0,0);sm.updateMatrixWorld(true);for(let v=0;v<sp.count;v++){W.fromBufferAttribute(sp,v);sm.localToWorld(W);const d=W.distanceTo(ca);if(d<.05){const k=1-Math.min(1,Math.max(0,(d-.016)/.03));so.setX(v,Math.max(so.getX(v),.28*k*k*(3-2*k)))}}so.needsUpdate=true}
+        eg.setAttribute("aOcc",new T.Float32BufferAttribute(eo,1));if(R07)eg.setAttribute("aSt",new T.Float32BufferAttribute(new Float32Array(ep.length),3));eg.setIndex(ei);eg.computeVertexNormals();
+        if(R07&&!M.esoph){// r07: the stub now shares the stomach's shader (paint tone + serosal vessels + Neutral tone curve, all world-space so they run continuously across the seam); before, it kept AgX and read pale beige against the pink stomach
+          const m2=M.stomach.clone();m2.side=T.DoubleSide;m2.onBeforeCompile=M.stomach.onBeforeCompile;const ck=M.stomach.customProgramCacheKey;m2.customProgramCacheKey=()=>ck.call(M.stomach)+"|eso2";M.esoph=m2}
         M.esoph=M.esoph||paint(organ(0xd4867e,.36,{side:T.DoubleSide,clearcoat:.32,clearcoatRoughness:.28}),"eso",{grain:.5,gloss:1.1,bump:.001,rg:.04}); /* v74: matches the stomach wall (no colour seam at the cardia) */const em=new T.Mesh(eg,M.esoph);em.name="Esophagus (stub)";em.userData.role="stomach";em.renderOrder=sm.renderOrder;sm.add(em);meshes.push(em)}
       return 1}
+    // v7.6.78: per-vertex "belly" weight for muscle growth: 1 in the middle of each muscle, tapering to 0 at its ends
+    // (along the muscle's longest axis), so growing muscles swell like real muscle bellies instead of puffing up evenly.
+    function musclePrep(){
+      (byRole.muscle||[]).forEach(m=>{const g=m.geometry,P=g.attributes.position,C=g.attributes.color,n=P.count;if(!C||g.attributes.aBelly)return;
+        const bb={};for(let i=0;i<n;i++){const id=Math.round(C.getX(i)*64);const b=bb[id]||(bb[id]=[1e9,1e9,1e9,-1e9,-1e9,-1e9]);const x=P.getX(i),y=P.getY(i),z=P.getZ(i);
+          if(x<b[0])b[0]=x;if(y<b[1])b[1]=y;if(z<b[2])b[2]=z;if(x>b[3])b[3]=x;if(y>b[4])b[4]=y;if(z>b[5])b[5]=z}
+        const w=new Float32Array(n);for(let i=0;i<n;i++){const id=Math.round(C.getX(i)*64),b=bb[id];const e=[b[3]-b[0],b[4]-b[1],b[5]-b[2]];const ax=e.indexOf(Math.max(...e));
+          const v=ax===0?P.getX(i):ax===1?P.getY(i):P.getZ(i),t=(v-(b[ax]+b[ax+3])/2)/(e[ax]/2||1);w[i]=Math.pow(Math.max(0,1-t*t),.6)}
+        g.setAttribute("aBelly",new T.BufferAttribute(w,1));
+        g.computeBoundingBox();});
+      // local units -> metres: the body is ~1.75 m tall in the scene; growth values are given in metres
+      const sk=byRole.skin&&byRole.skin[0];if(sk){sk.geometry.computeBoundingBox();const h=sk.geometry.boundingBox.max.y-sk.geometry.boundingBox.min.y;const ws=new T.Vector3();sk.getWorldScale(ws);muscleU.uMGk.value=h>5?h/1.75:1;}
+    }
+    // muscle id (1-based, MUSCLE_NAMES order) -> plain group used by the simulator
+    const MUSCLE_GROUP=["shoulders","shoulders","shoulders","biceps","biceps","triceps","triceps","forearms","forearms","forearms","forearms","quads","quads","quads","quads","quads","glutes","hamstrings","hamstrings","calves","calves","calves","calves","calves","calves","chest","chest","core","core","core","core","core","core","chest","chest","back","back","back","back","back","back","back","glutes","glutes","","",""];
+    const mgT=new Array(48).fill(0);function setMuscleGrowth(gr){gr=gr||{};const a=mgT;for(let i=0;i<MUSCLE_GROUP.length;i++){const v=+gr[MUSCLE_GROUP[i]]||0;a[i+1]=Math.max(0,Math.min(.03,v))}kick&&kick()}
     // ---------- load ----------
     const loader=new T.GLTFLoader();loader.setMeshoptDecoder(T.MeshoptDecoder);
     let loadSource="none";
@@ -671,7 +826,7 @@
         }
         if(role==="omentum"||role==="mesentery"||role==="lung"||role==="diaphragm")o.renderOrder=2;
       });
-      try{v67Anatomy(root)}catch(e){console.warn("anatomy pass",e)}try{root.userData.hra=v69HRA(root)}catch(e){console.warn("anatomy pass v69",e)}try{v70Stomach()}catch(e){console.warn("anatomy pass v70",e)}try{v73LiverDiaph()}catch(e){console.warn("anatomy pass v73",e)}rootRef=root;scene.add(root);ready=true;if(/pftdebug/.test(location.hash))window.__pft3d={scene,meshes,T,renderer,camera};applyMode();applyState();resize();kick();
+      try{v67Anatomy(root)}catch(e){console.warn("anatomy pass",e)}try{root.userData.hra=v69HRA(root)}catch(e){console.warn("anatomy pass v69",e)}try{v70Stomach()}catch(e){console.warn("anatomy pass v70",e)}try{v73LiverDiaph()}catch(e){console.warn("anatomy pass v73",e)}try{musclePrep()}catch(e){console.warn("muscle prep",e)}rootRef=root;scene.add(root);ready=true;if(/pftdebug/.test(location.hash))window.__pft3d={scene,meshes,T,renderer,camera};applyMode();applyState();resize();kick();
       opts.onReady&&opts.onReady();syncNav(false);
     }
     // file:// pages cannot fetch the .glb (browsers block local XHR/fetch), so the same model also ships as a
@@ -691,6 +846,7 @@
     const api={
       framing:"full",
       setLayer(layer,opacity){mode=layer==="internal"?"internal":layer==="external"?"external":"composition";if(typeof opacity==="number"&&isFinite(opacity))fatU.uFatOp.value=opacity;applyMode();kick()},
+      setMuscleView(on){mode=on?"muscle":"composition";applyMode();kick()},setMuscleGrowth,muscleGroups:MUSCLE_GROUP,
       setView(v){if(v in VIEWS){camT.az=VIEWS[v];camT.el=framing==="abdomen"?.04:.06;vAz=vEl=0;kick()}},
       setFraming(f){setFramingT(f==="abdomen"?"abdomen":"full");api.framing=framing},
       rotateBy(d){camT.az+=d;cam.az+=d;kick()},
