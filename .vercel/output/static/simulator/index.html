@@ -1542,7 +1542,7 @@ body{background-color:var(--bg);background-image:var(--app-bg-image);background-
 <body>
 <!-- v7.6.69: charcoal/slate app background (grain texture removed) + simulation-trend hero -->
 <!-- v7.6.68 perf: consent runs first so the terms screen shows while the rest of the page streams in -->
-<script src="assets/liftlog.js?v=7681"></script>
+<script src="assets/liftlog.js?v=7683"></script>
 <script>
 /* v7.2 Required consent (clickwrap). TEMPLATE FOR ATTORNEY REVIEW: wording is a starting point, not legal advice.
    v7.6.2: one scrollable screen of grouped terms + a single "I've read and agree" checkbox + Accept; optional opt-ins for photos (with written biometric consent, Illinois BIPA)
@@ -8413,12 +8413,12 @@ document.addEventListener("change", (ev) => { if (ev.target && ev.target.id === 
 const LAZY = {};
 window.__BP = { muscleRegions: (m, x) => (E.muscleRegions ? E.muscleRegions(m, x) : null), get S() { return S; }, get R() { return R; }, get V() { return V; }, $, esc, fK, fW, fP, fWk, E, effMove, pftInsideStage, rampColor, renderViews: () => renderViews(), fDate, pftCtSkin, pftInsideOpen: () => pftInsideOpen(), save: () => save(), renderSummary: () => renderSummary() };
 function lazyLoad(src) { if (LAZY[src]) return LAZY[src]; LAZY[src] = new Promise((res, rej) => { const s = document.createElement("script"); s.src = src; s.onload = res; s.onerror = rej; document.head.appendChild(s); }); return LAZY[src]; }
-(function () { const l = document.createElement("link"); l.rel = "stylesheet"; l.href = "assets/v7655.css?v=7682"; document.head.appendChild(l); })();
+(function () { const l = document.createElement("link"); l.rel = "stylesheet"; l.href = "assets/v7655.css?v=7683"; document.head.appendChild(l); })();
 function renderSnapshot() { if (typeof window.renderSnapshotNow === "function") return window.renderSnapshotNow(); const b = $("#hs-card"); if (b && R && !R.blocked) lazyLoad("assets/health-snapshot.js?v=7673").then(() => window.renderSnapshotNow(), () => {}); }
 function a1cCardHtml() { if (typeof window.a1cCardHtmlNow === "function") return window.a1cCardHtmlNow(); lazyLoad("assets/a1c-log.js?v=7655").then(() => { if (V.open && V.view === "home") renderViews(); }, () => {}); return `<div class="v-card a1-card" id="a1-card"><h2>A1c log</h2><p class="hint">Loading…</p></div>`; }
 window.BodyPlanFig3D = window.BodyPlanFig3D || { state: { on: false, failed: false, where: null } };
 function f3dMount() { if (window.__NO_PFT_FIG) return; if (typeof window.f3dMountNow === "function") return window.f3dMountNow(); if (!R || R.blocked) return;
-  lazyLoad("assets/fig3d-pft.js?v=7682").then(() => window.f3dMountNow(), () => { window.BodyPlanFig3D.state.failed = true; const h = document.getElementById("sum-pft"); if (h && !h.innerHTML) { h.hidden = false; h.innerHTML = `<figure class="f3d-fbfig"><img src="assets/f3d-ct-fallback.webp" alt="Example cross-section through the middle of the model" width="720" height="560"><figcaption>Example cross-section. The 3D model can't load on this device.</figcaption></figure>`; } }); }
+  lazyLoad("assets/fig3d-pft.js?v=7683").then(() => window.f3dMountNow(), () => { window.BodyPlanFig3D.state.failed = true; const h = document.getElementById("sum-pft"); if (h && !h.innerHTML) { h.hidden = false; h.innerHTML = `<figure class="f3d-fbfig"><img src="assets/f3d-ct-fallback.webp" alt="Example cross-section through the middle of the model" width="720" height="560"><figcaption>Example cross-section. The 3D model can't load on this device.</figcaption></figure>`; } }); }
 function printRegional(s, e) { const k = changeKind(s, e), c = FD.change(depotsAt(s.fatKg), depotsAt(e.fatKg)), m = muscleSplit(S.profile.sex, e.leanKg - s.leanKg);
   const fat = `around the organs ${fWd(c.vat.kg)} (${fPct(c.vat.pct)}), under the skin ${fWd(c.sub.kg)} (${fPct(c.sub.pct)})`, mus = `upper body ${fWd(m.up)}, legs &amp; glutes ${fWd(m.lo)}`;
   return `<p class="small"><b>${{ loss: "Where fat comes off first", gain: "Where muscle builds, and where fat would add", recomp: "Where you lose fat and gain muscle", hold: "Where things shift" }[k]} (estimate):</b> ${k === "gain" ? `lean (mostly muscle): ${mus}; fat: ${fat}.` : k === "recomp" ? `fat: ${fat}; lean (mostly muscle): ${mus}.` : `fat ${fat}.`}</p>`; }

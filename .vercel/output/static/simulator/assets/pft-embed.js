@@ -9,7 +9,7 @@
    anchor faces away from the camera. Drag on the figure rotates it (the model's own controls).
    Needs the model's #pftdebug hook (exposes scene/meshes/THREE) and http(s) same-origin. */
 (function(){
-const SRC='pft-inside/figure.html?view=3d&v=7682#pftdebug';/* v7.6.71: figure-only document; same shared engine+anatomy files as the PFT page */
+const SRC='pft-inside/figure.html?view=3d&v=7683#pftdebug';/* v7.6.71: figure-only document; same shared engine+anatomy files as the PFT page */
 const SHORT={liver:'Liver',pan:'Pancreas',vis:'Belly fat',skin:'Under skin'};
 const COL={liver:'#e07070',pan:'#c792ea',vis:'#e8a84a',skin:'#e8c27a'};
 // Plain-language label text. Now ('up') = what is likely happening and how it affects that organ; Later ('down') = what
