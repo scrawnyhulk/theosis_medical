@@ -44,8 +44,10 @@ function f3dMuscle() {
     : F3D.i === 0 ? "<b>Muscle view.</b> Move the slider to see where your lifting builds muscle."
     : c.dL <= 0 ? "<b>Muscle view.</b> In this plan your muscle mostly holds steady while fat comes off, so the muscles don't look bigger."
     : `<b>Muscle view.</b> The areas you train grow the most. About ${fW(c.dL)} of muscle and other lean tissue gained by this point.`;
-  if (l) { const ks = Object.keys(c.kg).sort((p, q) => c.kg[q] - c.kg[p]), mx = ks.length ? Math.max(1e-6, c.kg[ks[0]]) : 1;
-    l.innerHTML = ks.length ? ks.map((k) => `<li><span>${esc(MUS_LABEL[k] || k)}</span><i style="--w:${Math.round(100 * c.kg[k] / mx)}%"></i><b>+${fW(c.kg[k])}</b></li>`).join("") : "<li><span>No muscle gain at this point</span></li>"; }
+  if (l) { const all = Object.keys(c.kg).sort((p, q) => c.kg[q] - c.kg[p]), ks = all.filter((k) => c.kg[k] >= 0.025), rest = all.filter((k) => c.kg[k] < 0.025), mx = ks.length ? Math.max(1e-6, c.kg[ks[0]]) : 1;
+    const amt = (kg) => { const lb = S.units === "metric" ? null : kg * 2.2046226; return lb == null ? `+${kg < 1 ? Math.round(kg * 1000) + " g" : kg.toFixed(1) + " kg"}` : `+${lb.toFixed(1)} lb`; };
+    l.innerHTML = (ks.length ? ks.map((k) => `<li><span>${esc(MUS_LABEL[k] || k)}</span><i style="--w:${Math.round(100 * c.kg[k] / mx)}%"></i><b>${amt(c.kg[k])}</b></li>`).join("") : "<li><span>No muscle gain at this point</span></li>")
+      + (ks.length && rest.length ? `<li class="f3d-mrest"><span>Little or no change: ${esc(rest.map((k) => (MUS_LABEL[k] || k).replace(/ \(.*\)$/, "").toLowerCase()).join(", "))}</span></li>` : ""); }
 }
 function f3dShell() {
   return `<p class="eyebrow card-eyebrow">See how this works in a body like yours</p>

@@ -102,3 +102,5 @@ body .fq-item:hover{border-color:#79b4f6}
 .f3d-mlist b{font-variant-numeric:tabular-nums}
 .f3d-sw button[data-f3dv="muscle"][aria-pressed="true"]{background:#8e2a22;color:#fff}
 .f3d-musv .f3d-skins{display:none}
+.f3d-mlist li.f3d-mrest{display:block;color:#aab6c8;font-size:.84rem}
+.f3d-musv #f3d-pfe{position:relative}.f3d-musv #f3d-pfe::after{content:"Muscle growth shown larger than real life";position:absolute;left:.5rem;top:.5rem;padding:.2rem .5rem;border-radius:8px;background:rgba(10,16,28,.78);color:#ffd9c2;font-size:.78rem;font-weight:600;pointer-events:none;z-index:3}
