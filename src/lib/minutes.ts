@@ -303,7 +303,7 @@ export const minutes: Minute[] = [
     paragraphs: [
       "Remember that fat and carbohydrates are fuel, and if we take in more fuel than we need, we store it in the fuel tanks: fat cells, and glycogen stores (liver and muscle).",
       "Everyone has a personal limit for how much fat they can store safely under the skin. Genetics set most of that capacity. Some people can keep expanding that tank for a long time. Others overflow after a modest extra ten pounds.",
-      "This model is a teaching tool — not your personal threshold. Fat under the skin, around the organs, and inside organs can increase together. Type 2 diabetes can develop when insulin production can no longer meet the body’s needs.",
+      "Fat under the skin, around the organs, and inside organs can increase together. Type 2 diabetes can develop when insulin production can no longer meet the body’s needs.",
       "This is not type 1. Type 1 is an autoimmune failure to make insulin. Different disease.",
     ],
   },
