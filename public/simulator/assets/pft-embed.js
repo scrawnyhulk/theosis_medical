@@ -1,7 +1,7 @@
 /* v7.6.67d: the frame stays hidden (placeholder shown) until the model has booted and rendered, then fades in.
    v7.6.55 (from mockups/pft-embed.js v4): embeds the real Personal Fat Threshold model (../app/pft-inside, V31/V32)
    in its 3D view and drives it with the model's own hook window.PFTAtlas.setState(load, capacity).
-   Fat levels, stage, example A1c, body shape and the CT slice all come from the model engine.
+   Fat levels, stage, body shape and the CT slice all come from the model engine.
    Callouts are pinned to 3D anchors: liver and pancreas = mesh bounding-box centre; belly fat around organs = the
    front-most omentum vertex; fat under the skin = a front belly vertex of the fat shell. Morph targets are applied
    (getVertexPosition), so anchors move as the body shrinks. Each frame the model renders, anchors are projected
@@ -9,7 +9,7 @@
    anchor faces away from the camera. Drag on the figure rotates it (the model's own controls).
    Needs the model's #pftdebug hook (exposes scene/meshes/THREE) and http(s) same-origin. */
 (function(){
-const SRC='pft-inside/figure.html?view=3d&v=7674#pftdebug';/* v7.6.71: figure-only document; same shared engine+anatomy files as the PFT page */
+const SRC='pft-inside/figure.html?view=3d&v=7678#pftdebug';/* v7.6.71: figure-only document; same shared engine+anatomy files as the PFT page */
 const SHORT={liver:'Liver',pan:'Pancreas',vis:'Belly fat',skin:'Under skin'};
 const COL={liver:'#e07070',pan:'#c792ea',vis:'#e8a84a',skin:'#e8c27a'};
 // Plain-language label text. Now ('up') = what is likely happening and how it affects that organ; Later ('down') = what
@@ -63,7 +63,7 @@ window.PFTEmbed=function(host,opt){
    html+=`<button type="button" class="pfe-t" data-k="${k}" style="${sd=='L'?'left:2px':'right:2px'};top:${y-10}px;opacity:${Math.max(.35,P.a).toFixed(2)}" aria-label="${TXT[k].t}: show explanation"><i style="background:${col}"></i>${SHORT[k]}</button>`})}
   ov.setAttribute('viewBox',`0 0 ${Wd} ${H}`);ov.innerHTML=svg;lab.innerHTML=html;api.pts=pts;}
  function apply(){if(!ready)return;const w=W();if(st.s!=null&&st.start!=null){st.load=st.start+(st.end-st.start)*st.s/100;st.later=st.s>0}
-  w.PFTAtlas.setState(st.load,st.capacity);host.dataset.load=Math.round(st.load);
+  if(w.PFTAtlas.setUserA1c&&w.PFTAtlas.userA1c()!==(st.a1c??null))w.PFTAtlas.setUserA1c(st.a1c??null);if(w.PFTAtlas.setOuter)w.PFTAtlas.setOuter(st.outer||null);w.PFTAtlas.setState(st.load,st.capacity);host.dataset.load=Math.round(st.load);
   const m=w.PFTAtlas.model(st.load,st.capacity),c=w.PFTAtlas.compartments(st.load,st.capacity);api.model=m;api.comp=c;
   const lvl={liver:c.liver,pan:c.pancreas,vis:c.visceral/0.2,skin:c.subcutaneous/0.32},dir=st.end<st.start?'down':'up';
   const c0=w.PFTAtlas.compartments(st.start??st.load,st.capacity),lv0={liver:c0.liver,pan:c0.pancreas,vis:c0.visceral/0.2,skin:c0.subcutaneous/0.32};
@@ -72,7 +72,7 @@ window.PFTEmbed=function(host,opt){
   const mk=x=>x=='up'?'▲ ':x=='down'?'▼ ':'● ';
   list.innerHTML=['liver','pan','vis','skin'].map(k=>`<li data-k="${k}" style="border-left:3px solid ${COL[k]}"><b>${mk(words[k])}${TXT[k].t}</b><br><span>${TXT[k][words[k]]}${cite(k,words[k])}</span></li>`).join('');
   {const f=st.later&&st.end<st.start;intro.innerHTML=f?FIRST+cites(['lim2011','chaston2008']):(opt.where||'');intro.hidden=!intro.textContent;}
-  meta.innerHTML=`Model: <b>${m.profileLabel}</b> · fuel ${Math.round(m.x)}/100 · stage ${m.stage} of 6 · example A1c ${m.a1c.toFixed(1)}% (illustrative, not fitted to you)`;
+  meta.innerHTML=`Model: <b>${m.profileLabel}</b> · fuel ${Math.round(m.x)}/100 · stage ${m.stage} of 6${m.userA1c!=null?` · your A1c ${m.userA1c.toFixed(1)}%`:''}`;
   host.dataset.state=st.later?'later':'now';frame();if(opt.onUpdate)opt.onUpdate(api);}
  lab.addEventListener('click',e=>{const t=e.target.closest('.pfe-t');if(!t)return;list.querySelectorAll('li').forEach(li=>li.classList.toggle('hl',li.dataset.k===t.dataset.k));const li=list.querySelector('li.hl');if(li)li.scrollIntoView({block:'nearest',behavior:'smooth'})});
  api.setWhere=t=>{opt.where=t;apply()};

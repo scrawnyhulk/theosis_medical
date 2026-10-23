@@ -10,6 +10,8 @@ const f3dWide = () => !!(window.matchMedia && window.matchMedia("(min-width:64re
 const f3dWhere = () => f3dWide() ? "#sum-pft" : ((window.__BP && window.__BP.S && window.__BP.S.step === 5) ? "#f3d-phone" : "#f3d-mbar");
 const f3dFallback = (host) => { if (!host) return; host.hidden = false; host.innerHTML = `<figure class="f3d-fbfig"><img src="assets/f3d-ct-fallback.webp" alt="Example cross-section through the middle of the model" width="720" height="560"><figcaption>Example cross-section. The 3D model can't load on this device.</figcaption></figure>`; };
 function f3dStart() { const s = typeof pftInsideStage === "function" ? pftInsideStage() : null; return { load: s && s.load != null ? s.load : s && s.fuel != null ? s.fuel : 55, cap: s ? +s.cap : 1 }; }
+/* v7.6.78: only an A1c the person entered; blank = null (no A1c shown, no effect) */
+function f3dUserA1c() { const v = S && S.profile && S.profile.health ? +S.profile.health.a1c : NaN; return S.profile.health.a1c != null && S.profile.health.a1c !== "" && v >= 3 && v <= 20 ? v : null; }
 function f3dRows() { return R && !R.blocked && R.main && R.main.rows ? R.main.rows : null; }
 const SKINS = ["#f2d3bd", "#e1b48f", "#c49170", "#946446", "#5f3d2b"]; window.PFT_SKINS = SKINS;
 function f3dSkinI() { const i = S.fig && S.fig.skin; return i >= 0 && i < SKINS.length ? +i : 2; }
@@ -30,7 +32,7 @@ function f3dShell() {
 }
 let f3dLib = null;   // assets/pft-embed.js is loaded on demand (keeps index.html small)
 function f3dLoadLib() { if (typeof PFTEmbed === "function") return Promise.resolve(); if (f3dLib) return f3dLib;
-  f3dLib = new Promise((res, rej) => { const s = document.createElement("script"); s.src = "assets/pft-embed.js?v=7674"; s.onload = res; s.onerror = rej; document.head.appendChild(s); }); return f3dLib; }
+  f3dLib = new Promise((res, rej) => { const s = document.createElement("script"); s.src = "assets/pft-embed.js?v=7678"; s.onload = res; s.onerror = rej; document.head.appendChild(s); }); return f3dLib; }
 function f3dMountNow() {
   if (window.__NO_PFT_FIG) return;   // __NO_PFT_FIG: legacy test suites that check the older 2D/3D mannequin figure
   if (F3D.failed) { const fh = $(f3dWhere()); if (fh && !fh.querySelector(".f3d-fbfig")) { if (F3D.host && F3D.host !== fh) { F3D.host.innerHTML = ""; F3D.host.hidden = true; } F3D.host = fh; F3D.where = f3dWhere(); f3dFallback(fh); } return; }
@@ -56,7 +58,7 @@ function f3dApply() {
   $("#f3d-wk").textContent = F3D.i === 0 || last ? "" : `Week ${fWk(x.day)} · ${fDate(x.day)}`; $("#f3d-end").textContent = `${goal}: ${fDate(end.day)}`;
   r.setAttribute("aria-valuetext", F3D.i === 0 ? "Today" : last ? `${goal}: ${fDate(end.day)}` : `Week ${fWk(x.day)}, ${fDate(x.day)}`);
   $("#f3d-w").textContent = `${fW(rows[0].weightKg)} → ${fW(x.weightKg)}`; $("#f3d-f").textContent = `${fP(rows[0].bf)} → ${fP(x.bf)}`;
-  if (F3D.api && F3D.api.ready()) F3D.api.set({ start: st.load, end: load, s: F3D.i ? 100 : 0, capacity: st.cap });
+  if (F3D.api && F3D.api.ready()) F3D.api.set({ start: st.load, end: load, s: F3D.i ? 100 : 0, capacity: st.cap, a1c: f3dUserA1c(), outer: window.BodyPlanApp && BodyPlanApp.figOuter ? BodyPlanApp.figOuter(x) : null });
 }
 function f3dCt() { const b = $("#f3d-ctbox"); if (!b || !F3D.api) return; const u = F3D.api.ct(); if (u) $("#f3d-ctimg").src = u;
   $("#f3d-ctl").innerHTML = F3D.api.ctList().map((x) => `<li style="border-left:3px solid ${x[0]}"><b>${esc(x[1])}</b><br><span>${esc(x[2])}${x[3] || ""}</span></li>`).join(""); }

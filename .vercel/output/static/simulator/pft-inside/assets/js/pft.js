@@ -39,6 +39,17 @@
     "2":{key:"extreme",label:"Extreme threshold",delay:72,internalScale:1.6,storageScale:2.3,surfaceEnd:100,surfaceMax:1.18,visceralMax:.045,bellyScale:.045,
       note:"An expanding under-skin reserve helps explain why someone with substantial obesity can still have normal glucose and no diabetes. Hyperplasia can contribute; it does not guarantee lasting protection."}
   };
+  // v7.6.78: A1c is never invented for display. It is shown only when the person entered one (?a1c= or PFTAtlas.setUserA1c),
+  // and then it only tilts the picture toward more fat around the organs and liver. Ramp (our design choice, not a clinical rule):
+  // under 5.7 = no tilt; 5.7 -> 6.5 rises to 0.5; 6.5 -> 8.0 rises to 1.0; above 8.0 stays at 1.0. Outer body size is not changed.
+  // v7.6.78: A1c is never invented for display. It is shown only when the person entered one (?a1c= or PFTAtlas.setUserA1c).
+  // An entered A1c only re-splits fat that is already there: at or under 5.4 mostly under the skin (little around the organs,
+  // normal-looking liver); rising evenly to 9.0, where fat around the organs and liver fat are shown at their fullest.
+  // These cut points (5.4, 9.0) and the straight-line ramp are our own design choices, not a clinical rule. Outer body size is unchanged.
+  // Blank = no effect.
+  let userA1c=null,outerShape=null; // outerShape: host page's per-point outer body (simulator timeline); null = model default
+  try{const q=new URLSearchParams(location.search).get("a1c"),v=q==null?NaN:parseFloat(q);if(v>=3&&v<=20)userA1c=Math.round(v*10)/10}catch(e){}
+  const organTilt=a=>a==null?null:clamp((a-5.4)/3.6);
   function model(value,capacity){
     const x=Math.max(0,Math.min(100,Number(value)||0));
     const profile=thresholdProfiles[String(Number(capacity))]||thresholdProfiles["1"];
@@ -87,16 +98,19 @@
     // This ordering is a teaching device; real depots can change together.
     const stageGrowth=(start)=>start>=100?0:smooth(start,100,x);
     // Muscle insulin resistance develops early and quickly in this sequence.
-    const muscleProgress=marks[1]>=100?0:smooth(marks[1],Math.min(100,marks[1]+22*profile.internalScale),x),visProgress=stageGrowth(marks[2]);
+    const muscleProgress=marks[1]>=100?0:smooth(marks[1],Math.min(100,marks[1]+22*profile.internalScale),x);let visProgress=stageGrowth(marks[2]);
+    const tilt=organTilt(userA1c);
     const liverProgress=stageGrowth(marks[3]),pancreasProgress=stageGrowth(marks[4]);
+    // Entered A1c re-splits inner fat only (around the organs + liver); the outer body (surface + belly distension) is untouched.
+    const tiltV=(v)=>tilt==null?v:v*.2+tilt*(1-v*.2),visShown=tiltV(visProgress),liverShown=tilt==null?liverProgress:liverProgress*.1+tilt*(1-liverProgress*.1);
     return {x:x,fatLoad:fatLoad,p:p,storageP:storageP,profile:profile.key,profileLabel:profile.label,profileNote:profile.note,
       glycogenPhase:x<=glycogenPhaseEnd,glycogenLiver:.25+.75*smooth(0,10,x),glycogenMuscle:.25+.75*smooth(0,glycogenPhaseEnd,x),
       surfaceVolume:profile.surfaceMax*smooth(0,profile.surfaceEnd,fatLoad),
       hyperplasia:extreme?smooth(5,100,fatLoad):0,
-      a1c:a1cTenths/10,glycemicState:glycemicState,
+      a1c:a1cTenths/10,glycemicState:glycemicState,userA1c:userA1c,organTilt:tilt,
       marks:marks,stage:stage,diabetes:glycemicState==="diabetes",
-      sat:.08+.92*smooth(0,70,storageP),vis:.04+(profile.visceralMax||.96)*visProgress,visProgress:visProgress,bellyScale:profile.bellyScale||visProgress,
-      liver:.02+.98*liverProgress,pancreas:.02+.98*pancreasProgress,
+      sat:.08+.92*smooth(0,70,storageP),vis:.04+(profile.visceralMax||.96)*visShown,visProgress:visProgress,visShown:visShown,bellyScale:profile.bellyScale||visProgress,
+      liver:.02+.98*liverShown,pancreas:.02+.98*pancreasProgress,
       muscle:.03+.97*muscleProgress,lipids:lipids,glucose:glucose};
   }
 
@@ -221,7 +235,7 @@
     reserve.dataset.state=state;reserve.dataset.profile=m.profile;reserve.dataset.fill=fill.toFixed(4);reserve.dataset.overflow=overflow.toFixed(4);reserve.dataset.diabetesOnset=onset<=100?String(onset):"none";reserve.dataset.a1c=m.a1c.toFixed(1);
     svg.setAttribute("aria-valuenow",Math.round(fill*100));
     svg.setAttribute("aria-valuetext",Math.round(fill*100)+" percent full. "+status+". Illustrative "+cfg.label.toLowerCase()+".");
-    $("fuel-reserve-desc").textContent="The hypothetical "+cfg.label.toLowerCase()+" is "+Math.round(fill*100)+" percent full. "+(overflow>0?"Fuel is overflowing around the tank after the model reached an HbA1c in the diabetes range.":status+".");
+    $("fuel-reserve-desc").textContent="The hypothetical "+cfg.label.toLowerCase()+" is "+Math.round(fill*100)+" percent full. "+(overflow>0?"Fuel is overflowing around the tank after blood sugar in this example reached the diabetes range.":status+".");
   }
   function node(tag,attrs,parent){const n=document.createElementNS(svgNS,tag);Object.keys(attrs).forEach(function(k){n.setAttribute(k,attrs[k])});parent.appendChild(n);return n}
   // A dedicated tissue material expands around fixed anatomical landmarks.
@@ -625,7 +639,8 @@
     // All onsets/overlap still come from the existing numerical model. These
     // are rendering amplitudes, not fat percentages or measured volumes.
     const tissueCapacity={lower:.48,moderate:.68,larger:.84};
-    const visceralTissue=m.profile==='extreme'?visceral:(tissueCapacity[m.profile]||.68)*visceralStage;
+    const vsS=clamp(m.visShown??visceralStageRaw),visceralStageShown=vsS<=0?0:(.08+.92*vsS);
+    const visceralTissue=m.profile==='extreme'&&m.organTilt==null?visceral:(tissueCapacity[m.profile]||.68)*visceralStageShown;
     // v7.6.67: optional, capped body-measure bias from the simulator (window.__pftBias); absent = unchanged
     const _b=window.__pftBias||{},_c=(x,d)=>Math.max(0,x+(+d||0));
     const _sq=_c(m.surfaceVolume,_b.subqCt),_vi=_c(visceral,_b.viscCt);
@@ -1133,8 +1148,8 @@
     });
     $("pft3d-framing").addEventListener('click',function(){if(!pft3d)return;const close=pft3d.framing!=='abdomen';pft3d.setFraming(close?'abdomen':'full');this.textContent=close?'Whole body':'Zoom abdomen';this.setAttribute('aria-pressed',String(close))});
   function updatePFT3D(m){
-    const s=abdominalState(m);atlasState={...s,slider:m.x,stage:m.stage,marks:m.marks.slice(),a1c:m.a1c};
-    pendingAtlas={sex:'male',profile:m.profile,slider:m.x,glycogenMuscle:m.glycogenMuscle,glycogenLiver:m.glycogenLiver,glycogenPhase:m.glycogenPhase,hyperplasia:m.hyperplasia,bodyFat:12+35*s.subcutaneous,baselineLeanRatio:0,groupRatios:{arms:0,legs:0,chest:0,back:0},depots:{visceral:s.visceral,liver:s.liver,pancreas:s.pancreas},pftFat:{subcutaneous:s.subcutaneous,visceral:s.visceral,visceralTissue:s.visceralTissue,liver:s.liver,pancreas:s.pancreas}};
+    const s=abdominalState(m);atlasState={...s,slider:m.x,stage:m.stage,marks:m.marks.slice(),userA1c:m.userA1c,organTilt:m.organTilt};
+    pendingAtlas={sex:'male',profile:m.profile,slider:m.x,organTilt:m.organTilt,outer:outerShape,glycogenMuscle:m.glycogenMuscle,glycogenLiver:m.glycogenLiver,glycogenPhase:m.glycogenPhase,hyperplasia:m.hyperplasia,bodyFat:12+35*s.subcutaneous,baselineLeanRatio:0,groupRatios:{arms:0,legs:0,chest:0,back:0},depots:{visceral:s.visceral,liver:s.liver,pancreas:s.pancreas},pftFat:{subcutaneous:s.subcutaneous,visceral:s.visceral,visceralTissue:s.visceralTissue,liver:s.liver,pancreas:s.pancreas}};
     if(pft3d&&stage3d.dataset.renderer==='3d'&&!atlasFrame)atlasFrame=requestAnimationFrame(()=>{atlasFrame=0;if(pft3d&&pendingAtlas)pft3d.update(pendingAtlas)});
     stage3d.dataset.slider=String(m.x);stage3d.dataset.subcutaneous=s.subcutaneous.toFixed(8);stage3d.dataset.visceral=s.visceral.toFixed(8);stage3d.dataset.liver=s.liver.toFixed(8);stage3d.dataset.pancreas=s.pancreas.toFixed(8);stage3d.dataset.visceralTissue=s.visceralTissue.toFixed(8);
     $("pft3d-profile").textContent=m.profileLabel+' · added fat, not measured body fat';
@@ -1154,6 +1169,7 @@
     model:(load,capacity)=>model(load,capacity),
     compartments:(load,capacity)=>abdominalState(model(load,capacity)),
     inspect:()=>pft3d?.inspect(),organs:()=>pft3d?.organs(),sample:(kind,indices)=>pft3d?.sample(kind,indices),
+    setOuter:(o)=>{outerShape=o&&typeof o.subq==="number"?{subq:+o.subq,mass:+o.mass||0,belly:+o.belly||0}:null},setUserA1c:(v)=>{v=v==null||v===""?NaN:+v;userA1c=v>=3&&v<=20?Math.round(v*10)/10:null;for(const k in diabetesOnsetCache)delete diabetesOnsetCache[k];render(false)},userA1c:()=>userA1c,
     setState:(load,capacity)=>{if(capacity!==undefined)$("capacity-select").value=String(capacity);$("fat-range").value=String(Math.max(0,Math.min(100,Number(load)||0)));render(true)},
     setView:selectCamera
   };
@@ -1169,15 +1185,16 @@
     const m=model($("fat-range").value,$("capacity-select").value);
     $("capacity-note").textContent=m.profileNote;
     const a1cLabel=m.glycemicState==="diabetes"?"Diabetes range":m.glycemicState==="prediabetes"?"Prediabetes range":"Normal range";
-    $("a1c-number").textContent=m.a1c.toFixed(1);
-    $("a1c-status").textContent=a1cLabel;
-    $("a1c-card").dataset.state=m.glycemicState;
-    $("a1c-output").setAttribute("aria-label","Illustrative hemoglobin A1c "+m.a1c.toFixed(1)+" percent. "+a1cLabel);
-    $("a1c-prediabetes").classList.toggle("reached",m.a1c>=5.7);
-    $("a1c-diabetes").classList.toggle("reached",m.a1c>=6.5);
+    const ua=m.userA1c,uaLabel=ua==null?"":ua>=6.5?"Diabetes range":ua>=5.7?"Prediabetes range":"Normal range",uaState=ua==null?"normal":ua>=6.5?"diabetes":ua>=5.7?"prediabetes":"normal";
+    $("a1c-card").hidden=ua==null;
+    if(ua!=null){$("a1c-number").textContent=ua.toFixed(1);$("a1c-status").textContent=uaLabel;$("a1c-card").dataset.state=uaState;
+      $("a1c-output").setAttribute("aria-label","Your A1c "+ua.toFixed(1)+" percent. "+uaLabel+". A higher A1c often goes with more fat around the organs and liver.");
+      $("a1c-prediabetes").classList.toggle("reached",ua>=5.7);$("a1c-diabetes").classList.toggle("reached",ua>=6.5);}
+    else{$("a1c-number").textContent="";$("a1c-status").textContent="";}
+    const a1cSay=ua==null?"":"Your A1c "+ua.toFixed(1)+" percent. ";
     let s=stages[m.stage];
     if(m.stage===1&&m.p>=24)s={kicker:"1 · Under-skin storage strain",title:"The storage buffer is strained",copy:"In this example, healthy storage under the skin becomes less effective. Fat increasingly spills into muscle, around the organs and into the liver, even as fat under the skin continues to grow.",take:"A personal threshold is not a literal wall or a fixed body-fat percentage.",depot:"sat"};
-    if(m.glycemicState==="prediabetes")s={kicker:"Blood glucose rising · Prediabetes range",title:"Glucose starts to stay elevated",copy:"In this example, insulin is struggling to keep glucose in its usual range. The illustrative HbA1c is now in the 5.7–6.4% prediabetes range, before it reaches the diabetes cutoff.",take:"Prediabetes is a risk state; progression to type 2 diabetes is not inevitable.",depot:"blood"};
+    if(m.glycemicState==="prediabetes")s={kicker:"Blood glucose rising · Prediabetes range",title:"Glucose starts to stay elevated",copy:"In this example, insulin is struggling to keep glucose in its usual range. In this example, blood sugar is now in the prediabetes range, before it reaches the diabetes range.",take:"Prediabetes is a risk state; progression to type 2 diabetes is not inevitable.",depot:"blood"};
     if(m.profile==="extreme"&&m.fatLoad>=5)s={kicker:"Extreme · Expanding storage",title:m.hyperplasia<.7?"New fat cells add capacity":"A much larger storage reserve",copy:"This phenotype helps explain why a person can have substantial obesity without type 2 diabetes. An expanding population of fat cells stores more energy under the skin; a little visceral fat still appears. Glucose stays in the normal range in this chosen example.",take:"Storage capacity is not unlimited, and no amount of excess weight guarantees protection from diabetes.",depot:"sat"};
     if(m.diabetes)s={kicker:"Possible outcome · Type 2 diabetes",title:"Insulin is high but no longer works well",copy:"In a susceptible person, insulin levels are high, but with fat cells, liver and muscle full past the personal fat threshold there is no room to move more fuel in, and the pancreas can no longer raise insulin enough after meals. Blood glucose stays persistently in the diabetes range. Excess body fat can contribute, but body size alone does not establish the diagnosis.",take:"Blood glucose or A1C testing—not the amount of visible fat—establishes diabetes.",depot:"blood"};
     if(m.diabetes&&m.profile==="lower")s={kicker:"Lower threshold · Type 2 diabetes range",title:"Diabetes without marked excess weight",copy:"This phenotype helps explain why someone can have type 2 diabetes without being significantly overweight. A smaller healthy storage reserve and individual susceptibility can allow glucose control to fail after relatively little added fat.",take:"Body size alone cannot establish or exclude type 2 diabetes. Insulin action and beta-cell function also matter.",depot:"blood"};
@@ -1185,7 +1202,7 @@
     const hue=m.glycogenPhase?"#80d9c8":m.diabetes?"#ed7a8d":m.glycemicState==="prediabetes"?"#efc16e":colors[m.stage];
     root.style.setProperty("--active",hue);
     $("fat-output").innerHTML=Math.round(m.x)+" <span>/ 100</span>";
-    $("fat-range").setAttribute("aria-valuetext",Math.round(m.x)+" of 100 on an illustrative fuel scale. HbA1c example "+m.a1c.toFixed(1)+" percent, "+a1cLabel+". "+s.title);
+    $("fat-range").setAttribute("aria-valuetext",Math.round(m.x)+" of 100 on an illustrative fuel scale. "+a1cSay+s.title);
     $("stage-kicker").textContent=s.kicker;$("stage-title").textContent=s.title;
     $("stage-copy").textContent=s.copy;$("takeaway").textContent=s.take;
     renderAnatomy(m);
@@ -1206,7 +1223,7 @@
       el.querySelector(".depot-value").textContent=burden;
       el.classList.toggle("active",s.depot===key);
     });
-    const desc=m.profileLabel+". Added fuel "+Math.round(m.x)+" of 100 on an illustrative scale. Teal highlights represent glycogen in liver and muscle. HbA1c example "+m.a1c.toFixed(1)+" percent, "+a1cLabel+". "+s.title+". "+s.copy;
+    const desc=m.profileLabel+". Added fuel "+Math.round(m.x)+" of 100 on an illustrative scale. Teal highlights represent glycogen in liver and muscle. "+a1cSay+s.title+". "+s.copy;
     $("human-desc").textContent=desc;
     const announcedStage=m.profile+":"+s.title;
     if(announce&&lastStage!==announcedStage){
@@ -1214,7 +1231,7 @@
       announceTimer=setTimeout(function(){$("live-summary").textContent=m.profileLabel+". "+s.title+". "+s.copy},220);
     }
     lastStage=announcedStage;
-    document.dispatchEvent(new CustomEvent("pft:render",{detail:{model:m,stage:s,a1cLabel:a1cLabel,hue:hue,diabetesOnset:diabetesOnsetFor($("capacity-select").value)}}));
+    document.dispatchEvent(new CustomEvent("pft:render",{detail:{model:m,stage:s,a1cLabel:uaLabel,hue:hue,diabetesOnset:diabetesOnsetFor($("capacity-select").value)}}));
   }
   window.PFT={render:render,model:model,stages:stages,tickNames:tickNames,tickDepots:tickDepots};
   $("fat-range").addEventListener("input",function(){render(true)});

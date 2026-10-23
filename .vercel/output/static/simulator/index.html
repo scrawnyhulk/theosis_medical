@@ -1895,7 +1895,7 @@ body{background-color:var(--bg);background-image:var(--app-bg-image);background-
               </div>
               <div class="row">
                 <label class="field" data-field="a1c"><span class="label">Latest lab HbA1c <span style="text-transform:none;letter-spacing:0">(optional)</span></span>
-                    <span class="control"><input data-f="a1c" inputmode="decimal" placeholder="e.g. 5.9"><span class="unit">%</span></span><span class="err"></span></label>
+                    <span class="control"><input data-f="a1c" inputmode="decimal" placeholder="e.g. 5.9"><span class="unit">%</span></span><span class="err"></span><span class="hint adv-only a1c-split-note">A higher A1c often goes with more fat around the organs and liver. If you enter one, the figure moves more of your fat there and less under the skin; your outer size stays the same. Leave it blank and it has no effect.</span></label>
               </div>
               <div class="health-actions" id="health-actions">
                 <button type="button" class="btn btn-ghost" id="labs-toggle" aria-expanded="false" aria-controls="labs-box">Add lab results</button>
@@ -5624,12 +5624,13 @@ function onNumInput(el) {
 }
 /* v7.6.77: a gentle, plain-words check on the waist (not an error; the entry is kept). */
 function waistNote() { const p = S.profile, w = p.waistCm, h = p.heightCm, wh = w > 0 && h > 0 ? w / h : null, bf = +bfInfo().bf || 0;
-  const msg = wh == null ? "" : wh > 0.85 ? "That waist is very large for your height. Please double-check it: measure around your belly at the belly button, with the tape snug but not tight. The figure stops growing past a certain size."
-    : wh < 0.36 ? "That waist looks small for your height. Please double-check it: measure around your belly at the belly button, not your belt line."
-    : (p.sex === "f" ? bf < 20 : bf < 12) && wh > 0.62 ? "Your waist and body fat don't seem to match. Please double-check both numbers." : "";
+  /* Simple: one short line. Advanced: adds how to measure / what it means for the figure. */
+  const [msg, more] = wh == null ? ["", ""] : wh > 0.85 ? ["That waist looks very large. Please double-check it.", " Measure around your belly at the belly button, with the tape snug but not tight. The figure stops growing past a certain size."]
+    : wh < 0.36 ? ["That waist looks small. Please double-check it.", " Measure around your belly at the belly button, not your belt line."]
+    : (p.sex === "f" ? bf < 20 : bf < 12) && wh > 0.62 ? ["Your waist and body fat don't seem to match. Please double-check both.", ""] : ["", ""];
   for (const k of ["waist", "waist2"]) { const f = $(`[data-field="${k}"]`); if (!f) continue; let n = f.querySelector(".waist-note");
     if (!n) { n = document.createElement("p"); n.className = "hint waist-note"; n.setAttribute("role", "status"); f.appendChild(n); }
-    n.textContent = msg; n.hidden = !msg; } }
+    n.textContent = msg; if (more) { const m = document.createElement("span"); m.className = "adv-only"; m.textContent = more; n.appendChild(m); } n.hidden = !msg; } }
 const fmtSteps = (n) => Math.round(n).toLocaleString("en-US");
 const stepsErr = (m) => { const e = $("#steps-err"), bx = $('[data-f="stepsN"]'); if (e) e.textContent = m; if (bx) { bx.setAttribute("aria-invalid", m ? "true" : "false"); bx.closest(".field").classList.toggle("invalid", !!m); }
   if (m) invalid.add("stepsN"); else invalid.delete("stepsN"); };
@@ -6157,8 +6158,17 @@ document.addEventListener("click", (e) => { if (e.target.closest("#pft-inside-op
    preset, the PFT stage picks the fuel slider (under ≈ 25, in range ≈ 55, above ≈ 80; type 2 diabetes ≥ 85). Same-origin only;
    on file:// or cross-origin the view just opens at its default. */
 /* v7.6.77: 0 = lean, 1 = very large; the larger of body fat % and waist-to-height. */
-function pftSizeT(sex, bf, wh) { const lo = sex === "f" ? 25 : 15, hi = sex === "f" ? 52 : 45, c = (v) => Math.max(0, Math.min(1, v));
+/* wide = true: the lower body-fat reference (men 10%, women 18%) used for the figure's fat level, so an ordinary 24% -> 16% plan lands on the
+   visibly changing part of the figure's curve instead of the flat start (v7.6.78 timeline fix). */
+function pftSizeT(sex, bf, wh, wide) { const lo = wide ? (sex === "f" ? 18 : 10) : sex === "f" ? 25 : 15, hi = wide ? (sex === "f" ? 48 : 40) : sex === "f" ? 52 : 45, c = (v) => Math.max(0, Math.min(1, v));
   const a = c((Math.min(60, bf || 0) - lo) / (hi - lo)), b = wh == null ? 0 : c((wh - 0.45) / 0.3); return Math.max(a, b); }
+/* v7.6.78: the figure's outer shape (under-skin fat, overall softness, belly) for one point on the plan, from that point's projected body fat %
+   and waist, so the timeline slider visibly slims as body fat comes down. Only used for the outer body; the inner organ story is unchanged. */
+function pftFigOuter(row) { const P = S.profile; if (!row) return null; const bf = row.bf != null ? row.bf : 100 * row.fatKg / Math.max(1, row.weightKg);
+  let wc = null; try { wc = waistAt(row.fatKg, row.leanKg); } catch (e) { wc = null; }
+  const wh = wc > 0 && P.heightCm > 0 ? Math.min(0.9, wc / P.heightCm) : null, z = pftSizeT(P.sex, bf, wh, true);
+  const e = 1 - (1 - z) * (1 - z); /* ease-out: ordinary body-fat changes stay visible, very large bodies still top out */
+  return { subq: +(0.05 + 1.0 * e).toFixed(3), mass: +(0.75 * e).toFixed(3), belly: +(0.95 * e).toFixed(3) }; }
 function pftInsideStage() {
   if (!R || R.blocked) return null; const e = pftEst(), st = PF.stage ? null : null, w = R.main.rows[0].weightKg, dm = E.diabetesStatus(S.profile.health).value;
   const key = !e || !e.known ? null : !e.over || w <= e.weightKg.lo ? "under" : w <= e.weightKg.hi ? "near" : "above";
@@ -6171,7 +6181,7 @@ function pftInsideStage() {
   const cap = sz >= 0.5 ? "1.1" : sz >= 0.25 ? "1" : ph && ph.label === "visceral" && wh < 0.5 ? "0.72" : "1";
   const fuel = dm === "t2" ? 88 : key === "above" ? 80 : key === "near" ? 55 : key === "under" ? 25 : null;
   const span = e && e.known && e.weightKg ? Math.max(1, e.weightKg.hi - e.weightKg.lo) : 0;
-  let load = span ? 25 + 55 * (w - e.weightKg.lo) / span : 30 + 120 * (wh - 0.45); load += (wh - 0.5) * 60; load = Math.max(load, 20 + 72 * sz);
+  let load = span ? 25 + 55 * (w - e.weightKg.lo) / span : 30 + 120 * (wh - 0.45); load += (wh - 0.5) * 60; load = Math.max(load, 12 + 80 * pftSizeT(P.sex, bf, P.waistCm > 0 && P.heightCm > 0 ? wh : null, true));
   load = Math.round(Math.max(8, Math.min(dm === "t2" ? 97 : 92, dm === "t2" ? Math.max(load, 85) : load))); if (!Number.isFinite(load)) load = 50;
   return { key, cap, fuel, load };
 }
@@ -6182,6 +6192,7 @@ function pftInsidePlace() {
     if (sel) { sel.value = s.cap; sel.dispatchEvent(new Event("change", { bubbles: true })); }
     if (rg && s.fuel != null) { rg.value = String(s.fuel); rg.dispatchEvent(new Event("input", { bubbles: true })); rg.dispatchEvent(new Event("change", { bubbles: true })); }
     f.dataset.placed = `${s.cap}/${s.fuel}`;
+    try { const pa = f.contentWindow && f.contentWindow.PFTAtlas, ua = +S.profile.health.a1c; if (pa && pa.setUserA1c) pa.setUserA1c(S.profile.health.a1c != null && S.profile.health.a1c !== "" && ua >= 3 && ua <= 20 ? ua : null); } catch (x) { /* ignore */ }
     const sk = window.PFT_SKINS && window.PFT_SKINS[S.fig.skin != null ? S.fig.skin : 2]; if (sk) { let n = 0; const go = () => { try { const w = f.contentWindow; if (w && w.__pft3d) { w.__pft3d.meshes.forEach((m) => { if (m.userData.role === "skin" && m.material && m.material.color) m.material.color.set(sk); }); pftCtSkin(w.document, () => sk); const rg = w.document.getElementById("fat-range"); if (rg) rg.dispatchEvent(new Event("input", { bubbles: true })); w.dispatchEvent(new Event("resize")); return; } } catch (x) { return; } if (++n < 40) setTimeout(go, 150); }; go(); }
   } catch (x) { /* cross-origin or file:// — default view */ }
 }
@@ -8394,7 +8405,7 @@ function renderSnapshot() { if (typeof window.renderSnapshotNow === "function") 
 function a1cCardHtml() { if (typeof window.a1cCardHtmlNow === "function") return window.a1cCardHtmlNow(); lazyLoad("assets/a1c-log.js?v=7655").then(() => { if (V.open && V.view === "home") renderViews(); }, () => {}); return `<div class="v-card a1-card" id="a1-card"><h2>A1c log</h2><p class="hint">Loading…</p></div>`; }
 window.BodyPlanFig3D = window.BodyPlanFig3D || { state: { on: false, failed: false, where: null } };
 function f3dMount() { if (window.__NO_PFT_FIG) return; if (typeof window.f3dMountNow === "function") return window.f3dMountNow(); if (!R || R.blocked) return;
-  lazyLoad("assets/fig3d-pft.js?v=7674").then(() => window.f3dMountNow(), () => { window.BodyPlanFig3D.state.failed = true; const h = document.getElementById("sum-pft"); if (h && !h.innerHTML) { h.hidden = false; h.innerHTML = `<figure class="f3d-fbfig"><img src="assets/f3d-ct-fallback.webp" alt="Example cross-section through the middle of the model" width="720" height="560"><figcaption>Example cross-section. The 3D model can't load on this device.</figcaption></figure>`; } }); }
+  lazyLoad("assets/fig3d-pft.js?v=7678").then(() => window.f3dMountNow(), () => { window.BodyPlanFig3D.state.failed = true; const h = document.getElementById("sum-pft"); if (h && !h.innerHTML) { h.hidden = false; h.innerHTML = `<figure class="f3d-fbfig"><img src="assets/f3d-ct-fallback.webp" alt="Example cross-section through the middle of the model" width="720" height="560"><figcaption>Example cross-section. The 3D model can't load on this device.</figcaption></figure>`; } }); }
 function printRegional(s, e) { const k = changeKind(s, e), c = FD.change(depotsAt(s.fatKg), depotsAt(e.fatKg)), m = muscleSplit(S.profile.sex, e.leanKg - s.leanKg);
   const fat = `around the organs ${fWd(c.vat.kg)} (${fPct(c.vat.pct)}), under the skin ${fWd(c.sub.kg)} (${fPct(c.sub.pct)})`, mus = `upper body ${fWd(m.up)}, legs &amp; glutes ${fWd(m.lo)}`;
   return `<p class="small"><b>${{ loss: "Where fat comes off first", gain: "Where muscle builds, and where fat would add", recomp: "Where you lose fat and gain muscle", hold: "Where things shift" }[k]} (estimate):</b> ${k === "gain" ? `lean (mostly muscle): ${mus}; fat: ${fat}.` : k === "recomp" ? `fat: ${fat}; lean (mostly muscle): ${mus}.` : `fat ${fat}.`}</p>`; }
@@ -9287,7 +9298,7 @@ function init() {
     else if (t.dataset.ciDel) { await ciDel(t.dataset.ciDel); CI.msg = "Check-in removed from this device."; aiState.result = null; renderAi(); } });
   window.addEventListener("online", () => { if ($("#fs-q").value.trim().length >= 2) fsSearch(true); });
   window.addEventListener("offline", () => { $("#fs-status").textContent = "You're offline. Search needs a connection; your food log still works."; });
-  window.BodyPlanApp = { update, pftStage: () => pftInsideStage(), get state() { return S; }, get result() { return R; }, go, start, config: CONFIG,
+  window.BodyPlanApp = { update, pftStage: () => pftInsideStage(), figOuter: (row) => pftFigOuter(row), get state() { return S; }, get result() { return R; }, go, start, config: CONFIG,
     logAdd: (it) => { fsLogPush(it); fsApplyLog(); }, foodLog: { get store() { return FLS; }, reload() { FLS = FL.load(); return FLS; }, open: openFoodLog, close: closeFoodLog, render: renderFoodLog, state: fl, useAverage: flUseAverage },
     scanner: { env: scannerEnv, photo: (f) => fsScanPhoto(f), diag: () => fs.diag, pick: async () => FL.pickScanner(await scannerEnv()), decodeCanvas: async (cv, kind) => (await makeDecoder(kind === "native" ? FL.pickScanner(await scannerEnv()) : { kind: "zxing" }))(cv), loadZxing }, setPhoto: (d) => { photo = d; renderPhoto(); update(); }, setAiResult: (r) => { aiState.result = r; renderAi(); }, fig3d: F3,
     isPro, canUse, projectionPayload, checkins: CI, ciAddFile, ciLoad, aiBase, ciProjection, ciPut, foodSearch: fs, fatPattern, depotsAt, regionsAt, waistAt, startPerson, personAt, setFigLook, regionalFrames, };

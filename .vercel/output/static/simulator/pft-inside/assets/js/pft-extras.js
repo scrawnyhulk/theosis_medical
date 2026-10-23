@@ -107,9 +107,8 @@
     const d=e.detail,m=d.model;last=d;
     if(dockHost){
       $("dock-stage").textContent=d.stage.kicker;
-      $("dock-a1c-num").textContent=m.a1c.toFixed(1)+"%";
-      $("dock-a1c-label").textContent=m.glycemicState==="diabetes"?"Diabetes":m.glycemicState==="prediabetes"?"Prediabetes":"Normal";
-      $("dock-a1c").dataset.state=m.glycemicState;
+      {const ua=m.userA1c;$("dock-a1c").hidden=ua==null;$("dock-a1c-num").textContent=ua==null?"":ua.toFixed(1)+"%";
+      $("dock-a1c-label").textContent=ua==null?"":ua>=6.5?"Diabetes range":ua>=5.7?"Prediabetes range":"Normal range";$("dock-a1c").dataset.state=ua==null?"normal":ua>=6.5?"diabetes":ua>=5.7?"prediabetes":"normal";}
       $("dock-output").textContent=Math.round(m.x)+" / 100";
       dockTicks.forEach((el,i)=>{const v=m.marks[i];el.hidden=v>100;el.style.left="calc("+v+"% + "+(14-v*.28).toFixed(2)+"px)";el.classList.toggle("passed",m.x>=v)});
     }

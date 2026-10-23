@@ -53,8 +53,10 @@
     cur+=Math.max(-maxv,Math.min(maxv,stepv));render();raf=requestAnimationFrame(loop)}
   function go(){if(rm.matches||document.hidden){cancelAnimationFrame(raf);raf=0;cur=tgt;render();return}if(!raf){last=0;raf=requestAnimationFrame(loop)}}
   function update(m){
-    if(!m||typeof m.a1c!=="number")return;
-    var v=eag(m.a1c);a1c=m.a1c;
+    if(!m)return;
+    // v7.6.78: only an A1c the person entered is shown (as estimated average glucose); blank = dial hidden, no invented value
+    box.hidden=typeof m.userA1c!=="number";if(box.hidden)return;
+    var v=eag(m.userA1c);a1c=m.userA1c;
     if(first){cur=v;tgt=v;quiet();render();lastSaid="Estimated average glucose "+txt(v)+" "+unitTxt()+", "+WORD[band(v)]+".";first=false;return}
     if(Math.abs(v-tgt)<1e-6)return;
     tgt=v;quiet();announce();go();
