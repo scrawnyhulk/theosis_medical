@@ -206,27 +206,32 @@ body{background-color:#14171c;background-image:radial-gradient(55% 50% at 74% 38
 .legend{gap:.5rem 1.1rem;font-size:.9rem}
 @media(max-width:519px){.chart-wrap{margin-left:-.25rem;margin-right:-.25rem}}
 
-/* Mini graph in the top-right space */
-.top{display:grid;grid-template-columns:minmax(0,1fr);grid-template-areas:"text" "mini" "presets";gap:0 2rem;align-items:start}
+/* Decorative graphic in the top-right space */
+.top{display:grid;grid-template-columns:minmax(0,1fr);grid-template-areas:"text" "presets";gap:0 2rem;align-items:start}
 .top-text{grid-area:text}.top .presets{grid-area:presets}
-.mini{grid-area:mini;margin-top:1.25rem;padding:1rem 1rem .75rem!important}
-.mini-head{display:flex;justify-content:space-between;align-items:baseline;gap:.75rem}
-.mini-end{font-family:var(--font-display);font-weight:600;font-size:1.15rem;color:var(--fg);white-space:nowrap;font-variant-numeric:tabular-nums}
-#mini{display:block;margin-top:.4rem;touch-action:pan-y}
-#mini text{font-family:var(--font-sans);font-size:12px;fill:var(--muted)}
-@media(min-width:60rem){.top{grid-template-columns:minmax(0,1fr) minmax(20rem,26rem);grid-template-areas:"text mini" "presets mini"}.mini{margin-top:1.6rem;margin-right:2.5rem;align-self:center}}
+.hero-art{display:none}
+@media(min-width:60rem){.top{grid-template-columns:minmax(0,1fr) minmax(16rem,20rem);grid-template-areas:"text art" "presets art"}.hero-art{display:block;grid-area:art;align-self:center;margin:1.2rem 2.5rem 0 0}}
+.hero-art svg{display:block;width:100%;height:auto}
+.ha-flame{transform-origin:160px 196px;animation:haFlick 3.2s ease-in-out infinite}
+.ha-inner{transform-origin:160px 196px;animation:haFlick 2.4s ease-in-out infinite reverse}
+.ha-glow{animation:haGlow 3.2s ease-in-out infinite}
+@keyframes haFlick{0%,100%{transform:scale(1,1)}50%{transform:scale(.96,1.05)}}
+@keyframes haGlow{0%,100%{opacity:.55}50%{opacity:.85}}
+@media(prefers-reduced-motion:reduce){.ha-flame,.ha-inner,.ha-glow{animation:none}}
 
-.mini-ctl{margin-top:.5rem;display:grid;gap:.15rem}
-.mini-row{display:grid;grid-template-columns:3.6rem minmax(0,1fr);align-items:center;gap:.6rem;min-height:44px}
-.mini-lbl{font-size:.9rem;font-weight:600;color:var(--fg)}
-.mini-read{font-size:.95rem;color:var(--fg);margin:0 0 .35rem 4.2rem;min-height:1.4em;font-variant-numeric:tabular-nums}
-.mini-ticks{display:flex;justify-content:space-between;margin-left:4.2rem;font-size:.8rem;color:var(--muted);margin-top:-.35rem}
-.mini input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:44px;background:transparent;margin:0;touch-action:pan-y;cursor:pointer}
-.mini input[type=range]::-webkit-slider-runnable-track{height:6px;border-radius:999px;background:rgba(42,122,224,.35)}
-.mini input[type=range]::-moz-range-track{height:6px;border-radius:999px;background:rgba(42,122,224,.35)}
-.mini input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:28px;height:28px;margin-top:-11px;border-radius:50%;background:#2a7ae0;border:3px solid #e7edf5;box-shadow:0 2px 8px rgba(0,0,0,.4)}
-.mini input[type=range]::-moz-range-thumb{width:24px;height:24px;border-radius:50%;background:#2a7ae0;border:3px solid #e7edf5}
-.mini input[type=range]:focus-visible{outline:2px solid #79b4f6;outline-offset:2px;border-radius:6px}
+/* Week and Pace sliders under the main graph */
+.ctl{margin-top:1rem;display:grid;gap:.2rem;padding-top:.9rem;border-top:1px solid var(--border)}
+.ctl-row{display:grid;grid-template-columns:4.2rem minmax(0,1fr);align-items:center;gap:.75rem;min-height:48px}
+.ctl-lbl{font-size:1.05rem;font-weight:600;color:var(--fg)}
+.ctl-read{font-size:1.05rem;color:var(--fg);margin:0 0 .4rem 4.95rem;min-height:1.4em;font-variant-numeric:tabular-nums}
+.ctl-read b{color:#79b4f6}
+.ctl-ticks{display:flex;justify-content:space-between;margin-left:4.95rem;font-size:.9rem;color:var(--muted);margin-top:-.4rem;margin-bottom:.2rem}
+.ctl input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:48px;background:transparent;margin:0;touch-action:pan-y;cursor:pointer}
+.ctl input[type=range]::-webkit-slider-runnable-track{height:6px;border-radius:999px;background:rgba(42,122,224,.35)}
+.ctl input[type=range]::-moz-range-track{height:6px;border-radius:999px;background:rgba(42,122,224,.35)}
+.ctl input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:30px;height:30px;margin-top:-12px;border-radius:50%;background:#2a7ae0;border:3px solid #e7edf5;box-shadow:0 2px 8px rgba(0,0,0,.4)}
+.ctl input[type=range]::-moz-range-thumb{width:24px;height:24px;border-radius:50%;background:#2a7ae0;border:3px solid #e7edf5}
+.ctl input[type=range]:focus-visible{outline:2px solid #79b4f6;outline-offset:2px;border-radius:6px}
 </style>
 <style>
 footer.th-foot{display:block;max-width:none;margin:0;padding:0;font-size:1rem}
@@ -266,17 +271,26 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')set(false)})
   <h1>Maximal Fat Loss Calculator</h1>
   <p class="lead">This calculator shows the <strong>maximum</strong> fat-loss rate, designed to limit muscle loss as much as possible (no trial shows any rate spares muscle completely). You can choose any slower pace in between. One published model (Alpert, 2005) estimates that body fat can release at most about <strong>31 kcal per pound of fat per day</strong> (range 29–34). This is an <strong>upper-limit estimate</strong>, not a proven ceiling. In that model, a calorie deficit bigger than this tends to come out of muscle and other lean tissue. Enter where you are and where you want to be, and this shows the <strong>fastest fat loss that still protects lean mass</strong>, week by week.</p>
   </div>
-  <aside class="card mini" aria-labelledby="mini-h">
-    <div class="mini-head"><p class="eyebrow" id="mini-h">Your weight, week by week</p><span class="mini-end" id="mini-end"></span></div>
-    <svg id="mini" role="img" aria-labelledby="mini-desc" width="100%"></svg><p class="sr-only" id="mini-desc"></p>
-    <div class="mini-ctl">
-      <label class="mini-row" for="mini-wk"><span class="mini-lbl">Week</span><input type="range" id="mini-wk" min="0" max="1" step="1" value="1" aria-describedby="mini-read"></label>
-      <p class="mini-read" id="mini-read" aria-live="polite"></p>
-      <label class="mini-row" for="mini-pace"><span class="mini-lbl">Pace</span><input type="range" id="mini-pace" min="0" max="2" step="1" value="2" aria-describedby="mini-pace-out"></label>
-      <div class="mini-ticks" aria-hidden="true"><span>Slight</span><span>Moderate</span><span>Maximum</span></div>
-      <p class="mini-read" id="mini-pace-out" aria-live="polite"></p>
-    </div>
-  </aside>
+  <div class="hero-art" aria-hidden="true">
+    <svg viewBox="0 0 320 250" focusable="false">
+      <defs>
+        <linearGradient id="ha-arc" x1="0" x2="1" y1="0" y2="0"><stop offset="0" stop-color="#2a7ae0" stop-opacity=".25"/><stop offset=".7" stop-color="#2a7ae0"/><stop offset="1" stop-color="#79b4f6"/></linearGradient>
+        <linearGradient id="ha-fl" x1="0" x2="0" y1="1" y2="0"><stop offset="0" stop-color="#2a7ae0"/><stop offset=".6" stop-color="#5b9cec"/><stop offset="1" stop-color="#bcd9fb"/></linearGradient>
+        <radialGradient id="ha-gl" cx=".5" cy=".7" r=".5"><stop offset="0" stop-color="#2a7ae0" stop-opacity=".55"/><stop offset="1" stop-color="#2a7ae0" stop-opacity="0"/></radialGradient>
+      </defs>
+      <ellipse class="ha-glow" cx="160" cy="160" rx="120" ry="90" fill="url(#ha-gl)"/>
+      <path d="M40 196a120 120 0 0 1 240 0" fill="none" stroke="rgba(231,237,245,.1)" stroke-width="18" stroke-linecap="round"/>
+      <path d="M40 196a120 120 0 0 1 240 0" fill="none" stroke="url(#ha-arc)" stroke-width="18" stroke-linecap="round" stroke-dasharray="300 400"/>
+      <g stroke="rgba(231,237,245,.35)" stroke-width="2" stroke-linecap="round">
+        <path d="M58 196h14"/><path d="M76 112l10 10"/><path d="M160 58v14"/><path d="M244 112l-10 10"/><path d="M262 196h-14"/>
+      </g>
+      <g class="ha-flame"><path d="M160 196c-30 0-50-20-50-46 0-27 23-42 27-69 15 10 23 23 23 38 8-6 12-15 13-25 22 15 37 33 37 56 0 26-20 46-50 46z" fill="url(#ha-fl)" opacity=".95"/></g>
+      <g class="ha-inner"><path d="M160 196c-14 0-24-9-24-22 0-13 11-20 14-33 7 6 11 12 11 19 4-3 6-7 7-12 10 8 16 16 16 26 0 13-10 22-24 22z" fill="#e7edf5" opacity=".9"/></g>
+      <circle cx="160" cy="196" r="9" fill="#14171c" stroke="#79b4f6" stroke-width="3"/>
+      <text x="40" y="226" text-anchor="middle" style="font:600 13px var(--font-sans);fill:#8b95a3">Slow</text>
+      <text x="280" y="226" text-anchor="middle" style="font:600 13px var(--font-sans);fill:#8b95a3">Fast</text>
+    </svg>
+  </div>
 
   <div class="presets" role="group" aria-label="Example scenarios">
     <button type="button" class="chip" data-preset="0">200 lb · 20% · 10 weeks</button>
@@ -411,6 +425,13 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')set(false)})
         <div class="section-head" style="margin-bottom:0"><h2>Your weight, week by week</h2><span class="eyebrow" id="tl-note">Muscle kept steady</span></div>
         <div class="chart-wrap"><svg id="chart" role="img" aria-labelledby="chart-desc" width="100%"></svg><p class="sr-only" id="chart-desc"></p>
           <div class="legend" aria-hidden="true"><span><i style="background:var(--accent)"></i>Fat you lose</span><span><i style="background:rgba(207,214,224,.28)"></i>Muscle, bone &amp; water (kept)</span><span><i style="background:transparent;border-top:2px dashed var(--steel);height:0;border-radius:0"></i>Where you end up</span></div>
+          <div class="ctl">
+            <label class="ctl-row" for="ch-wk"><span class="ctl-lbl">Week</span><input type="range" id="ch-wk" min="0" max="1" step="1" value="0" aria-describedby="ch-read"></label>
+            <p class="ctl-read" id="ch-read" aria-live="polite"></p>
+            <label class="ctl-row" for="ch-pace"><span class="ctl-lbl">Pace</span><input type="range" id="ch-pace" min="0" max="2" step="1" value="2" aria-describedby="ch-pace-out"></label>
+            <div class="ctl-ticks" aria-hidden="true"><span>Slight</span><span>Moderate</span><span>Maximum</span></div>
+            <p class="ctl-read" id="ch-pace-out" aria-live="polite"></p>
+          </div>
         </div>
         <div class="table-wrap"><table id="table" aria-describedby="table-note"></table></div><p class="hint" id="table-note" style="margin-top:.6rem"></p>
       </div>
@@ -813,60 +834,12 @@ function renderTimeline(R) {
   html += `</tbody>`;
   $("table").innerHTML = html;
   $("table-note").textContent = `Deficit = the most energy (kcal/day) your fat can supply at that point${inp.abs ? `, or your chosen ${fmtInt(inp.abs)} kcal/day if that is lower` : inp.pace < 1 ? `, times your ${Math.round(inp.pace * 100)}% pace` : ""}${cal ? ", capped by your intake floor" : ""}. It's a deficit, not an amount to eat.${cal ? " “Eat ≈” is the matching daily intake." : ""}`;
-  drawChart(R); drawMini(R);
+  drawChart(R);
 }
 
 function niceStep(range, target) {
   const raw = range / target, p = Math.pow(10, Math.floor(Math.log10(raw)));
   const n = raw / p; return (n < 1.5 ? 1 : n < 3 ? 2 : n < 7 ? 5 : 10) * p;
-}
-let MI_PREV = null, MI_RAF = 0;
-function drawMini(R) {
-  const svg = $("mini"), inp = R.inp; if (!svg) return;
-  const Wd = Math.max(260, Math.round(svg.getBoundingClientRect().width || 360)), Ht = Wd < 340 ? 120 : 140;
-  const m = { l: 8, r: 10, t: 22, b: 22 };
-  const total = inp.mode === "goal" ? R.days : R.series[R.series.length - 1].day;
-  const pts = R.series.filter((p) => p.day <= total + 1e-9).map((p) => ({ d: p.day, w: toDispW(p.weight) }));
-  const endW = toDispW(inp.lean + R.endFat); pts.push({ d: total, w: endW });
-  const w0 = pts[0].w, lean = toDispW(inp.lean), st = niceStep(w0 - lean * 0.92, 4);
-  const yMin = Math.floor(lean * 0.92 / st) * st, yMax = Math.ceil(w0 / st) * st + st * 0.25;   // same rounded scale as the Week by week graph, so the line visibly moves
-  const y = (v) => m.t + (Ht - m.t - m.b) * (1 - (v - yMin) / (yMax - yMin));
-  const N = 40, ys = [];
-  for (let i = 0, j = 0; i <= N; i++) {
-    const d = total * i / N; while (j < pts.length - 2 && pts[j + 1].d < d) j++;
-    const p0 = pts[j], p1 = pts[Math.min(j + 1, pts.length - 1)], f = p1.d > p0.d ? Math.min(1, Math.max(0, (d - p0.d) / (p1.d - p0.d))) : 0;
-    ys.push(y(p0.w + (p1.w - p0.w) * f));
-  }
-  const wks = total / 7, u = wUnit(), halo = "paint-order:stroke;stroke:#1c2027;stroke-width:4px;stroke-linejoin:round";
-  svg.setAttribute("viewBox", `0 0 ${Wd} ${Ht}`); svg.setAttribute("height", Ht);
-  $("mini-end").textContent = `${fmt(w0)} → ${fmt(endW)} ${u}`;
-  const frame = (Y) => {
-    const X = (i) => (m.l + (Wd - m.l - m.r) * i / N).toFixed(1), xe = Wd - m.r, yb = Ht - m.b;
-    const line = Y.map((v, i) => `${i ? "L" : "M"}${X(i)},${v.toFixed(1)}`).join("");
-    svg.innerHTML = `<defs><linearGradient id="mg" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#2a7ae0" stop-opacity=".45"/><stop offset="1" stop-color="#2a7ae0" stop-opacity="0"/></linearGradient></defs>
-    <line x1="${m.l}" x2="${xe}" y1="${yb}" y2="${yb}" stroke="rgba(231,237,245,.12)"/>
-    <path d="${line}L${xe},${yb}L${m.l},${yb}Z" fill="url(#mg)"/>
-    <path d="${line}" fill="none" stroke="#79b4f6" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
-    <circle cx="${m.l}" cy="${Y[0]}" r="3.5" fill="#cfd6e0"/><circle cx="${xe}" cy="${Y[N]}" r="4.5" fill="#2a7ae0" stroke="#e7edf5" stroke-width="1.5"/>
-    <text x="${m.l + 6}" y="${Math.max(13, Y[0] - 8)}" style="fill:#cfd6e0;${halo}">${fmt(w0)} ${u}</text>
-    <text x="${xe - 8}" y="${Math.max(13, Y[N] - 9)}" text-anchor="end" style="fill:#e7edf5;font-weight:600;${halo}">${fmt(endW)} ${u}</text>
-    <text x="${m.l}" y="${Ht - 5}">Today</text><text x="${xe}" y="${Ht - 5}" text-anchor="end">Week ${fmt(wks)}</text><g id="mini-mk"></g>`;
-    miniMarker();
-  };
-  MI = { R, rows: sampleRows(R), x: (d) => m.l + (Wd - m.l - m.r) * d / total, y, top: m.t - 6, bot: Ht - m.b };
-  miniSync();
-  cancelAnimationFrame(MI_RAF);
-  const P = MI_PREV, reduce = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
-  MI_PREV = ys;
-  if (!P || reduce || P.length !== ys.length) frame(ys);
-  else {
-    const t0 = performance.now(), dur = 260;
-    const step = (now) => { const q = Math.min(1, (now - t0) / dur), k = 1 - Math.pow(1 - q, 3);
-      const Y = ys.map((v, i) => P[i] + (v - P[i]) * k); frame(Y); MI_PREV = Y;
-      if (q < 1) MI_RAF = requestAnimationFrame(step); else MI_PREV = ys; };
-    MI_RAF = requestAnimationFrame(step);
-  }
-  $("mini-desc").textContent = `Small chart: weight goes from ${fmt(w0)} ${u} today to ${fmt(endW)} ${u} at week ${fmt(wks)}.`;
 }
 let CH_PREV = null, CH_RAF = 0;
 function drawChart(R) {
@@ -909,8 +882,11 @@ function drawChart(R) {
     <line x1="${m.l}" x2="${xe}" y1="${S.yEnd}" y2="${S.yEnd}" stroke="#cfd6e0" stroke-width="1.25" stroke-dasharray="4 4"/>
     <path d="${line}" fill="none" stroke="#79b4f6" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
     <circle cx="${xe}" cy="${S.yEnd}" r="5" fill="#2a7ae0" stroke="#e7edf5" stroke-width="1.5"/>
-    ${startLbl}<text x="${xe - 10}" y="${S.yEnd - 11}" text-anchor="end" style="fill:#e7edf5;font-weight:600;paint-order:stroke;stroke:#14171c;stroke-width:4px;stroke-linejoin:round">${fmt(endW)} ${wUnit()} at the end</text>`;
+    ${startLbl}<text x="${xe - 10}" y="${S.yEnd - 11}" text-anchor="end" style="fill:#e7edf5;font-weight:600;paint-order:stroke;stroke:#14171c;stroke-width:4px;stroke-linejoin:round">${fmt(endW)} ${wUnit()} at the end</text><g id="ch-mk"></g>`;
+    chMarker();
   };
+  MI = { R, rows: sampleRows(R), x, y, top: m.t - 6, bot: Ht - m.b };
+  chSync();
   cancelAnimationFrame(CH_RAF);
   const P = CH_PREV, reduce = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
   CH_PREV = T;
@@ -1018,33 +994,33 @@ document.querySelectorAll("[data-preset]").forEach((b) => b.addEventListener("cl
 }));
 let rt; window.addEventListener("resize", () => { clearTimeout(rt); rt = setTimeout(render, 120); });
 
-let MI = null, MI_WK = null;   // MI_WK: week chosen on the mini slider (null = follow the end)
-const MINI_PACES = ["slight", "0.7", "1"], MINI_PACE_TXT = ["Slight: about 0.5 lb of fat a week", "Moderate: 70% of the fastest", "Maximum: the fastest your fat can supply"];
-function miniSync() {
-  const wk = $("mini-wk"), rows = MI.rows, last = rows.length - 1;
+let MI = null, MI_WK = null;   // MI_WK: week chosen on the Week slider (null = start at today)
+const CH_PACES = ["slight", "0.7", "1"], CH_PACE_TXT = ["Slight: about 0.5 lb of fat a week", "Moderate: 70% of the fastest", "Maximum: the fastest your fat can supply"];
+function chSync() {
+  const wk = $("ch-wk"), rows = MI.rows, last = rows.length - 1;
   wk.max = String(last);
   let i = last;
   if (MI_WK != null) { i = rows.findIndex((r) => !r.isEnd && Math.round(r.day / 7) === MI_WK); if (i < 0) i = rows[last].day / 7 <= MI_WK ? last : last; }
   wk.value = String(i);
-  const pv = $("pace").value, pi = MINI_PACES.indexOf(pv), pc = $("mini-pace");
+  const pv = $("pace").value, pi = CH_PACES.indexOf(pv), pc = $("ch-pace");
   if (pi >= 0) pc.value = String(pi);
-  const ptxt = pi >= 0 ? MINI_PACE_TXT[pi] : `Custom: ${fmt(Number($("rate").value), 1)} lb a week (set under Pace below). Slide to pick a preset.`;
-  $("mini-pace-out").textContent = ptxt; pc.setAttribute("aria-valuetext", pi >= 0 ? MINI_PACE_TXT[pi] : "Custom pace");
-  miniMarker();
+  const ptxt = pi >= 0 ? CH_PACE_TXT[pi] : `Custom: ${fmt(Number($("rate").value), 1)} lb a week (set under Pace below). Slide to pick a preset.`;
+  $("ch-pace-out").textContent = ptxt; pc.setAttribute("aria-valuetext", pi >= 0 ? CH_PACE_TXT[pi] : "Custom pace");
+  chMarker();
 }
-function miniRowText(r) {
+function chRowText(r) {
   const u = wUnit(), wkN = r.isEnd ? fmt(r.day / 7) : String(Math.round(r.day / 7));
   const lbl = r.day === 0 ? "Today" : `Week ${wkN}${r.isEnd ? (MI.R.inp.mode === "goal" ? " (goal)" : " (end)") : ""}`;
   return `${lbl}: ${fmt(toDispW(r.weight))} ${u}, ${fmt(100 * r.F / r.weight)}% body fat`;
 }
-function miniMarker() {
-  if (!MI) return; const g = document.getElementById("mini-mk"); const i = Math.min(Number($("mini-wk").value), MI.rows.length - 1), r = MI.rows[i];
-  const t = miniRowText(r); $("mini-read").textContent = t; $("mini-wk").setAttribute("aria-valuetext", t);
+function chMarker() {
+  if (!MI) return; const g = document.getElementById("ch-mk"); const i = Math.min(Number($("ch-wk").value), MI.rows.length - 1), r = MI.rows[i];
+  const t = chRowText(r); $("ch-read").textContent = t; $("ch-wk").setAttribute("aria-valuetext", t);
   if (!g) return; const cx = MI.x(r.day), cy = MI.y(toDispW(r.weight));
   g.innerHTML = `<line x1="${cx}" x2="${cx}" y1="${MI.top}" y2="${MI.bot}" stroke="#79b4f6" stroke-width="1.5" stroke-dasharray="3 3" opacity=".8"/><circle cx="${cx}" cy="${cy}" r="6" fill="#e7edf5" stroke="#2a7ae0" stroke-width="3"/>`;
 }
-$("mini-wk").addEventListener("input", () => { const r = MI && MI.rows[Number($("mini-wk").value)]; MI_WK = !r || r.isEnd ? null : Math.round(r.day / 7); miniMarker(); });
-$("mini-pace").addEventListener("input", () => { $("pace").value = MINI_PACES[Number($("mini-pace").value)]; paintPace(); render(); });
+$("ch-wk").addEventListener("input", () => { const r = MI && MI.rows[Number($("ch-wk").value)]; MI_WK = !r || r.isEnd ? null : Math.round(r.day / 7); chMarker(); });
+$("ch-pace").addEventListener("input", () => { $("pace").value = CH_PACES[Number($("ch-pace").value)]; paintPace(); render(); });
 applyPreset(PRESETS[0]);
 // test hook (read-only)
 window.__fatcalc = { compute: (inp) => compute(inp), RHO, K_DEFAULT };
