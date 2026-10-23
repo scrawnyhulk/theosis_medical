@@ -1,4 +1,4 @@
-//#region node_modules/.nitro/vite/services/ssr/assets/_tanstack-start-manifest_v-j3FVgL4u.js
+//#region node_modules/.nitro/vite/services/ssr/assets/_tanstack-start-manifest_v-DOYe6vl2.js
 var tsrStartManifest = () => ({ routes: {
 	__root__: {
 		filePath: "/workspace/wt-lbfix/src/routes/__root.tsx",
@@ -15,21 +15,21 @@ var tsrStartManifest = () => ({ routes: {
 			"/visits/"
 		],
 		preloads: [
-			"/assets/index-C33lJO6t.js",
+			"/assets/index-3GwsP10l.js",
 			"/assets/minutes-Bq1bFbp2.js",
 			"/assets/preload-helper-DIguSIDb.js"
 		],
 		scripts: [{ attrs: {
 			type: "module",
 			async: !0,
-			src: "/assets/index-C33lJO6t.js"
+			src: "/assets/index-3GwsP10l.js"
 		} }]
 	},
 	"/": {
 		filePath: "/workspace/wt-lbfix/src/routes/index.tsx",
 		children: void 0,
 		preloads: [
-			"/assets/routes-KhQcGfTB.js",
+			"/assets/routes-BOCLUgI6.js",
 			"/assets/arrow-right-6IHlPICY.js",
 			"/assets/site-shell-Bon5fKYP.js",
 			"/assets/input-B5SfOUL3.js",
@@ -44,13 +44,13 @@ var tsrStartManifest = () => ({ routes: {
 	"/privacy": {
 		filePath: "/workspace/wt-lbfix/src/routes/privacy.tsx",
 		children: void 0,
-		preloads: ["/assets/privacy-yoKlHCVd.js", "/assets/site-shell-Bon5fKYP.js"]
+		preloads: ["/assets/privacy-D-OrPg9l.js", "/assets/site-shell-Bon5fKYP.js"]
 	},
 	"/minutes/$slug": {
 		filePath: "/workspace/wt-lbfix/src/routes/minutes/$slug.tsx",
 		children: void 0,
 		preloads: [
-			"/assets/_slug-Di-ALNI-.js",
+			"/assets/_slug-Bv1snlWT.js",
 			"/assets/arrow-left-BF7usVTK.js",
 			"/assets/site-shell-Bon5fKYP.js"
 		]
@@ -59,7 +59,7 @@ var tsrStartManifest = () => ({ routes: {
 		filePath: "/workspace/wt-lbfix/src/routes/provider/$id.tsx",
 		children: void 0,
 		preloads: [
-			"/assets/_id-I_4cIx0s.js",
+			"/assets/_id-BoZcqejz.js",
 			"/assets/arrow-left-BF7usVTK.js",
 			"/assets/arrow-right-6IHlPICY.js",
 			"/assets/site-shell-Bon5fKYP.js",
@@ -71,7 +71,7 @@ var tsrStartManifest = () => ({ routes: {
 		filePath: "/workspace/wt-lbfix/src/routes/visits/$kind.tsx",
 		children: void 0,
 		preloads: [
-			"/assets/_kind-BLQmHuVk.js",
+			"/assets/_kind-C6wDwMtn.js",
 			"/assets/arrow-right-6IHlPICY.js",
 			"/assets/site-shell-Bon5fKYP.js",
 			"/assets/sesame-mark-sXnjFI3m.js",
@@ -93,7 +93,7 @@ var tsrStartManifest = () => ({ routes: {
 		filePath: "/workspace/wt-lbfix/src/routes/provider/index.tsx",
 		children: void 0,
 		preloads: [
-			"/assets/provider-C0rfYDIu.js",
+			"/assets/provider-Buk0-ooD.js",
 			"/assets/arrow-right-6IHlPICY.js",
 			"/assets/site-shell-Bon5fKYP.js",
 			"/assets/playground-banner-D7Bzp4Ze.js"
@@ -103,7 +103,7 @@ var tsrStartManifest = () => ({ routes: {
 		filePath: "/workspace/wt-lbfix/src/routes/visits/index.tsx",
 		children: void 0,
 		preloads: [
-			"/assets/visits-BuPjo5g6.js",
+			"/assets/visits-DV9n5OsA.js",
 			"/assets/arrow-right-6IHlPICY.js",
 			"/assets/site-shell-Bon5fKYP.js",
 			"/assets/sesame-mark-sXnjFI3m.js",

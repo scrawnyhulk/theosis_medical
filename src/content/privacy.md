@@ -11,6 +11,7 @@ Theosis Medical LLC ("we," "us") runs theosismedical.com from Danville, Illinois
 - **Traffic stats.** Netlify, our web host, gives us **aggregate, cookieless** site statistics, such as page views, visitor counts, top pages, and referring sites. They're built from its server logs. We use them only to understand overall site use. They don't identify you, and we don't build individual profiles.
 - **Hosting logs.** Like any web server, Netlify automatically records basic technical data, such as IP address, browser type, and pages requested, to deliver and secure the site. Netlify keeps these logs under its own retention practices.
 - **Fonts.** The site loads fonts from Google Fonts, so your browser sends your IP address to Google to download them. Google handles that data under its own privacy policy.
+- **Video thumbnails.** Some articles show a YouTube video preview image, so your browser contacts YouTube (Google) to load it. If you play a video, YouTube's own privacy policy applies.
 
 ## Copy saved in your browser
 When you fill out a form, your browser saves a copy of what you typed, such as your name, email, and message, in its own local storage on your device. That way you don't lose it. This copy stays on your device and isn't sent to us. To remove it, clear this site's data in your browser settings, for example: Settings, then Privacy, then Site data, then theosismedical.com, then Clear. Using a private or incognito window also works.
@@ -19,7 +20,7 @@ When you fill out a form, your browser saves a copy of what you typed, such as y
 The site has no user accounts or logins. We use **no cookies, advertising, tracking pixels, session replay, or third-party trackers**.
 
 ## Sharing
-We don't sell personal information or share it for advertising. The service providers named above (FormSubmit, the mobile carrier's text service, Microsoft 365/GoDaddy, Netlify, and Google Fonts) handle it only as needed to provide their services. We don't otherwise disclose it unless the law requires us to.
+We don't sell personal information or share it for advertising. The service providers named above (FormSubmit, the mobile carrier's text service, Microsoft 365/GoDaddy, Netlify, Google Fonts, and YouTube) handle it only as needed to provide their services. We don't otherwise disclose it unless the law requires us to.
 
 ## How long we keep it
 - Contact-form messages: up to **2 years**, then deleted.
