@@ -69,10 +69,10 @@ exports.handler = async (event) => {
     }
     const d = out.part.inlineData || out.part.inline_data, mime = d.mimeType || d.mime_type || "image/png";
     if (!/^image\/(png|jpeg|webp)$/.test(mime)) return json(502, { error: "The image service returned something unexpected. Please try again.", code: "unreadable" }, corsOrigin);
-    return json(200, { image: `data:${mime};base64,${d.data}`, model: AIM.MODELS().image, label: "AI illustration, not a prediction" }, corsOrigin);
+    return json(200, { image: `data:${mime};base64,${d.data}`, model: AIM.MODELS().image, label: "AI images are illustrations, not predictions" }, corsOrigin);
   } catch (e) {
     slot.release();
-    console.error("preview failed:", e && e.code, e && e.status, e && e.detail ? String(e.detail).slice(0, 200) : (e && e.message));
+    console.error("preview failed:", (e && typeof e.code === "string" && e.code) || "failed", e && e.status ? e.status : "");   // v7.6.76 BIPA: code/status only, never upstream text (could echo prompt or describe the photo)
     const x = AIM.explainError("preview", e && (e.code || e.status) ? e : Object.assign(new Error((e && e.message) || "unknown"), { code: "failed" }), event);
     return json(x.status, { error: x.message, code: x.code, upstreamStatus: (e && e.status) || undefined }, corsOrigin);
   }

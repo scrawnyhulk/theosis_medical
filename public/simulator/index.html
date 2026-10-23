@@ -1504,7 +1504,7 @@ li.fx-fav{box-shadow:inset 3px 0 0 #f5c542;background:linear-gradient(90deg,rgba
 .consent-v2 .check.consent-big{display:flex;gap:.8rem;align-items:flex-start;margin:.8rem 0;padding:.75rem .85rem;min-height:48px;border-radius:10px;background:rgba(42,122,224,.12);box-shadow:0 0 0 1px rgba(121,180,246,.45);cursor:pointer}
 .consent-v2 .check.consent-big input{width:28px!important;height:28px!important;margin:.1rem 0 0;flex:0 0 auto;accent-color:#2a7ae0}
 .consent-v2 .check input:disabled+span{opacity:.6}
-.consent-ul{margin:.4rem 0 .4rem 1.1rem;padding:0}.consent-bipa,.consent-bipa-box{display:block;margin:.4rem 0}
+.consent-ul{margin:.4rem 0 .4rem 1.1rem;padding:0}.consent-bipa,.consent-bipa-box{display:block;margin:.4rem 0}#bipa-dlg .consent-form{padding:4px 10px}#bipa-dlg{max-width:min(640px,calc(100vw - 24px));padding:22px 20px 18px!important;box-sizing:border-box}.bipa-dlg h2{margin:0 0 .6rem}.bipa-dlg .consent-actions{display:flex;flex-wrap:wrap;gap:10px;justify-content:flex-end;margin-top:.8rem}.bipa-dlg .bipa-body{font-size:1.05rem;line-height:1.5}.bipa-dlg #bipa-go:disabled{opacity:.45;cursor:not-allowed}
 .consent-no{display:flex;justify-content:flex-end}.consent-no .btn,.consent-summary .btn,.consent-v2 .consent-actions .btn{min-height:48px;min-width:48px;font-size:1rem}
 .consent-v2 .consent-foot{padding:.6rem 1.4rem 1.2rem;border-top:1px solid rgba(255,255,255,.12)}
 .consent-summary{list-style:none;margin:.3rem 0 .6rem;padding:0;display:grid;gap:.45rem}
@@ -1548,7 +1548,7 @@ body{background-color:var(--bg);background-image:var(--app-bg-image);background-
    and for lab upload / AI reading. Version + timestamp are logged locally (no server). Re-prompts when CONSENT_VERSION changes.
    window.TheosisConsent: {VERSION, get(), has(optIn), open(manage), onChange(fn)} */
 (function () {
-  const VERSION = "2026-10-22c", KEY = "theosis-consent", LOG = "theosis-consent-log";
+  const BIPA_VERSION = "bipa-2026-10-22-final", VERSION = "2026-10-22c", KEY = "theosis-consent", LOG = "theosis-consent-log";
   const REQ = [
     ["advice", "Education only, not medical advice", "I understand this tool is for <b>education only</b>. It is <b>not medical advice</b>, diagnosis or treatment, and using it does <b>not</b> create a clinician–patient (doctor–patient) relationship with Nick Holwey, PA-C, Theosis Health, or Theosis Medical. It is not a substitute for care from your own clinician, and I won't change diabetes, blood-pressure or other medicines because of it."],
     ["estimates", "Estimates and illustrations", "I understand results, health milestones and body or organ pictures are <b>estimates and illustrations</b> based on population research, not measurements or predictions for me."],
@@ -1559,7 +1559,7 @@ body{background-color:var(--bg);background-image:var(--app-bg-image);background-
   const OPT = [
     ["ai", "AI features (optional)", "I agree that when I use an AI feature, what I type or the food photo I choose, including any health details I enter, is sent to Google Gemini (paid tier) only to answer that request. Photos are resized and stripped of location data on my device first. It isn't stored by Theosis Health or used to train AI models; Google may keep it briefly for abuse monitoring under its terms. I won't include other people's information or photos of people. AI answers are general education, not medical advice, and can be wrong, so I'll check them before relying on them. I can turn this off anytime in settings."],
     ["photoAi", "Photos and AI images (optional)", "I agree that photos I choose to add are processed <b>on this device</b> to fit the 3D figure. If I ask for an AI illustration, that one photo and my projected numbers are sent to a third-party AI provider (Google Gemini, paid tier) to make it. Along with the numbers, a few plan details are sent as fixed categories: my age and height, calorie level, steps, which muscle groups I train, my fat-storage pattern, and any measured visceral or under-the-skin fat values I entered. <b>Not stored by Theosis Health. Google may keep it briefly for abuse monitoring under its paid API terms and doesn't use it to train AI.</b> My name, lab results, medications and ancestry are <b>not</b> sent."],
-    ["biometric", "Biometric consent (required for photo features)", "<span class=\"consent-bipa\">To create the AI illustrations you request, your photo (which may show your face and body) is resized on your device, with its location data removed, and sent to our AI processor. Illinois and some other states treat this as <b>biometric information</b>.</span><ul class=\"consent-ul\"><li><b>Purpose:</b> only to make the illustrations you request. No facial recognition or identification.</li><li><b>Where it goes:</b> your photo is resized on your device, its location data (EXIF/GPS) is removed, and it is sent to our processor, Google (Gemini API, paid tier), which doesn't use it for training. We don't store it on our servers.</li><li><b>How long:</b> saved photos stay on your device until you delete them. Everything is destroyed when the purpose is done, or within 3 years of your last use at most.</li><li><b>Never sold.</b> We never sell or profit from it.</li></ul><span class=\"consent-bipa\">Full details: <a href=\"#privacy\" data-info=\"privacy\">Privacy Policy, Section 3</a>.</span><span class=\"consent-bipa-box\"><b>I am 18 or older, these are photos of me, and I give my written consent (a written release) for Theosis Health LLC to collect and use my biometric information as described above and in the Privacy Policy. I can withdraw consent anytime.</b></span>"],
+    ["biometric", "Biometric consent (required for photo features)", "<span class=\"consent-bipa\">To create the AI illustrations you request, your photo (which may show your face and body) is resized on your device, with its location data removed, and sent to our AI processor. Illinois and some other states treat this as <b>biometric information</b>.</span><ul class=\"consent-ul\"><li><b>Purpose:</b> only to make the illustrations you request. No facial recognition or identification.</li><li><b>Where it goes:</b> your photo is resized on your device, its location data (EXIF/GPS) is removed, and it is sent to our processor, Google (Gemini API, paid tier), which doesn't use it for training and may keep it briefly for abuse monitoring under its terms. We don't store it on our servers.</li><li><b>How long:</b> saved photos stay on your device until you delete them. Everything is destroyed when the purpose is done, or within 3 years of your last use at most.</li><li><b>Never sold.</b> We never sell or profit from it.</li></ul><span class=\"consent-bipa\">Full details: <a href=\"#privacy\" data-info=\"privacy\">Privacy Policy, Section 3</a>.</span><span class=\"consent-bipa-box\"><b>I am 18 or older, these are photos of me, and I give my written consent (a written release) for Theosis Health LLC to collect and use my biometric information as described above and in the Privacy Policy. I can withdraw consent anytime.</b></span>"],
     ["labAi", "Lab upload and AI reading (optional)", "I agree that a lab report I choose to upload is sent to a third-party AI provider (Google Gemini, paid tier) only to read the values. <b>Not stored by Theosis Health. Google may keep it briefly for abuse monitoring under its paid API terms and doesn't use it to train AI.</b> I'll check the values before they're used, and I can always type them in by hand instead."],
   ];
   const read = () => { try { return JSON.parse(localStorage.getItem(KEY) || "null"); } catch (e) { return null; } };
@@ -1569,6 +1569,7 @@ body{background-color:var(--bg);background-image:var(--app-bg-image);background-
   const subs = []; const onChange = (fn) => subs.push(fn);
   function save(opt) {
     const c = { version: VERSION, ts: new Date().toISOString(), req: true, required: REQ.map((r) => r[0]), agreement: "single-checkbox", opt };
+    if (opt && opt.biometric && opt.photoAi) { const p0 = read(); c.bipa = p0 && p0.bipa && p0.bipa.version === BIPA_VERSION && p0.opt && p0.opt.biometric ? p0.bipa : { version: BIPA_VERSION, ts: c.ts, adult: true }; }
     try { localStorage.setItem(KEY, JSON.stringify(c)); const log = JSON.parse(localStorage.getItem(LOG) || "[]"); log.push({ version: c.version, ts: c.ts, opt }); localStorage.setItem(LOG, JSON.stringify(log.slice(-50))); } catch (e) {}
     subs.forEach((f) => { try { f(c); } catch (e) {} }); return c;
   }
@@ -1676,6 +1677,23 @@ body{background-color:var(--bg);background-image:var(--app-bg-image);background-
     if (!keys.some((x) => c.opt && c.opt[x] === true)) return false;   // never granted: nothing to withdraw, no dialog
     return then(confirmFn(`Withdraw consent for ${name(keys[0])}? This turns it off and deletes ${what(keys[0])} stored on this device.`, "Yes, turn off and delete", "No, keep it on"), (ok) => { if (!ok) return false;
     const opt = Object.assign({}, c.opt); keys.forEach((x) => (opt[x] = false)); save(opt); keys.forEach(fire); return true; }); }
+
+  /** v7.6.76: BIPA written release (Lawyer Bot final text). Shown before any camera or file picker opens. go() runs inside the Continue click so the picker still opens. */
+  const BIPA_BODY = `<p>To create the AI illustrations you request, your photo (which may show your face and body) is resized on your device, with its location data removed, and sent to our AI processor. Illinois and some other states treat this as <b>biometric information</b>.</p><ul class="consent-ul"><li><b>Purpose:</b> only to make the illustrations you request. No facial recognition or identification.</li><li><b>Where it goes:</b> your photo is resized on your device, its location data (EXIF/GPS) is removed, and it is sent to our processor, Google (Gemini API, paid tier), which doesn't use it for training and may keep it briefly for abuse monitoring under its terms. We don't store it on our servers.</li><li><b>How long:</b> saved photos stay on your device until you delete them. Everything is destroyed when the purpose is done, or within 3 years of your last use at most.</li><li><b>Never sold.</b> We never sell or profit from it.</li></ul><p>Full details: <a href="#privacy" data-info="privacy">Privacy Policy, Section 3</a>.</p>`;
+  const BIPA_BOX = "I am 18 or older, these are photos of me, and I give my written consent (a written release) for Theosis Health LLC to collect and use my biometric information as described above and in the Privacy Policy. I can withdraw consent anytime.";
+  function photoGate(go, onNo) {
+    if (!photoAvail()) return false; const c = get(); if (!c) { open(false); return false; }
+    if (c.opt && c.opt.photoAi && c.opt.biometric) { go(); return true; }
+    let d = document.getElementById("bipa-dlg"); if (d) d.remove();
+    d = document.createElement("dialog"); d.id = "bipa-dlg"; d.className = "info-dlg consent-dlg bipa-dlg"; d.setAttribute("aria-labelledby", "bipa-title");
+    d.innerHTML = `<div class="consent-form"><h2 id="bipa-title">Biometric consent (required for photo features)</h2><div class="bipa-body">${BIPA_BODY}</div><label class="check consent-big"><input type="checkbox" id="bipa-chk"><span><b>${BIPA_BOX}</b></span></label><div class="consent-actions"><button type="button" class="btn btn-ghost" id="bipa-no">No thanks, use without photos</button><button type="button" class="btn btn-primary" id="bipa-go" disabled>Continue</button></div></div>`;
+    const chkEl = d.querySelector("#bipa-chk"), goEl = d.querySelector("#bipa-go"); chkEl.checked = false;
+    chkEl.addEventListener("change", () => { goEl.disabled = !chkEl.checked; });
+    const end = () => { try { d.close(); } catch (e) {} d.remove(); };
+    goEl.addEventListener("click", () => { if (!chkEl.checked) return; const cur = get() || c; save(Object.assign({}, cur.opt, { photoAi: true, biometric: true })); end(); go(); });
+    d.querySelector("#bipa-no").addEventListener("click", () => { end(); if (onNo) onNo(); });
+    d.addEventListener("cancel", (e) => { e.preventDefault(); end(); if (onNo) onNo(); });
+    document.body.appendChild(d); try { d.showModal(); } catch (e) { d.setAttribute("open", ""); } chkEl.focus(); return false; }
   /** Inline "it's off because you didn't consent" prompt with a button that opens that consent. */
   const lockHtml = (k, feature) => `<div class="consent-lock consent-lock2" role="status"><p><b>${feature} is off</b> because ${k === "photo" ? "face and body photo consent" : k === "labAi" ? "lab upload consent" : "AI features"} ${k === "ai" ? "weren't" : "wasn't"} turned on when you agreed to the terms. Nothing was sent.</p><button type="button" class="btn btn-primary" data-consent="${k}">Review and turn on</button></div>`;
   function init() {
@@ -1684,7 +1702,7 @@ body{background-color:var(--bg);background-image:var(--app-bg-image);background-
   }
   /** v7.6.67: the stored consent record the server checks (sent only when the person actually turned AI features on). */
   const proof = (photo) => { const c = get(); if (!c || !c.opt || !c.opt.ai) return null; const p = { ai: true, version: c.version, ts: c.ts }; if (photo) Object.assign(p, { photoAi: !!(c.opt.photoAi && c.opt.biometric), biometric: !!c.opt.biometric, adult: true }); return p; };
-  window.TheosisConsent = { VERSION, get, has, proof, open, onChange, onRevoke, save, withdraw, lockHtml, REQ, OPT, isOn, STEPS: () => optK(), STEP, setPhotoAvailable: (v) => { photoOn = !!v; if (dlg && dlg.open) { paintSteps(dlg); dlg._sync(); } }, photoAvailable: photoAvail, setConfirm: (f) => { confirmFn = f; } };
+  window.TheosisConsent = { VERSION, BIPA_VERSION, photoGate, get, has, proof, open, onChange, onRevoke, save, withdraw, lockHtml, REQ, OPT, isOn, STEPS: () => optK(), STEP, setPhotoAvailable: (v) => { photoOn = !!v; if (dlg && dlg.open) { paintSteps(dlg); dlg._sync(); } }, photoAvailable: photoAvail, setConfirm: (f) => { confirmFn = f; } };
   // v7.6.68: this script now sits at the top of <body>, so open the consent screen right away instead of waiting for the whole page
   if (document.body) init(); else if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init); else init();
 })();
@@ -4957,7 +4975,7 @@ return { KEY, MEALS, MEAL_IDS, dateKey, addDays, isDate, mealFor, empty, normali
       <h3>Consumer health data (Washington My Health My Data Act and similar state laws)</h3>
       <p>Health information you enter is consumer health data. We collect only what you type or upload, use it only to show you your results, keep it on your device by default, and never sell it. You can delete it at any time (Start over, or clear site data), and you can withdraw consent in <a href="#" data-consent>Consent settings</a>.</p>
       <h3>Biometric information (Illinois BIPA and similar laws)</h3>
-      <p>Photo features estimate body-shape landmarks. We ask for written consent first, use it only to draw your figure or AI illustration, never sell or profit from it, and destroy it when you delete it or after processing. Our retention limit is 3 years from your last use at most.</p>
+      <p>Photo features estimate body-shape landmarks. We ask for written consent first, use it only to draw your figure or AI illustration, never sell or profit from it, and destroy it when you delete it or when the purpose is done. It is not stored by Theosis Health; Google may keep it briefly for abuse monitoring. Our retention limit is 3 years from your last use at most.</p>
       <h3>Breach notification</h3>
       <p>If identifiable health information we hold is ever breached, we will notify you and the FTC as the FTC Health Breach Notification Rule requires.</p>
       <p class="hint">Template wording for attorney review.</p>
@@ -8172,7 +8190,7 @@ function renderAi() {
   </div>
   <div class="actions"><button type="button" class="btn btn-primary" id="ai-go" ${aiState.adult && aiState.consent && !aiState.busy ? "" : "disabled"}>${aiState.busy ? "Creating…" : "Create AI illustration"}</button></div>
   <div id="ai-out" aria-live="polite">${aiState.error ? `<ul class="alerts"><li class="alert danger">${ICON.warn}<span>${esc(aiState.error)}</span></li></ul>` : ""}${aiState.result ? `<div class="ai-grid"><figure><img src="${photo}" alt="Your photo, before"><span class="ai-label">${B.c ? `Week ${B.c.week} · your check-in` : "Before · your photo"}</span><figcaption>${fW(pj.startWeightKg)} · ${pj.startBf}% body fat</figcaption></figure>
-    <figure><img src="${aiState.result.image}" alt="${aiState.result.demo ? "Demo placeholder image" : "AI illustration of projected result"}"><span class="ai-label">AI illustration, not a prediction</span><figcaption>You at week ${aiState.result.pj.weeks} (${aiState.result.pj.date}): ${fW(aiState.result.pj.endWeightKg)} · ${aiState.result.pj.endBf}% body fat</figcaption></figure></div>
+    <figure><img src="${aiState.result.image}" alt="${aiState.result.demo ? "Demo placeholder image" : "AI illustration of projected result"}"><span class="ai-label">AI images are illustrations, not predictions</span><figcaption>You at week ${aiState.result.pj.weeks} (${aiState.result.pj.date}): ${fW(aiState.result.pj.endWeightKg)} · ${aiState.result.pj.endBf}% body fat</figcaption></figure></div>
     ${aiState.result.demo ? `<p class="hint mt1">Demo mode: no AI service is connected yet, so this is a labeled placeholder made in your browser. Nothing was sent anywhere.</p>` : ""}` : ""}</div>`;
   aiRenderStages(); syncSummaryAi();
 }
@@ -8424,8 +8442,8 @@ function bindCrop() {
       stopCam(); const img = new Image(); img.onload = () => openCrop(img); img.src = c.toDataURL("image/jpeg", 0.92); return; }
     photo = $("#crop-canvas").toDataURL("image/jpeg", 0.88); aiState.result = null; dlg().close(); renderPhoto(); update();
   });
-  $("#btn-upload").addEventListener("click", () => $("#file-photo").click());
-  $("#btn-camera").addEventListener("click", () => { const C = window.TheosisConsent; if (C && !(C.photoAvailable() && C.has("photoAi") && C.has("biometric"))) { paintConsentLocks(true); return; } openCamera(); });   // v7.6.66: the live camera needed the same consent as file upload
+  $("#btn-upload").addEventListener("click", () => { const C = window.TheosisConsent; if (C && C.photoGate) { if (!C.photoAvailable()) { paintConsentLocks(true); return; } C.photoGate(() => $("#file-photo").click()); return; } $("#file-photo").click(); });
+  $("#btn-camera").addEventListener("click", () => { const C = window.TheosisConsent; if (C && C.photoGate) { if (!C.photoAvailable()) { paintConsentLocks(true); return; } C.photoGate(openCamera); return; } openCamera(); });   // v7.6.66: the live camera needed the same consent as file upload
   ["#file-photo", "#file-camera"].forEach((id) => { const el = $(id); if (el) el.addEventListener("click", (ev) => { const C = window.TheosisConsent; if (C && !(C.photoAvailable() && C.has("photoAi") && C.has("biometric"))) { ev.preventDefault(); paintConsentLocks(true); } }); });
   document.addEventListener("change", (ev) => { if (ev.target && ev.target.id === "lu-file") { const f = ev.target.files[0]; ev.target.value = ""; labUpload(f); } });
   $("#file-photo").addEventListener("change", (ev) => { loadFile(ev.target.files[0]); ev.target.value = ""; });
@@ -8639,7 +8657,7 @@ function aiRenderStages() {
   const G = AI.stages, sp = stagePlan(), locked = !aiConsentOk() || !(window.TheosisConsent && TheosisConsent.has("photoAi") && TheosisConsent.has("biometric")), runsLeft = aiLeft("stageRuns"), imgLeft = aiLeft("stageImages"), has = !!photo;
   const rows = sp.ok ? sp.pts.map((q) => `<tr><td>Week ${Math.round(q.weeks)}</td><td>${fW(q.endWeightKg)}</td><td>${fP(q.endBf)}</td><td>${fWd(q.fatChangeKg)}</td><td>${fWd(q.leanChangeKg)}</td></tr>`).join("") : "";
   const frames = G.frames.map((f) => `<figure class="ai-stage${f.err ? " is-err" : ""}">${f.img ? `<img src="${f.img}" alt="${f.start ? "Your starting photo" : `AI illustration of you at week ${f.week}`}">` : `<div class="ai-stage-ph">${f.err ? esc(f.err) : "Creating…"}</div>`}
-    <span class="ai-label">${f.start ? "Start · your photo" : "AI illustration, not a prediction"}</span>
+    <span class="ai-label">${f.start ? "Start · your photo" : "AI images are illustrations, not predictions"}</span>
     <figcaption><b>${f.start ? "Start" : `Week ${f.week}`}</b> · ${esc(f.numbers)}${f.start || !f.img ? "" : `<small>AI illustration based on your projected numbers, not a prediction.</small>`}</figcaption></figure>`).join("");
   box.innerHTML = `<hr class="soft"><div class="ai-stages"><div class="ai-food-h"><b>See yourself at each stage</b> ${aiTag("aiStages")}</div>
     <p class="muted small">The AI redraws your starting photo at checkpoints along <em>your</em> plan, using the body fat % and muscle change the simulator projects for each week. Same person, pose, background and clothing. It's an illustration, not a prediction: real bodies at the same body fat look different, and AI can exaggerate or change details.</p>
@@ -9244,7 +9262,7 @@ function init() {
   ["#file-ci", "#file-ci-cam"].forEach((id) => $(id).addEventListener("change", (ev) => { const f = ev.target.files[0]; ev.target.value = ""; ciAddFile(f); }));
   $("#file-ci-import").addEventListener("change", (ev) => { const f = ev.target.files[0]; ev.target.value = ""; if (f) ciImport(f); });
   $("#ai-card").addEventListener("click", async (ev) => { const t = ev.target.closest("button"); if (!t) return;
-    if (t.id === "ci-add") $("#file-ci").click(); else if (t.id === "ci-add-cam") $("#file-ci-cam").click(); else if (t.id === "ci-import") $("#file-ci-import").click(); else if (t.id === "ci-export") ciExport();
+    if (t.id === "ci-add" || t.id === "ci-add-cam") { const C = window.TheosisConsent, f = () => $(t.id === "ci-add" ? "#file-ci" : "#file-ci-cam").click(); if (C && C.photoGate) C.photoGate(f); else f(); } else if (t.id === "ci-import") $("#file-ci-import").click(); else if (t.id === "ci-export") ciExport();
     else if (t.id === "ci-save") await ciSaveDraft(); else if (t.id === "ci-cancel") { CI.draft = null; renderCheckins(); }
     else if (t.id === "ci-clear") { if (confirm("Remove all check-in photos from this device?")) { await ciClearAll(); CI.msg = "All check-ins removed."; aiState.result = null; renderAi(); } }
     else if (t.dataset.ciDel) { await ciDel(t.dataset.ciDel); CI.msg = "Check-in removed from this device."; aiState.result = null; renderAi(); } });
