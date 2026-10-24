@@ -1,4 +1,4 @@
-//#region ../wt-lbfix/node_modules/.nitro/vite/services/ssr/assets/minutes-Da8RSnvs.js
+//#region ../../workspace/wt-lbfix/node_modules/.nitro/vite/services/ssr/assets/minutes-Da8RSnvs.js
 var site = {
 	name: "Theosis Medical",
 	title: "Nick Holwey, PA-C — Theosis Medical",

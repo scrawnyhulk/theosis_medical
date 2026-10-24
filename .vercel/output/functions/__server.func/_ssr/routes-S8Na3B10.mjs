@@ -8,7 +8,7 @@ import { i as string, r as object } from "../_libs/zod.mjs";
 import { n as SiteShell, r as cn, t as Button } from "./site-shell-Bw68PF2z.mjs";
 import { t as Textarea } from "./textarea-C3BgzGjK.mjs";
 import { t as Input } from "./input-CCiC4azS.mjs";
-//#region ../wt-lbfix/node_modules/.nitro/vite/services/ssr/assets/routes-S8Na3B10.js
+//#region ../../workspace/wt-lbfix/node_modules/.nitro/vite/services/ssr/assets/routes-S8Na3B10.js
 var import_react = /* @__PURE__ */ __toESM(require_react());
 var import_jsx_runtime = require_jsx_runtime();
 function AboutParagraph({ text }) {

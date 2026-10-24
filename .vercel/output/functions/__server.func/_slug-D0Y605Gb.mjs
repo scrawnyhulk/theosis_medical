@@ -4,9 +4,9 @@ import { r as require_react } from "./_libs/@hookform/resolvers+[...].mjs";
 import { b as Link } from "./_libs/@tanstack/react-router+[...].mjs";
 import { i as require_jsx_runtime } from "./_libs/@radix-ui/react-label+[...].mjs";
 import { D as ChevronLeft, E as ChevronRight, b as ExternalLink, d as Play, j as ArrowLeft, n as ZoomOut, t as ZoomIn, x as Download } from "./_libs/lucide-react.mjs";
-import { i as Route$5 } from "./_ssr/router-TGetXzAp.mjs";
+import { i as Route$5 } from "./_ssr/router-C0_wG8hh.mjs";
 import { n as SiteShell, r as cn, t as Button } from "./_ssr/site-shell-Bw68PF2z.mjs";
-//#region ../wt-lbfix/node_modules/.nitro/vite/services/ssr/assets/_slug-CNVIAdpK.js
+//#region ../../workspace/wt-lbfix/node_modules/.nitro/vite/services/ssr/assets/_slug-D0Y605Gb.js
 var import_react = /* @__PURE__ */ __toESM(require_react());
 var import_jsx_runtime = require_jsx_runtime();
 function fileNameFromSrc(src) {
@@ -392,16 +392,6 @@ function MinutePage() {
 					className: "mt-8 font-display text-3xl font-semibold text-accent",
 					children: minute.group === "interactive" ? "Interactive physiology" : minute.n
 				}),
-				minute.slug === "create-diabetic" ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-					className: "mt-2 text-base",
-					children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("a", {
-						href: "https://theosishealth.com/simulator/pft-inside/",
-						target: "_blank",
-						rel: "noopener noreferrer",
-						className: "font-medium text-accent underline underline-offset-4 hover:text-fg",
-						children: "See the Personal Fat Threshold slider on theosishealth.com →"
-					})
-				}) : null,
 				/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h1", {
 					className: "mt-2 font-display text-4xl font-semibold tracking-wide sm:text-5xl",
 					children: minute.title

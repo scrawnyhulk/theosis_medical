@@ -5,7 +5,7 @@ import { A as ArrowRight, c as Star } from "../_libs/lucide-react.mjs";
 import { n as SiteShell } from "./site-shell-Bw68PF2z.mjs";
 import { t as PlaygroundBanner } from "./playground-banner-DFA6sTNb.mjs";
 import { t as SesameMark } from "./sesame-mark-zKxQdq97.mjs";
-//#region ../wt-lbfix/node_modules/.nitro/vite/services/ssr/assets/visits-BberB8Hg.js
+//#region ../../workspace/wt-lbfix/node_modules/.nitro/vite/services/ssr/assets/visits-BberB8Hg.js
 var import_jsx_runtime = require_jsx_runtime();
 function VisitsHub() {
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(SiteShell, { children: [

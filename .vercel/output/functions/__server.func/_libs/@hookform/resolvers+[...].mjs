@@ -1,5 +1,5 @@
 import { i as __toESM, t as __commonJSMin } from "../../_runtime.mjs";
-//#region ../wt-lbfix/node_modules/react/cjs/react.production.js
+//#region ../../workspace/wt-lbfix/node_modules/react/cjs/react.production.js
 /**
 * @license React
 * react.production.js
@@ -375,12 +375,12 @@ var require_react_production = /* @__PURE__ */ __commonJSMin(((exports) => {
 	exports.version = "19.2.8";
 }));
 //#endregion
-//#region ../wt-lbfix/node_modules/react/index.js
+//#region ../../workspace/wt-lbfix/node_modules/react/index.js
 var require_react = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 	module.exports = require_react_production();
 }));
 //#endregion
-//#region ../wt-lbfix/node_modules/react-hook-form/dist/index.esm.mjs
+//#region ../../workspace/wt-lbfix/node_modules/react-hook-form/dist/index.esm.mjs
 var import_react = /* @__PURE__ */ __toESM(require_react(), 1);
 var isCheckBoxInput = (element) => element.type === "checkbox";
 var isFileInput = (element) => element.type === "file";
@@ -2183,7 +2183,7 @@ function useForm(props = {}) {
 	return _formControl.current;
 }
 //#endregion
-//#region ../wt-lbfix/node_modules/@hookform/resolvers/dist/resolvers.mjs
+//#region ../../workspace/wt-lbfix/node_modules/@hookform/resolvers/dist/resolvers.mjs
 var t$1 = (r, t, s) => {
 	if (r && "reportValidity" in r) {
 		const o = get(s, t);
@@ -2216,7 +2216,7 @@ function n(e) {
 	return e.replace(/\[(\d+)]/g, ".$1").replace(/[[\]]/g, "");
 }
 //#endregion
-//#region ../wt-lbfix/node_modules/@hookform/resolvers/zod/dist/zod.mjs
+//#region ../../workspace/wt-lbfix/node_modules/@hookform/resolvers/zod/dist/zod.mjs
 function o() {
 	return o = Object.assign ? Object.assign.bind() : function(r) {
 		for (var e = 1; e < arguments.length; e++) {

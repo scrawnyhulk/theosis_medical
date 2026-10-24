@@ -63,18 +63,6 @@ function MinutePage() {
             <p className="mt-8 font-display text-3xl font-semibold text-accent">
               {minute.group === "interactive" ? "Interactive physiology" : minute.n}
             </p>
-            {minute.slug === "create-diabetic" ? (
-              <p className="mt-2 text-base">
-                <a
-                  href="https://theosishealth.com/simulator/pft-inside/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="font-medium text-accent underline underline-offset-4 hover:text-fg"
-                >
-                  See the Personal Fat Threshold slider on theosishealth.com →
-                </a>
-              </p>
-            ) : null}
             <h1 className="mt-2 font-display text-4xl font-semibold tracking-wide sm:text-5xl">
               {minute.title}
             </h1>

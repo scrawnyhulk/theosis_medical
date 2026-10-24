@@ -6,7 +6,7 @@ import { a as defaultSerovalDeserializerPlugins, i as createRawStreamRPCPlugin, 
 import { i as require_jsx_runtime } from "../_libs/@radix-ui/react-label+[...].mjs";
 import { n as toResponse, t as H3Event } from "../_libs/h3-v2+rou3.mjs";
 import { AsyncLocalStorage } from "node:async_hooks";
-//#region ../wt-lbfix/node_modules/.nitro/vite/services/ssr/index.js
+//#region ../../workspace/wt-lbfix/node_modules/.nitro/vite/services/ssr/index.js
 var ssr_exports = /* @__PURE__ */ __exportAll({
 	createServerEntry: () => createServerEntry,
 	default: () => server_default
@@ -102,7 +102,7 @@ var HEADERS = { TSS_SHELL: "X-TSS_SHELL" };
 * the dev styles URL for route-scoped CSS collection.
 */
 async function getStartManifest(matchedRoutes) {
-	const { tsrStartManifest } = await import("../_tanstack-start-manifest_v-BOeF0h32.mjs");
+	const { tsrStartManifest } = await import("../_tanstack-start-manifest_v-D0FYTMOI.mjs");
 	const startManifest = tsrStartManifest();
 	let routes = startManifest.routes;
 	routes[rootRouteId];
@@ -1343,9 +1343,9 @@ var getBaseManifest = getProdBaseManifest;
 var createEarlyHintsForRequest = createEarlyHintsCollector;
 async function loadEntries() {
 	const [routerEntry, startEntry, pluginAdapters] = await Promise.all([
-		import("./router-TGetXzAp.mjs").then((n) => n.t),
-		import("./start-Cr1x03EY.mjs"),
-		import("./empty-plugin-adapters-BYkDVs8g.mjs")
+		import("./router-C0_wG8hh.mjs").then((n) => n.t),
+		import("./start-C4Jzoi6M.mjs"),
+		import("./empty-plugin-adapters-CSiQTwLn.mjs")
 	]);
 	return {
 		routerEntry,

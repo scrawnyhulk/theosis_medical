@@ -6,7 +6,7 @@ import { i as require_jsx_runtime, n as require_react_dom, r as Slot } from "../
 import { C as ClipboardList, O as ChevronDown, S as Clock, T as CirclePlay, _ as Map, c as Star, g as MessageCircle, o as User, r as X, u as Search, v as Mail, w as CircleUser, y as Heart } from "../_libs/lucide-react.mjs";
 import { n as clsx, t as cva } from "../_libs/class-variance-authority+clsx.mjs";
 import { t as twMerge } from "../_libs/tailwind-merge.mjs";
-//#region ../wt-lbfix/node_modules/.nitro/vite/services/ssr/assets/site-shell-Bw68PF2z.js
+//#region ../../workspace/wt-lbfix/node_modules/.nitro/vite/services/ssr/assets/site-shell-Bw68PF2z.js
 var import_react = /* @__PURE__ */ __toESM(require_react());
 var import_jsx_runtime = require_jsx_runtime();
 var import_react_dom = /* @__PURE__ */ __toESM(require_react_dom());

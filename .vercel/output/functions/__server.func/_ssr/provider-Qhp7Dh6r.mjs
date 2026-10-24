@@ -6,7 +6,7 @@ import { i as require_jsx_runtime } from "../_libs/@radix-ui/react-label+[...].m
 import { A as ArrowRight } from "../_libs/lucide-react.mjs";
 import { n as SiteShell, t as Button } from "./site-shell-Bw68PF2z.mjs";
 import { t as PlaygroundBanner } from "./playground-banner-DFA6sTNb.mjs";
-//#region ../wt-lbfix/node_modules/.nitro/vite/services/ssr/assets/provider-Qhp7Dh6r.js
+//#region ../../workspace/wt-lbfix/node_modules/.nitro/vite/services/ssr/assets/provider-Qhp7Dh6r.js
 var import_react = /* @__PURE__ */ __toESM(require_react());
 var import_jsx_runtime = require_jsx_runtime();
 function ProviderHome() {

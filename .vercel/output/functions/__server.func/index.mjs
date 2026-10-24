@@ -2,7 +2,7 @@ globalThis.__nitro_main__ = import.meta.url;
 import { i as toEventHandler, n as HTTPError, o as NodeResponse, r as defineLazyEventHandler, t as H3Core } from "./_libs/h3+rou3+srvx.mjs";
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
-//#region ../wt-lbfix/node_modules/nitro/dist/runtime/internal/route-rules.mjs
+//#region ../../workspace/wt-lbfix/node_modules/nitro/dist/runtime/internal/route-rules.mjs
 var headers = ((m) => function headersRouteRule(event) {
 	for (const [key, value] of Object.entries(m.options || {})) event.res.headers.set(key, value);
 });
@@ -482,7 +482,7 @@ var findRoute = /* @__PURE__ */ (() => {
 })();
 var globalMiddleware = [toEventHandler(grokPwaMiddleware)].filter(Boolean);
 //#endregion
-//#region ../wt-lbfix/node_modules/nitro/dist/runtime/internal/error/prod.mjs
+//#region ../../workspace/wt-lbfix/node_modules/nitro/dist/runtime/internal/error/prod.mjs
 var errorHandler = (error, event) => {
 	const res = defaultHandler(error, event);
 	return new NodeResponse(typeof res.body === "string" ? res.body : JSON.stringify(res.body, null, 2), res);
@@ -573,7 +573,7 @@ function createH3App(config) {
 	return h3App;
 }
 //#endregion
-//#region ../wt-lbfix/node_modules/nitro/dist/runtime/internal/app.mjs
+//#region ../../workspace/wt-lbfix/node_modules/nitro/dist/runtime/internal/app.mjs
 var APP_ID = "default";
 function useNitroApp() {
 	let instance = useNitroApp._instance;
@@ -621,7 +621,7 @@ function getRouteRules(method, pathname) {
 	};
 }
 //#endregion
-//#region ../wt-lbfix/node_modules/nitro/dist/presets/vercel/runtime/isr.mjs
+//#region ../../workspace/wt-lbfix/node_modules/nitro/dist/presets/vercel/runtime/isr.mjs
 var ISR_URL_PARAM = "__isr_route";
 function isrRouteRewrite(reqUrl, xNowRouteMatches) {
 	if (xNowRouteMatches) {
@@ -640,7 +640,7 @@ function isrRouteRewrite(reqUrl, xNowRouteMatches) {
 	}
 }
 //#endregion
-//#region ../wt-lbfix/node_modules/nitro/dist/presets/vercel/runtime/vercel.web.mjs
+//#region ../../workspace/wt-lbfix/node_modules/nitro/dist/presets/vercel/runtime/vercel.web.mjs
 var nitroApp = useNitroApp();
 var vercel_web_default = { async fetch(req, context) {
 	const isrURL = isrRouteRewrite(req.url, req.headers.get("x-now-route-matches"));

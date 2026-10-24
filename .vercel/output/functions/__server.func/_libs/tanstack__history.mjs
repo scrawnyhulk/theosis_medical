@@ -1,4 +1,4 @@
-//#region ../wt-lbfix/node_modules/@tanstack/history/dist/esm/index.js
+//#region ../../workspace/wt-lbfix/node_modules/@tanstack/history/dist/esm/index.js
 var stateIndexKey = "__TSR_index";
 var popStateEvent = "popstate";
 var beforeUnloadEvent = "beforeunload";

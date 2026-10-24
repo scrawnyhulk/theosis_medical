@@ -4,7 +4,7 @@ import { b as Link } from "../_libs/@tanstack/react-router+[...].mjs";
 import { i as require_jsx_runtime } from "../_libs/@radix-ui/react-label+[...].mjs";
 import { l as Share } from "../_libs/lucide-react.mjs";
 import { n as SiteShell, t as Button } from "./site-shell-Bw68PF2z.mjs";
-//#region ../wt-lbfix/node_modules/.nitro/vite/services/ssr/assets/install-Ba_uhjWy.js
+//#region ../../workspace/wt-lbfix/node_modules/.nitro/vite/services/ssr/assets/install-Ba_uhjWy.js
 var import_react = /* @__PURE__ */ __toESM(require_react());
 var import_jsx_runtime = require_jsx_runtime();
 function InstallButton() {

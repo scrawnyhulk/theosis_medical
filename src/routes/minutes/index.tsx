@@ -72,6 +72,13 @@ function MinuteCard({ minute, featured }: { minute: Minute; featured?: boolean }
           </span>
         </span>
     );
+    if (minute.slug === "create-diabetic") {
+      return (
+        <a href="https://theosishealth.com/simulator/pft-inside/" className={className}>
+          {body}
+        </a>
+      );
+    }
     return (
       <Link
         to="/minutes/$slug"

@@ -2,7 +2,7 @@ import { i as __toESM } from "../_runtime.mjs";
 import { r as require_react } from "../_libs/@hookform/resolvers+[...].mjs";
 import { i as require_jsx_runtime } from "../_libs/@radix-ui/react-label+[...].mjs";
 import { r as cn } from "./site-shell-Bw68PF2z.mjs";
-//#region ../wt-lbfix/node_modules/.nitro/vite/services/ssr/assets/input-CCiC4azS.js
+//#region ../../workspace/wt-lbfix/node_modules/.nitro/vite/services/ssr/assets/input-CCiC4azS.js
 var import_react = /* @__PURE__ */ __toESM(require_react());
 var import_jsx_runtime = require_jsx_runtime();
 var Input = import_react.forwardRef(({ className, type, ...props }, ref) => {

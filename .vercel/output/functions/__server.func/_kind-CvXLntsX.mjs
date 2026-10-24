@@ -4,13 +4,13 @@ import { r as require_react } from "./_libs/@hookform/resolvers+[...].mjs";
 import { Y as notFound, b as Link, x as useNavigate } from "./_libs/@tanstack/react-router+[...].mjs";
 import { i as require_jsx_runtime } from "./_libs/@radix-ui/react-label+[...].mjs";
 import { A as ArrowRight, a as VideoOff, c as Star, h as MicOff, i as Video, m as Mic, p as PhoneOff } from "./_libs/lucide-react.mjs";
-import { n as Route$1 } from "./_ssr/router-TGetXzAp.mjs";
+import { n as Route$1 } from "./_ssr/router-C0_wG8hh.mjs";
 import { n as SiteShell, r as cn } from "./_ssr/site-shell-Bw68PF2z.mjs";
 import { t as Textarea } from "./_ssr/textarea-C3BgzGjK.mjs";
 import { t as PlaygroundBanner } from "./_ssr/playground-banner-DFA6sTNb.mjs";
 import { t as Input } from "./_ssr/input-CCiC4azS.mjs";
 import { t as SesameMark } from "./_ssr/sesame-mark-zKxQdq97.mjs";
-//#region ../wt-lbfix/node_modules/.nitro/vite/services/ssr/assets/_kind-kHBVp807.js
+//#region ../../workspace/wt-lbfix/node_modules/.nitro/vite/services/ssr/assets/_kind-CvXLntsX.js
 var import_react = /* @__PURE__ */ __toESM(require_react());
 var import_jsx_runtime = require_jsx_runtime();
 function LimeButton({ children, className, ...props }) {
