@@ -676,6 +676,17 @@ hr.soft{border:0;border-top:1px solid rgba(231,237,245,.08);margin:1rem 0}
 .f3-top[aria-pressed="true"]{background:var(--steel);color:var(--ink);border-color:transparent}
 /* narrow screens: height (ft + in, each with steppers) gets the full row so the digits stay visible */
 @media (max-width:520px){.row > [data-field="height"]{grid-column:1 / -1;grid-row:1}.row > [data-field="age"]{grid-row:2}}
+/* v7699 (Nick 10/24): decimals like 6 ft 3.5 in or 185.5 lb must never be cut off on phones, even with larger phone text.
+   Phones: weight and waist each get a full row, the inches box gets more room than feet, and boxes use slimmer side padding. */
+@media (max-width:520px){
+  .row:has(> [data-field="weight"]){grid-template-columns:1fr}
+  .h-imp{display:flex!important}
+  .h-imp > .control:first-child{flex:1 1 0;min-width:0}
+  .h-imp > .control:last-child{flex:1.22 1 0;min-width:0}
+  .h-imp .stp button{width:2.3rem}
+  .control.has-stp input{padding-left:.65rem;padding-right:.3rem}
+  .control.has-stp .unit{padding-right:.45rem}
+}
 .fix-btns{display:flex;flex-wrap:wrap;gap:.5rem}
 
 /* v5 P2: one-line "why" for the fat pattern */
