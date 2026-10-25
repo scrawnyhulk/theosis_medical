@@ -306,9 +306,12 @@
     window.PFTAnatomyBias=function(b){b=b||{};const c=(x,l)=>Math.max(-l,Math.min(l,+x||0));bias.subq=c(b.subq,.35);bias.mass=c(b.mass,.3);bias.belly=c(b.belly,.3);bias.visc=c(b.visc,.25);bias.liver=c(b.liver,.2);bias.pancreas=c(b.pancreas,.15);
       bias.sx=1+c((+b.sx||1)-1,.12);bias.sy=1+c((+b.sy||1)-1,.08);dirty=true;applyState();kick&&kick()};
     if(window.__pftBias)Promise.resolve().then(()=>{try{window.PFTAnatomyBias(window.__pftBias)}catch(e){}});
+    // v7.6.99: the visceral-fat sheet's forward push may not exceed the room the outer belly gives it (the authored frames keep
+    // visc ~ belly). A high entered A1c still re-splits fat inward via uVisc (denser, more opaque fat), but the sheet stays inside the body.
+    function viscFit(){const v=bz(st.visc+bias.visc,1),room=bz(st.belly+bias.belly,1.25)+.1*bz(st.mass+bias.mass,1.1)+.04;return window.__PFT_VISC_FREE?v:Math.min(v,room)}
     function applyState(){
       meshes.forEach(m=>{const d=m.morphTargetDictionary,inf=m.morphTargetInfluences;if(!d)return;
-        if("subq" in d)inf[d.subq]=bz(st.subq+bias.subq,1.25);if("mass" in d)inf[d.mass]=bz(st.mass+bias.mass,1.1);if("belly" in d)inf[d.belly]=bz(st.belly+bias.belly,1.25);if("visc" in d)inf[d.visc]=bz(st.visc+bias.visc,1);if("hyper" in d)inf[d.hyper]=st.hyper;});
+        if("subq" in d)inf[d.subq]=bz(st.subq+bias.subq,1.25);if("mass" in d)inf[d.mass]=bz(st.mass+bias.mass,1.1);if("belly" in d)inf[d.belly]=bz(st.belly+bias.belly,1.25);if("visc" in d)inf[d.visc]=viscFit();if("hyper" in d)inf[d.hyper]=st.hyper;});
       const B=bias;fatU.uSubq.value=bz(st.subq+B.subq,1.25);fatU.uMass.value=bz(st.mass+B.mass,1.1);fatU.uBelly.value=bz(st.belly+B.belly,1.25);fatU.uHyper.value=st.hyper;
       liverU.uLiver.value=bz(st.liver+B.liver,1);liverU.uGlyL.value=glyOn?st.glyL:0;muscleU.uGly.value=glyOn&&mode!=="muscle"?st.gly:0;pancU.uPanc.value=bz(st.pancreas+B.pancreas,1);omU.uVisc.value=bz(st.visc+B.visc,1);if(rootRef){rootRef.scale.set(B.sx,B.sy,B.sx);rootRef.position.y=1.05*(1-B.sy);}
       if(M.heart)M.heart.emissiveIntensity=.45;
