@@ -8,6 +8,16 @@
 [build.environment]
   NODE_VERSION = "22"
 
+# Host-level door for the private clinician workspace. The plugin inserts a
+# status-200 proxy for /clinicianportal, /clinicianportal/, and
+# /clinicianportal/* immediately before the /* catch-all, and only when the
+# Netlify build variable CLINICIAN_PORTAL_ORIGIN is set to the private https
+# origin (no path, no credentials). That host stays in the Netlify UI, not in
+# this public repo. Until the variable is set, those paths hit the catch-all
+# and 404. This does not password-protect the rest of the site.
+[[plugins]]
+  package = "/netlify/plugins/clinician-portal"
+
 # Removed from theosismedical.com (Health Hacks, simulator and old tools).
 # These return a real 404. Never redirect them to theosishealth.com:
 # the two sites are kept separate.
@@ -98,6 +108,8 @@
 
 # Every published page is prerendered as a static file, so anything else is a
 # real 404 (no more SPA fallback answering 200 for unknown or old URLs).
+# Keep this catch-all last. netlify/plugins/clinician-portal splices the
+# /clinicianportal proxy in front of the first /* rule during the Netlify build.
 [[redirects]]
   from = "/*"
   to = "/404.html"
