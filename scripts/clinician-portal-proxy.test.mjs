@@ -26,8 +26,17 @@ test("netlify.toml keeps the no-op publish and does not embed a portal origin", 
   assert.match(toml, /command = "true"/);
   assert.match(toml, /publish = "\.vercel\/output\/static"/);
   assert.match(toml, /package = "\/netlify\/plugins\/clinician-portal"/);
-  assert.doesNotMatch(toml, /https:\/\//);
   assert.doesNotMatch(toml, /Basic-Auth/);
+  assert.doesNotMatch(toml, /CLINICIAN_PORTAL_ORIGIN\s*=/);
+  const httpsUrls = [...toml.matchAll(/https:\/\/[^"\s]+/g)].map((match) => match[0]);
+  assert.ok(httpsUrls.length > 0);
+  for (const url of httpsUrls) {
+    assert.match(
+      url,
+      /^https:\/\/theosis-emergency-diagnostics\.netlify\.app(?:\/(?::splat)?)?$/,
+      url,
+    );
+  }
 
   const froms = publishedRedirects().map((rule) => rule.from);
   assert.equal(froms.at(-1), "/*");
@@ -96,10 +105,12 @@ test("proxy rules are inserted immediately before the catch-all", () => {
 
   assert.deepEqual(redirects[portal], {
     from: "/clinicianportal",
-    to: `${ORIGIN}/clinicianportal`,
+    to: `${ORIGIN}/clinicianportal/`,
     status: 200,
     force: true,
   });
+  assert.equal(redirects[slash].to, `${ORIGIN}/clinicianportal/`);
+  assert.equal(redirects[portal].to, redirects[slash].to);
   assert.equal(redirects[splat].to, `${ORIGIN}/clinicianportal/:splat`);
   assert.equal(redirects[splat].status, 200);
   assert.equal(redirects[splat].force, true);

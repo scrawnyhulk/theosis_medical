@@ -106,10 +106,59 @@
   to = "/404.html"
   status = 404
 
+# Theosis Analyzer door. The private app is served at the root of
+# https://theosis-emergency-diagnostics.netlify.app and links assets, API
+# calls, and redirects with relative URLs (a request for / answers with
+# Location: login.html). Those headers are not rewritten.
+#
+# Netlify treats /theosisanalyzER and /theosisanalyzER/ as the same redirect
+# rule, so a 301 in this file cannot add the slash: that rule loops. The
+# /clinicianportal rules avoid that trap by proxying both forms at the
+# trailing-slash origin path. This door needs the browser to stay on the
+# slashed URL, so netlify/edge-functions/theosis-analyzer-door.js does the 301
+# before these rules run. It also sends /ed and other casings to that
+# canonical path. Relative login.html and api/* then stay under the prefix.
+#
+# /theosisanalyzER/* is then a status-200 proxy with the prefix stripped, so
+# /theosisanalyzER/api/* goes to /api/* on the private host and nowhere else.
+# There is no site-wide /api/* rule. Cookies and Location pass through the
+# Netlify proxy unchanged. Same-team Netlify proxies must use the *.netlify.app
+# hostname. This does not password-protect the rest of the site.
+[[redirects]]
+  from = "/ed"
+  to = "/theosisanalyzER/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/ed/"
+  to = "/theosisanalyzER/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/ed/*"
+  to = "/theosisanalyzER/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/theosisanalyzER/"
+  to = "https://theosis-emergency-diagnostics.netlify.app/"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/theosisanalyzER/*"
+  to = "https://theosis-emergency-diagnostics.netlify.app/:splat"
+  status = 200
+  force = true
+
 # Every published page is prerendered as a static file, so anything else is a
 # real 404 (no more SPA fallback answering 200 for unknown or old URLs).
-# Keep this catch-all last. netlify/plugins/clinician-portal splices the
-# /clinicianportal proxy in front of the first /* rule during the Netlify build.
+# Keep this catch-all last. The analyzer rules above must stay in front of it.
+# netlify/plugins/clinician-portal splices the /clinicianportal proxy in front
+# of the first /* rule during the Netlify build.
 [[redirects]]
   from = "/*"
   to = "/404.html"
