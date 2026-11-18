@@ -111,13 +111,15 @@
 # calls, and redirects with relative URLs (a request for / answers with
 # Location: login.html). Those headers are not rewritten.
 #
-# Netlify treats /theosisanalyzER and /theosisanalyzER/ as the same redirect
-# rule, so a 301 in this file cannot add the slash: that rule loops. The
-# /clinicianportal rules avoid that trap by proxying both forms at the
-# trailing-slash origin path. This door needs the browser to stay on the
-# slashed URL, so netlify/edge-functions/theosis-analyzer-door.js does the 301
-# before these rules run. It also sends /ed and other casings to that
-# canonical path. Relative login.html and api/* then stay under the prefix.
+# Netlify treats a path and the same path with a trailing slash as one redirect
+# rule, so a 301 in this file cannot add the slash: that rule loops. This door
+# needs the browser to stay on the slashed URL, so
+# netlify/edge-functions/theosis-analyzer-door.js does the 301 before these
+# rules run. It also sends /ed and other casings to that canonical path.
+# Relative login.html and api/* then stay under the prefix.
+# /clinicianportal and /clinicianportal/ are not proxied. They 302 to
+# /clinicianportal/login, because a proxy of the bare path comes back with
+# Location: /clinicianportal/ and loops. /clinicianportal/* still proxies.
 #
 # /theosisanalyzER/* is then a status-200 proxy with the prefix stripped, so
 # /theosisanalyzER/api/* goes to /api/* on the private host and nowhere else.
