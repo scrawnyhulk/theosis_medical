@@ -5,12 +5,15 @@ import { test } from "node:test";
 import { fileURLToPath } from "node:url";
 import {
   CANONICAL_PREFIX,
+  ORIGIN,
   config,
   doorRedirectPath,
+  rewriteLocation,
+  theosisAnalyzerDoor,
+  upstreamUrl,
 } from "../netlify/edge-functions/theosis-analyzer-door.js";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
-const ORIGIN = "https://theosis-emergency-diagnostics.netlify.app";
 
 function parseRedirects(toml) {
   return toml
@@ -32,74 +35,23 @@ function compiledPattern(pattern) {
   return new RegExp(enclosed);
 }
 
-/** Apply the edge 301, then one toml rule, the way Netlify orders them. */
-function follow(pathname, rules) {
-  const seen = [pathname];
-  let current = pathname;
-  for (let hop = 0; hop < 4; hop++) {
-    const redirect = doorRedirectPath(current);
-    if (redirect != null) {
-      assert.equal(seen.includes(redirect), false, `loop ${seen.join(" -> ")} -> ${redirect}`);
-      seen.push(redirect);
-      current = redirect;
-      continue;
-    }
-    const rule = rules.find((candidate) => matches(candidate.from, current));
-    if (!rule || rule.status !== 301) return { path: current, rule, seen };
-    const next = expand(rule.to, current, rule.from);
-    assert.equal(seen.includes(next), false, `loop ${seen.join(" -> ")} -> ${next}`);
-    seen.push(next);
-    current = next;
-  }
-  assert.fail(`too many hops from ${pathname}: ${seen.join(" -> ")}`);
-}
-
-function matches(from, pathname) {
-  if (from.endsWith("/*")) {
-    const prefix = from.slice(0, -1);
-    return pathname.startsWith(prefix) && pathname.length > prefix.length;
-  }
-  return pathname === from;
-}
-
-function expand(to, pathname, from) {
-  if (!from.endsWith("/*")) return to;
-  const splat = pathname.slice(from.length - 1);
-  return to.replace(":splat", splat);
-}
-
-function proxyTarget(pathname) {
-  if (pathname === `${CANONICAL_PREFIX}/`) return `${ORIGIN}/`;
-  const prefix = `${CANONICAL_PREFIX}/`;
-  if (pathname.startsWith(prefix)) return `${ORIGIN}/${pathname.slice(prefix.length)}`;
-  return null;
-}
-
-test("toml proxies only the slashed analyzer prefix and the /ed alias", () => {
+test("toml does not status-200 proxy the analyzer, which skips its edge gate", () => {
   const toml = readFileSync(join(ROOT, "netlify.toml"), "utf8");
   const rules = parseRedirects(toml);
   const froms = rules.map((rule) => rule.from);
 
-  assert.deepEqual(froms.slice(-3), ["/theosisanalyzER/", "/theosisanalyzER/*", "/*"]);
+  assert.equal(froms.at(-1), "/*");
   assert.equal(froms.includes("/theosisanalyzER"), false);
+  assert.equal(froms.includes("/theosisanalyzER/"), false);
+  assert.equal(froms.includes("/theosisanalyzER/*"), false);
   assert.equal(froms.includes("/api"), false);
   assert.equal(froms.includes("/api/*"), false);
-  assert.equal(froms.filter((from) => from === "/*").length, 1);
-
-  const slash = rules.find((rule) => rule.from === "/theosisanalyzER/");
-  const splat = rules.find((rule) => rule.from === "/theosisanalyzER/*");
-  assert.deepEqual(slash, {
-    from: "/theosisanalyzER/",
-    to: `${ORIGIN}/`,
-    status: 200,
-    force: true,
-  });
-  assert.deepEqual(splat, {
-    from: "/theosisanalyzER/*",
-    to: `${ORIGIN}/:splat`,
-    status: 200,
-    force: true,
-  });
+  assert.equal(
+    rules.some((rule) => rule.status === 200 && String(rule.to).includes(ORIGIN)),
+    false,
+  );
+  assert.match(toml, /Cache-Control = "no-store"/);
+  assert.match(toml, /Netlify-CDN-Cache-Control = "no-store"/);
 
   for (const from of ["/ed", "/ed/"]) {
     const rule = rules.find((candidate) => candidate.from === from);
@@ -148,89 +100,108 @@ test("bare and alias paths 301 once to the slashed canonical door", () => {
   }
 });
 
-test("following the door never loops and lands on a prefix-stripped proxy", () => {
-  const rules = parseRedirects(readFileSync(join(ROOT, "netlify.toml"), "utf8"));
-  const samples = [
-    "/theosisanalyzER",
-    "/theosisanalyzER/",
-    "/theosisanalyzer",
-    "/theosisanalyzER/login.html",
-    "/theosisanalyzer/assets/app.js",
-    "/theosisanalyzER/api/session",
-    "/theosisanalyzER/api/",
-    "/theosisanalyzER/.netlify/functions/auth",
-    "/ed",
-    "/ed/",
-    "/ED/api/session",
-  ];
-
-  for (const pathname of samples) {
-    const landed = follow(pathname, rules);
-    assert.equal(landed.path.startsWith(`${CANONICAL_PREFIX}/`), true, pathname);
-    assert.equal(landed.rule.status, 200, pathname);
-    assert.equal(landed.rule.force, true, pathname);
-    const target = proxyTarget(landed.path);
-    if (landed.path === "/theosisanalyzER/") {
-      assert.equal(landed.rule.to, `${ORIGIN}/`);
-      assert.equal(target, `${ORIGIN}/`);
-    } else {
-      assert.equal(landed.rule.from, "/theosisanalyzER/*");
-      const splat = landed.path.slice(`${CANONICAL_PREFIX}/`.length);
-      assert.equal(target, `${ORIGIN}/${splat}`);
-      assert.equal(landed.rule.to.replace(":splat", splat), target);
-    }
-  }
-
-  assert.equal(proxyTarget("/theosisanalyzER/api/session"), `${ORIGIN}/api/session`);
+test("canonical paths fetch the private host with the prefix stripped", () => {
+  assert.equal(upstreamUrl("/theosisanalyzER/", ""), `${ORIGIN}/`);
+  assert.equal(upstreamUrl("/theosisanalyzER/login.html", ""), `${ORIGIN}/login.html`);
+  assert.equal(upstreamUrl("/theosisanalyzER/index.html", "?x=1"), `${ORIGIN}/index.html?x=1`);
+  assert.equal(upstreamUrl("/theosisanalyzER/api/session", ""), `${ORIGIN}/api/session`);
   assert.equal(
-    proxyTarget("/theosisanalyzER/.netlify/functions/auth"),
+    upstreamUrl("/theosisanalyzER/.netlify/functions/auth", ""),
     `${ORIGIN}/.netlify/functions/auth`,
   );
-  assert.equal(proxyTarget("/api/session"), null);
-});
+  assert.notEqual(
+    upstreamUrl("/theosisanalyzER/api/session", ""),
+    `${ORIGIN}/theosisanalyzER/api/session`,
+  );
 
-test("relative URLs resolve under the door only after the slash redirect", () => {
   const bare = new URL("login.html", "https://theosismedical.com/theosisanalyzER");
   const slashed = new URL("login.html", "https://theosismedical.com/theosisanalyzER/");
-  const api = new URL("api/session", "https://theosismedical.com/theosisanalyzER/");
   assert.equal(bare.pathname, "/login.html");
   assert.equal(slashed.pathname, "/theosisanalyzER/login.html");
-  assert.equal(api.pathname, "/theosisanalyzER/api/session");
-  assert.equal(proxyTarget(slashed.pathname), `${ORIGIN}/login.html`);
-  assert.equal(proxyTarget(api.pathname), `${ORIGIN}/api/session`);
+  assert.equal(rewriteLocation("login.html", "https://theosismedical.com"), "login.html");
+  assert.equal(rewriteLocation("../login.html", "https://theosismedical.com"), "../login.html");
+  assert.equal(
+    rewriteLocation(`${ORIGIN}/login.html`, "https://theosismedical.com"),
+    "https://theosismedical.com/theosisanalyzER/login.html",
+  );
+  assert.equal(
+    rewriteLocation("https://example.test/login.html", "https://theosismedical.com"),
+    "https://example.test/login.html",
+  );
 });
 
-test("canonical requests return the proxy response untouched", async () => {
-  const door = await import("../netlify/edge-functions/theosis-analyzer-door.js");
-  const upstream = new Response(null, {
-    status: 302,
-    headers: {
-      Location: "login.html",
-      "Set-Cookie": "sid=1; Path=/",
-    },
-  });
-  const response = await door.default(new Request("https://theosismedical.com/theosisanalyzER/"), {
-    next() {
-      return upstream;
-    },
-  });
-  assert.equal(response, upstream);
-  assert.equal(response.headers.get("Location"), "login.html");
-  assert.equal(response.headers.get("Set-Cookie"), "sid=1; Path=/");
-
-  const redirected = await door.default(
-    new Request("https://theosismedical.com/theosisanalyzer?next=login.html"),
-    {
-      next() {
-        throw new Error("bare path must 301 before the proxy");
+test("anonymous door fetch returns the gate redirect and does not cache it", async () => {
+  const calls = [];
+  const original = globalThis.fetch;
+  globalThis.fetch = async (url, init) => {
+    calls.push({ url, init });
+    return new Response(null, {
+      status: 302,
+      headers: {
+        Location: "login.html",
+        "Cache-Control": "public, max-age=3600",
+        "Set-Cookie": "sid=1; Path=/",
       },
-    },
-  );
-  assert.equal(redirected.status, 301);
-  assert.equal(
-    redirected.headers.get("Location"),
-    "https://theosismedical.com/theosisanalyzER/?next=login.html",
-  );
+    });
+  };
+  try {
+    const response = await theosisAnalyzerDoor(
+      new Request("https://theosismedical.com/theosisanalyzER/", {
+        headers: { cookie: "sid=1" },
+      }),
+      {
+        next() {
+          throw new Error("canonical analyzer paths must not fall through to the rewrite");
+        },
+      },
+    );
+    assert.equal(calls.length, 1);
+    assert.equal(calls[0].url, `${ORIGIN}/`);
+    assert.equal(calls[0].init.redirect, "manual");
+    assert.equal(calls[0].init.headers.get("cookie"), "sid=1");
+    assert.equal(response.status, 302);
+    assert.equal(response.headers.get("location"), "login.html");
+    assert.equal(response.headers.get("set-cookie"), "sid=1; Path=/");
+    assert.equal(response.headers.get("cache-control"), "no-store");
+    assert.equal(response.headers.get("netlify-cdn-cache-control"), "no-store");
+
+    globalThis.fetch = async (url) => {
+      assert.equal(url, `${ORIGIN}/login.html`);
+      return new Response("<!doctype html><title>Sign in</title>", {
+        status: 200,
+        headers: { "content-type": "text/html; charset=UTF-8" },
+      });
+    };
+    const login = await theosisAnalyzerDoor(
+      new Request("https://theosismedical.com/theosisanalyzER/login.html"),
+      { next() { throw new Error("login must be fetched, not rewritten"); } },
+    );
+    assert.equal(login.status, 200);
+    assert.equal(login.headers.get("cache-control"), "no-store");
+    assert.match(await login.text(), /Sign in/);
+  } finally {
+    globalThis.fetch = original;
+  }
+});
+
+test("bare path 301s before any fetch", async () => {
+  const original = globalThis.fetch;
+  globalThis.fetch = async () => {
+    throw new Error("bare path must 301 before the fetch");
+  };
+  try {
+    const redirected = await theosisAnalyzerDoor(
+      new Request("https://theosismedical.com/theosisanalyzer?next=login.html"),
+      { next() { throw new Error("bare path must 301 before next"); } },
+    );
+    assert.equal(redirected.status, 301);
+    assert.equal(
+      redirected.headers.get("Location"),
+      "https://theosismedical.com/theosisanalyzER/?next=login.html",
+    );
+  } finally {
+    globalThis.fetch = original;
+  }
 });
 
 test("edge pattern matches the door and not public pages", () => {

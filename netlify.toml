@@ -106,26 +106,25 @@
   to = "/404.html"
   status = 404
 
-# Theosis Analyzer door. The private app is served at the root of
-# https://theosis-emergency-diagnostics.netlify.app and links assets, API
-# calls, and redirects with relative URLs (a request for / answers with
-# Location: login.html). Those headers are not rewritten.
+# Theosis Analyzer door. The private app lives at the root of
+# https://theosis-emergency-diagnostics.netlify.app — its edge gate (path /*)
+# answers / with Location: login.html and Cache-Control: no-store. A status-200
+# rewrite from this site does not run that gate, and the CDN stored the app
+# HTML (cache-status: stored) even on a miss. There is therefore no status-200
+# proxy for /theosisanalyzER. netlify/edge-functions/theosis-analyzer-door.js
+# fetches the private host directly, passes Cookie and relative Location
+# through, and marks the response no-store.
 #
 # Netlify treats a path and the same path with a trailing slash as one redirect
-# rule, so a 301 in this file cannot add the slash: that rule loops. This door
-# needs the browser to stay on the slashed URL, so
-# netlify/edge-functions/theosis-analyzer-door.js does the 301 before these
-# rules run. It also sends /ed and other casings to that canonical path.
-# Relative login.html and api/* then stay under the prefix.
-# /clinicianportal and /clinicianportal/ are not proxied. They 302 to
-# /clinicianportal/login, because a proxy of the bare path comes back with
-# Location: /clinicianportal/ and loops. /clinicianportal/* still proxies.
+# rule, so a 301 in this file cannot add the slash. The edge function 301s the
+# bare path (any casing) to /theosisanalyzER/ before the fetch. It also sends
+# /ed onto that path. Relative login.html then stays under the prefix.
+# /theosisanalyzER/api/* is that same fetch of /api/* on the private host.
+# There is no site-wide /api/* rule.
 #
-# /theosisanalyzER/* is then a status-200 proxy with the prefix stripped, so
-# /theosisanalyzER/api/* goes to /api/* on the private host and nowhere else.
-# There is no site-wide /api/* rule. Cookies and Location pass through the
-# Netlify proxy unchanged. Same-team Netlify proxies must use the *.netlify.app
-# hostname. This does not password-protect the rest of the site.
+# /clinicianportal and /clinicianportal/ 302 to /clinicianportal/login.
+# Proxying the bare path comes back with Location: /clinicianportal/ and loops.
+# /clinicianportal/* still proxies. These doors are not a site-wide password.
 [[redirects]]
   from = "/ed"
   to = "/theosisanalyzER/"
@@ -144,23 +143,44 @@
   status = 301
   force = true
 
-[[redirects]]
-  from = "/theosisanalyzER/"
-  to = "https://theosis-emergency-diagnostics.netlify.app/"
-  status = 200
-  force = true
+# Do not cache either door. A stored 200 of gated HTML skips the sign-in page.
+[[headers]]
+  for = "/theosisanalyzER"
+  [headers.values]
+    Cache-Control = "no-store"
+    Netlify-CDN-Cache-Control = "no-store"
 
-[[redirects]]
-  from = "/theosisanalyzER/*"
-  to = "https://theosis-emergency-diagnostics.netlify.app/:splat"
-  status = 200
-  force = true
+[[headers]]
+  for = "/theosisanalyzER/*"
+  [headers.values]
+    Cache-Control = "no-store"
+    Netlify-CDN-Cache-Control = "no-store"
+
+[[headers]]
+  for = "/clinicianportal"
+  [headers.values]
+    Cache-Control = "no-store"
+    Netlify-CDN-Cache-Control = "no-store"
+
+[[headers]]
+  for = "/clinicianportal/"
+  [headers.values]
+    Cache-Control = "no-store"
+    Netlify-CDN-Cache-Control = "no-store"
+
+[[headers]]
+  for = "/clinicianportal/*"
+  [headers.values]
+    Cache-Control = "no-store"
+    Netlify-CDN-Cache-Control = "no-store"
 
 # Every published page is prerendered as a static file, so anything else is a
 # real 404 (no more SPA fallback answering 200 for unknown or old URLs).
-# Keep this catch-all last. The analyzer rules above must stay in front of it.
+# Keep this catch-all last. The /ed alias above must stay in front of it.
 # netlify/plugins/clinician-portal splices the /clinicianportal proxy in front
-# of the first /* rule during the Netlify build.
+# of the first /* rule during the Netlify build. The analyzer door is fetched
+# by its edge function and must not gain a status-200 rewrite here: that
+# rewrite skips the private edge gate.
 [[redirects]]
   from = "/*"
   to = "/404.html"
