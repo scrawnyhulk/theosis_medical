@@ -140,6 +140,7 @@ test("anonymous door fetch returns the gate redirect and does not cache it", asy
       headers: {
         Location: "login.html",
         "Cache-Control": "public, max-age=3600",
+        ETag: 'W/"abc-ssl"',
         "Set-Cookie": "sid=1; Path=/",
       },
     });
@@ -162,8 +163,9 @@ test("anonymous door fetch returns the gate redirect and does not cache it", asy
     assert.equal(response.status, 302);
     assert.equal(response.headers.get("location"), "login.html");
     assert.equal(response.headers.get("set-cookie"), "sid=1; Path=/");
-    assert.equal(response.headers.get("cache-control"), "no-store");
+    assert.equal(response.headers.get("cache-control"), "private, no-store, max-age=0");
     assert.equal(response.headers.get("netlify-cdn-cache-control"), "no-store");
+    assert.equal(response.headers.get("etag"), null);
 
     globalThis.fetch = async (url) => {
       assert.equal(url, `${ORIGIN}/login.html`);
@@ -177,7 +179,7 @@ test("anonymous door fetch returns the gate redirect and does not cache it", asy
       { next() { throw new Error("login must be fetched, not rewritten"); } },
     );
     assert.equal(login.status, 200);
-    assert.equal(login.headers.get("cache-control"), "no-store");
+    assert.equal(login.headers.get("cache-control"), "private, no-store, max-age=0");
     assert.match(await login.text(), /Sign in/);
   } finally {
     globalThis.fetch = original;
