@@ -74,9 +74,10 @@ export function rewriteLocation(location, publicOrigin) {
  * @param {Headers} headers
  */
 function applyNoStore(headers) {
-  headers.set("cache-control", "no-store");
+  headers.set("cache-control", "private, no-store, max-age=0");
   headers.set("cdn-cache-control", "no-store");
   headers.set("netlify-cdn-cache-control", "no-store");
+  headers.set("Netlify-CDN-Cache-Control", "no-store");
 }
 
 export async function theosisAnalyzerDoor(request, context) {
@@ -108,8 +109,17 @@ export async function theosisAnalyzerDoor(request, context) {
 
   const upstream = await fetch(upstreamUrl(url.pathname, url.search), init);
   const out = new Headers();
+  const drop = new Set([
+    "set-cookie",
+    "content-encoding",
+    "content-length",
+    "etag",
+    "age",
+    "cache-status",
+    "last-modified",
+  ]);
   upstream.headers.forEach((value, key) => {
-    if (key === "set-cookie" || key === "content-encoding" || key === "content-length") return;
+    if (drop.has(key)) return;
     out.set(key, value);
   });
   const setCookies = upstream.headers.getSetCookie?.() ?? [];
