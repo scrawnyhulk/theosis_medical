@@ -105,16 +105,57 @@ test("proxy rules are inserted immediately before the catch-all", () => {
 
   assert.deepEqual(redirects[portal], {
     from: "/clinicianportal",
-    to: `${ORIGIN}/clinicianportal/`,
-    status: 200,
+    to: "/clinicianportal/login",
+    status: 302,
     force: true,
   });
-  assert.equal(redirects[slash].to, `${ORIGIN}/clinicianportal/`);
-  assert.equal(redirects[portal].to, redirects[slash].to);
+  assert.deepEqual(redirects[slash], {
+    from: "/clinicianportal/",
+    to: "/clinicianportal/login",
+    status: 302,
+    force: true,
+  });
   assert.equal(redirects[splat].to, `${ORIGIN}/clinicianportal/:splat`);
   assert.equal(redirects[splat].status, 200);
   assert.equal(redirects[splat].force, true);
   assert.equal(redirects[catchAll].status, 404);
+});
+
+test("bare portal paths stop at the sign-in page instead of looping", () => {
+  const redirects = publishedRedirects();
+  installClinicianPortalProxy(redirects, ORIGIN);
+
+  function match(pathname) {
+    return redirects.find((rule) => {
+      if (rule.from.endsWith("/*")) {
+        const prefix = rule.from.slice(0, -1);
+        return pathname.startsWith(prefix) && pathname.length > prefix.length;
+      }
+      return pathname === rule.from;
+    });
+  }
+
+  for (const start of ["/clinicianportal", "/clinicianportal/"]) {
+    const seen = [start];
+    let current = start;
+    let terminal = null;
+    for (let hop = 0; hop < 4; hop++) {
+      const rule = match(current);
+      assert.ok(rule, current);
+      if (rule.status === 200) {
+        terminal = rule;
+        break;
+      }
+      assert.equal(rule.status, 302);
+      assert.equal(seen.includes(rule.to), false, seen.join(" -> "));
+      seen.push(rule.to);
+      current = rule.to;
+    }
+    assert.equal(current, "/clinicianportal/login");
+    assert.equal(terminal.from, "/clinicianportal/*");
+    assert.equal(terminal.to.replace(":splat", "login"), `${ORIGIN}/clinicianportal/login`);
+    assert.equal(terminal.status, 200);
+  }
 });
 
 test("a second install does not duplicate rules", () => {

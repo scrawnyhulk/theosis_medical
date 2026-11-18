@@ -16,14 +16,13 @@
  *
  * The private app must serve itself under the /clinicianportal base path and
  * should link and redirect with path-absolute URLs (/clinicianportal/...).
- * Netlify's proxy does not rewrite Location or Cookie headers. Netlify treats
- * /clinicianportal and /clinicianportal/ as the same redirect rule and keeps
- * the first, so both public URLs are proxied to the trailing-slash path on
- * that host. Proxying the slash-less path makes the origin's slash redirect
- * bounce forever. Do not enable Netlify site-wide password protection for
- * this; the private app's own login is the gate. A proxy to a Netlify site on
- * a different team is rejected by Netlify; a same-team site must be addressed
- * by its *.netlify.app hostname.
+ * Netlify's proxy does not rewrite Location or Cookie headers. The bare paths
+ * /clinicianportal and /clinicianportal/ are 302s to /clinicianportal/login.
+ * Proxying either of them returns Location: /clinicianportal/ and loops.
+ * Do not enable Netlify site-wide password protection for this; the private
+ * app's own login is the gate. A proxy to a Netlify site on a different team
+ * is rejected by Netlify; a same-team site must be addressed by its
+ * *.netlify.app hostname.
  */
 
 import { installClinicianPortalProxy } from "./proxy-rules.js";
@@ -60,6 +59,6 @@ export const onPreBuild = function onPreBuild({ netlifyConfig, utils }) {
   }
 
   console.log(
-    "Clinician portal: installed a status-200 proxy for /clinicianportal ahead of the catch-all.",
+    "Clinician portal: /clinicianportal and /clinicianportal/ redirect to /clinicianportal/login; other paths proxy ahead of the catch-all.",
   );
 };

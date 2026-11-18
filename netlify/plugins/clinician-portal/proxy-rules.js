@@ -86,26 +86,25 @@ export function parseClinicianPortalOrigin(raw) {
  * @param {string} origin Absolute https origin, no trailing path.
  */
 export function clinicianPortalProxyRules(origin) {
-  // /clinicianportal and /clinicianportal/ are the same rule to Netlify, and
-  // the first one wins. The live door 302s both of those URLs to
-  // /clinicianportal/ because the first rule proxied to the slash-less origin
-  // path, the origin answered with Location: /clinicianportal/, and that
-  // relative Location was passed through unchanged. Point both at the
-  // trailing-slash origin path so the request that was bouncing is fetched
-  // directly. The splat rule is unchanged, so /clinicianportal/api/* and
-  // /clinicianportal/.netlify/functions/* still keep the base path.
-  const slashed = `${origin}/clinicianportal/`;
+  // Do not proxy /clinicianportal or /clinicianportal/ at the origin. Netlify
+  // treats those two public paths as one rule, and the origin answers that
+  // request with Location: /clinicianportal/, which the proxy passes through.
+  // The browser comes back to the same URL and loops. /clinicianportal/login
+  // is the sign-in page and already returns 200 through the splat rule.
+  // A signed-in browser is sent on to /clinicianportal/simulator/ by that page.
+  // The splat rule is unchanged, so /clinicianportal/login, /api/*, and
+  // /.netlify/functions/* still keep the base path on the private host.
   return [
     {
       from: "/clinicianportal",
-      to: slashed,
-      status: 200,
+      to: "/clinicianportal/login",
+      status: 302,
       force: true,
     },
     {
       from: "/clinicianportal/",
-      to: slashed,
-      status: 200,
+      to: "/clinicianportal/login",
+      status: 302,
       force: true,
     },
     {
